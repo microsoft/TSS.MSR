@@ -5,7 +5,7 @@
 
 // When using tss.js package replace "../lib/index.js" with "tss.js"
 import * as tss from "../lib/index.js";
-import { TPM_HANDLE, TPM_ALG_ID, TPM_RC, TPM_HT, TPM_PT, TPMA_OBJECT, TPMT_PUBLIC, TPM2B_PRIVATE, Owner, Endorsement, Session, NullPwSession, NullSymDef, Tpm, TpmBuffer, TpmError, Crypto } from "../lib/index.js";
+import { TPM_HANDLE, TPM_ALG_ID, TPM_RC, TPM_HT, TPM_PT, TPMA_OBJECT, TPMT_PUBLIC, TPM2B_PRIVATE, Owner, Endorsement, Session, NullPwSession, NullSymDef, Tpm, TpmBuffer, TpmError, Crypto, TPMT_SENSITIVE } from "../lib/index.js";
 /*
 import * as tss from "../lib/TpmTypes.js";
 import {TPM_HANDLE, TPM_ALG_ID, TPM_RC, TPM_HT, TPM_PT, TPMA_OBJECT, TPMT_PUBLIC, TPM2B_PRIVATE} from "../lib/TpmTypes.js";
@@ -132,7 +132,7 @@ function drsClientSampleMain(): void
         tpm.GetRandom(0x20, (err: TpmError, response: Buffer) => {
         console.log('GetRandom() returned ' + response.length + ' bytes: ' + new Uint8Array(response));
 
-        // Clean debris possibly left from the previous run
+        // Clean debris possibly left from the previous run (one entity of each kind)
         let numDandlingHandles: number = 0;
         tpm.FlushContext(new TPM_HANDLE(TPM_HT.HMAC_SESSION << 24), (err: TpmError) => {
         numDandlingHandles += err ? 0 : 1;
@@ -306,7 +306,7 @@ class DrsActivationBlob
         //console.log("encUriData end: " + actBlob.getCurPos());
         if (!buf.isOk())
             throw new Error("Failed to unmarshal Activation Blob");
-        if (buf.curPos != buf.length)
+        if (buf.curPos != buf.size)
             console.log("WARNING: Activation Blob sent by DRS has contains extra unidentified data");
     }
 } // class DrsActivationBlob
@@ -563,7 +563,7 @@ export function drsGetActivationBlob(tpm: Tpm, ekPubBlob: Buffer, srkPubBlob: Bu
        .CreatePrimary(Owner, idKeySens, idKeyTemplate, null, [],
                       (err: TpmError, idKey: tss.CreatePrimaryResponse) => {
     console.log('DRS >> CreatePrimary(idKey) returned ' + TPM_RC[tpm.lastResponseCode]);
-    
+
     tpm.LoadExternal(null, srkPub, Owner,
                      (err: TpmError, hSrkPub: tss.TPM_HANDLE) => {
     console.log('DRS >> LoadExternal(SRKpub) returned ' + TPM_RC[tpm.lastResponseCode]);

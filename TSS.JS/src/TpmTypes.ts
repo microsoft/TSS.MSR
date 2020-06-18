@@ -1,5 +1,5 @@
 /* 
- * Copyright(c) Microsoft Corporation.All rights reserved. 
+ * Copyright(c) Microsoft Corporation. All rights reserved. 
  * Licensed under the MIT License. 
  * See the LICENSE file in the project root for full license information. 
  */
@@ -10,2637 +10,2481 @@
  */
 
 
-import { TpmMarshaller, TpmBuffer, nonStandardInitFromTpm, nonStandardToTpm } from "./TpmMarshaller.js";
+import { TpmMarshaller, TpmBuffer } from "./TpmMarshaller.js";
 import { TpmStructure, ReqStructure, RespStructure, SessEncInfo } from "./TpmStructure.js";
 
 import { Crypto } from "./Crypt.js";
 
 
-/**
- *  Table 2 is the list of algorithms to which the TCG has assigned an algorithm identifier
- *  along with its numeric identifier.
+/** Table 2 is the list of algorithms to which the TCG has assigned an algorithm
+ *  identifier along with its numeric identifier.
  */
 export enum TPM_ALG_ID // UINT16
 {
-    /** should not occur */
-    ERROR = 0x0000,
+    /** Should not occur  */
+    ERROR = 0x0000, 
     
-    /** an object type that contains an RSA key */
-    FIRST = 0x0001,
+    /** An object type that contains an RSA key  */
+    FIRST = 0x0001, 
     
-    /** an object type that contains an RSA key */
-    RSA = 0x0001,
+    /** An object type that contains an RSA key  */
+    RSA = 0x0001, 
     
-    /**
-     *  block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called
+    /** Block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called
      *  Triple Data Encryption Standard)
      */
-    TDES = 0x0003,
+    TDES = 0x0003, 
     
-    /** hash algorithm producing a 160-bit digest */
-    SHA = 0x0004,
+    /** Hash algorithm producing a 160-bit digest  */
+    SHA = 0x0004, 
     
-    /** redefinition for documentation consistency */
-    SHA1 = 0x0004,
+    /** Redefinition for documentation consistency  */
+    SHA1 = 0x0004, 
     
-    /** Hash Message Authentication Code (HMAC) algorithm */
-    HMAC = 0x0005,
+    /** Hash Message Authentication Code (HMAC) algorithm  */
+    HMAC = 0x0005, 
     
-    /** block cipher with various key sizes */
-    AES = 0x0006,
+    /** Block cipher with various key sizes  */
+    AES = 0x0006, 
     
-    /** hash-based mask-generation function */
-    MGF1 = 0x0007,
+    /** Hash-based mask-generation function  */
+    MGF1 = 0x0007, 
     
-    /**
-     *  an object type that may use XOR for encryption or an HMAC for signing and may also refer
-     *  to a data object that is neither signing nor encrypting
+    /** An object type that may use XOR for encryption or an HMAC for signing and may also
+     *  refer to a data object that is neither signing nor encrypting
      */
-    KEYEDHASH = 0x0008,
+    KEYEDHASH = 0x0008, 
     
-    /** hash-based stream cipher */
-    XOR = 0x000A,
+    /** Hash-based stream cipher  */
+    XOR = 0x000A, 
     
-    /** hash algorithm producing a 256-bit digest */
-    SHA256 = 0x000B,
+    /** Hash algorithm producing a 256-bit digest  */
+    SHA256 = 0x000B, 
     
-    /** hash algorithm producing a 384-bit digest */
-    SHA384 = 0x000C,
+    /** Hash algorithm producing a 384-bit digest  */
+    SHA384 = 0x000C, 
     
-    /** hash algorithm producing a 512-bit digest */
-    SHA512 = 0x000D,
+    /** Hash algorithm producing a 512-bit digest  */
+    SHA512 = 0x000D, 
     
-    /** Indication that no algorithm is selected */
-    NULL = 0x0010,
+    /** Indication that no algorithm is selected  */
+    NULL = 0x0010, 
     
-    /** hash algorithm producing a 256-bit digest */
-    SM3_256 = 0x0012,
+    /** Hash algorithm producing a 256-bit digest  */
+    SM3_256 = 0x0012, 
     
-    /** symmetric block cipher with 128 bit key */
-    SM4 = 0x0013,
+    /** Symmetric block cipher with 128 bit key  */
+    SM4 = 0x0013, 
     
-    /** a signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5) */
-    RSASSA = 0x0014,
+    /** A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5)  */
+    RSASSA = 0x0014, 
     
-    /** a padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5) */
-    RSAES = 0x0015,
+    /** A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5)  */
+    RSAES = 0x0015, 
     
-    /** a signature algorithm defined in section 8.1 (RSASSA-PSS) */
-    RSAPSS = 0x0016,
+    /** A signature algorithm defined in section 8.1 (RSASSA-PSS)  */
+    RSAPSS = 0x0016, 
     
-    /** a padding algorithm defined in Section 7.1 (RSAES_OAEP) */
-    OAEP = 0x0017,
+    /** A padding algorithm defined in Section 7.1 (RSAES_OAEP)  */
+    OAEP = 0x0017, 
     
-    /** signature algorithm using elliptic curve cryptography (ECC) */
-    ECDSA = 0x0018,
+    /** Signature algorithm using elliptic curve cryptography (ECC)  */
+    ECDSA = 0x0018, 
     
-    /**
-     *  secret sharing using ECC Based on context, this can be either One-Pass Diffie-Hellman,
-     *  C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC
-     *  CDH) defined in 6.1.1.2
+    /** Secret sharing using ECC Based on context, this can be either One-Pass Diffie-Hellman,
+     *  C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC CDH) defined in 6.1.1.2
      */
-    ECDH = 0x0019,
+    ECDH = 0x0019, 
     
-    /** elliptic-curve based, anonymous signing scheme */
-    ECDAA = 0x001A,
+    /** Elliptic-curve based, anonymous signing scheme  */
+    ECDAA = 0x001A, 
     
-    /**
-     *  depending on context, either an elliptic-curve-based signature algorithm, encryption
+    /** Depending on context, either an elliptic-curve-based signature algorithm, encryption
      *  algorithm, or key exchange protocol
      */
-    SM2 = 0x001B,
+    SM2 = 0x001B, 
     
-    /** elliptic-curve based Schnorr signature */
-    ECSCHNORR = 0x001C,
+    /** Elliptic-curve based Schnorr signature  */
+    ECSCHNORR = 0x001C, 
     
-    /** two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4 */
-    ECMQV = 0x001D,
+    /** Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4  */
+    ECMQV = 0x001D, 
     
-    /** concatenation key derivation function (approved alternative 1) Section 5.8.1 */
-    KDF1_SP800_56A = 0x0020,
+    /** Concatenation key derivation function (approved alternative 1) Section 5.8.1  */
+    KDF1_SP800_56A = 0x0020, 
     
-    /** key derivation function KDF2 Section 13.2 */
-    KDF2 = 0x0021,
+    /** Key derivation function KDF2 Section 13.2  */
+    KDF2 = 0x0021, 
     
-    /** a key derivation method SP800-108, Section 5.1 KDF in Counter Mode */
-    KDF1_SP800_108 = 0x0022,
+    /** A key derivation method SP800-108, Section 5.1 KDF in Counter Mode  */
+    KDF1_SP800_108 = 0x0022, 
     
-    /** prime field ECC */
-    ECC = 0x0023,
+    /** Prime field ECC  */
+    ECC = 0x0023, 
     
-    /** the object type for a symmetric block cipher key */
-    SYMCIPHER = 0x0025,
+    /** The object type for a symmetric block cipher key  */
+    SYMCIPHER = 0x0025, 
     
-    /** symmetric block cipher with various key sizes */
-    CAMELLIA = 0x0026,
+    /** Symmetric block cipher with various key sizes  */
+    CAMELLIA = 0x0026, 
     
-    /** Hash algorithm producing a 256-bit digest */
-    SHA3_256 = 0x0027,
+    /** Hash algorithm producing a 256-bit digest  */
+    SHA3_256 = 0x0027, 
     
-    /** Hash algorithm producing a 384-bit digest */
-    SHA3_384 = 0x0028,
+    /** Hash algorithm producing a 384-bit digest  */
+    SHA3_384 = 0x0028, 
     
-    /** Hash algorithm producing a 512-bit digest */
-    SHA3_512 = 0x0029,
+    /** Hash algorithm producing a 512-bit digest  */
+    SHA3_512 = 0x0029, 
     
-    CMAC = 0x003F,
+    CMAC = 0x003F, 
     
-    /**
-     *  Counter mode if implemented, all symmetric block ciphers (S type) implemented shall
-     *  be capable of using this mode.
+    /** Counter mode if implemented, all symmetric block ciphers (S type) implemented shall be
+     *  capable of using this mode.
      */
-    CTR = 0x0040,
+    CTR = 0x0040, 
     
-    /**
-     *  Output Feedback mode if implemented, all symmetric block ciphers (S type) implemented shall
-     *  be capable of using this mode.
-     */
-    OFB = 0x0041,
-    
-    /**
-     *  Cipher Block Chaining mode if implemented, all symmetric block ciphers (S type) implemented
+    /** Output Feedback mode if implemented, all symmetric block ciphers (S type) implemented
      *  shall be capable of using this mode.
      */
-    CBC = 0x0042,
+    OFB = 0x0041, 
     
-    /**
-     *  Cipher Feedback mode if implemented, all symmetric block ciphers (S type) implemented shall
-     *  be capable of using this mode.
+    /** Cipher Block Chaining mode if implemented, all symmetric block ciphers (S type)
+     *  implemented shall be capable of using this mode.
      */
-    CFB = 0x0043,
+    CBC = 0x0042, 
     
-    /**
-     *  Electronic Codebook mode if implemented, all implemented symmetric block ciphers (S type)
+    /** Cipher Feedback mode if implemented, all symmetric block ciphers (S type) implemented
      *  shall be capable of using this mode.
-     *  NOTE This mode is not recommended for uses unless the key is frequently
-     *  rotated such as in video codecs
      */
-    ECB = 0x0044,
+    CFB = 0x0043, 
     
-    LAST = 0x0044,
+    /** Electronic Codebook mode if implemented, all implemented symmetric block ciphers (S
+     *  type) shall be capable of using this mode.
+     *  NOTE This mode is not recommended for uses unless the key is frequently rotated such
+     *  as in video codecs
+     */
+    ECB = 0x0044, 
     
-    /** Phony alg ID to be used for the first union member with no selector */
-    ANY = 0x7FFF,
+    LAST = 0x0044, 
     
-    /** Phony alg ID to be used for the second union member with no selector */
+    /** Phony alg ID to be used for the first union member with no selector  */
+    ANY = 0x7FFF, 
+    
+    /** Phony alg ID to be used for the second union member with no selector  */
     ANY2 = 0x7FFE
 }; // enum TPM_ALG_ID
 
-/**
- *  Table 4 is the list of identifiers for TCG-registered curve ID values for
- *  elliptic curve cryptography.
+/** Table 4 is the list of identifiers for TCG-registered curve ID values for elliptic
+ *  curve cryptography.
  */
 export enum TPM_ECC_CURVE // UINT16
 {
-    NONE = 0x0000,
+    NONE = 0x0000, 
     
-    NIST_P192 = 0x0001,
+    NIST_P192 = 0x0001, 
     
-    NIST_P224 = 0x0002,
+    NIST_P224 = 0x0002, 
     
-    NIST_P256 = 0x0003,
+    NIST_P256 = 0x0003, 
     
-    NIST_P384 = 0x0004,
+    NIST_P384 = 0x0004, 
     
-    NIST_P521 = 0x0005,
+    NIST_P521 = 0x0005, 
     
-    /** curve to support ECDAA */
-    BN_P256 = 0x0010,
+    /** Curve to support ECDAA  */
+    BN_P256 = 0x0010, 
     
-    /** curve to support ECDAA */
-    BN_P638 = 0x0011,
+    /** Curve to support ECDAA  */
+    BN_P638 = 0x0011, 
     
-    SM2_P256 = 0x0020,
+    SM2_P256 = 0x0020, 
     
     TEST_P192 = 0x0021
 }; // enum TPM_ECC_CURVE
 
-/** Table 13 Defines for SHA1 Hash Values */
+/** Table 13 Defines for SHA1 Hash Values  */
 export enum SHA1 // UINT32
 {
-    /** size of digest in octets */
-    DIGEST_SIZE = 20,
+    /** Size of digest in octets  */
+    DIGEST_SIZE = 20, 
     
-    /** size of hash block in octets */
+    /** Size of hash block in octets  */
     BLOCK_SIZE = 64
 }; // enum SHA1
 
-/** Table 14 Defines for SHA256 Hash Values */
+/** Table 14 Defines for SHA256 Hash Values  */
 export enum SHA256 // UINT32
 {
-    /** size of digest */
-    DIGEST_SIZE = 32,
+    /** Size of digest  */
+    DIGEST_SIZE = 32, 
     
-    /** size of hash block */
+    /** Size of hash block  */
     BLOCK_SIZE = 64
 }; // enum SHA256
 
-/** Table 15 Defines for SHA384 Hash Values */
+/** Table 15 Defines for SHA384 Hash Values  */
 export enum SHA384 // UINT32
 {
-    /** size of digest in octets */
-    DIGEST_SIZE = 48,
+    /** Size of digest in octets  */
+    DIGEST_SIZE = 48, 
     
-    /** size of hash block in octets */
+    /** Size of hash block in octets  */
     BLOCK_SIZE = 128
 }; // enum SHA384
 
-/** Table 16 Defines for SHA512 Hash Values */
+/** Table 16 Defines for SHA512 Hash Values  */
 export enum SHA512 // UINT32
 {
-    /** size of digest in octets */
-    DIGEST_SIZE = 64,
+    /** Size of digest in octets  */
+    DIGEST_SIZE = 64, 
     
-    /** size of hash block in octets */
+    /** Size of hash block in octets  */
     BLOCK_SIZE = 128
 }; // enum SHA512
 
-/** Table 17 Defines for SM3_256 Hash Values */
+/** Table 17 Defines for SM3_256 Hash Values  */
 export enum SM3_256 // UINT32
 {
-    /** size of digest in octets */
-    DIGEST_SIZE = 32,
+    /** Size of digest in octets  */
+    DIGEST_SIZE = 32, 
     
-    /** size of hash block in octets */
+    /** Size of hash block in octets  */
     BLOCK_SIZE = 64
 }; // enum SM3_256
 
-/** Table 18 Defines for SHA3_256 Hash Values */
+/** Table 18 Defines for SHA3_256 Hash Values  */
 export enum SHA3_256 // UINT32
 {
-    /** size of digest in octets */
-    DIGEST_SIZE = 32,
+    /** Size of digest in octets  */
+    DIGEST_SIZE = 32, 
     
-    /** size of hash block in octets */
+    /** Size of hash block in octets  */
     BLOCK_SIZE = 136
 }; // enum SHA3_256
 
-/** Table 19 Defines for SHA3_384 Hash Values */
+/** Table 19 Defines for SHA3_384 Hash Values  */
 export enum SHA3_384 // UINT32
 {
-    /** size of digest in octets */
-    DIGEST_SIZE = 48,
+    /** Size of digest in octets  */
+    DIGEST_SIZE = 48, 
     
-    /** size of hash block in octets */
+    /** Size of hash block in octets  */
     BLOCK_SIZE = 104
 }; // enum SHA3_384
 
-/** Table 20 Defines for SHA3_512 Hash Values */
+/** Table 20 Defines for SHA3_512 Hash Values  */
 export enum SHA3_512 // UINT32
 {
-    /** size of digest in octets */
-    DIGEST_SIZE = 64,
+    /** Size of digest in octets  */
+    DIGEST_SIZE = 64, 
     
-    /** size of hash block in octets */
+    /** Size of hash block in octets  */
     BLOCK_SIZE = 72
 }; // enum SHA3_512
 
-/** Table 4 Defines for Logic Values */
+/** Table 4 Defines for Logic Values  */
 export enum Logic // BYTE
 {
-    TRUE = 1,
+    TRUE = 1, 
     
-    FALSE = 0,
+    FALSE = 0, 
     
-    YES = 1,
+    YES = 1, 
     
-    NO = 0,
+    NO = 0, 
     
-    SET = 1,
+    SET = 1, 
     
     CLEAR = 0
 }; // enum Logic
 
-/** These values are readable with TPM2_GetCapability() (see 6.13 for the format). */
+/** These values are readable with TPM2_GetCapability() (see 6.13 for the format).  */
 export enum TPM_SPEC // UINT32
 {
-    /** ASCII 2.0 with null terminator */
-    FAMILY = 0x322E3000,
+    /** ASCII 2.0 with null terminator  */
+    FAMILY = 0x322E3000, 
     
-    /** the level number for the specification */
-    LEVEL = 0,
+    /** The level number for the specification  */
+    LEVEL = 0, 
     
-    /** the version number of the spec (001.62 * 100) */
-    VERSION = 162,
+    /** The version number of the spec (001.62 * 100)  */
+    VERSION = 162, 
     
-    /** the year of the version */
-    YEAR = 2019,
+    /** The year of the version  */
+    YEAR = 2019, 
     
-    /** the day of the year (December 26) */
+    /** The day of the year (December 26)  */
     DAY_OF_YEAR = 360
 }; // enum TPM_SPEC
 
-/** This constant value differentiates TPM-generated structures from non-TPM structures. */
+/** This constant value differentiates TPM-generated structures from non-TPM structures.  */
 export enum TPM_GENERATED // UINT32
 {
-    /** 0xFF TCG (FF 54 43 4716) */
+    /** 0xFF TCG (FF 54 43 4716)  */
     VALUE = 0xff544347
 }; // enum TPM_GENERATED
 
 export enum TPM_CC // UINT32
 {
-    /** Compile variable. May decrease based on implementation. */
-    FIRST = 0x0000011F,
+    /** Compile variable. May decrease based on implementation.  */
+    FIRST = 0x0000011F, 
     
-    NV_UndefineSpaceSpecial = 0x0000011F,
+    NV_UndefineSpaceSpecial = 0x0000011F, 
     
-    EvictControl = 0x00000120,
+    EvictControl = 0x00000120, 
     
-    HierarchyControl = 0x00000121,
+    HierarchyControl = 0x00000121, 
     
-    NV_UndefineSpace = 0x00000122,
+    NV_UndefineSpace = 0x00000122, 
     
-    ChangeEPS = 0x00000124,
+    ChangeEPS = 0x00000124, 
     
-    ChangePPS = 0x00000125,
+    ChangePPS = 0x00000125, 
     
-    Clear = 0x00000126,
+    Clear = 0x00000126, 
     
-    ClearControl = 0x00000127,
+    ClearControl = 0x00000127, 
     
-    ClockSet = 0x00000128,
+    ClockSet = 0x00000128, 
     
-    HierarchyChangeAuth = 0x00000129,
+    HierarchyChangeAuth = 0x00000129, 
     
-    NV_DefineSpace = 0x0000012A,
+    NV_DefineSpace = 0x0000012A, 
     
-    PCR_Allocate = 0x0000012B,
+    PCR_Allocate = 0x0000012B, 
     
-    PCR_SetAuthPolicy = 0x0000012C,
+    PCR_SetAuthPolicy = 0x0000012C, 
     
-    PP_Commands = 0x0000012D,
+    PP_Commands = 0x0000012D, 
     
-    SetPrimaryPolicy = 0x0000012E,
+    SetPrimaryPolicy = 0x0000012E, 
     
-    FieldUpgradeStart = 0x0000012F,
+    FieldUpgradeStart = 0x0000012F, 
     
-    ClockRateAdjust = 0x00000130,
+    ClockRateAdjust = 0x00000130, 
     
-    CreatePrimary = 0x00000131,
+    CreatePrimary = 0x00000131, 
     
-    NV_GlobalWriteLock = 0x00000132,
+    NV_GlobalWriteLock = 0x00000132, 
     
-    GetCommandAuditDigest = 0x00000133,
+    GetCommandAuditDigest = 0x00000133, 
     
-    NV_Increment = 0x00000134,
+    NV_Increment = 0x00000134, 
     
-    NV_SetBits = 0x00000135,
+    NV_SetBits = 0x00000135, 
     
-    NV_Extend = 0x00000136,
+    NV_Extend = 0x00000136, 
     
-    NV_Write = 0x00000137,
+    NV_Write = 0x00000137, 
     
-    NV_WriteLock = 0x00000138,
+    NV_WriteLock = 0x00000138, 
     
-    DictionaryAttackLockReset = 0x00000139,
+    DictionaryAttackLockReset = 0x00000139, 
     
-    DictionaryAttackParameters = 0x0000013A,
+    DictionaryAttackParameters = 0x0000013A, 
     
-    NV_ChangeAuth = 0x0000013B,
+    NV_ChangeAuth = 0x0000013B, 
     
-    /** PCR */
-    PCR_Event = 0x0000013C,
+    /** PCR  */
+    PCR_Event = 0x0000013C, 
     
-    /** PCR */
-    PCR_Reset = 0x0000013D,
+    /** PCR  */
+    PCR_Reset = 0x0000013D, 
     
-    SequenceComplete = 0x0000013E,
+    SequenceComplete = 0x0000013E, 
     
-    SetAlgorithmSet = 0x0000013F,
+    SetAlgorithmSet = 0x0000013F, 
     
-    SetCommandCodeAuditStatus = 0x00000140,
+    SetCommandCodeAuditStatus = 0x00000140, 
     
-    FieldUpgradeData = 0x00000141,
+    FieldUpgradeData = 0x00000141, 
     
-    IncrementalSelfTest = 0x00000142,
+    IncrementalSelfTest = 0x00000142, 
     
-    SelfTest = 0x00000143,
+    SelfTest = 0x00000143, 
     
-    Startup = 0x00000144,
+    Startup = 0x00000144, 
     
-    Shutdown = 0x00000145,
+    Shutdown = 0x00000145, 
     
-    StirRandom = 0x00000146,
+    StirRandom = 0x00000146, 
     
-    ActivateCredential = 0x00000147,
+    ActivateCredential = 0x00000147, 
     
-    Certify = 0x00000148,
+    Certify = 0x00000148, 
     
-    /** Policy */
-    PolicyNV = 0x00000149,
+    /** Policy  */
+    PolicyNV = 0x00000149, 
     
-    CertifyCreation = 0x0000014A,
+    CertifyCreation = 0x0000014A, 
     
-    Duplicate = 0x0000014B,
+    Duplicate = 0x0000014B, 
     
-    GetTime = 0x0000014C,
+    GetTime = 0x0000014C, 
     
-    GetSessionAuditDigest = 0x0000014D,
+    GetSessionAuditDigest = 0x0000014D, 
     
-    NV_Read = 0x0000014E,
+    NV_Read = 0x0000014E, 
     
-    NV_ReadLock = 0x0000014F,
+    NV_ReadLock = 0x0000014F, 
     
-    ObjectChangeAuth = 0x00000150,
+    ObjectChangeAuth = 0x00000150, 
     
-    /** Policy */
-    PolicySecret = 0x00000151,
+    /** Policy  */
+    PolicySecret = 0x00000151, 
     
-    Rewrap = 0x00000152,
+    Rewrap = 0x00000152, 
     
-    Create = 0x00000153,
+    Create = 0x00000153, 
     
-    ECDH_ZGen = 0x00000154,
+    ECDH_ZGen = 0x00000154, 
     
-    /** See NOTE 1 */
-    HMAC = 0x00000155,
+    /** See NOTE 1  */
+    HMAC = 0x00000155, 
     
-    /** See NOTE 1 */
-    MAC = 0x00000155,
+    /** See NOTE 1  */
+    MAC = 0x00000155, 
     
-    Import = 0x00000156,
+    Import = 0x00000156, 
     
-    Load = 0x00000157,
+    Load = 0x00000157, 
     
-    Quote = 0x00000158,
+    Quote = 0x00000158, 
     
-    RSA_Decrypt = 0x00000159,
+    RSA_Decrypt = 0x00000159, 
     
-    /** See NOTE 1 */
-    HMAC_Start = 0x0000015B,
+    /** See NOTE 1  */
+    HMAC_Start = 0x0000015B, 
     
-    /** See NOTE 1 */
-    MAC_Start = 0x0000015B,
+    /** See NOTE 1  */
+    MAC_Start = 0x0000015B, 
     
-    SequenceUpdate = 0x0000015C,
+    SequenceUpdate = 0x0000015C, 
     
-    Sign = 0x0000015D,
+    Sign = 0x0000015D, 
     
-    Unseal = 0x0000015E,
+    Unseal = 0x0000015E, 
     
-    /** Policy */
-    PolicySigned = 0x00000160,
+    /** Policy  */
+    PolicySigned = 0x00000160, 
     
-    /** Context */
-    ContextLoad = 0x00000161,
+    /** Context  */
+    ContextLoad = 0x00000161, 
     
-    /** Context */
-    ContextSave = 0x00000162,
+    /** Context  */
+    ContextSave = 0x00000162, 
     
-    ECDH_KeyGen = 0x00000163,
+    ECDH_KeyGen = 0x00000163, 
     
-    EncryptDecrypt = 0x00000164,
+    EncryptDecrypt = 0x00000164, 
     
-    /** Context */
-    FlushContext = 0x00000165,
+    /** Context  */
+    FlushContext = 0x00000165, 
     
-    LoadExternal = 0x00000167,
+    LoadExternal = 0x00000167, 
     
-    MakeCredential = 0x00000168,
+    MakeCredential = 0x00000168, 
     
-    /** NV */
-    NV_ReadPublic = 0x00000169,
+    /** NV  */
+    NV_ReadPublic = 0x00000169, 
     
-    /** Policy */
-    PolicyAuthorize = 0x0000016A,
+    /** Policy  */
+    PolicyAuthorize = 0x0000016A, 
     
-    /** Policy */
-    PolicyAuthValue = 0x0000016B,
+    /** Policy  */
+    PolicyAuthValue = 0x0000016B, 
     
-    /** Policy */
-    PolicyCommandCode = 0x0000016C,
+    /** Policy  */
+    PolicyCommandCode = 0x0000016C, 
     
-    /** Policy */
-    PolicyCounterTimer = 0x0000016D,
+    /** Policy  */
+    PolicyCounterTimer = 0x0000016D, 
     
-    /** Policy */
-    PolicyCpHash = 0x0000016E,
+    /** Policy  */
+    PolicyCpHash = 0x0000016E, 
     
-    /** Policy */
-    PolicyLocality = 0x0000016F,
+    /** Policy  */
+    PolicyLocality = 0x0000016F, 
     
-    /** Policy */
-    PolicyNameHash = 0x00000170,
+    /** Policy  */
+    PolicyNameHash = 0x00000170, 
     
-    /** Policy */
-    PolicyOR = 0x00000171,
+    /** Policy  */
+    PolicyOR = 0x00000171, 
     
-    /** Policy */
-    PolicyTicket = 0x00000172,
+    /** Policy  */
+    PolicyTicket = 0x00000172, 
     
-    ReadPublic = 0x00000173,
+    ReadPublic = 0x00000173, 
     
-    RSA_Encrypt = 0x00000174,
+    RSA_Encrypt = 0x00000174, 
     
-    StartAuthSession = 0x00000176,
+    StartAuthSession = 0x00000176, 
     
-    VerifySignature = 0x00000177,
+    VerifySignature = 0x00000177, 
     
-    ECC_Parameters = 0x00000178,
+    ECC_Parameters = 0x00000178, 
     
-    FirmwareRead = 0x00000179,
+    FirmwareRead = 0x00000179, 
     
-    GetCapability = 0x0000017A,
+    GetCapability = 0x0000017A, 
     
-    GetRandom = 0x0000017B,
+    GetRandom = 0x0000017B, 
     
-    GetTestResult = 0x0000017C,
+    GetTestResult = 0x0000017C, 
     
-    Hash = 0x0000017D,
+    Hash = 0x0000017D, 
     
-    /** PCR */
-    PCR_Read = 0x0000017E,
+    /** PCR  */
+    PCR_Read = 0x0000017E, 
     
-    /** Policy */
-    PolicyPCR = 0x0000017F,
+    /** Policy  */
+    PolicyPCR = 0x0000017F, 
     
-    PolicyRestart = 0x00000180,
+    PolicyRestart = 0x00000180, 
     
-    ReadClock = 0x00000181,
+    ReadClock = 0x00000181, 
     
-    PCR_Extend = 0x00000182,
+    PCR_Extend = 0x00000182, 
     
-    PCR_SetAuthValue = 0x00000183,
+    PCR_SetAuthValue = 0x00000183, 
     
-    NV_Certify = 0x00000184,
+    NV_Certify = 0x00000184, 
     
-    EventSequenceComplete = 0x00000185,
+    EventSequenceComplete = 0x00000185, 
     
-    HashSequenceStart = 0x00000186,
+    HashSequenceStart = 0x00000186, 
     
-    /** Policy */
-    PolicyPhysicalPresence = 0x00000187,
+    /** Policy  */
+    PolicyPhysicalPresence = 0x00000187, 
     
-    /** Policy */
-    PolicyDuplicationSelect = 0x00000188,
+    /** Policy  */
+    PolicyDuplicationSelect = 0x00000188, 
     
-    /** Policy */
-    PolicyGetDigest = 0x00000189,
+    /** Policy  */
+    PolicyGetDigest = 0x00000189, 
     
-    TestParms = 0x0000018A,
+    TestParms = 0x0000018A, 
     
-    Commit = 0x0000018B,
+    Commit = 0x0000018B, 
     
-    /** Policy */
-    PolicyPassword = 0x0000018C,
+    /** Policy  */
+    PolicyPassword = 0x0000018C, 
     
-    ZGen_2Phase = 0x0000018D,
+    ZGen_2Phase = 0x0000018D, 
     
-    EC_Ephemeral = 0x0000018E,
+    EC_Ephemeral = 0x0000018E, 
     
-    /** Policy */
-    PolicyNvWritten = 0x0000018F,
+    /** Policy  */
+    PolicyNvWritten = 0x0000018F, 
     
-    /** Policy */
-    PolicyTemplate = 0x00000190,
+    /** Policy  */
+    PolicyTemplate = 0x00000190, 
     
-    CreateLoaded = 0x00000191,
+    CreateLoaded = 0x00000191, 
     
-    /** Policy */
-    PolicyAuthorizeNV = 0x00000192,
+    /** Policy  */
+    PolicyAuthorizeNV = 0x00000192, 
     
-    EncryptDecrypt2 = 0x00000193,
+    EncryptDecrypt2 = 0x00000193, 
     
-    AC_GetCapability = 0x00000194,
+    AC_GetCapability = 0x00000194, 
     
-    AC_Send = 0x00000195,
+    AC_Send = 0x00000195, 
     
-    /** Policy */
-    Policy_AC_SendSelect = 0x00000196,
+    /** Policy  */
+    Policy_AC_SendSelect = 0x00000196, 
     
-    CertifyX509 = 0x00000197,
+    CertifyX509 = 0x00000197, 
     
-    ACT_SetTimeout = 0x00000198,
+    ACT_SetTimeout = 0x00000198, 
     
-    ECC_Encrypt = 0x00000199,
+    ECC_Encrypt = 0x00000199, 
     
-    ECC_Decrypt = 0x0000019A,
+    ECC_Decrypt = 0x0000019A, 
     
-    /** Compile variable. May increase based on implementation. */
-    LAST = 0x0000019A,
+    /** Compile variable. May increase based on implementation.  */
+    LAST = 0x0000019A, 
     
-    CC_VEND = 0x20000000,
+    CC_VEND = 0x20000000, 
     
-    /** Used for testing of command dispatch */
+    /** Used for testing of command dispatch  */
     Vendor_TCG_Test = CC_VEND+0x0000
 }; // enum TPM_CC
 
-/** Architecturally defined constants */
+/** Architecturally defined constants  */
 export enum ImplementationConstants // UINT32
 {
-    Ossl = 1,
+    Ossl = 1, 
     
-    Ltc = 2,
+    Ltc = 2, 
     
-    Msbn = 3,
+    Msbn = 3, 
     
-    Symcrypt = 4,
+    Symcrypt = 4, 
     
-    HASH_COUNT = 3,
+    HASH_COUNT = 3, 
     
-    MAX_SYM_KEY_BITS = 256,
+    MAX_SYM_KEY_BITS = 256, 
     
-    MAX_SYM_KEY_BYTES = ((MAX_SYM_KEY_BITS + 7) / 8),
+    MAX_SYM_KEY_BYTES = ((MAX_SYM_KEY_BITS + 7) / 8), 
     
-    MAX_SYM_BLOCK_SIZE = 16,
+    MAX_SYM_BLOCK_SIZE = 16, 
     
-    MAX_CAP_CC = TPM_CC.LAST,
+    MAX_CAP_CC = TPM_CC.LAST, 
     
-    MAX_RSA_KEY_BYTES = 256,
+    MAX_RSA_KEY_BYTES = 256, 
     
-    MAX_AES_KEY_BYTES = 32,
+    MAX_AES_KEY_BYTES = 32, 
     
-    MAX_ECC_KEY_BYTES = 48,
+    MAX_ECC_KEY_BYTES = 48, 
     
-    LABEL_MAX_BUFFER = 32,
+    LABEL_MAX_BUFFER = 32, 
     
-    _TPM_CAP_SIZE = 0x4 /*sizeof(UINT32)*/,
+    _TPM_CAP_SIZE = 0x4/*sizeof(UINT32)*/, 
     
-    MAX_CAP_DATA = (1024/*MAX_CAP_BUFFER*/-_TPM_CAP_SIZE-0x4 /*sizeof(UINT32)*/),
+    MAX_CAP_DATA = (1024/*MAX_CAP_BUFFER*/-_TPM_CAP_SIZE-0x4/*sizeof(UINT32)*/), 
     
-    MAX_CAP_ALGS = (MAX_CAP_DATA / 0x6 /*sizeof(TPMS_ALG_PROPERTY)*/),
+    MAX_CAP_ALGS = (MAX_CAP_DATA / 0x6/*sizeof(TPMS_ALG_PROPERTY)*/), 
     
-    MAX_CAP_HANDLES = (MAX_CAP_DATA / 0x4 /*sizeof(TPM_HANDLE)*/),
+    MAX_CAP_HANDLES = (MAX_CAP_DATA / 0x4/*sizeof(TPM_HANDLE)*/), 
     
-    MAX_TPM_PROPERTIES = (MAX_CAP_DATA / 0x8 /*sizeof(TPMS_TAGGED_PROPERTY)*/),
+    MAX_TPM_PROPERTIES = (MAX_CAP_DATA / 0x8/*sizeof(TPMS_TAGGED_PROPERTY)*/), 
     
-    MAX_PCR_PROPERTIES = (MAX_CAP_DATA / 0x5 /*sizeof(TPMS_TAGGED_PCR_SELECT)*/),
+    MAX_PCR_PROPERTIES = (MAX_CAP_DATA / 0x5/*sizeof(TPMS_TAGGED_PCR_SELECT)*/), 
     
-    MAX_ECC_CURVES = (MAX_CAP_DATA / 0x2 /*sizeof(TPM_ECC_CURVE)*/),
+    MAX_ECC_CURVES = (MAX_CAP_DATA / 0x2/*sizeof(TPM_ECC_CURVE)*/), 
     
-    MAX_TAGGED_POLICIES = (MAX_CAP_DATA / 0x46 /*sizeof(TPMS_TAGGED_POLICY)*/),
+    MAX_TAGGED_POLICIES = (MAX_CAP_DATA / 0x46/*sizeof(TPMS_TAGGED_POLICY)*/), 
     
-    MAX_AC_CAPABILITIES = (MAX_CAP_DATA / 0x8 /*sizeof(TPMS_AC_OUTPUT)*/),
+    MAX_AC_CAPABILITIES = (MAX_CAP_DATA / 0x8/*sizeof(TPMS_AC_OUTPUT)*/), 
     
-    MAX_ACT_DATA = MAX_CAP_DATA / 0xC /*sizeof(TPMS_ACT_DATA)*/
+    MAX_ACT_DATA = MAX_CAP_DATA / 0xC/*sizeof(TPMS_ACT_DATA)*/
 }; // enum ImplementationConstants
 
-/**
- *  In general, response codes defined in TPM 2.0 Part 2 will be unmarshaling errors and will
- *  have the F (format) bit SET. Codes that are unique to TPM 2.0 Part 3 will have the F bit
- *  CLEAR but the V (version) attribute will be SET to indicate that it is a TPM 2.0 response
- *  code. See Response Code Details in TPM 2.0 Part 1.
+/** In general, response codes defined in TPM 2.0 Part 2 will be unmarshaling errors and
+ *  will have the F (format) bit SET. Codes that are unique to TPM 2.0 Part 3 will have
+ *  the F bit CLEAR but the V (version) attribute will be SET to indicate that it is a TPM
+ *  2.0 response code. See Response Code Details in TPM 2.0 Part 1.
  */
 export enum TPM_RC // UINT32
 {
-    SUCCESS = 0x000,
+    SUCCESS = 0x000, 
     
-    /** defined for compatibility with TPM 1.2 */
-    BAD_TAG = 0x01E,
+    /** Defined for compatibility with TPM 1.2  */
+    BAD_TAG = 0x01E, 
     
-    /** set for all format 0 response codes */
-    RC_VER1 = 0x100,
+    /** Set for all format 0 response codes  */
+    RC_VER1 = 0x100, 
     
-    /** TPM not initialized by TPM2_Startup or already initialized */
-    INITIALIZE = RC_VER1 + 0x000,
+    /** TPM not initialized by TPM2_Startup or already initialized  */
+    INITIALIZE = RC_VER1 + 0x000, 
     
-    /**
-     *  commands not being accepted because of a TPM failure
+    /** Commands not being accepted because of a TPM failure
      *  NOTE This may be returned by TPM2_GetTestResult() as the testResult parameter.
      */
-    FAILURE = RC_VER1 + 0x001,
+    FAILURE = RC_VER1 + 0x001, 
     
-    /** improper use of a sequence handle */
-    SEQUENCE = RC_VER1 + 0x003,
+    /** Improper use of a sequence handle  */
+    SEQUENCE = RC_VER1 + 0x003, 
     
-    /** not currently used */
-    PRIVATE = RC_VER1 + 0x00B,
+    /** Not currently used  */
+    PRIVATE = RC_VER1 + 0x00B, 
     
-    /** not currently used */
-    HMAC = RC_VER1 + 0x019,
+    /** Not currently used  */
+    HMAC = RC_VER1 + 0x019, 
     
-    /** the command is disabled */
-    DISABLED = RC_VER1 + 0x020,
+    /** The command is disabled  */
+    DISABLED = RC_VER1 + 0x020, 
     
-    /** command failed because audit sequence required exclusivity */
-    EXCLUSIVE = RC_VER1 + 0x021,
+    /** Command failed because audit sequence required exclusivity  */
+    EXCLUSIVE = RC_VER1 + 0x021, 
     
-    /** authorization handle is not correct for command */
-    AUTH_TYPE = RC_VER1 + 0x024,
+    /** Authorization handle is not correct for command  */
+    AUTH_TYPE = RC_VER1 + 0x024, 
     
-    /** command requires an authorization session for handle and it is not present. */
-    AUTH_MISSING = RC_VER1 + 0x025,
+    /** Command requires an authorization session for handle and it is not present.  */
+    AUTH_MISSING = RC_VER1 + 0x025, 
     
-    /** policy failure in math operation or an invalid authPolicy value */
-    POLICY = RC_VER1 + 0x026,
+    /** Policy failure in math operation or an invalid authPolicy value  */
+    POLICY = RC_VER1 + 0x026, 
     
-    /** PCR check fail */
-    PCR = RC_VER1 + 0x027,
+    /** PCR check fail  */
+    PCR = RC_VER1 + 0x027, 
     
-    /** PCR have changed since checked. */
-    PCR_CHANGED = RC_VER1 + 0x028,
+    /** PCR have changed since checked.  */
+    PCR_CHANGED = RC_VER1 + 0x028, 
     
-    /**
-     *  for all commands other than TPM2_FieldUpgradeData(), this code indicates that the TPM is
-     *  in field upgrade mode; for TPM2_FieldUpgradeData(), this code indicates that the TPM
-     *  is not in field upgrade mode
+    /** For all commands other than TPM2_FieldUpgradeData(), this code indicates that the TPM
+     *  is in field upgrade mode; for TPM2_FieldUpgradeData(), this code indicates that the
+     *  TPM is not in field upgrade mode
      */
-    UPGRADE = RC_VER1 + 0x02D,
+    UPGRADE = RC_VER1 + 0x02D, 
     
-    /** context ID counter is at maximum. */
-    TOO_MANY_CONTEXTS = RC_VER1 + 0x02E,
+    /** Context ID counter is at maximum.  */
+    TOO_MANY_CONTEXTS = RC_VER1 + 0x02E, 
     
-    /** authValue or authPolicy is not available for selected entity. */
-    AUTH_UNAVAILABLE = RC_VER1 + 0x02F,
+    /** AuthValue or authPolicy is not available for selected entity.  */
+    AUTH_UNAVAILABLE = RC_VER1 + 0x02F, 
     
-    /** a _TPM_Init and Startup(CLEAR) is required before the TPM can resume operation. */
-    REBOOT = RC_VER1 + 0x030,
+    /** A _TPM_Init and Startup(CLEAR) is required before the TPM can resume operation.  */
+    REBOOT = RC_VER1 + 0x030, 
     
-    /**
-     *  the protection algorithms (hash and symmetric) are not reasonably balanced. The digest
+    /** The protection algorithms (hash and symmetric) are not reasonably balanced. The digest
      *  size of the hash must be larger than the key size of the symmetric algorithm.
      */
-    UNBALANCED = RC_VER1 + 0x031,
+    UNBALANCED = RC_VER1 + 0x031, 
     
-    /**
-     *  command commandSize value is inconsistent with contents of the command buffer; either the
-     *  size is not the same as the octets loaded by the hardware interface layer or the value is not
-     *  large enough to hold a command header
+    /** Command commandSize value is inconsistent with contents of the command buffer; either
+     *  the size is not the same as the octets loaded by the hardware interface layer or the
+     *  value is not large enough to hold a command header
      */
-    COMMAND_SIZE = RC_VER1 + 0x042,
+    COMMAND_SIZE = RC_VER1 + 0x042, 
     
-    /** command code not supported */
-    COMMAND_CODE = RC_VER1 + 0x043,
+    /** Command code not supported  */
+    COMMAND_CODE = RC_VER1 + 0x043, 
     
-    /**
-     *  the value of authorizationSize is out of range or the number of octets in the
+    /** The value of authorizationSize is out of range or the number of octets in the
      *  Authorization Area is greater than required
      */
-    AUTHSIZE = RC_VER1 + 0x044,
+    AUTHSIZE = RC_VER1 + 0x044, 
     
-    /**
-     *  use of an authorization session with a context command or another command that cannot
+    /** Use of an authorization session with a context command or another command that cannot
      *  have an authorization session.
      */
-    AUTH_CONTEXT = RC_VER1 + 0x045,
+    AUTH_CONTEXT = RC_VER1 + 0x045, 
     
-    /** NV offset+size is out of range. */
-    NV_RANGE = RC_VER1 + 0x046,
+    /** NV offset+size is out of range.  */
+    NV_RANGE = RC_VER1 + 0x046, 
     
-    /** Requested allocation size is larger than allowed. */
-    NV_SIZE = RC_VER1 + 0x047,
+    /** Requested allocation size is larger than allowed.  */
+    NV_SIZE = RC_VER1 + 0x047, 
     
-    /** NV access locked. */
-    NV_LOCKED = RC_VER1 + 0x048,
+    /** NV access locked.  */
+    NV_LOCKED = RC_VER1 + 0x048, 
     
-    /**
-     *  NV access authorization fails in command actions (this failure does
-     *  not affect lockout.action)
-     */
-    NV_AUTHORIZATION = RC_VER1 + 0x049,
+    /** NV access authorization fails in command actions (this failure does not affect lockout.action)  */
+    NV_AUTHORIZATION = RC_VER1 + 0x049, 
     
-    /**
-     *  an NV Index is used before being initialized or the state saved by
+    /** An NV Index is used before being initialized or the state saved by
      *  TPM2_Shutdown(STATE) could not be restored
      */
-    NV_UNINITIALIZED = RC_VER1 + 0x04A,
+    NV_UNINITIALIZED = RC_VER1 + 0x04A, 
     
-    /** insufficient space for NV allocation */
-    NV_SPACE = RC_VER1 + 0x04B,
+    /** Insufficient space for NV allocation  */
+    NV_SPACE = RC_VER1 + 0x04B, 
     
-    /** NV Index or persistent object already defined */
-    NV_DEFINED = RC_VER1 + 0x04C,
+    /** NV Index or persistent object already defined  */
+    NV_DEFINED = RC_VER1 + 0x04C, 
     
-    /** context in TPM2_ContextLoad() is not valid */
-    BAD_CONTEXT = RC_VER1 + 0x050,
+    /** Context in TPM2_ContextLoad() is not valid  */
+    BAD_CONTEXT = RC_VER1 + 0x050, 
     
-    /** cpHash value already set or not correct for use */
-    CPHASH = RC_VER1 + 0x051,
+    /** CpHash value already set or not correct for use  */
+    CPHASH = RC_VER1 + 0x051, 
     
-    /** handle for parent is not a valid parent */
-    PARENT = RC_VER1 + 0x052,
+    /** Handle for parent is not a valid parent  */
+    PARENT = RC_VER1 + 0x052, 
     
-    /** some function needs testing. */
-    NEEDS_TEST = RC_VER1 + 0x053,
+    /** Some function needs testing.  */
+    NEEDS_TEST = RC_VER1 + 0x053, 
     
-    /**
-     *  returned when an internal function cannot process a request due to an unspecified problem.
-     *  This code is usually related to invalid parameters that are not properly filtered by
-     *  the input unmarshaling code.
+    /** Returned when an internal function cannot process a request due to an unspecified
+     *  problem. This code is usually related to invalid parameters that are not properly
+     *  filtered by the input unmarshaling code.
      */
-    NO_RESULT = RC_VER1 + 0x054,
+    NO_RESULT = RC_VER1 + 0x054, 
     
-    /**
-     *  the sensitive area did not unmarshal correctly after decryption this code is used in lieu
-     *  of the other unmarshaling errors so that an attacker cannot determine where the
+    /** The sensitive area did not unmarshal correctly after decryption this code is used in
+     *  lieu of the other unmarshaling errors so that an attacker cannot determine where the
      *  unmarshaling error occurred
      */
-    SENSITIVE = RC_VER1 + 0x055,
+    SENSITIVE = RC_VER1 + 0x055, 
     
-    /** largest version 1 code that is not a warning */
-    RC_MAX_FM0 = RC_VER1 + 0x07F,
+    /** Largest version 1 code that is not a warning  */
+    RC_MAX_FM0 = RC_VER1 + 0x07F, 
     
-    /**
-     *  This bit is SET in all format 1 response codes
-     *  The codes in this group may have a value added to them to indicate the handle, session, or
-     *  parameter to which they apply.
+    /** This bit is SET in all format 1 response codes
+     *  The codes in this group may have a value added to them to indicate the handle,
+     *  session, or parameter to which they apply.
      */
-    RC_FMT1 = 0x080,
+    RC_FMT1 = 0x080, 
     
-    /** asymmetric algorithm not supported or not correct */
-    ASYMMETRIC = RC_FMT1 + 0x001,
+    /** Asymmetric algorithm not supported or not correct  */
+    ASYMMETRIC = RC_FMT1 + 0x001, 
     
-    /** inconsistent attributes */
-    ATTRIBUTES = RC_FMT1 + 0x002,
+    /** Inconsistent attributes  */
+    ATTRIBUTES = RC_FMT1 + 0x002, 
     
-    /** hash algorithm not supported or not appropriate */
-    HASH = RC_FMT1 + 0x003,
+    /** Hash algorithm not supported or not appropriate  */
+    HASH = RC_FMT1 + 0x003, 
     
-    /** value is out of range or is not correct for the context */
-    VALUE = RC_FMT1 + 0x004,
+    /** Value is out of range or is not correct for the context  */
+    VALUE = RC_FMT1 + 0x004, 
     
-    /** hierarchy is not enabled or is not correct for the use */
-    HIERARCHY = RC_FMT1 + 0x005,
+    /** Hierarchy is not enabled or is not correct for the use  */
+    HIERARCHY = RC_FMT1 + 0x005, 
     
-    /** key size is not supported */
-    KEY_SIZE = RC_FMT1 + 0x007,
+    /** Key size is not supported  */
+    KEY_SIZE = RC_FMT1 + 0x007, 
     
-    /** mask generation function not supported */
-    MGF = RC_FMT1 + 0x008,
+    /** Mask generation function not supported  */
+    MGF = RC_FMT1 + 0x008, 
     
-    /** mode of operation not supported */
-    MODE = RC_FMT1 + 0x009,
+    /** Mode of operation not supported  */
+    MODE = RC_FMT1 + 0x009, 
     
-    /** the type of the value is not appropriate for the use */
-    TYPE = RC_FMT1 + 0x00A,
+    /** The type of the value is not appropriate for the use  */
+    TYPE = RC_FMT1 + 0x00A, 
     
-    /** the handle is not correct for the use */
-    HANDLE = RC_FMT1 + 0x00B,
+    /** The handle is not correct for the use  */
+    HANDLE = RC_FMT1 + 0x00B, 
     
-    /** unsupported key derivation function or function not appropriate for use */
-    KDF = RC_FMT1 + 0x00C,
+    /** Unsupported key derivation function or function not appropriate for use  */
+    KDF = RC_FMT1 + 0x00C, 
     
-    /** value was out of allowed range. */
-    RANGE = RC_FMT1 + 0x00D,
+    /** Value was out of allowed range.  */
+    RANGE = RC_FMT1 + 0x00D, 
     
-    /** the authorization HMAC check failed and DA counter incremented */
-    AUTH_FAIL = RC_FMT1 + 0x00E,
+    /** The authorization HMAC check failed and DA counter incremented  */
+    AUTH_FAIL = RC_FMT1 + 0x00E, 
     
-    /** invalid nonce size or nonce value mismatch */
-    NONCE = RC_FMT1 + 0x00F,
+    /** Invalid nonce size or nonce value mismatch  */
+    NONCE = RC_FMT1 + 0x00F, 
     
-    /** authorization requires assertion of PP */
-    PP = RC_FMT1 + 0x010,
+    /** Authorization requires assertion of PP  */
+    PP = RC_FMT1 + 0x010, 
     
-    /** unsupported or incompatible scheme */
-    SCHEME = RC_FMT1 + 0x012,
+    /** Unsupported or incompatible scheme  */
+    SCHEME = RC_FMT1 + 0x012, 
     
-    /** structure is the wrong size */
-    SIZE = RC_FMT1 + 0x015,
+    /** Structure is the wrong size  */
+    SIZE = RC_FMT1 + 0x015, 
     
-    /** unsupported symmetric algorithm or key size, or not appropriate for instance */
-    SYMMETRIC = RC_FMT1 + 0x016,
+    /** Unsupported symmetric algorithm or key size, or not appropriate for instance  */
+    SYMMETRIC = RC_FMT1 + 0x016, 
     
-    /** incorrect structure tag */
-    TAG = RC_FMT1 + 0x017,
+    /** Incorrect structure tag  */
+    TAG = RC_FMT1 + 0x017, 
     
-    /** union selector is incorrect */
-    SELECTOR = RC_FMT1 + 0x018,
+    /** Union selector is incorrect  */
+    SELECTOR = RC_FMT1 + 0x018, 
     
-    /**
-     *  the TPM was unable to unmarshal a value because there were not enough
-     *  octets in the input buffer
+    /** The TPM was unable to unmarshal a value because there were not enough octets in the
+     *  input buffer
      */
-    INSUFFICIENT = RC_FMT1 + 0x01A,
+    INSUFFICIENT = RC_FMT1 + 0x01A, 
     
-    /** the signature is not valid */
-    SIGNATURE = RC_FMT1 + 0x01B,
+    /** The signature is not valid  */
+    SIGNATURE = RC_FMT1 + 0x01B, 
     
-    /** key fields are not compatible with the selected use */
-    KEY = RC_FMT1 + 0x01C,
+    /** Key fields are not compatible with the selected use  */
+    KEY = RC_FMT1 + 0x01C, 
     
-    /** a policy check failed */
-    POLICY_FAIL = RC_FMT1 + 0x01D,
+    /** A policy check failed  */
+    POLICY_FAIL = RC_FMT1 + 0x01D, 
     
-    /** integrity check failed */
-    INTEGRITY = RC_FMT1 + 0x01F,
+    /** Integrity check failed  */
+    INTEGRITY = RC_FMT1 + 0x01F, 
     
-    /** invalid ticket */
-    TICKET = RC_FMT1 + 0x020,
+    /** Invalid ticket  */
+    TICKET = RC_FMT1 + 0x020, 
     
-    /** reserved bits not set to zero as required */
-    RESERVED_BITS = RC_FMT1 + 0x021,
+    /** Reserved bits not set to zero as required  */
+    RESERVED_BITS = RC_FMT1 + 0x021, 
     
-    /** authorization failure without DA implications */
-    BAD_AUTH = RC_FMT1 + 0x022,
+    /** Authorization failure without DA implications  */
+    BAD_AUTH = RC_FMT1 + 0x022, 
     
-    /** the policy has expired */
-    EXPIRED = RC_FMT1 + 0x023,
+    /** The policy has expired  */
+    EXPIRED = RC_FMT1 + 0x023, 
     
-    /**
-     *  the commandCode in the policy is not the commandCode of the command or the command code in
-     *  a policy command references a command that is not implemented
+    /** The commandCode in the policy is not the commandCode of the command or the command
+     *  code in a policy command references a command that is not implemented
      */
-    POLICY_CC = RC_FMT1 + 0x024,
+    POLICY_CC = RC_FMT1 + 0x024, 
     
-    /** public and sensitive portions of an object are not cryptographically bound */
-    BINDING = RC_FMT1 + 0x025,
+    /** Public and sensitive portions of an object are not cryptographically bound  */
+    BINDING = RC_FMT1 + 0x025, 
     
-    /** curve not supported */
-    CURVE = RC_FMT1 + 0x026,
+    /** Curve not supported  */
+    CURVE = RC_FMT1 + 0x026, 
     
-    /** point is not on the required curve. */
-    ECC_POINT = RC_FMT1 + 0x027,
+    /** Point is not on the required curve.  */
+    ECC_POINT = RC_FMT1 + 0x027, 
     
-    /** set for warning response codes */
-    RC_WARN = 0x900,
+    /** Set for warning response codes  */
+    RC_WARN = 0x900, 
     
-    /** gap for context ID is too large */
-    CONTEXT_GAP = RC_WARN + 0x001,
+    /** Gap for context ID is too large  */
+    CONTEXT_GAP = RC_WARN + 0x001, 
     
-    /** out of memory for object contexts */
-    OBJECT_MEMORY = RC_WARN + 0x002,
+    /** Out of memory for object contexts  */
+    OBJECT_MEMORY = RC_WARN + 0x002, 
     
-    /** out of memory for session contexts */
-    SESSION_MEMORY = RC_WARN + 0x003,
+    /** Out of memory for session contexts  */
+    SESSION_MEMORY = RC_WARN + 0x003, 
     
-    /** out of shared object/session memory or need space for internal operations */
-    MEMORY = RC_WARN + 0x004,
+    /** Out of shared object/session memory or need space for internal operations  */
+    MEMORY = RC_WARN + 0x004, 
     
-    /** out of session handles a session must be flushed before a new session may be created */
-    SESSION_HANDLES = RC_WARN + 0x005,
+    /** Out of session handles a session must be flushed before a new session may be created  */
+    SESSION_HANDLES = RC_WARN + 0x005, 
     
-    /**
-     *  out of object handles the handle space for objects is depleted and a reboot is required
+    /** Out of object handles the handle space for objects is depleted and a reboot is required
      *  NOTE 1 This cannot occur on the reference implementation.
      *  NOTE 2 There is no reason why an implementation would implement a design that would
      *  deplete handle space. Platform specifications are encouraged to forbid it.
      */
-    OBJECT_HANDLES = RC_WARN + 0x006,
+    OBJECT_HANDLES = RC_WARN + 0x006, 
     
-    /** bad locality */
-    LOCALITY = RC_WARN + 0x007,
+    /** Bad locality  */
+    LOCALITY = RC_WARN + 0x007, 
     
-    /**
-     *  the TPM has suspended operation on the command; forward progress was made and the command
-     *  may be retried
+    /** The TPM has suspended operation on the command; forward progress was made and the
+     *  command may be retried
      *  See TPM 2.0 Part 1, Multi-tasking.
      *  NOTE This cannot occur on the reference implementation.
      */
-    YIELDED = RC_WARN + 0x008,
+    YIELDED = RC_WARN + 0x008, 
     
-    /** the command was canceled */
-    CANCELED = RC_WARN + 0x009,
+    /** The command was canceled  */
+    CANCELED = RC_WARN + 0x009, 
     
-    /** TPM is performing self-tests */
-    TESTING = RC_WARN + 0x00A,
+    /** TPM is performing self-tests  */
+    TESTING = RC_WARN + 0x00A, 
     
-    /**
-     *  the 1st handle in the handle area references a transient object or
-     *  session that is not loaded
+    /** The 1st handle in the handle area references a transient object or session that is not
+     *  loaded
      */
-    REFERENCE_H0 = RC_WARN + 0x010,
+    REFERENCE_H0 = RC_WARN + 0x010, 
     
-    /**
-     *  the 2nd handle in the handle area references a transient object or
-     *  session that is not loaded
+    /** The 2nd handle in the handle area references a transient object or session that is not
+     *  loaded
      */
-    REFERENCE_H1 = RC_WARN + 0x011,
+    REFERENCE_H1 = RC_WARN + 0x011, 
     
-    /**
-     *  the 3rd handle in the handle area references a transient object or
-     *  session that is not loaded
+    /** The 3rd handle in the handle area references a transient object or session that is not
+     *  loaded
      */
-    REFERENCE_H2 = RC_WARN + 0x012,
+    REFERENCE_H2 = RC_WARN + 0x012, 
     
-    /**
-     *  the 4th handle in the handle area references a transient object or
-     *  session that is not loaded
+    /** The 4th handle in the handle area references a transient object or session that is not
+     *  loaded
      */
-    REFERENCE_H3 = RC_WARN + 0x013,
+    REFERENCE_H3 = RC_WARN + 0x013, 
     
-    /**
-     *  the 5th handle in the handle area references a transient object or
-     *  session that is not loaded
+    /** The 5th handle in the handle area references a transient object or session that is not
+     *  loaded
      */
-    REFERENCE_H4 = RC_WARN + 0x014,
+    REFERENCE_H4 = RC_WARN + 0x014, 
     
-    /**
-     *  the 6th handle in the handle area references a transient object or
-     *  session that is not loaded
+    /** The 6th handle in the handle area references a transient object or session that is not
+     *  loaded
      */
-    REFERENCE_H5 = RC_WARN + 0x015,
+    REFERENCE_H5 = RC_WARN + 0x015, 
     
-    /**
-     *  the 7th handle in the handle area references a transient object or
-     *  session that is not loaded
+    /** The 7th handle in the handle area references a transient object or session that is not
+     *  loaded
      */
-    REFERENCE_H6 = RC_WARN + 0x016,
+    REFERENCE_H6 = RC_WARN + 0x016, 
     
-    /** the 1st authorization session handle references a session that is not loaded */
-    REFERENCE_S0 = RC_WARN + 0x018,
+    /** The 1st authorization session handle references a session that is not loaded  */
+    REFERENCE_S0 = RC_WARN + 0x018, 
     
-    /** the 2nd authorization session handle references a session that is not loaded */
-    REFERENCE_S1 = RC_WARN + 0x019,
+    /** The 2nd authorization session handle references a session that is not loaded  */
+    REFERENCE_S1 = RC_WARN + 0x019, 
     
-    /** the 3rd authorization session handle references a session that is not loaded */
-    REFERENCE_S2 = RC_WARN + 0x01A,
+    /** The 3rd authorization session handle references a session that is not loaded  */
+    REFERENCE_S2 = RC_WARN + 0x01A, 
     
-    /** the 4th authorization session handle references a session that is not loaded */
-    REFERENCE_S3 = RC_WARN + 0x01B,
+    /** The 4th authorization session handle references a session that is not loaded  */
+    REFERENCE_S3 = RC_WARN + 0x01B, 
     
-    /** the 5th session handle references a session that is not loaded */
-    REFERENCE_S4 = RC_WARN + 0x01C,
+    /** The 5th session handle references a session that is not loaded  */
+    REFERENCE_S4 = RC_WARN + 0x01C, 
     
-    /** the 6th session handle references a session that is not loaded */
-    REFERENCE_S5 = RC_WARN + 0x01D,
+    /** The 6th session handle references a session that is not loaded  */
+    REFERENCE_S5 = RC_WARN + 0x01D, 
     
-    /** the 7th authorization session handle references a session that is not loaded */
-    REFERENCE_S6 = RC_WARN + 0x01E,
+    /** The 7th authorization session handle references a session that is not loaded  */
+    REFERENCE_S6 = RC_WARN + 0x01E, 
     
-    /** the TPM is rate-limiting accesses to prevent wearout of NV */
-    NV_RATE = RC_WARN + 0x020,
+    /** The TPM is rate-limiting accesses to prevent wearout of NV  */
+    NV_RATE = RC_WARN + 0x020, 
     
-    /**
-     *  authorizations for objects subject to DA protection are not allowed at this time because
-     *  the TPM is in DA lockout mode
+    /** Authorizations for objects subject to DA protection are not allowed at this time
+     *  because the TPM is in DA lockout mode
      */
-    LOCKOUT = RC_WARN + 0x021,
+    LOCKOUT = RC_WARN + 0x021, 
     
-    /** the TPM was not able to start the command */
-    RETRY = RC_WARN + 0x022,
+    /** The TPM was not able to start the command  */
+    RETRY = RC_WARN + 0x022, 
     
-    /** the command may require writing of NV and NV is not current accessible */
-    NV_UNAVAILABLE = RC_WARN + 0x023,
+    /** The command may require writing of NV and NV is not current accessible  */
+    NV_UNAVAILABLE = RC_WARN + 0x023, 
     
-    /** this value is reserved and shall not be returned by the TPM */
-    NOT_USED = RC_WARN + 0x7F,
+    /** This value is reserved and shall not be returned by the TPM  */
+    NOT_USED = RC_WARN + 0x7F, 
     
-    /** add to a parameter-related error */
-    P = 0x040,
+    /** Add to a parameter-related error  */
+    P = 0x040, 
     
-    /** add to a session-related error */
-    S = 0x800,
+    /** Add to a session-related error  */
+    S = 0x800, 
     
-    /** add to a parameter-, handle-, or session-related error */
-    _1 = 0x100,
+    /** Add to a parameter-, handle-, or session-related error  */
+    _1 = 0x100, 
     
-    /** add to a parameter-, handle-, or session-related error */
-    _2 = 0x200,
+    /** Add to a parameter-, handle-, or session-related error  */
+    _2 = 0x200, 
     
-    /** add to a parameter-, handle-, or session-related error */
-    _3 = 0x300,
+    /** Add to a parameter-, handle-, or session-related error  */
+    _3 = 0x300, 
     
-    /** add to a parameter-, handle-, or session-related error */
-    _4 = 0x400,
+    /** Add to a parameter-, handle-, or session-related error  */
+    _4 = 0x400, 
     
-    /** add to a parameter-, handle-, or session-related error */
-    _5 = 0x500,
+    /** Add to a parameter-, handle-, or session-related error  */
+    _5 = 0x500, 
     
-    /** add to a parameter-, handle-, or session-related error */
-    _6 = 0x600,
+    /** Add to a parameter-, handle-, or session-related error  */
+    _6 = 0x600, 
     
-    /** add to a parameter-, handle-, or session-related error */
-    _7 = 0x700,
+    /** Add to a parameter-, handle-, or session-related error  */
+    _7 = 0x700, 
     
-    /** add to a parameter-related error */
-    _8 = 0x800,
+    /** Add to a parameter-related error  */
+    _8 = 0x800, 
     
-    /** add to a parameter-related error */
-    _9 = 0x900,
+    /** Add to a parameter-related error  */
+    _9 = 0x900, 
     
-    /** add to a parameter-related error */
-    A = 0xA00,
+    /** Add to a parameter-related error  */
+    A = 0xA00, 
     
-    /** add to a parameter-related error */
-    B = 0xB00,
+    /** Add to a parameter-related error  */
+    B = 0xB00, 
     
-    /** add to a parameter-related error */
-    C = 0xC00,
+    /** Add to a parameter-related error  */
+    C = 0xC00, 
     
-    /** add to a parameter-related error */
-    D = 0xD00,
+    /** Add to a parameter-related error  */
+    D = 0xD00, 
     
-    /** add to a parameter-related error */
-    E = 0xE00,
+    /** Add to a parameter-related error  */
+    E = 0xE00, 
     
-    /** add to a parameter-related error */
-    F = 0xF00,
+    /** Add to a parameter-related error  */
+    F = 0xF00, 
     
-    /** number mask */
-    N_MASK = 0xF00,
+    /** Number mask  */
+    N_MASK = 0xF00, 
     
-    /** Response buffer returned by the TPM is too short */
-    TSS_TCP_BAD_HANDSHAKE_RESP = 0x40280001,
+    /** Response buffer returned by the TPM is too short  */
+    TSS_TCP_BAD_HANDSHAKE_RESP = 0x40280001, 
     
-    /** Too old TCP server version */
-    TSS_TCP_SERVER_TOO_OLD = 0x40280002,
+    /** Too old TCP server version  */
+    TSS_TCP_SERVER_TOO_OLD = 0x40280002, 
     
-    /** Bad ack from the TCP end point */
-    TSS_TCP_BAD_ACK = 0x40280003,
+    /** Bad ack from the TCP end point  */
+    TSS_TCP_BAD_ACK = 0x40280003, 
     
-    /** Wrong length of the response buffer returned by the TPM */
-    TSS_TCP_BAD_RESP_LEN = 0x40280004,
+    /** Wrong length of the response buffer returned by the TPM  */
+    TSS_TCP_BAD_RESP_LEN = 0x40280004, 
     
-    /** TPM2_Startup returned unexpected response code */
-    TSS_TCP_UNEXPECTED_STARTUP_RESP = 0x40280005,
+    /** TPM2_Startup returned unexpected response code  */
+    TSS_TCP_UNEXPECTED_STARTUP_RESP = 0x40280005, 
     
-    /** Invalid size tag in the TPM response TCP packet */
-    TSS_TCP_INVALID_SIZE_TAG = 0x40280006,
+    /** Invalid size tag in the TPM response TCP packet  */
+    TSS_TCP_INVALID_SIZE_TAG = 0x40280006, 
     
-    /** TPM over TCP device is not connected */
-    TSS_TCP_DISCONNECTED = 0x40280007,
+    /** TPM over TCP device is not connected  */
+    TSS_TCP_DISCONNECTED = 0x40280007, 
     
-    /** General TPM command dispatch failure */
-    TSS_DISPATCH_FAILED = 0x40280010,
+    /** General TPM command dispatch failure  */
+    TSS_DISPATCH_FAILED = 0x40280010, 
     
-    /** Sending data to TPM failed */
-    TSS_SEND_OP_FAILED = 0x40280011,
+    /** Sending data to TPM failed  */
+    TSS_SEND_OP_FAILED = 0x40280011, 
     
-    /** Response buffer returned by the TPM is too short */
-    TSS_RESP_BUF_TOO_SHORT = 0x40280021,
+    /** Response buffer returned by the TPM is too short  */
+    TSS_RESP_BUF_TOO_SHORT = 0x40280021, 
     
-    /** Invalid tag in the response buffer returned by the TPM */
-    TSS_RESP_BUF_INVALID_SESSION_TAG = 0x40280022,
+    /** Invalid tag in the response buffer returned by the TPM  */
+    TSS_RESP_BUF_INVALID_SESSION_TAG = 0x40280022, 
     
-    /** Windows TBS error TPM_E_COMMAND_BLOCKED */
-    TBS_COMMAND_BLOCKED = 0x80280400,
+    /** Inconsistent TPM response parameters size  */
+    TSS_RESP_BUF_INVALID_SIZE = 0x40280023, 
     
-    /** Windows TBS error TPM_E_INVALID_HANDLE */
-    TBS_INVALID_HANDLE = 0x80280401,
+    /** Windows TBS error TPM_E_COMMAND_BLOCKED  */
+    TBS_COMMAND_BLOCKED = 0x80280400, 
     
-    /** Windows TBS error TPM_E_DUPLICATE_VHANDLE */
-    TBS_DUPLICATE_V_HANDLE = 0x80280402,
+    /** Windows TBS error TPM_E_INVALID_HANDLE  */
+    TBS_INVALID_HANDLE = 0x80280401, 
     
-    /** Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED */
-    TBS_EMBEDDED_COMMAND_BLOCKED = 0x80280403,
+    /** Windows TBS error TPM_E_DUPLICATE_VHANDLE  */
+    TBS_DUPLICATE_V_HANDLE = 0x80280402, 
     
-    /** Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED */
-    TBS_EMBEDDED_COMMAND_UNSUPPORTED = 0x80280404,
+    /** Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED  */
+    TBS_EMBEDDED_COMMAND_BLOCKED = 0x80280403, 
     
-    /** Windows TBS returned success but empty response buffer */
-    TBS_UNKNOWN_ERROR = 0x80284000,
+    /** Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED  */
+    TBS_EMBEDDED_COMMAND_UNSUPPORTED = 0x80280404, 
     
-    /** Windows TBS error TBS_E_INTERNAL_ERROR */
-    TBS_INTERNAL_ERROR = 0x80284001,
+    /** Windows TBS returned success but empty response buffer  */
+    TBS_UNKNOWN_ERROR = 0x80284000, 
     
-    /** Windows TBS error TBS_E_BAD_PARAMETER */
-    TBS_BAD_PARAMETER = 0x80284002,
+    /** Windows TBS error TBS_E_INTERNAL_ERROR  */
+    TBS_INTERNAL_ERROR = 0x80284001, 
     
-    /** Windows TBS error TBS_E_INVALID_OUTPUT_POINTER */
-    TBS_INVALID_OUTPUT_POINTER = 0x80284003,
+    /** Windows TBS error TBS_E_BAD_PARAMETER  */
+    TBS_BAD_PARAMETER = 0x80284002, 
     
-    /** Windows TBS error TBS_E_INVALID_CONTEXT */
-    TBS_INVALID_CONTEXT = 0x80284004,
+    /** Windows TBS error TBS_E_INVALID_OUTPUT_POINTER  */
+    TBS_INVALID_OUTPUT_POINTER = 0x80284003, 
     
-    /** Windows TBS error TBS_E_INSUFFICIENT_BUFFER */
-    TBS_INSUFFICIENT_BUFFER = 0x80284005,
+    /** Windows TBS error TBS_E_INVALID_CONTEXT  */
+    TBS_INVALID_CONTEXT = 0x80284004, 
     
-    /** Windows TBS error TBS_E_IOERROR */
-    TBS_IO_ERROR = 0x80284006,
+    /** Windows TBS error TBS_E_INSUFFICIENT_BUFFER  */
+    TBS_INSUFFICIENT_BUFFER = 0x80284005, 
     
-    /** Windows TBS error TBS_E_INVALID_CONTEXT_PARAM */
-    TBS_INVALID_CONTEXT_PARAM = 0x80284007,
+    /** Windows TBS error TBS_E_IOERROR  */
+    TBS_IO_ERROR = 0x80284006, 
     
-    /** Windows TBS error TBS_E_SERVICE_NOT_RUNNING */
-    TBS_SERVICE_NOT_RUNNING = 0x80284008,
+    /** Windows TBS error TBS_E_INVALID_CONTEXT_PARAM  */
+    TBS_INVALID_CONTEXT_PARAM = 0x80284007, 
     
-    /** Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS */
-    TBS_TOO_MANY_CONTEXTS = 0x80284009,
+    /** Windows TBS error TBS_E_SERVICE_NOT_RUNNING  */
+    TBS_SERVICE_NOT_RUNNING = 0x80284008, 
     
-    /** Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES */
-    TBS_TOO_MANY_RESOURCES = 0x8028400A,
+    /** Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS  */
+    TBS_TOO_MANY_CONTEXTS = 0x80284009, 
     
-    /** Windows TBS error TBS_E_SERVICE_START_PENDING */
-    TBS_SERVICE_START_PENDING = 0x8028400B,
+    /** Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES  */
+    TBS_TOO_MANY_RESOURCES = 0x8028400A, 
     
-    /** Windows TBS error TBS_E_PPI_NOT_SUPPORTED */
-    TBS_PPI_NOT_SUPPORTED = 0x8028400C,
+    /** Windows TBS error TBS_E_SERVICE_START_PENDING  */
+    TBS_SERVICE_START_PENDING = 0x8028400B, 
     
-    /** Windows TBS error TBS_E_COMMAND_CANCELED */
-    TBS_COMMAND_CANCELED = 0x8028400D,
+    /** Windows TBS error TBS_E_PPI_NOT_SUPPORTED  */
+    TBS_PPI_NOT_SUPPORTED = 0x8028400C, 
     
-    /** Windows TBS error TBS_E_BUFFER_TOO_LARGE */
-    TBS_BUFFER_TOO_LARGE = 0x8028400E,
+    /** Windows TBS error TBS_E_COMMAND_CANCELED  */
+    TBS_COMMAND_CANCELED = 0x8028400D, 
     
-    /** Windows TBS error TBS_E_TPM_NOT_FOUND */
-    TBS_TPM_NOT_FOUND = 0x8028400F,
+    /** Windows TBS error TBS_E_BUFFER_TOO_LARGE  */
+    TBS_BUFFER_TOO_LARGE = 0x8028400E, 
     
-    /** Windows TBS error TBS_E_SERVICE_DISABLED */
-    TBS_SERVICE_DISABLED = 0x80284010,
+    /** Windows TBS error TBS_E_TPM_NOT_FOUND  */
+    TBS_TPM_NOT_FOUND = 0x8028400F, 
     
-    /** Windows TBS error TBS_E_ACCESS_DENIED */
-    TBS_ACCESS_DENIED = 0x80284012,
+    /** Windows TBS error TBS_E_SERVICE_DISABLED  */
+    TBS_SERVICE_DISABLED = 0x80284010, 
     
-    /** Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED */
-    TBS_PPI_FUNCTION_NOT_SUPPORTED = 0x80284014,
+    /** Windows TBS error TBS_E_ACCESS_DENIED  */
+    TBS_ACCESS_DENIED = 0x80284012, 
     
-    /** Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND */
+    /** Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED  */
+    TBS_PPI_FUNCTION_NOT_SUPPORTED = 0x80284014, 
+    
+    /** Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND  */
     TBS_OWNER_AUTH_NOT_FOUND = 0x80284015
 }; // enum TPM_RC
 
-/**
- *  A TPM_CLOCK_ADJUST value is used to change the rate at which the TPM internal oscillator
- *  is divided. A change to the divider will change the rate at which Clock and Time change.
+/** A TPM_CLOCK_ADJUST value is used to change the rate at which the TPM internal
+ *  oscillator is divided. A change to the divider will change the rate at which Clock and
+ *  Time change.
  */
 export enum TPM_CLOCK_ADJUST // INT8
 {
-    /** Slow the Clock update rate by one coarse adjustment step. */
-    COARSE_SLOWER = -3,
+    /** Slow the Clock update rate by one coarse adjustment step.  */
+    COARSE_SLOWER = -3, 
     
-    /** Slow the Clock update rate by one medium adjustment step. */
-    MEDIUM_SLOWER = -2,
+    /** Slow the Clock update rate by one medium adjustment step.  */
+    MEDIUM_SLOWER = -2, 
     
-    /** Slow the Clock update rate by one fine adjustment step. */
-    FINE_SLOWER = -1,
+    /** Slow the Clock update rate by one fine adjustment step.  */
+    FINE_SLOWER = -1, 
     
-    /** No change to the Clock update rate. */
-    NO_CHANGE = 0,
+    /** No change to the Clock update rate.  */
+    NO_CHANGE = 0, 
     
-    /** Speed the Clock update rate by one fine adjustment step. */
-    FINE_FASTER = 1,
+    /** Speed the Clock update rate by one fine adjustment step.  */
+    FINE_FASTER = 1, 
     
-    /** Speed the Clock update rate by one medium adjustment step. */
-    MEDIUM_FASTER = 2,
+    /** Speed the Clock update rate by one medium adjustment step.  */
+    MEDIUM_FASTER = 2, 
     
-    /** Speed the Clock update rate by one coarse adjustment step. */
+    /** Speed the Clock update rate by one coarse adjustment step.  */
     COARSE_FASTER = 3
 }; // enum TPM_CLOCK_ADJUST
 
-/** Table 18 Definition of (UINT16) TPM_EO Constants [IN/OUT] */
+/** Table 18 Definition of (UINT16) TPM_EO Constants [IN/OUT]  */
 export enum TPM_EO // UINT16
 {
-    /** A = B */
-    EQ = 0x0000,
+    /** A = B  */
+    EQ = 0x0000, 
     
-    /** A B */
-    NEQ = 0x0001,
+    /** A B  */
+    NEQ = 0x0001, 
     
-    /** A ˃ B signed */
-    SIGNED_GT = 0x0002,
+    /** A ˃ B signed  */
+    SIGNED_GT = 0x0002, 
     
-    /** A ˃ B unsigned */
-    UNSIGNED_GT = 0x0003,
+    /** A ˃ B unsigned  */
+    UNSIGNED_GT = 0x0003, 
     
-    /** A ˂ B signed */
-    SIGNED_LT = 0x0004,
+    /** A ˂ B signed  */
+    SIGNED_LT = 0x0004, 
     
-    /** A ˂ B unsigned */
-    UNSIGNED_LT = 0x0005,
+    /** A ˂ B unsigned  */
+    UNSIGNED_LT = 0x0005, 
     
-    /** A B signed */
-    SIGNED_GE = 0x0006,
+    /** A B signed  */
+    SIGNED_GE = 0x0006, 
     
-    /** A B unsigned */
-    UNSIGNED_GE = 0x0007,
+    /** A B unsigned  */
+    UNSIGNED_GE = 0x0007, 
     
-    /** A B signed */
-    SIGNED_LE = 0x0008,
+    /** A B signed  */
+    SIGNED_LE = 0x0008, 
     
-    /** A B unsigned */
-    UNSIGNED_LE = 0x0009,
+    /** A B unsigned  */
+    UNSIGNED_LE = 0x0009, 
     
-    /** All bits SET in B are SET in A. ((A∧B)=B) */
-    BITSET = 0x000A,
+    /** All bits SET in B are SET in A. ((A∧B)=B)  */
+    BITSET = 0x000A, 
     
-    /** All bits SET in B are CLEAR in A. ((A∧B)=0) */
+    /** All bits SET in B are CLEAR in A. ((A∧B)=0)  */
     BITCLEAR = 0x000B
 }; // enum TPM_EO
 
-/**
- *  Structure tags are used to disambiguate structures. They are 16-bit values with the most
- *  significant bit SET so that they do not overlap TPM_ALG_ID values. A single exception is
- *  made for the value associated with TPM_ST_RSP_COMMAND (0x00C4), which has the same value
- *  as the TPM_TAG_RSP_COMMAND tag from earlier versions of this specification. This value is
- *  used when the TPM is compatible with a previous TPM specification and the TPM cannot
- *  determine which family of response code to return because the command tag is not valid.
+/** Structure tags are used to disambiguate structures. They are 16-bit values with the
+ *  most significant bit SET so that they do not overlap TPM_ALG_ID values. A single
+ *  exception is made for the value associated with TPM_ST_RSP_COMMAND (0x00C4), which has
+ *  the same value as the TPM_TAG_RSP_COMMAND tag from earlier versions of this
+ *  specification. This value is used when the TPM is compatible with a previous TPM
+ *  specification and the TPM cannot determine which family of response code to return
+ *  because the command tag is not valid.
  */
 export enum TPM_ST // UINT16
 {
-    /**
-     *  tag value for a response; used when there is an error in the tag. This is also the value
-     *  returned from a TPM 1.2 when an error occurs. This value is used in this specification
-     *  because an error in the command tag may prevent determination of the family. When this tag
-     *  is used in the response, the response code will be TPM_RC_BAD_TAG (0 1E16), which has the
-     *  same numeric value as the TPM 1.2 response code for TPM_BADTAG.
+    /** Tag value for a response; used when there is an error in the tag. This is also the
+     *  value returned from a TPM 1.2 when an error occurs. This value is used in this
+     *  specification because an error in the command tag may prevent determination of the
+     *  family. When this tag is used in the response, the response code will be
+     *  TPM_RC_BAD_TAG (0 1E16), which has the same numeric value as the TPM 1.2 response code
+     *  for TPM_BADTAG.
      *  NOTE In a previously published version of this specification, TPM_RC_BAD_TAG was
-     *  incorrectly assigned a value of 0x030 instead of 30 (0x01e). Some implementations my return the
-     *  old value instead of the new value.
+     *  incorrectly assigned a value of 0x030 instead of 30 (0x01e). Some implementations my
+     *  return the old value instead of the new value.
      */
-    RSP_COMMAND = 0x00C4,
+    RSP_COMMAND = 0x00C4, 
     
-    /** no structure type specified */
-    NULL = 0X8000,
+    /** No structure type specified  */
+    NULL = 0X8000, 
     
-    /**
-     *  tag value for a command/response for a command defined in this specification; indicating
-     *  that the command/response has no attached sessions and no authorizationSize/parameterSize
-     *  value is present
+    /** Tag value for a command/response for a command defined in this specification;
+     *  indicating that the command/response has no attached sessions and no
+     *  authorizationSize/parameterSize value is present
      *  If the responseCode from the TPM is not TPM_RC_SUCCESS, then the response tag shall
      *  have this value.
      */
-    NO_SESSIONS = 0x8001,
+    NO_SESSIONS = 0x8001, 
     
-    /**
-     *  tag value for a command/response for a command defined in this specification; indicating
-     *  that the command/response has one or more attached sessions and the
+    /** Tag value for a command/response for a command defined in this specification;
+     *  indicating that the command/response has one or more attached sessions and the
      *  authorizationSize/parameterSize field is present
      */
-    SESSIONS = 0x8002,
+    SESSIONS = 0x8002, 
     
-    /** tag for an attestation structure */
-    ATTEST_NV = 0x8014,
+    /** Tag for an attestation structure  */
+    ATTEST_NV = 0x8014, 
     
-    /** tag for an attestation structure */
-    ATTEST_COMMAND_AUDIT = 0x8015,
+    /** Tag for an attestation structure  */
+    ATTEST_COMMAND_AUDIT = 0x8015, 
     
-    /** tag for an attestation structure */
-    ATTEST_SESSION_AUDIT = 0x8016,
+    /** Tag for an attestation structure  */
+    ATTEST_SESSION_AUDIT = 0x8016, 
     
-    /** tag for an attestation structure */
-    ATTEST_CERTIFY = 0x8017,
+    /** Tag for an attestation structure  */
+    ATTEST_CERTIFY = 0x8017, 
     
-    /** tag for an attestation structure */
-    ATTEST_QUOTE = 0x8018,
+    /** Tag for an attestation structure  */
+    ATTEST_QUOTE = 0x8018, 
     
-    /** tag for an attestation structure */
-    ATTEST_TIME = 0x8019,
+    /** Tag for an attestation structure  */
+    ATTEST_TIME = 0x8019, 
     
-    /** tag for an attestation structure */
-    ATTEST_CREATION = 0x801A,
+    /** Tag for an attestation structure  */
+    ATTEST_CREATION = 0x801A, 
     
-    /** tag for an attestation structure */
-    ATTEST_NV_DIGEST = 0x801C,
+    /** Tag for an attestation structure  */
+    ATTEST_NV_DIGEST = 0x801C, 
     
-    /** tag for a ticket type */
-    CREATION = 0x8021,
+    /** Tag for a ticket type  */
+    CREATION = 0x8021, 
     
-    /** tag for a ticket type */
-    VERIFIED = 0x8022,
+    /** Tag for a ticket type  */
+    VERIFIED = 0x8022, 
     
-    /** tag for a ticket type */
-    AUTH_SECRET = 0x8023,
+    /** Tag for a ticket type  */
+    AUTH_SECRET = 0x8023, 
     
-    /** tag for a ticket type */
-    HASHCHECK = 0x8024,
+    /** Tag for a ticket type  */
+    HASHCHECK = 0x8024, 
     
-    /** tag for a ticket type */
-    AUTH_SIGNED = 0x8025,
+    /** Tag for a ticket type  */
+    AUTH_SIGNED = 0x8025, 
     
-    /** tag for a structure describing a Field Upgrade Policy */
+    /** Tag for a structure describing a Field Upgrade Policy  */
     FU_MANIFEST = 0x8029
 }; // enum TPM_ST
 
-/**
- *  These values are used in TPM2_Startup() to indicate the shutdown and startup mode. The
+/** These values are used in TPM2_Startup() to indicate the shutdown and startup mode. The
  *  defined startup sequences are:
  */
 export enum TPM_SU // UINT16
 {
-    /**
-     *  on TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save state
-     *  required for an orderly startup (TPM Reset).
+    /** On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save
+     *  state required for an orderly startup (TPM Reset).
      *  on TPM2_Startup(), indicates that the TPM should perform TPM Reset or TPM Restart
      */
-    CLEAR = 0x0000,
+    CLEAR = 0x0000, 
     
-    /**
-     *  on TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save state
-     *  required for an orderly startup (TPM Restart or TPM Resume)
+    /** On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save
+     *  state required for an orderly startup (TPM Restart or TPM Resume)
      *  on TPM2_Startup(), indicates that the TPM should restore the state saved by
      *  TPM2_Shutdown(TPM_SU_STATE)
      */
     STATE = 0x0001
 }; // enum TPM_SU
 
-/**
- *  This type is used in TPM2_StartAuthSession() to indicate the type of
- *  the session to be created.
+/** This type is used in TPM2_StartAuthSession() to indicate the type of the session to be
+ *  created.
  */
 export enum TPM_SE // UINT8
 {
-    HMAC = 0x00,
+    HMAC = 0x00, 
     
-    POLICY = 0x01,
+    POLICY = 0x01, 
     
-    /**
-     *  The policy session is being used to compute the policyHash and not for command
-     *  authorization.
+    /** The policy session is being used to compute the policyHash and not for command authorization.
      *  This setting modifies some policy commands and prevents session from being used to
      *  authorize a command.
      */
     TRIAL = 0x03
 }; // enum TPM_SE
 
-/**
- *  The TPM_CAP values are used in TPM2_GetCapability() to select the type of the value to be
- *  returned. The format of the response varies according to the type of the value.
+/** The TPM_CAP values are used in TPM2_GetCapability() to select the type of the value to
+ *  be returned. The format of the response varies according to the type of the value.
  */
 export enum TPM_CAP // UINT32
 {
-    FIRST = 0x00000000,
+    FIRST = 0x00000000, 
     
-    /** TPML_ALG_PROPERTY */
-    ALGS = 0x00000000,
+    /** TPML_ALG_PROPERTY  */
+    ALGS = 0x00000000, 
     
-    /** TPML_HANDLE */
-    HANDLES = 0x00000001,
+    /** TPML_HANDLE  */
+    HANDLES = 0x00000001, 
     
-    /** TPML_CCA */
-    COMMANDS = 0x00000002,
+    /** TPML_CCA  */
+    COMMANDS = 0x00000002, 
     
-    /** TPML_CC */
-    PP_COMMANDS = 0x00000003,
+    /** TPML_CC  */
+    PP_COMMANDS = 0x00000003, 
     
-    /** TPML_CC */
-    AUDIT_COMMANDS = 0x00000004,
+    /** TPML_CC  */
+    AUDIT_COMMANDS = 0x00000004, 
     
-    /** TPML_PCR_SELECTION */
-    PCRS = 0x00000005,
+    /** TPML_PCR_SELECTION  */
+    PCRS = 0x00000005, 
     
-    /** TPML_TAGGED_TPM_PROPERTY */
-    TPM_PROPERTIES = 0x00000006,
+    /** TPML_TAGGED_TPM_PROPERTY  */
+    TPM_PROPERTIES = 0x00000006, 
     
-    /** TPML_TAGGED_PCR_PROPERTY */
-    PCR_PROPERTIES = 0x00000007,
+    /** TPML_TAGGED_PCR_PROPERTY  */
+    PCR_PROPERTIES = 0x00000007, 
     
-    /** TPML_ECC_CURVE */
-    ECC_CURVES = 0x00000008,
+    /** TPML_ECC_CURVE  */
+    ECC_CURVES = 0x00000008, 
     
-    /** TPML_TAGGED_POLICY */
-    AUTH_POLICIES = 0x00000009,
+    /** TPML_TAGGED_POLICY  */
+    AUTH_POLICIES = 0x00000009, 
     
-    /** TPML_ACT_DATA */
-    ACT = 0x0000000A,
+    /** TPML_ACT_DATA  */
+    ACT = 0x0000000A, 
     
-    LAST = 0x0000000A,
+    LAST = 0x0000000A, 
     
-    /** manufacturer-specific values */
+    /** Manufacturer-specific values  */
     VENDOR_PROPERTY = 0x00000100
 }; // enum TPM_CAP
 
-/**
- *  The TPM_PT constants are used in TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES)
- *  to indicate the property being selected or returned.
+/** The TPM_PT constants are used in TPM2_GetCapability(capability =
+ *  TPM_CAP_TPM_PROPERTIES) to indicate the property being selected or returned.
  */
 export enum TPM_PT // UINT32
 {
-    /** indicates no property type */
-    NONE = 0x00000000,
+    /** Indicates no property type  */
+    NONE = 0x00000000, 
     
-    /**
-     *  The number of properties in each group.
+    /** The number of properties in each group.
      *  NOTE The first group with any properties is group 1 (PT_GROUP * 1). Group 0 is reserved.
      */
-    PT_GROUP = 0x00000100,
+    PT_GROUP = 0x00000100, 
     
-    /**
-     *  the group of fixed properties returned as TPMS_TAGGED_PROPERTY
+    /** The group of fixed properties returned as TPMS_TAGGED_PROPERTY
      *  The values in this group are only changed due to a firmware change in the TPM.
      */
-    PT_FIXED = PT_GROUP * 1,
+    PT_FIXED = PT_GROUP * 1, 
     
-    /** a 4-octet character string containing the TPM Family value (TPM_SPEC_FAMILY) */
-    FAMILY_INDICATOR = PT_FIXED + 0,
+    /** A 4-octet character string containing the TPM Family value (TPM_SPEC_FAMILY)  */
+    FAMILY_INDICATOR = PT_FIXED + 0, 
     
-    /**
-     *  the level of the specification
+    /** The level of the specification
      *  NOTE 1 For this specification, the level is zero.
      *  NOTE 2 The level is on the title page of the specification.
      */
-    LEVEL = PT_FIXED + 1,
+    LEVEL = PT_FIXED + 1, 
     
-    /**
-     *  the specification Revision times 100
+    /** The specification Revision times 100
      *  EXAMPLE Revision 01.01 would have a value of 101.
      *  NOTE The Revision value is on the title page of the specification.
      */
-    REVISION = PT_FIXED + 2,
+    REVISION = PT_FIXED + 2, 
     
-    /**
-     *  the specification day of year using TCG calendar
+    /** The specification day of year using TCG calendar
      *  EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
      *  NOTE The specification date is on the title page of the specification or errata (see 6.1).
      */
-    DAY_OF_YEAR = PT_FIXED + 3,
+    DAY_OF_YEAR = PT_FIXED + 3, 
     
-    /**
-     *  the specification year using the CE
+    /** The specification year using the CE
      *  EXAMPLE The year 2010 has a value of 000007DA16.
      *  NOTE The specification date is on the title page of the specification or errata (see 6.1).
      */
-    YEAR = PT_FIXED + 4,
+    YEAR = PT_FIXED + 4, 
     
-    /** the vendor ID unique to each TPM manufacturer */
-    MANUFACTURER = PT_FIXED + 5,
+    /** The vendor ID unique to each TPM manufacturer  */
+    MANUFACTURER = PT_FIXED + 5, 
     
-    /**
-     *  the first four characters of the vendor ID string
-     *  NOTE When the vendor string is fewer than 16 octets, the additional property values do not
-     *  have to be present. A vendor string of 4 octets can be represented in one 32-bit value and no null
-     *  terminating character is required.
+    /** The first four characters of the vendor ID string
+     *  NOTE When the vendor string is fewer than 16 octets, the additional property values do
+     *  not have to be present. A vendor string of 4 octets can be represented in one 32-bit
+     *  value and no null terminating character is required.
      */
-    VENDOR_STRING_1 = PT_FIXED + 6,
+    VENDOR_STRING_1 = PT_FIXED + 6, 
     
-    /** the second four characters of the vendor ID string */
-    VENDOR_STRING_2 = PT_FIXED + 7,
+    /** The second four characters of the vendor ID string  */
+    VENDOR_STRING_2 = PT_FIXED + 7, 
     
-    /** the third four characters of the vendor ID string */
-    VENDOR_STRING_3 = PT_FIXED + 8,
+    /** The third four characters of the vendor ID string  */
+    VENDOR_STRING_3 = PT_FIXED + 8, 
     
-    /** the fourth four characters of the vendor ID sting */
-    VENDOR_STRING_4 = PT_FIXED + 9,
+    /** The fourth four characters of the vendor ID sting  */
+    VENDOR_STRING_4 = PT_FIXED + 9, 
     
-    /** vendor-defined value indicating the TPM model */
-    VENDOR_TPM_TYPE = PT_FIXED + 10,
+    /** Vendor-defined value indicating the TPM model  */
+    VENDOR_TPM_TYPE = PT_FIXED + 10, 
     
-    /**
-     *  the most-significant 32 bits of a TPM vendor-specific value indicating the version number of the
-     *  firmware. See 10.12.2 and 10.12.12.
+    /** The most-significant 32 bits of a TPM vendor-specific value indicating the version
+     *  number of the firmware. See 10.12.2 and 10.12.12.
      */
-    FIRMWARE_VERSION_1 = PT_FIXED + 11,
+    FIRMWARE_VERSION_1 = PT_FIXED + 11, 
     
-    /**
-     *  the least-significant 32 bits of a TPM vendor-specific value indicating the version number of the
-     *  firmware. See 10.12.2 and 10.12.12.
+    /** The least-significant 32 bits of a TPM vendor-specific value indicating the version
+     *  number of the firmware. See 10.12.2 and 10.12.12.
      */
-    FIRMWARE_VERSION_2 = PT_FIXED + 12,
+    FIRMWARE_VERSION_2 = PT_FIXED + 12, 
     
-    /** the maximum size of a parameter (typically, a TPM2B_MAX_BUFFER) */
-    INPUT_BUFFER = PT_FIXED + 13,
+    /** The maximum size of a parameter (typically, a TPM2B_MAX_BUFFER)  */
+    INPUT_BUFFER = PT_FIXED + 13, 
     
-    /**
-     *  the minimum number of transient objects that can be held in TPM RAM
-     *  NOTE This minimum shall be no less than the minimum value required by the platform-specific
-     *  specification to which the TPM is built.
+    /** The minimum number of transient objects that can be held in TPM RAM
+     *  NOTE This minimum shall be no less than the minimum value required by the
+     *  platform-specific specification to which the TPM is built.
      */
-    HR_TRANSIENT_MIN = PT_FIXED + 14,
+    HR_TRANSIENT_MIN = PT_FIXED + 14, 
     
-    /**
-     *  the minimum number of persistent objects that can be held in TPM NV memory
-     *  NOTE This minimum shall be no less than the minimum value required by the platform-specific
-     *  specification to which the TPM is built.
+    /** The minimum number of persistent objects that can be held in TPM NV memory
+     *  NOTE This minimum shall be no less than the minimum value required by the
+     *  platform-specific specification to which the TPM is built.
      */
-    HR_PERSISTENT_MIN = PT_FIXED + 15,
+    HR_PERSISTENT_MIN = PT_FIXED + 15, 
     
-    /**
-     *  the minimum number of authorization sessions that can be held in TPM RAM
-     *  NOTE This minimum shall be no less than the minimum value required by the platform-specific
-     *  specification to which the TPM is built.
+    /** The minimum number of authorization sessions that can be held in TPM RAM
+     *  NOTE This minimum shall be no less than the minimum value required by the
+     *  platform-specific specification to which the TPM is built.
      */
-    HR_LOADED_MIN = PT_FIXED + 16,
+    HR_LOADED_MIN = PT_FIXED + 16, 
     
-    /**
-     *  the number of authorization sessions that may be active at a time
+    /** The number of authorization sessions that may be active at a time
      *  A session is active when it has a context associated with its handle. The context may
      *  either be in TPM RAM or be context saved.
-     *  NOTE This value shall be no less than the minimum value required by the platform-specific
-     *  specification to which the TPM is built.
+     *  NOTE This value shall be no less than the minimum value required by the
+     *  platform-specific specification to which the TPM is built.
      */
-    ACTIVE_SESSIONS_MAX = PT_FIXED + 17,
+    ACTIVE_SESSIONS_MAX = PT_FIXED + 17, 
     
-    /**
-     *  the number of PCR implemented
-     *  NOTE This number is determined by the defined attributes, not the number of PCR that are
-     *  populated.
+    /** The number of PCR implemented
+     *  NOTE This number is determined by the defined attributes, not the number of PCR that
+     *  are populated.
      */
-    PCR_COUNT = PT_FIXED + 18,
+    PCR_COUNT = PT_FIXED + 18, 
     
-    /**
-     *  the minimum number of octets in a TPMS_PCR_SELECT.sizeOfSelect
-     *  NOTE This value is not determined by the number of PCR implemented but by the number of
-     *  PCR required by the platform-specific specification with which the TPM is compliant or by
-     *  the implementer if not adhering to a platform-specific specification.
+    /** The minimum number of octets in a TPMS_PCR_SELECT.sizeOfSelect
+     *  NOTE This value is not determined by the number of PCR implemented but by the number
+     *  of PCR required by the platform-specific specification with which the TPM is compliant
+     *  or by the implementer if not adhering to a platform-specific specification.
      */
-    PCR_SELECT_MIN = PT_FIXED + 19,
+    PCR_SELECT_MIN = PT_FIXED + 19, 
     
-    /**
-     *  the maximum allowed difference (unsigned) between the contextID values of two saved
+    /** The maximum allowed difference (unsigned) between the contextID values of two saved
      *  session contexts
      *  This value shall be 2n-1, where n is at least 16.
      */
-    CONTEXT_GAP_MAX = PT_FIXED + 20,
+    CONTEXT_GAP_MAX = PT_FIXED + 20, 
     
-    /**
-     *  the maximum number of NV Indexes that are allowed to have the TPM_NT_COUNTER attribute
-     *  NOTE 1 It is allowed for this value to be larger than the number of NV Indexes that can be
-     *  defined. This would be indicative of a TPM implementation that did not use different
-     *  implementation technology for different NV Index types.
+    /** The maximum number of NV Indexes that are allowed to have the TPM_NT_COUNTER attribute
+     *  NOTE 1 It is allowed for this value to be larger than the number of NV Indexes that
+     *  can be defined. This would be indicative of a TPM implementation that did not use
+     *  different implementation technology for different NV Index types.
      *  NOTE 2 The value zero indicates that there is no fixed maximum. The number of counter
      *  indexes is determined by the available NV memory pool.
      */
-    NV_COUNTERS_MAX = PT_FIXED + 22,
+    NV_COUNTERS_MAX = PT_FIXED + 22, 
     
-    /** the maximum size of an NV Index data area */
-    NV_INDEX_MAX = PT_FIXED + 23,
+    /** The maximum size of an NV Index data area  */
+    NV_INDEX_MAX = PT_FIXED + 23, 
     
-    /** a TPMA_MEMORY indicating the memory management method for the TPM */
-    MEMORY = PT_FIXED + 24,
+    /** A TPMA_MEMORY indicating the memory management method for the TPM  */
+    MEMORY = PT_FIXED + 24, 
     
-    /** interval, in milliseconds, between updates to the copy of TPMS_CLOCK_INFO.clock in NV */
-    CLOCK_UPDATE = PT_FIXED + 25,
+    /** Interval, in milliseconds, between updates to the copy of TPMS_CLOCK_INFO.clock in NV  */
+    CLOCK_UPDATE = PT_FIXED + 25, 
     
-    /**
-     *  the algorithm used for the integrity HMAC on saved contexts and for hashing the
-     *  fuData of TPM2_FirmwareRead()
+    /** The algorithm used for the integrity HMAC on saved contexts and for hashing the fuData
+     *  of TPM2_FirmwareRead()
      */
-    CONTEXT_HASH = PT_FIXED + 26,
+    CONTEXT_HASH = PT_FIXED + 26, 
     
-    /** TPM_ALG_ID, the algorithm used for encryption of saved contexts */
-    CONTEXT_SYM = PT_FIXED + 27,
+    /** TPM_ALG_ID, the algorithm used for encryption of saved contexts  */
+    CONTEXT_SYM = PT_FIXED + 27, 
     
-    /** TPM_KEY_BITS, the size of the key used for encryption of saved contexts */
-    CONTEXT_SYM_SIZE = PT_FIXED + 28,
+    /** TPM_KEY_BITS, the size of the key used for encryption of saved contexts  */
+    CONTEXT_SYM_SIZE = PT_FIXED + 28, 
     
-    /**
-     *  the modulus - 1 of the count for NV update of an orderly counter
+    /** The modulus - 1 of the count for NV update of an orderly counter
      *  The returned value is MAX_ORDERLY_COUNT.
      *  This will have a value of 2N 1 where 1 N 32
      *  NOTE 1 An orderly counter is an NV Index with an TPM_NT of TPM_NV_COUNTER and
      *  TPMA_NV_ORDERLY SET.
-     *  NOTE 2 When the low-order bits of a counter equal this value, an NV write occurs on the next
-     *  increment.
+     *  NOTE 2 When the low-order bits of a counter equal this value, an NV write occurs on
+     *  the next increment.
      */
-    ORDERLY_COUNT = PT_FIXED + 29,
+    ORDERLY_COUNT = PT_FIXED + 29, 
     
-    /** the maximum value for commandSize in a command */
-    MAX_COMMAND_SIZE = PT_FIXED + 30,
+    /** The maximum value for commandSize in a command  */
+    MAX_COMMAND_SIZE = PT_FIXED + 30, 
     
-    /** the maximum value for responseSize in a response */
-    MAX_RESPONSE_SIZE = PT_FIXED + 31,
+    /** The maximum value for responseSize in a response  */
+    MAX_RESPONSE_SIZE = PT_FIXED + 31, 
     
-    /** the maximum size of a digest that can be produced by the TPM */
-    MAX_DIGEST = PT_FIXED + 32,
+    /** The maximum size of a digest that can be produced by the TPM  */
+    MAX_DIGEST = PT_FIXED + 32, 
     
-    /** the maximum size of an object context that will be returned by TPM2_ContextSave */
-    MAX_OBJECT_CONTEXT = PT_FIXED + 33,
+    /** The maximum size of an object context that will be returned by TPM2_ContextSave  */
+    MAX_OBJECT_CONTEXT = PT_FIXED + 33, 
     
-    /** the maximum size of a session context that will be returned by TPM2_ContextSave */
-    MAX_SESSION_CONTEXT = PT_FIXED + 34,
+    /** The maximum size of a session context that will be returned by TPM2_ContextSave  */
+    MAX_SESSION_CONTEXT = PT_FIXED + 34, 
     
-    /**
-     *  platform-specific family (a TPM_PS value)(see Table 25)
+    /** Platform-specific family (a TPM_PS value)(see Table 25)
      *  NOTE The platform-specific values for the TPM_PT_PS parameters are in the relevant
-     *  platform-specific specification. In the reference implementation, all
-     *  of these values are 0.
+     *  platform-specific specification. In the reference implementation, all of these values
+     *  are 0.
      */
-    PS_FAMILY_INDICATOR = PT_FIXED + 35,
+    PS_FAMILY_INDICATOR = PT_FIXED + 35, 
     
-    /** the level of the platform-specific specification */
-    PS_LEVEL = PT_FIXED + 36,
+    /** The level of the platform-specific specification  */
+    PS_LEVEL = PT_FIXED + 36, 
     
-    /** a platform specific value */
-    PS_REVISION = PT_FIXED + 37,
+    /** A platform specific value  */
+    PS_REVISION = PT_FIXED + 37, 
     
-    /**
-     *  the platform-specific TPM specification day of year using TCG calendar
+    /** The platform-specific TPM specification day of year using TCG calendar
      *  EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
      */
-    PS_DAY_OF_YEAR = PT_FIXED + 38,
+    PS_DAY_OF_YEAR = PT_FIXED + 38, 
     
-    /**
-     *  the platform-specific TPM specification year using the CE
+    /** The platform-specific TPM specification year using the CE
      *  EXAMPLE The year 2010 has a value of 000007DA16.
      */
-    PS_YEAR = PT_FIXED + 39,
+    PS_YEAR = PT_FIXED + 39, 
     
-    /** the number of split signing operations supported by the TPM */
-    SPLIT_MAX = PT_FIXED + 40,
+    /** The number of split signing operations supported by the TPM  */
+    SPLIT_MAX = PT_FIXED + 40, 
     
-    /** total number of commands implemented in the TPM */
-    TOTAL_COMMANDS = PT_FIXED + 41,
+    /** Total number of commands implemented in the TPM  */
+    TOTAL_COMMANDS = PT_FIXED + 41, 
     
-    /** number of commands from the TPM library that are implemented */
-    LIBRARY_COMMANDS = PT_FIXED + 42,
+    /** Number of commands from the TPM library that are implemented  */
+    LIBRARY_COMMANDS = PT_FIXED + 42, 
     
-    /** number of vendor commands that are implemented */
-    VENDOR_COMMANDS = PT_FIXED + 43,
+    /** Number of vendor commands that are implemented  */
+    VENDOR_COMMANDS = PT_FIXED + 43, 
     
-    /** the maximum data size in one NV write, NV read, NV extend, or NV certify command */
-    NV_BUFFER_MAX = PT_FIXED + 44,
+    /** The maximum data size in one NV write, NV read, NV extend, or NV certify command  */
+    NV_BUFFER_MAX = PT_FIXED + 44, 
     
-    /** a TPMA_MODES value, indicating that the TPM is designed for these modes. */
-    MODES = PT_FIXED + 45,
+    /** A TPMA_MODES value, indicating that the TPM is designed for these modes.  */
+    MODES = PT_FIXED + 45, 
     
-    /** the maximum size of a TPMS_CAPABILITY_DATA structure returned in TPM2_GetCapability(). */
-    MAX_CAP_BUFFER = PT_FIXED + 46,
+    /** The maximum size of a TPMS_CAPABILITY_DATA structure returned in TPM2_GetCapability().  */
+    MAX_CAP_BUFFER = PT_FIXED + 46, 
     
-    /**
-     *  the group of variable properties returned as TPMS_TAGGED_PROPERTY
+    /** The group of variable properties returned as TPMS_TAGGED_PROPERTY
      *  The properties in this group change because of a Protected Capability other than a
      *  firmware update. The values are not necessarily persistent across all power transitions.
      */
-    PT_VAR = PT_GROUP * 2,
+    PT_VAR = PT_GROUP * 2, 
     
-    /** TPMA_PERMANENT */
-    PERMANENT = PT_VAR + 0,
+    /** TPMA_PERMANENT  */
+    PERMANENT = PT_VAR + 0, 
     
-    /** TPMA_STARTUP_CLEAR */
-    STARTUP_CLEAR = PT_VAR + 1,
+    /** TPMA_STARTUP_CLEAR  */
+    STARTUP_CLEAR = PT_VAR + 1, 
     
-    /** the number of NV Indexes currently defined */
-    HR_NV_INDEX = PT_VAR + 2,
+    /** The number of NV Indexes currently defined  */
+    HR_NV_INDEX = PT_VAR + 2, 
     
-    /** the number of authorization sessions currently loaded into TPM RAM */
-    HR_LOADED = PT_VAR + 3,
+    /** The number of authorization sessions currently loaded into TPM RAM  */
+    HR_LOADED = PT_VAR + 3, 
     
-    /**
-     *  the number of additional authorization sessions, of any type, that could be loaded into
-     *  TPM RAM
-     *  This value is an estimate. If this value is at least 1, then at least one authorization
-     *  session of any type may be loaded. Any command that changes the RAM memory allocation can
-     *  make this estimate invalid.
-     *  NOTE A valid implementation may return 1 even if more than one authorization session would fit into
-     *  RAM.
-     */
-    HR_LOADED_AVAIL = PT_VAR + 4,
-    
-    /**
-     *  the number of active authorization sessions currently being tracked by the TPM
-     *  This is the sum of the loaded and saved sessions.
-     */
-    HR_ACTIVE = PT_VAR + 5,
-    
-    /**
-     *  the number of additional authorization sessions, of any type, that could be created
-     *  This value is an estimate. If this value is at least 1, then at least one authorization
-     *  session of any type may be created. Any command that changes the RAM memory allocation can
-     *  make this estimate invalid.
-     *  NOTE A valid implementation may return 1 even if more than one authorization session could be
-     *  created.
-     */
-    HR_ACTIVE_AVAIL = PT_VAR + 6,
-    
-    /**
-     *  estimate of the number of additional transient objects that could be loaded into TPM RAM
-     *  This value is an estimate. If this value is at least 1, then at least one object of any
-     *  type may be loaded. Any command that changes the memory allocation can make this estimate
-     *  invalid.
-     *  NOTE A valid implementation may return 1 even if more than one transient object
+    /** The number of additional authorization sessions, of any type, that could be loaded
+     *  into TPM RAM
+     *  This value is an estimate. If this value is at least 1, then at least one
+     *  authorization session of any type may be loaded. Any command that changes the RAM
+     *  memory allocation can make this estimate invalid.
+     *  NOTE A valid implementation may return 1 even if more than one authorization session
      *  would fit into RAM.
      */
-    HR_TRANSIENT_AVAIL = PT_VAR + 7,
+    HR_LOADED_AVAIL = PT_VAR + 4, 
     
-    /** the number of persistent objects currently loaded into TPM NV memory */
-    HR_PERSISTENT = PT_VAR + 8,
-    
-    /**
-     *  the number of additional persistent objects that could be loaded into NV memory
-     *  This value is an estimate. If this value is at least 1, then at least one object of any
-     *  type may be made persistent. Any command that changes the NV memory allocation can make
-     *  this estimate invalid.
-     *  NOTE A valid implementation may return 1 even if more than one persistent object would fit into
-     *  NV memory.
+    /** The number of active authorization sessions currently being tracked by the TPM
+     *  This is the sum of the loaded and saved sessions.
      */
-    HR_PERSISTENT_AVAIL = PT_VAR + 9,
+    HR_ACTIVE = PT_VAR + 5, 
     
-    /** the number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute */
-    NV_COUNTERS = PT_VAR + 10,
+    /** The number of additional authorization sessions, of any type, that could be created
+     *  This value is an estimate. If this value is at least 1, then at least one
+     *  authorization session of any type may be created. Any command that changes the RAM
+     *  memory allocation can make this estimate invalid.
+     *  NOTE A valid implementation may return 1 even if more than one authorization session
+     *  could be created.
+     */
+    HR_ACTIVE_AVAIL = PT_VAR + 6, 
     
-    /**
-     *  the number of additional NV Indexes that can be defined with their TPM_NT of
+    /** Estimate of the number of additional transient objects that could be loaded into TPM RAM
+     *  This value is an estimate. If this value is at least 1, then at least one object of
+     *  any type may be loaded. Any command that changes the memory allocation can make this
+     *  estimate invalid.
+     *  NOTE A valid implementation may return 1 even if more than one transient object would
+     *  fit into RAM.
+     */
+    HR_TRANSIENT_AVAIL = PT_VAR + 7, 
+    
+    /** The number of persistent objects currently loaded into TPM NV memory  */
+    HR_PERSISTENT = PT_VAR + 8, 
+    
+    /** The number of additional persistent objects that could be loaded into NV memory
+     *  This value is an estimate. If this value is at least 1, then at least one object of
+     *  any type may be made persistent. Any command that changes the NV memory allocation can
+     *  make this estimate invalid.
+     *  NOTE A valid implementation may return 1 even if more than one persistent object would
+     *  fit into NV memory.
+     */
+    HR_PERSISTENT_AVAIL = PT_VAR + 9, 
+    
+    /** The number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute  */
+    NV_COUNTERS = PT_VAR + 10, 
+    
+    /** The number of additional NV Indexes that can be defined with their TPM_NT of
      *  TPM_NV_COUNTER and the TPMA_NV_ORDERLY attribute SET
-     *  This value is an estimate. If this value is at least 1, then at least one NV Index may be
-     *  created with a TPM_NT of TPM_NV_COUNTER and the TPMA_NV_ORDERLY attributes. Any command
-     *  that changes the NV memory allocation can make this estimate invalid.
-     *  NOTE A valid implementation may return 1 even if more than one NV
-     *  counter could be defined.
+     *  This value is an estimate. If this value is at least 1, then at least one NV Index may
+     *  be created with a TPM_NT of TPM_NV_COUNTER and the TPMA_NV_ORDERLY attributes. Any
+     *  command that changes the NV memory allocation can make this estimate invalid.
+     *  NOTE A valid implementation may return 1 even if more than one NV counter could be defined.
      */
-    NV_COUNTERS_AVAIL = PT_VAR + 11,
+    NV_COUNTERS_AVAIL = PT_VAR + 11, 
     
-    /** code that limits the algorithms that may be used with the TPM */
-    ALGORITHM_SET = PT_VAR + 12,
+    /** Code that limits the algorithms that may be used with the TPM  */
+    ALGORITHM_SET = PT_VAR + 12, 
     
-    /** the number of loaded ECC curves */
-    LOADED_CURVES = PT_VAR + 13,
+    /** The number of loaded ECC curves  */
+    LOADED_CURVES = PT_VAR + 13, 
     
-    /** the current value of the lockout counter (failedTries) */
-    LOCKOUT_COUNTER = PT_VAR + 14,
+    /** The current value of the lockout counter (failedTries)  */
+    LOCKOUT_COUNTER = PT_VAR + 14, 
     
-    /** the number of authorization failures before DA lockout is invoked */
-    MAX_AUTH_FAIL = PT_VAR + 15,
+    /** The number of authorization failures before DA lockout is invoked  */
+    MAX_AUTH_FAIL = PT_VAR + 15, 
     
-    /** the number of seconds before the value reported by TPM_PT_LOCKOUT_COUNTER is decremented */
-    LOCKOUT_INTERVAL = PT_VAR + 16,
+    /** The number of seconds before the value reported by TPM_PT_LOCKOUT_COUNTER is decremented  */
+    LOCKOUT_INTERVAL = PT_VAR + 16, 
     
-    /**
-     *  the number of seconds after a lockoutAuth failure before use of
-     *  lockoutAuth may be attempted again
+    /** The number of seconds after a lockoutAuth failure before use of lockoutAuth may be
+     *  attempted again
      */
-    LOCKOUT_RECOVERY = PT_VAR + 17,
+    LOCKOUT_RECOVERY = PT_VAR + 17, 
     
-    /**
-     *  number of milliseconds before the TPM will accept another command that will modify NV
+    /** Number of milliseconds before the TPM will accept another command that will modify NV
      *  This value is an approximation and may go up or down over time.
      */
-    NV_WRITE_RECOVERY = PT_VAR + 18,
+    NV_WRITE_RECOVERY = PT_VAR + 18, 
     
-    /** the high-order 32 bits of the command audit counter */
-    AUDIT_COUNTER_0 = PT_VAR + 19,
+    /** The high-order 32 bits of the command audit counter  */
+    AUDIT_COUNTER_0 = PT_VAR + 19, 
     
-    /** the low-order 32 bits of the command audit counter */
+    /** The low-order 32 bits of the command audit counter  */
     AUDIT_COUNTER_1 = PT_VAR + 20
 }; // enum TPM_PT
 
-/**
- *  The TPM_PT_PCR constants are used in TPM2_GetCapability() to indicate the property being
- *  selected or returned. The PCR properties can be read when capability ==
- *  TPM_CAP_PCR_PROPERTIES. If there is no property that corresponds to the value of property,
- *  the next higher value is returned, if it exists.
+/** The TPM_PT_PCR constants are used in TPM2_GetCapability() to indicate the property
+ *  being selected or returned. The PCR properties can be read when capability ==
+ *  TPM_CAP_PCR_PROPERTIES. If there is no property that corresponds to the value of
+ *  property, the next higher value is returned, if it exists.
  */
 export enum TPM_PT_PCR // UINT32
 {
-    /** bottom of the range of TPM_PT_PCR properties */
-    FIRST = 0x00000000,
+    /** Bottom of the range of TPM_PT_PCR properties  */
+    FIRST = 0x00000000, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and
-     *  restored by TPM_SU_STATE
-     */
-    SAVE = 0x00000000,
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and restored by TPM_SU_STATE  */
+    SAVE = 0x00000000, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 0
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 0
      *  This property is only present if a locality other than 0 is implemented.
      */
-    EXTEND_L0 = 0x00000001,
+    EXTEND_L0 = 0x00000001, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
      *  TPM2_PCR_Reset() from locality 0
      */
-    RESET_L0 = 0x00000002,
+    RESET_L0 = 0x00000002, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 1
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 1
      *  This property is only present if locality 1 is implemented.
      */
-    EXTEND_L1 = 0x00000003,
+    EXTEND_L1 = 0x00000003, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by TPM2_PCR_Reset()
-     *  from locality 1
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+     *  TPM2_PCR_Reset() from locality 1
      *  This property is only present if locality 1 is implemented.
      */
-    RESET_L1 = 0x00000004,
+    RESET_L1 = 0x00000004, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 2
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 2
      *  This property is only present if localities 1 and 2 are implemented.
      */
-    EXTEND_L2 = 0x00000005,
+    EXTEND_L2 = 0x00000005, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by TPM2_PCR_Reset()
-     *  from locality 2
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+     *  TPM2_PCR_Reset() from locality 2
      *  This property is only present if localities 1 and 2 are implemented.
      */
-    RESET_L2 = 0x00000006,
+    RESET_L2 = 0x00000006, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 3
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 3
      *  This property is only present if localities 1, 2, and 3 are implemented.
      */
-    EXTEND_L3 = 0x00000007,
+    EXTEND_L3 = 0x00000007, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by TPM2_PCR_Reset()
-     *  from locality 3
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+     *  TPM2_PCR_Reset() from locality 3
      *  This property is only present if localities 1, 2, and 3 are implemented.
      */
-    RESET_L3 = 0x00000008,
+    RESET_L3 = 0x00000008, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 4
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 4
      *  This property is only present if localities 1, 2, 3, and 4 are implemented.
      */
-    EXTEND_L4 = 0x00000009,
+    EXTEND_L4 = 0x00000009, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by TPM2_PCR_Reset()
-     *  from locality 4
-     *  This property is only present if localities 1, 2, 3, and 4 are
-     *  implemented.
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+     *  TPM2_PCR_Reset() from locality 4
+     *  This property is only present if localities 1, 2, 3, and 4 are implemented.
      */
-    RESET_L4 = 0x0000000A,
+    RESET_L4 = 0x0000000A, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that modifications to this PCR (reset or Extend) will
-     *  not increment the pcrUpdateCounter
+    /** A SET bit in the TPMS_PCR_SELECT indicates that modifications to this PCR (reset or
+     *  Extend) will not increment the pcrUpdateCounter
      */
-    NO_INCREMENT = 0x00000011,
+    NO_INCREMENT = 0x00000011, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR is reset by a D-RTM event
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR is reset by a D-RTM event
      *  These PCR are reset to -1 on TPM2_Startup() and reset to 0 on a _TPM_Hash_End event
      *  following a _TPM_Hash_Start event.
      */
-    DRTM_RESET = 0x00000012,
+    DRTM_RESET = 0x00000012, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by policy
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by policy
      *  This property is only present if the TPM supports policy control of a PCR.
      */
-    POLICY = 0x00000013,
+    POLICY = 0x00000013, 
     
-    /**
-     *  a SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by an authorization
-     *  value
+    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by an
+     *  authorization value
      *  This property is only present if the TPM supports authorization control of a PCR.
      */
-    AUTH = 0x00000014,
+    AUTH = 0x00000014, 
     
-    /**
-     *  top of the range of TPM_PT_PCR properties of the implementation
-     *  If the TPM receives a request for a PCR property with a value larger than this, the TPM
-     *  will return a zero length list and set the moreData parameter to NO.
-     *  NOTE This is an implementation-specific value. The value shown reflects the
-     *  reference code implementation.
+    /** Top of the range of TPM_PT_PCR properties of the implementation
+     *  If the TPM receives a request for a PCR property with a value larger than this, the
+     *  TPM will return a zero length list and set the moreData parameter to NO.
+     *  NOTE This is an implementation-specific value. The value shown reflects the reference
+     *  code implementation.
      */
     LAST = 0x00000014
 }; // enum TPM_PT_PCR
 
-/** The platform values in Table 25 are used for the TPM_PT_PS_FAMILY_INDICATOR. */
+/** The platform values in Table 25 are used for the TPM_PT_PS_FAMILY_INDICATOR.  */
 export enum TPM_PS // UINT32
 {
-    /** not platform specific */
-    MAIN = 0x00000000,
+    /** Not platform specific  */
+    MAIN = 0x00000000, 
     
-    /** PC Client */
-    PC = 0x00000001,
+    /** PC Client  */
+    PC = 0x00000001, 
     
-    /** PDA (includes all mobile devices that are not specifically cell phones) */
-    PDA = 0x00000002,
+    /** PDA (includes all mobile devices that are not specifically cell phones)  */
+    PDA = 0x00000002, 
     
-    /** Cell Phone */
-    CELL_PHONE = 0x00000003,
+    /** Cell Phone  */
+    CELL_PHONE = 0x00000003, 
     
-    /** Server WG */
-    SERVER = 0x00000004,
+    /** Server WG  */
+    SERVER = 0x00000004, 
     
-    /** Peripheral WG */
-    PERIPHERAL = 0x00000005,
+    /** Peripheral WG  */
+    PERIPHERAL = 0x00000005, 
     
-    /** TSS WG (deprecated) */
-    TSS = 0x00000006,
+    /** TSS WG (deprecated)  */
+    TSS = 0x00000006, 
     
-    /** Storage WG */
-    STORAGE = 0x00000007,
+    /** Storage WG  */
+    STORAGE = 0x00000007, 
     
-    /** Authentication WG */
-    AUTHENTICATION = 0x00000008,
+    /** Authentication WG  */
+    AUTHENTICATION = 0x00000008, 
     
-    /** Embedded WG */
-    EMBEDDED = 0x00000009,
+    /** Embedded WG  */
+    EMBEDDED = 0x00000009, 
     
-    /** Hardcopy WG */
-    HARDCOPY = 0x0000000A,
+    /** Hardcopy WG  */
+    HARDCOPY = 0x0000000A, 
     
-    /** Infrastructure WG (deprecated) */
-    INFRASTRUCTURE = 0x0000000B,
+    /** Infrastructure WG (deprecated)  */
+    INFRASTRUCTURE = 0x0000000B, 
     
-    /** Virtualization WG */
-    VIRTUALIZATION = 0x0000000C,
+    /** Virtualization WG  */
+    VIRTUALIZATION = 0x0000000C, 
     
-    /** Trusted Network Connect WG (deprecated) */
-    TNC = 0x0000000D,
+    /** Trusted Network Connect WG (deprecated)  */
+    TNC = 0x0000000D, 
     
-    /** Multi-tenant WG (deprecated) */
-    MULTI_TENANT = 0x0000000E,
+    /** Multi-tenant WG (deprecated)  */
+    MULTI_TENANT = 0x0000000E, 
     
-    /** Technical Committee (deprecated) */
+    /** Technical Committee (deprecated)  */
     TC = 0x0000000F
 }; // enum TPM_PS
 
-/**
- *  The 32-bit handle space is divided into 256 regions of equal size with 224 values in each.
- *  Each of these ranges represents a handle type.
+/** The 32-bit handle space is divided into 256 regions of equal size with 224 values in
+ *  each. Each of these ranges represents a handle type.
  */
 export enum TPM_HT // UINT8
 {
-    /**
-     *  PCR consecutive numbers, starting at 0, that reference the PCR registers
+    /** PCR consecutive numbers, starting at 0, that reference the PCR registers
      *  A platform-specific specification will set the minimum number of PCR and an
      *  implementation may have more.
      */
-    PCR = 0x00,
+    PCR = 0x00, 
     
-    /** NV Index assigned by the caller */
-    NV_INDEX = 0x01,
+    /** NV Index assigned by the caller  */
+    NV_INDEX = 0x01, 
     
-    /** HMAC Authorization Session assigned by the TPM when the session is created */
-    HMAC_SESSION = 0x02,
+    /** HMAC Authorization Session assigned by the TPM when the session is created  */
+    HMAC_SESSION = 0x02, 
     
-    /**
-     *  Loaded Authorization Session used only in the context of TPM2_GetCapability
+    /** Loaded Authorization Session used only in the context of TPM2_GetCapability
      *  This type references both loaded HMAC and loaded policy authorization sessions.
      */
-    LOADED_SESSION = 0x02,
+    LOADED_SESSION = 0x02, 
     
-    /** Policy Authorization Session assigned by the TPM when the session is created */
-    POLICY_SESSION = 0x03,
+    /** Policy Authorization Session assigned by the TPM when the session is created  */
+    POLICY_SESSION = 0x03, 
     
-    /**
-     *  Saved Authorization Session used only in the context of TPM2_GetCapability
+    /** Saved Authorization Session used only in the context of TPM2_GetCapability
      *  This type references saved authorization session contexts for which the TPM is
      *  maintaining tracking information.
      */
-    SAVED_SESSION = 0x03,
+    SAVED_SESSION = 0x03, 
     
-    /** Permanent Values assigned by this specification in Table 28 */
-    PERMANENT = 0x40,
+    /** Permanent Values assigned by this specification in Table 28  */
+    PERMANENT = 0x40, 
     
-    /**
-     *  Transient Objects assigned by the TPM when an object is loaded into transient-object
+    /** Transient Objects assigned by the TPM when an object is loaded into transient-object
      *  memory or when a persistent object is converted to a transient object
      */
-    TRANSIENT = 0x80,
+    TRANSIENT = 0x80, 
     
-    /** Persistent Objects assigned by the TPM when a loaded transient object is made persistent */
-    PERSISTENT = 0x81,
+    /** Persistent Objects assigned by the TPM when a loaded transient object is made persistent  */
+    PERSISTENT = 0x81, 
     
-    /** Attached Component handle for an Attached Component. */
+    /** Attached Component handle for an Attached Component.  */
     AC = 0x90
 }; // enum TPM_HT
 
-/**
- *  Table 28 lists the architecturally defined handles that cannot be changed. The handles
+/** Table 28 lists the architecturally defined handles that cannot be changed. The handles
  *  include authorization handles, and special handles.
  */
 export enum TPM_RH // TPM_HANDLE
 {
-    FIRST = 0x40000000,
+    FIRST = 0x40000000, 
     
-    /** not used1 */
-    SRK = 0x40000000,
+    /** Not used1  */
+    SRK = 0x40000000, 
     
-    /** handle references the Storage Primary Seed (SPS), the ownerAuth, and the ownerPolicy */
-    OWNER = 0x40000001,
+    /** Handle references the Storage Primary Seed (SPS), the ownerAuth, and the ownerPolicy  */
+    OWNER = 0x40000001, 
     
-    /** not used1 */
-    REVOKE = 0x40000002,
+    /** Not used1  */
+    REVOKE = 0x40000002, 
     
-    /** not used1 */
-    TRANSPORT = 0x40000003,
+    /** Not used1  */
+    TRANSPORT = 0x40000003, 
     
-    /** not used1 */
-    OPERATOR = 0x40000004,
+    /** Not used1  */
+    OPERATOR = 0x40000004, 
     
-    /** not used1 */
-    ADMIN = 0x40000005,
+    /** Not used1  */
+    ADMIN = 0x40000005, 
     
-    /** not used1 */
-    EK = 0x40000006,
+    /** Not used1  */
+    EK = 0x40000006, 
     
-    /**
-     *  a handle associated with the null hierarchy, an EmptyAuth authValue, and an
-     *  Empty Policy authPolicy.
+    /** A handle associated with the null hierarchy, an EmptyAuth authValue, and an Empty
+     *  Policy authPolicy.
      */
-    NULL = 0x40000007,
+    NULL = 0x40000007, 
     
-    /**
-     *  value reserved to the TPM to indicate a handle location that has not
-     *  been initialized or assigned
+    /** Value reserved to the TPM to indicate a handle location that has not been initialized
+     *  or assigned
      */
-    UNASSIGNED = 0x40000008,
+    UNASSIGNED = 0x40000008, 
     
-    /** authorization value used to indicate a password authorization session */
-    PW = 0x40000009,
+    /** Authorization value used to indicate a password authorization session  */
+    PW = 0x40000009, 
     
-    /** @deprecated Use TPM_RH.PW instead */
+    /** @deprecated Use TPM_RH.PW instead  */
     RS_PW = 0x40000009,
     
-    /** references the authorization associated with the dictionary attack lockout reset */
-    LOCKOUT = 0x4000000A,
+    /** References the authorization associated with the dictionary attack lockout reset  */
+    LOCKOUT = 0x4000000A, 
     
-    /** references the Endorsement Primary Seed (EPS), endorsementAuth, and endorsementPolicy */
-    ENDORSEMENT = 0x4000000B,
+    /** References the Endorsement Primary Seed (EPS), endorsementAuth, and endorsementPolicy  */
+    ENDORSEMENT = 0x4000000B, 
     
-    /** references the Platform Primary Seed (PPS), platformAuth, and platformPolicy */
-    PLATFORM = 0x4000000C,
+    /** References the Platform Primary Seed (PPS), platformAuth, and platformPolicy  */
+    PLATFORM = 0x4000000C, 
     
-    /** for phEnableNV */
-    PLATFORM_NV = 0x4000000D,
+    /** For phEnableNV  */
+    PLATFORM_NV = 0x4000000D, 
     
-    /**
-     *  Start of a range of authorization values that are vendor-specific. A TPM may support any
-     *  of the values in this range as are needed for vendor-specific purposes.
+    /** Start of a range of authorization values that are vendor-specific. A TPM may support
+     *  any of the values in this range as are needed for vendor-specific purposes.
      *  Disabled if ehEnable is CLEAR.
      *  NOTE Any includes none.
      */
-    AUTH_00 = 0x40000010,
+    AUTH_00 = 0x40000010, 
     
-    /** End of the range of vendor-specific authorization values. */
-    AUTH_FF = 0x4000010F,
+    /** End of the range of vendor-specific authorization values.  */
+    AUTH_FF = 0x4000010F, 
     
-    /** Start of the range of authenticated timers */
-    ACT_0 = 0x40000110,
+    /** Start of the range of authenticated timers  */
+    ACT_0 = 0x40000110, 
     
-    /** End of the range of authenticated timers */
-    ACT_F = 0x4000011F,
+    /** End of the range of authenticated timers  */
+    ACT_F = 0x4000011F, 
     
-    /**
-     *  the top of the reserved handle area
-     *  This is set to allow TPM2_GetCapability() to know where to stop. It may vary as implementations
-     *  add to the permanent handle area.
+    /** The top of the reserved handle area
+     *  This is set to allow TPM2_GetCapability() to know where to stop. It may vary as
+     *  implementations add to the permanent handle area.
      */
     LAST = 0x4000011F
 }; // enum TPM_RH
 
-/** This table lists the values of the TPM_NT field of a TPMA_NV. See Table 215 for usage. */
+/** This table lists the values of the TPM_NT field of a TPMA_NV. See Table 215 for usage.  */
 export enum TPM_NT // UINT32
 {
-    /**
-     *  Ordinary contains data that is opaque to the TPM that can only be
-     *  modified using TPM2_NV_Write().
-     */
-    ORDINARY = 0x0,
+    /** Ordinary contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write().  */
+    ORDINARY = 0x0, 
     
-    /**
-     *  Counter contains an 8-octet value that is to be used as a counter and can only be
+    /** Counter contains an 8-octet value that is to be used as a counter and can only be
      *  modified with TPM2_NV_Increment()
      */
-    COUNTER = 0x1,
+    COUNTER = 0x1, 
     
-    /**
-     *  Bit Field contains an 8-octet value to be used as a bit field and can only be
-     *  modified with TPM2_NV_SetBits().
+    /** Bit Field contains an 8-octet value to be used as a bit field and can only be modified
+     *  with TPM2_NV_SetBits().
      */
-    BITS = 0x2,
+    BITS = 0x2, 
     
-    /**
-     *  Extend contains a digest-sized value used like a PCR. The Index can only be modified
+    /** Extend contains a digest-sized value used like a PCR. The Index can only be modified
      *  using TPM2_NV_Extend(). The extend will use the nameAlg of the Index.
      */
-    EXTEND = 0x4,
+    EXTEND = 0x4, 
     
-    /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit */
-    PIN_FAIL = 0x8,
+    /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit  */
+    PIN_FAIL = 0x8, 
     
-    /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit */
+    /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit  */
     PIN_PASS = 0x9
 }; // enum TPM_NT
 
-/**
- *  These constants are used in TPM2_AC_GetCapability() to indicate the first tagged value
+/** These constants are used in TPM2_AC_GetCapability() to indicate the first tagged value
  *  returned from an attached component.
  */
 export enum TPM_AT // UINT32
 {
-    /**
-     *  in a command, a non-specific request for AC information; in a response, indicates that
+    /** In a command, a non-specific request for AC information; in a response, indicates that
      *  outputData is not meaningful
      */
-    ANY = 0x00000000,
+    ANY = 0x00000000, 
     
-    /** indicates a TCG defined, device-specific error */
-    ERROR = 0x00000001,
+    /** Indicates a TCG defined, device-specific error  */
+    ERROR = 0x00000001, 
     
-    /** indicates the most significant 32 bits of a pairing value for the AC */
-    PV1 = 0x00000002,
+    /** Indicates the most significant 32 bits of a pairing value for the AC  */
+    PV1 = 0x00000002, 
     
-    /** value added to a TPM_AT to indicate a vendor-specific tag value */
+    /** Value added to a TPM_AT to indicate a vendor-specific tag value  */
     VEND = 0x80000000
 }; // enum TPM_AT
 
-/** These constants are the TCG-defined error values returned by an AC. */
+/** These constants are the TCG-defined error values returned by an AC.  */
 export enum TPM_AE // UINT32
 {
-    /**
-     *  in a command, a non-specific request for AC information; in a response, indicates that
+    /** In a command, a non-specific request for AC information; in a response, indicates that
      *  outputData is not meaningful
      */
     NONE = 0x00000000
 }; // enum TPM_AE
 
-/** These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values. */
+/** These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values.  */
 export enum PLATFORM // UINT32
 {
-    FAMILY = TPM_SPEC.FAMILY,
+    FAMILY = TPM_SPEC.FAMILY, 
     
-    LEVEL = TPM_SPEC.LEVEL,
+    LEVEL = TPM_SPEC.LEVEL, 
     
-    VERSION = TPM_SPEC.VERSION,
+    VERSION = TPM_SPEC.VERSION, 
     
-    YEAR = TPM_SPEC.YEAR,
+    YEAR = TPM_SPEC.YEAR, 
     
     DAY_OF_YEAR = TPM_SPEC.DAY_OF_YEAR
 }; // enum PLATFORM
 
-/**
- *  This table contains a collection of values used in various parts of the reference code. The
- *  values shown are illustrative.
+/** This table contains a collection of values used in various parts of the reference
+ *  code. The values shown are illustrative.
  */
 export enum Implementation // UINT32
 {
-    /** temporary define */
-    FIELD_UPGRADE_IMPLEMENTED = Logic.NO,
+    /** Temporary define  */
+    FIELD_UPGRADE_IMPLEMENTED = Logic.NO, 
     
-    /** Selection of the library that provides the basic hashing functions. */
-    HASH_LIB = ImplementationConstants.Ossl,
+    /** Selection of the library that provides the basic hashing functions.  */
+    HASH_LIB = ImplementationConstants.Ossl, 
     
-    /**
-     *  Selection of the library that provides the low-level symmetric cryptography. Choices are
+    /** Selection of the library that provides the low-level symmetric cryptography. Choices
+     *  are determined by the vendor (See LibSupport.h for implications).
+     */
+    SYM_LIB = ImplementationConstants.Ossl, 
+    
+    /** Selection of the library that provides the big number math including ECC. Choices are
      *  determined by the vendor (See LibSupport.h for implications).
      */
-    SYM_LIB = ImplementationConstants.Ossl,
+    MATH_LIB = ImplementationConstants.Ossl, 
     
-    /**
-     *  Selection of the library that provides the big number math including ECC. Choices are
-     *  determined by the vendor (See LibSupport.h for implications).
-     */
-    MATH_LIB = ImplementationConstants.Ossl,
+    /** The number of PCR in the TPM  */
+    IMPLEMENTATION_PCR = 24, 
     
-    /** the number of PCR in the TPM */
-    IMPLEMENTATION_PCR = 24,
+    PCR_SELECT_MAX = ((IMPLEMENTATION_PCR+7)/8), 
     
-    PCR_SELECT_MAX = ((IMPLEMENTATION_PCR+7)/8),
+    /** The number of PCR required by the relevant platform specification  */
+    PLATFORM_PCR = 24, 
     
-    /** the number of PCR required by the relevant platform specification */
-    PLATFORM_PCR = 24,
+    PCR_SELECT_MIN = ((PLATFORM_PCR + 7) / 8), 
     
-    PCR_SELECT_MIN = ((PLATFORM_PCR + 7) / 8),
-    
-    /**
-     *  the D-RTM PCR
+    /** The D-RTM PCR
      *  NOTE This value is not defined when the TPM does not implement D-RTM
      */
-    DRTM_PCR = 17,
+    DRTM_PCR = 17, 
     
-    /**
-     *  the PCR that will receive the H-CRTM value at TPM2_Startup. This
-     *  value should not be changed.
-     */
-    HCRTM_PCR = 0,
+    /** The PCR that will receive the H-CRTM value at TPM2_Startup. This value should not be changed.  */
+    HCRTM_PCR = 0, 
     
-    /**
-     *  the number of localities supported by the TPM
+    /** The number of localities supported by the TPM
      *  This is expected to be either 5 for a PC, or 1 for just about everything else.
      */
-    NUM_LOCALITIES = 5,
+    NUM_LOCALITIES = 5, 
     
-    /**
-     *  the maximum number of handles in the handle area
+    /** The maximum number of handles in the handle area
      *  This should be produced by the Part 3 parser but is here for now.
      */
-    MAX_HANDLE_NUM = 3,
+    MAX_HANDLE_NUM = 3, 
     
-    /** the number of simultaneously active sessions that are supported by the TPM implementation */
-    MAX_ACTIVE_SESSIONS = 64,
+    /** The number of simultaneously active sessions that are supported by the TPM implementation  */
+    MAX_ACTIVE_SESSIONS = 64, 
     
-    /** the number of sessions that the TPM may have in memory */
-    MAX_LOADED_SESSIONS = 3,
+    /** The number of sessions that the TPM may have in memory  */
+    MAX_LOADED_SESSIONS = 3, 
     
-    /** this is the current maximum value */
-    MAX_SESSION_NUM = 3,
+    /** This is the current maximum value  */
+    MAX_SESSION_NUM = 3, 
     
-    /**
-     *  the number of simultaneously loaded objects that are supported by the TPM; this number
+    /** The number of simultaneously loaded objects that are supported by the TPM; this number
      *  does not include the objects that may be placed in NV memory by TPM2_EvictControl().
      */
-    MAX_LOADED_OBJECTS = 3,
+    MAX_LOADED_OBJECTS = 3, 
     
-    /** the minimum number of evict objects supported by the TPM */
-    MIN_EVICT_OBJECTS = 2,
+    /** The minimum number of evict objects supported by the TPM  */
+    MIN_EVICT_OBJECTS = 2, 
     
-    /** number of PCR groups that have individual policies */
-    NUM_POLICY_PCR_GROUP = 1,
+    /** Number of PCR groups that have individual policies  */
+    NUM_POLICY_PCR_GROUP = 1, 
     
-    /** number of PCR groups that have individual authorization values */
-    NUM_AUTHVALUE_PCR_GROUP = 1,
+    /** Number of PCR groups that have individual authorization values  */
+    NUM_AUTHVALUE_PCR_GROUP = 1, 
     
-    MAX_CONTEXT_SIZE = 1264,
+    MAX_CONTEXT_SIZE = 1264, 
     
-    MAX_DIGEST_BUFFER = 1024,
+    MAX_DIGEST_BUFFER = 1024, 
     
-    /** maximum data size allowed in an NV Index */
-    MAX_NV_INDEX_SIZE = 2048,
+    /** Maximum data size allowed in an NV Index  */
+    MAX_NV_INDEX_SIZE = 2048, 
     
-    /** maximum data size in one NV read or write command */
-    MAX_NV_BUFFER_SIZE = 1024,
+    /** Maximum data size in one NV read or write command  */
+    MAX_NV_BUFFER_SIZE = 1024, 
     
-    /** maximum size of a capability buffer */
-    MAX_CAP_BUFFER = 1024,
+    /** Maximum size of a capability buffer  */
+    MAX_CAP_BUFFER = 1024, 
     
-    /** size of NV memory in octets */
-    NV_MEMORY_SIZE = 16384,
+    /** Size of NV memory in octets  */
+    NV_MEMORY_SIZE = 16384, 
     
-    /**
-     *  the TPM will not allocate a non-counter index if it would prevent allocation
-     *  of this number of indices.
+    /** The TPM will not allocate a non-counter index if it would prevent allocation of this
+     *  number of indices.
      */
-    MIN_COUNTER_INDICES = 8,
+    MIN_COUNTER_INDICES = 8, 
     
-    NUM_STATIC_PCR = 16,
+    NUM_STATIC_PCR = 16, 
     
-    /** number of algorithms that can be in a list */
-    MAX_ALG_LIST_SIZE = 64,
+    /** Number of algorithms that can be in a list  */
+    MAX_ALG_LIST_SIZE = 64, 
     
-    /** size of the Primary Seed in octets */
-    PRIMARY_SEED_SIZE = 32,
+    /** Size of the Primary Seed in octets  */
+    PRIMARY_SEED_SIZE = 32, 
     
-    /**
-     *  context encryption algorithm
+    /** Context encryption algorithm
      *  Just use the root so that the macros in GpMacros.h will work correctly.
      */
-    CONTEXT_ENCRYPT_ALGORITHM = TPM_ALG_ID.AES,
+    CONTEXT_ENCRYPT_ALGORITHM = TPM_ALG_ID.AES, 
     
-    /**
-     *  the update interval expressed as a power of 2 seconds
+    /** The update interval expressed as a power of 2 seconds
      *  A value of 12 is 4,096 seconds (~68 minutes).
      */
-    NV_CLOCK_UPDATE_INTERVAL = 12,
+    NV_CLOCK_UPDATE_INTERVAL = 12, 
     
-    /** number of PCR groups that allow policy/auth */
-    NUM_POLICY_PCR = 1,
+    /** Number of PCR groups that allow policy/auth  */
+    NUM_POLICY_PCR = 1, 
     
-    /** maximum size of a command */
-    MAX_COMMAND_SIZE = 4096,
+    /** Maximum size of a command  */
+    MAX_COMMAND_SIZE = 4096, 
     
-    /** maximum size of a response */
-    MAX_RESPONSE_SIZE = 4096,
+    /** Maximum size of a response  */
+    MAX_RESPONSE_SIZE = 4096, 
     
-    /** number between 1 and 32 inclusive */
-    ORDERLY_BITS = 8,
+    /** Number between 1 and 32 inclusive  */
+    ORDERLY_BITS = 8, 
     
-    /**
-     *  the maximum number of octets that may be in a sealed blob; 128 is
-     *  the minimum allowed value
+    /** The maximum number of octets that may be in a sealed blob; 128 is the minimum allowed value  */
+    MAX_SYM_DATA = 128, 
+    
+    MAX_RNG_ENTROPY_SIZE = 64, 
+    
+    /** Number of bytes used for the RAM index space. If this is not large enough, it might
+     *  not be possible to allocate orderly indices.
      */
-    MAX_SYM_DATA = 128,
+    RAM_INDEX_SPACE = 512, 
     
-    MAX_RNG_ENTROPY_SIZE = 64,
+    /** 216 + 1  */
+    RSA_DEFAULT_PUBLIC_EXPONENT = 0x00010001, 
     
-    /**
-     *  Number of bytes used for the RAM index space. If this is not large enough, it might not be
-     *  possible to allocate orderly indices.
+    /** Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented  */
+    ENABLE_PCR_NO_INCREMENT = Logic.YES, 
+    
+    CRT_FORMAT_RSA = Logic.YES, 
+    
+    VENDOR_COMMAND_COUNT = 0, 
+    
+    /** Maximum size of the vendor-specific buffer  */
+    MAX_VENDOR_BUFFER_SIZE = 1024, 
+    
+    /** L value for a derivation. This is the
+     *  maximum number of bits allowed from an instantiation of a KDF-DRBG. This is size is OK
+     *  because RSA keys are never derived keys
      */
-    RAM_INDEX_SPACE = 512,
+    MAX_DERIVATION_BITS = 8192, 
     
-    /** 216 + 1 */
-    RSA_DEFAULT_PUBLIC_EXPONENT = 0x00010001,
+    RSA_MAX_PRIME = (ImplementationConstants.MAX_RSA_KEY_BYTES/2), 
     
-    /** indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented */
-    ENABLE_PCR_NO_INCREMENT = Logic.YES,
+    RSA_PRIVATE_SIZE = (RSA_MAX_PRIME * 5), 
     
-    CRT_FORMAT_RSA = Logic.YES,
+    SIZE_OF_X509_SERIAL_NUMBER = 20, 
     
-    VENDOR_COMMAND_COUNT = 0,
-    
-    /** Maximum size of the vendor-specific buffer */
-    MAX_VENDOR_BUFFER_SIZE = 1024,
-    
-    /**
-     *  L value for a derivation. This is the
-     *  maximum number of bits allowed from an instantiation of a KDF-DRBG. This is size is OK because
-     *  RSA keys are never derived keys
-     */
-    MAX_DERIVATION_BITS = 8192,
-    
-    RSA_MAX_PRIME = (ImplementationConstants.MAX_RSA_KEY_BYTES/2),
-    
-    RSA_PRIVATE_SIZE = (RSA_MAX_PRIME * 5),
-    
-    SIZE_OF_X509_SERIAL_NUMBER = 20,
-    
-    /**
-     *  This is a vendor-specific value so it is in this vendor-speific table. When this is used,
-     *  RSA_PRIVATE_SIZE will have been defined
+    /** This is a vendor-specific value so it is in this vendor-speific table. When this is
+     *  used, RSA_PRIVATE_SIZE will have been defined
      */
     PRIVATE_VENDOR_SPECIFIC_BYTES = RSA_PRIVATE_SIZE
 }; // enum Implementation
 
-/** The definitions in Table 29 are used to define many of the interface data types. */
+/** The definitions in Table 29 are used to define many of the interface data types.  */
 export enum TPM_HC // TPM_HANDLE
 {
-    /** to mask off the HR */
-    HR_HANDLE_MASK = 0x00FFFFFF,
+    /** To mask off the HR  */
+    HR_HANDLE_MASK = 0x00FFFFFF, 
     
-    /** to mask off the variable part */
-    HR_RANGE_MASK = 0xFF000000,
+    /** To mask off the variable part  */
+    HR_RANGE_MASK = 0xFF000000, 
     
-    HR_SHIFT = 24,
+    HR_SHIFT = 24, 
     
-    HR_PCR = (TPM_HT.PCR << HR_SHIFT),
+    HR_PCR = (TPM_HT.PCR << HR_SHIFT), 
     
-    HR_HMAC_SESSION = (TPM_HT.HMAC_SESSION << HR_SHIFT),
+    HR_HMAC_SESSION = (TPM_HT.HMAC_SESSION << HR_SHIFT), 
     
-    HR_POLICY_SESSION = (TPM_HT.POLICY_SESSION << HR_SHIFT),
+    HR_POLICY_SESSION = (TPM_HT.POLICY_SESSION << HR_SHIFT), 
     
-    HR_TRANSIENT = (TPM_HT.TRANSIENT << HR_SHIFT),
+    HR_TRANSIENT = (TPM_HT.TRANSIENT << HR_SHIFT), 
     
-    HR_PERSISTENT = (TPM_HT.PERSISTENT << HR_SHIFT),
+    HR_PERSISTENT = (TPM_HT.PERSISTENT << HR_SHIFT), 
     
-    HR_NV_INDEX = (TPM_HT.NV_INDEX << HR_SHIFT),
+    HR_NV_INDEX = (TPM_HT.NV_INDEX << HR_SHIFT), 
     
-    HR_PERMANENT = (TPM_HT.PERMANENT << HR_SHIFT),
+    HR_PERMANENT = (TPM_HT.PERMANENT << HR_SHIFT), 
     
-    /** first PCR */
-    PCR_FIRST = (HR_PCR + 0),
+    /** First PCR  */
+    PCR_FIRST = (HR_PCR + 0), 
     
-    /** last PCR */
-    PCR_LAST = (PCR_FIRST + Implementation.IMPLEMENTATION_PCR-1),
+    /** Last PCR  */
+    PCR_LAST = (PCR_FIRST + Implementation.IMPLEMENTATION_PCR-1), 
     
-    /** first HMAC session */
-    HMAC_SESSION_FIRST = (HR_HMAC_SESSION + 0),
+    /** First HMAC session  */
+    HMAC_SESSION_FIRST = (HR_HMAC_SESSION + 0), 
     
-    /** last HMAC session */
-    HMAC_SESSION_LAST = (HMAC_SESSION_FIRST+Implementation.MAX_ACTIVE_SESSIONS-1),
+    /** Last HMAC session  */
+    HMAC_SESSION_LAST = (HMAC_SESSION_FIRST+Implementation.MAX_ACTIVE_SESSIONS-1), 
     
-    /** used in GetCapability */
-    LOADED_SESSION_FIRST = HMAC_SESSION_FIRST,
+    /** Used in GetCapability  */
+    LOADED_SESSION_FIRST = HMAC_SESSION_FIRST, 
     
-    /** used in GetCapability */
-    LOADED_SESSION_LAST = HMAC_SESSION_LAST,
+    /** Used in GetCapability  */
+    LOADED_SESSION_LAST = HMAC_SESSION_LAST, 
     
-    /** first policy session */
-    POLICY_SESSION_FIRST = (HR_POLICY_SESSION + 0),
+    /** First policy session  */
+    POLICY_SESSION_FIRST = (HR_POLICY_SESSION + 0), 
     
-    /** last policy session */
-    POLICY_SESSION_LAST = (POLICY_SESSION_FIRST + Implementation.MAX_ACTIVE_SESSIONS-1),
+    /** Last policy session  */
+    POLICY_SESSION_LAST = (POLICY_SESSION_FIRST + Implementation.MAX_ACTIVE_SESSIONS-1), 
     
-    /** first transient object */
-    TRANSIENT_FIRST = (HR_TRANSIENT + 0),
+    /** First transient object  */
+    TRANSIENT_FIRST = (HR_TRANSIENT + 0), 
     
-    /** used in GetCapability */
-    ACTIVE_SESSION_FIRST = POLICY_SESSION_FIRST,
+    /** Used in GetCapability  */
+    ACTIVE_SESSION_FIRST = POLICY_SESSION_FIRST, 
     
-    /** used in GetCapability */
-    ACTIVE_SESSION_LAST = POLICY_SESSION_LAST,
+    /** Used in GetCapability  */
+    ACTIVE_SESSION_LAST = POLICY_SESSION_LAST, 
     
-    /** last transient object */
-    TRANSIENT_LAST = (TRANSIENT_FIRST+Implementation.MAX_LOADED_OBJECTS-1),
+    /** Last transient object  */
+    TRANSIENT_LAST = (TRANSIENT_FIRST+Implementation.MAX_LOADED_OBJECTS-1), 
     
-    /** first persistent object */
-    PERSISTENT_FIRST = (HR_PERSISTENT + 0),
+    /** First persistent object  */
+    PERSISTENT_FIRST = (HR_PERSISTENT + 0), 
     
-    /** last persistent object */
-    PERSISTENT_LAST = (PERSISTENT_FIRST + 0x00FFFFFF),
+    /** Last persistent object  */
+    PERSISTENT_LAST = (PERSISTENT_FIRST + 0x00FFFFFF), 
     
-    /** first platform persistent object */
-    PLATFORM_PERSISTENT = (PERSISTENT_FIRST + 0x00800000),
+    /** First platform persistent object  */
+    PLATFORM_PERSISTENT = (PERSISTENT_FIRST + 0x00800000), 
     
-    /** first allowed NV Index */
-    NV_INDEX_FIRST = (HR_NV_INDEX + 0),
+    /** First allowed NV Index  */
+    NV_INDEX_FIRST = (HR_NV_INDEX + 0), 
     
-    /** last allowed NV Index */
-    NV_INDEX_LAST = (NV_INDEX_FIRST + 0x00FFFFFF),
+    /** Last allowed NV Index  */
+    NV_INDEX_LAST = (NV_INDEX_FIRST + 0x00FFFFFF), 
     
-    PERMANENT_FIRST = TPM_RH.FIRST,
+    PERMANENT_FIRST = TPM_RH.FIRST, 
     
-    PERMANENT_LAST = TPM_RH.LAST,
+    PERMANENT_LAST = TPM_RH.LAST, 
     
-    /** AC aliased NV Index */
-    HR_NV_AC = ((TPM_HT.NV_INDEX << HR_SHIFT) + 0xD00000),
+    /** AC aliased NV Index  */
+    HR_NV_AC = ((TPM_HT.NV_INDEX << HR_SHIFT) + 0xD00000), 
     
-    /** first NV Index aliased to Attached Component */
-    NV_AC_FIRST = (HR_NV_AC + 0),
+    /** First NV Index aliased to Attached Component  */
+    NV_AC_FIRST = (HR_NV_AC + 0), 
     
-    /** last NV Index aliased to Attached Component */
-    NV_AC_LAST = (HR_NV_AC + 0x0000FFFF),
+    /** Last NV Index aliased to Attached Component  */
+    NV_AC_LAST = (HR_NV_AC + 0x0000FFFF), 
     
-    /** AC Handle */
-    HR_AC = (TPM_HT.AC << HR_SHIFT),
+    /** AC Handle  */
+    HR_AC = (TPM_HT.AC << HR_SHIFT), 
     
-    /** first Attached Component */
-    AC_FIRST = (HR_AC + 0),
+    /** First Attached Component  */
+    AC_FIRST = (HR_AC + 0), 
     
-    /** last Attached Component */
+    /** Last Attached Component  */
     AC_LAST = (HR_AC + 0x0000FFFF)
 }; // enum TPM_HC
 
-/** This structure defines the attributes of an algorithm. */
+/** This structure defines the attributes of an algorithm.  */
 export enum TPMA_ALGORITHM // UINT32
 {
-    /**
-     *  SET (1): an asymmetric algorithm with public and private portions
+    /** SET (1): an asymmetric algorithm with public and private portions
      *  CLEAR (0): not an asymmetric algorithm
      */
     asymmetric = 0x1,
     
-    /**
-     *  SET (1): a symmetric block cipher
+    /** SET (1): a symmetric block cipher
      *  CLEAR (0): not a symmetric block cipher
      */
     symmetric = 0x2,
     
-    /**
-     *  SET (1): a hash algorithm
+    /** SET (1): a hash algorithm
      *  CLEAR (0): not a hash algorithm
      */
     hash = 0x4,
     
-    /**
-     *  SET (1): an algorithm that may be used as an object type
+    /** SET (1): an algorithm that may be used as an object type
      *  CLEAR (0): an algorithm that is not used as an object type
      */
     object = 0x8,
     
-    /**
-     *  SET (1): a signing algorithm. The setting of asymmetric, symmetric, and hash will indicate
-     *  the type of signing algorithm.
+    /** SET (1): a signing algorithm. The setting of asymmetric, symmetric, and hash will
+     *  indicate the type of signing algorithm.
      *  CLEAR (0): not a signing algorithm
      */
     signing = 0x100,
     
-    /**
-     *  SET (1): an encryption/decryption algorithm. The setting of asymmetric, symmetric, and
+    /** SET (1): an encryption/decryption algorithm. The setting of asymmetric, symmetric, and
      *  hash will indicate the type of encryption/decryption algorithm.
      *  CLEAR (0): not an encryption/decryption algorithm
      */
     encrypting = 0x200,
     
-    /**
-     *  SET (1): a method such as a key derivative function (KDF)
+    /** SET (1): a method such as a key derivative function (KDF)
      *  CLEAR (0): not a method
      */
     method = 0x400
     
 }; // bitfield TPMA_ALGORITHM
 
-/**
- *  This attribute structure indicates an objects use, its authorization types, and its
+/** This attribute structure indicates an objects use, its authorization types, and its
  *  relationship to other objects.
  */
 export enum TPMA_OBJECT // UINT32
 {
-    /**
-     *  SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change.
+    /** SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change.
      *  CLEAR (0): The hierarchy of the object may change as a result of this object or an
      *  ancestor key being duplicated for use in another hierarchy.
-     *  NOTE fixedTPM does not indicate that key material resides on a single TPM
-     *  (see sensitiveDataOrigin).
+     *  NOTE fixedTPM does not indicate that key material resides on a single TPM (see
+     *  sensitiveDataOrigin).
      */
     fixedTPM = 0x2,
     
-    /**
-     *  SET (1): Previously saved contexts of this object may not be loaded after Startup(CLEAR).
-     *  CLEAR (0): Saved contexts of this object may be used after a Shutdown(STATE)
-     *  and subsequent Startup().
+    /** SET (1): Previously saved contexts of this object may not be loaded after Startup(CLEAR).
+     *  CLEAR (0): Saved contexts of this object may be used after a Shutdown(STATE) and
+     *  subsequent Startup().
      */
     stClear = 0x4,
     
-    /**
-     *  SET (1): The parent of the object may not change.
-     *  CLEAR (0): The parent of the object may change as the result of a
-     *  TPM2_Duplicate() of the object.
+    /** SET (1): The parent of the object may not change.
+     *  CLEAR (0): The parent of the object may change as the result of a TPM2_Duplicate() of
+     *  the object.
      */
     fixedParent = 0x10,
     
-    /**
-     *  SET (1): Indicates that, when the object was created with TPM2_Create() or
-     *  TPM2_CreatePrimary(), the TPM generated all of the sensitive data other than the
-     *  authValue.
-     *  CLEAR (0): A portion of the sensitive data, other than the authValue, was
-     *  provided by the caller.
+    /** SET (1): Indicates that, when the object was created with TPM2_Create() or
+     *  TPM2_CreatePrimary(), the TPM generated all of the sensitive data other than the authValue.
+     *  CLEAR (0): A portion of the sensitive data, other than the authValue, was provided by
+     *  the caller.
      */
     sensitiveDataOrigin = 0x20,
     
-    /**
-     *  SET (1): Approval of USER role actions with this object may be with an HMAC session or
+    /** SET (1): Approval of USER role actions with this object may be with an HMAC session or
      *  with a password using the authValue of the object or a policy session.
-     *  CLEAR (0): Approval of USER role actions with this object may only be
-     *  done with a policy session.
+     *  CLEAR (0): Approval of USER role actions with this object may only be done with a
+     *  policy session.
      */
     userWithAuth = 0x40,
     
-    /**
-     *  SET (1): Approval of ADMIN role actions with this object may only be done with a policy
-     *  session.
-     *  CLEAR (0): Approval of ADMIN role actions with this object may be with an HMAC session or
-     *  with a password using the authValue of the object or a policy session.
+    /** SET (1): Approval of ADMIN role actions with this object may only be done with a
+     *  policy session.
+     *  CLEAR (0): Approval of ADMIN role actions with this object may be with an HMAC session
+     *  or with a password using the authValue of the object or a policy session.
      */
     adminWithPolicy = 0x80,
     
-    /**
-     *  SET (1): The object is not subject to dictionary attack protections.
+    /** SET (1): The object is not subject to dictionary attack protections.
      *  CLEAR (0): The object is subject to dictionary attack protections.
      */
     noDA = 0x400,
     
-    /**
-     *  SET (1): If the object is duplicated, then symmetricAlg shall not be TPM_ALG_NULL and
+    /** SET (1): If the object is duplicated, then symmetricAlg shall not be TPM_ALG_NULL and
      *  newParentHandle shall not be TPM_RH_NULL.
-     *  CLEAR (0): The object may be duplicated without an inner wrapper on the private portion of
-     *  the object and the new parent may be TPM_RH_NULL.
+     *  CLEAR (0): The object may be duplicated without an inner wrapper on the private
+     *  portion of the object and the new parent may be TPM_RH_NULL.
      */
     encryptedDuplication = 0x800,
     
-    /**
-     *  SET (1): Key usage is restricted to manipulate structures of known format; the parent of
-     *  this key shall have restricted SET.
+    /** SET (1): Key usage is restricted to manipulate structures of known format; the parent
+     *  of this key shall have restricted SET.
      *  CLEAR (0): Key usage is not restricted to use on special formats.
      */
     restricted = 0x10000,
     
-    /**
-     *  SET (1): The private portion of the key may be used to decrypt.
+    /** SET (1): The private portion of the key may be used to decrypt.
      *  CLEAR (0): The private portion of the key may not be used to decrypt.
      */
     decrypt = 0x20000,
     
-    /**
-     *  SET (1): For a symmetric cipher object, the private portion of the key may be used to
+    /** SET (1): For a symmetric cipher object, the private portion of the key may be used to
      *  encrypt. For other objects, the private portion of the key may be used to sign.
      *  CLEAR (0): The private portion of the key may not be used to sign or encrypt.
      */
     sign = 0x40000,
     
-    /** Alias to the sign value. */
+    /** Alias to the sign value.  */
     encrypt = 0x40000,
     
-    /**
-     *  SET (1): An asymmetric key that may not be used to sign with TPM2_Sign()
+    /** SET (1): An asymmetric key that may not be used to sign with TPM2_Sign()
      *  CLEAR (0): A key that may be used with TPM2_Sign() if sign is SET
      *  NOTE: This attribute only has significance if sign is SET.
      */
@@ -2648,82 +2492,73 @@ export enum TPMA_OBJECT // UINT32
     
 }; // bitfield TPMA_OBJECT
 
-/**
- *  This octet in each session is used to identify the session type, indicate its relationship
- *  to any handles in the command, and indicate its use in parameter encryption.
+/** This octet in each session is used to identify the session type, indicate its
+ *  relationship to any handles in the command, and indicate its use in parameter encryption.
  */
 export enum TPMA_SESSION // UINT8
 {
-    /**
-     *  SET (1): In a command, this setting indicates that the session is to remain active after
-     *  successful completion of the command. In a response, it indicates that the session is
-     *  still active. If SET in the command, this attribute shall be SET in the response.
-     *  CLEAR (0): In a command, this setting indicates that the TPM should close the session and
-     *  flush any related context when the command completes successfully. In a response, it
-     *  indicates that the session is closed and the context is no longer active.
+    /** SET (1): In a command, this setting indicates that the session is to remain active
+     *  after successful completion of the command. In a response, it indicates that the
+     *  session is still active. If SET in the command, this attribute shall be SET in the response.
+     *  CLEAR (0): In a command, this setting indicates that the TPM should close the session
+     *  and flush any related context when the command completes successfully. In a response,
+     *  it indicates that the session is closed and the context is no longer active.
      *  This attribute has no meaning for a password authorization and the TPM will allow any
      *  setting of the attribute in the command and SET the attribute in the response.
-     *  This attribute will only be CLEAR in one response for a logical session. If the attribute
-     *  is CLEAR, the context associated with the session is no longer in use and the space is
-     *  available. A session created after another session is ended may have the same handle but
-     *  logically is not the same session.
+     *  This attribute will only be CLEAR in one response for a logical session. If the
+     *  attribute is CLEAR, the context associated with the session is no longer in use and
+     *  the space is available. A session created after another session is ended may have the
+     *  same handle but logically is not the same session.
      *  This attribute has no effect if the command does not complete successfully.
      */
     continueSession = 0x1,
     
-    /**
-     *  SET (1): In a command, this setting indicates that the command should only be executed if
-     *  the session is exclusive at the start of the command. In a response, it indicates that the
-     *  session is exclusive. This setting is only allowed if the audit attribute is SET
-     *  (TPM_RC_ATTRIBUTES).
-     *  CLEAR (0): In a command, indicates that the session need not be exclusive at the start of
-     *  the command. In a response, indicates that the session is not exclusive.
+    /** SET (1): In a command, this setting indicates that the command should only be executed
+     *  if the session is exclusive at the start of the command. In a response, it indicates
+     *  that the session is exclusive. This setting is only allowed if the audit attribute is
+     *  SET (TPM_RC_ATTRIBUTES).
+     *  CLEAR (0): In a command, indicates that the session need not be exclusive at the start
+     *  of the command. In a response, indicates that the session is not exclusive.
      */
     auditExclusive = 0x2,
     
-    /**
-     *  SET (1): In a command, this setting indicates that the audit digest of the session should
-     *  be initialized and the exclusive status of the session SET. This setting is only allowed
-     *  if the audit attribute is SET (TPM_RC_ATTRIBUTES).
+    /** SET (1): In a command, this setting indicates that the audit digest of the session
+     *  should be initialized and the exclusive status of the session SET. This setting is
+     *  only allowed if the audit attribute is SET (TPM_RC_ATTRIBUTES).
      *  CLEAR (0): In a command, indicates that the audit digest should not be initialized.
      *  This bit is always CLEAR in a response.
      */
     auditReset = 0x4,
     
-    /**
-     *  SET (1): In a command, this setting indicates that the first parameter in the command is
-     *  symmetrically encrypted using the parameter encryption scheme described in TPM 2.0 Part 1.
-     *  The TPM will decrypt the parameter after performing any HMAC computations and before
-     *  unmarshaling the parameter. In a response, the attribute is copied from the request but
-     *  has no effect on the response.
+    /** SET (1): In a command, this setting indicates that the first parameter in the command
+     *  is symmetrically encrypted using the parameter encryption scheme described in TPM 2.0
+     *  Part 1. The TPM will decrypt the parameter after performing any HMAC computations and
+     *  before unmarshaling the parameter. In a response, the attribute is copied from the
+     *  request but has no effect on the response.
      *  CLEAR (0): Session not used for encryption.
-     *  For a password authorization, this attribute will be CLEAR in both the command and
-     *  response.
-     *  This attribute may be SET in a session that is not associated with a command handle. Such
-     *  a session is provided for purposes of encrypting a parameter and not for authorization.
+     *  For a password authorization, this attribute will be CLEAR in both the command and response.
+     *  This attribute may be SET in a session that is not associated with a command handle.
+     *  Such a session is provided for purposes of encrypting a parameter and not for authorization.
      *  This attribute may be SET in combination with any other session attributes.
      */
     decrypt = 0x20,
     
-    /**
-     *  SET (1): In a command, this setting indicates that the TPM should use this session to
+    /** SET (1): In a command, this setting indicates that the TPM should use this session to
      *  encrypt the first parameter in the response. In a response, it indicates that the
-     *  attribute was set in the command and that the TPM used the session to encrypt the first
-     *  parameter in the response using the parameter encryption scheme described in TPM 2.0 Part
-     *  1.
+     *  attribute was set in the command and that the TPM used the session to encrypt the
+     *  first parameter in the response using the parameter encryption scheme described in TPM
+     *  2.0 Part 1.
      *  CLEAR (0): Session not used for encryption.
-     *  For a password authorization, this attribute will be CLEAR in both the command and
-     *  response.
-     *  This attribute may be SET in a session that is not associated with a command handle. Such
-     *  a session is provided for purposes of encrypting a parameter and not for authorization.
+     *  For a password authorization, this attribute will be CLEAR in both the command and response.
+     *  This attribute may be SET in a session that is not associated with a command handle.
+     *  Such a session is provided for purposes of encrypting a parameter and not for authorization.
      */
     encrypt = 0x40,
     
-    /**
-     *  SET (1): In a command or response, this setting indicates that the session is for audit
-     *  and that auditExclusive and auditReset have meaning. This session may also be used for
-     *  authorization, encryption, or decryption. The encrypted and encrypt fields may be SET or
-     *  CLEAR.
+    /** SET (1): In a command or response, this setting indicates that the session is for
+     *  audit and that auditExclusive and auditReset have meaning. This session may also be
+     *  used for authorization, encryption, or decryption. The encrypted and encrypt fields
+     *  may be SET or CLEAR.
      *  CLEAR (0): Session is not used for audit.
      *  If SET in the command, then this attribute will be SET in the response.
      */
@@ -2731,9 +2566,8 @@ export enum TPMA_SESSION // UINT8
     
 }; // bitfield TPMA_SESSION
 
-/**
- *  In a TPMS_CREATION_DATA structure, this structure is used to indicate the locality of the
- *  command that created the object. No more than one of the locality attributes shall
+/** In a TPMS_CREATION_DATA structure, this structure is used to indicate the locality of
+ *  the command that created the object. No more than one of the locality attributes shall
  *  be set in the creation data.
  */
 export enum TPMA_LOCALITY // UINT8
@@ -2748,7 +2582,7 @@ export enum TPMA_LOCALITY // UINT8
     
     LOC_FOUR = 0x10,
     
-    /** If any of these bits is set, an extended locality is indicated */
+    /** If any of these bits is set, an extended locality is indicated  */
     Extended_BIT_0 = 0x20,
     
     Extended_BIT_1 = 0x40,
@@ -2757,159 +2591,139 @@ export enum TPMA_LOCALITY // UINT8
     
 }; // bitfield TPMA_LOCALITY
 
-/**
- *  The attributes in this structure are persistent and are not changed as a result of
- *  _TPM_Init or any TPM2_Startup(). Some of the attributes in this structure may change as
- *  the result of specific Protected Capabilities. This structure may be read using
+/** The attributes in this structure are persistent and are not changed as a result of
+ *  _TPM_Init or any TPM2_Startup(). Some of the attributes in this structure may change
+ *  as the result of specific Protected Capabilities. This structure may be read using
  *  TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_PERMANENT).
  */
 export enum TPMA_PERMANENT // UINT32
 {
-    /**
-     *  SET (1): TPM2_HierarchyChangeAuth() with ownerAuth has been executed since the last
-     *  TPM2_Clear().
+    /** SET (1): TPM2_HierarchyChangeAuth() with ownerAuth has been executed since the last TPM2_Clear().
      *  CLEAR (0): ownerAuth has not been changed since TPM2_Clear().
      */
     ownerAuthSet = 0x1,
     
-    /**
-     *  SET (1): TPM2_HierarchyChangeAuth() with endorsementAuth has been executed since the last
-     *  TPM2_Clear().
+    /** SET (1): TPM2_HierarchyChangeAuth() with endorsementAuth has been executed since the
+     *  last TPM2_Clear().
      *  CLEAR (0): endorsementAuth has not been changed since TPM2_Clear().
      */
     endorsementAuthSet = 0x2,
     
-    /**
-     *  SET (1): TPM2_HierarchyChangeAuth() with lockoutAuth has been executed since the last
+    /** SET (1): TPM2_HierarchyChangeAuth() with lockoutAuth has been executed since the last
      *  TPM2_Clear().
      *  CLEAR (0): lockoutAuth has not been changed since TPM2_Clear().
      */
     lockoutAuthSet = 0x4,
     
-    /**
-     *  SET (1): TPM2_Clear() is disabled.
+    /** SET (1): TPM2_Clear() is disabled.
      *  CLEAR (0): TPM2_Clear() is enabled.
      *  NOTE See TPM2_ClearControl in TPM 2.0 Part 3 for details on changing this attribute.
      */
     disableClear = 0x100,
     
-    /** SET (1): The TPM is in lockout, when failedTries is equal to maxTries. */
+    /** SET (1): The TPM is in lockout, when failedTries is equal to maxTries.  */
     inLockout = 0x200,
     
-    /**
-     *  SET (1): The EPS was created by the TPM.
+    /** SET (1): The EPS was created by the TPM.
      *  CLEAR (0): The EPS was created outside of the TPM using a manufacturer-specific process.
      */
     tpmGeneratedEPS = 0x400
     
 }; // bitfield TPMA_PERMANENT
 
-/**
- *  This structure may be read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES,
- *  property = TPM_PT_STARTUP_CLEAR).
+/** This structure may be read using TPM2_GetCapability(capability =
+ *  TPM_CAP_TPM_PROPERTIES, property = TPM_PT_STARTUP_CLEAR).
  */
 export enum TPMA_STARTUP_CLEAR // UINT32
 {
-    /**
-     *  SET (1): The platform hierarchy is enabled and platformAuth or platformPolicy may be used
-     *  for authorization.
-     *  CLEAR (0): platformAuth and platformPolicy may not be used for authorizations, and objects
-     *  in the platform hierarchy, including persistent objects, cannot be used.
+    /** SET (1): The platform hierarchy is enabled and platformAuth or platformPolicy may be
+     *  used for authorization.
+     *  CLEAR (0): platformAuth and platformPolicy may not be used for authorizations, and
+     *  objects in the platform hierarchy, including persistent objects, cannot be used.
      *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
      */
     phEnable = 0x1,
     
-    /**
-     *  SET (1): The Storage hierarchy is enabled and ownerAuth or ownerPolicy may be used for
+    /** SET (1): The Storage hierarchy is enabled and ownerAuth or ownerPolicy may be used for
      *  authorization. NV indices defined using owner authorization are accessible.
-     *  CLEAR (0): ownerAuth and ownerPolicy may not be used for authorizations, and objects in
-     *  the Storage hierarchy, persistent objects, and NV indices defined using owner
+     *  CLEAR (0): ownerAuth and ownerPolicy may not be used for authorizations, and objects
+     *  in the Storage hierarchy, persistent objects, and NV indices defined using owner
      *  authorization cannot be used.
      *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
      */
     shEnable = 0x2,
     
-    /**
-     *  SET (1): The EPS hierarchy is enabled and Endorsement Authorization may be used to
+    /** SET (1): The EPS hierarchy is enabled and Endorsement Authorization may be used to
      *  authorize commands.
-     *  CLEAR (0): Endorsement Authorization may not be used for authorizations, and objects in
-     *  the endorsement hierarchy, including persistent objects, cannot be used.
+     *  CLEAR (0): Endorsement Authorization may not be used for authorizations, and objects
+     *  in the endorsement hierarchy, including persistent objects, cannot be used.
      *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
      */
     ehEnable = 0x4,
     
-    /**
-     *  SET (1): NV indices that have TPMA_NV_PLATFORMCREATE SET may be read or written. The
+    /** SET (1): NV indices that have TPMA_NV_PLATFORMCREATE SET may be read or written. The
      *  platform can create define and undefine indices.
      *  CLEAR (0): NV indices that have TPMA_NV_PLATFORMCREATE SET may not be read or written
      *  (TPM_RC_HANDLE). The platform cannot define (TPM_RC_HIERARCHY) or undefined
      *  (TPM_RC_HANDLE) indices.
      *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
      *  NOTE
-     *  read refers to these commands: TPM2_NV_Read, TPM2_NV_ReadPublic, TPM_NV_Certify,
-     *  TPM2_PolicyNV
-     *  write refers to these commands: TPM2_NV_Write, TPM2_NV_Increment, TPM2_NV_Extend,
-     *  TPM2_NV_SetBits
-     *  NOTE The TPM must query the index TPMA_NV_PLATFORMCREATE attribute to determine whether
-     *  phEnableNV is applicable. Since the TPM will return TPM_RC_HANDLE if the index does not
-     *  exist, it also returns this error code if the index is disabled. Otherwise, the TPM would
-     *  leak the existence of an index even when disabled.
+     *  read refers to these commands: TPM2_NV_Read, TPM2_NV_ReadPublic, TPM_NV_Certify, TPM2_PolicyNV
+     *  write refers to these commands: TPM2_NV_Write, TPM2_NV_Increment, TPM2_NV_Extend, TPM2_NV_SetBits
+     *  NOTE The TPM must query the index TPMA_NV_PLATFORMCREATE attribute to determine
+     *  whether phEnableNV is applicable. Since the TPM will return TPM_RC_HANDLE if the index
+     *  does not exist, it also returns this error code if the index is disabled. Otherwise,
+     *  the TPM would leak the existence of an index even when disabled.
      */
     phEnableNV = 0x8,
     
-    /**
-     *  SET (1): The TPM received a TPM2_Shutdown() and a matching TPM2_Startup().
+    /** SET (1): The TPM received a TPM2_Shutdown() and a matching TPM2_Startup().
      *  CLEAR (0): TPM2_Startup(TPM_SU_CLEAR) was not preceded by a TPM2_Shutdown() of any type.
-     *  NOTE A shutdown is orderly if the TPM receives a TPM2_Shutdown() of any type followed by a
-     *  TPM2_Startup() of any type. However, the TPM will return an error if
+     *  NOTE A shutdown is orderly if the TPM receives a TPM2_Shutdown() of any type followed
+     *  by a TPM2_Startup() of any type. However, the TPM will return an error if
      *  TPM2_Startup(TPM_SU_STATE) was not preceded by TPM2_Shutdown(TPM_SU_STATE).
      */
     orderly = 0x80000000
     
 }; // bitfield TPMA_STARTUP_CLEAR
 
-/**
- *  This structure of this attribute is used to report the memory management method used by
- *  the TPM for transient objects and authorization sessions. This structure may be read using
- *  TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_MEMORY).
+/** This structure of this attribute is used to report the memory management method used
+ *  by the TPM for transient objects and authorization sessions. This structure may be
+ *  read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_MEMORY).
  */
 export enum TPMA_MEMORY // UINT32
 {
-    /**
-     *  SET (1): indicates that the RAM memory used for authorization session contexts is shared
-     *  with the memory used for transient objects
-     *  CLEAR (0): indicates that the memory used for authorization sessions is not shared with
-     *  memory used for transient objects
+    /** SET (1): indicates that the RAM memory used for authorization session contexts is
+     *  shared with the memory used for transient objects
+     *  CLEAR (0): indicates that the memory used for authorization sessions is not shared
+     *  with memory used for transient objects
      */
     sharedRAM = 0x1,
     
-    /**
-     *  SET (1): indicates that the NV memory used for persistent objects is shared with the NV
-     *  memory used for NV Index values
+    /** SET (1): indicates that the NV memory used for persistent objects is shared with the
+     *  NV memory used for NV Index values
      *  CLEAR (0): indicates that the persistent objects and NV Index values are allocated
      *  from separate sections of NV
      */
     sharedNV = 0x2,
     
-    /**
-     *  SET (1): indicates that the TPM copies persistent objects to a transient-object slot in
-     *  RAM when the persistent object is referenced in a command. The TRM is required to make
-     *  sure that an object slot is available.
-     *  CLEAR (0): indicates that the TPM does not use transient-object slots when
-     *  persistent objects are referenced
+    /** SET (1): indicates that the TPM copies persistent objects to a transient-object slot
+     *  in RAM when the persistent object is referenced in a command. The TRM is required to
+     *  make sure that an object slot is available.
+     *  CLEAR (0): indicates that the TPM does not use transient-object slots when persistent
+     *  objects are referenced
      */
     objectCopiedToRam = 0x4
     
 }; // bitfield TPMA_MEMORY
 
-/**
- *  This structure defines the attributes of a command from a context management perspective.
- *  The fields of the structure indicate to the TPM Resource Manager (TRM) the number of
- *  resources required by a command and how the command affects the TPMs resources.
+/** This structure defines the attributes of a command from a context management
+ *  perspective. The fields of the structure indicate to the TPM Resource Manager (TRM)
+ *  the number of resources required by a command and how the command affects the TPMs resources.
  */
 export enum TPMA_CC // TPM_CC
 {
-    /** indicates the command being selected */
+    /** Indicates the command being selected  */
     commandIndex_BIT_0 = 0x1,
     
     commandIndex_BIT_1 = 0x2,
@@ -2942,131 +2756,122 @@ export enum TPMA_CC // TPM_CC
     
     commandIndex_BIT_15 = 0x8000,
     
-    /**
-     *  SET (1): indicates that the command may write to NV
+    /** SET (1): indicates that the command may write to NV
      *  CLEAR (0): indicates that the command does not write to NV
      */
     nv = 0x400000,
     
-    /**
-     *  SET (1): This command could flush any number of loaded contexts.
+    /** SET (1): This command could flush any number of loaded contexts.
      *  CLEAR (0): no additional changes other than indicated by the flushed attribute
      */
     extensive = 0x800000,
     
-    /**
-     *  SET (1): The context associated with any transient handle in the command will be flushed
-     *  when this command completes.
+    /** SET (1): The context associated with any transient handle in the command will be
+     *  flushed when this command completes.
      *  CLEAR (0): No context is flushed as a side effect of this command.
      */
     flushed = 0x1000000,
     
-    /** indicates the number of the handles in the handle area for this command */
+    /** Indicates the number of the handles in the handle area for this command  */
     cHandles_BIT_0 = 0x2000000,
     
     cHandles_BIT_1 = 0x4000000,
     
     cHandles_BIT_2 = 0x8000000,
     
-    /** SET (1): indicates the presence of the handle area in the response */
+    /** SET (1): indicates the presence of the handle area in the response  */
     rHandle = 0x10000000,
     
-    /**
-     *  SET (1): indicates that the command is vendor-specific
+    /** SET (1): indicates that the command is vendor-specific
      *  CLEAR (0): indicates that the command is defined in a version of this specification
      */
     V = 0x20000000,
     
-    /** allocated for software; shall be zero */
+    /** Allocated for software; shall be zero  */
     Res_BIT_0 = 0x40000000,
     
     Res_BIT_1 = 0x80000000
     
 }; // bitfield TPMA_CC
 
-/**
- *  This structure of this attribute is used to report that the TPM is designed for these
+/** This structure of this attribute is used to report that the TPM is designed for these
  *  modes. This structure may be read using TPM2_GetCapability(capability =
  *  TPM_CAP_TPM_PROPERTIES, property = TPM_PT_MODES).
  */
 export enum TPMA_MODES // UINT32
 {
-    /**
-     *  SET (1): indicates that the TPM is designed to comply with all of the FIPS 140-2
+    /** SET (1): indicates that the TPM is designed to comply with all of the FIPS 140-2
      *  requirements at Level 1 or higher.
      */
     FIPS_140_2 = 0x1
     
 }; // bitfield TPMA_MODES
 
-/**
- *  These attributes are as specified in clause 4.2.1.3. of RFC 5280 Internet X.509 Public Key
- *  Infrastructure Certificate and Certificate Revocation List (CRL) Profile. For
- *  TPM2_CertifyX509, when a caller provides a DER encoded Key Usage in partialCertificate,
- *  the TPM will validate that the key to be certified meets the requirements of Key Usage.
+/** These attributes are as specified in clause 4.2.1.3. of RFC 5280 Internet X.509 Public
+ *  Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. For
+ *  TPM2_CertifyX509, when a caller provides a DER encoded Key Usage in
+ *  partialCertificate, the TPM will validate that the key to be certified meets the
+ *  requirements of Key Usage.
  */
 export enum TPMA_X509_KEY_USAGE // UINT32
 {
-    /** Attributes.Decrypt SET */
+    /** Attributes.Decrypt SET  */
     decipherOnly = 0x800000,
     
-    /** Attributes.Decrypt SET */
+    /** Attributes.Decrypt SET  */
     encipherOnly = 0x1000000,
     
-    /** Attributes.sign SET */
+    /** Attributes.sign SET  */
     cRLSign = 0x2000000,
     
-    /** Attributes.sign SET */
+    /** Attributes.sign SET  */
     keyCertSign = 0x4000000,
     
-    /** Attributes.Decrypt SET */
+    /** Attributes.Decrypt SET  */
     keyAgreement = 0x8000000,
     
-    /** Attributes.Decrypt SET */
+    /** Attributes.Decrypt SET  */
     dataEncipherment = 0x10000000,
     
-    /** asymmetric key with decrypt and restricted SET key has the attributes of a parent key */
+    /** Asymmetric key with decrypt and restricted SET key has the attributes of a parent key  */
     keyEncipherment = 0x20000000,
     
-    /** fixedTPM SET in Subject Key (objectHandle) */
+    /** FixedTPM SET in Subject Key (objectHandle)  */
     nonrepudiation = 0x40000000,
     
-    /** Alias to the nonrepudiation value. */
+    /** Alias to the nonrepudiation value.  */
     contentCommitment = 0x40000000,
     
-    /** sign SET in Subject Key (objectHandle) */
+    /** Sign SET in Subject Key (objectHandle)  */
     digitalSignature = 0x80000000
     
 }; // bitfield TPMA_X509_KEY_USAGE
 
-/**
- *  This attribute is used to report the ACT state. This attribute may be read using
- *  TPM2_GetCapability(capability = TPM_CAP_ACT, property = TPM_RH_ACT_x where x is the ACT
- *  number (0-F)). The signaled value must be preserved across TPM Resume or if the TPM has
- *  not lost power. The signaled value may be preserved over a power cycle of a TPM.
+/** This attribute is used to report the ACT state. This attribute may be read using
+ *  TPM2_GetCapability(capability = TPM_CAP_ACT, property = TPM_RH_ACT_x where x is the
+ *  ACT number (0-F)). The signaled value must be preserved across TPM Resume or if the
+ *  TPM has not lost power. The signaled value may be preserved over a power cycle of a TPM.
  */
 export enum TPMA_ACT // UINT32
 {
-    /**
-     *  SET (1): The ACT has signaled
+    /** SET (1): The ACT has signaled
      *  CLEAR (0): The ACT has not signaled
      */
     signaled = 0x1,
     
-    /** Preserves the state of signaled, depending on the power cycle */
+    /** Preserves the state of signaled, depending on the power cycle  */
     preserveSignaled = 0x2
     
 }; // bitfield TPMA_ACT
 
-/**
- *  A TPM_NV_INDEX is used to reference a defined location in NV memory. The format of the
- *  Index is changed from TPM 1.2 in order to include the Index in the reserved handle space.
- *  Handles in this range use the digest of the public area of the Index as the Name of the
- *  entity in authorization computations
+/** A TPM_NV_INDEX is used to reference a defined location in NV memory. The format of the
+ *  Index is changed from TPM 1.2 in order to include the Index in the reserved handle
+ *  space. Handles in this range use the digest of the public area of the Index as the
+ *  Name of the entity in authorization computations
  */
 export enum TPM_NV_INDEX // UINT32
 {
-    /** The Index of the NV location */
+    /** The Index of the NV location  */
     index_BIT_0 = 0x1,
     
     index_BIT_1 = 0x2,
@@ -3115,7 +2920,7 @@ export enum TPM_NV_INDEX // UINT32
     
     index_BIT_23 = 0x800000,
     
-    /** constant value of TPM_HT_NV_INDEX indicating the NV Index range */
+    /** Constant value of TPM_HT_NV_INDEX indicating the NV Index range  */
     RhNv_BIT_0 = 0x1000000,
     
     RhNv_BIT_1 = 0x2000000,
@@ -3134,73 +2939,61 @@ export enum TPM_NV_INDEX // UINT32
     
 }; // bitfield TPM_NV_INDEX
 
-/**
- *  This structure allows the TPM to keep track of the data and permissions
- *  to manipulate an NV Index.
+/** This structure allows the TPM to keep track of the data and permissions to manipulate
+ *  an NV Index.
  */
 export enum TPMA_NV // UINT32
 {
-    /**
-     *  SET (1): The Index data can be written if Platform Authorization is provided.
+    /** SET (1): The Index data can be written if Platform Authorization is provided.
      *  CLEAR (0): Writing of the Index data cannot be authorized with Platform Authorization.
      */
     PPWRITE = 0x1,
     
-    /**
-     *  SET (1): The Index data can be written if Owner Authorization is provided.
+    /** SET (1): The Index data can be written if Owner Authorization is provided.
      *  CLEAR (0): Writing of the Index data cannot be authorized with Owner Authorization.
      */
     OWNERWRITE = 0x2,
     
-    /**
-     *  SET (1): Authorizations to change the Index contents that require USER role may be
+    /** SET (1): Authorizations to change the Index contents that require USER role may be
      *  provided with an HMAC session or password.
-     *  CLEAR (0): Authorizations to change the Index contents that require USER role may not be provided
-     *  with an HMAC session or password.
+     *  CLEAR (0): Authorizations to change the Index contents that require USER role may not
+     *  be provided with an HMAC session or password.
      */
     AUTHWRITE = 0x4,
     
-    /**
-     *  SET (1): Authorizations to change the Index contents that require USER role may be
+    /** SET (1): Authorizations to change the Index contents that require USER role may be
      *  provided with a policy session.
-     *  CLEAR (0): Authorizations to change the Index contents that require USER role may not be
-     *  provided with a policy session.
+     *  CLEAR (0): Authorizations to change the Index contents that require USER role may not
+     *  be provided with a policy session.
      *  NOTE TPM2_NV_ChangeAuth() always requires that authorization be provided in a policy session.
      */
     POLICYWRITE = 0x8,
     
-    /**
-     *  Ordinary contains data that is opaque to the TPM that can only be
-     *  modified using TPM2_NV_Write().
-     */
+    /** Ordinary contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write().  */
     ORDINARY = 0x0,
     
-    /**
-     *  Counter contains an 8-octet value that is to be used as a counter and can only be
+    /** Counter contains an 8-octet value that is to be used as a counter and can only be
      *  modified with TPM2_NV_Increment()
      */
     COUNTER = 0x10,
     
-    /**
-     *  Bit Field contains an 8-octet value to be used as a bit field and can only be
-     *  modified with TPM2_NV_SetBits().
+    /** Bit Field contains an 8-octet value to be used as a bit field and can only be modified
+     *  with TPM2_NV_SetBits().
      */
     BITS = 0x20,
     
-    /**
-     *  Extend contains a digest-sized value used like a PCR. The Index can only be modified
+    /** Extend contains a digest-sized value used like a PCR. The Index can only be modified
      *  using TPM2_NV_Extend(). The extend will use the nameAlg of the Index.
      */
     EXTEND = 0x40,
     
-    /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit */
+    /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit  */
     PIN_FAIL = 0x80,
     
-    /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit */
+    /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit  */
     PIN_PASS = 0x90,
     
-    /**
-     *  The type of the index.
+    /** The type of the index.
      *  NOTE A TPM is not required to support all TPM_NT values
      */
     TpmNt_BIT_0 = 0x10,
@@ -3211,8 +3004,7 @@ export enum TPMA_NV // UINT32
     
     TpmNt_BIT_3 = 0x80,
     
-    /**
-     *  SET (1): Index may not be deleted unless the authPolicy is satisfied using
+    /** SET (1): Index may not be deleted unless the authPolicy is satisfied using
      *  TPM2_NV_UndefineSpaceSpecial().
      *  CLEAR (0): Index may be deleted with proper platform or owner authorization using
      *  TPM2_NV_UndefineSpace().
@@ -3221,176 +3013,156 @@ export enum TPMA_NV // UINT32
      */
     POLICY_DELETE = 0x400,
     
-    /**
-     *  SET (1): Index cannot be written.
+    /** SET (1): Index cannot be written.
      *  CLEAR (0): Index can be written.
      */
     WRITELOCKED = 0x800,
     
-    /**
-     *  SET (1): A partial write of the Index data is not allowed. The write size shall match the
-     *  defined space size.
-     *  CLEAR (0): Partial writes are allowed. This setting is required if the .dataSize of the
-     *  Index is larger than NV_MAX_BUFFER_SIZE for the implementation.
+    /** SET (1): A partial write of the Index data is not allowed. The write size shall match
+     *  the defined space size.
+     *  CLEAR (0): Partial writes are allowed. This setting is required if the .dataSize of
+     *  the Index is larger than NV_MAX_BUFFER_SIZE for the implementation.
      */
     WRITEALL = 0x1000,
     
-    /**
-     *  SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this location.
+    /** SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this location.
      *  CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if
      *  TPMA_NV_WRITE_STCLEAR is also CLEAR.
      */
     WRITEDEFINE = 0x2000,
     
-    /**
-     *  SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this location until
-     *  the next TPM Reset or TPM Restart.
-     *  CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if
-     *  TPMA_NV_WRITEDEFINE is also CLEAR.
+    /** SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this location
+     *  until the next TPM Reset or TPM Restart.
+     *  CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if TPMA_NV_WRITEDEFINE
+     *  is also CLEAR.
      */
     WRITE_STCLEAR = 0x4000,
     
-    /**
-     *  SET (1): If TPM2_NV_GlobalWriteLock() is successful, TPMA_NV_WRITELOCKED is set.
-     *  CLEAR (0): TPM2_NV_GlobalWriteLock() has no effect on the writing of
-     *  the data at this Index.
+    /** SET (1): If TPM2_NV_GlobalWriteLock() is successful, TPMA_NV_WRITELOCKED is set.
+     *  CLEAR (0): TPM2_NV_GlobalWriteLock() has no effect on the writing of the data at this Index.
      */
     GLOBALLOCK = 0x8000,
     
-    /**
-     *  SET (1): The Index data can be read if Platform Authorization is provided.
+    /** SET (1): The Index data can be read if Platform Authorization is provided.
      *  CLEAR (0): Reading of the Index data cannot be authorized with Platform Authorization.
      */
     PPREAD = 0x10000,
     
-    /**
-     *  SET (1): The Index data can be read if Owner Authorization is provided.
+    /** SET (1): The Index data can be read if Owner Authorization is provided.
      *  CLEAR (0): Reading of the Index data cannot be authorized with Owner Authorization.
      */
     OWNERREAD = 0x20000,
     
-    /**
-     *  SET (1): The Index data may be read if the authValue is provided.
+    /** SET (1): The Index data may be read if the authValue is provided.
      *  CLEAR (0): Reading of the Index data cannot be authorized with the Index authValue.
      */
     AUTHREAD = 0x40000,
     
-    /**
-     *  SET (1): The Index data may be read if the authPolicy is satisfied.
+    /** SET (1): The Index data may be read if the authPolicy is satisfied.
      *  CLEAR (0): Reading of the Index data cannot be authorized with the Index authPolicy.
      */
     POLICYREAD = 0x80000,
     
-    /**
-     *  SET (1): Authorization failures of the Index do not affect the DA logic and authorization
-     *  of the Index is not blocked when the TPM is in Lockout mode.
-     *  CLEAR (0): Authorization failures of the Index will increment the authorization failure
-     *  counter and authorizations of this Index are not allowed when the TPM is in Lockout mode.
+    /** SET (1): Authorization failures of the Index do not affect the DA logic and
+     *  authorization of the Index is not blocked when the TPM is in Lockout mode.
+     *  CLEAR (0): Authorization failures of the Index will increment the authorization
+     *  failure counter and authorizations of this Index are not allowed when the TPM is in
+     *  Lockout mode.
      */
     NO_DA = 0x2000000,
     
-    /**
-     *  SET (1): NV Index state is only required to be saved when the TPM performs an orderly
+    /** SET (1): NV Index state is only required to be saved when the TPM performs an orderly
      *  shutdown (TPM2_Shutdown()).
      *  CLEAR (0): NV Index state is required to be persistent after the command to update the
-     *  Index completes successfully (that is, the NV update is synchronous
-     *  with the update command).
+     *  Index completes successfully (that is, the NV update is synchronous with the update command).
      */
     ORDERLY = 0x4000000,
     
-    /**
-     *  SET (1): TPMA_NV_WRITTEN for the Index is CLEAR by TPM Reset or TPM Restart.
+    /** SET (1): TPMA_NV_WRITTEN for the Index is CLEAR by TPM Reset or TPM Restart.
      *  CLEAR (0): TPMA_NV_WRITTEN is not changed by TPM Restart.
      *  NOTE This attribute may only be SET if TPM_NT is not TPM_NT_COUNTER.
      */
     CLEAR_STCLEAR = 0x8000000,
     
-    /**
-     *  SET (1): Reads of the Index are blocked until the next TPM Reset or TPM Restart.
+    /** SET (1): Reads of the Index are blocked until the next TPM Reset or TPM Restart.
      *  CLEAR (0): Reads of the Index are allowed if proper authorization is provided.
      */
     READLOCKED = 0x10000000,
     
-    /**
-     *  SET (1): Index has been written.
+    /** SET (1): Index has been written.
      *  CLEAR (0): Index has not been written.
      */
     WRITTEN = 0x20000000,
     
-    /**
-     *  SET (1): This Index may be undefined with Platform Authorization but not with Owner
+    /** SET (1): This Index may be undefined with Platform Authorization but not with Owner
      *  Authorization.
      *  CLEAR (0): This Index may be undefined using Owner Authorization but not with Platform
      *  Authorization.
-     *  The TPM will validate that this attribute is SET when the Index is defined using Platform
-     *  Authorization and will validate that this attribute is CLEAR when the Index is
-     *  defined using Owner Authorization.
+     *  The TPM will validate that this attribute is SET when the Index is defined using
+     *  Platform Authorization and will validate that this attribute is CLEAR when the Index
+     *  is defined using Owner Authorization.
      */
     PLATFORMCREATE = 0x40000000,
     
-    /**
-     *  SET (1): TPM2_NV_ReadLock() may be used to SET TPMA_NV_READLOCKED for this Index.
+    /** SET (1): TPM2_NV_ReadLock() may be used to SET TPMA_NV_READLOCKED for this Index.
      *  CLEAR (0): TPM2_NV_ReadLock() has no effect on this Index.
      */
     READ_STCLEAR = 0x80000000
     
 }; // bitfield TPMA_NV
 
-/** Base class for TPM union interfaces */
+/** Base class for TPM union interfaces  */
 export interface TpmUnion extends TpmMarshaller {}
 
-/** Table 119 Definition of TPMU_CAPABILITIES Union [OUT] */
+/** Table 119 Definition of TPMU_CAPABILITIES Union [OUT]  */
 export interface TPMU_CAPABILITIES extends TpmUnion
 {
     GetUnionSelector(): TPM_CAP;
 }
 
-/** Table 132 Definition of TPMU_ATTEST Union [OUT] */
+/** Table 132 Definition of TPMU_ATTEST Union [OUT]  */
 export interface TPMU_ATTEST extends TpmUnion
 {
     GetUnionSelector(): TPM_ST;
 }
 
-/**
- *  This union allows additional parameters to be added for a symmetric cipher. Currently, no
- *  additional parameters are required for any of the symmetric algorithms.
+/** This union allows additional parameters to be added for a symmetric cipher. Currently,
+ *  no additional parameters are required for any of the symmetric algorithms.
  */
 export interface TPMU_SYM_DETAILS extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/**
- *  This structure allows a TPM2B_SENSITIVE_CREATE structure to carry either a
- *  TPM2B_SENSITVE_DATA or a TPM2B_DERIVE structure. The contents of the union are determined
- *  by context. When an object is being derived, the derivation values are present.
+/** This structure allows a TPM2B_SENSITIVE_CREATE structure to carry either a
+ *  TPM2B_SENSITVE_DATA or a TPM2B_DERIVE structure. The contents of the union are
+ *  determined by context. When an object is being derived, the derivation values are present.
  */
 export interface TPMU_SENSITIVE_CREATE extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/** Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT] */
+/** Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT]  */
 export interface TPMU_SCHEME_KEYEDHASH extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/** This is the union of all of the signature schemes. */
+/** This is the union of all of the signature schemes.  */
 export interface TPMU_SIG_SCHEME extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/** Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT] */
+/** Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT]  */
 export interface TPMU_KDF_SCHEME extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/**
- *  This union of all asymmetric schemes is used in each of the asymmetric scheme structures.
- *  The actual scheme structure is defined by the interface type used for the
+/** This union of all asymmetric schemes is used in each of the asymmetric scheme
+ *  structures. The actual scheme structure is defined by the interface type used for the
  *  selector (TPMI_ALG_ASYM_SCHEME).
  */
 export interface TPMU_ASYM_SCHEME extends TpmUnion
@@ -3398,217 +3170,210 @@ export interface TPMU_ASYM_SCHEME extends TpmUnion
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/**
- *  A TPMU_SIGNATURE_COMPOSITE is a union of the various signatures that are supported by a
- *  particular TPM implementation. The union allows substitution of any signature algorithm
- *  wherever a signature is required in a structure.
+/** A TPMU_SIGNATURE_COMPOSITE is a union of the various signatures that are supported by
+ *  a particular TPM implementation. The union allows substitution of any signature
+ *  algorithm wherever a signature is required in a structure.
  */
 export interface TPMU_SIGNATURE extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/** This is the union of all values allowed in in the unique field of a TPMT_PUBLIC. */
+/** This is the union of all values allowed in in the unique field of a TPMT_PUBLIC.  */
 export interface TPMU_PUBLIC_ID extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/**
- *  Table 199 defines the possible parameter definition structures that may be contained in
- *  the public portion of a key. If the Object can be a parent, the first field must be a
- *  TPMT_SYM_DEF_OBJECT. See 11.1.7.
+/** Table 199 defines the possible parameter definition structures that may be contained
+ *  in the public portion of a key. If the Object can be a parent, the first field must be
+ *  a TPMT_SYM_DEF_OBJECT. See 11.1.7.
  */
 export interface TPMU_PUBLIC_PARMS extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/** Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT] */
+/** Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT]  */
 export interface TPMU_SENSITIVE_COMPOSITE extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/**
- *  Holds static factory method for instantiating TPM unions.
- *  Note: A wrapper class is used instead of simply static function solely for the sake of uniformity with languages like C# and Java.
+/** Holds static factory method for instantiating TPM unions.
+ *  Note: A wrapper class is used instead of simply static function solely for the sake of
+ *  uniformity with languages like C# and Java.
  */
 class UnionFactory
 {
-    /** Creates specific TPM union member based on the union type and selector (tag) value */
-    public static create<U extends TpmUnion>(unionType: string, selector: TPM_ALG_ID | TPM_CAP | TPM_ST): U
+    /** Creates specific TPM union member based on the union type and selector (tag) value  */
+    public static create(unionType: string, selector: TPM_ALG_ID | TPM_CAP | TPM_ST): any
     {
-        let u: TpmUnion = null;
-        
         switch (unionType) {
         case 'TPMU_CAPABILITIES':
             switch (selector) {
-                case TPM_CAP.ALGS: u = new TPML_ALG_PROPERTY(); break;
-                case TPM_CAP.HANDLES: u = new TPML_HANDLE(); break;
-                case TPM_CAP.COMMANDS: u = new TPML_CCA(); break;
-                case TPM_CAP.PP_COMMANDS: u = new TPML_CC(); break;
-                case TPM_CAP.AUDIT_COMMANDS: u = new TPML_CC(); break;
-                case TPM_CAP.PCRS: u = new TPML_PCR_SELECTION(); break;
-                case TPM_CAP.TPM_PROPERTIES: u = new TPML_TAGGED_TPM_PROPERTY(); break;
-                case TPM_CAP.PCR_PROPERTIES: u = new TPML_TAGGED_PCR_PROPERTY(); break;
-                case TPM_CAP.ECC_CURVES: u = new TPML_ECC_CURVE(); break;
-                case TPM_CAP.AUTH_POLICIES: u = new TPML_TAGGED_POLICY(); break;
-                case TPM_CAP.ACT: u = new TPML_ACT_DATA(); break;
+                case TPM_CAP.ALGS: return new TPML_ALG_PROPERTY();
+                case TPM_CAP.HANDLES: return new TPML_HANDLE();
+                case TPM_CAP.COMMANDS: return new TPML_CCA();
+                case TPM_CAP.PP_COMMANDS: return new TPML_CC();
+                case TPM_CAP.AUDIT_COMMANDS: return new TPML_CC();
+                case TPM_CAP.PCRS: return new TPML_PCR_SELECTION();
+                case TPM_CAP.TPM_PROPERTIES: return new TPML_TAGGED_TPM_PROPERTY();
+                case TPM_CAP.PCR_PROPERTIES: return new TPML_TAGGED_PCR_PROPERTY();
+                case TPM_CAP.ECC_CURVES: return new TPML_ECC_CURVE();
+                case TPM_CAP.AUTH_POLICIES: return new TPML_TAGGED_POLICY();
+                case TPM_CAP.ACT: return new TPML_ACT_DATA();
             }
             break;
         case 'TPMU_ATTEST':
             switch (selector) {
-                case TPM_ST.ATTEST_CERTIFY: u = new TPMS_CERTIFY_INFO(); break;
-                case TPM_ST.ATTEST_CREATION: u = new TPMS_CREATION_INFO(); break;
-                case TPM_ST.ATTEST_QUOTE: u = new TPMS_QUOTE_INFO(); break;
-                case TPM_ST.ATTEST_COMMAND_AUDIT: u = new TPMS_COMMAND_AUDIT_INFO(); break;
-                case TPM_ST.ATTEST_SESSION_AUDIT: u = new TPMS_SESSION_AUDIT_INFO(); break;
-                case TPM_ST.ATTEST_TIME: u = new TPMS_TIME_ATTEST_INFO(); break;
-                case TPM_ST.ATTEST_NV: u = new TPMS_NV_CERTIFY_INFO(); break;
-                case TPM_ST.ATTEST_NV_DIGEST: u = new TPMS_NV_DIGEST_CERTIFY_INFO(); break;
+                case TPM_ST.ATTEST_CERTIFY: return new TPMS_CERTIFY_INFO();
+                case TPM_ST.ATTEST_CREATION: return new TPMS_CREATION_INFO();
+                case TPM_ST.ATTEST_QUOTE: return new TPMS_QUOTE_INFO();
+                case TPM_ST.ATTEST_COMMAND_AUDIT: return new TPMS_COMMAND_AUDIT_INFO();
+                case TPM_ST.ATTEST_SESSION_AUDIT: return new TPMS_SESSION_AUDIT_INFO();
+                case TPM_ST.ATTEST_TIME: return new TPMS_TIME_ATTEST_INFO();
+                case TPM_ST.ATTEST_NV: return new TPMS_NV_CERTIFY_INFO();
+                case TPM_ST.ATTEST_NV_DIGEST: return new TPMS_NV_DIGEST_CERTIFY_INFO();
             }
             break;
         case 'TPMU_SYM_DETAILS':
             switch (selector) {
-                case TPM_ALG_ID.TDES: u = new TPMS_TDES_SYM_DETAILS(); break;
-                case TPM_ALG_ID.AES: u = new TPMS_AES_SYM_DETAILS(); break;
-                case TPM_ALG_ID.SM4: u = new TPMS_SM4_SYM_DETAILS(); break;
-                case TPM_ALG_ID.CAMELLIA: u = new TPMS_CAMELLIA_SYM_DETAILS(); break;
-                case TPM_ALG_ID.ANY: u = new TPMS_ANY_SYM_DETAILS(); break;
-                case TPM_ALG_ID.XOR: u = new TPMS_XOR_SYM_DETAILS(); break;
-                case TPM_ALG_ID.NULL: u = new TPMS_NULL_SYM_DETAILS(); break;
+                case TPM_ALG_ID.TDES: return new TPMS_TDES_SYM_DETAILS();
+                case TPM_ALG_ID.AES: return new TPMS_AES_SYM_DETAILS();
+                case TPM_ALG_ID.SM4: return new TPMS_SM4_SYM_DETAILS();
+                case TPM_ALG_ID.CAMELLIA: return new TPMS_CAMELLIA_SYM_DETAILS();
+                case TPM_ALG_ID.ANY: return new TPMS_ANY_SYM_DETAILS();
+                case TPM_ALG_ID.XOR: return new TPMS_XOR_SYM_DETAILS();
+                case TPM_ALG_ID.NULL: return new TPMS_NULL_SYM_DETAILS();
             }
             break;
         case 'TPMU_SENSITIVE_CREATE':
             switch (selector) {
-                case TPM_ALG_ID.ANY: u = null; break;
-                case TPM_ALG_ID.ANY2: u = new TPMS_DERIVE(); break;
+                case TPM_ALG_ID.ANY: return null;
+                case TPM_ALG_ID.ANY2: return new TPMS_DERIVE();
             }
             break;
         case 'TPMU_SCHEME_KEYEDHASH':
             switch (selector) {
-                case TPM_ALG_ID.HMAC: u = new TPMS_SCHEME_HMAC(); break;
-                case TPM_ALG_ID.XOR: u = new TPMS_SCHEME_XOR(); break;
-                case TPM_ALG_ID.NULL: u = new TPMS_NULL_SCHEME_KEYEDHASH(); break;
+                case TPM_ALG_ID.HMAC: return new TPMS_SCHEME_HMAC();
+                case TPM_ALG_ID.XOR: return new TPMS_SCHEME_XOR();
+                case TPM_ALG_ID.NULL: return new TPMS_NULL_SCHEME_KEYEDHASH();
             }
             break;
         case 'TPMU_SIG_SCHEME':
             switch (selector) {
-                case TPM_ALG_ID.RSASSA: u = new TPMS_SIG_SCHEME_RSASSA(); break;
-                case TPM_ALG_ID.RSAPSS: u = new TPMS_SIG_SCHEME_RSAPSS(); break;
-                case TPM_ALG_ID.ECDSA: u = new TPMS_SIG_SCHEME_ECDSA(); break;
-                case TPM_ALG_ID.ECDAA: u = new TPMS_SIG_SCHEME_ECDAA(); break;
-                case TPM_ALG_ID.SM2: u = new TPMS_SIG_SCHEME_SM2(); break;
-                case TPM_ALG_ID.ECSCHNORR: u = new TPMS_SIG_SCHEME_ECSCHNORR(); break;
-                case TPM_ALG_ID.HMAC: u = new TPMS_SCHEME_HMAC(); break;
-                case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
-                case TPM_ALG_ID.NULL: u = new TPMS_NULL_SIG_SCHEME(); break;
+                case TPM_ALG_ID.RSASSA: return new TPMS_SIG_SCHEME_RSASSA();
+                case TPM_ALG_ID.RSAPSS: return new TPMS_SIG_SCHEME_RSAPSS();
+                case TPM_ALG_ID.ECDSA: return new TPMS_SIG_SCHEME_ECDSA();
+                case TPM_ALG_ID.ECDAA: return new TPMS_SIG_SCHEME_ECDAA();
+                case TPM_ALG_ID.SM2: return new TPMS_SIG_SCHEME_SM2();
+                case TPM_ALG_ID.ECSCHNORR: return new TPMS_SIG_SCHEME_ECSCHNORR();
+                case TPM_ALG_ID.HMAC: return new TPMS_SCHEME_HMAC();
+                case TPM_ALG_ID.ANY: return new TPMS_SCHEME_HASH();
+                case TPM_ALG_ID.NULL: return new TPMS_NULL_SIG_SCHEME();
             }
             break;
         case 'TPMU_KDF_SCHEME':
             switch (selector) {
-                case TPM_ALG_ID.MGF1: u = new TPMS_KDF_SCHEME_MGF1(); break;
-                case TPM_ALG_ID.KDF1_SP800_56A: u = new TPMS_KDF_SCHEME_KDF1_SP800_56A(); break;
-                case TPM_ALG_ID.KDF2: u = new TPMS_KDF_SCHEME_KDF2(); break;
-                case TPM_ALG_ID.KDF1_SP800_108: u = new TPMS_KDF_SCHEME_KDF1_SP800_108(); break;
-                case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
-                case TPM_ALG_ID.NULL: u = new TPMS_NULL_KDF_SCHEME(); break;
+                case TPM_ALG_ID.MGF1: return new TPMS_KDF_SCHEME_MGF1();
+                case TPM_ALG_ID.KDF1_SP800_56A: return new TPMS_KDF_SCHEME_KDF1_SP800_56A();
+                case TPM_ALG_ID.KDF2: return new TPMS_KDF_SCHEME_KDF2();
+                case TPM_ALG_ID.KDF1_SP800_108: return new TPMS_KDF_SCHEME_KDF1_SP800_108();
+                case TPM_ALG_ID.ANY: return new TPMS_SCHEME_HASH();
+                case TPM_ALG_ID.NULL: return new TPMS_NULL_KDF_SCHEME();
             }
             break;
         case 'TPMU_ASYM_SCHEME':
             switch (selector) {
-                case TPM_ALG_ID.ECDH: u = new TPMS_KEY_SCHEME_ECDH(); break;
-                case TPM_ALG_ID.ECMQV: u = new TPMS_KEY_SCHEME_ECMQV(); break;
-                case TPM_ALG_ID.RSASSA: u = new TPMS_SIG_SCHEME_RSASSA(); break;
-                case TPM_ALG_ID.RSAPSS: u = new TPMS_SIG_SCHEME_RSAPSS(); break;
-                case TPM_ALG_ID.ECDSA: u = new TPMS_SIG_SCHEME_ECDSA(); break;
-                case TPM_ALG_ID.ECDAA: u = new TPMS_SIG_SCHEME_ECDAA(); break;
-                case TPM_ALG_ID.SM2: u = new TPMS_SIG_SCHEME_SM2(); break;
-                case TPM_ALG_ID.ECSCHNORR: u = new TPMS_SIG_SCHEME_ECSCHNORR(); break;
-                case TPM_ALG_ID.RSAES: u = new TPMS_ENC_SCHEME_RSAES(); break;
-                case TPM_ALG_ID.OAEP: u = new TPMS_ENC_SCHEME_OAEP(); break;
-                case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
-                case TPM_ALG_ID.NULL: u = new TPMS_NULL_ASYM_SCHEME(); break;
+                case TPM_ALG_ID.ECDH: return new TPMS_KEY_SCHEME_ECDH();
+                case TPM_ALG_ID.ECMQV: return new TPMS_KEY_SCHEME_ECMQV();
+                case TPM_ALG_ID.RSASSA: return new TPMS_SIG_SCHEME_RSASSA();
+                case TPM_ALG_ID.RSAPSS: return new TPMS_SIG_SCHEME_RSAPSS();
+                case TPM_ALG_ID.ECDSA: return new TPMS_SIG_SCHEME_ECDSA();
+                case TPM_ALG_ID.ECDAA: return new TPMS_SIG_SCHEME_ECDAA();
+                case TPM_ALG_ID.SM2: return new TPMS_SIG_SCHEME_SM2();
+                case TPM_ALG_ID.ECSCHNORR: return new TPMS_SIG_SCHEME_ECSCHNORR();
+                case TPM_ALG_ID.RSAES: return new TPMS_ENC_SCHEME_RSAES();
+                case TPM_ALG_ID.OAEP: return new TPMS_ENC_SCHEME_OAEP();
+                case TPM_ALG_ID.ANY: return new TPMS_SCHEME_HASH();
+                case TPM_ALG_ID.NULL: return new TPMS_NULL_ASYM_SCHEME();
             }
             break;
         case 'TPMU_SIGNATURE':
             switch (selector) {
-                case TPM_ALG_ID.RSASSA: u = new TPMS_SIGNATURE_RSASSA(); break;
-                case TPM_ALG_ID.RSAPSS: u = new TPMS_SIGNATURE_RSAPSS(); break;
-                case TPM_ALG_ID.ECDSA: u = new TPMS_SIGNATURE_ECDSA(); break;
-                case TPM_ALG_ID.ECDAA: u = new TPMS_SIGNATURE_ECDAA(); break;
-                case TPM_ALG_ID.SM2: u = new TPMS_SIGNATURE_SM2(); break;
-                case TPM_ALG_ID.ECSCHNORR: u = new TPMS_SIGNATURE_ECSCHNORR(); break;
-                case TPM_ALG_ID.HMAC: u = new TPMT_HA(); break;
-                case TPM_ALG_ID.ANY: u = new TPMS_SCHEME_HASH(); break;
-                case TPM_ALG_ID.NULL: u = new TPMS_NULL_SIGNATURE(); break;
+                case TPM_ALG_ID.RSASSA: return new TPMS_SIGNATURE_RSASSA();
+                case TPM_ALG_ID.RSAPSS: return new TPMS_SIGNATURE_RSAPSS();
+                case TPM_ALG_ID.ECDSA: return new TPMS_SIGNATURE_ECDSA();
+                case TPM_ALG_ID.ECDAA: return new TPMS_SIGNATURE_ECDAA();
+                case TPM_ALG_ID.SM2: return new TPMS_SIGNATURE_SM2();
+                case TPM_ALG_ID.ECSCHNORR: return new TPMS_SIGNATURE_ECSCHNORR();
+                case TPM_ALG_ID.HMAC: return new TPMT_HA();
+                case TPM_ALG_ID.ANY: return new TPMS_SCHEME_HASH();
+                case TPM_ALG_ID.NULL: return new TPMS_NULL_SIGNATURE();
             }
             break;
         case 'TPMU_PUBLIC_ID':
             switch (selector) {
-                case TPM_ALG_ID.KEYEDHASH: u = new TPM2B_DIGEST_KEYEDHASH(); break;
-                case TPM_ALG_ID.SYMCIPHER: u = new TPM2B_DIGEST_SYMCIPHER(); break;
-                case TPM_ALG_ID.RSA: u = new TPM2B_PUBLIC_KEY_RSA(); break;
-                case TPM_ALG_ID.ECC: u = new TPMS_ECC_POINT(); break;
-                case TPM_ALG_ID.ANY: u = new TPMS_DERIVE(); break;
+                case TPM_ALG_ID.KEYEDHASH: return new TPM2B_DIGEST_KEYEDHASH();
+                case TPM_ALG_ID.SYMCIPHER: return new TPM2B_DIGEST_SYMCIPHER();
+                case TPM_ALG_ID.RSA: return new TPM2B_PUBLIC_KEY_RSA();
+                case TPM_ALG_ID.ECC: return new TPMS_ECC_POINT();
+                case TPM_ALG_ID.ANY: return new TPMS_DERIVE();
             }
             break;
         case 'TPMU_PUBLIC_PARMS':
             switch (selector) {
-                case TPM_ALG_ID.KEYEDHASH: u = new TPMS_KEYEDHASH_PARMS(); break;
-                case TPM_ALG_ID.SYMCIPHER: u = new TPMS_SYMCIPHER_PARMS(); break;
-                case TPM_ALG_ID.RSA: u = new TPMS_RSA_PARMS(); break;
-                case TPM_ALG_ID.ECC: u = new TPMS_ECC_PARMS(); break;
-                case TPM_ALG_ID.ANY: u = new TPMS_ASYM_PARMS(); break;
+                case TPM_ALG_ID.KEYEDHASH: return new TPMS_KEYEDHASH_PARMS();
+                case TPM_ALG_ID.SYMCIPHER: return new TPMS_SYMCIPHER_PARMS();
+                case TPM_ALG_ID.RSA: return new TPMS_RSA_PARMS();
+                case TPM_ALG_ID.ECC: return new TPMS_ECC_PARMS();
+                case TPM_ALG_ID.ANY: return new TPMS_ASYM_PARMS();
             }
             break;
         case 'TPMU_SENSITIVE_COMPOSITE':
             switch (selector) {
-                case TPM_ALG_ID.RSA: u = new TPM2B_PRIVATE_KEY_RSA(); break;
-                case TPM_ALG_ID.ECC: u = new TPM2B_ECC_PARAMETER(); break;
-                case TPM_ALG_ID.KEYEDHASH: u = new TPM2B_SENSITIVE_DATA(); break;
-                case TPM_ALG_ID.SYMCIPHER: u = new TPM2B_SYM_KEY(); break;
-                case TPM_ALG_ID.ANY: u = new TPM2B_PRIVATE_VENDOR_SPECIFIC(); break;
+                case TPM_ALG_ID.RSA: return new TPM2B_PRIVATE_KEY_RSA();
+                case TPM_ALG_ID.ECC: return new TPM2B_ECC_PARAMETER();
+                case TPM_ALG_ID.KEYEDHASH: return new TPM2B_SENSITIVE_DATA();
+                case TPM_ALG_ID.SYMCIPHER: return new TPM2B_SYM_KEY();
+                case TPM_ALG_ID.ANY: return new TPM2B_PRIVATE_VENDOR_SPECIFIC();
             }
             break;
         default:
             throw new Error('UnionFactory.create(): Unknown union type ' + unionType);
         }
-
-        if (u == null)
-            throw new Error('Unknown selector value ' + selector + ' for union ' + unionType);
-        return u as U;
+        
+        throw new Error('Unknown selector value ' + selector + ' for union ' + unionType);
     } // create()
-
 } // class UnionFactory
 
-/** Handle of a loaded TPM key or other object [TSS] */
+/** Handle of a loaded TPM key or other object [TSS]  */
 export class TPM_HANDLE extends TpmStructure
 {
     constructor(
-        /** Handle value */
+        /** Handle value  */
         public handle: number = TPM_RH.NULL
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.handle); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeInt(this.handle); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.handle = buf.readInt(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.handle = buf.readInt(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM_HANDLE
     {
         return buf.createObj(TPM_HANDLE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM_HANDLE
     {
         return new TpmBuffer(buffer).createObj(TPM_HANDLE);
     }
-
+    
     /** Represents TPM_RH.NULL reserved handle */
     public static readonly NULL: TPM_HANDLE = new TPM_HANDLE(TPM_RH.NULL);
     /** Represents TPM_RH.OWNER reserved handle */
@@ -3692,8 +3457,7 @@ export class TPM_HANDLE extends TpmStructure
     
 } // TPM_HANDLE
 
-/**
- *  Base class for empty union elements.
+/** Base class for empty union elements.
  *  An empty union element does not contain any data to marshal.
  *  This data structure can be used in place of any other union
  *  initialized with its own empty element.
@@ -3702,178 +3466,170 @@ export class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_DETAILS, T
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_NULL_UNION
     {
         return buf.createObj(TPMS_NULL_UNION);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_NULL_UNION
     {
         return new TpmBuffer(buffer).createObj(TPMS_NULL_UNION);
     }
-
+    
 } // TPMS_NULL_UNION
 
-/**
- *  This structure is used as a placeholder. In some cases, a union will have a selector value
- *  with no data to unmarshal when that type is selected. Rather than leave the entry
- *  empty, TPMS_EMPTY may be selected.
+/** This structure is used as a placeholder. In some cases, a union will have a selector
+ *  value with no data to unmarshal when that type is selected. Rather than leave the
+ *  entry empty, TPMS_EMPTY may be selected.
  */
 export class TPMS_EMPTY extends TpmStructure implements TPMU_ASYM_SCHEME
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSAES; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_EMPTY
     {
         return buf.createObj(TPMS_EMPTY);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_EMPTY
     {
         return new TpmBuffer(buffer).createObj(TPMS_EMPTY);
     }
-
+    
 } // TPMS_EMPTY
 
-/**
- *  This structure is a return value for a TPM2_GetCapability() that reads
- *  the installed algorithms.
- */
+/** This structure is a return value for a TPM2_GetCapability() that reads the installed algorithms.  */
 export class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
 {
     constructor(
-        /** an algorithm */
-        public alg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** An algorithm  */
+        public alg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** the attributes of the algorithm */
+        /** The attributes of the algorithm  */
         public attributes: TPMA_ALGORITHM = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.alg);
         buf.writeInt(this.attributes);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.alg = buf.readShort();
         this.attributes = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ALGORITHM_DESCRIPTION
     {
         return buf.createObj(TPMS_ALGORITHM_DESCRIPTION);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ALGORITHM_DESCRIPTION
     {
         return new TpmBuffer(buffer).createObj(TPMS_ALGORITHM_DESCRIPTION);
     }
-
+    
 } // TPMS_ALGORITHM_DESCRIPTION
 
-/**
- *  Table 80 shows the basic hash-agile structure used in this specification. To handle hash
- *  agility, this structure uses the hashAlg parameter to indicate the algorithm used to
- *  compute the digest and, by implication, the size of the digest.
+/** Table 80 shows the basic hash-agile structure used in this specification. To handle
+ *  hash agility, this structure uses the hashAlg parameter to indicate the algorithm used
+ *  to compute the digest and, by implication, the size of the digest.
  */
 export class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
 {
     constructor(
-        /**
-         *  selector of the hash contained in the digest that implies the size of the digest
-         *  NOTE The leading + on the type indicates that this structure should pass an indication to
-         *  the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if a use of
-         *  a TPMT_HA allows TPM_ALG_NULL.
+        /** Selector of the hash contained in the digest that implies the size of the digest
+         *  NOTE The leading + on the type indicates that this structure should pass an indication
+         *  to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if
+         *  a use of a TPMT_HA allows TPM_ALG_NULL.
          */
-        public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** Hash value */
+        /** Hash value  */
         public digest: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.HMAC; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.hashAlg);
         buf.writeByteBuf(this.digest);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.hashAlg = buf.readShort();
         this.digest = buf.readByteBuf(Crypto.digestSize(this.hashAlg));
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_HA
     {
         return buf.createObj(TPMT_HA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_HA
     {
         return new TpmBuffer(buffer).createObj(TPMT_HA);
     }
-
+    
 } // TPMT_HA
 
-/**
- *  This structure is used for a sized buffer that cannot be larger than the largest digest
- *  produced by any hash algorithm implemented on the TPM.
+/** This structure is used for a sized buffer that cannot be larger than the largest
+ *  digest produced by any hash algorithm implemented on the TPM.
  */
 export class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
 {
     constructor(
-        /** the buffer area that can be no larger than a digest */
+        /** The buffer area that can be no larger than a digest  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KEYEDHASH; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_DIGEST
     {
         return buf.createObj(TPM2B_DIGEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_DIGEST
     {
         return new TpmBuffer(buffer).createObj(TPM2B_DIGEST);
     }
-
+    
 } // TPM2B_DIGEST
 
-/**
- *  This structure is used for a data buffer that is required to be no larger than the
+/** This structure is used for a data buffer that is required to be no larger than the
  *  size of the Name of an object.
  */
 export class TPM2B_DATA extends TpmStructure
@@ -3882,533 +3638,522 @@ export class TPM2B_DATA extends TpmStructure
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_DATA
     {
         return buf.createObj(TPM2B_DATA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_DATA
     {
         return new TpmBuffer(buffer).createObj(TPM2B_DATA);
     }
-
+    
 } // TPM2B_DATA
 
-/** Table 83 Definition of Types for TPM2B_NONCE */
+/** Table 83 Definition of Types for TPM2B_NONCE  */
 export class TPM2B_NONCE extends TPM2B_DIGEST
 {
     constructor(
-        /** the buffer area that can be no larger than a digest */
+        /** The buffer area that can be no larger than a digest  */
         buffer: Buffer = null
     ) { super(buffer); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_NONCE
     {
         return buf.createObj(TPM2B_NONCE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_NONCE
     {
         return new TpmBuffer(buffer).createObj(TPM2B_NONCE);
     }
-
+    
 } // TPM2B_NONCE
 
-/**
- *  This structure is used for an authorization value and limits an authValue to being no
- *  larger than the largest digest produced by a TPM. In order to ensure consistency within an
- *  object, the authValue may be no larger than the size of the digest produced by the objects
- *  nameAlg. This ensures that any TPM that can load the object will be able to handle
- *  the authValue of the object.
+/** This structure is used for an authorization value and limits an authValue to being no
+ *  larger than the largest digest produced by a TPM. In order to ensure consistency
+ *  within an object, the authValue may be no larger than the size of the digest produced
+ *  by the objects nameAlg. This ensures that any TPM that can load the object will be
+ *  able to handle the authValue of the object.
  */
 export class TPM2B_AUTH extends TPM2B_DIGEST
 {
     constructor(
-        /** the buffer area that can be no larger than a digest */
+        /** The buffer area that can be no larger than a digest  */
         buffer: Buffer = null
     ) { super(buffer); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_AUTH
     {
         return buf.createObj(TPM2B_AUTH);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_AUTH
     {
         return new TpmBuffer(buffer).createObj(TPM2B_AUTH);
     }
-
+    
 } // TPM2B_AUTH
 
-/**
- *  This type is a sized buffer that can hold an operand for a comparison with an NV Index
+/** This type is a sized buffer that can hold an operand for a comparison with an NV Index
  *  location. The maximum size of the operand is implementation dependent but a TPM is
- *  required to support an operand size that is at least as big as the digest produced by any
- *  of the hash algorithms implemented on the TPM.
+ *  required to support an operand size that is at least as big as the digest produced by
+ *  any of the hash algorithms implemented on the TPM.
  */
 export class TPM2B_OPERAND extends TPM2B_DIGEST
 {
     constructor(
-        /** the buffer area that can be no larger than a digest */
+        /** The buffer area that can be no larger than a digest  */
         buffer: Buffer = null
     ) { super(buffer); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_OPERAND
     {
         return buf.createObj(TPM2B_OPERAND);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_OPERAND
     {
         return new TpmBuffer(buffer).createObj(TPM2B_OPERAND);
     }
-
+    
 } // TPM2B_OPERAND
 
-/** This type is a sized buffer that can hold event data. */
+/** This type is a sized buffer that can hold event data.  */
 export class TPM2B_EVENT extends TpmStructure
 {
     constructor(
-        /** the operand */
+        /** The operand  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_EVENT
     {
         return buf.createObj(TPM2B_EVENT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_EVENT
     {
         return new TpmBuffer(buffer).createObj(TPM2B_EVENT);
     }
-
+    
 } // TPM2B_EVENT
 
-/**
- *  This type is a sized buffer that can hold a maximally sized buffer for commands that use a
- *  large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
+/** This type is a sized buffer that can hold a maximally sized buffer for commands that
+ *  use a large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
  */
 export class TPM2B_MAX_BUFFER extends TpmStructure
 {
     constructor(
-        /** the operand */
+        /** The operand  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_MAX_BUFFER
     {
         return buf.createObj(TPM2B_MAX_BUFFER);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_MAX_BUFFER
     {
         return new TpmBuffer(buffer).createObj(TPM2B_MAX_BUFFER);
     }
-
+    
 } // TPM2B_MAX_BUFFER
 
-/**
- *  This type is a sized buffer that can hold a maximally sized buffer for NV data commands
- *  such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
+/** This type is a sized buffer that can hold a maximally sized buffer for NV data
+ *  commands such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
  */
 export class TPM2B_MAX_NV_BUFFER extends TpmStructure
 {
     constructor(
-        /**
-         *  the operand
+        /** The operand
          *  NOTE MAX_NV_BUFFER_SIZE is TPM-dependent
          */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_MAX_NV_BUFFER
     {
         return buf.createObj(TPM2B_MAX_NV_BUFFER);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_MAX_NV_BUFFER
     {
         return new TpmBuffer(buffer).createObj(TPM2B_MAX_NV_BUFFER);
     }
-
+    
 } // TPM2B_MAX_NV_BUFFER
 
-/**
- *  This TPM-dependent structure is used to provide the timeout value for an authorization.
- *  The size shall be 8 or less.
+/** This TPM-dependent structure is used to provide the timeout value for an
+ *  authorization. The size shall be 8 or less.
  */
 export class TPM2B_TIMEOUT extends TpmStructure
 {
     constructor(
-        /** the timeout value */
+        /** The timeout value  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_TIMEOUT
     {
         return buf.createObj(TPM2B_TIMEOUT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_TIMEOUT
     {
         return new TpmBuffer(buffer).createObj(TPM2B_TIMEOUT);
     }
-
+    
 } // TPM2B_TIMEOUT
 
-/**
- *  This structure is used for passing an initial value for a symmetric block cipher to or
- *  from the TPM. The size is set to be the largest block size of any implemented symmetric
- *  cipher implemented on the TPM.
+/** This structure is used for passing an initial value for a symmetric block cipher to or
+ *  from the TPM. The size is set to be the largest block size of any implemented
+ *  symmetric cipher implemented on the TPM.
  */
 export class TPM2B_IV extends TpmStructure
 {
     constructor(
-        /** the IV value */
+        /** The IV value  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_IV
     {
         return buf.createObj(TPM2B_IV);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_IV
     {
         return new TpmBuffer(buffer).createObj(TPM2B_IV);
     }
-
+    
 } // TPM2B_IV
 
-/** This buffer holds a Name for any entity type. */
+/** This buffer holds a Name for any entity type.  */
 export class TPM2B_NAME extends TpmStructure
 {
     constructor(
-        /** the Name structure */
+        /** The Name structure  */
         public name: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.name); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.name); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.name = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.name = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_NAME
     {
         return buf.createObj(TPM2B_NAME);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_NAME
     {
         return new TpmBuffer(buffer).createObj(TPM2B_NAME);
     }
-
+    
 } // TPM2B_NAME
 
-/** This structure provides a standard method of specifying a list of PCR. */
+/** This structure provides a standard method of specifying a list of PCR.  */
 export class TPMS_PCR_SELECT extends TpmStructure
 {
     constructor(
-        /** the bit map of selected PCR */
+        /** The bit map of selected PCR  */
         public pcrSelect: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.pcrSelect, 1); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.pcrSelect, 1); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.pcrSelect = buf.readSizedByteBuf(1); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.pcrSelect = buf.readSizedByteBuf(1); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_PCR_SELECT
     {
         return buf.createObj(TPMS_PCR_SELECT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_PCR_SELECT
     {
         return new TpmBuffer(buffer).createObj(TPMS_PCR_SELECT);
     }
-
+    
 } // TPMS_PCR_SELECT
 
-/** Table 94 Definition of TPMS_PCR_SELECTION Structure */
+/** Table 94 Definition of TPMS_PCR_SELECTION Structure  */
 export class TPMS_PCR_SELECTION extends TpmStructure
 {
     constructor(
-        /** the hash algorithm associated with the selection */
-        public hash: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** The hash algorithm associated with the selection  */
+        public hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** the bit map of selected PCR */
+        /** The bit map of selected PCR  */
         public pcrSelect: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.hash);
         buf.writeSizedByteBuf(this.pcrSelect, 1);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.hash = buf.readShort();
         this.pcrSelect = buf.readSizedByteBuf(1);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_PCR_SELECTION
     {
         return buf.createObj(TPMS_PCR_SELECTION);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_PCR_SELECTION
     {
         return new TpmBuffer(buffer).createObj(TPMS_PCR_SELECTION);
     }
-
+    
 } // TPMS_PCR_SELECTION
 
-/**
- *  This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the
- *  creation data to the object to which it applies. The ticket is computed by
+/** This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind
+ *  the creation data to the object to which it applies. The ticket is computed by
  */
 export class TPMT_TK_CREATION extends TpmStructure
 {
     constructor(
-        /** the hierarchy containing name */
-        public hierarchy: TPM_HANDLE = new TPM_HANDLE(),
+        /** The hierarchy containing name  */
+        public hierarchy: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** This shall be the HMAC produced using a proof value of hierarchy. */
+        /** This shall be the HMAC produced using a proof value of hierarchy.  */
         public digest: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(TPM_ST.CREATION);
         this.hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(this.digest);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         buf.readShort();
         this.hierarchy = TPM_HANDLE.fromTpm(buf);
         this.digest = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_TK_CREATION
     {
         return buf.createObj(TPMT_TK_CREATION);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_TK_CREATION
     {
         return new TpmBuffer(buffer).createObj(TPMT_TK_CREATION);
     }
-
+    
 } // TPMT_TK_CREATION
 
-/**
- *  This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
- *  ticket uses. The ticket provides evidence that the TPM has validated that a digest was
- *  signed by a key with the Name of keyName. The ticket is computed by
+/** This ticket is produced by TPM2_VerifySignature(). This formulation is used for
+ *  multiple ticket uses. The ticket provides evidence that the TPM has validated that a
+ *  digest was signed by a key with the Name of keyName. The ticket is computed by
  */
 export class TPMT_TK_VERIFIED extends TpmStructure
 {
     constructor(
-        /** the hierarchy containing keyName */
-        public hierarchy: TPM_HANDLE = new TPM_HANDLE(),
+        /** The hierarchy containing keyName  */
+        public hierarchy: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** This shall be the HMAC produced using a proof value of hierarchy. */
+        /** This shall be the HMAC produced using a proof value of hierarchy.  */
         public digest: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(TPM_ST.VERIFIED);
         this.hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(this.digest);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         buf.readShort();
         this.hierarchy = TPM_HANDLE.fromTpm(buf);
         this.digest = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_TK_VERIFIED
     {
         return buf.createObj(TPMT_TK_VERIFIED);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_TK_VERIFIED
     {
         return new TpmBuffer(buffer).createObj(TPMT_TK_VERIFIED);
     }
-
+    
 } // TPMT_TK_VERIFIED
 
-/**
- *  This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the
- *  authorization has an expiration time. If nonceTPM was provided in the policy
- *  command, the ticket is computed by
+/** This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the
+ *  authorization has an expiration time. If nonceTPM was provided in the policy command,
+ *  the ticket is computed by
  */
 export class TPMT_TK_AUTH extends TpmStructure
 {
     constructor(
-        /** ticket structure tag */
-        public tag: TPM_ST = 0,
+        /** Ticket structure tag  */
+        public tag: TPM_ST = 0, 
         
-        /** the hierarchy of the object used to produce the ticket */
-        public hierarchy: TPM_HANDLE = new TPM_HANDLE(),
+        /** The hierarchy of the object used to produce the ticket  */
+        public hierarchy: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** This shall be the HMAC produced using a proof value of hierarchy. */
+        /** This shall be the HMAC produced using a proof value of hierarchy.  */
         public digest: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.tag);
         this.hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(this.digest);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.tag = buf.readShort();
         this.hierarchy = TPM_HANDLE.fromTpm(buf);
         this.digest = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_TK_AUTH
     {
         return buf.createObj(TPMT_TK_AUTH);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_TK_AUTH
     {
         return new TpmBuffer(buffer).createObj(TPMT_TK_AUTH);
     }
-
+    
 } // TPMT_TK_AUTH
 
-/**
- *  This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message that
- *  was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
+/** This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message
+ *  that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
  */
 export class TPMT_TK_HASHCHECK extends TpmStructure
 {
     constructor(
-        /** the hierarchy */
-        public hierarchy: TPM_HANDLE = new TPM_HANDLE(),
+        /** The hierarchy  */
+        public hierarchy: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** This shall be the HMAC produced using a proof value of hierarchy. */
+        /** This shall be the HMAC produced using a proof value of hierarchy.  */
         public digest: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(TPM_ST.HASHCHECK);
         this.hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(this.digest);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         buf.readShort();
         this.hierarchy = TPM_HANDLE.fromTpm(buf);
         this.digest = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_TK_HASHCHECK
     {
         return buf.createObj(TPMT_TK_HASHCHECK);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_TK_HASHCHECK
     {
         return new TpmBuffer(buffer).createObj(TPMT_TK_HASHCHECK);
     }
-
+    
     /** @deprecated Use default ctor instead */
     public static nullTicket(): TPMT_TK_HASHCHECK
     {
@@ -4417,662 +4162,644 @@ export class TPMT_TK_HASHCHECK extends TpmStructure
     
 } // TPMT_TK_HASHCHECK
 
-/**
- *  This structure is used to report the properties of an algorithm identifier. It is returned
- *  in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
+/** This structure is used to report the properties of an algorithm identifier. It is
+ *  returned in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
  */
 export class TPMS_ALG_PROPERTY extends TpmStructure
 {
     constructor(
-        /** an algorithm identifier */
-        public alg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** An algorithm identifier  */
+        public alg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** the attributes of the algorithm */
+        /** The attributes of the algorithm  */
         public algProperties: TPMA_ALGORITHM = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.alg);
         buf.writeInt(this.algProperties);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.alg = buf.readShort();
         this.algProperties = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ALG_PROPERTY
     {
         return buf.createObj(TPMS_ALG_PROPERTY);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ALG_PROPERTY
     {
         return new TpmBuffer(buffer).createObj(TPMS_ALG_PROPERTY);
     }
-
+    
 } // TPMS_ALG_PROPERTY
 
-/**
- *  This structure is used to report the properties that are UINT32 values. It is returned in
- *  response to a TPM2_GetCapability().
+/** This structure is used to report the properties that are UINT32 values. It is returned
+ *  in response to a TPM2_GetCapability().
  */
 export class TPMS_TAGGED_PROPERTY extends TpmStructure
 {
     constructor(
-        /** a property identifier */
-        public property: TPM_PT = 0,
+        /** A property identifier  */
+        public property: TPM_PT = 0, 
         
-        /** the value of the property */
+        /** The value of the property  */
         public value: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt(this.property);
         buf.writeInt(this.value);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.property = buf.readInt();
         this.value = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_TAGGED_PROPERTY
     {
         return buf.createObj(TPMS_TAGGED_PROPERTY);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_TAGGED_PROPERTY
     {
         return new TpmBuffer(buffer).createObj(TPMS_TAGGED_PROPERTY);
     }
-
+    
 } // TPMS_TAGGED_PROPERTY
 
-/** This structure is used in TPM2_GetCapability() to return the attributes of the PCR. */
+/** This structure is used in TPM2_GetCapability() to return the attributes of the PCR.  */
 export class TPMS_TAGGED_PCR_SELECT extends TpmStructure
 {
     constructor(
-        /** the property identifier */
-        public tag: TPM_PT_PCR = 0,
+        /** The property identifier  */
+        public tag: TPM_PT_PCR = 0, 
         
-        /** the bit map of PCR with the identified property */
+        /** The bit map of PCR with the identified property  */
         public pcrSelect: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt(this.tag);
         buf.writeSizedByteBuf(this.pcrSelect, 1);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.tag = buf.readInt();
         this.pcrSelect = buf.readSizedByteBuf(1);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_TAGGED_PCR_SELECT
     {
         return buf.createObj(TPMS_TAGGED_PCR_SELECT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_TAGGED_PCR_SELECT
     {
         return new TpmBuffer(buffer).createObj(TPMS_TAGGED_PCR_SELECT);
     }
-
+    
 } // TPMS_TAGGED_PCR_SELECT
 
-/**
- *  This structure is used in TPM2_GetCapability() to return the policy
- *  associated with a permanent handle.
+/** This structure is used in TPM2_GetCapability() to return the policy associated with a
+ *  permanent handle.
  */
 export class TPMS_TAGGED_POLICY extends TpmStructure
 {
     constructor(
-        /** a permanent handle */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        /** A permanent handle  */
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the policy algorithm and hash */
+        /** The policy algorithm and hash  */
         public policyHash: TPMT_HA = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.handle.toTpm(buf);
         this.policyHash.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.handle = TPM_HANDLE.fromTpm(buf);
         this.policyHash = TPMT_HA.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_TAGGED_POLICY
     {
         return buf.createObj(TPMS_TAGGED_POLICY);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_TAGGED_POLICY
     {
         return new TpmBuffer(buffer).createObj(TPMS_TAGGED_POLICY);
     }
-
+    
 } // TPMS_TAGGED_POLICY
 
-/** This structure is used in TPM2_GetCapability() to return the ACT data. */
+/** This structure is used in TPM2_GetCapability() to return the ACT data.  */
 export class TPMS_ACT_DATA extends TpmStructure
 {
     constructor(
-        /** a permanent handle */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        /** A permanent handle  */
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the current timeout of the ACT */
-        public timeout: number = 0,
+        /** The current timeout of the ACT  */
+        public timeout: number = 0, 
         
-        /** the state of the ACT */
+        /** The state of the ACT  */
         public attributes: TPMA_ACT = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.handle.toTpm(buf);
         buf.writeInt(this.timeout);
         buf.writeInt(this.attributes);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.handle = TPM_HANDLE.fromTpm(buf);
         this.timeout = buf.readInt();
         this.attributes = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ACT_DATA
     {
         return buf.createObj(TPMS_ACT_DATA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ACT_DATA
     {
         return new TpmBuffer(buffer).createObj(TPMS_ACT_DATA);
     }
-
+    
 } // TPMS_ACT_DATA
 
-/**
- *  A list of command codes may be input to the TPM or returned by the TPM
- *  depending on the command.
+/** A list of command codes may be input to the TPM or returned by the TPM depending on
+ *  the command.
  */
 export class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
-        /**
-         *  a list of command codes
-         *  The maximum only applies to a command code list in a command. The response size is limited only by
-         *  the size of the parameter buffer.
+        /** A list of command codes
+         *  The maximum only applies to a command code list in a command. The response size is
+         *  limited only by the size of the parameter buffer.
          */
         public commandCodes: TPM_CC[] = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_CAP { return TPM_CAP.PP_COMMANDS; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_CC>(this.commandCodes, 4); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeValArr(this.commandCodes, 4); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.commandCodes = buf.readValArr(4); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.commandCodes = buf.readValArr(4); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_CC
     {
         return buf.createObj(TPML_CC);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_CC
     {
         return new TpmBuffer(buffer).createObj(TPML_CC);
     }
-
+    
 } // TPML_CC
 
-/** This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS). */
+/** This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS).  */
 export class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
-        /** a list of command codes attributes */
+        /** A list of command codes attributes  */
         public commandAttributes: TPMA_CC[] = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_CAP { return TPM_CAP.COMMANDS; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPMA_CC>(this.commandAttributes, 4); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeValArr(this.commandAttributes, 4); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.commandAttributes = buf.readValArr(4); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.commandAttributes = buf.readValArr(4); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_CCA
     {
         return buf.createObj(TPML_CCA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_CCA
     {
         return new TpmBuffer(buffer).createObj(TPML_CCA);
     }
-
+    
 } // TPML_CCA
 
-/** This list is returned by TPM2_IncrementalSelfTest(). */
+/** This list is returned by TPM2_IncrementalSelfTest().  */
 export class TPML_ALG extends TpmStructure
 {
     constructor(
-        /**
-         *  a list of algorithm IDs
-         *  The maximum only applies to an algorithm list in a command. The response size is limited only by
-         *  the size of the parameter buffer.
+        /** A list of algorithm IDs
+         *  The maximum only applies to an algorithm list in a command. The response size is
+         *  limited only by the size of the parameter buffer.
          */
         public algorithms: TPM_ALG_ID[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ALG_ID>(this.algorithms, 2); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeValArr(this.algorithms, 2); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.algorithms = buf.readValArr(2); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.algorithms = buf.readValArr(2); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_ALG
     {
         return buf.createObj(TPML_ALG);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_ALG
     {
         return new TpmBuffer(buffer).createObj(TPML_ALG);
     }
-
+    
 } // TPML_ALG
 
-/**
- *  This structure is used when the TPM returns a list of loaded handles when the capability in
- *  TPM2_GetCapability() is TPM_CAP_HANDLE.
+/** This structure is used when the TPM returns a list of loaded handles when the
+ *  capability in TPM2_GetCapability() is TPM_CAP_HANDLE.
  */
 export class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
-        /** an array of handles */
+        /** An array of handles  */
         public handle: TPM_HANDLE[] = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_CAP { return TPM_CAP.HANDLES; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPM_HANDLE>(this.handle); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.handle); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.handle = buf.readObjArr(TPM_HANDLE); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.handle = buf.readObjArr(TPM_HANDLE); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_HANDLE
     {
         return buf.createObj(TPML_HANDLE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_HANDLE
     {
         return new TpmBuffer(buffer).createObj(TPML_HANDLE);
     }
-
+    
 } // TPML_HANDLE
 
-/**
- *  This list is used to convey a list of digest values. This type is used in
+/** This list is used to convey a list of digest values. This type is used in
  *  TPM2_PolicyOR() and in TPM2_PCR_Read().
  */
 export class TPML_DIGEST extends TpmStructure
 {
     constructor(
-        /**
-         *  a list of digests
-         *  For TPM2_PolicyOR(), all digests will have been computed using the digest of the policy
-         *  session. For TPM2_PCR_Read(), each digest will be the size of the digest for
+        /** A list of digests
+         *  For TPM2_PolicyOR(), all digests will have been computed using the digest of the
+         *  policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for
          *  the bank containing the PCR.
          */
         public digests: TPM2B_DIGEST[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPM2B_DIGEST>(this.digests); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.digests); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.digests = buf.readObjArr(TPM2B_DIGEST); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.digests = buf.readObjArr(TPM2B_DIGEST); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_DIGEST
     {
         return buf.createObj(TPML_DIGEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_DIGEST
     {
         return new TpmBuffer(buffer).createObj(TPML_DIGEST);
     }
-
+    
 } // TPML_DIGEST
 
-/**
- *  This list is used to convey a list of digest values. This type is returned by
+/** This list is used to convey a list of digest values. This type is returned by
  *  TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend().
  */
 export class TPML_DIGEST_VALUES extends TpmStructure
 {
     constructor(
-        /** a list of tagged digests */
+        /** A list of tagged digests  */
         public digests: TPMT_HA[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMT_HA>(this.digests); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.digests); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.digests = buf.readObjArr(TPMT_HA); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.digests = buf.readObjArr(TPMT_HA); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_DIGEST_VALUES
     {
         return buf.createObj(TPML_DIGEST_VALUES);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_DIGEST_VALUES
     {
         return new TpmBuffer(buffer).createObj(TPML_DIGEST_VALUES);
     }
-
+    
 } // TPML_DIGEST_VALUES
 
-/**
- *  This list is used to indicate the PCR that are included in a selection when more than
+/** This list is used to indicate the PCR that are included in a selection when more than
  *  one PCR value may be selected.
  */
 export class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
-        /** list of selections */
+        /** List of selections  */
         public pcrSelections: TPMS_PCR_SELECTION[] = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_CAP { return TPM_CAP.PCRS; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelections); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.pcrSelections); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.pcrSelections = buf.readObjArr(TPMS_PCR_SELECTION); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.pcrSelections = buf.readObjArr(TPMS_PCR_SELECTION); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_PCR_SELECTION
     {
         return buf.createObj(TPML_PCR_SELECTION);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_PCR_SELECTION
     {
         return new TpmBuffer(buffer).createObj(TPML_PCR_SELECTION);
     }
-
+    
 } // TPML_PCR_SELECTION
 
-/**
- *  This list is used to report on a list of algorithm attributes. It is returned
- *  in a TPM2_GetCapability().
+/** This list is used to report on a list of algorithm attributes. It is returned in a
+ *  TPM2_GetCapability().
  */
 export class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
-        /** list of properties */
+        /** List of properties  */
         public algProperties: TPMS_ALG_PROPERTY[] = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_CAP { return TPM_CAP.ALGS; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_ALG_PROPERTY>(this.algProperties); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.algProperties); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.algProperties = buf.readObjArr(TPMS_ALG_PROPERTY); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.algProperties = buf.readObjArr(TPMS_ALG_PROPERTY); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_ALG_PROPERTY
     {
         return buf.createObj(TPML_ALG_PROPERTY);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_ALG_PROPERTY
     {
         return new TpmBuffer(buffer).createObj(TPML_ALG_PROPERTY);
     }
-
+    
 } // TPML_ALG_PROPERTY
 
-/**
- *  This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is
- *  returned by a TPM2_GetCapability().
+/** This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY
+ *  values. It is returned by a TPM2_GetCapability().
  */
 export class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
-        /** an array of tagged properties */
+        /** An array of tagged properties  */
         public tpmProperty: TPMS_TAGGED_PROPERTY[] = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_CAP { return TPM_CAP.TPM_PROPERTIES; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_TAGGED_PROPERTY>(this.tpmProperty); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.tpmProperty); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.tpmProperty = buf.readObjArr(TPMS_TAGGED_PROPERTY); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.tpmProperty = buf.readObjArr(TPMS_TAGGED_PROPERTY); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_TAGGED_TPM_PROPERTY
     {
         return buf.createObj(TPML_TAGGED_TPM_PROPERTY);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_TAGGED_TPM_PROPERTY
     {
         return new TpmBuffer(buffer).createObj(TPML_TAGGED_TPM_PROPERTY);
     }
-
+    
 } // TPML_TAGGED_TPM_PROPERTY
 
-/**
- *  This list is used to report on a list of properties that are TPMS_PCR_SELECT values. It is
- *  returned by a TPM2_GetCapability().
+/** This list is used to report on a list of properties that are TPMS_PCR_SELECT values.
+ *  It is returned by a TPM2_GetCapability().
  */
 export class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
-        /** a tagged PCR selection */
+        /** A tagged PCR selection  */
         public pcrProperty: TPMS_TAGGED_PCR_SELECT[] = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_CAP { return TPM_CAP.PCR_PROPERTIES; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_TAGGED_PCR_SELECT>(this.pcrProperty); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.pcrProperty); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.pcrProperty = buf.readObjArr(TPMS_TAGGED_PCR_SELECT); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.pcrProperty = buf.readObjArr(TPMS_TAGGED_PCR_SELECT); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_TAGGED_PCR_PROPERTY
     {
         return buf.createObj(TPML_TAGGED_PCR_PROPERTY);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_TAGGED_PCR_PROPERTY
     {
         return new TpmBuffer(buffer).createObj(TPML_TAGGED_PCR_PROPERTY);
     }
-
+    
 } // TPML_TAGGED_PCR_PROPERTY
 
-/**
- *  This list is used to report the ECC curve ID values supported by the TPM. It is
+/** This list is used to report the ECC curve ID values supported by the TPM. It is
  *  returned by a TPM2_GetCapability().
  */
 export class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
-        /** array of ECC curve identifiers */
+        /** Array of ECC curve identifiers  */
         public eccCurves: TPM_ECC_CURVE[] = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_CAP { return TPM_CAP.ECC_CURVES; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ECC_CURVE>(this.eccCurves, 2); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeValArr(this.eccCurves, 2); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.eccCurves = buf.readValArr(2); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.eccCurves = buf.readValArr(2); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_ECC_CURVE
     {
         return buf.createObj(TPML_ECC_CURVE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_ECC_CURVE
     {
         return new TpmBuffer(buffer).createObj(TPML_ECC_CURVE);
     }
-
+    
 } // TPML_ECC_CURVE
 
-/**
- *  This list is used to report the authorization policy values for permanent handles. This is
- *  list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot have a
- *  policy is not included in the list.
+/** This list is used to report the authorization policy values for permanent handles.
+ *  This is list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot
+ *  have a policy is not included in the list.
  */
 export class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
-        /** array of tagged policies */
+        /** Array of tagged policies  */
         public policies: TPMS_TAGGED_POLICY[] = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_CAP { return TPM_CAP.AUTH_POLICIES; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_TAGGED_POLICY>(this.policies); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.policies); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.policies = buf.readObjArr(TPMS_TAGGED_POLICY); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.policies = buf.readObjArr(TPMS_TAGGED_POLICY); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_TAGGED_POLICY
     {
         return buf.createObj(TPML_TAGGED_POLICY);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_TAGGED_POLICY
     {
         return new TpmBuffer(buffer).createObj(TPML_TAGGED_POLICY);
     }
-
+    
 } // TPML_TAGGED_POLICY
 
-/**
- *  This list is used to report the timeout and state for the ACT. This list may be generated
- *  by TPM2_GetCapabilty(). Only implemented ACT are present in the list
+/** This list is used to report the timeout and state for the ACT. This list may be
+ *  generated by TPM2_GetCapabilty(). Only implemented ACT are present in the list
  */
 export class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
 {
     constructor(
-        /** array of ACT data */
+        /** Array of ACT data  */
         public actData: TPMS_ACT_DATA[] = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_CAP { return TPM_CAP.ACT; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_ACT_DATA>(this.actData); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.actData); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.actData = buf.readObjArr(TPMS_ACT_DATA); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.actData = buf.readObjArr(TPMS_ACT_DATA); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_ACT_DATA
     {
         return buf.createObj(TPML_ACT_DATA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_ACT_DATA
     {
         return new TpmBuffer(buffer).createObj(TPML_ACT_DATA);
     }
-
+    
 } // TPML_ACT_DATA
 
-/** This data area is returned in response to a TPM2_GetCapability(). */
+/** This data area is returned in response to a TPM2_GetCapability().  */
 export class TPMS_CAPABILITY_DATA extends TpmStructure
 {
     constructor(
-        /**
-         *  the capability data
+        /** The capability data
          *  (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
          *  TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
          *  TPML_TAGGED_POLICY, TPML_ACT_DATA])
@@ -5080,70 +4807,68 @@ export class TPMS_CAPABILITY_DATA extends TpmStructure
         public data: TPMU_CAPABILITIES = null
     ) { super(); }
     
+    /** The capability  */
     get capability(): TPM_CAP { return this.data.GetUnionSelector(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.data) return;
         buf.writeInt(this.data.GetUnionSelector());
         this.data.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let capability: TPM_CAP = buf.readInt();
-        this.data = UnionFactory.create<TPMU_CAPABILITIES>('TPMU_CAPABILITIES', capability);
+        this.data = UnionFactory.create('TPMU_CAPABILITIES', capability);
         this.data.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_CAPABILITY_DATA
     {
         return buf.createObj(TPMS_CAPABILITY_DATA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_CAPABILITY_DATA
     {
         return new TpmBuffer(buffer).createObj(TPMS_CAPABILITY_DATA);
     }
-
+    
 } // TPMS_CAPABILITY_DATA
 
-/** This structure is used in each of the attestation commands. */
+/** This structure is used in each of the attestation commands.  */
 export class TPMS_CLOCK_INFO extends TpmStructure
 {
     constructor(
-        /**
-         *  time value in milliseconds that advances while the TPM is powered
+        /** Time value in milliseconds that advances while the TPM is powered
          *  NOTE The interpretation of the time-origin (clock=0) is out of the scope of this
          *  specification, although Coordinated Universal Time (UTC) is expected to be a common
          *  convention. This structure element is used to report on the TPM's Clock value.
          *  This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()).
          *  This value may be advanced by TPM2_ClockSet().
          */
-        public clock: number = 0,
+        public clock: number = 0, 
         
-        /** number of occurrences of TPM Reset since the last TPM2_Clear() */
-        public resetCount: number = 0,
+        /** Number of occurrences of TPM Reset since the last TPM2_Clear()  */
+        public resetCount: number = 0, 
         
-        /**
-         *  number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since the
-         *  last TPM Reset or TPM2_Clear().
+        /** Number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since the last
+         *  TPM Reset or TPM2_Clear().
          */
-        public restartCount: number = 0,
+        public restartCount: number = 0, 
         
-        /**
-         *  no value of Clock greater than the current value of Clock has been previously reported by the
-         *  TPM. Set to YES on TPM2_Clear().
+        /** No value of Clock greater than the current value of Clock has been previously reported
+         *  by the TPM. Set to YES on TPM2_Clear().
          */
         public safe: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt64(this.clock);
         buf.writeInt(this.resetCount);
@@ -5151,8 +4876,8 @@ export class TPMS_CLOCK_INFO extends TpmStructure
         buf.writeByte(this.safe);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.clock = buf.readInt64();
         this.resetCount = buf.readInt();
@@ -5160,210 +4885,209 @@ export class TPMS_CLOCK_INFO extends TpmStructure
         this.safe = buf.readByte();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_CLOCK_INFO
     {
         return buf.createObj(TPMS_CLOCK_INFO);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_CLOCK_INFO
     {
         return new TpmBuffer(buffer).createObj(TPMS_CLOCK_INFO);
     }
-
+    
 } // TPMS_CLOCK_INFO
 
-/** This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock(). */
+/** This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().  */
 export class TPMS_TIME_INFO extends TpmStructure
 {
     constructor(
-        /**
-         *  time in milliseconds since the TIme circuit was last reset
+        /** Time in milliseconds since the TIme circuit was last reset
          *  This structure element is used to report on the TPM's Time value.
          */
-        public time: number = 0,
+        public time: number = 0, 
         
-        /** a structure containing the clock information */
+        /** A structure containing the clock information  */
         public clockInfo: TPMS_CLOCK_INFO = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt64(this.time);
         this.clockInfo.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.time = buf.readInt64();
         this.clockInfo = TPMS_CLOCK_INFO.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_TIME_INFO
     {
         return buf.createObj(TPMS_TIME_INFO);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_TIME_INFO
     {
         return new TpmBuffer(buffer).createObj(TPMS_TIME_INFO);
     }
-
+    
 } // TPMS_TIME_INFO
 
-/** This structure is used when the TPM performs TPM2_GetTime. */
+/** This structure is used when the TPM performs TPM2_GetTime.  */
 export class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
-        /** the Time, Clock, resetCount, restartCount, and Safe indicator */
-        public time: TPMS_TIME_INFO = null,
+        /** The Time, Clock, resetCount, restartCount, and Safe indicator  */
+        public time: TPMS_TIME_INFO = null, 
         
-        /** a TPM vendor-specific value indicating the version number of the firmware */
+        /** A TPM vendor-specific value indicating the version number of the firmware  */
         public firmwareVersion: number = 0
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ST { return TPM_ST.ATTEST_TIME; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.time.toTpm(buf);
         buf.writeInt64(this.firmwareVersion);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.time = TPMS_TIME_INFO.fromTpm(buf);
         this.firmwareVersion = buf.readInt64();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_TIME_ATTEST_INFO
     {
         return buf.createObj(TPMS_TIME_ATTEST_INFO);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_TIME_ATTEST_INFO
     {
         return new TpmBuffer(buffer).createObj(TPMS_TIME_ATTEST_INFO);
     }
-
+    
 } // TPMS_TIME_ATTEST_INFO
 
-/** This is the attested data for TPM2_Certify(). */
+/** This is the attested data for TPM2_Certify().  */
 export class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
-        /** Name of the certified object */
-        public name: Buffer = null,
+        /** Name of the certified object  */
+        public name: Buffer = null, 
         
-        /** Qualified Name of the certified object */
+        /** Qualified Name of the certified object  */
         public qualifiedName: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ST { return TPM_ST.ATTEST_CERTIFY; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.name);
         buf.writeSizedByteBuf(this.qualifiedName);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.name = buf.readSizedByteBuf();
         this.qualifiedName = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_CERTIFY_INFO
     {
         return buf.createObj(TPMS_CERTIFY_INFO);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_CERTIFY_INFO
     {
         return new TpmBuffer(buffer).createObj(TPMS_CERTIFY_INFO);
     }
-
+    
 } // TPMS_CERTIFY_INFO
 
-/** This is the attested data for TPM2_Quote(). */
+/** This is the attested data for TPM2_Quote().  */
 export class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
-        /** information on algID, PCR selected and digest */
-        public pcrSelect: TPMS_PCR_SELECTION[] = null,
+        /** Information on algID, PCR selected and digest  */
+        public pcrSelect: TPMS_PCR_SELECTION[] = null, 
         
-        /** digest of the selected PCR using the hash of the signing key */
+        /** Digest of the selected PCR using the hash of the signing key  */
         public pcrDigest: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ST { return TPM_ST.ATTEST_QUOTE; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelect);
+        buf.writeObjArr(this.pcrSelect);
         buf.writeSizedByteBuf(this.pcrDigest);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.pcrSelect = buf.readObjArr(TPMS_PCR_SELECTION);
         this.pcrDigest = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_QUOTE_INFO
     {
         return buf.createObj(TPMS_QUOTE_INFO);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_QUOTE_INFO
     {
         return new TpmBuffer(buffer).createObj(TPMS_QUOTE_INFO);
     }
-
+    
 } // TPMS_QUOTE_INFO
 
-/** This is the attested data for TPM2_GetCommandAuditDigest(). */
+/** This is the attested data for TPM2_GetCommandAuditDigest().  */
 export class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
-        /** the monotonic audit counter */
-        public auditCounter: number = 0,
+        /** The monotonic audit counter  */
+        public auditCounter: number = 0, 
         
-        /** hash algorithm used for the command audit */
-        public digestAlg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** Hash algorithm used for the command audit  */
+        public digestAlg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** the current value of the audit digest */
-        public auditDigest: Buffer = null,
+        /** The current value of the audit digest  */
+        public auditDigest: Buffer = null, 
         
-        /** digest of the command codes being audited using digestAlg */
+        /** Digest of the command codes being audited using digestAlg  */
         public commandDigest: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ST { return TPM_ST.ATTEST_COMMAND_AUDIT; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt64(this.auditCounter);
         buf.writeShort(this.digestAlg);
@@ -5371,8 +5095,8 @@ export class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeSizedByteBuf(this.commandDigest);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.auditCounter = buf.readInt64();
         this.digestAlg = buf.readShort();
@@ -5380,243 +5104,238 @@ export class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         this.commandDigest = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_COMMAND_AUDIT_INFO
     {
         return buf.createObj(TPMS_COMMAND_AUDIT_INFO);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_COMMAND_AUDIT_INFO
     {
         return new TpmBuffer(buffer).createObj(TPMS_COMMAND_AUDIT_INFO);
     }
-
+    
 } // TPMS_COMMAND_AUDIT_INFO
 
-/** This is the attested data for TPM2_GetSessionAuditDigest(). */
+/** This is the attested data for TPM2_GetSessionAuditDigest().  */
 export class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
-        /**
-         *  current exclusive status of the session
+        /** Current exclusive status of the session
          *  TRUE if all of the commands recorded in the sessionDigest were executed without any
          *  intervening TPM command that did not use this audit session
          */
-        public exclusiveSession: number = 0,
+        public exclusiveSession: number = 0, 
         
-        /** the current value of the session audit digest */
+        /** The current value of the session audit digest  */
         public sessionDigest: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ST { return TPM_ST.ATTEST_SESSION_AUDIT; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeByte(this.exclusiveSession);
         buf.writeSizedByteBuf(this.sessionDigest);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.exclusiveSession = buf.readByte();
         this.sessionDigest = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SESSION_AUDIT_INFO
     {
         return buf.createObj(TPMS_SESSION_AUDIT_INFO);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SESSION_AUDIT_INFO
     {
         return new TpmBuffer(buffer).createObj(TPMS_SESSION_AUDIT_INFO);
     }
-
+    
 } // TPMS_SESSION_AUDIT_INFO
 
-/** This is the attested data for TPM2_CertifyCreation(). */
+/** This is the attested data for TPM2_CertifyCreation().  */
 export class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
-        /** Name of the object */
-        public objectName: Buffer = null,
+        /** Name of the object  */
+        public objectName: Buffer = null, 
         
-        /** creationHash */
+        /** CreationHash  */
         public creationHash: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ST { return TPM_ST.ATTEST_CREATION; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.objectName);
         buf.writeSizedByteBuf(this.creationHash);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.objectName = buf.readSizedByteBuf();
         this.creationHash = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_CREATION_INFO
     {
         return buf.createObj(TPMS_CREATION_INFO);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_CREATION_INFO
     {
         return new TpmBuffer(buffer).createObj(TPMS_CREATION_INFO);
     }
-
+    
 } // TPMS_CREATION_INFO
 
-/**
- *  This structure contains the Name and contents of the selected NV Index that is
+/** This structure contains the Name and contents of the selected NV Index that is
  *  certified by TPM2_NV_Certify().
  */
 export class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
-        /** Name of the NV Index */
-        public indexName: Buffer = null,
+        /** Name of the NV Index  */
+        public indexName: Buffer = null, 
         
-        /** the offset parameter of TPM2_NV_Certify() */
-        public offset: number = 0,
+        /** The offset parameter of TPM2_NV_Certify()  */
+        public offset: number = 0, 
         
-        /** contents of the NV Index */
+        /** Contents of the NV Index  */
         public nvContents: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ST { return TPM_ST.ATTEST_NV; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.indexName);
         buf.writeShort(this.offset);
         buf.writeSizedByteBuf(this.nvContents);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.indexName = buf.readSizedByteBuf();
         this.offset = buf.readShort();
         this.nvContents = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_NV_CERTIFY_INFO
     {
         return buf.createObj(TPMS_NV_CERTIFY_INFO);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_NV_CERTIFY_INFO
     {
         return new TpmBuffer(buffer).createObj(TPMS_NV_CERTIFY_INFO);
     }
-
+    
 } // TPMS_NV_CERTIFY_INFO
 
-/**
- *  This structure contains the Name and hash of the contents of the selected NV Index that is
- *  certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
+/** This structure contains the Name and hash of the contents of the selected NV Index
+ *  that is certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
  */
 export class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
     constructor(
-        /** Name of the NV Index */
-        public indexName: Buffer = null,
+        /** Name of the NV Index  */
+        public indexName: Buffer = null, 
         
-        /** hash of the contents of the index */
+        /** Hash of the contents of the index  */
         public nvDigest: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ST { return TPM_ST.ATTEST_NV_DIGEST; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.indexName);
         buf.writeSizedByteBuf(this.nvDigest);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.indexName = buf.readSizedByteBuf();
         this.nvDigest = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_NV_DIGEST_CERTIFY_INFO
     {
         return buf.createObj(TPMS_NV_DIGEST_CERTIFY_INFO);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_NV_DIGEST_CERTIFY_INFO
     {
         return new TpmBuffer(buffer).createObj(TPMS_NV_DIGEST_CERTIFY_INFO);
     }
-
+    
 } // TPMS_NV_DIGEST_CERTIFY_INFO
 
-/**
- *  This structure is used on each TPM-generated signed structure. The
- *  signature is over this structure.
+/** This structure is used on each TPM-generated signed structure. The signature is over
+ *  this structure.
  */
 export class TPMS_ATTEST extends TpmStructure
 {
     constructor(
-        /** the indication that this structure was created by a TPM (always TPM_GENERATED_VALUE) */
-        public magic: TPM_GENERATED = 0,
+        /** The indication that this structure was created by a TPM (always TPM_GENERATED_VALUE)  */
+        public magic: TPM_GENERATED = 0, 
         
-        /** Qualified Name of the signing key */
-        public qualifiedSigner: Buffer = null,
+        /** Qualified Name of the signing key  */
+        public qualifiedSigner: Buffer = null, 
         
-        /**
-         *  external information supplied by caller
-         *  NOTE A TPM2B_DATA structure provides room for a digest and a method indicator to indicate
-         *  the components of the digest. The definition of this method indicator is outside the
-         *  scope of this specification.
+        /** External information supplied by caller
+         *  NOTE A TPM2B_DATA structure provides room for a digest and a method indicator to
+         *  indicate the components of the digest. The definition of this method indicator is
+         *  outside the scope of this specification.
          */
-        public extraData: Buffer = null,
+        public extraData: Buffer = null, 
         
-        /** Clock, resetCount, restartCount, and Safe */
-        public clockInfo: TPMS_CLOCK_INFO = null,
+        /** Clock, resetCount, restartCount, and Safe  */
+        public clockInfo: TPMS_CLOCK_INFO = null, 
         
-        /** TPM-vendor-specific value identifying the version number of the firmware */
-        public firmwareVersion: number = 0,
+        /** TPM-vendor-specific value identifying the version number of the firmware  */
+        public firmwareVersion: number = 0, 
         
-        /**
-         *  the type-specific attestation information
-         *  (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO, TPMS_COMMAND_AUDIT_INFO,
-         *  TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO,
-         *  TPMS_NV_DIGEST_CERTIFY_INFO])
+        /** The type-specific attestation information
+         *  (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
+         *  TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO,
+         *  TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO])
          */
         public attested: TPMU_ATTEST = null
     ) { super(); }
     
+    /** Type of the attestation structure  */
     get type(): TPM_ST { return this.attested.GetUnionSelector(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt(this.magic);
         buf.writeShort(this.attested.GetUnionSelector());
@@ -5627,8 +5346,8 @@ export class TPMS_ATTEST extends TpmStructure
         this.attested.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.magic = buf.readInt();
         let type: TPM_ST = buf.readShort();
@@ -5636,74 +5355,73 @@ export class TPMS_ATTEST extends TpmStructure
         this.extraData = buf.readSizedByteBuf();
         this.clockInfo = TPMS_CLOCK_INFO.fromTpm(buf);
         this.firmwareVersion = buf.readInt64();
-        this.attested = UnionFactory.create<TPMU_ATTEST>('TPMU_ATTEST', type);
+        this.attested = UnionFactory.create('TPMU_ATTEST', type);
         this.attested.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ATTEST
     {
         return buf.createObj(TPMS_ATTEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ATTEST
     {
         return new TpmBuffer(buffer).createObj(TPMS_ATTEST);
     }
-
+    
 } // TPMS_ATTEST
 
-/**
- *  This sized buffer to contain the signed structure. The attestationData is the signed
+/** This sized buffer to contain the signed structure. The attestationData is the signed
  *  portion of the structure. The size parameter is not signed.
  */
 export class TPM2B_ATTEST extends TpmStructure
 {
     constructor(
-        /** the signed structure */
+        /** The signed structure  */
         public attestationData: TPMS_ATTEST = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.attestationData); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.attestationData); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.attestationData = buf.createSizedObj(TPMS_ATTEST); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.attestationData = buf.createSizedObj(TPMS_ATTEST); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_ATTEST
     {
         return buf.createObj(TPM2B_ATTEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_ATTEST
     {
         return new TpmBuffer(buffer).createObj(TPM2B_ATTEST);
     }
-
+    
 } // TPM2B_ATTEST
 
-/** This is the format used for each of the authorizations in the session area of a command. */
+/** This is the format used for each of the authorizations in the session area of a command.  */
 export class TPMS_AUTH_COMMAND extends TpmStructure
 {
     constructor(
-        /** the session handle */
-        public sessionHandle: TPM_HANDLE = new TPM_HANDLE(),
+        /** The session handle  */
+        public sessionHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the session nonce, may be the Empty Buffer */
-        public nonce: Buffer = null,
+        /** The session nonce, may be the Empty Buffer  */
+        public nonce: Buffer = null, 
         
-        /** the session attributes */
-        public sessionAttributes: TPMA_SESSION = 0,
+        /** The session attributes  */
+        public sessionAttributes: TPMA_SESSION = 0, 
         
-        /** either an HMAC, a password, or an EmptyAuth */
+        /** Either an HMAC, a password, or an EmptyAuth  */
         public hmac: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.sessionHandle.toTpm(buf);
         buf.writeSizedByteBuf(this.nonce);
@@ -5711,8 +5429,8 @@ export class TPMS_AUTH_COMMAND extends TpmStructure
         buf.writeSizedByteBuf(this.hmac);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.sessionHandle = TPM_HANDLE.fromTpm(buf);
         this.nonce = buf.readSizedByteBuf();
@@ -5720,278 +5438,281 @@ export class TPMS_AUTH_COMMAND extends TpmStructure
         this.hmac = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_AUTH_COMMAND
     {
         return buf.createObj(TPMS_AUTH_COMMAND);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_AUTH_COMMAND
     {
         return new TpmBuffer(buffer).createObj(TPMS_AUTH_COMMAND);
     }
-
+    
 } // TPMS_AUTH_COMMAND
 
-/**
- *  This is the format for each of the authorizations in the session area of the response. If
- *  the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same
- *  number of authorizations as the command and the authorizations are in the same order.
+/** This is the format for each of the authorizations in the session area of the response.
+ *  If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the
+ *  same number of authorizations as the command and the authorizations are in the same order.
  */
 export class TPMS_AUTH_RESPONSE extends TpmStructure
 {
     constructor(
-        /** the session nonce, may be the Empty Buffer */
-        public nonce: Buffer = null,
+        /** The session nonce, may be the Empty Buffer  */
+        public nonce: Buffer = null, 
         
-        /** the session attributes */
-        public sessionAttributes: TPMA_SESSION = 0,
+        /** The session attributes  */
+        public sessionAttributes: TPMA_SESSION = 0, 
         
-        /** either an HMAC or an EmptyAuth */
+        /** Either an HMAC or an EmptyAuth  */
         public hmac: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.nonce);
         buf.writeByte(this.sessionAttributes);
         buf.writeSizedByteBuf(this.hmac);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.nonce = buf.readSizedByteBuf();
         this.sessionAttributes = buf.readByte();
         this.hmac = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_AUTH_RESPONSE
     {
         return buf.createObj(TPMS_AUTH_RESPONSE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_AUTH_RESPONSE
     {
         return new TpmBuffer(buffer).createObj(TPMS_AUTH_RESPONSE);
     }
-
+    
 } // TPMS_AUTH_RESPONSE
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_TDES for the union TPMU_SYM_DETAILS
  */
 export class TPMS_TDES_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.TDES; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_TDES_SYM_DETAILS
     {
         return buf.createObj(TPMS_TDES_SYM_DETAILS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_TDES_SYM_DETAILS
     {
         return new TpmBuffer(buffer).createObj(TPMS_TDES_SYM_DETAILS);
     }
-
+    
 } // TPMS_TDES_SYM_DETAILS
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_AES for the union TPMU_SYM_DETAILS
  */
 export class TPMS_AES_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.AES; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_AES_SYM_DETAILS
     {
         return buf.createObj(TPMS_AES_SYM_DETAILS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_AES_SYM_DETAILS
     {
         return new TpmBuffer(buffer).createObj(TPMS_AES_SYM_DETAILS);
     }
-
+    
 } // TPMS_AES_SYM_DETAILS
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_SM4 for the union TPMU_SYM_DETAILS
  */
 export class TPMS_SM4_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.SM4; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SM4_SYM_DETAILS
     {
         return buf.createObj(TPMS_SM4_SYM_DETAILS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SM4_SYM_DETAILS
     {
         return new TpmBuffer(buffer).createObj(TPMS_SM4_SYM_DETAILS);
     }
-
+    
 } // TPMS_SM4_SYM_DETAILS
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_CAMELLIA for the union TPMU_SYM_DETAILS
  */
 export class TPMS_CAMELLIA_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.CAMELLIA; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_CAMELLIA_SYM_DETAILS
     {
         return buf.createObj(TPMS_CAMELLIA_SYM_DETAILS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_CAMELLIA_SYM_DETAILS
     {
         return new TpmBuffer(buffer).createObj(TPMS_CAMELLIA_SYM_DETAILS);
     }
-
+    
 } // TPMS_CAMELLIA_SYM_DETAILS
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_ANY for the union TPMU_SYM_DETAILS
  */
 export class TPMS_ANY_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ANY; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ANY_SYM_DETAILS
     {
         return buf.createObj(TPMS_ANY_SYM_DETAILS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ANY_SYM_DETAILS
     {
         return new TpmBuffer(buffer).createObj(TPMS_ANY_SYM_DETAILS);
     }
-
+    
 } // TPMS_ANY_SYM_DETAILS
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_XOR for the union TPMU_SYM_DETAILS
  */
 export class TPMS_XOR_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.XOR; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_XOR_SYM_DETAILS
     {
         return buf.createObj(TPMS_XOR_SYM_DETAILS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_XOR_SYM_DETAILS
     {
         return new TpmBuffer(buffer).createObj(TPMS_XOR_SYM_DETAILS);
     }
-
+    
 } // TPMS_XOR_SYM_DETAILS
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SYM_DETAILS
  */
 export class TPMS_NULL_SYM_DETAILS extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_NULL_SYM_DETAILS
     {
         return buf.createObj(TPMS_NULL_SYM_DETAILS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_NULL_SYM_DETAILS
     {
         return new TpmBuffer(buffer).createObj(TPMS_NULL_SYM_DETAILS);
     }
-
+    
 } // TPMS_NULL_SYM_DETAILS
 
-/**
- *  The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter
+/** The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter
  *  encryption in those cases when different symmetric algorithms may be selected.
  */
 export class TPMT_SYM_DEF extends TpmStructure
 {
     constructor(
-        /** symmetric algorithm */
-        public algorithm: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** symmetric algorithm  */
+        public algorithm: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** key size in bits */
-        public keyBits: number = 0,
+        /** key size in bits  */
+        public keyBits: number = 0, 
         
-        /** encryption mode */
+        /** encryption mode  */
         public mode: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { nonStandardToTpm(this, buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
+    {
+        buf.writeShort(this.algorithm);
+        if (this.algorithm == TPM_ALG_ID.NULL) return;
+        buf.writeShort(this.keyBits);
+        buf.writeShort(this.mode);
+    }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { nonStandardInitFromTpm(this, buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
+    {
+        this.algorithm = buf.readShort();
+        if (this.algorithm == TPM_ALG_ID.NULL) return;
+        this.keyBits = buf.readShort();
+        this.mode = buf.readShort();
+    }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_SYM_DEF
     {
         return buf.createObj(TPMT_SYM_DEF);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_SYM_DEF
     {
         return new TpmBuffer(buffer).createObj(TPMT_SYM_DEF);
     }
-
+    
     /** @deprecated Use default ctor instead */
     public static nullObject(): TPMT_SYM_DEF
     {
@@ -6000,42 +5721,53 @@ export class TPMT_SYM_DEF extends TpmStructure
     
 } // TPMT_SYM_DEF
 
-/**
- *  This structure is used when different symmetric block cipher (not XOR) algorithms may be
- *  selected. If the Object can be an ordinary parent (not a derivation parent), this must be
- *  the first field in the Object's parameter (see 12.2.3.7) field.
+/** This structure is used when different symmetric block cipher (not XOR) algorithms may
+ *  be selected. If the Object can be an ordinary parent (not a derivation parent), this
+ *  must be the first field in the Object's parameter (see 12.2.3.7) field.
  */
 export class TPMT_SYM_DEF_OBJECT extends TpmStructure
 {
     constructor(
-        /** symmetric algorithm */
-        public algorithm: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** symmetric algorithm  */
+        public algorithm: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** key size in bits */
-        public keyBits: number = 0,
+        /** key size in bits  */
+        public keyBits: number = 0, 
         
-        /** encryption mode */
+        /** encryption mode  */
         public mode: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { nonStandardToTpm(this, buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
+    {
+        buf.writeShort(this.algorithm);
+        if (this.algorithm == TPM_ALG_ID.NULL) return;
+        buf.writeShort(this.keyBits);
+        buf.writeShort(this.mode);
+    }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { nonStandardInitFromTpm(this, buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
+    {
+        this.algorithm = buf.readShort();
+        if (this.algorithm == TPM_ALG_ID.NULL) return;
+        this.keyBits = buf.readShort();
+        this.mode = buf.readShort();
+    }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_SYM_DEF_OBJECT
     {
         return buf.createObj(TPMT_SYM_DEF_OBJECT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_SYM_DEF_OBJECT
     {
         return new TpmBuffer(buffer).createObj(TPMT_SYM_DEF_OBJECT);
     }
-
+    
     /** @deprecated Use default ctor instead */
     public static nullObject(): TPMT_SYM_DEF_OBJECT
     {
@@ -6044,1452 +5776,1425 @@ export class TPMT_SYM_DEF_OBJECT extends TpmStructure
     
 } // TPMT_SYM_DEF_OBJECT
 
-/**
- *  This structure is used to hold a symmetric key in the sensitive area
- *  of an asymmetric object.
- */
+/** This structure is used to hold a symmetric key in the sensitive area of an asymmetric object.  */
 export class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     constructor(
-        /** the key */
+        /** The key  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.SYMCIPHER; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_SYM_KEY
     {
         return buf.createObj(TPM2B_SYM_KEY);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_SYM_KEY
     {
         return new TpmBuffer(buffer).createObj(TPM2B_SYM_KEY);
     }
-
+    
 } // TPM2B_SYM_KEY
 
-/** This structure contains the parameters for a symmetric block cipher object. */
+/** This structure contains the parameters for a symmetric block cipher object.  */
 export class TPMS_SYMCIPHER_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     constructor(
-        /** a symmetric block cipher */
+        /** A symmetric block cipher  */
         public sym: TPMT_SYM_DEF_OBJECT = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.SYMCIPHER; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.sym.toTpm(buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { this.sym.toTpm(buf); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.sym = TPMT_SYM_DEF_OBJECT.fromTpm(buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.sym = TPMT_SYM_DEF_OBJECT.fromTpm(buf); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SYMCIPHER_PARMS
     {
         return buf.createObj(TPMS_SYMCIPHER_PARMS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SYMCIPHER_PARMS
     {
         return new TpmBuffer(buffer).createObj(TPMS_SYMCIPHER_PARMS);
     }
-
+    
 } // TPMS_SYMCIPHER_PARMS
 
-/**
- *  This buffer holds a label or context value. For interoperability and backwards
- *  compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the
- *  largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
+/** This buffer holds a label or context value. For interoperability and backwards
+ *  compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and
+ *  the largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
  */
 export class TPM2B_LABEL extends TpmStructure
 {
     constructor(
-        /** symmetric data for a created object or the label and context for a derived object */
+        /** Symmetric data for a created object or the label and context for a derived object  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_LABEL
     {
         return buf.createObj(TPM2B_LABEL);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_LABEL
     {
         return new TpmBuffer(buffer).createObj(TPM2B_LABEL);
     }
-
+    
 } // TPM2B_LABEL
 
-/**
- *  This structure contains the label and context fields for a derived object. These values
- *  are used in the derivation KDF. The values in the unique field of inPublic area template
- *  take precedence over the values in the inSensitive parameter.
+/** This structure contains the label and context fields for a derived object. These
+ *  values are used in the derivation KDF. The values in the unique field of inPublic area
+ *  template take precedence over the values in the inSensitive parameter.
  */
 export class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID
 {
     constructor(
-        public label: Buffer = null,
+        public label: Buffer = null, 
         
         public context: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ANY2; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.label);
         buf.writeSizedByteBuf(this.context);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.label = buf.readSizedByteBuf();
         this.context = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_DERIVE
     {
         return buf.createObj(TPMS_DERIVE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_DERIVE
     {
         return new TpmBuffer(buffer).createObj(TPMS_DERIVE);
     }
-
+    
 } // TPMS_DERIVE
 
-/** Table 147 Definition of TPM2B_DERIVE Structure */
+/** Table 147 Definition of TPM2B_DERIVE Structure  */
 export class TPM2B_DERIVE extends TpmStructure
 {
     constructor(
-        /** symmetric data for a created object or the label and context for a derived object */
+        /** Symmetric data for a created object or the label and context for a derived object  */
         public buffer: TPMS_DERIVE = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.createSizedObj(TPMS_DERIVE); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.createSizedObj(TPMS_DERIVE); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_DERIVE
     {
         return buf.createObj(TPM2B_DERIVE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_DERIVE
     {
         return new TpmBuffer(buffer).createObj(TPM2B_DERIVE);
     }
-
+    
 } // TPM2B_DERIVE
 
-/** This buffer wraps the TPMU_SENSITIVE_CREATE structure. */
+/** This buffer wraps the TPMU_SENSITIVE_CREATE structure.  */
 export class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     constructor(
-        /** symmetric data for a created object or the label and context for a derived object */
+        /** Symmetric data for a created object or the label and context for a derived object  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KEYEDHASH; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_SENSITIVE_DATA
     {
         return buf.createObj(TPM2B_SENSITIVE_DATA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_SENSITIVE_DATA
     {
         return new TpmBuffer(buffer).createObj(TPM2B_SENSITIVE_DATA);
     }
-
+    
 } // TPM2B_SENSITIVE_DATA
 
-/**
- *  This structure defines the values to be placed in the sensitive area of a created object.
- *  This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
+/** This structure defines the values to be placed in the sensitive area of a created
+ *  object. This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
  */
 export class TPMS_SENSITIVE_CREATE extends TpmStructure
 {
     constructor(
-        /** the USER auth secret value */
-        public userAuth: Buffer = null,
+        /** The USER auth secret value  */
+        public userAuth: Buffer = null, 
         
-        /** data to be sealed, a key, or derivation values */
+        /** Data to be sealed, a key, or derivation values  */
         public data: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.userAuth);
         buf.writeSizedByteBuf(this.data);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.userAuth = buf.readSizedByteBuf();
         this.data = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SENSITIVE_CREATE
     {
         return buf.createObj(TPMS_SENSITIVE_CREATE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SENSITIVE_CREATE
     {
         return new TpmBuffer(buffer).createObj(TPMS_SENSITIVE_CREATE);
     }
-
+    
 } // TPMS_SENSITIVE_CREATE
 
-/**
- *  This structure contains the sensitive creation data in a sized buffer. This structure is
- *  defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be
- *  passed as a single parameter for parameter encryption purposes.
+/** This structure contains the sensitive creation data in a sized buffer. This structure
+ *  is defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may
+ *  be passed as a single parameter for parameter encryption purposes.
  */
 export class TPM2B_SENSITIVE_CREATE extends TpmStructure
 {
     constructor(
-        /** data to be sealed or a symmetric key value. */
+        /** Data to be sealed or a symmetric key value.  */
         public sensitive: TPMS_SENSITIVE_CREATE = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.sensitive); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.sensitive); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.sensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.sensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_SENSITIVE_CREATE
     {
         return buf.createObj(TPM2B_SENSITIVE_CREATE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_SENSITIVE_CREATE
     {
         return new TpmBuffer(buffer).createObj(TPM2B_SENSITIVE_CREATE);
     }
-
+    
 } // TPM2B_SENSITIVE_CREATE
 
-/**
- *  This structure is the scheme data for schemes that only require a hash to
- *  complete their definition.
+/** This structure is the scheme data for schemes that only require a hash to complete
+ *  their definition.
  */
 export class TPMS_SCHEME_HASH extends TpmStructure implements TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.HMAC; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.hashAlg); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeShort(this.hashAlg); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.hashAlg = buf.readShort(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.hashAlg = buf.readShort(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_HASH
     {
         return buf.createObj(TPMS_SCHEME_HASH);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_HASH
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_HASH);
     }
-
+    
 } // TPMS_SCHEME_HASH
 
-/** This definition is for split signing schemes that require a commit count. */
+/** This definition is for split signing schemes that require a commit count.  */
 export class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME
 {
     constructor(
-        /** the hash algorithm used to digest the message */
-        public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** The hash algorithm used to digest the message  */
+        public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** the counter value that is used between TPM2_Commit() and the sign operation */
+        /** The counter value that is used between TPM2_Commit() and the sign operation  */
         public count: number = 0
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDAA; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.hashAlg);
         buf.writeShort(this.count);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.hashAlg = buf.readShort();
         this.count = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_ECDAA
     {
         return buf.createObj(TPMS_SCHEME_ECDAA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_ECDAA
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_ECDAA);
     }
-
+    
 } // TPMS_SCHEME_ECDAA
 
-/** Table 155 Definition of Types for HMAC_SIG_SCHEME */
+/** Table 155 Definition of Types for HMAC_SIG_SCHEME  */
 export class TPMS_SCHEME_HMAC extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.HMAC; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_HMAC
     {
         return buf.createObj(TPMS_SCHEME_HMAC);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_HMAC
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_HMAC);
     }
-
+    
 } // TPMS_SCHEME_HMAC
 
-/** This structure is for the XOR encryption scheme. */
+/** This structure is for the XOR encryption scheme.  */
 export class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
-        public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** The hash algorithm used to digest the message  */
+        public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** the key derivation function */
+        /** The key derivation function  */
         public kdf: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.XOR; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.hashAlg);
         buf.writeShort(this.kdf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.hashAlg = buf.readShort();
         this.kdf = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_XOR
     {
         return buf.createObj(TPMS_SCHEME_XOR);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_XOR
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_XOR);
     }
-
+    
 } // TPMS_SCHEME_XOR
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SCHEME_KEYEDHASH
  */
 export class TPMS_NULL_SCHEME_KEYEDHASH extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_NULL_SCHEME_KEYEDHASH
     {
         return buf.createObj(TPMS_NULL_SCHEME_KEYEDHASH);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_NULL_SCHEME_KEYEDHASH
     {
         return new TpmBuffer(buffer).createObj(TPMS_NULL_SCHEME_KEYEDHASH);
     }
-
+    
 } // TPMS_NULL_SCHEME_KEYEDHASH
 
-/** This structure is used for a hash signing object. */
+/** This structure is used for a hash signing object.  */
 export class TPMT_KEYEDHASH_SCHEME extends TpmStructure
 {
     constructor(
-        /**
-         *  the scheme parameters
+        /** The scheme parameters
          *  (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
          */
         public details: TPMU_SCHEME_KEYEDHASH = null
     ) { super(); }
     
+    /** Selects the scheme  */
     get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.details) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = UnionFactory.create<TPMU_SCHEME_KEYEDHASH>('TPMU_SCHEME_KEYEDHASH', scheme);
+        this.details = UnionFactory.create('TPMU_SCHEME_KEYEDHASH', scheme);
         this.details.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_KEYEDHASH_SCHEME
     {
         return buf.createObj(TPMT_KEYEDHASH_SCHEME);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_KEYEDHASH_SCHEME
     {
         return new TpmBuffer(buffer).createObj(TPMT_KEYEDHASH_SCHEME);
     }
-
+    
 } // TPMT_KEYEDHASH_SCHEME
 
-/** These are the RSA schemes that only need a hash algorithm as a scheme parameter. */
+/** These are the RSA schemes that only need a hash algorithm as a scheme parameter.  */
 export class TPMS_SIG_SCHEME_RSASSA extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSASSA; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIG_SCHEME_RSASSA
     {
         return buf.createObj(TPMS_SIG_SCHEME_RSASSA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIG_SCHEME_RSASSA
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_RSASSA);
     }
-
+    
 } // TPMS_SIG_SCHEME_RSASSA
 
-/** These are the RSA schemes that only need a hash algorithm as a scheme parameter. */
+/** These are the RSA schemes that only need a hash algorithm as a scheme parameter.  */
 export class TPMS_SIG_SCHEME_RSAPSS extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSAPSS; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIG_SCHEME_RSAPSS
     {
         return buf.createObj(TPMS_SIG_SCHEME_RSAPSS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIG_SCHEME_RSAPSS
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_RSAPSS);
     }
-
+    
 } // TPMS_SIG_SCHEME_RSAPSS
 
-/**
- *  Most of the ECC signature schemes only require a hash algorithm to complete the definition
- *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
- *  are typed to be TPMS_SCHEME_ECDAA.
+/** Most of the ECC signature schemes only require a hash algorithm to complete the
+ *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
+ *  count value so they are typed to be TPMS_SCHEME_ECDAA.
  */
 export class TPMS_SIG_SCHEME_ECDSA extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDSA; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIG_SCHEME_ECDSA
     {
         return buf.createObj(TPMS_SIG_SCHEME_ECDSA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIG_SCHEME_ECDSA
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_ECDSA);
     }
-
+    
 } // TPMS_SIG_SCHEME_ECDSA
 
-/**
- *  Most of the ECC signature schemes only require a hash algorithm to complete the definition
- *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
- *  are typed to be TPMS_SCHEME_ECDAA.
+/** Most of the ECC signature schemes only require a hash algorithm to complete the
+ *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
+ *  count value so they are typed to be TPMS_SCHEME_ECDAA.
  */
 export class TPMS_SIG_SCHEME_SM2 extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.SM2; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIG_SCHEME_SM2
     {
         return buf.createObj(TPMS_SIG_SCHEME_SM2);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIG_SCHEME_SM2
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_SM2);
     }
-
+    
 } // TPMS_SIG_SCHEME_SM2
 
-/**
- *  Most of the ECC signature schemes only require a hash algorithm to complete the definition
- *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
- *  are typed to be TPMS_SCHEME_ECDAA.
+/** Most of the ECC signature schemes only require a hash algorithm to complete the
+ *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
+ *  count value so they are typed to be TPMS_SCHEME_ECDAA.
  */
 export class TPMS_SIG_SCHEME_ECSCHNORR extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECSCHNORR; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIG_SCHEME_ECSCHNORR
     {
         return buf.createObj(TPMS_SIG_SCHEME_ECSCHNORR);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIG_SCHEME_ECSCHNORR
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_ECSCHNORR);
     }
-
+    
 } // TPMS_SIG_SCHEME_ECSCHNORR
 
-/**
- *  Most of the ECC signature schemes only require a hash algorithm to complete the definition
- *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
- *  are typed to be TPMS_SCHEME_ECDAA.
+/** Most of the ECC signature schemes only require a hash algorithm to complete the
+ *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
+ *  count value so they are typed to be TPMS_SCHEME_ECDAA.
  */
 export class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA
 {
     constructor(
-        /** the hash algorithm used to digest the message */
-        hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** The hash algorithm used to digest the message  */
+        hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** the counter value that is used between TPM2_Commit() and the sign operation */
+        /** The counter value that is used between TPM2_Commit() and the sign operation  */
         count: number = 0
-    ) { super(hashAlg,count); }
+    ) { super(hashAlg, count); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDAA; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIG_SCHEME_ECDAA
     {
         return buf.createObj(TPMS_SIG_SCHEME_ECDAA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIG_SCHEME_ECDAA
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_ECDAA);
     }
-
+    
 } // TPMS_SIG_SCHEME_ECDAA
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIG_SCHEME
  */
 export class TPMS_NULL_SIG_SCHEME extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_NULL_SIG_SCHEME
     {
         return buf.createObj(TPMS_NULL_SIG_SCHEME);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_NULL_SIG_SCHEME
     {
         return new TpmBuffer(buffer).createObj(TPMS_NULL_SIG_SCHEME);
     }
-
+    
 } // TPMS_NULL_SIG_SCHEME
 
-/** Table 162 Definition of TPMT_SIG_SCHEME Structure */
+/** Table 162 Definition of TPMT_SIG_SCHEME Structure  */
 export class TPMT_SIG_SCHEME extends TpmStructure
 {
     constructor(
-        /**
-         *  scheme parameters
+        /** Scheme parameters
          *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
          */
         public details: TPMU_SIG_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.details) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', scheme);
+        this.details = UnionFactory.create('TPMU_SIG_SCHEME', scheme);
         this.details.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_SIG_SCHEME
     {
         return buf.createObj(TPMT_SIG_SCHEME);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_SIG_SCHEME
     {
         return new TpmBuffer(buffer).createObj(TPMT_SIG_SCHEME);
     }
-
+    
 } // TPMT_SIG_SCHEME
 
-/**
- *  These are the RSA encryption schemes that only need a hash algorithm as
- *  a controlling parameter.
- */
+/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.  */
 export class TPMS_ENC_SCHEME_OAEP extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.OAEP; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ENC_SCHEME_OAEP
     {
         return buf.createObj(TPMS_ENC_SCHEME_OAEP);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ENC_SCHEME_OAEP
     {
         return new TpmBuffer(buffer).createObj(TPMS_ENC_SCHEME_OAEP);
     }
-
+    
 } // TPMS_ENC_SCHEME_OAEP
 
-/**
- *  These are the RSA encryption schemes that only need a hash algorithm as
- *  a controlling parameter.
- */
+/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.  */
 export class TPMS_ENC_SCHEME_RSAES extends TPMS_EMPTY
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSAES; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ENC_SCHEME_RSAES
     {
         return buf.createObj(TPMS_ENC_SCHEME_RSAES);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ENC_SCHEME_RSAES
     {
         return new TpmBuffer(buffer).createObj(TPMS_ENC_SCHEME_RSAES);
     }
-
+    
 } // TPMS_ENC_SCHEME_RSAES
 
-/** These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
+/** These are the ECC schemes that only need a hash algorithm as a controlling parameter.  */
 export class TPMS_KEY_SCHEME_ECDH extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDH; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_KEY_SCHEME_ECDH
     {
         return buf.createObj(TPMS_KEY_SCHEME_ECDH);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_KEY_SCHEME_ECDH
     {
         return new TpmBuffer(buffer).createObj(TPMS_KEY_SCHEME_ECDH);
     }
-
+    
 } // TPMS_KEY_SCHEME_ECDH
 
-/** These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
+/** These are the ECC schemes that only need a hash algorithm as a controlling parameter.  */
 export class TPMS_KEY_SCHEME_ECMQV extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECMQV; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_KEY_SCHEME_ECMQV
     {
         return buf.createObj(TPMS_KEY_SCHEME_ECMQV);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_KEY_SCHEME_ECMQV
     {
         return new TpmBuffer(buffer).createObj(TPMS_KEY_SCHEME_ECMQV);
     }
-
+    
 } // TPMS_KEY_SCHEME_ECMQV
 
-/**
- *  These structures are used to define the key derivation for symmetric secret sharing using
- *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/** These structures are used to define the key derivation for symmetric secret sharing
+ *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
 export class TPMS_KDF_SCHEME_MGF1 extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.MGF1; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_KDF_SCHEME_MGF1
     {
         return buf.createObj(TPMS_KDF_SCHEME_MGF1);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_KDF_SCHEME_MGF1
     {
         return new TpmBuffer(buffer).createObj(TPMS_KDF_SCHEME_MGF1);
     }
-
+    
 } // TPMS_KDF_SCHEME_MGF1
 
-/**
- *  These structures are used to define the key derivation for symmetric secret sharing using
- *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/** These structures are used to define the key derivation for symmetric secret sharing
+ *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
 export class TPMS_KDF_SCHEME_KDF1_SP800_56A extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KDF1_SP800_56A; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_KDF_SCHEME_KDF1_SP800_56A
     {
         return buf.createObj(TPMS_KDF_SCHEME_KDF1_SP800_56A);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_KDF_SCHEME_KDF1_SP800_56A
     {
         return new TpmBuffer(buffer).createObj(TPMS_KDF_SCHEME_KDF1_SP800_56A);
     }
-
+    
 } // TPMS_KDF_SCHEME_KDF1_SP800_56A
 
-/**
- *  These structures are used to define the key derivation for symmetric secret sharing using
- *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/** These structures are used to define the key derivation for symmetric secret sharing
+ *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
 export class TPMS_KDF_SCHEME_KDF2 extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KDF2; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_KDF_SCHEME_KDF2
     {
         return buf.createObj(TPMS_KDF_SCHEME_KDF2);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_KDF_SCHEME_KDF2
     {
         return new TpmBuffer(buffer).createObj(TPMS_KDF_SCHEME_KDF2);
     }
-
+    
 } // TPMS_KDF_SCHEME_KDF2
 
-/**
- *  These structures are used to define the key derivation for symmetric secret sharing using
- *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/** These structures are used to define the key derivation for symmetric secret sharing
+ *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
 export class TPMS_KDF_SCHEME_KDF1_SP800_108 extends TPMS_SCHEME_HASH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KDF1_SP800_108; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_KDF_SCHEME_KDF1_SP800_108
     {
         return buf.createObj(TPMS_KDF_SCHEME_KDF1_SP800_108);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_KDF_SCHEME_KDF1_SP800_108
     {
         return new TpmBuffer(buffer).createObj(TPMS_KDF_SCHEME_KDF1_SP800_108);
     }
-
+    
 } // TPMS_KDF_SCHEME_KDF1_SP800_108
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_KDF_SCHEME
  */
 export class TPMS_NULL_KDF_SCHEME extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_NULL_KDF_SCHEME
     {
         return buf.createObj(TPMS_NULL_KDF_SCHEME);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_NULL_KDF_SCHEME
     {
         return new TpmBuffer(buffer).createObj(TPMS_NULL_KDF_SCHEME);
     }
-
+    
 } // TPMS_NULL_KDF_SCHEME
 
-/** Table 167 Definition of TPMT_KDF_SCHEME Structure */
+/** Table 167 Definition of TPMT_KDF_SCHEME Structure  */
 export class TPMT_KDF_SCHEME extends TpmStructure
 {
     constructor(
-        /**
-         *  scheme parameters
+        /** Scheme parameters
          *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
          *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
          */
         public details: TPMU_KDF_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.details) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = UnionFactory.create<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', scheme);
+        this.details = UnionFactory.create('TPMU_KDF_SCHEME', scheme);
         this.details.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_KDF_SCHEME
     {
         return buf.createObj(TPMT_KDF_SCHEME);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_KDF_SCHEME
     {
         return new TpmBuffer(buffer).createObj(TPMT_KDF_SCHEME);
     }
-
+    
 } // TPMT_KDF_SCHEME
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_ASYM_SCHEME
  */
 export class TPMS_NULL_ASYM_SCHEME extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_NULL_ASYM_SCHEME
     {
         return buf.createObj(TPMS_NULL_ASYM_SCHEME);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_NULL_ASYM_SCHEME
     {
         return new TpmBuffer(buffer).createObj(TPMS_NULL_ASYM_SCHEME);
     }
-
+    
 } // TPMS_NULL_ASYM_SCHEME
 
-/**
- *  This structure is defined to allow overlay of all of the schemes for any asymmetric
+/** This structure is defined to allow overlay of all of the schemes for any asymmetric
  *  object. This structure is not sent on the interface. It is defined so that common
  *  functions may operate on any similar scheme structure.
  */
 export class TPMT_ASYM_SCHEME extends TpmStructure
 {
     constructor(
-        /**
-         *  scheme parameters
+        /** Scheme parameters
          *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-         *  TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+         *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
          */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.details) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
+        this.details = UnionFactory.create('TPMU_ASYM_SCHEME', scheme);
         this.details.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_ASYM_SCHEME
     {
         return buf.createObj(TPMT_ASYM_SCHEME);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_ASYM_SCHEME
     {
         return new TpmBuffer(buffer).createObj(TPMT_ASYM_SCHEME);
     }
-
+    
 } // TPMT_ASYM_SCHEME
 
-/** Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure */
+/** Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure  */
 export class TPMT_RSA_SCHEME extends TpmStructure
 {
     constructor(
-        /**
-         *  scheme parameters
+        /** Scheme parameters
          *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-         *  TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+         *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
          */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.details) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
+        this.details = UnionFactory.create('TPMU_ASYM_SCHEME', scheme);
         this.details.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_RSA_SCHEME
     {
         return buf.createObj(TPMT_RSA_SCHEME);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_RSA_SCHEME
     {
         return new TpmBuffer(buffer).createObj(TPMT_RSA_SCHEME);
     }
-
+    
 } // TPMT_RSA_SCHEME
 
-/** Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure */
+/** Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure  */
 export class TPMT_RSA_DECRYPT extends TpmStructure
 {
     constructor(
-        /**
-         *  scheme parameters
+        /** Scheme parameters
          *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-         *  TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+         *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
          */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.details) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
+        this.details = UnionFactory.create('TPMU_ASYM_SCHEME', scheme);
         this.details.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_RSA_DECRYPT
     {
         return buf.createObj(TPMT_RSA_DECRYPT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_RSA_DECRYPT
     {
         return new TpmBuffer(buffer).createObj(TPMT_RSA_DECRYPT);
     }
-
+    
 } // TPMT_RSA_DECRYPT
 
-/** This sized buffer holds the largest RSA public key supported by the TPM. */
+/** This sized buffer holds the largest RSA public key supported by the TPM.  */
 export class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
 {
     constructor(
-        /** Value */
+        /** Value  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSA; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_PUBLIC_KEY_RSA
     {
         return buf.createObj(TPM2B_PUBLIC_KEY_RSA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_PUBLIC_KEY_RSA
     {
         return new TpmBuffer(buffer).createObj(TPM2B_PUBLIC_KEY_RSA);
     }
-
+    
 } // TPM2B_PUBLIC_KEY_RSA
 
-/** This sized buffer holds the largest RSA prime number supported by the TPM. */
+/** This sized buffer holds the largest RSA prime number supported by the TPM.  */
 export class TPM2B_PRIVATE_KEY_RSA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     constructor(
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSA; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_PRIVATE_KEY_RSA
     {
         return buf.createObj(TPM2B_PRIVATE_KEY_RSA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_PRIVATE_KEY_RSA
     {
         return new TpmBuffer(buffer).createObj(TPM2B_PRIVATE_KEY_RSA);
     }
-
+    
 } // TPM2B_PRIVATE_KEY_RSA
 
-/** This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM. */
+/** This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM.  */
 export class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     constructor(
-        /** the parameter data */
+        /** The parameter data  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECC; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_ECC_PARAMETER
     {
         return buf.createObj(TPM2B_ECC_PARAMETER);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_ECC_PARAMETER
     {
         return new TpmBuffer(buffer).createObj(TPM2B_ECC_PARAMETER);
     }
-
+    
 } // TPM2B_ECC_PARAMETER
 
-/** This structure holds two ECC coordinates that, together, make up an ECC point. */
+/** This structure holds two ECC coordinates that, together, make up an ECC point.  */
 export class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
 {
     constructor(
-        /** X coordinate */
-        public x: Buffer = null,
+        /** X coordinate  */
+        public x: Buffer = null, 
         
-        /** Y coordinate */
+        /** Y coordinate  */
         public y: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECC; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.x);
         buf.writeSizedByteBuf(this.y);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.x = buf.readSizedByteBuf();
         this.y = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ECC_POINT
     {
         return buf.createObj(TPMS_ECC_POINT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ECC_POINT
     {
         return new TpmBuffer(buffer).createObj(TPMS_ECC_POINT);
     }
-
+    
 } // TPMS_ECC_POINT
 
-/**
- *  This structure is defined to allow a point to be a single sized parameter so
- *  that it may be encrypted.
+/** This structure is defined to allow a point to be a single sized parameter so that it
+ *  may be encrypted.
  */
 export class TPM2B_ECC_POINT extends TpmStructure
 {
     constructor(
-        /** coordinates */
+        /** Coordinates  */
         public point: TPMS_ECC_POINT = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.point); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.point); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.point = buf.createSizedObj(TPMS_ECC_POINT); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.point = buf.createSizedObj(TPMS_ECC_POINT); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_ECC_POINT
     {
         return buf.createObj(TPM2B_ECC_POINT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_ECC_POINT
     {
         return new TpmBuffer(buffer).createObj(TPM2B_ECC_POINT);
     }
-
+    
 } // TPM2B_ECC_POINT
 
-/** Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure */
+/** Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure  */
 export class TPMT_ECC_SCHEME extends TpmStructure
 {
     constructor(
-        /**
-         *  scheme parameters
+        /** Scheme parameters
          *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-         *  TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+         *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
          */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get scheme(): TPM_ALG_ID { return this.details ? this.details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.details) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let scheme: TPM_ALG_ID = buf.readShort();
-        this.details = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', scheme);
+        this.details = UnionFactory.create('TPMU_ASYM_SCHEME', scheme);
         this.details.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_ECC_SCHEME
     {
         return buf.createObj(TPMT_ECC_SCHEME);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_ECC_SCHEME
     {
         return new TpmBuffer(buffer).createObj(TPMT_ECC_SCHEME);
     }
-
+    
 } // TPMT_ECC_SCHEME
 
-/**
- *  This structure is used to report on the curve parameters of an ECC curve. It is
+/** This structure is used to report on the curve parameters of an ECC curve. It is
  *  returned by TPM2_ECC_Parameters().
  */
 export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
 {
     constructor(
-        /** identifier for the curve */
-        public curveID: TPM_ECC_CURVE = 0,
+        /** Identifier for the curve  */
+        public curveID: TPM_ECC_CURVE = 0, 
         
-        /** Size in bits of the key */
-        public keySize: number = 0,
+        /** Size in bits of the key  */
+        public keySize: number = 0, 
         
-        /**
-         *  if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations
+        /** If not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations
          *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
          *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
          */
-        public kdf: TPMU_KDF_SCHEME = null,
+        public kdf: TPMU_KDF_SCHEME = null, 
         
-        /**
-         *  If not TPM_ALG_NULL, this is the mandatory signature scheme that is required
-         *  to be used with this curve.
+        /** If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be
+         *  used with this curve.
          *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-         *  TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+         *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
          */
-        public sign: TPMU_ASYM_SCHEME = null,
+        public sign: TPMU_ASYM_SCHEME = null, 
         
-        /** Fp (the modulus) */
-        public p: Buffer = null,
+        /** Fp (the modulus)  */
+        public p: Buffer = null, 
         
-        /** coefficient of the linear term in the curve equation */
-        public a: Buffer = null,
+        /** Coefficient of the linear term in the curve equation  */
+        public a: Buffer = null, 
         
-        /** constant term for curve equation */
-        public b: Buffer = null,
+        /** Constant term for curve equation  */
+        public b: Buffer = null, 
         
-        /** x coordinate of base point G */
-        public gX: Buffer = null,
+        /** X coordinate of base point G  */
+        public gX: Buffer = null, 
         
-        /** y coordinate of base point G */
-        public gY: Buffer = null,
+        /** Y coordinate of base point G  */
+        public gY: Buffer = null, 
         
-        /** order of G */
-        public n: Buffer = null,
+        /** Order of G  */
+        public n: Buffer = null, 
         
-        /** cofactor (a size of zero indicates a cofactor of 1) */
+        /** Cofactor (a size of zero indicates a cofactor of 1)  */
         public h: Buffer = null
     ) { super(); }
     
+    /** Scheme selector  */
+    get kdfScheme(): TPM_ALG_ID { return this.kdf ? this.kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    
+    /** Scheme selector  */
     get signScheme(): TPM_ALG_ID { return this.sign ? this.sign.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.curveID);
         buf.writeShort(this.keySize);
@@ -7506,16 +7211,16 @@ export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         buf.writeSizedByteBuf(this.h);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.curveID = buf.readShort();
         this.keySize = buf.readShort();
         let kdfScheme: TPM_ALG_ID = buf.readShort();
-        this.kdf = UnionFactory.create<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', kdfScheme);
+        this.kdf = UnionFactory.create('TPMU_KDF_SCHEME', kdfScheme);
         this.kdf.initFromTpm(buf);
         let signScheme: TPM_ALG_ID = buf.readShort();
-        this.sign = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', signScheme);
+        this.sign = UnionFactory.create('TPMU_ASYM_SCHEME', signScheme);
         this.sign.initFromTpm(buf);
         this.p = buf.readSizedByteBuf();
         this.a = buf.readSizedByteBuf();
@@ -7526,330 +7231,320 @@ export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         this.h = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ALGORITHM_DETAIL_ECC
     {
         return buf.createObj(TPMS_ALGORITHM_DETAIL_ECC);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ALGORITHM_DETAIL_ECC
     {
         return new TpmBuffer(buffer).createObj(TPMS_ALGORITHM_DETAIL_ECC);
     }
-
+    
 } // TPMS_ALGORITHM_DETAIL_ECC
 
-/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
+/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure  */
 export class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
 {
     constructor(
-        /**
-         *  the hash algorithm used to digest the message
+        /** The hash algorithm used to digest the message
          *  TPM_ALG_NULL is not allowed.
          */
-        public hash: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        public hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** The signature is the size of a public key. */
+        /** The signature is the size of a public key.  */
         public sig: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSASSA; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.hash);
         buf.writeSizedByteBuf(this.sig);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.hash = buf.readShort();
         this.sig = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIGNATURE_RSA
     {
         return buf.createObj(TPMS_SIGNATURE_RSA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIGNATURE_RSA
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIGNATURE_RSA);
     }
-
+    
 } // TPMS_SIGNATURE_RSA
 
-/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
+/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure  */
 export class TPMS_SIGNATURE_RSASSA extends TPMS_SIGNATURE_RSA
 {
     constructor(
-        /**
-         *  the hash algorithm used to digest the message
+        /** The hash algorithm used to digest the message
          *  TPM_ALG_NULL is not allowed.
          */
-        hash: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** The signature is the size of a public key. */
+        /** The signature is the size of a public key.  */
         sig: Buffer = null
-    ) { super(hash,sig); }
+    ) { super(hash, sig); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSASSA; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIGNATURE_RSASSA
     {
         return buf.createObj(TPMS_SIGNATURE_RSASSA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIGNATURE_RSASSA
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIGNATURE_RSASSA);
     }
-
+    
 } // TPMS_SIGNATURE_RSASSA
 
-/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
+/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure  */
 export class TPMS_SIGNATURE_RSAPSS extends TPMS_SIGNATURE_RSA
 {
     constructor(
-        /**
-         *  the hash algorithm used to digest the message
+        /** The hash algorithm used to digest the message
          *  TPM_ALG_NULL is not allowed.
          */
-        hash: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** The signature is the size of a public key. */
+        /** The signature is the size of a public key.  */
         sig: Buffer = null
-    ) { super(hash,sig); }
+    ) { super(hash, sig); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSAPSS; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIGNATURE_RSAPSS
     {
         return buf.createObj(TPMS_SIGNATURE_RSAPSS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIGNATURE_RSAPSS
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIGNATURE_RSAPSS);
     }
-
+    
 } // TPMS_SIGNATURE_RSAPSS
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
+/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
 export class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
 {
     constructor(
-        /**
-         *  the hash algorithm used in the signature process
+        /** The hash algorithm used in the signature process
          *  TPM_ALG_NULL is not allowed.
          */
-        public hash: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        public hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        public signatureR: Buffer = null,
+        public signatureR: Buffer = null, 
         
         public signatureS: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDSA; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.hash);
         buf.writeSizedByteBuf(this.signatureR);
         buf.writeSizedByteBuf(this.signatureS);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.hash = buf.readShort();
         this.signatureR = buf.readSizedByteBuf();
         this.signatureS = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIGNATURE_ECC
     {
         return buf.createObj(TPMS_SIGNATURE_ECC);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIGNATURE_ECC
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIGNATURE_ECC);
     }
-
+    
 } // TPMS_SIGNATURE_ECC
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
+/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
 export class TPMS_SIGNATURE_ECDSA extends TPMS_SIGNATURE_ECC
 {
     constructor(
-        /**
-         *  the hash algorithm used in the signature process
+        /** The hash algorithm used in the signature process
          *  TPM_ALG_NULL is not allowed.
          */
-        hash: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        signatureR: Buffer = null,
+        signatureR: Buffer = null, 
         
         signatureS: Buffer = null
-    ) { super(hash,signatureR,signatureS); }
+    ) { super(hash, signatureR, signatureS); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDSA; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIGNATURE_ECDSA
     {
         return buf.createObj(TPMS_SIGNATURE_ECDSA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIGNATURE_ECDSA
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIGNATURE_ECDSA);
     }
-
+    
 } // TPMS_SIGNATURE_ECDSA
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
+/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
 export class TPMS_SIGNATURE_ECDAA extends TPMS_SIGNATURE_ECC
 {
     constructor(
-        /**
-         *  the hash algorithm used in the signature process
+        /** The hash algorithm used in the signature process
          *  TPM_ALG_NULL is not allowed.
          */
-        hash: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        signatureR: Buffer = null,
+        signatureR: Buffer = null, 
         
         signatureS: Buffer = null
-    ) { super(hash,signatureR,signatureS); }
+    ) { super(hash, signatureR, signatureS); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECDAA; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIGNATURE_ECDAA
     {
         return buf.createObj(TPMS_SIGNATURE_ECDAA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIGNATURE_ECDAA
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIGNATURE_ECDAA);
     }
-
+    
 } // TPMS_SIGNATURE_ECDAA
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
+/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
 export class TPMS_SIGNATURE_SM2 extends TPMS_SIGNATURE_ECC
 {
     constructor(
-        /**
-         *  the hash algorithm used in the signature process
+        /** The hash algorithm used in the signature process
          *  TPM_ALG_NULL is not allowed.
          */
-        hash: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        signatureR: Buffer = null,
+        signatureR: Buffer = null, 
         
         signatureS: Buffer = null
-    ) { super(hash,signatureR,signatureS); }
+    ) { super(hash, signatureR, signatureS); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.SM2; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIGNATURE_SM2
     {
         return buf.createObj(TPMS_SIGNATURE_SM2);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIGNATURE_SM2
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIGNATURE_SM2);
     }
-
+    
 } // TPMS_SIGNATURE_SM2
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
+/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
 export class TPMS_SIGNATURE_ECSCHNORR extends TPMS_SIGNATURE_ECC
 {
     constructor(
-        /**
-         *  the hash algorithm used in the signature process
+        /** The hash algorithm used in the signature process
          *  TPM_ALG_NULL is not allowed.
          */
-        hash: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        signatureR: Buffer = null,
+        signatureR: Buffer = null, 
         
         signatureS: Buffer = null
-    ) { super(hash,signatureR,signatureS); }
+    ) { super(hash, signatureR, signatureS); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECSCHNORR; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SIGNATURE_ECSCHNORR
     {
         return buf.createObj(TPMS_SIGNATURE_ECSCHNORR);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SIGNATURE_ECSCHNORR
     {
         return new TpmBuffer(buffer).createObj(TPMS_SIGNATURE_ECSCHNORR);
     }
-
+    
 } // TPMS_SIGNATURE_ECSCHNORR
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIGNATURE
  */
 export class TPMS_NULL_SIGNATURE extends TPMS_NULL_UNION
 {
     constructor() { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.NULL; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_NULL_SIGNATURE
     {
         return buf.createObj(TPMS_NULL_SIGNATURE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_NULL_SIGNATURE
     {
         return new TpmBuffer(buffer).createObj(TPMS_NULL_SIGNATURE);
     }
-
+    
 } // TPMS_NULL_SIGNATURE
 
-/**
- *  Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric
+/** Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric
  *  signature is indicated. The sigAlg parameter indicates the algorithm used for the
  *  signature. This structure is output from commands such as the attestation commands and
  *  TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(),
@@ -7858,8 +7553,7 @@ export class TPMS_NULL_SIGNATURE extends TPMS_NULL_UNION
 export class TPMT_SIGNATURE extends TpmStructure
 {
     constructor(
-        /**
-         *  This shall be the actual signature information.
+        /** This shall be the actual signature information.
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -7867,231 +7561,226 @@ export class TPMT_SIGNATURE extends TpmStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get sigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.signature) return;
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let sigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', sigAlg);
+        this.signature = UnionFactory.create('TPMU_SIGNATURE', sigAlg);
         this.signature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_SIGNATURE
     {
         return buf.createObj(TPMT_SIGNATURE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_SIGNATURE
     {
         return new TpmBuffer(buffer).createObj(TPMT_SIGNATURE);
     }
-
+    
 } // TPMT_SIGNATURE
 
-/** Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure */
+/** Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure  */
 export class TPM2B_ENCRYPTED_SECRET extends TpmStructure
 {
     constructor(
-        /** secret */
+        /** Secret  */
         public secret: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.secret); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.secret); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.secret = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.secret = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_ENCRYPTED_SECRET
     {
         return buf.createObj(TPM2B_ENCRYPTED_SECRET);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_ENCRYPTED_SECRET
     {
         return new TpmBuffer(buffer).createObj(TPM2B_ENCRYPTED_SECRET);
     }
-
+    
 } // TPM2B_ENCRYPTED_SECRET
 
-/**
- *  This structure describes the parameters that would appear in the public
- *  area of a KEYEDHASH object.
+/** This structure describes the parameters that would appear in the public area of a
+ *  KEYEDHASH object.
  */
 export class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     constructor(
-        /**
-         *  Indicates the signing method used for a keyedHash signing object. This field also
-         *  determines the size of the data field for a data object created with
-         *  TPM2_Create() or TPM2_CreatePrimary().
+        /** Indicates the signing method used for a keyedHash signing object. This field also
+         *  determines the size of the data field for a data object created with TPM2_Create() or
+         *  TPM2_CreatePrimary().
          *  (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
          */
         public scheme: TPMU_SCHEME_KEYEDHASH = null
     ) { super(); }
     
+    /** Selects the scheme  */
     get schemeScheme(): TPM_ALG_ID { return this.scheme ? this.scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KEYEDHASH; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.scheme) return;
         buf.writeShort(this.scheme.GetUnionSelector());
         this.scheme.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let schemeScheme: TPM_ALG_ID = buf.readShort();
-        this.scheme = UnionFactory.create<TPMU_SCHEME_KEYEDHASH>('TPMU_SCHEME_KEYEDHASH', schemeScheme);
+        this.scheme = UnionFactory.create('TPMU_SCHEME_KEYEDHASH', schemeScheme);
         this.scheme.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_KEYEDHASH_PARMS
     {
         return buf.createObj(TPMS_KEYEDHASH_PARMS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_KEYEDHASH_PARMS
     {
         return new TpmBuffer(buffer).createObj(TPMS_KEYEDHASH_PARMS);
     }
-
+    
 } // TPMS_KEYEDHASH_PARMS
 
-/**
- *  This structure contains the common public area parameters for an asymmetric key. The first
- *  two parameters of the parameter definition structures of an asymmetric key shall have
- *  the same two first components.
+/** This structure contains the common public area parameters for an asymmetric key. The
+ *  first two parameters of the parameter definition structures of an asymmetric key shall
+ *  have the same two first components.
  */
 export class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     constructor(
-        /**
-         *  the companion symmetric algorithm for a restricted decryption key and shall be set to a
-         *  supported symmetric algorithm
-         *  This field is optional for keys that are not decryption keys and shall be set
-         *  to TPM_ALG_NULL if not used.
+        /** The companion symmetric algorithm for a restricted decryption key and shall be set to
+         *  a supported symmetric algorithm
+         *  This field is optional for keys that are not decryption keys and shall be set to
+         *  TPM_ALG_NULL if not used.
          */
-        public symmetric: TPMT_SYM_DEF_OBJECT = null,
+        public symmetric: TPMT_SYM_DEF_OBJECT = null, 
         
-        /**
-         *  for a key with the sign attribute SET, a valid signing scheme for the key type
+        /** For a key with the sign attribute SET, a valid signing scheme for the key type
          *  for a key with the decrypt attribute SET, a valid key exchange protocol
          *  for a key with sign and decrypt attributes, shall be TPM_ALG_NULL
          *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-         *  TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+         *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
          */
         public scheme: TPMU_ASYM_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get schemeScheme(): TPM_ALG_ID { return this.scheme ? this.scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ANY; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.symmetric.toTpm(buf);
         buf.writeShort(this.scheme.GetUnionSelector());
         this.scheme.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.symmetric = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
         let schemeScheme: TPM_ALG_ID = buf.readShort();
-        this.scheme = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
+        this.scheme = UnionFactory.create('TPMU_ASYM_SCHEME', schemeScheme);
         this.scheme.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ASYM_PARMS
     {
         return buf.createObj(TPMS_ASYM_PARMS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ASYM_PARMS
     {
         return new TpmBuffer(buffer).createObj(TPMS_ASYM_PARMS);
     }
-
+    
 } // TPMS_ASYM_PARMS
 
-/**
- *  A TPM compatible with this specification and supporting RSA shall support two primes and
- *  an exponent of zero. An exponent of zero indicates that the exponent is the default of 216
- *  + 1. Support for other values is optional. Use of other exponents in duplicated keys is
- *  not recommended because the resulting keys would not be interoperable with other TPMs.
+/** A TPM compatible with this specification and supporting RSA shall support two primes
+ *  and an exponent of zero. An exponent of zero indicates that the exponent is the
+ *  default of 216 + 1. Support for other values is optional. Use of other exponents in
+ *  duplicated keys is not recommended because the resulting keys would not be
+ *  interoperable with other TPMs.
  */
 export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     constructor(
-        /**
-         *  for a restricted decryption key, shall be set to a supported symmetric algorithm, key
+        /** For a restricted decryption key, shall be set to a supported symmetric algorithm, key
          *  size, and mode.
-         *  if the key is not a restricted decryption key, this field shall be set to
-         *  TPM_ALG_NULL.
+         *  if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
          */
-        public symmetric: TPMT_SYM_DEF_OBJECT = null,
+        public symmetric: TPMT_SYM_DEF_OBJECT = null, 
         
-        /**
-         *  scheme.scheme shall be:
+        /** Scheme.scheme shall be:
          *  for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL
          *  for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA
-         *  for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless
-         *  the object also has the sign attribute
+         *  for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL
+         *  unless the object also has the sign attribute
          *  for a restricted decryption key, TPM_ALG_NULL
-         *  NOTE When both sign and decrypt are SET, restricted shall be CLEAR and
-         *  scheme shall be TPM_ALG_NULL.
+         *  NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be
+         *  TPM_ALG_NULL.
          *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-         *  TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+         *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
          */
-        public scheme: TPMU_ASYM_SCHEME = null,
+        public scheme: TPMU_ASYM_SCHEME = null, 
         
-        /** number of bits in the public modulus */
-        public keyBits: number = 0,
+        /** Number of bits in the public modulus  */
+        public keyBits: number = 0, 
         
-        /**
-         *  the public exponent
+        /** The public exponent
          *  A prime number greater than 2.
          */
         public exponent: number = 0
     ) { super(); }
     
+    /** Scheme selector  */
     get schemeScheme(): TPM_ALG_ID { return this.scheme ? this.scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.RSA; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.symmetric.toTpm(buf);
         buf.writeShort(this.scheme.GetUnionSelector());
@@ -8100,79 +7789,79 @@ export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         buf.writeInt(this.exponent);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.symmetric = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
         let schemeScheme: TPM_ALG_ID = buf.readShort();
-        this.scheme = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
+        this.scheme = UnionFactory.create('TPMU_ASYM_SCHEME', schemeScheme);
         this.scheme.initFromTpm(buf);
         this.keyBits = buf.readShort();
         this.exponent = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_RSA_PARMS
     {
         return buf.createObj(TPMS_RSA_PARMS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_RSA_PARMS
     {
         return new TpmBuffer(buffer).createObj(TPMS_RSA_PARMS);
     }
-
+    
 } // TPMS_RSA_PARMS
 
-/** This structure contains the parameters for prime modulus ECC. */
+/** This structure contains the parameters for prime modulus ECC.  */
 export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     constructor(
-        /**
-         *  for a restricted decryption key, shall be set to a supported symmetric algorithm, key
+        /** For a restricted decryption key, shall be set to a supported symmetric algorithm, key
          *  size. and mode.
-         *  if the key is not a restricted decryption key, this field shall be set to
-         *  TPM_ALG_NULL.
+         *  if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
          */
-        public symmetric: TPMT_SYM_DEF_OBJECT = null,
+        public symmetric: TPMT_SYM_DEF_OBJECT = null, 
         
-        /**
-         *  If the sign attribute of the key is SET, then this shall be a valid signing scheme.
-         *  NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field shall
-         *  have the same value.
-         *  If the decrypt attribute of the key is SET, then this shall be a valid key exchange scheme
-         *  or TPM_ALG_NULL.
+        /** If the sign attribute of the key is SET, then this shall be a valid signing scheme.
+         *  NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field
+         *  shall have the same value.
+         *  If the decrypt attribute of the key is SET, then this shall be a valid key exchange
+         *  scheme or TPM_ALG_NULL.
          *  If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
          *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-         *  TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+         *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
          */
-        public scheme: TPMU_ASYM_SCHEME = null,
+        public scheme: TPMU_ASYM_SCHEME = null, 
         
-        /** ECC curve ID */
-        public curveID: TPM_ECC_CURVE = 0,
+        /** ECC curve ID  */
+        public curveID: TPM_ECC_CURVE = 0, 
         
-        /**
-         *  an optional key derivation scheme for generating a symmetric key from a Z value
-         *  If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required to
-         *  be NULL.
-         *  NOTE There are currently no commands where this parameter has effect and, in the reference
-         *  code, this field needs to be set to TPM_ALG_NULL.
+        /** An optional key derivation scheme for generating a symmetric key from a Z value
+         *  If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required
+         *  to be NULL.
+         *  NOTE There are currently no commands where this parameter has effect and, in the
+         *  reference code, this field needs to be set to TPM_ALG_NULL.
          *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
          *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
          */
         public kdf: TPMU_KDF_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
+    get schemeScheme(): TPM_ALG_ID { return this.scheme ? this.scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
+    
+    /** Scheme selector  */
     get kdfScheme(): TPM_ALG_ID { return this.kdf ? this.kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ECC; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.symmetric.toTpm(buf);
         buf.writeShort(this.scheme.GetUnionSelector());
@@ -8182,113 +7871,107 @@ export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         this.kdf.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.symmetric = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
         let schemeScheme: TPM_ALG_ID = buf.readShort();
-        this.scheme = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', schemeScheme);
+        this.scheme = UnionFactory.create('TPMU_ASYM_SCHEME', schemeScheme);
         this.scheme.initFromTpm(buf);
         this.curveID = buf.readShort();
         let kdfScheme: TPM_ALG_ID = buf.readShort();
-        this.kdf = UnionFactory.create<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', kdfScheme);
+        this.kdf = UnionFactory.create('TPMU_KDF_SCHEME', kdfScheme);
         this.kdf.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ECC_PARMS
     {
         return buf.createObj(TPMS_ECC_PARMS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ECC_PARMS
     {
         return new TpmBuffer(buffer).createObj(TPMS_ECC_PARMS);
     }
-
+    
 } // TPMS_ECC_PARMS
 
-/**
- *  This structure is used in TPM2_TestParms() to validate that a set of algorithm
+/** This structure is used in TPM2_TestParms() to validate that a set of algorithm
  *  parameters is supported by the TPM.
  */
 export class TPMT_PUBLIC_PARMS extends TpmStructure
 {
     constructor(
-        /**
-         *  the algorithm details
-         *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
-         *  TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
+        /** The algorithm details
+         *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+         *  TPMS_ASYM_PARMS])
          */
         public parameters: TPMU_PUBLIC_PARMS = null
     ) { super(); }
     
+    /** The algorithm to be tested  */
     get type(): TPM_ALG_ID { return this.parameters.GetUnionSelector(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.parameters) return;
         buf.writeShort(this.parameters.GetUnionSelector());
         this.parameters.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let type: TPM_ALG_ID = buf.readShort();
-        this.parameters = UnionFactory.create<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', type);
+        this.parameters = UnionFactory.create('TPMU_PUBLIC_PARMS', type);
         this.parameters.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_PUBLIC_PARMS
     {
         return buf.createObj(TPMT_PUBLIC_PARMS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_PUBLIC_PARMS
     {
         return new TpmBuffer(buffer).createObj(TPMT_PUBLIC_PARMS);
     }
-
+    
 } // TPMT_PUBLIC_PARMS
 
-/**
- *  Table 201 defines the public area structure. The Name of the object is nameAlg
+/** Table 201 defines the public area structure. The Name of the object is nameAlg
  *  concatenated with the digest of this structure using nameAlg.
  */
 export class TPMT_PUBLIC extends TpmStructure
 {
     constructor(
-        /**
-         *  algorithm used for computing the Name of the object
-         *  NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate that
-         *  the nameAlg may be TPM_ALG_NULL.
+        /** Algorithm used for computing the Name of the object
+         *  NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate
+         *  that the nameAlg may be TPM_ALG_NULL.
          */
-        public nameAlg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        public nameAlg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** attributes that, along with type, determine the manipulations of this object */
-        public objectAttributes: TPMA_OBJECT = 0,
+        /** Attributes that, along with type, determine the manipulations of this object  */
+        public objectAttributes: TPMA_OBJECT = 0, 
         
-        /**
-         *  optional policy for using this key
+        /** Optional policy for using this key
          *  The policy is computed using the nameAlg of the object.
          *  NOTE Shall be the Empty Policy if no authorization policy is present.
          */
-        public authPolicy: Buffer = null,
+        public authPolicy: Buffer = null, 
         
-        /**
-         *  the algorithm or structure details
-         *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
-         *  TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
+        /** The algorithm or structure details
+         *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+         *  TPMS_ASYM_PARMS])
          */
-        public parameters: TPMU_PUBLIC_PARMS = null,
+        public parameters: TPMU_PUBLIC_PARMS = null, 
         
-        /**
-         *  the unique identifier of the structure
+        /** The unique identifier of the structure
          *  For an asymmetric key, this would be the public key.
          *  (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
          *  TPMS_ECC_POINT, TPMS_DERIVE])
@@ -8296,10 +7979,11 @@ export class TPMT_PUBLIC extends TpmStructure
         public unique: TPMU_PUBLIC_ID = null
     ) { super(); }
     
-    get type(): TPM_ALG_ID { return this.unique.GetUnionSelector(); }
+    /** Algorithm associated with this object  */
+    get type(): TPM_ALG_ID { return this.parameters.GetUnionSelector(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.parameters) return;
         buf.writeShort(this.parameters.GetUnionSelector());
@@ -8310,31 +7994,31 @@ export class TPMT_PUBLIC extends TpmStructure
         this.unique.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let type: TPM_ALG_ID = buf.readShort();
         this.nameAlg = buf.readShort();
         this.objectAttributes = buf.readInt();
         this.authPolicy = buf.readSizedByteBuf();
-        this.parameters = UnionFactory.create<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', type);
+        this.parameters = UnionFactory.create('TPMU_PUBLIC_PARMS', type);
         this.parameters.initFromTpm(buf);
-        this.unique = UnionFactory.create<TPMU_PUBLIC_ID>('TPMU_PUBLIC_ID', type);
+        this.unique = UnionFactory.create('TPMU_PUBLIC_ID', type);
         this.unique.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_PUBLIC
     {
         return buf.createObj(TPMT_PUBLIC);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_PUBLIC
     {
         return new TpmBuffer(buffer).createObj(TPMT_PUBLIC);
     }
-
+    
     /** @return The TPM name (alg-prepended hash of the public area) of this object */
     public getName(): Buffer
     {
@@ -8347,75 +8031,73 @@ export class TPMT_PUBLIC extends TpmStructure
     
 } // TPMT_PUBLIC
 
-/**
- *  This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any
- *  response that returns a public area.
+/** This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any response
+ *  that returns a public area.
  */
 export class TPM2B_PUBLIC extends TpmStructure
 {
     constructor(
-        /**
-         *  the public area
+        /** The public area
          *  NOTE The + indicates that the caller may specify that use of TPM_ALG_NULL is allowed
          *  for nameAlg.
          */
         public publicArea: TPMT_PUBLIC = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.publicArea); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.publicArea); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.publicArea = buf.createSizedObj(TPMT_PUBLIC); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.publicArea = buf.createSizedObj(TPMT_PUBLIC); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_PUBLIC
     {
         return buf.createObj(TPM2B_PUBLIC);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_PUBLIC
     {
         return new TpmBuffer(buffer).createObj(TPM2B_PUBLIC);
     }
-
+    
 } // TPM2B_PUBLIC
 
-/** This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded(). */
+/** This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().  */
 export class TPM2B_TEMPLATE extends TpmStructure
 {
     constructor(
-        /** the public area */
+        /** The public area  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_TEMPLATE
     {
         return buf.createObj(TPM2B_TEMPLATE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_TEMPLATE
     {
         return new TpmBuffer(buffer).createObj(TPM2B_TEMPLATE);
     }
-
+    
 } // TPM2B_TEMPLATE
 
-/**
- *  This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of
- *  the key will be in a canonical form. For an RSA key, this will be one of the prime factors
- *  of the public modulus. After loading, it is typical that other values will be computed so
- *  that computations using the private key will not need to start with just one prime factor.
- *  This structure can be used to store the results of such vendor-specific calculations.
+/** This structure is defined for coding purposes. For IO to the TPM, the sensitive
+ *  portion of the key will be in a canonical form. For an RSA key, this will be one of
+ *  the prime factors of the public modulus. After loading, it is typical that other
+ *  values will be computed so that computations using the private key will not need to
+ *  start with just one prime factor. This structure can be used to store the results of
+ *  such vendor-specific calculations.
  */
 export class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
@@ -8423,60 +8105,57 @@ export class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.ANY; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_PRIVATE_VENDOR_SPECIFIC
     {
         return buf.createObj(TPM2B_PRIVATE_VENDOR_SPECIFIC);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_PRIVATE_VENDOR_SPECIFIC
     {
         return new TpmBuffer(buffer).createObj(TPM2B_PRIVATE_VENDOR_SPECIFIC);
     }
-
+    
 } // TPM2B_PRIVATE_VENDOR_SPECIFIC
 
-/**
- *  authValue shall not be larger than the size of the digest produced by the nameAlg of the
- *  object. seedValue shall be the size of the digest produced by the nameAlg of the object.
+/** AuthValue shall not be larger than the size of the digest produced by the nameAlg of
+ *  the object. seedValue shall be the size of the digest produced by the nameAlg of the object.
  */
 export class TPMT_SENSITIVE extends TpmStructure
 {
     constructor(
-        /**
-         *  user authorization data
+        /** User authorization data
          *  The authValue may be a zero-length string.
          */
-        public authValue: Buffer = null,
+        public authValue: Buffer = null, 
         
-        /**
-         *  for a parent object, the optional protection seed; for other
-         *  objects, the obfuscation value
-         */
-        public seedValue: Buffer = null,
+        /** For a parent object, the optional protection seed; for other objects, the obfuscation value  */
+        public seedValue: Buffer = null, 
         
-        /**
-         *  the type-specific private data
-         *  (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY,
-         *  TPM2B_PRIVATE_VENDOR_SPECIFIC])
+        /** The type-specific private data
+         *  (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
+         *  TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC])
          */
         public sensitive: TPMU_SENSITIVE_COMPOSITE = null
     ) { super(); }
     
+    /** Identifier for the sensitive area
+     *  This shall be the same as the type parameter of the associated public area.
+     */
     get sensitiveType(): TPM_ALG_ID { return this.sensitive.GetUnionSelector(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.sensitive) return;
         buf.writeShort(this.sensitive.GetUnionSelector());
@@ -8485,297 +8164,285 @@ export class TPMT_SENSITIVE extends TpmStructure
         this.sensitive.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let sensitiveType: TPM_ALG_ID = buf.readShort();
         this.authValue = buf.readSizedByteBuf();
         this.seedValue = buf.readSizedByteBuf();
-        this.sensitive = UnionFactory.create<TPMU_SENSITIVE_COMPOSITE>('TPMU_SENSITIVE_COMPOSITE', sensitiveType);
+        this.sensitive = UnionFactory.create('TPMU_SENSITIVE_COMPOSITE', sensitiveType);
         this.sensitive.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMT_SENSITIVE
     {
         return buf.createObj(TPMT_SENSITIVE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMT_SENSITIVE
     {
         return new TpmBuffer(buffer).createObj(TPMT_SENSITIVE);
     }
-
+    
 } // TPMT_SENSITIVE
 
-/**
- *  The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an
+/** The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an
  *  unencrypted sensitive area but it may be encrypted using parameter encryption.
  */
 export class TPM2B_SENSITIVE extends TpmStructure
 {
     constructor(
-        /** an unencrypted sensitive area */
+        /** An unencrypted sensitive area  */
         public sensitiveArea: TPMT_SENSITIVE = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.sensitiveArea); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.sensitiveArea); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.sensitiveArea = buf.createSizedObj(TPMT_SENSITIVE); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.sensitiveArea = buf.createSizedObj(TPMT_SENSITIVE); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_SENSITIVE
     {
         return buf.createObj(TPM2B_SENSITIVE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_SENSITIVE
     {
         return new TpmBuffer(buffer).createObj(TPM2B_SENSITIVE);
     }
-
+    
 } // TPM2B_SENSITIVE
 
-/**
- *  This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not
- *  directly marshaled or unmarshaled.
+/** This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is
+ *  not directly marshaled or unmarshaled.
  */
 export class _PRIVATE extends TpmStructure
 {
     constructor(
-        public integrityOuter: Buffer = null,
+        public integrityOuter: Buffer = null, 
         
-        /** could also be a TPM2B_IV */
-        public integrityInner: Buffer = null,
+        /** Could also be a TPM2B_IV  */
+        public integrityInner: Buffer = null, 
         
-        /** the sensitive area */
+        /** The sensitive area  */
         public sensitive: TPMT_SENSITIVE = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.integrityOuter);
         buf.writeSizedByteBuf(this.integrityInner);
         buf.writeSizedObj(this.sensitive);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.integrityOuter = buf.readSizedByteBuf();
         this.integrityInner = buf.readSizedByteBuf();
         this.sensitive = buf.createSizedObj(TPMT_SENSITIVE);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : _PRIVATE
     {
         return buf.createObj(_PRIVATE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : _PRIVATE
     {
         return new TpmBuffer(buffer).createObj(_PRIVATE);
     }
-
+    
 } // _PRIVATE
 
-/**
- *  The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and
- *  modify the sensitive area of an object.
+/** The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create,
+ *  load, and modify the sensitive area of an object.
  */
 export class TPM2B_PRIVATE extends TpmStructure
 {
     constructor(
-        /** an encrypted private area */
+        /** An encrypted private area  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_PRIVATE
     {
         return buf.createObj(TPM2B_PRIVATE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_PRIVATE
     {
         return new TpmBuffer(buffer).createObj(TPM2B_PRIVATE);
     }
-
+    
 } // TPM2B_PRIVATE
 
-/** This structure is used for sizing the TPM2B_ID_OBJECT. */
+/** This structure is used for sizing the TPM2B_ID_OBJECT.  */
 export class TPMS_ID_OBJECT extends TpmStructure
 {
     constructor(
-        /** HMAC using the nameAlg of the storage key on the target TPM */
-        public integrityHMAC: Buffer = null,
+        /** HMAC using the nameAlg of the storage key on the target TPM  */
+        public integrityHMAC: Buffer = null, 
         
-        /**
-         *  credential protector information returned if name matches the referenced object
+        /** Credential protector information returned if name matches the referenced object
          *  All of the encIdentity is encrypted, including the size field.
-         *  NOTE The TPM is not required to check that the size is not larger than the digest of the
-         *  nameAlg. However, if the size is larger, the ID object may not be usable on a TPM that has no
-         *  digest larger than produced by nameAlg.
+         *  NOTE The TPM is not required to check that the size is not larger than the digest of
+         *  the nameAlg. However, if the size is larger, the ID object may not be usable on a TPM
+         *  that has no digest larger than produced by nameAlg.
          */
         public encIdentity: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.integrityHMAC);
         buf.writeByteBuf(this.encIdentity);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.integrityHMAC = buf.readSizedByteBuf();
         this.encIdentity = buf.readByteBuf(buf.getCurStuctRemainingSize());
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_ID_OBJECT
     {
         return buf.createObj(TPMS_ID_OBJECT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_ID_OBJECT
     {
         return new TpmBuffer(buffer).createObj(TPMS_ID_OBJECT);
     }
-
+    
 } // TPMS_ID_OBJECT
 
-/**
- *  This structure is an output from TPM2_MakeCredential() and is an input to
+/** This structure is an output from TPM2_MakeCredential() and is an input to
  *  TPM2_ActivateCredential().
  */
 export class TPM2B_ID_OBJECT extends TpmStructure
 {
     constructor(
-        /** an encrypted credential area */
+        /** An encrypted credential area  */
         public credential: TPMS_ID_OBJECT = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.credential); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.credential); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.credential = buf.createSizedObj(TPMS_ID_OBJECT); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.credential = buf.createSizedObj(TPMS_ID_OBJECT); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_ID_OBJECT
     {
         return buf.createObj(TPM2B_ID_OBJECT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_ID_OBJECT
     {
         return new TpmBuffer(buffer).createObj(TPM2B_ID_OBJECT);
     }
-
+    
 } // TPM2B_ID_OBJECT
 
-/**
- *  This is the data that can be written to and read from a TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL
- *  non-volatile index. pinCount is the most significant octets. pinLimit is the
- *  least significant octets.
+/** This is the data that can be written to and read from a TPM_NT_PIN_PASS or
+ *  TPM_NT_PIN_FAIL non-volatile index. pinCount is the most significant octets. pinLimit
+ *  is the least significant octets.
  */
 export class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
 {
     constructor(
-        /**
-         *  This counter shows the current number of successful authValue authorization attempts to
-         *  access a TPM_NT_PIN_PASS index or the current number of unsuccessful authValue
+        /** This counter shows the current number of successful authValue authorization attempts
+         *  to access a TPM_NT_PIN_PASS index or the current number of unsuccessful authValue
          *  authorization attempts to access a TPM_NT_PIN_FAIL index.
          */
-        public pinCount: number = 0,
+        public pinCount: number = 0, 
         
-        /**
-         *  This threshold is the value of pinCount at which the authValue authorization of the host
-         *  TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out.
+        /** This threshold is the value of pinCount at which the authValue authorization of the
+         *  host TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out.
          */
         public pinLimit: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt(this.pinCount);
         buf.writeInt(this.pinLimit);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.pinCount = buf.readInt();
         this.pinLimit = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_NV_PIN_COUNTER_PARAMETERS
     {
         return buf.createObj(TPMS_NV_PIN_COUNTER_PARAMETERS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_NV_PIN_COUNTER_PARAMETERS
     {
         return new TpmBuffer(buffer).createObj(TPMS_NV_PIN_COUNTER_PARAMETERS);
     }
-
+    
 } // TPMS_NV_PIN_COUNTER_PARAMETERS
 
-/** This structure describes an NV Index. */
+/** This structure describes an NV Index.  */
 export class TPMS_NV_PUBLIC extends TpmStructure
 {
     constructor(
-        /** the handle of the data area */
-        public nvIndex: TPM_HANDLE = new TPM_HANDLE(),
+        /** The handle of the data area  */
+        public nvIndex: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  hash algorithm used to compute the name of the Index and used for the authPolicy. For an
-         *  extend index, the hash algorithm used for the extend.
+        /** Hash algorithm used to compute the name of the Index and used for the authPolicy. For
+         *  an extend index, the hash algorithm used for the extend.
          */
-        public nameAlg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        public nameAlg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** the Index attributes */
-        public attributes: TPMA_NV = 0,
+        /** The Index attributes  */
+        public attributes: TPMA_NV = 0, 
         
-        /**
-         *  optional access policy for the Index
+        /** Optional access policy for the Index
          *  The policy is computed using the nameAlg
          *  NOTE Shall be the Empty Policy if no authorization policy is present.
          */
-        public authPolicy: Buffer = null,
+        public authPolicy: Buffer = null, 
         
-        /**
-         *  the size of the data area
-         *  The maximum size is implementation-dependent. The minimum maximum size is
-         *  platform-specific.
+        /** The size of the data area
+         *  The maximum size is implementation-dependent. The minimum maximum size is platform-specific.
          */
         public dataSize: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.nvIndex.toTpm(buf);
         buf.writeShort(this.nameAlg);
@@ -8784,8 +8451,8 @@ export class TPMS_NV_PUBLIC extends TpmStructure
         buf.writeShort(this.dataSize);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.nvIndex = TPM_HANDLE.fromTpm(buf);
         this.nameAlg = buf.readShort();
@@ -8794,174 +8461,170 @@ export class TPMS_NV_PUBLIC extends TpmStructure
         this.dataSize = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_NV_PUBLIC
     {
         return buf.createObj(TPMS_NV_PUBLIC);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_NV_PUBLIC
     {
         return new TpmBuffer(buffer).createObj(TPMS_NV_PUBLIC);
     }
-
+    
 } // TPMS_NV_PUBLIC
 
-/** This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface. */
+/** This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface.  */
 export class TPM2B_NV_PUBLIC extends TpmStructure
 {
     constructor(
-        /** the public area */
+        /** The public area  */
         public nvPublic: TPMS_NV_PUBLIC = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.nvPublic); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.nvPublic); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_NV_PUBLIC
     {
         return buf.createObj(TPM2B_NV_PUBLIC);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_NV_PUBLIC
     {
         return new TpmBuffer(buffer).createObj(TPM2B_NV_PUBLIC);
     }
-
+    
 } // TPM2B_NV_PUBLIC
 
-/**
- *  This structure holds the object or session context data. When saved, the
- *  full structure is encrypted.
+/** This structure holds the object or session context data. When saved, the full
+ *  structure is encrypted.
  */
 export class TPM2B_CONTEXT_SENSITIVE extends TpmStructure
 {
     constructor(
-        /** the sensitive data */
+        /** The sensitive data  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_CONTEXT_SENSITIVE
     {
         return buf.createObj(TPM2B_CONTEXT_SENSITIVE);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_CONTEXT_SENSITIVE
     {
         return new TpmBuffer(buffer).createObj(TPM2B_CONTEXT_SENSITIVE);
     }
-
+    
 } // TPM2B_CONTEXT_SENSITIVE
 
-/** This structure holds the integrity value and the encrypted data for a context. */
+/** This structure holds the integrity value and the encrypted data for a context.  */
 export class TPMS_CONTEXT_DATA extends TpmStructure
 {
     constructor(
-        /** the integrity value */
-        public integrity: Buffer = null,
+        /** The integrity value  */
+        public integrity: Buffer = null, 
         
-        /** the sensitive area */
+        /** The sensitive area  */
         public encrypted: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.integrity);
         buf.writeByteBuf(this.encrypted);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.integrity = buf.readSizedByteBuf();
         this.encrypted = buf.readByteBuf(buf.getCurStuctRemainingSize());
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_CONTEXT_DATA
     {
         return buf.createObj(TPMS_CONTEXT_DATA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_CONTEXT_DATA
     {
         return new TpmBuffer(buffer).createObj(TPMS_CONTEXT_DATA);
     }
-
+    
 } // TPMS_CONTEXT_DATA
 
-/** This structure is used in a TPMS_CONTEXT. */
+/** This structure is used in a TPMS_CONTEXT.  */
 export class TPM2B_CONTEXT_DATA extends TpmStructure
 {
     constructor(
         public buffer: TPMS_CONTEXT_DATA = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.createSizedObj(TPMS_CONTEXT_DATA); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.createSizedObj(TPMS_CONTEXT_DATA); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_CONTEXT_DATA
     {
         return buf.createObj(TPM2B_CONTEXT_DATA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_CONTEXT_DATA
     {
         return new TpmBuffer(buffer).createObj(TPM2B_CONTEXT_DATA);
     }
-
+    
 } // TPM2B_CONTEXT_DATA
 
-/**
- *  This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
- *  TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
- *  context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
+/** This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of
+ *  the TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when
+ *  the context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
  */
 export class TPMS_CONTEXT extends TpmStructure
 {
     constructor(
-        /**
-         *  the sequence number of the context
+        /** The sequence number of the context
          *  NOTE Transient object contexts and session contexts used different counters.
          */
-        public sequence: number = 0,
+        public sequence: number = 0, 
         
-        /**
-         *  a handle indicating if the context is a session, object, or sequence object (see
-         *  Table 222 Context Handle Values
+        /** A handle indicating if the context is a session, object, or sequence object (see Table
+         *  222 Context Handle Values
          */
-        public savedHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public savedHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the hierarchy of the context */
-        public hierarchy: TPM_HANDLE = new TPM_HANDLE(),
+        /** The hierarchy of the context  */
+        public hierarchy: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the context data and integrity HMAC */
+        /** The context data and integrity HMAC  */
         public contextBlob: TPMS_CONTEXT_DATA = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt64(this.sequence);
         this.savedHandle.toTpm(buf);
@@ -8969,8 +8632,8 @@ export class TPMS_CONTEXT extends TpmStructure
         buf.writeSizedObj(this.contextBlob);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.sequence = buf.readInt64();
         this.savedHandle = TPM_HANDLE.fromTpm(buf);
@@ -8978,71 +8641,65 @@ export class TPMS_CONTEXT extends TpmStructure
         this.contextBlob = buf.createSizedObj(TPMS_CONTEXT_DATA);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_CONTEXT
     {
         return buf.createObj(TPMS_CONTEXT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_CONTEXT
     {
         return new TpmBuffer(buffer).createObj(TPMS_CONTEXT);
     }
-
+    
 } // TPMS_CONTEXT
 
-/**
- *  This structure provides information relating to the creation environment for the object.
- *  The creation data includes the parent Name, parent Qualified Name, and the digest of
- *  selected PCR. These values represent the environment in which the object was created.
- *  Creation data allows a relying party to determine if an object was created when some
- *  appropriate protections were present.
+/** This structure provides information relating to the creation environment for the
+ *  object. The creation data includes the parent Name, parent Qualified Name, and the
+ *  digest of selected PCR. These values represent the environment in which the object was
+ *  created. Creation data allows a relying party to determine if an object was created
+ *  when some appropriate protections were present.
  */
 export class TPMS_CREATION_DATA extends TpmStructure
 {
     constructor(
-        /** list indicating the PCR included in pcrDigest */
-        public pcrSelect: TPMS_PCR_SELECTION[] = null,
+        /** List indicating the PCR included in pcrDigest  */
+        public pcrSelect: TPMS_PCR_SELECTION[] = null, 
         
-        /**
-         *  digest of the selected PCR using nameAlg of the object for which this structure is being
-         *  created
+        /** Digest of the selected PCR using nameAlg of the object for which this structure is
+         *  being created
          *  pcrDigest.size shall be zero if the pcrSelect list is empty.
          */
-        public pcrDigest: Buffer = null,
+        public pcrDigest: Buffer = null, 
         
-        /** the locality at which the object was created */
-        public locality: TPMA_LOCALITY = 0,
+        /** The locality at which the object was created  */
+        public locality: TPMA_LOCALITY = 0, 
         
-        /** nameAlg of the parent */
-        public parentNameAlg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** NameAlg of the parent  */
+        public parentNameAlg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /**
-         *  Name of the parent at time of creation
-         *  The size will match digest size associated with parentNameAlg unless it is TPM_ALG_NULL,
-         *  in which case the size will be 4 and parentName will be the hierarchy handle.
+        /** Name of the parent at time of creation
+         *  The size will match digest size associated with parentNameAlg unless it is
+         *  TPM_ALG_NULL, in which case the size will be 4 and parentName will be the hierarchy handle.
          */
-        public parentName: Buffer = null,
+        public parentName: Buffer = null, 
         
-        /**
-         *  Qualified Name of the parent at the time of creation
+        /** Qualified Name of the parent at the time of creation
          *  Size is the same as parentName.
          */
-        public parentQualifiedName: Buffer = null,
+        public parentQualifiedName: Buffer = null, 
         
-        /**
-         *  association with additional information added by the key creator
-         *  This will be the contents of the outsideInfo parameter in TPM2_Create()
-         *  or TPM2_CreatePrimary().
+        /** Association with additional information added by the key creator
+         *  This will be the contents of the outsideInfo parameter in TPM2_Create() or TPM2_CreatePrimary().
          */
         public outsideInfo: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelect);
+        buf.writeObjArr(this.pcrSelect);
         buf.writeSizedByteBuf(this.pcrDigest);
         buf.writeByte(this.locality);
         buf.writeShort(this.parentNameAlg);
@@ -9051,8 +8708,8 @@ export class TPMS_CREATION_DATA extends TpmStructure
         buf.writeSizedByteBuf(this.outsideInfo);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.pcrSelect = buf.readObjArr(TPMS_PCR_SELECTION);
         this.pcrDigest = buf.readSizedByteBuf();
@@ -9063,23 +8720,22 @@ export class TPMS_CREATION_DATA extends TpmStructure
         this.outsideInfo = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_CREATION_DATA
     {
         return buf.createObj(TPMS_CREATION_DATA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_CREATION_DATA
     {
         return new TpmBuffer(buffer).createObj(TPMS_CREATION_DATA);
     }
-
+    
 } // TPMS_CREATION_DATA
 
-/**
- *  This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the
- *  TPM and never has a size of zero.
+/** This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never
+ *  entered into the TPM and never has a size of zero.
  */
 export class TPM2B_CREATION_DATA extends TpmStructure
 {
@@ -9087,374 +8743,359 @@ export class TPM2B_CREATION_DATA extends TpmStructure
         public creationData: TPMS_CREATION_DATA = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.creationData); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.creationData); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.creationData = buf.createSizedObj(TPMS_CREATION_DATA); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.creationData = buf.createSizedObj(TPMS_CREATION_DATA); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_CREATION_DATA
     {
         return buf.createObj(TPM2B_CREATION_DATA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_CREATION_DATA
     {
         return new TpmBuffer(buffer).createObj(TPM2B_CREATION_DATA);
     }
-
+    
 } // TPM2B_CREATION_DATA
 
-/**
- *  TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter
+/** TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter
  *  indicates the type of the data value.
  */
 export class TPMS_AC_OUTPUT extends TpmStructure
 {
     constructor(
-        /** tag indicating the contents of data */
-        public tag: TPM_AT = 0,
+        /** Tag indicating the contents of data  */
+        public tag: TPM_AT = 0, 
         
-        /** the data returned from the AC */
+        /** The data returned from the AC  */
         public data: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt(this.tag);
         buf.writeInt(this.data);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.tag = buf.readInt();
         this.data = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_AC_OUTPUT
     {
         return buf.createObj(TPMS_AC_OUTPUT);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_AC_OUTPUT
     {
         return new TpmBuffer(buffer).createObj(TPMS_AC_OUTPUT);
     }
-
+    
 } // TPMS_AC_OUTPUT
 
-/** This list is only used in TPM2_AC_GetCapability(). */
+/** This list is only used in TPM2_AC_GetCapability().  */
 export class TPML_AC_CAPABILITIES extends TpmStructure
 {
     constructor(
-        /** a list of AC values */
+        /** A list of AC values  */
         public acCapabilities: TPMS_AC_OUTPUT[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_AC_OUTPUT>(this.acCapabilities); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.acCapabilities); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.acCapabilities = buf.readObjArr(TPMS_AC_OUTPUT); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.acCapabilities = buf.readObjArr(TPMS_AC_OUTPUT); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPML_AC_CAPABILITIES
     {
         return buf.createObj(TPML_AC_CAPABILITIES);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPML_AC_CAPABILITIES
     {
         return new TpmBuffer(buffer).createObj(TPML_AC_CAPABILITIES);
     }
-
+    
 } // TPML_AC_CAPABILITIES
 
-/**
- *  TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM
- *  initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid
- *  after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed
- *  successfully. If a TPM requires TPM2_Startup() and another command is received, or if the
- *  TPM receives TPM2_Startup() when it is not required, the TPM shall
+/** TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that
+ *  TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only
+ *  valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has
+ *  completed successfully. If a TPM requires TPM2_Startup() and another command is
+ *  received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall
  *  return TPM_RC_INITIALIZE.
  */
 export class TPM2_Startup_REQUEST extends ReqStructure
 {
     constructor(
-        /** TPM_SU_CLEAR or TPM_SU_STATE */
+        /** TPM_SU_CLEAR or TPM_SU_STATE  */
         public startupType: TPM_SU = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.startupType); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeShort(this.startupType); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.startupType = buf.readShort(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.startupType = buf.readShort(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Startup_REQUEST
     {
         return buf.createObj(TPM2_Startup_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Startup_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Startup_REQUEST);
     }
-
+    
 } // TPM2_Startup_REQUEST
 
-/**
- *  This command is used to prepare the TPM for a power cycle. The shutdownType parameter
+/** This command is used to prepare the TPM for a power cycle. The shutdownType parameter
  *  indicates how the subsequent TPM2_Startup() will be processed.
  */
 export class TPM2_Shutdown_REQUEST extends ReqStructure
 {
     constructor(
-        /** TPM_SU_CLEAR or TPM_SU_STATE */
+        /** TPM_SU_CLEAR or TPM_SU_STATE  */
         public shutdownType: TPM_SU = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.shutdownType); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeShort(this.shutdownType); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.shutdownType = buf.readShort(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.shutdownType = buf.readShort(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Shutdown_REQUEST
     {
         return buf.createObj(TPM2_Shutdown_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Shutdown_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Shutdown_REQUEST);
     }
-
+    
 } // TPM2_Shutdown_REQUEST
 
-/**
- *  This command causes the TPM to perform a test of its capabilities. If the fullTest is YES,
- *  the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that
- *  have not previously been tested.
+/** This command causes the TPM to perform a test of its capabilities. If the fullTest is
+ *  YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those
+ *  functions that have not previously been tested.
  */
 export class TPM2_SelfTest_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  YES if full test to be performed
+        /** YES if full test to be performed
          *  NO if only test of untested functions required
          */
         public fullTest: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeByte(this.fullTest); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeByte(this.fullTest); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.fullTest = buf.readByte(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.fullTest = buf.readByte(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_SelfTest_REQUEST
     {
         return buf.createObj(TPM2_SelfTest_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_SelfTest_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_SelfTest_REQUEST);
     }
-
+    
 } // TPM2_SelfTest_REQUEST
 
-/** This command causes the TPM to perform a test of the selected algorithms. */
+/** This command causes the TPM to perform a test of the selected algorithms.  */
 export class TPM2_IncrementalSelfTest_REQUEST extends ReqStructure
 {
     constructor(
-        /** list of algorithms that should be tested */
+        /** List of algorithms that should be tested  */
         public toTest: TPM_ALG_ID[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ALG_ID>(this.toTest, 2); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeValArr(this.toTest, 2); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.toTest = buf.readValArr(2); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.toTest = buf.readValArr(2); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_IncrementalSelfTest_REQUEST
     {
         return buf.createObj(TPM2_IncrementalSelfTest_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_IncrementalSelfTest_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_IncrementalSelfTest_REQUEST);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(4, 2); }
 } // TPM2_IncrementalSelfTest_REQUEST
 
-/** This command causes the TPM to perform a test of the selected algorithms. */
+/** This command causes the TPM to perform a test of the selected algorithms.  */
 export class IncrementalSelfTestResponse extends RespStructure
 {
     constructor(
-        /** list of algorithms that need testing */
+        /** List of algorithms that need testing  */
         public toDoList: TPM_ALG_ID[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeValArr<TPM_ALG_ID>(this.toDoList, 2); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeValArr(this.toDoList, 2); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.toDoList = buf.readValArr(2); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.toDoList = buf.readValArr(2); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : IncrementalSelfTestResponse
     {
         return buf.createObj(IncrementalSelfTestResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : IncrementalSelfTestResponse
     {
         return new TpmBuffer(buffer).createObj(IncrementalSelfTestResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(4, 2); }
 } // IncrementalSelfTestResponse
 
-/**
- *  This command returns manufacturer-specific information regarding the results of a self-test and
- *  an indication of the test status.
+/** This command returns manufacturer-specific information regarding the results of a
+ *  self-test and an indication of the test status.
  */
 export class TPM2_GetTestResult_REQUEST extends ReqStructure
 {
     constructor() { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_GetTestResult_REQUEST
     {
         return buf.createObj(TPM2_GetTestResult_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_GetTestResult_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_GetTestResult_REQUEST);
     }
-
+    
 } // TPM2_GetTestResult_REQUEST
 
-/**
- *  This command returns manufacturer-specific information regarding the results of a self-test and
- *  an indication of the test status.
+/** This command returns manufacturer-specific information regarding the results of a
+ *  self-test and an indication of the test status.
  */
 export class GetTestResultResponse extends RespStructure
 {
     constructor(
-        /**
-         *  test result data
+        /** Test result data
          *  contains manufacturer-specific information
          */
-        public outData: Buffer = null,
+        public outData: Buffer = null, 
         
         public testResult: TPM_RC = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.outData);
         buf.writeInt(this.testResult);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.outData = buf.readSizedByteBuf();
         this.testResult = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : GetTestResultResponse
     {
         return buf.createObj(GetTestResultResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : GetTestResultResponse
     {
         return new TpmBuffer(buffer).createObj(GetTestResultResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // GetTestResultResponse
 
-/**
- *  This command is used to start an authorization session using alternative methods of
- *  establishing the session key (sessionKey). The session key is then used to derive values
- *  used for authorization and for encrypting parameters.
+/** This command is used to start an authorization session using alternative methods of
+ *  establishing the session key (sessionKey). The session key is then used to derive
+ *  values used for authorization and for encrypting parameters.
  */
 export class TPM2_StartAuthSession_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of a loaded decrypt key used to encrypt salt
+        /** Handle of a loaded decrypt key used to encrypt salt
          *  may be TPM_RH_NULL
          *  Auth Index: None
          */
-        public tpmKey: TPM_HANDLE = new TPM_HANDLE(),
+        public tpmKey: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  entity providing the authValue
+        /** Entity providing the authValue
          *  may be TPM_RH_NULL
          *  Auth Index: None
          */
-        public bind: TPM_HANDLE = new TPM_HANDLE(),
+        public bind: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  initial nonceCaller, sets nonceTPM size for the session
+        /** Initial nonceCaller, sets nonceTPM size for the session
          *  shall be at least 16 octets
          */
-        public nonceCaller: Buffer = null,
+        public nonceCaller: Buffer = null, 
         
-        /**
-         *  value encrypted according to the type of tpmKey
+        /** Value encrypted according to the type of tpmKey
          *  If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.
          */
-        public encryptedSalt: Buffer = null,
+        public encryptedSalt: Buffer = null, 
         
-        /** indicates the type of the session; simple HMAC or policy (including a trial policy) */
-        public sessionType: TPM_SE = 0,
+        /** Indicates the type of the session; simple HMAC or policy (including a trial policy)  */
+        public sessionType: TPM_SE = 0, 
         
-        /**
-         *  the algorithm and key size for parameter encryption
+        /** The algorithm and key size for parameter encryption
          *  may select TPM_ALG_NULL
          */
-        public symmetric: TPMT_SYM_DEF = null,
+        public symmetric: TPMT_SYM_DEF = null, 
         
-        /**
-         *  hash algorithm to use for the session
+        /** Hash algorithm to use for the session
          *  Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL
          */
         public authHash: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.nonceCaller);
         buf.writeSizedByteBuf(this.encryptedSalt);
@@ -9463,8 +9104,8 @@ export class TPM2_StartAuthSession_REQUEST extends ReqStructure
         buf.writeShort(this.authHash);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.nonceCaller = buf.readSizedByteBuf();
         this.encryptedSalt = buf.readSizedByteBuf();
@@ -9473,18 +9114,18 @@ export class TPM2_StartAuthSession_REQUEST extends ReqStructure
         this.authHash = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_StartAuthSession_REQUEST
     {
         return buf.createObj(TPM2_StartAuthSession_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_StartAuthSession_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_StartAuthSession_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.tpmKey, this.bind]; }
@@ -9492,39 +9133,38 @@ export class TPM2_StartAuthSession_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_StartAuthSession_REQUEST
 
-/**
- *  This command is used to start an authorization session using alternative methods of
- *  establishing the session key (sessionKey). The session key is then used to derive values
- *  used for authorization and for encrypting parameters.
+/** This command is used to start an authorization session using alternative methods of
+ *  establishing the session key (sessionKey). The session key is then used to derive
+ *  values used for authorization and for encrypting parameters.
  */
 export class StartAuthSessionResponse extends RespStructure
 {
     constructor(
-        /** handle for the newly created session */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        /** Handle for the newly created session  */
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the initial nonce from the TPM, used in the computation of the sessionKey */
+        /** The initial nonce from the TPM, used in the computation of the sessionKey  */
         public nonceTPM: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.nonceTPM); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.nonceTPM); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.nonceTPM = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.nonceTPM = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : StartAuthSessionResponse
     {
         return buf.createObj(StartAuthSessionResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : StartAuthSessionResponse
     {
         return new TpmBuffer(buffer).createObj(StartAuthSessionResponse);
     }
-
+    
     numHandles(): number { return 1; }
     getHandle(): TPM_HANDLE { return this.handle; }
     setHandle(h: TPM_HANDLE): void { this.handle = h; }
@@ -9532,84 +9172,80 @@ export class StartAuthSessionResponse extends RespStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // StartAuthSessionResponse
 
-/**
- *  This command allows a policy authorization session to be returned to its initial state.
- *  This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code
- *  indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was
- *  executed. Restarting the session allows the authorizations to be replayed because the
- *  session restarts with the same nonceTPM. If the PCR are valid for the policy,
- *  the policy may then succeed.
+/** This command allows a policy authorization session to be returned to its initial
+ *  state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response
+ *  code indicates that a policy will fail because the PCR have changed after
+ *  TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be
+ *  replayed because the session restarts with the same nonceTPM. If the PCR are valid for
+ *  the policy, the policy may then succeed.
  */
 export class TPM2_PolicyRestart_REQUEST extends ReqStructure
 {
     constructor(
-        /** the handle for the policy session */
+        /** The handle for the policy session  */
         public sessionHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyRestart_REQUEST
     {
         return buf.createObj(TPM2_PolicyRestart_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyRestart_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyRestart_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.sessionHandle]; }
 } // TPM2_PolicyRestart_REQUEST
 
-/**
- *  This command is used to create an object that can be loaded into a TPM using TPM2_Load().
- *  If the command completes successfully, the TPM will create the new object and return the
- *  objects creation data (creationData), its public area (outPublic), and its encrypted
- *  sensitive area (outPrivate). Preservation of the returned data is the responsibility of
- *  the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
- *  only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
- *  object is in the unique field.
+/** This command is used to create an object that can be loaded into a TPM using
+ *  TPM2_Load(). If the command completes successfully, the TPM will create the new object
+ *  and return the objects creation data (creationData), its public area (outPublic), and
+ *  its encrypted sensitive area (outPrivate). Preservation of the returned data is the
+ *  responsibility of the caller. The object will need to be loaded (TPM2_Load()) before
+ *  it may be used. The only difference between the inPublic TPMT_PUBLIC template and the
+ *  outPublic TPMT_PUBLIC object is in the unique field.
  */
 export class TPM2_Create_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of parent for new object
+        /** Handle of parent for new object
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public parentHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public parentHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the sensitive data */
-        public inSensitive: TPMS_SENSITIVE_CREATE = null,
+        /** The sensitive data  */
+        public inSensitive: TPMS_SENSITIVE_CREATE = null, 
         
-        /** the public template */
-        public inPublic: TPMT_PUBLIC = null,
+        /** The public template  */
+        public inPublic: TPMT_PUBLIC = null, 
         
-        /**
-         *  data that will be included in the creation data for this object to provide permanent,
+        /** Data that will be included in the creation data for this object to provide permanent,
          *  verifiable linkage between this object and some object owner data
          */
-        public outsideInfo: Buffer = null,
+        public outsideInfo: Buffer = null, 
         
-        /** PCR that will be used in creation data */
+        /** PCR that will be used in creation data  */
         public creationPCR: TPMS_PCR_SELECTION[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.inSensitive);
         buf.writeSizedObj(this.inPublic);
         buf.writeSizedByteBuf(this.outsideInfo);
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.creationPCR);
+        buf.writeObjArr(this.creationPCR);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE);
         this.inPublic = buf.createSizedObj(TPMT_PUBLIC);
@@ -9617,18 +9253,18 @@ export class TPM2_Create_REQUEST extends ReqStructure
         this.creationPCR = buf.readObjArr(TPMS_PCR_SELECTION);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Create_REQUEST
     {
         return buf.createObj(TPM2_Create_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Create_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Create_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.parentHandle]; }
@@ -9636,39 +9272,37 @@ export class TPM2_Create_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_Create_REQUEST
 
-/**
- *  This command is used to create an object that can be loaded into a TPM using TPM2_Load().
- *  If the command completes successfully, the TPM will create the new object and return the
- *  objects creation data (creationData), its public area (outPublic), and its encrypted
- *  sensitive area (outPrivate). Preservation of the returned data is the responsibility of
- *  the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
- *  only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
- *  object is in the unique field.
+/** This command is used to create an object that can be loaded into a TPM using
+ *  TPM2_Load(). If the command completes successfully, the TPM will create the new object
+ *  and return the objects creation data (creationData), its public area (outPublic), and
+ *  its encrypted sensitive area (outPrivate). Preservation of the returned data is the
+ *  responsibility of the caller. The object will need to be loaded (TPM2_Load()) before
+ *  it may be used. The only difference between the inPublic TPMT_PUBLIC template and the
+ *  outPublic TPMT_PUBLIC object is in the unique field.
  */
 export class CreateResponse extends RespStructure
 {
     constructor(
-        /** the private portion of the object */
-        public outPrivate: TPM2B_PRIVATE = null,
+        /** The private portion of the object  */
+        public outPrivate: TPM2B_PRIVATE = null, 
         
-        /** the public portion of the created object */
-        public outPublic: TPMT_PUBLIC = null,
+        /** The public portion of the created object  */
+        public outPublic: TPMT_PUBLIC = null, 
         
-        /** contains a TPMS_CREATION_DATA */
-        public creationData: TPMS_CREATION_DATA = null,
+        /** Contains a TPMS_CREATION_DATA  */
+        public creationData: TPMS_CREATION_DATA = null, 
         
-        /** digest of creationData using nameAlg of outPublic */
-        public creationHash: Buffer = null,
+        /** Digest of creationData using nameAlg of outPublic  */
+        public creationHash: Buffer = null, 
         
-        /**
-         *  ticket used by TPM2_CertifyCreation() to validate that the creation data
-         *  was produced by the TPM
+        /** Ticket used by TPM2_CertifyCreation() to validate that the creation data was produced
+         *  by the TPM
          */
         public creationTicket: TPMT_TK_CREATION = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.outPrivate.toTpm(buf);
         buf.writeSizedObj(this.outPublic);
@@ -9677,8 +9311,8 @@ export class CreateResponse extends RespStructure
         this.creationTicket.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.outPrivate = TPM2B_PRIVATE.fromTpm(buf);
         this.outPublic = buf.createSizedObj(TPMT_PUBLIC);
@@ -9687,106 +9321,103 @@ export class CreateResponse extends RespStructure
         this.creationTicket = TPMT_TK_CREATION.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : CreateResponse
     {
         return buf.createObj(CreateResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : CreateResponse
     {
         return new TpmBuffer(buffer).createObj(CreateResponse);
     }
-
+    
 } // CreateResponse
 
-/**
- *  This command is used to load objects into the TPM. This command is used when both a
- *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
- *  TPM2_LoadExternal command is used.
+/** This command is used to load objects into the TPM. This command is used when both a
+ *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be
+ *  loaded, the TPM2_LoadExternal command is used.
  */
 export class TPM2_Load_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM handle of parent key; shall not be a reserved handle
+        /** TPM handle of parent key; shall not be a reserved handle
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public parentHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public parentHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the private portion of the object */
-        public inPrivate: TPM2B_PRIVATE = null,
+        /** The private portion of the object  */
+        public inPrivate: TPM2B_PRIVATE = null, 
         
-        /** the public portion of the object */
+        /** The public portion of the object  */
         public inPublic: TPMT_PUBLIC = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.inPrivate.toTpm(buf);
         buf.writeSizedObj(this.inPublic);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.inPrivate = TPM2B_PRIVATE.fromTpm(buf);
         this.inPublic = buf.createSizedObj(TPMT_PUBLIC);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Load_REQUEST
     {
         return buf.createObj(TPM2_Load_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Load_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Load_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.parentHandle]; }
 } // TPM2_Load_REQUEST
 
-/**
- *  This command is used to load objects into the TPM. This command is used when both a
- *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
- *  TPM2_LoadExternal command is used.
+/** This command is used to load objects into the TPM. This command is used when both a
+ *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be
+ *  loaded, the TPM2_LoadExternal command is used.
  */
 export class LoadResponse extends RespStructure
 {
     constructor(
-        /** handle of type TPM_HT_TRANSIENT for the loaded object */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        /** Handle of type TPM_HT_TRANSIENT for the loaded object  */
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** Name of the loaded object */
+        /** Name of the loaded object  */
         public name: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.name); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.name); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.name = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.name = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : LoadResponse
     {
         return buf.createObj(LoadResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : LoadResponse
     {
         return new TpmBuffer(buffer).createObj(LoadResponse);
     }
-
+    
     numHandles(): number { return 1; }
     getHandle(): TPM_HANDLE { return this.handle; }
     setHandle(h: TPM_HANDLE): void { this.handle = h; }
@@ -9794,86 +9425,84 @@ export class LoadResponse extends RespStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // LoadResponse
 
-/**
- *  This command is used to load an object that is not a Protected Object into the TPM. The
- *  command allows loading of a public area or both a public and sensitive area.
+/** This command is used to load an object that is not a Protected Object into the TPM.
+ *  The command allows loading of a public area or both a public and sensitive area.
  */
 export class TPM2_LoadExternal_REQUEST extends ReqStructure
 {
     constructor(
-        /** the sensitive portion of the object (optional) */
-        public inPrivate: TPMT_SENSITIVE = null,
+        /** The sensitive portion of the object (optional)  */
+        public inPrivate: TPMT_SENSITIVE = null, 
         
-        /** the public portion of the object */
-        public inPublic: TPMT_PUBLIC = null,
+        /** The public portion of the object  */
+        public inPublic: TPMT_PUBLIC = null, 
         
-        /** hierarchy with which the object area is associated */
+        /** Hierarchy with which the object area is associated  */
         public hierarchy: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.inPrivate);
         buf.writeSizedObj(this.inPublic);
         this.hierarchy.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.inPrivate = buf.createSizedObj(TPMT_SENSITIVE);
         this.inPublic = buf.createSizedObj(TPMT_PUBLIC);
         this.hierarchy = TPM_HANDLE.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_LoadExternal_REQUEST
     {
         return buf.createObj(TPM2_LoadExternal_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_LoadExternal_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_LoadExternal_REQUEST);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_LoadExternal_REQUEST
 
-/**
- *  This command is used to load an object that is not a Protected Object into the TPM. The
- *  command allows loading of a public area or both a public and sensitive area.
+/** This command is used to load an object that is not a Protected Object into the TPM.
+ *  The command allows loading of a public area or both a public and sensitive area.
  */
 export class LoadExternalResponse extends RespStructure
 {
     constructor(
-        /** handle of type TPM_HT_TRANSIENT for the loaded object */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        /** Handle of type TPM_HT_TRANSIENT for the loaded object  */
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** name of the loaded object */
+        /** Name of the loaded object  */
         public name: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.name); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.name); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.name = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.name = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : LoadExternalResponse
     {
         return buf.createObj(LoadExternalResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : LoadExternalResponse
     {
         return new TpmBuffer(buffer).createObj(LoadExternalResponse);
     }
-
+    
     numHandles(): number { return 1; }
     getHandle(): TPM_HANDLE { return this.handle; }
     setHandle(h: TPM_HANDLE): void { this.handle = h; }
@@ -9881,133 +9510,129 @@ export class LoadExternalResponse extends RespStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // LoadExternalResponse
 
-/** This command allows access to the public area of a loaded object. */
+/** This command allows access to the public area of a loaded object.  */
 export class TPM2_ReadPublic_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM handle of an object
+        /** TPM handle of an object
          *  Auth Index: None
          */
         public objectHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ReadPublic_REQUEST
     {
         return buf.createObj(TPM2_ReadPublic_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ReadPublic_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ReadPublic_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.objectHandle]; }
 } // TPM2_ReadPublic_REQUEST
 
-/** This command allows access to the public area of a loaded object. */
+/** This command allows access to the public area of a loaded object.  */
 export class ReadPublicResponse extends RespStructure
 {
     constructor(
-        /** structure containing the public area of an object */
-        public outPublic: TPMT_PUBLIC = null,
+        /** Structure containing the public area of an object  */
+        public outPublic: TPMT_PUBLIC = null, 
         
-        /** name of the object */
-        public name: Buffer = null,
+        /** Name of the object  */
+        public name: Buffer = null, 
         
-        /** the Qualified Name of the object */
+        /** The Qualified Name of the object  */
         public qualifiedName: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.outPublic);
         buf.writeSizedByteBuf(this.name);
         buf.writeSizedByteBuf(this.qualifiedName);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.outPublic = buf.createSizedObj(TPMT_PUBLIC);
         this.name = buf.readSizedByteBuf();
         this.qualifiedName = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ReadPublicResponse
     {
         return buf.createObj(ReadPublicResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ReadPublicResponse
     {
         return new TpmBuffer(buffer).createObj(ReadPublicResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // ReadPublicResponse
 
-/**
- *  This command enables the association of a credential with an object in a way that ensures
- *  that the TPM has validated the parameters of the credentialed object.
+/** This command enables the association of a credential with an object in a way that
+ *  ensures that the TPM has validated the parameters of the credentialed object.
  */
 export class TPM2_ActivateCredential_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the object associated with certificate in credentialBlob
+        /** Handle of the object associated with certificate in credentialBlob
          *  Auth Index: 1
          *  Auth Role: ADMIN
          */
-        public activateHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public activateHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
+        /** Loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
          *  Auth Index: 2
          *  Auth Role: USER
          */
-        public keyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public keyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the credential */
-        public credentialBlob: TPMS_ID_OBJECT = null,
+        /** The credential  */
+        public credentialBlob: TPMS_ID_OBJECT = null, 
         
-        /** keyHandle algorithm-dependent encrypted seed that protects credentialBlob */
+        /** KeyHandle algorithm-dependent encrypted seed that protects credentialBlob  */
         public secret: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.credentialBlob);
         buf.writeSizedByteBuf(this.secret);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.credentialBlob = buf.createSizedObj(TPMS_ID_OBJECT);
         this.secret = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ActivateCredential_REQUEST
     {
         return buf.createObj(TPM2_ActivateCredential_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ActivateCredential_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ActivateCredential_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 2; }
     getHandles(): TPM_HANDLE[] { return [this.activateHandle, this.keyHandle]; }
@@ -10015,89 +9640,84 @@ export class TPM2_ActivateCredential_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_ActivateCredential_REQUEST
 
-/**
- *  This command enables the association of a credential with an object in a way that ensures
- *  that the TPM has validated the parameters of the credentialed object.
+/** This command enables the association of a credential with an object in a way that
+ *  ensures that the TPM has validated the parameters of the credentialed object.
  */
 export class ActivateCredentialResponse extends RespStructure
 {
     constructor(
-        /**
-         *  the decrypted certificate information
-         *  the data should be no larger than the size of the digest of the nameAlg
-         *  associated with keyHandle
+        /** The decrypted certificate information
+         *  the data should be no larger than the size of the digest of the nameAlg associated
+         *  with keyHandle
          */
         public certInfo: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.certInfo); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.certInfo); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.certInfo = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.certInfo = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ActivateCredentialResponse
     {
         return buf.createObj(ActivateCredentialResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ActivateCredentialResponse
     {
         return new TpmBuffer(buffer).createObj(ActivateCredentialResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // ActivateCredentialResponse
 
-/**
- *  This command allows the TPM to perform the actions required of a Certificate Authority
+/** This command allows the TPM to perform the actions required of a Certificate Authority
  *  (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
  */
 export class TPM2_MakeCredential_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  loaded public area, used to encrypt the sensitive area containing the
-         *  credential key
+        /** Loaded public area, used to encrypt the sensitive area containing the credential key
          *  Auth Index: None
          */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the credential information */
-        public credential: Buffer = null,
+        /** The credential information  */
+        public credential: Buffer = null, 
         
-        /** Name of the object to which the credential applies */
+        /** Name of the object to which the credential applies  */
         public objectName: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.credential);
         buf.writeSizedByteBuf(this.objectName);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.credential = buf.readSizedByteBuf();
         this.objectName = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_MakeCredential_REQUEST
     {
         return buf.createObj(TPM2_MakeCredential_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_MakeCredential_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_MakeCredential_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.handle]; }
@@ -10105,149 +9725,144 @@ export class TPM2_MakeCredential_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_MakeCredential_REQUEST
 
-/**
- *  This command allows the TPM to perform the actions required of a Certificate Authority
+/** This command allows the TPM to perform the actions required of a Certificate Authority
  *  (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
  */
 export class MakeCredentialResponse extends RespStructure
 {
     constructor(
-        /** the credential */
-        public credentialBlob: TPMS_ID_OBJECT = null,
+        /** The credential  */
+        public credentialBlob: TPMS_ID_OBJECT = null, 
         
-        /** handle algorithm-dependent data that wraps the key that encrypts credentialBlob */
+        /** Handle algorithm-dependent data that wraps the key that encrypts credentialBlob  */
         public secret: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.credentialBlob);
         buf.writeSizedByteBuf(this.secret);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.credentialBlob = buf.createSizedObj(TPMS_ID_OBJECT);
         this.secret = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : MakeCredentialResponse
     {
         return buf.createObj(MakeCredentialResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : MakeCredentialResponse
     {
         return new TpmBuffer(buffer).createObj(MakeCredentialResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // MakeCredentialResponse
 
-/** This command returns the data in a loaded Sealed Data Object. */
+/** This command returns the data in a loaded Sealed Data Object.  */
 export class TPM2_Unseal_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of a loaded data object
+        /** Handle of a loaded data object
          *  Auth Index: 1
          *  Auth Role: USER
          */
         public itemHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Unseal_REQUEST
     {
         return buf.createObj(TPM2_Unseal_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Unseal_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Unseal_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.itemHandle]; }
 } // TPM2_Unseal_REQUEST
 
-/** This command returns the data in a loaded Sealed Data Object. */
+/** This command returns the data in a loaded Sealed Data Object.  */
 export class UnsealResponse extends RespStructure
 {
     constructor(
-        /**
-         *  unsealed data
+        /** Unsealed data
          *  Size of outData is limited to be no more than 128 octets.
          */
         public outData: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.outData); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.outData); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.outData = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.outData = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : UnsealResponse
     {
         return buf.createObj(UnsealResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : UnsealResponse
     {
         return new TpmBuffer(buffer).createObj(UnsealResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // UnsealResponse
 
-/** This command is used to change the authorization secret for a TPM-resident object. */
+/** This command is used to change the authorization secret for a TPM-resident object.  */
 export class TPM2_ObjectChangeAuth_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the object
+        /** Handle of the object
          *  Auth Index: 1
          *  Auth Role: ADMIN
          */
-        public objectHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public objectHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle of the parent
+        /** Handle of the parent
          *  Auth Index: None
          */
-        public parentHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public parentHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** new authorization value */
+        /** New authorization value  */
         public newAuth: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.newAuth); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.newAuth); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.newAuth = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.newAuth = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ObjectChangeAuth_REQUEST
     {
         return buf.createObj(TPM2_ObjectChangeAuth_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ObjectChangeAuth_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ObjectChangeAuth_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.objectHandle, this.parentHandle]; }
@@ -10255,85 +9870,83 @@ export class TPM2_ObjectChangeAuth_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_ObjectChangeAuth_REQUEST
 
-/** This command is used to change the authorization secret for a TPM-resident object. */
+/** This command is used to change the authorization secret for a TPM-resident object.  */
 export class ObjectChangeAuthResponse extends RespStructure
 {
     constructor(
-        /** private area containing the new authorization value */
+        /** Private area containing the new authorization value  */
         public outPrivate: TPM2B_PRIVATE = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.outPrivate.toTpm(buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { this.outPrivate.toTpm(buf); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.outPrivate = TPM2B_PRIVATE.fromTpm(buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.outPrivate = TPM2B_PRIVATE.fromTpm(buf); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ObjectChangeAuthResponse
     {
         return buf.createObj(ObjectChangeAuthResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ObjectChangeAuthResponse
     {
         return new TpmBuffer(buffer).createObj(ObjectChangeAuthResponse);
     }
-
+    
 } // ObjectChangeAuthResponse
 
-/**
- *  This command creates an object and loads it in the TPM. This command allows creation of
- *  any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
- *  If parentHandle references a Primary Seed, then a Primary Object is created; if
- *  parentHandle references a Storage Parent, then an Ordinary Object is created; and if
- *  parentHandle references a Derivation Parent, then a Derived Object is generated.
+/** This command creates an object and loads it in the TPM. This command allows creation
+ *  of any type of object (Primary, Ordinary, or Derived) depending on the type of
+ *  parentHandle. If parentHandle references a Primary Seed, then a Primary Object is
+ *  created; if parentHandle references a Storage Parent, then an Ordinary Object is
+ *  created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
  */
 export class TPM2_CreateLoaded_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT,
+        /** Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT,
          *  TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public parentHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public parentHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the sensitive data, see TPM 2.0 Part 1 Sensitive Values */
-        public inSensitive: TPMS_SENSITIVE_CREATE = null,
+        /** The sensitive data, see TPM 2.0 Part 1 Sensitive Values  */
+        public inSensitive: TPMS_SENSITIVE_CREATE = null, 
         
-        /** the public template */
+        /** The public template  */
         public inPublic: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.inSensitive);
         buf.writeSizedByteBuf(this.inPublic);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE);
         this.inPublic = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_CreateLoaded_REQUEST
     {
         return buf.createObj(TPM2_CreateLoaded_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_CreateLoaded_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_CreateLoaded_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.parentHandle]; }
@@ -10341,123 +9954,117 @@ export class TPM2_CreateLoaded_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_CreateLoaded_REQUEST
 
-/**
- *  This command creates an object and loads it in the TPM. This command allows creation of
- *  any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
- *  If parentHandle references a Primary Seed, then a Primary Object is created; if
- *  parentHandle references a Storage Parent, then an Ordinary Object is created; and if
- *  parentHandle references a Derivation Parent, then a Derived Object is generated.
+/** This command creates an object and loads it in the TPM. This command allows creation
+ *  of any type of object (Primary, Ordinary, or Derived) depending on the type of
+ *  parentHandle. If parentHandle references a Primary Seed, then a Primary Object is
+ *  created; if parentHandle references a Storage Parent, then an Ordinary Object is
+ *  created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
  */
 export class CreateLoadedResponse extends RespStructure
 {
     constructor(
-        /** handle of type TPM_HT_TRANSIENT for created object */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        /** Handle of type TPM_HT_TRANSIENT for created object  */
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the sensitive area of the object (optional) */
-        public outPrivate: TPM2B_PRIVATE = null,
+        /** The sensitive area of the object (optional)  */
+        public outPrivate: TPM2B_PRIVATE = null, 
         
-        /** the public portion of the created object */
-        public outPublic: TPMT_PUBLIC = null,
+        /** The public portion of the created object  */
+        public outPublic: TPMT_PUBLIC = null, 
         
-        /** the name of the created object */
+        /** The name of the created object  */
         public name: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.outPrivate.toTpm(buf);
         buf.writeSizedObj(this.outPublic);
         buf.writeSizedByteBuf(this.name);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.outPrivate = TPM2B_PRIVATE.fromTpm(buf);
         this.outPublic = buf.createSizedObj(TPMT_PUBLIC);
         this.name = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : CreateLoadedResponse
     {
         return buf.createObj(CreateLoadedResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : CreateLoadedResponse
     {
         return new TpmBuffer(buffer).createObj(CreateLoadedResponse);
     }
-
+    
     numHandles(): number { return 1; }
     getHandle(): TPM_HANDLE { return this.handle; }
     setHandle(h: TPM_HANDLE): void { this.handle = h; }
 } // CreateLoadedResponse
 
-/**
- *  This command duplicates a loaded object so that it may be used in a different hierarchy.
- *  The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
- *  Only the public area of newParentHandle is required to be loaded.
+/** This command duplicates a loaded object so that it may be used in a different
+ *  hierarchy. The new parent key for the duplicate may be on the same or different TPM or
+ *  TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
  */
 export class TPM2_Duplicate_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  loaded object to duplicate
+        /** Loaded object to duplicate
          *  Auth Index: 1
          *  Auth Role: DUP
          */
-        public objectHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public objectHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  shall reference the public area of an asymmetric key
+        /** Shall reference the public area of an asymmetric key
          *  Auth Index: None
          */
-        public newParentHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public newParentHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  optional symmetric encryption key
+        /** Optional symmetric encryption key
          *  The size for this key is set to zero when the TPM is to generate the key. This
          *  parameter may be encrypted.
          */
-        public encryptionKeyIn: Buffer = null,
+        public encryptionKeyIn: Buffer = null, 
         
-        /**
-         *  definition for the symmetric algorithm to be used for the inner wrapper
+        /** Definition for the symmetric algorithm to be used for the inner wrapper
          *  may be TPM_ALG_NULL if no inner wrapper is applied
          */
         public symmetricAlg: TPMT_SYM_DEF_OBJECT = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.encryptionKeyIn);
         this.symmetricAlg.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.encryptionKeyIn = buf.readSizedByteBuf();
         this.symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Duplicate_REQUEST
     {
         return buf.createObj(TPM2_Duplicate_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Duplicate_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Duplicate_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.objectHandle, this.newParentHandle]; }
@@ -10465,224 +10072,212 @@ export class TPM2_Duplicate_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_Duplicate_REQUEST
 
-/**
- *  This command duplicates a loaded object so that it may be used in a different hierarchy.
- *  The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
- *  Only the public area of newParentHandle is required to be loaded.
+/** This command duplicates a loaded object so that it may be used in a different
+ *  hierarchy. The new parent key for the duplicate may be on the same or different TPM or
+ *  TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
  */
 export class DuplicateResponse extends RespStructure
 {
     constructor(
-        /**
-         *  If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then this
-         *  will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric
-         *  encryption key for the inner wrapper.
+        /** If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then
+         *  this will be the Empty Buffer; otherwise, it shall contain the TPM-generated,
+         *  symmetric encryption key for the inner wrapper.
          */
-        public encryptionKeyOut: Buffer = null,
+        public encryptionKeyOut: Buffer = null, 
         
-        /** private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted */
-        public duplicate: TPM2B_PRIVATE = null,
+        /** Private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted  */
+        public duplicate: TPM2B_PRIVATE = null, 
         
-        /** seed protected by the asymmetric algorithms of new parent (NP) */
+        /** Seed protected by the asymmetric algorithms of new parent (NP)  */
         public outSymSeed: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.encryptionKeyOut);
         this.duplicate.toTpm(buf);
         buf.writeSizedByteBuf(this.outSymSeed);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.encryptionKeyOut = buf.readSizedByteBuf();
         this.duplicate = TPM2B_PRIVATE.fromTpm(buf);
         this.outSymSeed = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : DuplicateResponse
     {
         return buf.createObj(DuplicateResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : DuplicateResponse
     {
         return new TpmBuffer(buffer).createObj(DuplicateResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // DuplicateResponse
 
-/**
- *  This command allows the TPM to serve in the role as a Duplication Authority. If proper
- *  authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
- *  are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
- *  protection seed value is generated according to the methods appropriate for newParent and
- *  the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
- *  returned in outDuplicate and the symmetric key returned in outSymKey.
+/** This command allows the TPM to serve in the role as a Duplication Authority. If proper
+ *  authorization for use of the oldParent is provided, then an HMAC key and a symmetric
+ *  key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate.
+ *  A new protection seed value is generated according to the methods appropriate for
+ *  newParent and the blob is re-encrypted and a new integrity value is computed. The
+ *  re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
  */
 export class TPM2_Rewrap_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  parent of object
+        /** Parent of object
          *  Auth Index: 1
          *  Auth Role: User
          */
-        public oldParent: TPM_HANDLE = new TPM_HANDLE(),
+        public oldParent: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  new parent of the object
+        /** New parent of the object
          *  Auth Index: None
          */
-        public newParent: TPM_HANDLE = new TPM_HANDLE(),
+        public newParent: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** an object encrypted using symmetric key derived from inSymSeed */
-        public inDuplicate: TPM2B_PRIVATE = null,
+        /** An object encrypted using symmetric key derived from inSymSeed  */
+        public inDuplicate: TPM2B_PRIVATE = null, 
         
-        /** the Name of the object being rewrapped */
-        public name: Buffer = null,
+        /** The Name of the object being rewrapped  */
+        public name: Buffer = null, 
         
-        /**
-         *  the seed for the symmetric key and HMAC key
+        /** The seed for the symmetric key and HMAC key
          *  needs oldParent private key to recover the seed and generate the symmetric key
          */
         public inSymSeed: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.inDuplicate.toTpm(buf);
         buf.writeSizedByteBuf(this.name);
         buf.writeSizedByteBuf(this.inSymSeed);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.inDuplicate = TPM2B_PRIVATE.fromTpm(buf);
         this.name = buf.readSizedByteBuf();
         this.inSymSeed = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Rewrap_REQUEST
     {
         return buf.createObj(TPM2_Rewrap_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Rewrap_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Rewrap_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.oldParent, this.newParent]; }
 } // TPM2_Rewrap_REQUEST
 
-/**
- *  This command allows the TPM to serve in the role as a Duplication Authority. If proper
- *  authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
- *  are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
- *  protection seed value is generated according to the methods appropriate for newParent and
- *  the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
- *  returned in outDuplicate and the symmetric key returned in outSymKey.
+/** This command allows the TPM to serve in the role as a Duplication Authority. If proper
+ *  authorization for use of the oldParent is provided, then an HMAC key and a symmetric
+ *  key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate.
+ *  A new protection seed value is generated according to the methods appropriate for
+ *  newParent and the blob is re-encrypted and a new integrity value is computed. The
+ *  re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
  */
 export class RewrapResponse extends RespStructure
 {
     constructor(
-        /** an object encrypted using symmetric key derived from outSymSeed */
-        public outDuplicate: TPM2B_PRIVATE = null,
+        /** An object encrypted using symmetric key derived from outSymSeed  */
+        public outDuplicate: TPM2B_PRIVATE = null, 
         
-        /** seed for a symmetric key protected by newParent asymmetric key */
+        /** Seed for a symmetric key protected by newParent asymmetric key  */
         public outSymSeed: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.outDuplicate.toTpm(buf);
         buf.writeSizedByteBuf(this.outSymSeed);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.outDuplicate = TPM2B_PRIVATE.fromTpm(buf);
         this.outSymSeed = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : RewrapResponse
     {
         return buf.createObj(RewrapResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : RewrapResponse
     {
         return new TpmBuffer(buffer).createObj(RewrapResponse);
     }
-
+    
 } // RewrapResponse
 
-/**
- *  This command allows an object to be encrypted using the symmetric encryption values of a
- *  Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
- *  imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
+/** This command allows an object to be encrypted using the symmetric encryption values of
+ *  a Storage Key. After encryption, the object may be loaded and used in the new
+ *  hierarchy. The imported object (duplicate) may be singly encrypted, multiply
+ *  encrypted, or unencrypted.
  */
 export class TPM2_Import_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  the handle of the new parent for the object
+        /** The handle of the new parent for the object
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public parentHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public parentHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the optional symmetric encryption key used as the inner wrapper for duplicate
+        /** The optional symmetric encryption key used as the inner wrapper for duplicate
          *  If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer.
          */
-        public encryptionKey: Buffer = null,
+        public encryptionKey: Buffer = null, 
         
-        /**
-         *  the public area of the object to be imported
-         *  This is provided so that the integrity value for duplicate and the object attributes can
-         *  be checked.
-         *  NOTE Even if the integrity value of the object is not checked on input, the object Name is
-         *  required to create the integrity value for the imported object.
+        /** The public area of the object to be imported
+         *  This is provided so that the integrity value for duplicate and the object attributes
+         *  can be checked.
+         *  NOTE Even if the integrity value of the object is not checked on input, the object
+         *  Name is required to create the integrity value for the imported object.
          */
-        public objectPublic: TPMT_PUBLIC = null,
+        public objectPublic: TPMT_PUBLIC = null, 
         
-        /** the symmetrically encrypted duplicate object that may contain an inner symmetric wrapper */
-        public duplicate: TPM2B_PRIVATE = null,
+        /** The symmetrically encrypted duplicate object that may contain an inner symmetric wrapper  */
+        public duplicate: TPM2B_PRIVATE = null, 
         
-        /**
-         *  the seed for the symmetric key and HMAC key
+        /** The seed for the symmetric key and HMAC key
          *  inSymSeed is encrypted/encoded using the algorithms of newParent.
          */
-        public inSymSeed: Buffer = null,
+        public inSymSeed: Buffer = null, 
         
-        /**
-         *  definition for the symmetric algorithm to use for the inner wrapper
-         *  If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
-         *  shall be the Empty Buffer.
+        /** Definition for the symmetric algorithm to use for the inner wrapper
+         *  If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall
+         *  be the Empty Buffer.
          */
         public symmetricAlg: TPMT_SYM_DEF_OBJECT = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.encryptionKey);
         buf.writeSizedObj(this.objectPublic);
@@ -10691,8 +10286,8 @@ export class TPM2_Import_REQUEST extends ReqStructure
         this.symmetricAlg.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.encryptionKey = buf.readSizedByteBuf();
         this.objectPublic = buf.createSizedObj(TPMT_PUBLIC);
@@ -10701,18 +10296,18 @@ export class TPM2_Import_REQUEST extends ReqStructure
         this.symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Import_REQUEST
     {
         return buf.createObj(TPM2_Import_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Import_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Import_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.parentHandle]; }
@@ -10720,82 +10315,78 @@ export class TPM2_Import_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_Import_REQUEST
 
-/**
- *  This command allows an object to be encrypted using the symmetric encryption values of a
- *  Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
- *  imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
+/** This command allows an object to be encrypted using the symmetric encryption values of
+ *  a Storage Key. After encryption, the object may be loaded and used in the new
+ *  hierarchy. The imported object (duplicate) may be singly encrypted, multiply
+ *  encrypted, or unencrypted.
  */
 export class ImportResponse extends RespStructure
 {
     constructor(
-        /** the sensitive area encrypted with the symmetric key of parentHandle */
+        /** The sensitive area encrypted with the symmetric key of parentHandle  */
         public outPrivate: TPM2B_PRIVATE = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.outPrivate.toTpm(buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { this.outPrivate.toTpm(buf); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.outPrivate = TPM2B_PRIVATE.fromTpm(buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.outPrivate = TPM2B_PRIVATE.fromTpm(buf); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ImportResponse
     {
         return buf.createObj(ImportResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ImportResponse
     {
         return new TpmBuffer(buffer).createObj(ImportResponse);
     }
-
+    
 } // ImportResponse
 
-/**
- *  This command performs RSA encryption using the indicated padding scheme according to IETF
- *  RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
- *  specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
- *  shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+/** This command performs RSA encryption using the indicated padding scheme according to
+ *  IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use
+ *  inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL,
+ *  then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
  */
 export class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  reference to public portion of RSA key to use for encryption
+        /** Reference to public portion of RSA key to use for encryption
          *  Auth Index: None
          */
-        public keyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public keyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  message to be encrypted
+        /** Message to be encrypted
          *  NOTE 1 The data type was chosen because it limits the overall size of the input to no
-         *  greater than the size of the largest RSA public key. This may be larger
-         *  than allowed for keyHandle.
+         *  greater than the size of the largest RSA public key. This may be larger than allowed
+         *  for keyHandle.
          */
-        public message: Buffer = null,
+        public message: Buffer = null, 
         
-        /**
-         *  the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
          *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-         *  TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+         *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
          */
-        public inScheme: TPMU_ASYM_SCHEME = null,
+        public inScheme: TPMU_ASYM_SCHEME = null, 
         
-        /**
-         *  optional label L to be associated with the message
+        /** Optional label L to be associated with the message
          *  Size of the buffer is zero if no label is present
          *  NOTE 2 See description of label above.
          */
         public label: Buffer = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.message);
         buf.writeShort(this.inScheme.GetUnionSelector());
@@ -10803,28 +10394,28 @@ export class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(this.label);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.message = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_ASYM_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
         this.label = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_RSA_Encrypt_REQUEST
     {
         return buf.createObj(TPM2_RSA_Encrypt_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_RSA_Encrypt_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_RSA_Encrypt_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.keyHandle]; }
@@ -10832,77 +10423,73 @@ export class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_RSA_Encrypt_REQUEST
 
-/**
- *  This command performs RSA encryption using the indicated padding scheme according to IETF
- *  RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
- *  specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
- *  shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+/** This command performs RSA encryption using the indicated padding scheme according to
+ *  IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use
+ *  inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL,
+ *  then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
  */
 export class RSA_EncryptResponse extends RespStructure
 {
     constructor(
-        /** encrypted output */
+        /** Encrypted output  */
         public outData: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.outData); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.outData); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.outData = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.outData = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : RSA_EncryptResponse
     {
         return buf.createObj(RSA_EncryptResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : RSA_EncryptResponse
     {
         return new TpmBuffer(buffer).createObj(RSA_EncryptResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // RSA_EncryptResponse
 
-/**
- *  This command performs RSA decryption using the indicated padding scheme according
- *  to IETF RFC 8017 ((PKCS#1).
+/** This command performs RSA decryption using the indicated padding scheme according to
+ *  IETF RFC 8017 ((PKCS#1).
  */
 export class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  RSA key to use for decryption
+        /** RSA key to use for decryption
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public keyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public keyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  cipher text to be decrypted
+        /** Cipher text to be decrypted
          *  NOTE An encrypted RSA data block is the size of the public modulus.
          */
-        public cipherText: Buffer = null,
+        public cipherText: Buffer = null, 
         
-        /**
-         *  the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
          *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-         *  TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+         *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
          */
-        public inScheme: TPMU_ASYM_SCHEME = null,
+        public inScheme: TPMU_ASYM_SCHEME = null, 
         
-        /** label whose association with the message is to be verified */
+        /** Label whose association with the message is to be verified  */
         public label: Buffer = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.cipherText);
         buf.writeShort(this.inScheme.GetUnionSelector());
@@ -10910,28 +10497,28 @@ export class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(this.label);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.cipherText = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_ASYM_SCHEME>('TPMU_ASYM_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_ASYM_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
         this.label = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_RSA_Decrypt_REQUEST
     {
         return buf.createObj(TPM2_RSA_Decrypt_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_RSA_Decrypt_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_RSA_Decrypt_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.keyHandle]; }
@@ -10939,152 +10526,146 @@ export class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_RSA_Decrypt_REQUEST
 
-/**
- *  This command performs RSA decryption using the indicated padding scheme according
- *  to IETF RFC 8017 ((PKCS#1).
+/** This command performs RSA decryption using the indicated padding scheme according to
+ *  IETF RFC 8017 ((PKCS#1).
  */
 export class RSA_DecryptResponse extends RespStructure
 {
     constructor(
-        /** decrypted output */
+        /** Decrypted output  */
         public message: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.message); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.message); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.message = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.message = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : RSA_DecryptResponse
     {
         return buf.createObj(RSA_DecryptResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : RSA_DecryptResponse
     {
         return new TpmBuffer(buffer).createObj(RSA_DecryptResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // RSA_DecryptResponse
 
-/**
- *  This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
- *  uses the private ephemeral key and a loaded public key (QS) to compute the shared
+/** This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G).
+ *  It uses the private ephemeral key and a loaded public key (QS) to compute the shared
  *  secret value (P [hde]QS).
  */
 export class TPM2_ECDH_KeyGen_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  Handle of a loaded ECC key public area.
+        /** Handle of a loaded ECC key public area.
          *  Auth Index: None
          */
         public keyHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ECDH_KeyGen_REQUEST
     {
         return buf.createObj(TPM2_ECDH_KeyGen_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ECDH_KeyGen_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ECDH_KeyGen_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.keyHandle]; }
 } // TPM2_ECDH_KeyGen_REQUEST
 
-/**
- *  This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
- *  uses the private ephemeral key and a loaded public key (QS) to compute the shared
+/** This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G).
+ *  It uses the private ephemeral key and a loaded public key (QS) to compute the shared
  *  secret value (P [hde]QS).
  */
 export class ECDH_KeyGenResponse extends RespStructure
 {
     constructor(
-        /** results of P h[de]Qs */
-        public zPoint: TPMS_ECC_POINT = null,
+        /** Results of P h[de]Qs  */
+        public zPoint: TPMS_ECC_POINT = null, 
         
-        /** generated ephemeral public point (Qe) */
+        /** Generated ephemeral public point (Qe)  */
         public pubPoint: TPMS_ECC_POINT = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.zPoint);
         buf.writeSizedObj(this.pubPoint);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.zPoint = buf.createSizedObj(TPMS_ECC_POINT);
         this.pubPoint = buf.createSizedObj(TPMS_ECC_POINT);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ECDH_KeyGenResponse
     {
         return buf.createObj(ECDH_KeyGenResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ECDH_KeyGenResponse
     {
         return new TpmBuffer(buffer).createObj(ECDH_KeyGenResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // ECDH_KeyGenResponse
 
-/**
- *  This command uses the TPM to recover the Z value from a public point (QB) and a private
- *  key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
- *  key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
- *  is the cofactor of the curve).
+/** This command uses the TPM to recover the Z value from a public point (QB) and a
+ *  private key (ds). It will perform the multiplication of the provided inPoint (QB) with
+ *  the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)
+ *  [hds]QB; where h is the cofactor of the curve).
  */
 export class TPM2_ECDH_ZGen_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of a loaded ECC key
+        /** Handle of a loaded ECC key
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public keyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public keyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** a public key */
+        /** A public key  */
         public inPoint: TPMS_ECC_POINT = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.inPoint); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.inPoint); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.inPoint = buf.createSizedObj(TPMS_ECC_POINT); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.inPoint = buf.createSizedObj(TPMS_ECC_POINT); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ECDH_ZGen_REQUEST
     {
         return buf.createObj(TPM2_ECDH_ZGen_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ECDH_ZGen_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ECDH_ZGen_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.keyHandle]; }
@@ -11092,134 +10673,125 @@ export class TPM2_ECDH_ZGen_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_ECDH_ZGen_REQUEST
 
-/**
- *  This command uses the TPM to recover the Z value from a public point (QB) and a private
- *  key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
- *  key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
- *  is the cofactor of the curve).
+/** This command uses the TPM to recover the Z value from a public point (QB) and a
+ *  private key (ds). It will perform the multiplication of the provided inPoint (QB) with
+ *  the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)
+ *  [hds]QB; where h is the cofactor of the curve).
  */
 export class ECDH_ZGenResponse extends RespStructure
 {
     constructor(
-        /** X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB */
+        /** X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB  */
         public outPoint: TPMS_ECC_POINT = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedObj(this.outPoint); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedObj(this.outPoint); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.outPoint = buf.createSizedObj(TPMS_ECC_POINT); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.outPoint = buf.createSizedObj(TPMS_ECC_POINT); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ECDH_ZGenResponse
     {
         return buf.createObj(ECDH_ZGenResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ECDH_ZGenResponse
     {
         return new TpmBuffer(buffer).createObj(ECDH_ZGenResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // ECDH_ZGenResponse
 
-/**
- *  This command returns the parameters of an ECC curve identified by
- *  its TCG-assigned curveID.
- */
+/** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.  */
 export class TPM2_ECC_Parameters_REQUEST extends ReqStructure
 {
     constructor(
-        /** parameter set selector */
+        /** Parameter set selector  */
         public curveID: TPM_ECC_CURVE = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.curveID); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeShort(this.curveID); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.curveID = buf.readShort(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.curveID = buf.readShort(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ECC_Parameters_REQUEST
     {
         return buf.createObj(TPM2_ECC_Parameters_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ECC_Parameters_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ECC_Parameters_REQUEST);
     }
-
+    
 } // TPM2_ECC_Parameters_REQUEST
 
-/**
- *  This command returns the parameters of an ECC curve identified by
- *  its TCG-assigned curveID.
- */
+/** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.  */
 export class ECC_ParametersResponse extends RespStructure
 {
     constructor(
-        /** ECC parameters for the selected curve */
+        /** ECC parameters for the selected curve  */
         public parameters: TPMS_ALGORITHM_DETAIL_ECC = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.parameters.toTpm(buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { this.parameters.toTpm(buf); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.parameters = TPMS_ALGORITHM_DETAIL_ECC.fromTpm(buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.parameters = TPMS_ALGORITHM_DETAIL_ECC.fromTpm(buf); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ECC_ParametersResponse
     {
         return buf.createObj(ECC_ParametersResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ECC_ParametersResponse
     {
         return new TpmBuffer(buffer).createObj(ECC_ParametersResponse);
     }
-
+    
 } // ECC_ParametersResponse
 
-/**
- *  This command supports two-phase key exchange protocols. The command is used in combination
- *  with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the
- *  public point of that ephemeral key along with a numeric value that allows the TPM to
- *  regenerate the associated private key.
+/** This command supports two-phase key exchange protocols. The command is used in
+ *  combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key
+ *  and returns the public point of that ephemeral key along with a numeric value that
+ *  allows the TPM to regenerate the associated private key.
  */
 export class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of an unrestricted decryption key ECC
+        /** Handle of an unrestricted decryption key ECC
          *  The private key referenced by this handle is used as dS,A
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public keyA: TPM_HANDLE = new TPM_HANDLE(),
+        public keyA: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** other partys static public key (Qs,B = (Xs,B, Ys,B)) */
-        public inQsB: TPMS_ECC_POINT = null,
+        /** Other partys static public key (Qs,B = (Xs,B, Ys,B))  */
+        public inQsB: TPMS_ECC_POINT = null, 
         
-        /** other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) */
-        public inQeB: TPMS_ECC_POINT = null,
+        /** Other party's ephemeral public key (Qe,B = (Xe,B, Ye,B))  */
+        public inQeB: TPMS_ECC_POINT = null, 
         
-        /** the key exchange scheme */
-        public inScheme: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** The key exchange scheme  */
+        public inScheme: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** value returned by TPM2_EC_Ephemeral() */
+        /** Value returned by TPM2_EC_Ephemeral()  */
         public counter: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.inQsB);
         buf.writeSizedObj(this.inQeB);
@@ -11227,8 +10799,8 @@ export class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
         buf.writeShort(this.counter);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.inQsB = buf.createSizedObj(TPMS_ECC_POINT);
         this.inQeB = buf.createSizedObj(TPMS_ECC_POINT);
@@ -11236,18 +10808,18 @@ export class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
         this.counter = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ZGen_2Phase_REQUEST
     {
         return buf.createObj(TPM2_ZGen_2Phase_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ZGen_2Phase_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ZGen_2Phase_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.keyA]; }
@@ -11255,103 +10827,101 @@ export class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_ZGen_2Phase_REQUEST
 
-/**
- *  This command supports two-phase key exchange protocols. The command is used in combination
- *  with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the
- *  public point of that ephemeral key along with a numeric value that allows the TPM to
- *  regenerate the associated private key.
+/** This command supports two-phase key exchange protocols. The command is used in
+ *  combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key
+ *  and returns the public point of that ephemeral key along with a numeric value that
+ *  allows the TPM to regenerate the associated private key.
  */
 export class ZGen_2PhaseResponse extends RespStructure
 {
     constructor(
-        /** X and Y coordinates of the computed value (scheme dependent) */
-        public outZ1: TPMS_ECC_POINT = null,
+        /** X and Y coordinates of the computed value (scheme dependent)  */
+        public outZ1: TPMS_ECC_POINT = null, 
         
-        /** X and Y coordinates of the second computed value (scheme dependent) */
+        /** X and Y coordinates of the second computed value (scheme dependent)  */
         public outZ2: TPMS_ECC_POINT = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.outZ1);
         buf.writeSizedObj(this.outZ2);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.outZ1 = buf.createSizedObj(TPMS_ECC_POINT);
         this.outZ2 = buf.createSizedObj(TPMS_ECC_POINT);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ZGen_2PhaseResponse
     {
         return buf.createObj(ZGen_2PhaseResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ZGen_2PhaseResponse
     {
         return new TpmBuffer(buffer).createObj(ZGen_2PhaseResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // ZGen_2PhaseResponse
 
-/** This command performs ECC encryption as described in Part 1, Annex D. */
+/** This command performs ECC encryption as described in Part 1, Annex D.  */
 export class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  reference to public portion of ECC key to use for encryption
+        /** Reference to public portion of ECC key to use for encryption
          *  Auth Index: None
          */
-        public keyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public keyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** Plaintext to be encrypted */
-        public plainText: Buffer = null,
+        /** Plaintext to be encrypted  */
+        public plainText: Buffer = null, 
         
-        /**
-         *  the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /** The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
          *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
          *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
          */
         public inScheme: TPMU_KDF_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.plainText);
         buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.plainText = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_KDF_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ECC_Encrypt_REQUEST
     {
         return buf.createObj(TPM2_ECC_Encrypt_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ECC_Encrypt_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ECC_Encrypt_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.keyHandle]; }
@@ -11359,83 +10929,82 @@ export class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_ECC_Encrypt_REQUEST
 
-/** This command performs ECC encryption as described in Part 1, Annex D. */
+/** This command performs ECC encryption as described in Part 1, Annex D.  */
 export class ECC_EncryptResponse extends RespStructure
 {
     constructor(
-        /** the public ephemeral key used for ECDH */
-        public C1: TPMS_ECC_POINT = null,
+        /** The public ephemeral key used for ECDH  */
+        public C1: TPMS_ECC_POINT = null, 
         
-        /** the data block produced by the XOR process */
-        public C2: Buffer = null,
+        /** The data block produced by the XOR process  */
+        public C2: Buffer = null, 
         
-        /** the integrity value */
+        /** The integrity value  */
         public C3: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.C1);
         buf.writeSizedByteBuf(this.C2);
         buf.writeSizedByteBuf(this.C3);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.C1 = buf.createSizedObj(TPMS_ECC_POINT);
         this.C2 = buf.readSizedByteBuf();
         this.C3 = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ECC_EncryptResponse
     {
         return buf.createObj(ECC_EncryptResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ECC_EncryptResponse
     {
         return new TpmBuffer(buffer).createObj(ECC_EncryptResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // ECC_EncryptResponse
 
-/** This command performs ECC decryption. */
+/** This command performs ECC decryption.  */
 export class TPM2_ECC_Decrypt_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  ECC key to use for decryption
+        /** ECC key to use for decryption
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public keyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public keyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the public ephemeral key used for ECDH */
-        public C1: TPMS_ECC_POINT = null,
+        /** The public ephemeral key used for ECDH  */
+        public C1: TPMS_ECC_POINT = null, 
         
-        /** the data block produced by the XOR process */
-        public C2: Buffer = null,
+        /** The data block produced by the XOR process  */
+        public C2: Buffer = null, 
         
-        /** the integrity value */
-        public C3: Buffer = null,
+        /** The integrity value  */
+        public C3: Buffer = null, 
         
-        /**
-         *  the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /** The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
          *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
          *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
          */
         public inScheme: TPMU_KDF_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.C1);
         buf.writeSizedByteBuf(this.C2);
@@ -11444,29 +11013,29 @@ export class TPM2_ECC_Decrypt_REQUEST extends ReqStructure
         this.inScheme.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.C1 = buf.createSizedObj(TPMS_ECC_POINT);
         this.C2 = buf.readSizedByteBuf();
         this.C3 = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_KDF_SCHEME>('TPMU_KDF_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_KDF_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ECC_Decrypt_REQUEST
     {
         return buf.createObj(TPM2_ECC_Decrypt_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ECC_Decrypt_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ECC_Decrypt_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.keyHandle]; }
@@ -11474,67 +11043,64 @@ export class TPM2_ECC_Decrypt_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_ECC_Decrypt_REQUEST
 
-/** This command performs ECC decryption. */
+/** This command performs ECC decryption.  */
 export class ECC_DecryptResponse extends RespStructure
 {
     constructor(
-        /** decrypted output */
+        /** Decrypted output  */
         public plainText: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.plainText); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.plainText); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.plainText = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.plainText = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ECC_DecryptResponse
     {
         return buf.createObj(ECC_DecryptResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ECC_DecryptResponse
     {
         return new TpmBuffer(buffer).createObj(ECC_DecryptResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // ECC_DecryptResponse
 
-/**
- *  NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
- *  reflected in platform-specific specifications.
+/** NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This
+ *  should be reflected in platform-specific specifications.
  */
 export class TPM2_EncryptDecrypt_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  the symmetric key used for the operation
+        /** The symmetric key used for the operation
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public keyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public keyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** if YES, then the operation is decryption; if NO, the operation is encryption */
-        public decrypt: number = 0,
+        /** If YES, then the operation is decryption; if NO, the operation is encryption  */
+        public decrypt: number = 0, 
         
-        /**
-         *  symmetric encryption/decryption mode
+        /** Symmetric encryption/decryption mode
          *  this field shall match the default mode of the key or be TPM_ALG_NULL.
          */
-        public mode: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        public mode: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** an initial value as required by the algorithm */
-        public ivIn: Buffer = null,
+        /** An initial value as required by the algorithm  */
+        public ivIn: Buffer = null, 
         
-        /** the data to be encrypted/decrypted */
+        /** The data to be encrypted/decrypted  */
         public inData: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeByte(this.decrypt);
         buf.writeShort(this.mode);
@@ -11542,8 +11108,8 @@ export class TPM2_EncryptDecrypt_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(this.inData);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.decrypt = buf.readByte();
         this.mode = buf.readShort();
@@ -11551,98 +11117,94 @@ export class TPM2_EncryptDecrypt_REQUEST extends ReqStructure
         this.inData = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_EncryptDecrypt_REQUEST
     {
         return buf.createObj(TPM2_EncryptDecrypt_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_EncryptDecrypt_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_EncryptDecrypt_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.keyHandle]; }
 } // TPM2_EncryptDecrypt_REQUEST
 
-/**
- *  NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
- *  reflected in platform-specific specifications.
+/** NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This
+ *  should be reflected in platform-specific specifications.
  */
 export class EncryptDecryptResponse extends RespStructure
 {
     constructor(
-        /** encrypted or decrypted output */
-        public outData: Buffer = null,
+        /** Encrypted or decrypted output  */
+        public outData: Buffer = null, 
         
-        /** chaining value to use for IV in next round */
+        /** Chaining value to use for IV in next round  */
         public ivOut: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.outData);
         buf.writeSizedByteBuf(this.ivOut);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.outData = buf.readSizedByteBuf();
         this.ivOut = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : EncryptDecryptResponse
     {
         return buf.createObj(EncryptDecryptResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : EncryptDecryptResponse
     {
         return new TpmBuffer(buffer).createObj(EncryptDecryptResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // EncryptDecryptResponse
 
-/**
- *  This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
- *  the first parameter. This permits inData to be parameter encrypted.
+/** This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter
+ *  is the first parameter. This permits inData to be parameter encrypted.
  */
 export class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  the symmetric key used for the operation
+        /** The symmetric key used for the operation
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public keyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public keyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the data to be encrypted/decrypted */
-        public inData: Buffer = null,
+        /** The data to be encrypted/decrypted  */
+        public inData: Buffer = null, 
         
-        /** if YES, then the operation is decryption; if NO, the operation is encryption */
-        public decrypt: number = 0,
+        /** If YES, then the operation is decryption; if NO, the operation is encryption  */
+        public decrypt: number = 0, 
         
-        /**
-         *  symmetric mode
+        /** Symmetric mode
          *  this field shall match the default mode of the key or be TPM_ALG_NULL.
          */
-        public mode: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        public mode: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** an initial value as required by the algorithm */
+        /** An initial value as required by the algorithm  */
         public ivIn: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.inData);
         buf.writeByte(this.decrypt);
@@ -11650,8 +11212,8 @@ export class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(this.ivIn);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.inData = buf.readSizedByteBuf();
         this.decrypt = buf.readByte();
@@ -11659,18 +11221,18 @@ export class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
         this.ivIn = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_EncryptDecrypt2_REQUEST
     {
         return buf.createObj(TPM2_EncryptDecrypt2_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_EncryptDecrypt2_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_EncryptDecrypt2_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.keyHandle]; }
@@ -11678,183 +11240,179 @@ export class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_EncryptDecrypt2_REQUEST
 
-/**
- *  This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
- *  the first parameter. This permits inData to be parameter encrypted.
+/** This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter
+ *  is the first parameter. This permits inData to be parameter encrypted.
  */
 export class EncryptDecrypt2Response extends RespStructure
 {
     constructor(
-        /** encrypted or decrypted output */
-        public outData: Buffer = null,
+        /** Encrypted or decrypted output  */
+        public outData: Buffer = null, 
         
-        /** chaining value to use for IV in next round */
+        /** Chaining value to use for IV in next round  */
         public ivOut: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.outData);
         buf.writeSizedByteBuf(this.ivOut);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.outData = buf.readSizedByteBuf();
         this.ivOut = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : EncryptDecrypt2Response
     {
         return buf.createObj(EncryptDecrypt2Response);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : EncryptDecrypt2Response
     {
         return new TpmBuffer(buffer).createObj(EncryptDecrypt2Response);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // EncryptDecrypt2Response
 
-/** This command performs a hash operation on a data buffer and returns the results. */
+/** This command performs a hash operation on a data buffer and returns the results.  */
 export class TPM2_Hash_REQUEST extends ReqStructure
 {
     constructor(
-        /** data to be hashed */
-        public data: Buffer = null,
+        /** Data to be hashed  */
+        public data: Buffer = null, 
         
-        /** algorithm for the hash being computed shall not be TPM_ALG_NULL */
-        public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** Algorithm for the hash being computed shall not be TPM_ALG_NULL  */
+        public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** hierarchy to use for the ticket (TPM_RH_NULL allowed) */
+        /** Hierarchy to use for the ticket (TPM_RH_NULL allowed)  */
         public hierarchy: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.data);
         buf.writeShort(this.hashAlg);
         this.hierarchy.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.data = buf.readSizedByteBuf();
         this.hashAlg = buf.readShort();
         this.hierarchy = TPM_HANDLE.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Hash_REQUEST
     {
         return buf.createObj(TPM2_Hash_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Hash_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Hash_REQUEST);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_Hash_REQUEST
 
-/** This command performs a hash operation on a data buffer and returns the results. */
+/** This command performs a hash operation on a data buffer and returns the results.  */
 export class HashResponse extends RespStructure
 {
     constructor(
-        /** results */
-        public outHash: Buffer = null,
+        /** Results  */
+        public outHash: Buffer = null, 
         
-        /**
-         *  ticket indicating that the sequence of octets used to compute outDigest did not start with
-         *  TPM_GENERATED_VALUE
-         *  will be a NULL ticket if the digest may not be signed with a restricted
-         *  key
+        /** Ticket indicating that the sequence of octets used to compute outDigest did not start
+         *  with TPM_GENERATED_VALUE
+         *  will be a NULL ticket if the digest may not be signed with a restricted key
          */
         public validation: TPMT_TK_HASHCHECK = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.outHash);
         this.validation.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.outHash = buf.readSizedByteBuf();
         this.validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : HashResponse
     {
         return buf.createObj(HashResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : HashResponse
     {
         return new TpmBuffer(buffer).createObj(HashResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // HashResponse
 
-/** This command performs an HMAC on the supplied data using the indicated hash algorithm. */
+/** This command performs an HMAC on the supplied data using the indicated hash algorithm.  */
 export class TPM2_HMAC_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the symmetric signing key providing the HMAC key
+        /** Handle for the symmetric signing key providing the HMAC key
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** HMAC data */
-        public buffer: Buffer = null,
+        /** HMAC data  */
+        public buffer: Buffer = null, 
         
-        /** algorithm to use for HMAC */
+        /** Algorithm to use for HMAC  */
         public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.buffer);
         buf.writeShort(this.hashAlg);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.buffer = buf.readSizedByteBuf();
         this.hashAlg = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_HMAC_REQUEST
     {
         return buf.createObj(TPM2_HMAC_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_HMAC_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_HMAC_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.handle]; }
@@ -11862,82 +11420,80 @@ export class TPM2_HMAC_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_HMAC_REQUEST
 
-/** This command performs an HMAC on the supplied data using the indicated hash algorithm. */
+/** This command performs an HMAC on the supplied data using the indicated hash algorithm.  */
 export class HMACResponse extends RespStructure
 {
     constructor(
-        /** the returned HMAC in a sized buffer */
+        /** The returned HMAC in a sized buffer  */
         public outHMAC: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.outHMAC); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.outHMAC); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.outHMAC = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.outHMAC = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : HMACResponse
     {
         return buf.createObj(HMACResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : HMACResponse
     {
         return new TpmBuffer(buffer).createObj(HMACResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // HMACResponse
 
-/**
- *  This command performs an HMAC or a block cipher MAC on the supplied data
- *  using the indicated algorithm.
+/** This command performs an HMAC or a block cipher MAC on the supplied data using the
+ *  indicated algorithm.
  */
 export class TPM2_MAC_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the symmetric signing key providing the MAC key
+        /** Handle for the symmetric signing key providing the MAC key
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** MAC data */
-        public buffer: Buffer = null,
+        /** MAC data  */
+        public buffer: Buffer = null, 
         
-        /** algorithm to use for MAC */
+        /** Algorithm to use for MAC  */
         public inScheme: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.buffer);
         buf.writeShort(this.inScheme);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.buffer = buf.readSizedByteBuf();
         this.inScheme = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_MAC_REQUEST
     {
         return buf.createObj(TPM2_MAC_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_MAC_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_MAC_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.handle]; }
@@ -11945,178 +11501,169 @@ export class TPM2_MAC_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_MAC_REQUEST
 
-/**
- *  This command performs an HMAC or a block cipher MAC on the supplied data
- *  using the indicated algorithm.
+/** This command performs an HMAC or a block cipher MAC on the supplied data using the
+ *  indicated algorithm.
  */
 export class MACResponse extends RespStructure
 {
     constructor(
-        /** the returned MAC in a sized buffer */
+        /** The returned MAC in a sized buffer  */
         public outMAC: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.outMAC); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.outMAC); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.outMAC = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.outMAC = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : MACResponse
     {
         return buf.createObj(MACResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : MACResponse
     {
         return new TpmBuffer(buffer).createObj(MACResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // MACResponse
 
-/**
- *  This command returns the next bytesRequested octets from the random
- *  number generator (RNG).
- */
+/** This command returns the next bytesRequested octets from the random number generator (RNG).  */
 export class TPM2_GetRandom_REQUEST extends ReqStructure
 {
     constructor(
-        /** number of octets to return */
+        /** Number of octets to return  */
         public bytesRequested: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.bytesRequested); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeShort(this.bytesRequested); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.bytesRequested = buf.readShort(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.bytesRequested = buf.readShort(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_GetRandom_REQUEST
     {
         return buf.createObj(TPM2_GetRandom_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_GetRandom_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_GetRandom_REQUEST);
     }
-
+    
 } // TPM2_GetRandom_REQUEST
 
-/**
- *  This command returns the next bytesRequested octets from the random
- *  number generator (RNG).
- */
+/** This command returns the next bytesRequested octets from the random number generator (RNG).  */
 export class GetRandomResponse extends RespStructure
 {
     constructor(
-        /** the random octets */
+        /** The random octets  */
         public randomBytes: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.randomBytes); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.randomBytes); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.randomBytes = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.randomBytes = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : GetRandomResponse
     {
         return buf.createObj(GetRandomResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : GetRandomResponse
     {
         return new TpmBuffer(buffer).createObj(GetRandomResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // GetRandomResponse
 
-/** This command is used to add "additional information" to the RNG state. */
+/** This command is used to add "additional information" to the RNG state.  */
 export class TPM2_StirRandom_REQUEST extends ReqStructure
 {
     constructor(
-        /** additional information */
+        /** Additional information  */
         public inData: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.inData); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.inData); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.inData = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.inData = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_StirRandom_REQUEST
     {
         return buf.createObj(TPM2_StirRandom_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_StirRandom_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_StirRandom_REQUEST);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_StirRandom_REQUEST
 
-/**
- *  This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
- *  structure, assign a handle to the sequence, and set the authValue of the sequence
- *  object to the value in auth.
+/** This command starts an HMAC sequence. The TPM will create and initialize an HMAC
+ *  sequence structure, assign a handle to the sequence, and set the authValue of the
+ *  sequence object to the value in auth.
  */
 export class TPM2_HMAC_Start_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of an HMAC key
+        /** Handle of an HMAC key
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** authorization value for subsequent use of the sequence */
-        public auth: Buffer = null,
+        /** Authorization value for subsequent use of the sequence  */
+        public auth: Buffer = null, 
         
-        /** the hash algorithm to use for the HMAC */
+        /** The hash algorithm to use for the HMAC  */
         public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.auth);
         buf.writeShort(this.hashAlg);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.auth = buf.readSizedByteBuf();
         this.hashAlg = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_HMAC_Start_REQUEST
     {
         return buf.createObj(TPM2_HMAC_Start_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_HMAC_Start_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_HMAC_Start_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.handle]; }
@@ -12124,83 +11671,80 @@ export class TPM2_HMAC_Start_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_HMAC_Start_REQUEST
 
-/**
- *  This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
- *  structure, assign a handle to the sequence, and set the authValue of the sequence
- *  object to the value in auth.
+/** This command starts an HMAC sequence. The TPM will create and initialize an HMAC
+ *  sequence structure, assign a handle to the sequence, and set the authValue of the
+ *  sequence object to the value in auth.
  */
 export class HMAC_StartResponse extends RespStructure
 {
     constructor(
-        /** a handle to reference the sequence */
+        /** A handle to reference the sequence  */
         public handle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : HMAC_StartResponse
     {
         return buf.createObj(HMAC_StartResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : HMAC_StartResponse
     {
         return new TpmBuffer(buffer).createObj(HMAC_StartResponse);
     }
-
+    
     numHandles(): number { return 1; }
     getHandle(): TPM_HANDLE { return this.handle; }
     setHandle(h: TPM_HANDLE): void { this.handle = h; }
 } // HMAC_StartResponse
 
-/**
- *  This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
+/** This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
  *  structure, assign a handle to the sequence, and set the authValue of the sequence
  *  object to the value in auth.
  */
 export class TPM2_MAC_Start_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of a MAC key
+        /** Handle of a MAC key
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** authorization value for subsequent use of the sequence */
-        public auth: Buffer = null,
+        /** Authorization value for subsequent use of the sequence  */
+        public auth: Buffer = null, 
         
-        /** the algorithm to use for the MAC */
+        /** The algorithm to use for the MAC  */
         public inScheme: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.auth);
         buf.writeShort(this.inScheme);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.auth = buf.readSizedByteBuf();
         this.inScheme = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_MAC_Start_REQUEST
     {
         return buf.createObj(TPM2_MAC_Start_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_MAC_Start_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_MAC_Start_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.handle]; }
@@ -12208,149 +11752,143 @@ export class TPM2_MAC_Start_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_MAC_Start_REQUEST
 
-/**
- *  This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
+/** This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
  *  structure, assign a handle to the sequence, and set the authValue of the sequence
  *  object to the value in auth.
  */
 export class MAC_StartResponse extends RespStructure
 {
     constructor(
-        /** a handle to reference the sequence */
+        /** A handle to reference the sequence  */
         public handle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : MAC_StartResponse
     {
         return buf.createObj(MAC_StartResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : MAC_StartResponse
     {
         return new TpmBuffer(buffer).createObj(MAC_StartResponse);
     }
-
+    
     numHandles(): number { return 1; }
     getHandle(): TPM_HANDLE { return this.handle; }
     setHandle(h: TPM_HANDLE): void { this.handle = h; }
 } // MAC_StartResponse
 
-/**
- *  This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
- *  hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
- *  If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
+/** This command starts a hash or an Event Sequence. If hashAlg is an implemented hash,
+ *  then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is
+ *  started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
  *  shall return TPM_RC_HASH.
  */
 export class TPM2_HashSequenceStart_REQUEST extends ReqStructure
 {
     constructor(
-        /** authorization value for subsequent use of the sequence */
-        public auth: Buffer = null,
+        /** Authorization value for subsequent use of the sequence  */
+        public auth: Buffer = null, 
         
-        /**
-         *  the hash algorithm to use for the hash sequence
+        /** The hash algorithm to use for the hash sequence
          *  An Event Sequence starts if this is TPM_ALG_NULL.
          */
         public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.auth);
         buf.writeShort(this.hashAlg);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.auth = buf.readSizedByteBuf();
         this.hashAlg = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_HashSequenceStart_REQUEST
     {
         return buf.createObj(TPM2_HashSequenceStart_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_HashSequenceStart_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_HashSequenceStart_REQUEST);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_HashSequenceStart_REQUEST
 
-/**
- *  This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
- *  hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
- *  If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
+/** This command starts a hash or an Event Sequence. If hashAlg is an implemented hash,
+ *  then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is
+ *  started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
  *  shall return TPM_RC_HASH.
  */
 export class HashSequenceStartResponse extends RespStructure
 {
     constructor(
-        /** a handle to reference the sequence */
+        /** A handle to reference the sequence  */
         public handle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : HashSequenceStartResponse
     {
         return buf.createObj(HashSequenceStartResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : HashSequenceStartResponse
     {
         return new TpmBuffer(buffer).createObj(HashSequenceStartResponse);
     }
-
+    
     numHandles(): number { return 1; }
     getHandle(): TPM_HANDLE { return this.handle; }
     setHandle(h: TPM_HANDLE): void { this.handle = h; }
 } // HashSequenceStartResponse
 
-/**
- *  This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any
- *  size up to the limits of the TPM.
+/** This command is used to add data to a hash or HMAC sequence. The amount of data in
+ *  buffer may be any size up to the limits of the TPM.
  */
 export class TPM2_SequenceUpdate_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the sequence object
+        /** Handle for the sequence object
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public sequenceHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public sequenceHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** data to be added to hash */
+        /** Data to be added to hash  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_SequenceUpdate_REQUEST
     {
         return buf.createObj(TPM2_SequenceUpdate_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_SequenceUpdate_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_SequenceUpdate_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.sequenceHandle]; }
@@ -12358,53 +11896,51 @@ export class TPM2_SequenceUpdate_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_SequenceUpdate_REQUEST
 
-/**
- *  This command adds the last part of data, if any, to a hash/HMAC sequence
- *  and returns the result.
+/** This command adds the last part of data, if any, to a hash/HMAC sequence and returns
+ *  the result.
  */
 export class TPM2_SequenceComplete_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  authorization for the sequence
+        /** Authorization for the sequence
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public sequenceHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public sequenceHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** data to be added to the hash/HMAC */
-        public buffer: Buffer = null,
+        /** Data to be added to the hash/HMAC  */
+        public buffer: Buffer = null, 
         
-        /** hierarchy of the ticket for a hash */
+        /** Hierarchy of the ticket for a hash  */
         public hierarchy: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.buffer);
         this.hierarchy.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.buffer = buf.readSizedByteBuf();
         this.hierarchy = TPM_HANDLE.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_SequenceComplete_REQUEST
     {
         return buf.createObj(TPM2_SequenceComplete_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_SequenceComplete_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_SequenceComplete_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.sequenceHandle]; }
@@ -12412,99 +11948,94 @@ export class TPM2_SequenceComplete_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_SequenceComplete_REQUEST
 
-/**
- *  This command adds the last part of data, if any, to a hash/HMAC sequence
- *  and returns the result.
+/** This command adds the last part of data, if any, to a hash/HMAC sequence and returns
+ *  the result.
  */
 export class SequenceCompleteResponse extends RespStructure
 {
     constructor(
-        /** the returned HMAC or digest in a sized buffer */
-        public result: Buffer = null,
+        /** The returned HMAC or digest in a sized buffer  */
+        public result: Buffer = null, 
         
-        /**
-         *  ticket indicating that the sequence of octets used to compute outDigest did not start with
-         *  TPM_GENERATED_VALUE
+        /** Ticket indicating that the sequence of octets used to compute outDigest did not start
+         *  with TPM_GENERATED_VALUE
          *  This is a NULL Ticket when the sequence is HMAC.
          */
         public validation: TPMT_TK_HASHCHECK = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.result);
         this.validation.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.result = buf.readSizedByteBuf();
         this.validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : SequenceCompleteResponse
     {
         return buf.createObj(SequenceCompleteResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : SequenceCompleteResponse
     {
         return new TpmBuffer(buffer).createObj(SequenceCompleteResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // SequenceCompleteResponse
 
-/**
- *  This command adds the last part of data, if any, to an Event Sequence and returns the
+/** This command adds the last part of data, if any, to an Event Sequence and returns the
  *  result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
- *  returned digest list is processed in the same manner as the digest list input parameter to
- *  TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
- *  extended with the associated digest value from the list.
+ *  returned digest list is processed in the same manner as the digest list input
+ *  parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with
+ *  pcrHandle, it is extended with the associated digest value from the list.
  */
 export class TPM2_EventSequenceComplete_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  PCR to be extended with the Event data
+        /** PCR to be extended with the Event data
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public pcrHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public pcrHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  authorization for the sequence
+        /** Authorization for the sequence
          *  Auth Index: 2
          *  Auth Role: USER
          */
-        public sequenceHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public sequenceHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** data to be added to the Event */
+        /** Data to be added to the Event  */
         public buffer: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.buffer); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.buffer); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.buffer = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.buffer = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_EventSequenceComplete_REQUEST
     {
         return buf.createObj(TPM2_EventSequenceComplete_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_EventSequenceComplete_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_EventSequenceComplete_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 2; }
     getHandles(): TPM_HANDLE[] { return [this.pcrHandle, this.sequenceHandle]; }
@@ -12512,108 +12043,104 @@ export class TPM2_EventSequenceComplete_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_EventSequenceComplete_REQUEST
 
-/**
- *  This command adds the last part of data, if any, to an Event Sequence and returns the
+/** This command adds the last part of data, if any, to an Event Sequence and returns the
  *  result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
- *  returned digest list is processed in the same manner as the digest list input parameter to
- *  TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
- *  extended with the associated digest value from the list.
+ *  returned digest list is processed in the same manner as the digest list input
+ *  parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with
+ *  pcrHandle, it is extended with the associated digest value from the list.
  */
 export class EventSequenceCompleteResponse extends RespStructure
 {
     constructor(
-        /** list of digests computed for the PCR */
+        /** List of digests computed for the PCR  */
         public results: TPMT_HA[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMT_HA>(this.results); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.results); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.results = buf.readObjArr(TPMT_HA); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.results = buf.readObjArr(TPMT_HA); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : EventSequenceCompleteResponse
     {
         return buf.createObj(EventSequenceCompleteResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : EventSequenceCompleteResponse
     {
         return new TpmBuffer(buffer).createObj(EventSequenceCompleteResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(4, 66); }
 } // EventSequenceCompleteResponse
 
-/**
- *  The purpose of this command is to prove that an object with a specific Name is loaded in
- *  the TPM. By certifying that the object is loaded, the TPM warrants that a public area with
- *  a given Name is self-consistent and associated with a valid sensitive area. If a relying
- *  party has a public area that has the same Name as a Name certified with this command, then the
- *  values in that public area are correct.
+/** The purpose of this command is to prove that an object with a specific Name is loaded
+ *  in the TPM. By certifying that the object is loaded, the TPM warrants that a public
+ *  area with a given Name is self-consistent and associated with a valid sensitive area.
+ *  If a relying party has a public area that has the same Name as a Name certified with
+ *  this command, then the values in that public area are correct.
  */
 export class TPM2_Certify_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the object to be certified
+        /** Handle of the object to be certified
          *  Auth Index: 1
          *  Auth Role: ADMIN
          */
-        public objectHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public objectHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle of the key used to sign the attestation structure
+        /** Handle of the key used to sign the attestation structure
          *  Auth Index: 2
          *  Auth Role: USER
          */
-        public signHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public signHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** user provided qualifying data */
-        public qualifyingData: Buffer = null,
+        /** User provided qualifying data  */
+        public qualifyingData: Buffer = null, 
         
-        /**
-         *  signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
          *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
          */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
         buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Certify_REQUEST
     {
         return buf.createObj(TPM2_Certify_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Certify_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Certify_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 2; }
     getHandles(): TPM_HANDLE[] { return [this.objectHandle, this.signHandle]; }
@@ -12621,21 +12148,19 @@ export class TPM2_Certify_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_Certify_REQUEST
 
-/**
- *  The purpose of this command is to prove that an object with a specific Name is loaded in
- *  the TPM. By certifying that the object is loaded, the TPM warrants that a public area with
- *  a given Name is self-consistent and associated with a valid sensitive area. If a relying
- *  party has a public area that has the same Name as a Name certified with this command, then the
- *  values in that public area are correct.
+/** The purpose of this command is to prove that an object with a specific Name is loaded
+ *  in the TPM. By certifying that the object is loaded, the TPM warrants that a public
+ *  area with a given Name is self-consistent and associated with a valid sensitive area.
+ *  If a relying party has a public area that has the same Name as a Name certified with
+ *  this command, then the values in that public area are correct.
  */
 export class CertifyResponse extends RespStructure
 {
     constructor(
-        /** the structure that was signed */
-        public certifyInfo: TPMS_ATTEST = null,
+        /** The structure that was signed  */
+        public certifyInfo: TPMS_ATTEST = null, 
         
-        /**
-         *  the asymmetric signature over certifyInfo using the key referenced by signHandle
+        /** The asymmetric signature over certifyInfo using the key referenced by signHandle
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -12643,84 +12168,82 @@ export class CertifyResponse extends RespStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.certifyInfo);
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.certifyInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : CertifyResponse
     {
         return buf.createObj(CertifyResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : CertifyResponse
     {
         return new TpmBuffer(buffer).createObj(CertifyResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // CertifyResponse
 
-/**
- *  This command is used to prove the association between an object and its creation data. The
- *  TPM will validate that the ticket was produced by the TPM and that the ticket validates
- *  the association between a loaded public area and the provided hash of the
+/** This command is used to prove the association between an object and its creation data.
+ *  The TPM will validate that the ticket was produced by the TPM and that the ticket
+ *  validates the association between a loaded public area and the provided hash of the
  *  creation data (creationHash).
  */
 export class TPM2_CertifyCreation_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the key that will sign the attestation block
+        /** Handle of the key that will sign the attestation block
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public signHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public signHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the object associated with the creation data
+        /** The object associated with the creation data
          *  Auth Index: None
          */
-        public objectHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public objectHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** user-provided qualifying data */
-        public qualifyingData: Buffer = null,
+        /** User-provided qualifying data  */
+        public qualifyingData: Buffer = null, 
         
-        /** hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary() */
-        public creationHash: Buffer = null,
+        /** Hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary()  */
+        public creationHash: Buffer = null, 
         
-        /**
-         *  signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
          *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
          */
-        public inScheme: TPMU_SIG_SCHEME = null,
+        public inScheme: TPMU_SIG_SCHEME = null, 
         
-        /** ticket produced by TPM2_Create() or TPM2_CreatePrimary() */
+        /** Ticket produced by TPM2_Create() or TPM2_CreatePrimary()  */
         public creationTicket: TPMT_TK_CREATION = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
         buf.writeSizedByteBuf(this.creationHash);
@@ -12729,29 +12252,29 @@ export class TPM2_CertifyCreation_REQUEST extends ReqStructure
         this.creationTicket.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.qualifyingData = buf.readSizedByteBuf();
         this.creationHash = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
         this.creationTicket = TPMT_TK_CREATION.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_CertifyCreation_REQUEST
     {
         return buf.createObj(TPM2_CertifyCreation_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_CertifyCreation_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_CertifyCreation_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.signHandle, this.objectHandle]; }
@@ -12759,20 +12282,18 @@ export class TPM2_CertifyCreation_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_CertifyCreation_REQUEST
 
-/**
- *  This command is used to prove the association between an object and its creation data. The
- *  TPM will validate that the ticket was produced by the TPM and that the ticket validates
- *  the association between a loaded public area and the provided hash of the
+/** This command is used to prove the association between an object and its creation data.
+ *  The TPM will validate that the ticket was produced by the TPM and that the ticket
+ *  validates the association between a loaded public area and the provided hash of the
  *  creation data (creationHash).
  */
 export class CertifyCreationResponse extends RespStructure
 {
     constructor(
-        /** the structure that was signed */
-        public certifyInfo: TPMS_ATTEST = null,
+        /** The structure that was signed  */
+        public certifyInfo: TPMS_ATTEST = null, 
         
-        /**
-         *  the signature over certifyInfo
+        /** The signature over certifyInfo
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -12780,99 +12301,99 @@ export class CertifyCreationResponse extends RespStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.certifyInfo);
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.certifyInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : CertifyCreationResponse
     {
         return buf.createObj(CertifyCreationResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : CertifyCreationResponse
     {
         return new TpmBuffer(buffer).createObj(CertifyCreationResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // CertifyCreationResponse
 
-/** This command is used to quote PCR values. */
+/** This command is used to quote PCR values.  */
 export class TPM2_Quote_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of key that will perform signature
+        /** Handle of key that will perform signature
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public signHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public signHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** data supplied by the caller */
-        public qualifyingData: Buffer = null,
+        /** Data supplied by the caller  */
+        public qualifyingData: Buffer = null, 
         
-        /**
-         *  signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
          *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
          */
-        public inScheme: TPMU_SIG_SCHEME = null,
+        public inScheme: TPMU_SIG_SCHEME = null, 
         
-        /** PCR set to quote */
+        /** PCR set to quote  */
         public PCRselect: TPMS_PCR_SELECTION[] = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
         buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.PCRselect);
+        buf.writeObjArr(this.PCRselect);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
         this.PCRselect = buf.readObjArr(TPMS_PCR_SELECTION);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Quote_REQUEST
     {
         return buf.createObj(TPM2_Quote_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Quote_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Quote_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.signHandle]; }
@@ -12880,15 +12401,14 @@ export class TPM2_Quote_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_Quote_REQUEST
 
-/** This command is used to quote PCR values. */
+/** This command is used to quote PCR values.  */
 export class QuoteResponse extends RespStructure
 {
     constructor(
-        /** the quoted information */
-        public quoted: TPMS_ATTEST = null,
+        /** The quoted information  */
+        public quoted: TPMS_ATTEST = null, 
         
-        /**
-         *  the signature over quoted
+        /** The signature over quoted
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -12896,107 +12416,105 @@ export class QuoteResponse extends RespStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.quoted);
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.quoted = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : QuoteResponse
     {
         return buf.createObj(QuoteResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : QuoteResponse
     {
         return new TpmBuffer(buffer).createObj(QuoteResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // QuoteResponse
 
-/** This command returns a digital signature of the audit session digest. */
+/** This command returns a digital signature of the audit session digest.  */
 export class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /** Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public privacyAdminHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public privacyAdminHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle of the signing key
+        /** Handle of the signing key
          *  Auth Index: 2
          *  Auth Role: USER
          */
-        public signHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public signHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle of the audit session
+        /** Handle of the audit session
          *  Auth Index: None
          */
-        public sessionHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public sessionHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** user-provided qualifying data may be zero-length */
-        public qualifyingData: Buffer = null,
+        /** User-provided qualifying data may be zero-length  */
+        public qualifyingData: Buffer = null, 
         
-        /**
-         *  signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
          *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
          */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
         buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_GetSessionAuditDigest_REQUEST
     {
         return buf.createObj(TPM2_GetSessionAuditDigest_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_GetSessionAuditDigest_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_GetSessionAuditDigest_REQUEST);
     }
-
+    
     numHandles(): number { return 3; }
     numAuthHandles(): number { return 2; }
     getHandles(): TPM_HANDLE[] { return [this.privacyAdminHandle, this.signHandle, this.sessionHandle]; }
@@ -13004,15 +12522,14 @@ export class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_GetSessionAuditDigest_REQUEST
 
-/** This command returns a digital signature of the audit session digest. */
+/** This command returns a digital signature of the audit session digest.  */
 export class GetSessionAuditDigestResponse extends RespStructure
 {
     constructor(
-        /** the audit information that was signed */
-        public auditInfo: TPMS_ATTEST = null,
+        /** The audit information that was signed  */
+        public auditInfo: TPMS_ATTEST = null, 
         
-        /**
-         *  the signature over auditInfo
+        /** The signature over auditInfo
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -13020,105 +12537,103 @@ export class GetSessionAuditDigestResponse extends RespStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.auditInfo);
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.auditInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : GetSessionAuditDigestResponse
     {
         return buf.createObj(GetSessionAuditDigestResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : GetSessionAuditDigestResponse
     {
         return new TpmBuffer(buffer).createObj(GetSessionAuditDigestResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // GetSessionAuditDigestResponse
 
-/**
- *  This command returns the current value of the command audit digest, a digest of the
+/** This command returns the current value of the command audit digest, a digest of the
  *  commands being audited, and the audit hash algorithm. These values are placed in an
  *  attestation structure and signed with the key referenced by signHandle.
  */
 export class TPM2_GetCommandAuditDigest_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /** Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public privacyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public privacyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the handle of the signing key
+        /** The handle of the signing key
          *  Auth Index: 2
          *  Auth Role: USER
          */
-        public signHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public signHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** other data to associate with this audit digest */
-        public qualifyingData: Buffer = null,
+        /** Other data to associate with this audit digest  */
+        public qualifyingData: Buffer = null, 
         
-        /**
-         *  signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
          *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
          */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
         buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_GetCommandAuditDigest_REQUEST
     {
         return buf.createObj(TPM2_GetCommandAuditDigest_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_GetCommandAuditDigest_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_GetCommandAuditDigest_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 2; }
     getHandles(): TPM_HANDLE[] { return [this.privacyHandle, this.signHandle]; }
@@ -13126,19 +12641,17 @@ export class TPM2_GetCommandAuditDigest_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_GetCommandAuditDigest_REQUEST
 
-/**
- *  This command returns the current value of the command audit digest, a digest of the
+/** This command returns the current value of the command audit digest, a digest of the
  *  commands being audited, and the audit hash algorithm. These values are placed in an
  *  attestation structure and signed with the key referenced by signHandle.
  */
 export class GetCommandAuditDigestResponse extends RespStructure
 {
     constructor(
-        /** the auditInfo that was signed */
-        public auditInfo: TPMS_ATTEST = null,
+        /** The auditInfo that was signed  */
+        public auditInfo: TPMS_ATTEST = null, 
         
-        /**
-         *  the signature over auditInfo
+        /** The signature over auditInfo
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -13146,101 +12659,100 @@ export class GetCommandAuditDigestResponse extends RespStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.auditInfo);
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.auditInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : GetCommandAuditDigestResponse
     {
         return buf.createObj(GetCommandAuditDigestResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : GetCommandAuditDigestResponse
     {
         return new TpmBuffer(buffer).createObj(GetCommandAuditDigestResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // GetCommandAuditDigestResponse
 
-/** This command returns the current values of Time and Clock. */
+/** This command returns the current values of Time and Clock.  */
 export class TPM2_GetTime_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /** Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public privacyAdminHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public privacyAdminHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the keyHandle identifier of a loaded key that can perform digital signatures
+        /** The keyHandle identifier of a loaded key that can perform digital signatures
          *  Auth Index: 2
          *  Auth Role: USER
          */
-        public signHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public signHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** data to tick stamp */
-        public qualifyingData: Buffer = null,
+        /** Data to tick stamp  */
+        public qualifyingData: Buffer = null, 
         
-        /**
-         *  signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
          *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
          */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
         buf.writeShort(this.inScheme.GetUnionSelector());
         this.inScheme.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_GetTime_REQUEST
     {
         return buf.createObj(TPM2_GetTime_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_GetTime_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_GetTime_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 2; }
     getHandles(): TPM_HANDLE[] { return [this.privacyAdminHandle, this.signHandle]; }
@@ -13248,15 +12760,14 @@ export class TPM2_GetTime_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_GetTime_REQUEST
 
-/** This command returns the current values of Time and Clock. */
+/** This command returns the current values of Time and Clock.  */
 export class GetTimeResponse extends RespStructure
 {
     constructor(
-        /** standard TPM-generated attestation block */
-        public timeInfo: TPMS_ATTEST = null,
+        /** Standard TPM-generated attestation block  */
+        public timeInfo: TPMS_ATTEST = null, 
         
-        /**
-         *  the signature over timeInfo
+        /** The signature over timeInfo
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -13264,84 +12775,82 @@ export class GetTimeResponse extends RespStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.timeInfo);
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.timeInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : GetTimeResponse
     {
         return buf.createObj(GetTimeResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : GetTimeResponse
     {
         return new TpmBuffer(buffer).createObj(GetTimeResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // GetTimeResponse
 
-/**
- *  The purpose of this command is to generate an X.509 certificate that proves an object with
- *  a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify,
- *  which uses a TCG-defined data structure to convey attestation information,
- *  TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate
- *  that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
- *  Certificate Revocation List (CRL) Profile.
+/** The purpose of this command is to generate an X.509 certificate that proves an object
+ *  with a specific public key and attributes is loaded in the TPM. In contrast to
+ *  TPM2_Certify, which uses a TCG-defined data structure to convey attestation
+ *  information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded
+ *  X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key
+ *  Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
  */
 export class TPM2_CertifyX509_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the object to be certified
+        /** Handle of the object to be certified
          *  Auth Index: 1
          *  Auth Role: ADMIN
          */
-        public objectHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public objectHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle of the key used to sign the attestation structure
+        /** Handle of the key used to sign the attestation structure
          *  Auth Index: 2
          *  Auth Role: USER
          */
-        public signHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public signHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** shall be an Empty Buffer */
-        public reserved: Buffer = null,
+        /** Shall be an Empty Buffer  */
+        public reserved: Buffer = null, 
         
-        /**
-         *  signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
          *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
          */
-        public inScheme: TPMU_SIG_SCHEME = null,
+        public inScheme: TPMU_SIG_SCHEME = null, 
         
-        /** a DER encoded partial certificate */
+        /** A DER encoded partial certificate  */
         public partialCertificate: Buffer = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.reserved);
         buf.writeShort(this.inScheme.GetUnionSelector());
@@ -13349,28 +12858,28 @@ export class TPM2_CertifyX509_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(this.partialCertificate);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.reserved = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
         this.partialCertificate = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_CertifyX509_REQUEST
     {
         return buf.createObj(TPM2_CertifyX509_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_CertifyX509_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_CertifyX509_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 2; }
     getHandles(): TPM_HANDLE[] { return [this.objectHandle, this.signHandle]; }
@@ -13378,28 +12887,25 @@ export class TPM2_CertifyX509_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_CertifyX509_REQUEST
 
-/**
- *  The purpose of this command is to generate an X.509 certificate that proves an object with
- *  a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify,
- *  which uses a TCG-defined data structure to convey attestation information,
- *  TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate
- *  that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
- *  Certificate Revocation List (CRL) Profile.
+/** The purpose of this command is to generate an X.509 certificate that proves an object
+ *  with a specific public key and attributes is loaded in the TPM. In contrast to
+ *  TPM2_Certify, which uses a TCG-defined data structure to convey attestation
+ *  information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded
+ *  X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key
+ *  Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
  */
 export class CertifyX509Response extends RespStructure
 {
     constructor(
-        /**
-         *  a DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate to make it a
-         *  complete RFC5280 TBSCertificate.
+        /** A DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate
+         *  to make it a complete RFC5280 TBSCertificate.
          */
-        public addedToCertificate: Buffer = null,
+        public addedToCertificate: Buffer = null, 
         
-        /** the digest that was signed */
-        public tbsDigest: Buffer = null,
+        /** The digest that was signed  */
+        public tbsDigest: Buffer = null, 
         
-        /**
-         *  The signature over tbsDigest
+        /** The signature over tbsDigest
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -13407,10 +12913,11 @@ export class CertifyX509Response extends RespStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.addedToCertificate);
         buf.writeSizedByteBuf(this.tbsDigest);
@@ -13418,85 +12925,83 @@ export class CertifyX509Response extends RespStructure
         this.signature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.addedToCertificate = buf.readSizedByteBuf();
         this.tbsDigest = buf.readSizedByteBuf();
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : CertifyX509Response
     {
         return buf.createObj(CertifyX509Response);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : CertifyX509Response
     {
         return new TpmBuffer(buffer).createObj(CertifyX509Response);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // CertifyX509Response
 
-/**
- *  TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
- *  perform the point multiplications on the provided points and return intermediate signing
- *  values. The signHandle parameter shall refer to an ECC key and the signing scheme must
- *  be anonymous (TPM_RC_SCHEME).
+/** TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM
+ *  will perform the point multiplications on the provided points and return intermediate
+ *  signing values. The signHandle parameter shall refer to an ECC key and the signing
+ *  scheme must be anonymous (TPM_RC_SCHEME).
  */
 export class TPM2_Commit_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the key that will be used in the signing operation
+        /** Handle of the key that will be used in the signing operation
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public signHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public signHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** a point (M) on the curve used by signHandle */
-        public P1: TPMS_ECC_POINT = null,
+        /** A point (M) on the curve used by signHandle  */
+        public P1: TPMS_ECC_POINT = null, 
         
-        /** octet array used to derive x-coordinate of a base point */
-        public s2: Buffer = null,
+        /** Octet array used to derive x-coordinate of a base point  */
+        public s2: Buffer = null, 
         
-        /** y coordinate of the point associated with s2 */
+        /** Y coordinate of the point associated with s2  */
         public y2: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.P1);
         buf.writeSizedByteBuf(this.s2);
         buf.writeSizedByteBuf(this.y2);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.P1 = buf.createSizedObj(TPMS_ECC_POINT);
         this.s2 = buf.readSizedByteBuf();
         this.y2 = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Commit_REQUEST
     {
         return buf.createObj(TPM2_Commit_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Commit_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Commit_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.signHandle]; }
@@ -13504,30 +13009,29 @@ export class TPM2_Commit_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_Commit_REQUEST
 
-/**
- *  TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
- *  perform the point multiplications on the provided points and return intermediate signing
- *  values. The signHandle parameter shall refer to an ECC key and the signing scheme must
- *  be anonymous (TPM_RC_SCHEME).
+/** TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM
+ *  will perform the point multiplications on the provided points and return intermediate
+ *  signing values. The signHandle parameter shall refer to an ECC key and the signing
+ *  scheme must be anonymous (TPM_RC_SCHEME).
  */
 export class CommitResponse extends RespStructure
 {
     constructor(
-        /** ECC point K [ds](x2, y2) */
-        public K: TPMS_ECC_POINT = null,
+        /** ECC point K [ds](x2, y2)  */
+        public K: TPMS_ECC_POINT = null, 
         
-        /** ECC point L [r](x2, y2) */
-        public L: TPMS_ECC_POINT = null,
+        /** ECC point L [r](x2, y2)  */
+        public L: TPMS_ECC_POINT = null, 
         
-        /** ECC point E [r]P1 */
-        public E: TPMS_ECC_POINT = null,
+        /** ECC point E [r]P1  */
+        public E: TPMS_ECC_POINT = null, 
         
-        /** least-significant 16 bits of commitCount */
+        /** Least-significant 16 bits of commitCount  */
         public counter: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.K);
         buf.writeSizedObj(this.L);
@@ -13535,8 +13039,8 @@ export class CommitResponse extends RespStructure
         buf.writeShort(this.counter);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.K = buf.createSizedObj(TPMS_ECC_POINT);
         this.L = buf.createSizedObj(TPMS_ECC_POINT);
@@ -13544,107 +13048,104 @@ export class CommitResponse extends RespStructure
         this.counter = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : CommitResponse
     {
         return buf.createObj(CommitResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : CommitResponse
     {
         return new TpmBuffer(buffer).createObj(CommitResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // CommitResponse
 
-/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. */
+/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.  */
 export class TPM2_EC_Ephemeral_REQUEST extends ReqStructure
 {
     constructor(
-        /** The curve for the computed ephemeral point */
+        /** The curve for the computed ephemeral point  */
         public curveID: TPM_ECC_CURVE = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeShort(this.curveID); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeShort(this.curveID); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.curveID = buf.readShort(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.curveID = buf.readShort(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_EC_Ephemeral_REQUEST
     {
         return buf.createObj(TPM2_EC_Ephemeral_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_EC_Ephemeral_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_EC_Ephemeral_REQUEST);
     }
-
+    
 } // TPM2_EC_Ephemeral_REQUEST
 
-/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. */
+/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.  */
 export class EC_EphemeralResponse extends RespStructure
 {
     constructor(
-        /** ephemeral public key Q [r]G */
-        public Q: TPMS_ECC_POINT = null,
+        /** Ephemeral public key Q [r]G  */
+        public Q: TPMS_ECC_POINT = null, 
         
-        /** least-significant 16 bits of commitCount */
+        /** Least-significant 16 bits of commitCount  */
         public counter: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.Q);
         buf.writeShort(this.counter);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.Q = buf.createSizedObj(TPMS_ECC_POINT);
         this.counter = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : EC_EphemeralResponse
     {
         return buf.createObj(EC_EphemeralResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : EC_EphemeralResponse
     {
         return new TpmBuffer(buffer).createObj(EC_EphemeralResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // EC_EphemeralResponse
 
-/**
- *  This command uses loaded keys to validate a signature on a message with the
- *  message digest passed to the TPM.
+/** This command uses loaded keys to validate a signature on a message with the message
+ *  digest passed to the TPM.
  */
 export class TPM2_VerifySignature_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of public key that will be used in the validation
+        /** Handle of public key that will be used in the validation
          *  Auth Index: None
          */
-        public keyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public keyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** digest of the signed message */
-        public digest: Buffer = null,
+        /** Digest of the signed message  */
+        public digest: Buffer = null, 
         
-        /**
-         *  signature to be tested
+        /** Signature to be tested
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -13652,37 +13153,38 @@ export class TPM2_VerifySignature_REQUEST extends ReqStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.digest);
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.digest = buf.readSizedByteBuf();
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_VerifySignature_REQUEST
     {
         return buf.createObj(TPM2_VerifySignature_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_VerifySignature_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_VerifySignature_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.keyHandle]; }
@@ -13690,9 +13192,8 @@ export class TPM2_VerifySignature_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_VerifySignature_REQUEST
 
-/**
- *  This command uses loaded keys to validate a signature on a message with the
- *  message digest passed to the TPM.
+/** This command uses loaded keys to validate a signature on a message with the message
+ *  digest passed to the TPM.
  */
 export class VerifySignatureResponse extends RespStructure
 {
@@ -13700,63 +13201,60 @@ export class VerifySignatureResponse extends RespStructure
         public validation: TPMT_TK_VERIFIED = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.validation.toTpm(buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { this.validation.toTpm(buf); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.validation = TPMT_TK_VERIFIED.fromTpm(buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.validation = TPMT_TK_VERIFIED.fromTpm(buf); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : VerifySignatureResponse
     {
         return buf.createObj(VerifySignatureResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : VerifySignatureResponse
     {
         return new TpmBuffer(buffer).createObj(VerifySignatureResponse);
     }
-
+    
 } // VerifySignatureResponse
 
-/**
- *  This command causes the TPM to sign an externally provided hash with the specified
+/** This command causes the TPM to sign an externally provided hash with the specified
  *  symmetric or asymmetric signing key.
  */
 export class TPM2_Sign_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  Handle of key that will perform signing
+        /** Handle of key that will perform signing
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public keyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public keyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** digest to be signed */
-        public digest: Buffer = null,
+        /** Digest to be signed  */
+        public digest: Buffer = null, 
         
-        /**
-         *  signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
+        /** Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
          *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
          */
-        public inScheme: TPMU_SIG_SCHEME = null,
+        public inScheme: TPMU_SIG_SCHEME = null, 
         
-        /**
-         *  proof that digest was created by the TPM
-         *  If keyHandle is not a restricted signing key, then this may be a NULL Ticket
-         *  with tag = TPM_ST_CHECKHASH.
+        /** Proof that digest was created by the TPM
+         *  If keyHandle is not a restricted signing key, then this may be a NULL Ticket with tag
+         *  = TPM_ST_CHECKHASH.
          */
         public validation: TPMT_TK_HASHCHECK = null
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.digest);
         buf.writeShort(this.inScheme.GetUnionSelector());
@@ -13764,28 +13262,28 @@ export class TPM2_Sign_REQUEST extends ReqStructure
         this.validation.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.digest = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
         this.validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Sign_REQUEST
     {
         return buf.createObj(TPM2_Sign_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Sign_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Sign_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.keyHandle]; }
@@ -13793,15 +13291,13 @@ export class TPM2_Sign_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_Sign_REQUEST
 
-/**
- *  This command causes the TPM to sign an externally provided hash with the specified
+/** This command causes the TPM to sign an externally provided hash with the specified
  *  symmetric or asymmetric signing key.
  */
 export class SignResponse extends RespStructure
 {
     constructor(
-        /**
-         *  the signature
+        /** The signature
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -13809,134 +13305,131 @@ export class SignResponse extends RespStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.signature) return;
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : SignResponse
     {
         return buf.createObj(SignResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : SignResponse
     {
         return new TpmBuffer(buffer).createObj(SignResponse);
     }
-
+    
 } // SignResponse
 
-/**
- *  This command may be used by the Privacy Administrator or platform to change the audit
- *  status of a command or to set the hash algorithm used for the audit digest, but
- *  not both at the same time.
+/** This command may be used by the Privacy Administrator or platform to change the audit
+ *  status of a command or to set the hash algorithm used for the audit digest, but not
+ *  both at the same time.
  */
 export class TPM2_SetCommandCodeAuditStatus_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public auth: TPM_HANDLE = new TPM_HANDLE(),
+        public auth: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed */
-        public auditAlg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** Hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed  */
+        public auditAlg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** list of commands that will be added to those that will be audited */
-        public setList: TPM_CC[] = null,
+        /** List of commands that will be added to those that will be audited  */
+        public setList: TPM_CC[] = null, 
         
-        /** list of commands that will no longer be audited */
+        /** List of commands that will no longer be audited  */
         public clearList: TPM_CC[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.auditAlg);
-        buf.writeValArr<TPM_CC>(this.setList, 4);
-        buf.writeValArr<TPM_CC>(this.clearList, 4);
+        buf.writeValArr(this.setList, 4);
+        buf.writeValArr(this.clearList, 4);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.auditAlg = buf.readShort();
         this.setList = buf.readValArr(4);
         this.clearList = buf.readValArr(4);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_SetCommandCodeAuditStatus_REQUEST
     {
         return buf.createObj(TPM2_SetCommandCodeAuditStatus_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_SetCommandCodeAuditStatus_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_SetCommandCodeAuditStatus_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.auth]; }
 } // TPM2_SetCommandCodeAuditStatus_REQUEST
 
-/**
- *  This command is used to cause an update to the indicated PCR. The digests parameter
- *  contains one or more tagged digest values identified by an algorithm ID. For each digest,
- *  the PCR associated with pcrHandle is Extended into the bank
- *  identified by the tag (hashAlg).
+/** This command is used to cause an update to the indicated PCR. The digests parameter
+ *  contains one or more tagged digest values identified by an algorithm ID. For each
+ *  digest, the PCR associated with pcrHandle is Extended into the bank identified by the
+ *  tag (hashAlg).
  */
 export class TPM2_PCR_Extend_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the PCR
+        /** Handle of the PCR
          *  Auth Handle: 1
          *  Auth Role: USER
          */
-        public pcrHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public pcrHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** list of tagged digest values to be extended */
+        /** List of tagged digest values to be extended  */
         public digests: TPMT_HA[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMT_HA>(this.digests); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.digests); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.digests = buf.readObjArr(TPMT_HA); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.digests = buf.readObjArr(TPMT_HA); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PCR_Extend_REQUEST
     {
         return buf.createObj(TPM2_PCR_Extend_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PCR_Extend_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PCR_Extend_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.pcrHandle]; }
@@ -13944,39 +13437,38 @@ export class TPM2_PCR_Extend_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(4, 66); }
 } // TPM2_PCR_Extend_REQUEST
 
-/** This command is used to cause an update to the indicated PCR. */
+/** This command is used to cause an update to the indicated PCR.  */
 export class TPM2_PCR_Event_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  Handle of the PCR
+        /** Handle of the PCR
          *  Auth Handle: 1
          *  Auth Role: USER
          */
-        public pcrHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public pcrHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** Event data in sized buffer */
+        /** Event data in sized buffer  */
         public eventData: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.eventData); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.eventData); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.eventData = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.eventData = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PCR_Event_REQUEST
     {
         return buf.createObj(TPM2_PCR_Event_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PCR_Event_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PCR_Event_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.pcrHandle]; }
@@ -13984,143 +13476,141 @@ export class TPM2_PCR_Event_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PCR_Event_REQUEST
 
-/** This command is used to cause an update to the indicated PCR. */
+/** This command is used to cause an update to the indicated PCR.  */
 export class PCR_EventResponse extends RespStructure
 {
     constructor(
         public digests: TPMT_HA[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMT_HA>(this.digests); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.digests); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.digests = buf.readObjArr(TPMT_HA); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.digests = buf.readObjArr(TPMT_HA); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : PCR_EventResponse
     {
         return buf.createObj(PCR_EventResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : PCR_EventResponse
     {
         return new TpmBuffer(buffer).createObj(PCR_EventResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(4, 66); }
 } // PCR_EventResponse
 
-/** This command returns the values of all PCR specified in pcrSelectionIn. */
+/** This command returns the values of all PCR specified in pcrSelectionIn.  */
 export class TPM2_PCR_Read_REQUEST extends ReqStructure
 {
     constructor(
-        /** The selection of PCR to read */
+        /** The selection of PCR to read  */
         public pcrSelectionIn: TPMS_PCR_SELECTION[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelectionIn); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.pcrSelectionIn); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.pcrSelectionIn = buf.readObjArr(TPMS_PCR_SELECTION); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.pcrSelectionIn = buf.readObjArr(TPMS_PCR_SELECTION); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PCR_Read_REQUEST
     {
         return buf.createObj(TPM2_PCR_Read_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PCR_Read_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PCR_Read_REQUEST);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(4, 3); }
 } // TPM2_PCR_Read_REQUEST
 
-/** This command returns the values of all PCR specified in pcrSelectionIn. */
+/** This command returns the values of all PCR specified in pcrSelectionIn.  */
 export class PCR_ReadResponse extends RespStructure
 {
     constructor(
-        /** the current value of the PCR update counter */
-        public pcrUpdateCounter: number = 0,
+        /** The current value of the PCR update counter  */
+        public pcrUpdateCounter: number = 0, 
         
-        /** the PCR in the returned list */
-        public pcrSelectionOut: TPMS_PCR_SELECTION[] = null,
+        /** The PCR in the returned list  */
+        public pcrSelectionOut: TPMS_PCR_SELECTION[] = null, 
         
-        /** the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests */
+        /** The contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests  */
         public pcrValues: TPM2B_DIGEST[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt(this.pcrUpdateCounter);
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrSelectionOut);
-        buf.writeObjArr<TPM2B_DIGEST>(this.pcrValues);
+        buf.writeObjArr(this.pcrSelectionOut);
+        buf.writeObjArr(this.pcrValues);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.pcrUpdateCounter = buf.readInt();
         this.pcrSelectionOut = buf.readObjArr(TPMS_PCR_SELECTION);
         this.pcrValues = buf.readObjArr(TPM2B_DIGEST);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : PCR_ReadResponse
     {
         return buf.createObj(PCR_ReadResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : PCR_ReadResponse
     {
         return new TpmBuffer(buffer).createObj(PCR_ReadResponse);
     }
-
+    
 } // PCR_ReadResponse
 
-/**
- *  This command is used to set the desired PCR allocation of PCR and algorithms. This command
- *  requires Platform Authorization.
+/** This command is used to set the desired PCR allocation of PCR and algorithms. This
+ *  command requires Platform Authorization.
  */
 export class TPM2_PCR_Allocate_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_PLATFORM+{PP}
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the requested allocation */
+        /** The requested allocation  */
         public pcrAllocation: TPMS_PCR_SELECTION[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrAllocation); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.pcrAllocation); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.pcrAllocation = buf.readObjArr(TPMS_PCR_SELECTION); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.pcrAllocation = buf.readObjArr(TPMS_PCR_SELECTION); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PCR_Allocate_REQUEST
     {
         return buf.createObj(TPM2_PCR_Allocate_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PCR_Allocate_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PCR_Allocate_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle]; }
@@ -14128,28 +13618,27 @@ export class TPM2_PCR_Allocate_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(4, 3); }
 } // TPM2_PCR_Allocate_REQUEST
 
-/**
- *  This command is used to set the desired PCR allocation of PCR and algorithms. This command
- *  requires Platform Authorization.
+/** This command is used to set the desired PCR allocation of PCR and algorithms. This
+ *  command requires Platform Authorization.
  */
 export class PCR_AllocateResponse extends RespStructure
 {
     constructor(
-        /** YES if the allocation succeeded */
-        public allocationSuccess: number = 0,
+        /** YES if the allocation succeeded  */
+        public allocationSuccess: number = 0, 
         
-        /** maximum number of PCR that may be in a bank */
-        public maxPCR: number = 0,
+        /** Maximum number of PCR that may be in a bank  */
+        public maxPCR: number = 0, 
         
-        /** number of octets required to satisfy the request */
-        public sizeNeeded: number = 0,
+        /** Number of octets required to satisfy the request  */
+        public sizeNeeded: number = 0, 
         
-        /** Number of octets available. Computed before the allocation. */
+        /** Number of octets available. Computed before the allocation.  */
         public sizeAvailable: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeByte(this.allocationSuccess);
         buf.writeInt(this.maxPCR);
@@ -14157,8 +13646,8 @@ export class PCR_AllocateResponse extends RespStructure
         buf.writeInt(this.sizeAvailable);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.allocationSuccess = buf.readByte();
         this.maxPCR = buf.readInt();
@@ -14166,72 +13655,70 @@ export class PCR_AllocateResponse extends RespStructure
         this.sizeAvailable = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : PCR_AllocateResponse
     {
         return buf.createObj(PCR_AllocateResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : PCR_AllocateResponse
     {
         return new TpmBuffer(buffer).createObj(PCR_AllocateResponse);
     }
-
+    
 } // PCR_AllocateResponse
 
-/**
- *  This command is used to associate a policy with a PCR or group of PCR. The policy
+/** This command is used to associate a policy with a PCR or group of PCR. The policy
  *  determines the conditions under which a PCR may be extended or reset.
  */
 export class TPM2_PCR_SetAuthPolicy_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_PLATFORM+{PP}
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the desired authPolicy */
-        public authPolicy: Buffer = null,
+        /** The desired authPolicy  */
+        public authPolicy: Buffer = null, 
         
-        /** the hash algorithm of the policy */
-        public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL,
+        /** The hash algorithm of the policy  */
+        public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** the PCR for which the policy is to be set */
+        /** The PCR for which the policy is to be set  */
         public pcrNum: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.authPolicy);
         buf.writeShort(this.hashAlg);
         this.pcrNum.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.authPolicy = buf.readSizedByteBuf();
         this.hashAlg = buf.readShort();
         this.pcrNum = TPM_HANDLE.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PCR_SetAuthPolicy_REQUEST
     {
         return buf.createObj(TPM2_PCR_SetAuthPolicy_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PCR_SetAuthPolicy_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PCR_SetAuthPolicy_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle]; }
@@ -14239,39 +13726,38 @@ export class TPM2_PCR_SetAuthPolicy_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PCR_SetAuthPolicy_REQUEST
 
-/** This command changes the authValue of a PCR or group of PCR. */
+/** This command changes the authValue of a PCR or group of PCR.  */
 export class TPM2_PCR_SetAuthValue_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for a PCR that may have an authorization value set
+        /** Handle for a PCR that may have an authorization value set
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public pcrHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public pcrHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the desired authorization value */
+        /** The desired authorization value  */
         public auth: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.auth); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.auth); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.auth = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.auth = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PCR_SetAuthValue_REQUEST
     {
         return buf.createObj(TPM2_PCR_SetAuthValue_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PCR_SetAuthValue_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PCR_SetAuthValue_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.pcrHandle]; }
@@ -14279,87 +13765,76 @@ export class TPM2_PCR_SetAuthValue_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PCR_SetAuthValue_REQUEST
 
-/**
- *  If the attribute of a PCR allows the PCR to be reset and proper authorization is provided,
- *  then this command may be used to set the PCR in all banks to zero. The attributes of the
- *  PCR may restrict the locality that can perform the reset operation.
+/** If the attribute of a PCR allows the PCR to be reset and proper authorization is
+ *  provided, then this command may be used to set the PCR in all banks to zero. The
+ *  attributes of the PCR may restrict the locality that can perform the reset operation.
  */
 export class TPM2_PCR_Reset_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  the PCR to reset
+        /** The PCR to reset
          *  Auth Index: 1
          *  Auth Role: USER
          */
         public pcrHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PCR_Reset_REQUEST
     {
         return buf.createObj(TPM2_PCR_Reset_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PCR_Reset_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PCR_Reset_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.pcrHandle]; }
 } // TPM2_PCR_Reset_REQUEST
 
-/**
- *  This command includes a signed authorization in a policy. The command ties the policy to a
- *  signing key by including the Name of the signing key in the policyDigest
+/** This command includes a signed authorization in a policy. The command ties the policy
+ *  to a signing key by including the Name of the signing key in the policyDigest
  */
 export class TPM2_PolicySigned_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for a key that will validate the signature
+        /** Handle for a key that will validate the signature
          *  Auth Index: None
          */
-        public authObject: TPM_HANDLE = new TPM_HANDLE(),
+        public authObject: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the policy nonce for the session
+        /** The policy nonce for the session
          *  This can be the Empty Buffer.
          */
-        public nonceTPM: Buffer = null,
+        public nonceTPM: Buffer = null, 
         
-        /**
-         *  digest of the command parameters to which this authorization is limited
+        /** Digest of the command parameters to which this authorization is limited
          *  This is not the cpHash for this command but the cpHash for the command to which this
-         *  policy session will be applied. If it is not limited, the parameter
-         *  will be the Empty Buffer.
+         *  policy session will be applied. If it is not limited, the parameter will be the Empty Buffer.
          */
-        public cpHashA: Buffer = null,
+        public cpHashA: Buffer = null, 
         
-        /**
-         *  a reference to a policy relating to the authorization may be the Empty Buffer
+        /** A reference to a policy relating to the authorization may be the Empty Buffer
          *  Size is limited to be no larger than the nonce size supported on the TPM.
          */
-        public policyRef: Buffer = null,
+        public policyRef: Buffer = null, 
         
-        /**
-         *  time when authorization will expire, measured in seconds from the time that nonceTPM was
-         *  generated
+        /** Time when authorization will expire, measured in seconds from the time that nonceTPM
+         *  was generated
          *  If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
          */
-        public expiration: number = 0,
+        public expiration: number = 0, 
         
-        /**
-         *  signed authorization (not optional)
+        /** Signed authorization (not optional)
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -14367,10 +13842,11 @@ export class TPM2_PolicySigned_REQUEST extends ReqStructure
         public auth: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get authSigAlg(): TPM_ALG_ID { return this.auth ? this.auth.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.nonceTPM);
         buf.writeSizedByteBuf(this.cpHashA);
@@ -14380,30 +13856,30 @@ export class TPM2_PolicySigned_REQUEST extends ReqStructure
         this.auth.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.nonceTPM = buf.readSizedByteBuf();
         this.cpHashA = buf.readSizedByteBuf();
         this.policyRef = buf.readSizedByteBuf();
         this.expiration = buf.readInt();
         let authSigAlg: TPM_ALG_ID = buf.readShort();
-        this.auth = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', authSigAlg);
+        this.auth = UnionFactory.create('TPMU_SIGNATURE', authSigAlg);
         this.auth.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicySigned_REQUEST
     {
         return buf.createObj(TPM2_PolicySigned_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicySigned_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicySigned_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.authObject, this.policySession]; }
@@ -14411,57 +13887,53 @@ export class TPM2_PolicySigned_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PolicySigned_REQUEST
 
-/**
- *  This command includes a signed authorization in a policy. The command ties the policy to a
- *  signing key by including the Name of the signing key in the policyDigest
+/** This command includes a signed authorization in a policy. The command ties the policy
+ *  to a signing key by including the Name of the signing key in the policyDigest
  */
 export class PolicySignedResponse extends RespStructure
 {
     constructor(
-        /**
-         *  implementation-specific time value, used to indicate to the TPM when the ticket expires
+        /** Implementation-specific time value, used to indicate to the TPM when the ticket expires
          *  NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
          */
-        public timeout: Buffer = null,
+        public timeout: Buffer = null, 
         
-        /**
-         *  produced if the command succeeds and expiration in the command was non-zero; this ticket
-         *  will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
+        /** Produced if the command succeeds and expiration in the command was non-zero; this
+         *  ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
          */
         public policyTicket: TPMT_TK_AUTH = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.timeout);
         this.policyTicket.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.timeout = buf.readSizedByteBuf();
         this.policyTicket = TPMT_TK_AUTH.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : PolicySignedResponse
     {
         return buf.createObj(PolicySignedResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : PolicySignedResponse
     {
         return new TpmBuffer(buffer).createObj(PolicySignedResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // PolicySignedResponse
 
-/**
- *  This command includes a secret-based authorization to a policy. The caller proves
+/** This command includes a secret-based authorization to a policy. The caller proves
  *  knowledge of the secret value using an authorization session using the authValue
  *  associated with authHandle. A password session, an HMAC session, or a policy session
  *  containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
@@ -14469,48 +13941,42 @@ export class PolicySignedResponse extends RespStructure
 export class TPM2_PolicySecret_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for an entity providing the authorization
+        /** Handle for an entity providing the authorization
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the policy nonce for the session
+        /** The policy nonce for the session
          *  This can be the Empty Buffer.
          */
-        public nonceTPM: Buffer = null,
+        public nonceTPM: Buffer = null, 
         
-        /**
-         *  digest of the command parameters to which this authorization is limited
-         *  This not the cpHash for this command but the cpHash for the command to which this policy
-         *  session will be applied. If it is not limited, the parameter will be the Empty Buffer.
+        /** Digest of the command parameters to which this authorization is limited
+         *  This not the cpHash for this command but the cpHash for the command to which this
+         *  policy session will be applied. If it is not limited, the parameter will be the Empty Buffer.
          */
-        public cpHashA: Buffer = null,
+        public cpHashA: Buffer = null, 
         
-        /**
-         *  a reference to a policy relating to the authorization may be the Empty Buffer
+        /** A reference to a policy relating to the authorization may be the Empty Buffer
          *  Size is limited to be no larger than the nonce size supported on the TPM.
          */
-        public policyRef: Buffer = null,
+        public policyRef: Buffer = null, 
         
-        /**
-         *  time when authorization will expire, measured in seconds from the time that nonceTPM was
-         *  generated
+        /** Time when authorization will expire, measured in seconds from the time that nonceTPM
+         *  was generated
          *  If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
          */
         public expiration: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.nonceTPM);
         buf.writeSizedByteBuf(this.cpHashA);
@@ -14518,8 +13984,8 @@ export class TPM2_PolicySecret_REQUEST extends ReqStructure
         buf.writeInt(this.expiration);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.nonceTPM = buf.readSizedByteBuf();
         this.cpHashA = buf.readSizedByteBuf();
@@ -14527,18 +13993,18 @@ export class TPM2_PolicySecret_REQUEST extends ReqStructure
         this.expiration = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicySecret_REQUEST
     {
         return buf.createObj(TPM2_PolicySecret_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicySecret_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicySecret_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle, this.policySession]; }
@@ -14546,8 +14012,7 @@ export class TPM2_PolicySecret_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PolicySecret_REQUEST
 
-/**
- *  This command includes a secret-based authorization to a policy. The caller proves
+/** This command includes a secret-based authorization to a policy. The caller proves
  *  knowledge of the secret value using an authorization session using the authValue
  *  associated with authHandle. A password session, an HMAC session, or a policy session
  *  containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
@@ -14555,86 +14020,80 @@ export class TPM2_PolicySecret_REQUEST extends ReqStructure
 export class PolicySecretResponse extends RespStructure
 {
     constructor(
-        /** implementation-specific time value used to indicate to the TPM when the ticket expires */
-        public timeout: Buffer = null,
+        /** Implementation-specific time value used to indicate to the TPM when the ticket expires  */
+        public timeout: Buffer = null, 
         
-        /**
-         *  produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5).
-         *  This ticket will use the TPMT_ST_AUTH_SECRET structure tag
+        /** Produced if the command succeeds and expiration in the command was non-zero ( See
+         *  23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag
          */
         public policyTicket: TPMT_TK_AUTH = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.timeout);
         this.policyTicket.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.timeout = buf.readSizedByteBuf();
         this.policyTicket = TPMT_TK_AUTH.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : PolicySecretResponse
     {
         return buf.createObj(PolicySecretResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : PolicySecretResponse
     {
         return new TpmBuffer(buffer).createObj(PolicySecretResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // PolicySecretResponse
 
-/**
- *  This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a
- *  signed authorization. The ticket represents a validated authorization that had an
+/** This command is similar to TPM2_PolicySigned() except that it takes a ticket instead
+ *  of a signed authorization. The ticket represents a validated authorization that had an
  *  expiration time associated with it.
  */
 export class TPM2_PolicyTicket_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  time when authorization will expire
+        /** Time when authorization will expire
          *  The contents are TPM specific. This shall be the value returned when ticket was produced.
          */
-        public timeout: Buffer = null,
+        public timeout: Buffer = null, 
         
-        /**
-         *  digest of the command parameters to which this authorization is limited
+        /** Digest of the command parameters to which this authorization is limited
          *  If it is not limited, the parameter will be the Empty Buffer.
          */
-        public cpHashA: Buffer = null,
+        public cpHashA: Buffer = null, 
         
-        /** reference to a qualifier for the policy may be the Empty Buffer */
-        public policyRef: Buffer = null,
+        /** Reference to a qualifier for the policy may be the Empty Buffer  */
+        public policyRef: Buffer = null, 
         
-        /** name of the object that provided the authorization */
-        public authName: Buffer = null,
+        /** Name of the object that provided the authorization  */
+        public authName: Buffer = null, 
         
-        /**
-         *  an authorization ticket returned by the TPM in response to a
-         *  TPM2_PolicySigned() or TPM2_PolicySecret()
+        /** An authorization ticket returned by the TPM in response to a TPM2_PolicySigned() or
+         *  TPM2_PolicySecret()
          */
         public ticket: TPMT_TK_AUTH = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.timeout);
         buf.writeSizedByteBuf(this.cpHashA);
@@ -14643,8 +14102,8 @@ export class TPM2_PolicyTicket_REQUEST extends ReqStructure
         this.ticket.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.timeout = buf.readSizedByteBuf();
         this.cpHashA = buf.readSizedByteBuf();
@@ -14653,18 +14112,18 @@ export class TPM2_PolicyTicket_REQUEST extends ReqStructure
         this.ticket = TPMT_TK_AUTH.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyTicket_REQUEST
     {
         return buf.createObj(TPM2_PolicyTicket_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyTicket_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyTicket_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
@@ -14672,43 +14131,41 @@ export class TPM2_PolicyTicket_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PolicyTicket_REQUEST
 
-/**
- *  This command allows options in authorizations without requiring that the TPM evaluate all
- *  of the options. If a policy may be satisfied by different sets of conditions, the TPM need
- *  only evaluate one set that satisfies the policy. This command will indicate that one of
- *  the required sets of conditions has been satisfied.
+/** This command allows options in authorizations without requiring that the TPM evaluate
+ *  all of the options. If a policy may be satisfied by different sets of conditions, the
+ *  TPM need only evaluate one set that satisfies the policy. This command will indicate
+ *  that one of the required sets of conditions has been satisfied.
  */
 export class TPM2_PolicyOR_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the list of hashes to check for a match */
+        /** The list of hashes to check for a match  */
         public pHashList: TPM2B_DIGEST[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeObjArr<TPM2B_DIGEST>(this.pHashList); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeObjArr(this.pHashList); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.pHashList = buf.readObjArr(TPM2B_DIGEST); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.pHashList = buf.readObjArr(TPM2B_DIGEST); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyOR_REQUEST
     {
         return buf.createObj(TPM2_PolicyOR_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyOR_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyOR_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
@@ -14716,56 +14173,54 @@ export class TPM2_PolicyOR_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(4, 2); }
 } // TPM2_PolicyOR_REQUEST
 
-/**
- *  This command is used to cause conditional gating of a policy based on PCR. This command
- *  together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in
- *  one state and a different set of authorizations when the PCR are in a different state.
+/** This command is used to cause conditional gating of a policy based on PCR. This
+ *  command together with TPM2_PolicyOR() allows one group of authorizations to occur when
+ *  PCR are in one state and a different set of authorizations when the PCR are in a
+ *  different state.
  */
 export class TPM2_PolicyPCR_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  expected digest value of the selected PCR using the hash algorithm of the
-         *  session; may be zero length
+        /** Expected digest value of the selected PCR using the hash algorithm of the session; may
+         *  be zero length
          */
-        public pcrDigest: Buffer = null,
+        public pcrDigest: Buffer = null, 
         
-        /** the PCR to include in the check digest */
+        /** The PCR to include in the check digest  */
         public pcrs: TPMS_PCR_SELECTION[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.pcrDigest);
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.pcrs);
+        buf.writeObjArr(this.pcrs);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.pcrDigest = buf.readSizedByteBuf();
         this.pcrs = buf.readObjArr(TPMS_PCR_SELECTION);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyPCR_REQUEST
     {
         return buf.createObj(TPM2_PolicyPCR_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyPCR_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyPCR_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
@@ -14773,108 +14228,103 @@ export class TPM2_PolicyPCR_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PolicyPCR_REQUEST
 
-/** This command indicates that the authorization will be limited to a specific locality. */
+/** This command indicates that the authorization will be limited to a specific locality.  */
 export class TPM2_PolicyLocality_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the allowed localities for the policy */
+        /** The allowed localities for the policy  */
         public locality: TPMA_LOCALITY = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeByte(this.locality); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeByte(this.locality); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.locality = buf.readByte(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.locality = buf.readByte(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyLocality_REQUEST
     {
         return buf.createObj(TPM2_PolicyLocality_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyLocality_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyLocality_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
 } // TPM2_PolicyLocality_REQUEST
 
-/**
- *  This command is used to cause conditional gating of a policy based on the contents of an
- *  NV Index. It is an immediate assertion. The NV index is validated during the
+/** This command is used to cause conditional gating of a policy based on the contents of
+ *  an NV Index. It is an immediate assertion. The NV index is validated during the
  *  TPM2_PolicyNV() command, not when the session is used for authorization.
  */
 export class TPM2_PolicyNV_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle indicating the source of the authorization value
+        /** Handle indicating the source of the authorization value
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the NV Index of the area to read
+        /** The NV Index of the area to read
          *  Auth Index: None
          */
-        public nvIndex: TPM_HANDLE = new TPM_HANDLE(),
+        public nvIndex: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the second operand */
-        public operandB: Buffer = null,
+        /** The second operand  */
+        public operandB: Buffer = null, 
         
-        /** the octet offset in the NV Index for the start of operand A */
-        public offset: number = 0,
+        /** The octet offset in the NV Index for the start of operand A  */
+        public offset: number = 0, 
         
-        /** the comparison to make */
+        /** The comparison to make  */
         public operation: TPM_EO = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.operandB);
         buf.writeShort(this.offset);
         buf.writeShort(this.operation);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.operandB = buf.readSizedByteBuf();
         this.offset = buf.readShort();
         this.operation = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyNV_REQUEST
     {
         return buf.createObj(TPM2_PolicyNV_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyNV_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyNV_REQUEST);
     }
-
+    
     numHandles(): number { return 3; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle, this.nvIndex, this.policySession]; }
@@ -14882,57 +14332,55 @@ export class TPM2_PolicyNV_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PolicyNV_REQUEST
 
-/**
- *  This command is used to cause conditional gating of a policy based on the contents of
+/** This command is used to cause conditional gating of a policy based on the contents of
  *  the TPMS_TIME_INFO structure.
  */
 export class TPM2_PolicyCounterTimer_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the second operand */
-        public operandB: Buffer = null,
+        /** The second operand  */
+        public operandB: Buffer = null, 
         
-        /** the octet offset in the TPMS_TIME_INFO structure for the start of operand A */
-        public offset: number = 0,
+        /** The octet offset in the TPMS_TIME_INFO structure for the start of operand A  */
+        public offset: number = 0, 
         
-        /** the comparison to make */
+        /** The comparison to make  */
         public operation: TPM_EO = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.operandB);
         buf.writeShort(this.offset);
         buf.writeShort(this.operation);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.operandB = buf.readSizedByteBuf();
         this.offset = buf.readShort();
         this.operation = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyCounterTimer_REQUEST
     {
         return buf.createObj(TPM2_PolicyCounterTimer_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyCounterTimer_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyCounterTimer_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
@@ -14940,109 +14388,102 @@ export class TPM2_PolicyCounterTimer_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PolicyCounterTimer_REQUEST
 
-/** This command indicates that the authorization will be limited to a specific command code. */
+/** This command indicates that the authorization will be limited to a specific command code.  */
 export class TPM2_PolicyCommandCode_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the allowed commandCode */
+        /** The allowed commandCode  */
         public code: TPM_CC = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.code); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeInt(this.code); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.code = buf.readInt(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.code = buf.readInt(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyCommandCode_REQUEST
     {
         return buf.createObj(TPM2_PolicyCommandCode_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyCommandCode_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyCommandCode_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
 } // TPM2_PolicyCommandCode_REQUEST
 
-/**
- *  This command indicates that physical presence will need to be asserted at the time
- *  the authorization is performed.
+/** This command indicates that physical presence will need to be asserted at the time the
+ *  authorization is performed.
  */
 export class TPM2_PolicyPhysicalPresence_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
         public policySession: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyPhysicalPresence_REQUEST
     {
         return buf.createObj(TPM2_PolicyPhysicalPresence_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyPhysicalPresence_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyPhysicalPresence_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
 } // TPM2_PolicyPhysicalPresence_REQUEST
 
-/**
- *  This command is used to allow a policy to be bound to a specific command
- *  and command parameters.
- */
+/** This command is used to allow a policy to be bound to a specific command and command parameters.  */
 export class TPM2_PolicyCpHash_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the cpHash added to the policy */
+        /** The cpHash added to the policy  */
         public cpHashA: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.cpHashA); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.cpHashA); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.cpHashA = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.cpHashA = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyCpHash_REQUEST
     {
         return buf.createObj(TPM2_PolicyCpHash_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyCpHash_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyCpHash_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
@@ -15050,42 +14491,40 @@ export class TPM2_PolicyCpHash_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PolicyCpHash_REQUEST
 
-/**
- *  This command allows a policy to be bound to a specific set of TPM entities without being
- *  bound to the parameters of the command. This is most useful for commands such as
+/** This command allows a policy to be bound to a specific set of TPM entities without
+ *  being bound to the parameters of the command. This is most useful for commands such as
  *  TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
  */
 export class TPM2_PolicyNameHash_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the digest to be added to the policy */
+        /** The digest to be added to the policy  */
         public nameHash: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.nameHash); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.nameHash); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.nameHash = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.nameHash = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyNameHash_REQUEST
     {
         return buf.createObj(TPM2_PolicyNameHash_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyNameHash_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyNameHash_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
@@ -15093,57 +14532,55 @@ export class TPM2_PolicyNameHash_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PolicyNameHash_REQUEST
 
-/**
- *  This command allows qualification of duplication to allow duplication
- *  to a selected new parent.
+/** This command allows qualification of duplication to allow duplication to a selected
+ *  new parent.
  */
 export class TPM2_PolicyDuplicationSelect_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the Name of the object to be duplicated */
-        public objectName: Buffer = null,
+        /** The Name of the object to be duplicated  */
+        public objectName: Buffer = null, 
         
-        /** the Name of the new parent */
-        public newParentName: Buffer = null,
+        /** The Name of the new parent  */
+        public newParentName: Buffer = null, 
         
-        /** if YES, the objectName will be included in the value in policySessionpolicyDigest */
+        /** If YES, the objectName will be included in the value in policySessionpolicyDigest  */
         public includeObject: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.objectName);
         buf.writeSizedByteBuf(this.newParentName);
         buf.writeByte(this.includeObject);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.objectName = buf.readSizedByteBuf();
         this.newParentName = buf.readSizedByteBuf();
         this.includeObject = buf.readByte();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyDuplicationSelect_REQUEST
     {
         return buf.createObj(TPM2_PolicyDuplicationSelect_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyDuplicationSelect_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyDuplicationSelect_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
@@ -15151,35 +14588,33 @@ export class TPM2_PolicyDuplicationSelect_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PolicyDuplicationSelect_REQUEST
 
-/**
- *  This command allows policies to change. If a policy were static, then it would be
- *  difficult to add users to a policy. This command lets a policy authority sign a new policy
- *  so that it may be used in an existing policy.
+/** This command allows policies to change. If a policy were static, then it would be
+ *  difficult to add users to a policy. This command lets a policy authority sign a new
+ *  policy so that it may be used in an existing policy.
  */
 export class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** digest of the policy being approved */
-        public approvedPolicy: Buffer = null,
+        /** Digest of the policy being approved  */
+        public approvedPolicy: Buffer = null, 
         
-        /** a policy qualifier */
-        public policyRef: Buffer = null,
+        /** A policy qualifier  */
+        public policyRef: Buffer = null, 
         
-        /** Name of a key that can sign a policy addition */
-        public keySign: Buffer = null,
+        /** Name of a key that can sign a policy addition  */
+        public keySign: Buffer = null, 
         
-        /** ticket validating that approvedPolicy and policyRef were signed by keySign */
+        /** Ticket validating that approvedPolicy and policyRef were signed by keySign  */
         public checkTicket: TPMT_TK_VERIFIED = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.approvedPolicy);
         buf.writeSizedByteBuf(this.policyRef);
@@ -15187,8 +14622,8 @@ export class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
         this.checkTicket.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.approvedPolicy = buf.readSizedByteBuf();
         this.policyRef = buf.readSizedByteBuf();
@@ -15196,18 +14631,18 @@ export class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
         this.checkTicket = TPMT_TK_VERIFIED.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyAuthorize_REQUEST
     {
         return buf.createObj(TPM2_PolicyAuthorize_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyAuthorize_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyAuthorize_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
@@ -15215,211 +14650,195 @@ export class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PolicyAuthorize_REQUEST
 
-/**
- *  This command allows a policy to be bound to the authorization value
- *  of the authorized entity.
- */
+/** This command allows a policy to be bound to the authorization value of the authorized entity.  */
 export class TPM2_PolicyAuthValue_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
         public policySession: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyAuthValue_REQUEST
     {
         return buf.createObj(TPM2_PolicyAuthValue_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyAuthValue_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyAuthValue_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
 } // TPM2_PolicyAuthValue_REQUEST
 
-/**
- *  This command allows a policy to be bound to the authorization value
- *  of the authorized object.
- */
+/** This command allows a policy to be bound to the authorization value of the authorized object.  */
 export class TPM2_PolicyPassword_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
         public policySession: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyPassword_REQUEST
     {
         return buf.createObj(TPM2_PolicyPassword_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyPassword_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyPassword_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
 } // TPM2_PolicyPassword_REQUEST
 
-/**
- *  This command returns the current policyDigest of the session. This command allows the TPM
- *  to be used to perform the actions required to pre-compute the authPolicy for an object.
+/** This command returns the current policyDigest of the session. This command allows the
+ *  TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
  */
 export class TPM2_PolicyGetDigest_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session
+        /** Handle for the policy session
          *  Auth Index: None
          */
         public policySession: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyGetDigest_REQUEST
     {
         return buf.createObj(TPM2_PolicyGetDigest_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyGetDigest_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyGetDigest_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
 } // TPM2_PolicyGetDigest_REQUEST
 
-/**
- *  This command returns the current policyDigest of the session. This command allows the TPM
- *  to be used to perform the actions required to pre-compute the authPolicy for an object.
+/** This command returns the current policyDigest of the session. This command allows the
+ *  TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
  */
 export class PolicyGetDigestResponse extends RespStructure
 {
     constructor(
-        /** the current value of the policySessionpolicyDigest */
+        /** The current value of the policySessionpolicyDigest  */
         public policyDigest: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.policyDigest); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.policyDigest); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.policyDigest = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.policyDigest = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : PolicyGetDigestResponse
     {
         return buf.createObj(PolicyGetDigestResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : PolicyGetDigestResponse
     {
         return new TpmBuffer(buffer).createObj(PolicyGetDigestResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // PolicyGetDigestResponse
 
-/**
- *  This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
- *  deferred assertion. Values are stored in the policy session context and checked when the
- *  policy is used for authorization.
+/** This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
+ *  deferred assertion. Values are stored in the policy session context and checked when
+ *  the policy is used for authorization.
  */
 export class TPM2_PolicyNvWritten_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  YES if NV Index is required to have been written
+        /** YES if NV Index is required to have been written
          *  NO if NV Index is required not to have been written
          */
         public writtenSet: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeByte(this.writtenSet); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeByte(this.writtenSet); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.writtenSet = buf.readByte(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.writtenSet = buf.readByte(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyNvWritten_REQUEST
     {
         return buf.createObj(TPM2_PolicyNvWritten_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyNvWritten_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyNvWritten_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
 } // TPM2_PolicyNvWritten_REQUEST
 
-/**
- *  This command allows a policy to be bound to a specific creation template. This is most
- *  useful for an object creation command such as TPM2_Create(),
- *  TPM2_CreatePrimary(), or TPM2_CreateLoaded().
+/** This command allows a policy to be bound to a specific creation template. This is most
+ *  useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or
+ *  TPM2_CreateLoaded().
  */
 export class TPM2_PolicyTemplate_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the digest to be added to the policy */
+        /** The digest to be added to the policy  */
         public templateHash: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.templateHash); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.templateHash); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.templateHash = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.templateHash = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyTemplate_REQUEST
     {
         return buf.createObj(TPM2_PolicyTemplate_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyTemplate_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyTemplate_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
@@ -15427,96 +14846,89 @@ export class TPM2_PolicyTemplate_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_PolicyTemplate_REQUEST
 
-/**
- *  This command provides a capability that is the equivalent of a revocable policy. With
- *  TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may
- *  not be withdrawn. With this command, the approved policy is kept in an NV Index location
- *  so that the policy may be changed as needed to render the old policy unusable.
+/** This command provides a capability that is the equivalent of a revocable policy. With
+ *  TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization
+ *  may not be withdrawn. With this command, the approved policy is kept in an NV Index
+ *  location so that the policy may be changed as needed to render the old policy unusable.
  */
 export class TPM2_PolicyAuthorizeNV_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle indicating the source of the authorization value
+        /** Handle indicating the source of the authorization value
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the NV Index of the area to read
+        /** The NV Index of the area to read
          *  Auth Index: None
          */
-        public nvIndex: TPM_HANDLE = new TPM_HANDLE(),
+        public nvIndex: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
         public policySession: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PolicyAuthorizeNV_REQUEST
     {
         return buf.createObj(TPM2_PolicyAuthorizeNV_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PolicyAuthorizeNV_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PolicyAuthorizeNV_REQUEST);
     }
-
+    
     numHandles(): number { return 3; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle, this.nvIndex, this.policySession]; }
 } // TPM2_PolicyAuthorizeNV_REQUEST
 
-/**
- *  This command is used to create a Primary Object under one of the Primary Seeds or a
- *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
- *  object to be created. The size of the unique field shall not be checked for consistency
- *  with the other object parameters. The command will create and load a Primary Object. The
- *  sensitive area is not returned.
+/** This command is used to create a Primary Object under one of the Primary Seeds or a
+ *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for
+ *  the object to be created. The size of the unique field shall not be checked for
+ *  consistency with the other object parameters. The command will create and load a
+ *  Primary Object. The sensitive area is not returned.
  */
 export class TPM2_CreatePrimary_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
+        /** TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public primaryHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public primaryHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the sensitive data, see TPM 2.0 Part 1 Sensitive Values */
-        public inSensitive: TPMS_SENSITIVE_CREATE = null,
+        /** The sensitive data, see TPM 2.0 Part 1 Sensitive Values  */
+        public inSensitive: TPMS_SENSITIVE_CREATE = null, 
         
-        /** the public template */
-        public inPublic: TPMT_PUBLIC = null,
+        /** The public template  */
+        public inPublic: TPMT_PUBLIC = null, 
         
-        /**
-         *  data that will be included in the creation data for this object to provide permanent,
+        /** Data that will be included in the creation data for this object to provide permanent,
          *  verifiable linkage between this object and some object owner data
          */
-        public outsideInfo: Buffer = null,
+        public outsideInfo: Buffer = null, 
         
-        /** PCR that will be used in creation data */
+        /** PCR that will be used in creation data  */
         public creationPCR: TPMS_PCR_SELECTION[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.inSensitive);
         buf.writeSizedObj(this.inPublic);
         buf.writeSizedByteBuf(this.outsideInfo);
-        buf.writeObjArr<TPMS_PCR_SELECTION>(this.creationPCR);
+        buf.writeObjArr(this.creationPCR);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE);
         this.inPublic = buf.createSizedObj(TPMT_PUBLIC);
@@ -15524,18 +14936,18 @@ export class TPM2_CreatePrimary_REQUEST extends ReqStructure
         this.creationPCR = buf.readObjArr(TPMS_PCR_SELECTION);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_CreatePrimary_REQUEST
     {
         return buf.createObj(TPM2_CreatePrimary_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_CreatePrimary_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_CreatePrimary_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.primaryHandle]; }
@@ -15543,40 +14955,38 @@ export class TPM2_CreatePrimary_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_CreatePrimary_REQUEST
 
-/**
- *  This command is used to create a Primary Object under one of the Primary Seeds or a
- *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
- *  object to be created. The size of the unique field shall not be checked for consistency
- *  with the other object parameters. The command will create and load a Primary Object. The
- *  sensitive area is not returned.
+/** This command is used to create a Primary Object under one of the Primary Seeds or a
+ *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for
+ *  the object to be created. The size of the unique field shall not be checked for
+ *  consistency with the other object parameters. The command will create and load a
+ *  Primary Object. The sensitive area is not returned.
  */
 export class CreatePrimaryResponse extends RespStructure
 {
     constructor(
-        /** handle of type TPM_HT_TRANSIENT for created Primary Object */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        /** Handle of type TPM_HT_TRANSIENT for created Primary Object  */
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the public portion of the created object */
-        public outPublic: TPMT_PUBLIC = null,
+        /** The public portion of the created object  */
+        public outPublic: TPMT_PUBLIC = null, 
         
-        /** contains a TPMT_CREATION_DATA */
-        public creationData: TPMS_CREATION_DATA = null,
+        /** Contains a TPMT_CREATION_DATA  */
+        public creationData: TPMS_CREATION_DATA = null, 
         
-        /** digest of creationData using nameAlg of outPublic */
-        public creationHash: Buffer = null,
+        /** Digest of creationData using nameAlg of outPublic  */
+        public creationHash: Buffer = null, 
         
-        /**
-         *  ticket used by TPM2_CertifyCreation() to validate that the creation data
-         *  was produced by the TPM
+        /** Ticket used by TPM2_CertifyCreation() to validate that the creation data was produced
+         *  by the TPM
          */
-        public creationTicket: TPMT_TK_CREATION = null,
+        public creationTicket: TPMT_TK_CREATION = null, 
         
-        /** the name of the created object */
+        /** The name of the created object  */
         public name: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.outPublic);
         buf.writeSizedObj(this.creationData);
@@ -15585,8 +14995,8 @@ export class CreatePrimaryResponse extends RespStructure
         buf.writeSizedByteBuf(this.name);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.outPublic = buf.createSizedObj(TPMT_PUBLIC);
         this.creationData = buf.createSizedObj(TPMS_CREATION_DATA);
@@ -15595,18 +15005,18 @@ export class CreatePrimaryResponse extends RespStructure
         this.name = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : CreatePrimaryResponse
     {
         return buf.createObj(CreatePrimaryResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : CreatePrimaryResponse
     {
         return new TpmBuffer(buffer).createObj(CreatePrimaryResponse);
     }
-
+    
     numHandles(): number { return 1; }
     getHandle(): TPM_HANDLE { return this.handle; }
     setHandle(h: TPM_HANDLE): void { this.handle = h; }
@@ -15614,117 +15024,111 @@ export class CreatePrimaryResponse extends RespStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // CreatePrimaryResponse
 
-/**
- *  This command enables and disables use of a hierarchy and its associated NV storage. The
- *  command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
+/** This command enables and disables use of a hierarchy and its associated NV storage.
+ *  The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
  *  proper authorization is provided.
  */
 export class TPM2_HierarchyControl_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the enable being modified
+        /** The enable being modified
          *  TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV
          */
-        public enable: TPM_HANDLE = new TPM_HANDLE(),
+        public enable: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** YES if the enable should be SET, NO if the enable should be CLEAR */
+        /** YES if the enable should be SET, NO if the enable should be CLEAR  */
         public state: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.enable.toTpm(buf);
         buf.writeByte(this.state);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.enable = TPM_HANDLE.fromTpm(buf);
         this.state = buf.readByte();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_HierarchyControl_REQUEST
     {
         return buf.createObj(TPM2_HierarchyControl_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_HierarchyControl_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_HierarchyControl_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle]; }
 } // TPM2_HierarchyControl_REQUEST
 
-/**
- *  This command allows setting of the authorization policy for the lockout (lockoutPolicy),
- *  the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the
- *  endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown
- *  Timers (ACT), this command may also be used to set the authorization policy for an ACT.
+/** This command allows setting of the authorization policy for the lockout
+ *  (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy
+ *  (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing
+ *  Authenticated Countdown Timers (ACT), this command may also be used to set the
+ *  authorization policy for an ACT.
  */
 export class TPM2_SetPrimaryPolicy_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  an authorization policy digest; may be the Empty Buffer
+        /** An authorization policy digest; may be the Empty Buffer
          *  If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer.
          */
-        public authPolicy: Buffer = null,
+        public authPolicy: Buffer = null, 
         
-        /**
-         *  the hash algorithm to use for the policy
+        /** The hash algorithm to use for the policy
          *  If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL.
          */
         public hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.authPolicy);
         buf.writeShort(this.hashAlg);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.authPolicy = buf.readSizedByteBuf();
         this.hashAlg = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_SetPrimaryPolicy_REQUEST
     {
         return buf.createObj(TPM2_SetPrimaryPolicy_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_SetPrimaryPolicy_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_SetPrimaryPolicy_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle]; }
@@ -15732,176 +15136,169 @@ export class TPM2_SetPrimaryPolicy_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_SetPrimaryPolicy_REQUEST
 
-/**
- *  This replaces the current platform primary seed (PPS) with a value from the RNG and sets
- *  platformPolicy to the default initialization value (the Empty Buffer).
+/** This replaces the current platform primary seed (PPS) with a value from the RNG and
+ *  sets platformPolicy to the default initialization value (the Empty Buffer).
  */
 export class TPM2_ChangePPS_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_PLATFORM+{PP}
          *  Auth Index: 1
          *  Auth Role: USER
          */
         public authHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ChangePPS_REQUEST
     {
         return buf.createObj(TPM2_ChangePPS_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ChangePPS_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ChangePPS_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle]; }
 } // TPM2_ChangePPS_REQUEST
 
-/**
- *  This replaces the current endorsement primary seed (EPS) with a value from the RNG and
- *  sets the Endorsement hierarchy controls to their default initialization values: ehEnable
- *  is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will
- *  flush any resident objects (transient or persistent) in the Endorsement hierarchy and not
- *  allow objects in the hierarchy associated with the previous EPS to be loaded.
+/** This replaces the current endorsement primary seed (EPS) with a value from the RNG and
+ *  sets the Endorsement hierarchy controls to their default initialization values:
+ *  ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty
+ *  Buffer. It will flush any resident objects (transient or persistent) in the
+ *  Endorsement hierarchy and not allow objects in the hierarchy associated with the
+ *  previous EPS to be loaded.
  */
 export class TPM2_ChangeEPS_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_PLATFORM+{PP}
          *  Auth Handle: 1
          *  Auth Role: USER
          */
         public authHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ChangeEPS_REQUEST
     {
         return buf.createObj(TPM2_ChangeEPS_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ChangeEPS_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ChangeEPS_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle]; }
 } // TPM2_ChangeEPS_REQUEST
 
-/** This command removes all TPM context associated with a specific Owner. */
+/** This command removes all TPM context associated with a specific Owner.  */
 export class TPM2_Clear_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
          *  Auth Handle: 1
          *  Auth Role: USER
          */
         public authHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Clear_REQUEST
     {
         return buf.createObj(TPM2_Clear_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Clear_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Clear_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle]; }
 } // TPM2_Clear_REQUEST
 
-/** TPM2_ClearControl() disables and enables the execution of TPM2_Clear(). */
+/** TPM2_ClearControl() disables and enables the execution of TPM2_Clear().  */
 export class TPM2_ClearControl_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
          *  Auth Handle: 1
          *  Auth Role: USER
          */
-        public auth: TPM_HANDLE = new TPM_HANDLE(),
+        public auth: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR. */
+        /** YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR.  */
         public disable: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeByte(this.disable); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeByte(this.disable); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.disable = buf.readByte(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.disable = buf.readByte(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ClearControl_REQUEST
     {
         return buf.createObj(TPM2_ClearControl_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ClearControl_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ClearControl_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.auth]; }
 } // TPM2_ClearControl_REQUEST
 
-/**
- *  This command allows the authorization secret for a hierarchy or lockout to be changed
+/** This command allows the authorization secret for a hierarchy or lockout to be changed
  *  using the current authorization value as the command authorization.
  */
 export class TPM2_HierarchyChangeAuth_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** new authorization value */
+        /** New authorization value  */
         public newAuth: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.newAuth); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.newAuth); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.newAuth = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.newAuth = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_HierarchyChangeAuth_REQUEST
     {
         return buf.createObj(TPM2_HierarchyChangeAuth_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_HierarchyChangeAuth_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_HierarchyChangeAuth_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle]; }
@@ -15909,146 +15306,139 @@ export class TPM2_HierarchyChangeAuth_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_HierarchyChangeAuth_REQUEST
 
-/**
- *  This command cancels the effect of a TPM lockout due to a number of successive
- *  authorization failures. If this command is properly authorized, the
- *  lockout counter is set to zero.
+/** This command cancels the effect of a TPM lockout due to a number of successive
+ *  authorization failures. If this command is properly authorized, the lockout counter is
+ *  set to zero.
  */
 export class TPM2_DictionaryAttackLockReset_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_LOCKOUT
+        /** TPM_RH_LOCKOUT
          *  Auth Index: 1
          *  Auth Role: USER
          */
         public lockHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_DictionaryAttackLockReset_REQUEST
     {
         return buf.createObj(TPM2_DictionaryAttackLockReset_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_DictionaryAttackLockReset_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_DictionaryAttackLockReset_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.lockHandle]; }
 } // TPM2_DictionaryAttackLockReset_REQUEST
 
-/** This command changes the lockout parameters. */
+/** This command changes the lockout parameters.  */
 export class TPM2_DictionaryAttackParameters_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_LOCKOUT
+        /** TPM_RH_LOCKOUT
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public lockHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public lockHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** count of authorization failures before the lockout is imposed */
-        public newMaxTries: number = 0,
+        /** Count of authorization failures before the lockout is imposed  */
+        public newMaxTries: number = 0, 
         
-        /**
-         *  time in seconds before the authorization failure count is automatically decremented
+        /** Time in seconds before the authorization failure count is automatically decremented
          *  A value of zero indicates that DA protection is disabled.
          */
-        public newRecoveryTime: number = 0,
+        public newRecoveryTime: number = 0, 
         
-        /**
-         *  time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
+        /** Time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
          *  A value of zero indicates that a reboot is required.
          */
         public lockoutRecovery: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt(this.newMaxTries);
         buf.writeInt(this.newRecoveryTime);
         buf.writeInt(this.lockoutRecovery);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.newMaxTries = buf.readInt();
         this.newRecoveryTime = buf.readInt();
         this.lockoutRecovery = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_DictionaryAttackParameters_REQUEST
     {
         return buf.createObj(TPM2_DictionaryAttackParameters_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_DictionaryAttackParameters_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_DictionaryAttackParameters_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.lockHandle]; }
 } // TPM2_DictionaryAttackParameters_REQUEST
 
-/**
- *  This command is used to determine which commands require assertion of Physical Presence
- *  (PP) in addition to platformAuth/platformPolicy.
+/** This command is used to determine which commands require assertion of Physical
+ *  Presence (PP) in addition to platformAuth/platformPolicy.
  */
 export class TPM2_PP_Commands_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_PLATFORM+PP
+        /** TPM_RH_PLATFORM+PP
          *  Auth Index: 1
          *  Auth Role: USER + Physical Presence
          */
-        public auth: TPM_HANDLE = new TPM_HANDLE(),
+        public auth: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** list of commands to be added to those that will require that Physical Presence be asserted */
-        public setList: TPM_CC[] = null,
+        /** List of commands to be added to those that will require that Physical Presence be asserted  */
+        public setList: TPM_CC[] = null, 
         
-        /** list of commands that will no longer require that Physical Presence be asserted */
+        /** List of commands that will no longer require that Physical Presence be asserted  */
         public clearList: TPM_CC[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
-        buf.writeValArr<TPM_CC>(this.setList, 4);
-        buf.writeValArr<TPM_CC>(this.clearList, 4);
+        buf.writeValArr(this.setList, 4);
+        buf.writeValArr(this.clearList, 4);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.setList = buf.readValArr(4);
         this.clearList = buf.readValArr(4);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_PP_Commands_REQUEST
     {
         return buf.createObj(TPM2_PP_Commands_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_PP_Commands_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_PP_Commands_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.auth]; }
@@ -16056,73 +15446,67 @@ export class TPM2_PP_Commands_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(4, 4); }
 } // TPM2_PP_Commands_REQUEST
 
-/**
- *  This command allows the platform to change the set of algorithms that are used by the TPM.
- *  The algorithmSet setting is a vendor-dependent value.
+/** This command allows the platform to change the set of algorithms that are used by the
+ *  TPM. The algorithmSet setting is a vendor-dependent value.
  */
 export class TPM2_SetAlgorithmSet_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_PLATFORM
+        /** TPM_RH_PLATFORM
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** a TPM vendor-dependent value indicating the algorithm set selection */
+        /** A TPM vendor-dependent value indicating the algorithm set selection  */
         public algorithmSet: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.algorithmSet); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeInt(this.algorithmSet); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.algorithmSet = buf.readInt(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.algorithmSet = buf.readInt(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_SetAlgorithmSet_REQUEST
     {
         return buf.createObj(TPM2_SetAlgorithmSet_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_SetAlgorithmSet_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_SetAlgorithmSet_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle]; }
 } // TPM2_SetAlgorithmSet_REQUEST
 
-/**
- *  This command uses platformPolicy and a TPM Vendor Authorization Key to
- *  authorize a Field Upgrade Manifest.
+/** This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a
+ *  Field Upgrade Manifest.
  */
 export class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_PLATFORM+{PP}
          *  Auth Index:1
          *  Auth Role: ADMIN
          */
-        public authorization: TPM_HANDLE = new TPM_HANDLE(),
+        public authorization: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle of a public area that contains the TPM Vendor Authorization Key that will be used
-         *  to validate manifestSignature
+        /** Handle of a public area that contains the TPM Vendor Authorization Key that will be
+         *  used to validate manifestSignature
          *  Auth Index: None
          */
-        public keyHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public keyHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** digest of the first block in the field upgrade sequence */
-        public fuDigest: Buffer = null,
+        /** Digest of the first block in the field upgrade sequence  */
+        public fuDigest: Buffer = null, 
         
-        /**
-         *  signature over fuDigest using the key associated with keyHandle (not optional)
+        /** Signature over fuDigest using the key associated with keyHandle (not optional)
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -16130,37 +15514,38 @@ export class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
         public manifestSignature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get manifestSignatureSigAlg(): TPM_ALG_ID { return this.manifestSignature ? this.manifestSignature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.fuDigest);
         buf.writeShort(this.manifestSignature.GetUnionSelector());
         this.manifestSignature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.fuDigest = buf.readSizedByteBuf();
         let manifestSignatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.manifestSignature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', manifestSignatureSigAlg);
+        this.manifestSignature = UnionFactory.create('TPMU_SIGNATURE', manifestSignatureSigAlg);
         this.manifestSignature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_FieldUpgradeStart_REQUEST
     {
         return buf.createObj(TPM2_FieldUpgradeStart_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_FieldUpgradeStart_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_FieldUpgradeStart_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authorization, this.keyHandle]; }
@@ -16168,8 +15553,7 @@ export class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_FieldUpgradeStart_REQUEST
 
-/**
- *  This command will take the actual field upgrade image to be installed on the TPM. The
+/** This command will take the actual field upgrade image to be installed on the TPM. The
  *  exact format of fuData is vendor-specific. This command is only possible following a
  *  successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
  *  TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
@@ -16177,33 +15561,32 @@ export class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
 export class TPM2_FieldUpgradeData_REQUEST extends ReqStructure
 {
     constructor(
-        /** field upgrade image data */
+        /** Field upgrade image data  */
         public fuData: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.fuData); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.fuData); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.fuData = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.fuData = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_FieldUpgradeData_REQUEST
     {
         return buf.createObj(TPM2_FieldUpgradeData_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_FieldUpgradeData_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_FieldUpgradeData_REQUEST);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_FieldUpgradeData_REQUEST
 
-/**
- *  This command will take the actual field upgrade image to be installed on the TPM. The
+/** This command will take the actual field upgrade image to be installed on the TPM. The
  *  exact format of fuData is vendor-specific. This command is only possible following a
  *  successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
  *  TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
@@ -16211,138 +15594,133 @@ export class TPM2_FieldUpgradeData_REQUEST extends ReqStructure
 export class FieldUpgradeDataResponse extends RespStructure
 {
     constructor(
-        /**
-         *  tagged digest of the next block
+        /** Tagged digest of the next block
          *  TPM_ALG_NULL if field update is complete
          */
-        public nextDigest: TPMT_HA = null,
+        public nextDigest: TPMT_HA = null, 
         
-        /** tagged digest of the first block of the sequence */
+        /** Tagged digest of the first block of the sequence  */
         public firstDigest: TPMT_HA = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.nextDigest.toTpm(buf);
         this.firstDigest.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.nextDigest = TPMT_HA.fromTpm(buf);
         this.firstDigest = TPMT_HA.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : FieldUpgradeDataResponse
     {
         return buf.createObj(FieldUpgradeDataResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : FieldUpgradeDataResponse
     {
         return new TpmBuffer(buffer).createObj(FieldUpgradeDataResponse);
     }
-
+    
 } // FieldUpgradeDataResponse
 
-/** This command is used to read a copy of the current firmware installed in the TPM. */
+/** This command is used to read a copy of the current firmware installed in the TPM.  */
 export class TPM2_FirmwareRead_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  the number of previous calls to this command in this sequence
+        /** The number of previous calls to this command in this sequence
          *  set to 0 on the first call
          */
         public sequenceNumber: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.sequenceNumber); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeInt(this.sequenceNumber); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.sequenceNumber = buf.readInt(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.sequenceNumber = buf.readInt(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_FirmwareRead_REQUEST
     {
         return buf.createObj(TPM2_FirmwareRead_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_FirmwareRead_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_FirmwareRead_REQUEST);
     }
-
+    
 } // TPM2_FirmwareRead_REQUEST
 
-/** This command is used to read a copy of the current firmware installed in the TPM. */
+/** This command is used to read a copy of the current firmware installed in the TPM.  */
 export class FirmwareReadResponse extends RespStructure
 {
     constructor(
-        /** field upgrade image data */
+        /** Field upgrade image data  */
         public fuData: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.fuData); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.fuData); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.fuData = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.fuData = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : FirmwareReadResponse
     {
         return buf.createObj(FirmwareReadResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : FirmwareReadResponse
     {
         return new TpmBuffer(buffer).createObj(FirmwareReadResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // FirmwareReadResponse
 
-/**
- *  This command saves a session context, object context, or sequence object
- *  context outside the TPM.
+/** This command saves a session context, object context, or sequence object context
+ *  outside the TPM.
  */
 export class TPM2_ContextSave_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the resource to save
+        /** Handle of the resource to save
          *  Auth Index: None
          */
         public saveHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ContextSave_REQUEST
     {
         return buf.createObj(TPM2_ContextSave_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ContextSave_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ContextSave_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.saveHandle]; }
 } // TPM2_ContextSave_REQUEST
 
-/**
- *  This command saves a session context, object context, or sequence object
- *  context outside the TPM.
+/** This command saves a session context, object context, or sequence object context
+ *  outside the TPM.
  */
 export class ContextSaveResponse extends RespStructure
 {
@@ -16350,190 +15728,182 @@ export class ContextSaveResponse extends RespStructure
         public context: TPMS_CONTEXT = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.context.toTpm(buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { this.context.toTpm(buf); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.context = TPMS_CONTEXT.fromTpm(buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.context = TPMS_CONTEXT.fromTpm(buf); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ContextSaveResponse
     {
         return buf.createObj(ContextSaveResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ContextSaveResponse
     {
         return new TpmBuffer(buffer).createObj(ContextSaveResponse);
     }
-
+    
 } // ContextSaveResponse
 
-/** This command is used to reload a context that has been saved by TPM2_ContextSave(). */
+/** This command is used to reload a context that has been saved by TPM2_ContextSave().  */
 export class TPM2_ContextLoad_REQUEST extends ReqStructure
 {
     constructor(
-        /** the context blob */
+        /** The context blob  */
         public context: TPMS_CONTEXT = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.context.toTpm(buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { this.context.toTpm(buf); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.context = TPMS_CONTEXT.fromTpm(buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.context = TPMS_CONTEXT.fromTpm(buf); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ContextLoad_REQUEST
     {
         return buf.createObj(TPM2_ContextLoad_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ContextLoad_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ContextLoad_REQUEST);
     }
-
+    
 } // TPM2_ContextLoad_REQUEST
 
-/** This command is used to reload a context that has been saved by TPM2_ContextSave(). */
+/** This command is used to reload a context that has been saved by TPM2_ContextSave().  */
 export class ContextLoadResponse extends RespStructure
 {
     constructor(
-        /** the handle assigned to the resource after it has been successfully loaded */
+        /** The handle assigned to the resource after it has been successfully loaded  */
         public handle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ContextLoadResponse
     {
         return buf.createObj(ContextLoadResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ContextLoadResponse
     {
         return new TpmBuffer(buffer).createObj(ContextLoadResponse);
     }
-
+    
     numHandles(): number { return 1; }
     getHandle(): TPM_HANDLE { return this.handle; }
     setHandle(h: TPM_HANDLE): void { this.handle = h; }
 } // ContextLoadResponse
 
-/**
- *  This command causes all context associated with a loaded object, sequence object, or session
- *  to be removed from TPM memory.
+/** This command causes all context associated with a loaded object, sequence object, or
+ *  session to be removed from TPM memory.
  */
 export class TPM2_FlushContext_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  the handle of the item to flush
+        /** The handle of the item to flush
          *  NOTE This is a use of a handle as a parameter.
          */
         public flushHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.flushHandle.toTpm(buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { this.flushHandle.toTpm(buf); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.flushHandle = TPM_HANDLE.fromTpm(buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.flushHandle = TPM_HANDLE.fromTpm(buf); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_FlushContext_REQUEST
     {
         return buf.createObj(TPM2_FlushContext_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_FlushContext_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_FlushContext_REQUEST);
     }
-
+    
 } // TPM2_FlushContext_REQUEST
 
-/**
- *  This command allows certain Transient Objects to be made persistent or a
- *  persistent object to be evicted.
+/** This command allows certain Transient Objects to be made persistent or a persistent
+ *  object to be evicted.
  */
 export class TPM2_EvictControl_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
          *  Auth Handle: 1
          *  Auth Role: USER
          */
-        public auth: TPM_HANDLE = new TPM_HANDLE(),
+        public auth: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the handle of a loaded object
+        /** The handle of a loaded object
          *  Auth Index: None
          */
-        public objectHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public objectHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  if objectHandle is a transient object handle, then this is the persistent handle for the
-         *  object
-         *  if objectHandle is a persistent object handle, then it shall be the same value
-         *  as persistentHandle
+        /** If objectHandle is a transient object handle, then this is the persistent handle for
+         *  the object
+         *  if objectHandle is a persistent object handle, then it shall be the same value as
+         *  persistentHandle
          */
         public persistentHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.persistentHandle.toTpm(buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { this.persistentHandle.toTpm(buf); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.persistentHandle = TPM_HANDLE.fromTpm(buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.persistentHandle = TPM_HANDLE.fromTpm(buf); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_EvictControl_REQUEST
     {
         return buf.createObj(TPM2_EvictControl_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_EvictControl_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_EvictControl_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.auth, this.objectHandle]; }
 } // TPM2_EvictControl_REQUEST
 
-/**
- *  This command reads the current TPMS_TIME_INFO structure that contains the current setting
- *  of Time, Clock, resetCount, and restartCount.
+/** This command reads the current TPMS_TIME_INFO structure that contains the current
+ *  setting of Time, Clock, resetCount, and restartCount.
  */
 export class TPM2_ReadClock_REQUEST extends ReqStructure
 {
     constructor() { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ReadClock_REQUEST
     {
         return buf.createObj(TPM2_ReadClock_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ReadClock_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ReadClock_REQUEST);
     }
-
+    
 } // TPM2_ReadClock_REQUEST
 
-/**
- *  This command reads the current TPMS_TIME_INFO structure that contains the current setting
- *  of Time, Clock, resetCount, and restartCount.
+/** This command reads the current TPMS_TIME_INFO structure that contains the current
+ *  setting of Time, Clock, resetCount, and restartCount.
  */
 export class ReadClockResponse extends RespStructure
 {
@@ -16541,163 +15911,158 @@ export class ReadClockResponse extends RespStructure
         public currentTime: TPMS_TIME_INFO = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.currentTime.toTpm(buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { this.currentTime.toTpm(buf); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.currentTime = TPMS_TIME_INFO.fromTpm(buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.currentTime = TPMS_TIME_INFO.fromTpm(buf); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : ReadClockResponse
     {
         return buf.createObj(ReadClockResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : ReadClockResponse
     {
         return new TpmBuffer(buffer).createObj(ReadClockResponse);
     }
-
+    
 } // ReadClockResponse
 
-/**
- *  This command is used to advance the value of the TPMs Clock. The command will fail if
+/** This command is used to advance the value of the TPMs Clock. The command will fail if
  *  newTime is less than the current value of Clock or if the new time is greater than
- *  FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of
- *  these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
+ *  FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If
+ *  either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
  */
 export class TPM2_ClockSet_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
          *  Auth Handle: 1
          *  Auth Role: USER
          */
-        public auth: TPM_HANDLE = new TPM_HANDLE(),
+        public auth: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** new Clock setting in milliseconds */
+        /** New Clock setting in milliseconds  */
         public newTime: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt64(this.newTime); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeInt64(this.newTime); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.newTime = buf.readInt64(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.newTime = buf.readInt64(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ClockSet_REQUEST
     {
         return buf.createObj(TPM2_ClockSet_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ClockSet_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ClockSet_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.auth]; }
 } // TPM2_ClockSet_REQUEST
 
-/**
- *  This command adjusts the rate of advance of Clock and Time to provide a better
+/** This command adjusts the rate of advance of Clock and Time to provide a better
  *  approximation to real time.
  */
 export class TPM2_ClockRateAdjust_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
          *  Auth Handle: 1
          *  Auth Role: USER
          */
-        public auth: TPM_HANDLE = new TPM_HANDLE(),
+        public auth: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** Adjustment to current Clock update rate */
+        /** Adjustment to current Clock update rate  */
         public rateAdjust: TPM_CLOCK_ADJUST = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeByte(this.rateAdjust); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeByte(this.rateAdjust); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.rateAdjust = buf.readByte(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.rateAdjust = buf.readByte(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ClockRateAdjust_REQUEST
     {
         return buf.createObj(TPM2_ClockRateAdjust_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ClockRateAdjust_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ClockRateAdjust_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.auth]; }
 } // TPM2_ClockRateAdjust_REQUEST
 
-/** This command returns various information regarding the TPM and its current state. */
+/** This command returns various information regarding the TPM and its current state.  */
 export class TPM2_GetCapability_REQUEST extends ReqStructure
 {
     constructor(
-        /** group selection; determines the format of the response */
-        public capability: TPM_CAP = 0,
+        /** Group selection; determines the format of the response  */
+        public capability: TPM_CAP = 0, 
         
-        /** further definition of information */
-        public property: number = 0,
+        /** Further definition of information  */
+        public property: number = 0, 
         
-        /** number of properties of the indicated type to return */
+        /** Number of properties of the indicated type to return  */
         public propertyCount: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt(this.capability);
         buf.writeInt(this.property);
         buf.writeInt(this.propertyCount);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.capability = buf.readInt();
         this.property = buf.readInt();
         this.propertyCount = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_GetCapability_REQUEST
     {
         return buf.createObj(TPM2_GetCapability_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_GetCapability_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_GetCapability_REQUEST);
     }
-
+    
 } // TPM2_GetCapability_REQUEST
 
-/** This command returns various information regarding the TPM and its current state. */
+/** This command returns various information regarding the TPM and its current state.  */
 export class GetCapabilityResponse extends RespStructure
 {
     constructor(
-        /** flag to indicate if there are more values of this type */
-        public moreData: number = 0,
+        /** Flag to indicate if there are more values of this type  */
+        public moreData: number = 0, 
         
-        /**
-         *  the capability data
+        /** The capability data
          *  (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
          *  TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
          *  TPML_TAGGED_POLICY, TPML_ACT_DATA])
@@ -16705,134 +16070,132 @@ export class GetCapabilityResponse extends RespStructure
         public capabilityData: TPMU_CAPABILITIES = null
     ) { super(); }
     
+    /** The capability  */
     get capabilityDataCapability(): TPM_CAP { return this.capabilityData.GetUnionSelector(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeByte(this.moreData);
         buf.writeInt(this.capabilityData.GetUnionSelector());
         this.capabilityData.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.moreData = buf.readByte();
         let capabilityDataCapability: TPM_CAP = buf.readInt();
-        this.capabilityData = UnionFactory.create<TPMU_CAPABILITIES>('TPMU_CAPABILITIES', capabilityDataCapability);
+        this.capabilityData = UnionFactory.create('TPMU_CAPABILITIES', capabilityDataCapability);
         this.capabilityData.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : GetCapabilityResponse
     {
         return buf.createObj(GetCapabilityResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : GetCapabilityResponse
     {
         return new TpmBuffer(buffer).createObj(GetCapabilityResponse);
     }
-
+    
 } // GetCapabilityResponse
 
-/**
- *  This command is used to check to see if specific combinations of algorithm
- *  parameters are supported.
+/** This command is used to check to see if specific combinations of algorithm parameters
+ *  are supported.
  */
 export class TPM2_TestParms_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  algorithm parameters to be validated
-         *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
-         *  TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
+        /** Algorithm parameters to be validated
+         *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+         *  TPMS_ASYM_PARMS])
          */
         public parameters: TPMU_PUBLIC_PARMS = null
     ) { super(); }
     
+    /** The algorithm to be tested  */
     get parametersType(): TPM_ALG_ID { return this.parameters.GetUnionSelector(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         if (!this.parameters) return;
         buf.writeShort(this.parameters.GetUnionSelector());
         this.parameters.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         let parametersType: TPM_ALG_ID = buf.readShort();
-        this.parameters = UnionFactory.create<TPMU_PUBLIC_PARMS>('TPMU_PUBLIC_PARMS', parametersType);
+        this.parameters = UnionFactory.create('TPMU_PUBLIC_PARMS', parametersType);
         this.parameters.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_TestParms_REQUEST
     {
         return buf.createObj(TPM2_TestParms_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_TestParms_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_TestParms_REQUEST);
     }
-
+    
 } // TPM2_TestParms_REQUEST
 
-/**
- *  This command defines the attributes of an NV Index and causes the TPM to reserve space to
- *  hold the data associated with the NV Index. If a definition already exists at the NV Index, the
- *  TPM will return TPM_RC_NV_DEFINED.
+/** This command defines the attributes of an NV Index and causes the TPM to reserve space
+ *  to hold the data associated with the NV Index. If a definition already exists at the
+ *  NV Index, the TPM will return TPM_RC_NV_DEFINED.
  */
 export class TPM2_NV_DefineSpace_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the authorization value */
-        public auth: Buffer = null,
+        /** The authorization value  */
+        public auth: Buffer = null, 
         
-        /** the public parameters of the NV area */
+        /** The public parameters of the NV area  */
         public publicInfo: TPMS_NV_PUBLIC = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.auth);
         buf.writeSizedObj(this.publicInfo);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.auth = buf.readSizedByteBuf();
         this.publicInfo = buf.createSizedObj(TPMS_NV_PUBLIC);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_DefineSpace_REQUEST
     {
         return buf.createObj(TPM2_NV_DefineSpace_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_DefineSpace_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_DefineSpace_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle]; }
@@ -16840,207 +16203,196 @@ export class TPM2_NV_DefineSpace_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_NV_DefineSpace_REQUEST
 
-/** This command removes an Index from the TPM. */
+/** This command removes an Index from the TPM.  */
 export class TPM2_NV_UndefineSpace_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the NV Index to remove from NV space
+        /** The NV Index to remove from NV space
          *  Auth Index: None
          */
         public nvIndex: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_UndefineSpace_REQUEST
     {
         return buf.createObj(TPM2_NV_UndefineSpace_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_UndefineSpace_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_UndefineSpace_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle, this.nvIndex]; }
 } // TPM2_NV_UndefineSpace_REQUEST
 
-/**
- *  This command allows removal of a platform-created NV Index that has
+/** This command allows removal of a platform-created NV Index that has
  *  TPMA_NV_POLICY_DELETE SET.
  */
 export class TPM2_NV_UndefineSpaceSpecial_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  Index to be deleted
+        /** Index to be deleted
          *  Auth Index: 1
          *  Auth Role: ADMIN
          */
-        public nvIndex: TPM_HANDLE = new TPM_HANDLE(),
+        public nvIndex: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  TPM_RH_PLATFORM + {PP}
+        /** TPM_RH_PLATFORM + {PP}
          *  Auth Index: 2
          *  Auth Role: USER
          */
         public platform: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_UndefineSpaceSpecial_REQUEST
     {
         return buf.createObj(TPM2_NV_UndefineSpaceSpecial_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_UndefineSpaceSpecial_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_UndefineSpaceSpecial_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 2; }
     getHandles(): TPM_HANDLE[] { return [this.nvIndex, this.platform]; }
 } // TPM2_NV_UndefineSpaceSpecial_REQUEST
 
-/**
- *  This command is used to read the public area and Name of an NV Index. The public area of
- *  an Index is not privacy-sensitive and no authorization is required to read this data.
+/** This command is used to read the public area and Name of an NV Index. The public area
+ *  of an Index is not privacy-sensitive and no authorization is required to read this data.
  */
 export class TPM2_NV_ReadPublic_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  the NV Index
+        /** The NV Index
          *  Auth Index: None
          */
         public nvIndex: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_ReadPublic_REQUEST
     {
         return buf.createObj(TPM2_NV_ReadPublic_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_ReadPublic_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_ReadPublic_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.nvIndex]; }
 } // TPM2_NV_ReadPublic_REQUEST
 
-/**
- *  This command is used to read the public area and Name of an NV Index. The public area of
- *  an Index is not privacy-sensitive and no authorization is required to read this data.
+/** This command is used to read the public area and Name of an NV Index. The public area
+ *  of an Index is not privacy-sensitive and no authorization is required to read this data.
  */
 export class NV_ReadPublicResponse extends RespStructure
 {
     constructor(
-        /** the public area of the NV Index */
-        public nvPublic: TPMS_NV_PUBLIC = null,
+        /** The public area of the NV Index  */
+        public nvPublic: TPMS_NV_PUBLIC = null, 
         
-        /** the Name of the nvIndex */
+        /** The Name of the nvIndex  */
         public nvName: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.nvPublic);
         buf.writeSizedByteBuf(this.nvName);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC);
         this.nvName = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : NV_ReadPublicResponse
     {
         return buf.createObj(NV_ReadPublicResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : NV_ReadPublicResponse
     {
         return new TpmBuffer(buffer).createObj(NV_ReadPublicResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // NV_ReadPublicResponse
 
-/**
- *  This command writes a value to an area in NV memory that was previously
- *  defined by TPM2_NV_DefineSpace().
+/** This command writes a value to an area in NV memory that was previously defined by
+ *  TPM2_NV_DefineSpace().
  */
 export class TPM2_NV_Write_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle indicating the source of the authorization value
+        /** Handle indicating the source of the authorization value
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the NV Index of the area to write
+        /** The NV Index of the area to write
          *  Auth Index: None
          */
-        public nvIndex: TPM_HANDLE = new TPM_HANDLE(),
+        public nvIndex: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the data to write */
-        public data: Buffer = null,
+        /** The data to write  */
+        public data: Buffer = null, 
         
-        /** the octet offset into the NV Area */
+        /** The octet offset into the NV Area  */
         public offset: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.data);
         buf.writeShort(this.offset);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.data = buf.readSizedByteBuf();
         this.offset = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_Write_REQUEST
     {
         return buf.createObj(TPM2_NV_Write_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_Write_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_Write_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle, this.nvIndex]; }
@@ -17048,86 +16400,80 @@ export class TPM2_NV_Write_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_NV_Write_REQUEST
 
-/**
- *  This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
+/** This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
  *  attribute. The data value of the NV Index is incremented by one.
  */
 export class TPM2_NV_Increment_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle indicating the source of the authorization value
+        /** Handle indicating the source of the authorization value
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the NV Index to increment
+        /** The NV Index to increment
          *  Auth Index: None
          */
         public nvIndex: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_Increment_REQUEST
     {
         return buf.createObj(TPM2_NV_Increment_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_Increment_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_Increment_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle, this.nvIndex]; }
 } // TPM2_NV_Increment_REQUEST
 
-/**
- *  This command extends a value to an area in NV memory that was previously
- *  defined by TPM2_NV_DefineSpace.
+/** This command extends a value to an area in NV memory that was previously defined by
+ *  TPM2_NV_DefineSpace.
  */
 export class TPM2_NV_Extend_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle indicating the source of the authorization value
+        /** Handle indicating the source of the authorization value
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the NV Index to extend
+        /** The NV Index to extend
          *  Auth Index: None
          */
-        public nvIndex: TPM_HANDLE = new TPM_HANDLE(),
+        public nvIndex: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the data to extend */
+        /** The data to extend  */
         public data: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.data); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.data); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.data = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.data = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_Extend_REQUEST
     {
         return buf.createObj(TPM2_NV_Extend_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_Extend_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_Extend_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle, this.nvIndex]; }
@@ -17135,288 +16481,267 @@ export class TPM2_NV_Extend_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_NV_Extend_REQUEST
 
-/**
- *  This command is used to SET bits in an NV Index that was created as a bit field. Any
- *  number of bits from 0 to 64 may be SET. The contents of bits are ORed with the
- *  current contents of the NV Index.
+/** This command is used to SET bits in an NV Index that was created as a bit field. Any
+ *  number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current
+ *  contents of the NV Index.
  */
 export class TPM2_NV_SetBits_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle indicating the source of the authorization value
+        /** Handle indicating the source of the authorization value
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  NV Index of the area in which the bit is to be set
+        /** NV Index of the area in which the bit is to be set
          *  Auth Index: None
          */
-        public nvIndex: TPM_HANDLE = new TPM_HANDLE(),
+        public nvIndex: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the data to OR with the current contents */
+        /** The data to OR with the current contents  */
         public bits: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt64(this.bits); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeInt64(this.bits); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.bits = buf.readInt64(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.bits = buf.readInt64(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_SetBits_REQUEST
     {
         return buf.createObj(TPM2_NV_SetBits_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_SetBits_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_SetBits_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle, this.nvIndex]; }
 } // TPM2_NV_SetBits_REQUEST
 
-/**
- *  If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET,
- *  then this command may be used to inhibit further writes of the NV Index.
+/** If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are
+ *  SET, then this command may be used to inhibit further writes of the NV Index.
  */
 export class TPM2_NV_WriteLock_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle indicating the source of the authorization value
+        /** Handle indicating the source of the authorization value
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the NV Index of the area to lock
+        /** The NV Index of the area to lock
          *  Auth Index: None
          */
         public nvIndex: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_WriteLock_REQUEST
     {
         return buf.createObj(TPM2_NV_WriteLock_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_WriteLock_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_WriteLock_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle, this.nvIndex]; }
 } // TPM2_NV_WriteLock_REQUEST
 
-/**
- *  The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
+/** The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
  *  TPMA_NV_GLOBALLOCK attribute SET.
  */
 export class TPM2_NV_GlobalWriteLock_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+        /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
          *  Auth Index: 1
          *  Auth Role: USER
          */
         public authHandle: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_GlobalWriteLock_REQUEST
     {
         return buf.createObj(TPM2_NV_GlobalWriteLock_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_GlobalWriteLock_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_GlobalWriteLock_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle]; }
 } // TPM2_NV_GlobalWriteLock_REQUEST
 
-/**
- *  This command reads a value from an area in NV memory previously defined
- *  by TPM2_NV_DefineSpace().
- */
+/** This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().  */
 export class TPM2_NV_Read_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  the handle indicating the source of the authorization value
+        /** The handle indicating the source of the authorization value
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the NV Index to be read
+        /** The NV Index to be read
          *  Auth Index: None
          */
-        public nvIndex: TPM_HANDLE = new TPM_HANDLE(),
+        public nvIndex: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** number of octets to read */
-        public size: number = 0,
+        /** Number of octets to read  */
+        public size: number = 0, 
         
-        /**
-         *  octet offset into the NV area
+        /** Octet offset into the NV area
          *  This value shall be less than or equal to the size of the nvIndex data.
          */
         public offset: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.size);
         buf.writeShort(this.offset);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.size = buf.readShort();
         this.offset = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_Read_REQUEST
     {
         return buf.createObj(TPM2_NV_Read_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_Read_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_Read_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle, this.nvIndex]; }
 } // TPM2_NV_Read_REQUEST
 
-/**
- *  This command reads a value from an area in NV memory previously defined
- *  by TPM2_NV_DefineSpace().
- */
+/** This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().  */
 export class NV_ReadResponse extends RespStructure
 {
     constructor(
-        /** the data read */
+        /** The data read  */
         public data: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.data); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.data); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.data = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.data = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : NV_ReadResponse
     {
         return buf.createObj(NV_ReadResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : NV_ReadResponse
     {
         return new TpmBuffer(buffer).createObj(NV_ReadResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // NV_ReadResponse
 
-/**
- *  If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
+/** If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
  *  further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
  */
 export class TPM2_NV_ReadLock_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  the handle indicating the source of the authorization value
+        /** The handle indicating the source of the authorization value
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the NV Index to be locked
+        /** The NV Index to be locked
          *  Auth Index: None
          */
         public nvIndex: TPM_HANDLE = new TPM_HANDLE()
     ) { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_ReadLock_REQUEST
     {
         return buf.createObj(TPM2_NV_ReadLock_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_ReadLock_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_ReadLock_REQUEST);
     }
-
+    
     numHandles(): number { return 2; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.authHandle, this.nvIndex]; }
 } // TPM2_NV_ReadLock_REQUEST
 
-/** This command allows the authorization secret for an NV Index to be changed. */
+/** This command allows the authorization secret for an NV Index to be changed.  */
 export class TPM2_NV_ChangeAuth_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the entity
+        /** Handle of the entity
          *  Auth Index: 1
          *  Auth Role: ADMIN
          */
-        public nvIndex: TPM_HANDLE = new TPM_HANDLE(),
+        public nvIndex: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** new authorization value */
+        /** New authorization value  */
         public newAuth: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.newAuth); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.newAuth); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.newAuth = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.newAuth = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_ChangeAuth_REQUEST
     {
         return buf.createObj(TPM2_NV_ChangeAuth_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_ChangeAuth_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_ChangeAuth_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.nvIndex]; }
@@ -17424,58 +16749,53 @@ export class TPM2_NV_ChangeAuth_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_NV_ChangeAuth_REQUEST
 
-/**
- *  The purpose of this command is to certify the contents of an NV Index or
- *  portion of an NV Index.
+/** The purpose of this command is to certify the contents of an NV Index or portion of an
+ *  NV Index.
  */
 export class TPM2_NV_Certify_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the key used to sign the attestation structure
+        /** Handle of the key used to sign the attestation structure
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public signHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public signHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle indicating the source of the authorization value for the NV Index
+        /** Handle indicating the source of the authorization value for the NV Index
          *  Auth Index: 2
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  Index for the area to be certified
+        /** Index for the area to be certified
          *  Auth Index: None
          */
-        public nvIndex: TPM_HANDLE = new TPM_HANDLE(),
+        public nvIndex: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** user-provided qualifying data */
-        public qualifyingData: Buffer = null,
+        /** User-provided qualifying data  */
+        public qualifyingData: Buffer = null, 
         
-        /**
-         *  signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
          *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
          */
-        public inScheme: TPMU_SIG_SCHEME = null,
+        public inScheme: TPMU_SIG_SCHEME = null, 
         
-        /** number of octets to certify */
-        public size: number = 0,
+        /** Number of octets to certify  */
+        public size: number = 0, 
         
-        /**
-         *  octet offset into the NV area
+        /** Octet offset into the NV area
          *  This value shall be less than or equal to the size of the nvIndex data.
          */
         public offset: number = 0
     ) { super(); }
     
+    /** Scheme selector  */
     get inSchemeScheme(): TPM_ALG_ID { return this.inScheme ? this.inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.qualifyingData);
         buf.writeShort(this.inScheme.GetUnionSelector());
@@ -17484,29 +16804,29 @@ export class TPM2_NV_Certify_REQUEST extends ReqStructure
         buf.writeShort(this.offset);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.qualifyingData = buf.readSizedByteBuf();
         let inSchemeScheme: TPM_ALG_ID = buf.readShort();
-        this.inScheme = UnionFactory.create<TPMU_SIG_SCHEME>('TPMU_SIG_SCHEME', inSchemeScheme);
+        this.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme);
         this.inScheme.initFromTpm(buf);
         this.size = buf.readShort();
         this.offset = buf.readShort();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_NV_Certify_REQUEST
     {
         return buf.createObj(TPM2_NV_Certify_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_NV_Certify_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_NV_Certify_REQUEST);
     }
-
+    
     numHandles(): number { return 3; }
     numAuthHandles(): number { return 2; }
     getHandles(): TPM_HANDLE[] { return [this.signHandle, this.authHandle, this.nvIndex]; }
@@ -17514,18 +16834,16 @@ export class TPM2_NV_Certify_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_NV_Certify_REQUEST
 
-/**
- *  The purpose of this command is to certify the contents of an NV Index or
- *  portion of an NV Index.
+/** The purpose of this command is to certify the contents of an NV Index or portion of an
+ *  NV Index.
  */
 export class NV_CertifyResponse extends RespStructure
 {
     constructor(
-        /** the structure that was signed */
-        public certifyInfo: TPMS_ATTEST = null,
+        /** The structure that was signed  */
+        public certifyInfo: TPMS_ATTEST = null, 
         
-        /**
-         *  the asymmetric signature over certifyInfo using the key referenced by signHandle
+        /** The asymmetric signature over certifyInfo using the key referenced by signHandle
          *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
          *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -17533,182 +16851,176 @@ export class NV_CertifyResponse extends RespStructure
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
     
+    /** Selector of the algorithm used to construct the signature  */
     get signatureSigAlg(): TPM_ALG_ID { return this.signature ? this.signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedObj(this.certifyInfo);
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.certifyInfo = buf.createSizedObj(TPMS_ATTEST);
         let signatureSigAlg: TPM_ALG_ID = buf.readShort();
-        this.signature = UnionFactory.create<TPMU_SIGNATURE>('TPMU_SIGNATURE', signatureSigAlg);
+        this.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg);
         this.signature.initFromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : NV_CertifyResponse
     {
         return buf.createObj(NV_CertifyResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : NV_CertifyResponse
     {
         return new TpmBuffer(buffer).createObj(NV_CertifyResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // NV_CertifyResponse
 
-/**
- *  The purpose of this command is to obtain information about an Attached Component
+/** The purpose of this command is to obtain information about an Attached Component
  *  referenced by an AC handle.
  */
 export class TPM2_AC_GetCapability_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle indicating the Attached Component
+        /** Handle indicating the Attached Component
          *  Auth Index: None
          */
-        public ac: TPM_HANDLE = new TPM_HANDLE(),
+        public ac: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** starting info type */
-        public capability: TPM_AT = 0,
+        /** Starting info type  */
+        public capability: TPM_AT = 0, 
         
-        /** maximum number of values to return */
+        /** Maximum number of values to return  */
         public count: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt(this.capability);
         buf.writeInt(this.count);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.capability = buf.readInt();
         this.count = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_AC_GetCapability_REQUEST
     {
         return buf.createObj(TPM2_AC_GetCapability_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_AC_GetCapability_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_AC_GetCapability_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.ac]; }
 } // TPM2_AC_GetCapability_REQUEST
 
-/**
- *  The purpose of this command is to obtain information about an Attached Component
+/** The purpose of this command is to obtain information about an Attached Component
  *  referenced by an AC handle.
  */
 export class AC_GetCapabilityResponse extends RespStructure
 {
     constructor(
-        /** flag to indicate whether there are more values */
-        public moreData: number = 0,
+        /** Flag to indicate whether there are more values  */
+        public moreData: number = 0, 
         
-        /** list of capabilities */
+        /** List of capabilities  */
         public capabilitiesData: TPMS_AC_OUTPUT[] = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeByte(this.moreData);
-        buf.writeObjArr<TPMS_AC_OUTPUT>(this.capabilitiesData);
+        buf.writeObjArr(this.capabilitiesData);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.moreData = buf.readByte();
         this.capabilitiesData = buf.readObjArr(TPMS_AC_OUTPUT);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : AC_GetCapabilityResponse
     {
         return buf.createObj(AC_GetCapabilityResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : AC_GetCapabilityResponse
     {
         return new TpmBuffer(buffer).createObj(AC_GetCapabilityResponse);
     }
-
+    
 } // AC_GetCapabilityResponse
 
-/**
- *  The purpose of this command is to send (copy) a loaded object from the TPM
- *  to an Attached Component.
+/** The purpose of this command is to send (copy) a loaded object from the TPM to an
+ *  Attached Component.
  */
 export class TPM2_AC_Send_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle of the object being sent to ac
+        /** Handle of the object being sent to ac
          *  Auth Index: 1
          *  Auth Role: DUP
          */
-        public sendObject: TPM_HANDLE = new TPM_HANDLE(),
+        public sendObject: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  the handle indicating the source of the authorization value
+        /** The handle indicating the source of the authorization value
          *  Auth Index: 2
          *  Auth Role: USER
          */
-        public authHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public authHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /**
-         *  handle indicating the Attached Component to which the object will be sent
+        /** Handle indicating the Attached Component to which the object will be sent
          *  Auth Index: None
          */
-        public ac: TPM_HANDLE = new TPM_HANDLE(),
+        public ac: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** Optional non sensitive information related to the object */
+        /** Optional non sensitive information related to the object  */
         public acDataIn: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.acDataIn); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.acDataIn); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.acDataIn = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.acDataIn = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_AC_Send_REQUEST
     {
         return buf.createObj(TPM2_AC_Send_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_AC_Send_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_AC_Send_REQUEST);
     }
-
+    
     numHandles(): number { return 3; }
     numAuthHandles(): number { return 2; }
     getHandles(): TPM_HANDLE[] { return [this.sendObject, this.authHandle, this.ac]; }
@@ -17716,67 +17028,64 @@ export class TPM2_AC_Send_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_AC_Send_REQUEST
 
-/**
- *  The purpose of this command is to send (copy) a loaded object from the TPM
- *  to an Attached Component.
+/** The purpose of this command is to send (copy) a loaded object from the TPM to an
+ *  Attached Component.
  */
 export class AC_SendResponse extends RespStructure
 {
     constructor(
-        /** May include AC specific data or information about an error. */
+        /** May include AC specific data or information about an error.  */
         public acDataOut: TPMS_AC_OUTPUT = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { this.acDataOut.toTpm(buf); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { this.acDataOut.toTpm(buf); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.acDataOut = TPMS_AC_OUTPUT.fromTpm(buf); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.acDataOut = TPMS_AC_OUTPUT.fromTpm(buf); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : AC_SendResponse
     {
         return buf.createObj(AC_SendResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : AC_SendResponse
     {
         return new TpmBuffer(buffer).createObj(AC_SendResponse);
     }
-
+    
 } // AC_SendResponse
 
-/**
- *  This command allows qualification of the sending (copying) of an Object to an Attached
+/** This command allows qualification of the sending (copying) of an Object to an Attached
  *  Component (AC). Qualification includes selection of the receiving AC and the method of
- *  authentication for the AC, and, in certain circumstances, the Object to
- *  be sent may be specified.
+ *  authentication for the AC, and, in certain circumstances, the Object to be sent may be
+ *  specified.
  */
 export class TPM2_Policy_AC_SendSelect_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  handle for the policy session being extended
+        /** Handle for the policy session being extended
          *  Auth Index: None
          */
-        public policySession: TPM_HANDLE = new TPM_HANDLE(),
+        public policySession: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the Name of the Object to be sent */
-        public objectName: Buffer = null,
+        /** The Name of the Object to be sent  */
+        public objectName: Buffer = null, 
         
-        /** the Name associated with authHandle used in the TPM2_AC_Send() command */
-        public authHandleName: Buffer = null,
+        /** The Name associated with authHandle used in the TPM2_AC_Send() command  */
+        public authHandleName: Buffer = null, 
         
-        /** the Name of the Attached Component to which the Object will be sent */
-        public acName: Buffer = null,
+        /** The Name of the Attached Component to which the Object will be sent  */
+        public acName: Buffer = null, 
         
-        /** if SET, objectName will be included in the value in policySessionpolicyDigest */
+        /** If SET, objectName will be included in the value in policySessionpolicyDigest  */
         public includeObject: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.objectName);
         buf.writeSizedByteBuf(this.authHandleName);
@@ -17784,8 +17093,8 @@ export class TPM2_Policy_AC_SendSelect_REQUEST extends ReqStructure
         buf.writeByte(this.includeObject);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.objectName = buf.readSizedByteBuf();
         this.authHandleName = buf.readSizedByteBuf();
@@ -17793,18 +17102,18 @@ export class TPM2_Policy_AC_SendSelect_REQUEST extends ReqStructure
         this.includeObject = buf.readByte();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Policy_AC_SendSelect_REQUEST
     {
         return buf.createObj(TPM2_Policy_AC_SendSelect_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Policy_AC_SendSelect_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Policy_AC_SendSelect_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 0; }
     getHandles(): TPM_HANDLE[] { return [this.policySession]; }
@@ -17812,524 +17121,511 @@ export class TPM2_Policy_AC_SendSelect_REQUEST extends ReqStructure
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_Policy_AC_SendSelect_REQUEST
 
-/**
- *  This command is used to set the time remaining before an Authenticated
- *  Countdown Timer (ACT) expires.
+/** This command is used to set the time remaining before an Authenticated Countdown Timer
+ *  (ACT) expires.
  */
 export class TPM2_ACT_SetTimeout_REQUEST extends ReqStructure
 {
     constructor(
-        /**
-         *  Handle of the selected ACT
+        /** Handle of the selected ACT
          *  Auth Index: 1
          *  Auth Role: USER
          */
-        public actHandle: TPM_HANDLE = new TPM_HANDLE(),
+        public actHandle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** the start timeout value for the ACT in seconds */
+        /** The start timeout value for the ACT in seconds  */
         public startTimeout: number = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeInt(this.startTimeout); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeInt(this.startTimeout); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.startTimeout = buf.readInt(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.startTimeout = buf.readInt(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_ACT_SetTimeout_REQUEST
     {
         return buf.createObj(TPM2_ACT_SetTimeout_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_ACT_SetTimeout_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_ACT_SetTimeout_REQUEST);
     }
-
+    
     numHandles(): number { return 1; }
     numAuthHandles(): number { return 1; }
     getHandles(): TPM_HANDLE[] { return [this.actHandle]; }
 } // TPM2_ACT_SetTimeout_REQUEST
 
-/** This is a placeholder to allow testing of the dispatch code. */
+/** This is a placeholder to allow testing of the dispatch code.  */
 export class TPM2_Vendor_TCG_Test_REQUEST extends ReqStructure
 {
     constructor(
-        /** dummy data */
+        /** Dummy data  */
         public inputData: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.inputData); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.inputData); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.inputData = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.inputData = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2_Vendor_TCG_Test_REQUEST
     {
         return buf.createObj(TPM2_Vendor_TCG_Test_REQUEST);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2_Vendor_TCG_Test_REQUEST
     {
         return new TpmBuffer(buffer).createObj(TPM2_Vendor_TCG_Test_REQUEST);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // TPM2_Vendor_TCG_Test_REQUEST
 
-/** This is a placeholder to allow testing of the dispatch code. */
+/** This is a placeholder to allow testing of the dispatch code.  */
 export class Vendor_TCG_TestResponse extends RespStructure
 {
     constructor(
-        /** dummy data */
+        /** Dummy data  */
         public outputData: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void { buf.writeSizedByteBuf(this.outputData); }
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void { buf.writeSizedByteBuf(this.outputData); }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void { this.outputData = buf.readSizedByteBuf(); }
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void { this.outputData = buf.readSizedByteBuf(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : Vendor_TCG_TestResponse
     {
         return buf.createObj(Vendor_TCG_TestResponse);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : Vendor_TCG_TestResponse
     {
         return new TpmBuffer(buffer).createObj(Vendor_TCG_TestResponse);
     }
-
+    
     sessEncInfo(): SessEncInfo { return new SessEncInfo(2, 1); }
 } // Vendor_TCG_TestResponse
 
-/** Underlying type comment: These are the RSA schemes that only need a hash algorithm as a scheme parameter. */
+/** These are the RSA schemes that only need a hash algorithm as a scheme parameter.  */
 export class TPMS_SCHEME_RSASSA extends TPMS_SIG_SCHEME_RSASSA
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_RSASSA
     {
         return buf.createObj(TPMS_SCHEME_RSASSA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_RSASSA
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_RSASSA);
     }
-
+    
 } // TPMS_SCHEME_RSASSA
 
-/** Underlying type comment: These are the RSA schemes that only need a hash algorithm as a scheme parameter. */
+/** These are the RSA schemes that only need a hash algorithm as a scheme parameter.  */
 export class TPMS_SCHEME_RSAPSS extends TPMS_SIG_SCHEME_RSAPSS
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_RSAPSS
     {
         return buf.createObj(TPMS_SCHEME_RSAPSS);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_RSAPSS
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_RSAPSS);
     }
-
+    
 } // TPMS_SCHEME_RSAPSS
 
-/**
- *  Underlying type comment: Most of the ECC signature schemes only require a hash algorithm to complete the definition
- *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
- *  are typed to be TPMS_SCHEME_ECDAA.
+/** Most of the ECC signature schemes only require a hash algorithm to complete the
+ *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
+ *  count value so they are typed to be TPMS_SCHEME_ECDAA.
  */
 export class TPMS_SCHEME_ECDSA extends TPMS_SIG_SCHEME_ECDSA
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_ECDSA
     {
         return buf.createObj(TPMS_SCHEME_ECDSA);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_ECDSA
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_ECDSA);
     }
-
+    
 } // TPMS_SCHEME_ECDSA
 
-/**
- *  Underlying type comment: Most of the ECC signature schemes only require a hash algorithm to complete the definition
- *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
- *  are typed to be TPMS_SCHEME_ECDAA.
+/** Most of the ECC signature schemes only require a hash algorithm to complete the
+ *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
+ *  count value so they are typed to be TPMS_SCHEME_ECDAA.
  */
 export class TPMS_SCHEME_SM2 extends TPMS_SIG_SCHEME_SM2
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_SM2
     {
         return buf.createObj(TPMS_SCHEME_SM2);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_SM2
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_SM2);
     }
-
+    
 } // TPMS_SCHEME_SM2
 
-/**
- *  Underlying type comment: Most of the ECC signature schemes only require a hash algorithm to complete the definition
- *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
- *  are typed to be TPMS_SCHEME_ECDAA.
+/** Most of the ECC signature schemes only require a hash algorithm to complete the
+ *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
+ *  count value so they are typed to be TPMS_SCHEME_ECDAA.
  */
 export class TPMS_SCHEME_ECSCHNORR extends TPMS_SIG_SCHEME_ECSCHNORR
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_ECSCHNORR
     {
         return buf.createObj(TPMS_SCHEME_ECSCHNORR);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_ECSCHNORR
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_ECSCHNORR);
     }
-
+    
 } // TPMS_SCHEME_ECSCHNORR
 
-/**
- *  Underlying type comment: These are the RSA encryption schemes that only need a hash algorithm as
- *  a controlling parameter.
- */
+/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.  */
 export class TPMS_SCHEME_OAEP extends TPMS_ENC_SCHEME_OAEP
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_OAEP
     {
         return buf.createObj(TPMS_SCHEME_OAEP);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_OAEP
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_OAEP);
     }
-
+    
 } // TPMS_SCHEME_OAEP
 
-/**
- *  Underlying type comment: These are the RSA encryption schemes that only need a hash algorithm as
- *  a controlling parameter.
- */
+/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.  */
 export class TPMS_SCHEME_RSAES extends TPMS_ENC_SCHEME_RSAES
 {
     constructor() { super(); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_RSAES
     {
         return buf.createObj(TPMS_SCHEME_RSAES);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_RSAES
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_RSAES);
     }
-
+    
 } // TPMS_SCHEME_RSAES
 
-/** Underlying type comment: These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
+/** These are the ECC schemes that only need a hash algorithm as a controlling parameter.  */
 export class TPMS_SCHEME_ECDH extends TPMS_KEY_SCHEME_ECDH
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_ECDH
     {
         return buf.createObj(TPMS_SCHEME_ECDH);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_ECDH
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_ECDH);
     }
-
+    
 } // TPMS_SCHEME_ECDH
 
-/** Underlying type comment: These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
+/** These are the ECC schemes that only need a hash algorithm as a controlling parameter.  */
 export class TPMS_SCHEME_ECMQV extends TPMS_KEY_SCHEME_ECMQV
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_ECMQV
     {
         return buf.createObj(TPMS_SCHEME_ECMQV);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_ECMQV
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_ECMQV);
     }
-
+    
 } // TPMS_SCHEME_ECMQV
 
-/**
- *  Underlying type comment: These structures are used to define the key derivation for symmetric secret sharing using
- *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/** These structures are used to define the key derivation for symmetric secret sharing
+ *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
 export class TPMS_SCHEME_MGF1 extends TPMS_KDF_SCHEME_MGF1
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_MGF1
     {
         return buf.createObj(TPMS_SCHEME_MGF1);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_MGF1
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_MGF1);
     }
-
+    
 } // TPMS_SCHEME_MGF1
 
-/**
- *  Underlying type comment: These structures are used to define the key derivation for symmetric secret sharing using
- *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/** These structures are used to define the key derivation for symmetric secret sharing
+ *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
 export class TPMS_SCHEME_KDF1_SP800_56A extends TPMS_KDF_SCHEME_KDF1_SP800_56A
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_KDF1_SP800_56A
     {
         return buf.createObj(TPMS_SCHEME_KDF1_SP800_56A);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_KDF1_SP800_56A
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_KDF1_SP800_56A);
     }
-
+    
 } // TPMS_SCHEME_KDF1_SP800_56A
 
-/**
- *  Underlying type comment: These structures are used to define the key derivation for symmetric secret sharing using
- *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/** These structures are used to define the key derivation for symmetric secret sharing
+ *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
 export class TPMS_SCHEME_KDF2 extends TPMS_KDF_SCHEME_KDF2
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_KDF2
     {
         return buf.createObj(TPMS_SCHEME_KDF2);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_KDF2
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_KDF2);
     }
-
+    
 } // TPMS_SCHEME_KDF2
 
-/**
- *  Underlying type comment: These structures are used to define the key derivation for symmetric secret sharing using
- *  asymmetric methods. A secret sharing scheme is required in any asymmetric key
+/** These structures are used to define the key derivation for symmetric secret sharing
+ *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
  *  with the decrypt attribute SET.
  */
 export class TPMS_SCHEME_KDF1_SP800_108 extends TPMS_KDF_SCHEME_KDF1_SP800_108
 {
     constructor(
-        /** the hash algorithm used to digest the message */
+        /** The hash algorithm used to digest the message  */
         hashAlg: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(hashAlg); }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPMS_SCHEME_KDF1_SP800_108
     {
         return buf.createObj(TPMS_SCHEME_KDF1_SP800_108);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPMS_SCHEME_KDF1_SP800_108
     {
         return new TpmBuffer(buffer).createObj(TPMS_SCHEME_KDF1_SP800_108);
     }
-
+    
 } // TPMS_SCHEME_KDF1_SP800_108
 
-/** Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM key (or other object) */
+/** Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM
+ *  key (or other object)
+ */
 export class TssObject extends TpmStructure
 {
     constructor(
-        /** Public part of key */
-        public Public: TPMT_PUBLIC = null,
+        /** Public part of key  */
+        public Public: TPMT_PUBLIC = null, 
         
-        /** Sensitive part of key */
-        public Sensitive: TPMT_SENSITIVE = null,
+        /** Sensitive part of key  */
+        public Sensitive: TPMT_SENSITIVE = null, 
         
-        /** Private part is the encrypted sensitive part of key */
+        /** Private part is the encrypted sensitive part of key  */
         public Private: TPM2B_PRIVATE = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.Public.toTpm(buf);
         this.Sensitive.toTpm(buf);
         this.Private.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.Public = TPMT_PUBLIC.fromTpm(buf);
         this.Sensitive = TPMT_SENSITIVE.fromTpm(buf);
         this.Private = TPM2B_PRIVATE.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TssObject
     {
         return buf.createObj(TssObject);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TssObject
     {
         return new TpmBuffer(buffer).createObj(TssObject);
     }
-
+    
 } // TssObject
 
-/** Contains a PCR index and associated hash(pcr-value) [TSS] */
+/** Contains a PCR index and associated hash(pcr-value) [TSS]  */
 export class PcrValue extends TpmStructure
 {
     constructor(
-        /** PCR Index */
-        public index: number = 0,
+        /** PCR Index  */
+        public index: number = 0, 
         
-        /** PCR Value */
+        /** PCR Value  */
         public value: TPMT_HA = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeInt(this.index);
         this.value.toTpm(buf);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.index = buf.readInt();
         this.value = TPMT_HA.fromTpm(buf);
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : PcrValue
     {
         return buf.createObj(PcrValue);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : PcrValue
     {
         return new TpmBuffer(buffer).createObj(PcrValue);
     }
-
+    
 } // PcrValue
 
-/** Structure representing a session block in a command buffer [TSS] */
+/** Structure representing a session block in a command buffer [TSS]  */
 export class SessionIn extends TpmStructure
 {
     constructor(
-        /** Session handle */
-        public handle: TPM_HANDLE = new TPM_HANDLE(),
+        /** Session handle  */
+        public handle: TPM_HANDLE = new TPM_HANDLE(), 
         
-        /** Caller nonce */
-        public nonceCaller: Buffer = null,
+        /** Caller nonce  */
+        public nonceCaller: Buffer = null, 
         
-        /** Session attributes */
-        public attributes: TPMA_SESSION = 0,
+        /** Session attributes  */
+        public attributes: TPMA_SESSION = 0, 
         
-        /** AuthValue (or HMAC) */
+        /** AuthValue (or HMAC)  */
         public auth: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.handle.toTpm(buf);
         buf.writeSizedByteBuf(this.nonceCaller);
@@ -18337,8 +17633,8 @@ export class SessionIn extends TpmStructure
         buf.writeSizedByteBuf(this.auth);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.handle = TPM_HANDLE.fromTpm(buf);
         this.nonceCaller = buf.readSizedByteBuf();
@@ -18346,194 +17642,194 @@ export class SessionIn extends TpmStructure
         this.auth = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : SessionIn
     {
         return buf.createObj(SessionIn);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : SessionIn
     {
         return new TpmBuffer(buffer).createObj(SessionIn);
     }
-
+    
 } // SessionIn
 
-/** Structure representing a session block in a response buffer [TSS] */
+/** Structure representing a session block in a response buffer [TSS]  */
 export class SessionOut extends TpmStructure
 {
     constructor(
-        /** TPM nonce */
-        public nonceTpm: Buffer = null,
+        /** TPM nonce  */
+        public nonceTpm: Buffer = null, 
         
-        /** Session attributes */
-        public attributes: TPMA_SESSION = 0,
+        /** Session attributes  */
+        public attributes: TPMA_SESSION = 0, 
         
-        /** HMAC value */
+        /** HMAC value  */
         public auth: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeSizedByteBuf(this.nonceTpm);
         buf.writeByte(this.attributes);
         buf.writeSizedByteBuf(this.auth);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.nonceTpm = buf.readSizedByteBuf();
         this.attributes = buf.readByte();
         this.auth = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : SessionOut
     {
         return buf.createObj(SessionOut);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : SessionOut
     {
         return new TpmBuffer(buffer).createObj(SessionOut);
     }
-
+    
 } // SessionOut
 
-/** Command header [TSS] */
+/** Command header [TSS]  */
 export class CommandHeader extends TpmStructure
 {
     constructor(
-        /** Command tag (sessions, or no sessions) */
-        public Tag: TPM_ST = 0,
+        /** Command tag (sessions, or no sessions)  */
+        public Tag: TPM_ST = 0, 
         
-        /** Total command buffer length */
-        public CommandSize: number = 0,
+        /** Total command buffer length  */
+        public CommandSize: number = 0, 
         
-        /** Command code */
+        /** Command code  */
         public CommandCode: TPM_CC = 0
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         buf.writeShort(this.Tag);
         buf.writeInt(this.CommandSize);
         buf.writeInt(this.CommandCode);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.Tag = buf.readShort();
         this.CommandSize = buf.readInt();
         this.CommandCode = buf.readInt();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : CommandHeader
     {
         return buf.createObj(CommandHeader);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : CommandHeader
     {
         return new TpmBuffer(buffer).createObj(CommandHeader);
     }
-
+    
 } // CommandHeader
 
-/** Contains the public and private part of a TPM key */
+/** Contains the public and private part of a TPM key  */
 export class TSS_KEY extends TpmStructure
 {
     constructor(
-        /** Public part of key */
-        public publicPart: TPMT_PUBLIC = null,
+        /** Public part of key  */
+        public publicPart: TPMT_PUBLIC = null, 
         
-        /** Private part is the encrypted sensitive part of key */
+        /** Private part is the encrypted sensitive part of key  */
         public privatePart: Buffer = null
     ) { super(); }
     
-    /** TpmMarshaller method */
-    toTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    toTpm(buf: TpmBuffer): void
     {
         this.publicPart.toTpm(buf);
         buf.writeSizedByteBuf(this.privatePart);
     }
     
-    /** TpmMarshaller method */
-    initFromTpm(buf: TpmBuffer) : void
+    /** TpmMarshaller method  */
+    initFromTpm(buf: TpmBuffer): void
     {
         this.publicPart = TPMT_PUBLIC.fromTpm(buf);
         this.privatePart = buf.readSizedByteBuf();
     }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TSS_KEY
     {
         return buf.createObj(TSS_KEY);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TSS_KEY
     {
         return new TpmBuffer(buffer).createObj(TSS_KEY);
     }
-
+    
 } // TSS_KEY
 
-/** Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation */
+/** Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation  */
 export class TPM2B_DIGEST_SYMCIPHER extends TPM2B_DIGEST
 {
     constructor(
-        /** the buffer area that can be no larger than a digest */
+        /** The buffer area that can be no larger than a digest  */
         buffer: Buffer = null
     ) { super(buffer); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.SYMCIPHER; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_DIGEST_SYMCIPHER
     {
         return buf.createObj(TPM2B_DIGEST_SYMCIPHER);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_DIGEST_SYMCIPHER
     {
         return new TpmBuffer(buffer).createObj(TPM2B_DIGEST_SYMCIPHER);
     }
-
+    
 } // TPM2B_DIGEST_SYMCIPHER
 
-/** Auto-derived from TPM2B_DIGEST */
+/** Auto-derived from TPM2B_DIGEST  */
 export class TPM2B_DIGEST_KEYEDHASH extends TPM2B_DIGEST
 {
     constructor(
-        /** the buffer area that can be no larger than a digest */
+        /** The buffer area that can be no larger than a digest  */
         buffer: Buffer = null
     ) { super(buffer); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     GetUnionSelector(): TPM_ALG_ID { return TPM_ALG_ID.KEYEDHASH; }
     
-    /** Static marshaling helper */
+    /** Static marshaling helper  */
     public static fromTpm(buf: TpmBuffer) : TPM2B_DIGEST_KEYEDHASH
     {
         return buf.createObj(TPM2B_DIGEST_KEYEDHASH);
     }
-
-    /** Static marshaling helper */
+    
+    /** Static marshaling helper  */
     public static fromBytes(buffer: any) : TPM2B_DIGEST_KEYEDHASH
     {
         return new TpmBuffer(buffer).createObj(TPM2B_DIGEST_KEYEDHASH);
     }
-
+    
 } // TPM2B_DIGEST_KEYEDHASH
 

@@ -44,13 +44,13 @@ export class TpmStructure implements TpmMarshaller
 }; // class TpmStructure
 
 
-/// <summary> Parameters of the field, to which session based encryption can be applied (i.e.
-/// the first non-handle field marshaled in size-prefixed form) </summary>
+/** Parameters of the field, to which session based encryption can be applied (i.e.
+ * the first non-handle field marshaled in size-prefixed form) */
 export class SessEncInfo
 {
     constructor (
         /** Length of the size prefix in bytes. The size prefix contains the number of
-         *  elements in the sized area filed (normally just bytes).
+         *  elements in the sized fieled (normally just bytes).
          */
         public sizeLen : number = 0,
 

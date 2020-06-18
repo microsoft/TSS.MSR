@@ -60,8 +60,8 @@ export class TpmBuffer
     get buffer(): Buffer { return this.buf; }
 
     /** @return  Size of the backing byte buffer.
-     *           Note that during marshaling this size normally exceeds the amount of actually
-     *           stored data until trim() is invoked. 
+     *      Note that during marshaling this size normally exceeds the amount of actually
+     *      stored data until trim() is invoked. 
      */
     get size(): number { return this.buf.length; }
 
@@ -78,24 +78,13 @@ export class TpmBuffer
     }
 
     /** Shrinks the backing byte buffer so that it ends at the current position
-     *  @return  Reference to the backing byte buffer
+     *  @return  Reference to the (shrunk) backing byte buffer
      */
     public trim() : Buffer
     {
         // New buffer references the same memory
         return this.buf = this.buf.slice(0, this.pos)
     }
-
-/*
-    public copy(dst: TpmBuffer, dstStart: number) : number
-    {
-        if (dst.length < dstStart + this.length)
-            return 0;
-        this.buf.copy(dst.buf, dstStart);
-        dst.pos = dstStart + this.length;
-        return this.length;
-    }
-*/
 
     public getCurStuctRemainingSize() : number
     {
@@ -293,11 +282,9 @@ export class TpmBuffer
 
     public writeSizedObj<T extends TpmMarshaller>(obj: T) : void
     {
-        const lenSize = 2;  // Length of the object size in bytes
-        
+        const lenSize = 2;  // Length of the object size is always 2 bytes
         if (obj == null)
             return this.writeShort(0);
-
         if (!this.checkLen(lenSize))
             return;
 
@@ -318,7 +305,7 @@ export class TpmBuffer
 
     public createSizedObj<T extends TpmMarshaller>(type: {new(): T}) : T
     {
-        const lenSize = 2;  // Length of the object size in bytes
+        const lenSize = 2;  // Length of the object size is always 2 bytes
         let size = this.readShort();
         if (size == 0)
             return null;
@@ -330,7 +317,7 @@ export class TpmBuffer
         return newObj;
     }
 
-    public writeObjArr<T extends TpmMarshaller>(arr: T[]) : void
+    public writeObjArr(arr: TpmMarshaller[]) : void
     {
         // Length of the array size is always 4 bytes
         if (arr == null)
@@ -363,7 +350,7 @@ export class TpmBuffer
         return newArr;
     }
 
-    public writeValArr<T extends number>(arr: T[], valSize: number) : void
+    public writeValArr(arr: number[], valSize: number) : void
     {
         // Length of the array size is always 4 bytes
         if (arr == null)
@@ -396,59 +383,3 @@ export class TpmBuffer
     }
 }; // class TpmBuffer
 
-
-import { TPM_ALG_ID, TPMT_SYM_DEF_OBJECT, TPMT_SYM_DEF } from "./TpmTypes.js";
-
-export function nonStandardToTpm(s: TpmMarshaller, buf: TpmBuffer)
-{
-	if (s instanceof TPMT_SYM_DEF_OBJECT)
-	{
-		let sdo = <TPMT_SYM_DEF_OBJECT>s;
-		buf.writeShort(sdo.algorithm);
-		if (sdo.algorithm != TPM_ALG_ID.NULL) {
-		    buf.writeShort(sdo.keyBits);
-		    buf.writeShort(sdo.mode);
-        }
-	}
-	else if (s instanceof TPMT_SYM_DEF)
-	{
-		let sd = <TPMT_SYM_DEF>s;
-		buf.writeShort(sd.algorithm);
-		if (sd.algorithm != TPM_ALG_ID.NULL) {
-		    buf.writeShort(sd.keyBits);
-		    buf.writeShort(sd.mode);
-        }
-	}
-	else
-    {
-		throw new Error("nonStandardToTpm(): Unexpected TPM structure type");
-        //console.log("nonStandardToTpm(): Unexpected TPM structure type");
-    }
-}
-
-export function nonStandardInitFromTpm(s: TpmMarshaller, buf: TpmBuffer)
-{
-	if (s instanceof TPMT_SYM_DEF_OBJECT)
-	{
-		let sdo = <TPMT_SYM_DEF_OBJECT>s;
-		sdo.algorithm = buf.readShort();
-		if (sdo.algorithm != TPM_ALG_ID.NULL) {
-		    sdo.keyBits = buf.readShort();
-		    sdo.mode = buf.readShort();
-        }
-	}
-	else if (s instanceof TPMT_SYM_DEF)
-	{
-		let sd = <TPMT_SYM_DEF>s;
-		sd.algorithm = buf.readShort();
-		if (sd.algorithm != TPM_ALG_ID.NULL) {
-		    sd.keyBits = buf.readShort();
-		    sd.mode = buf.readShort();
-        }
-	}
-	else
-    {
-    	throw new Error("nonStandardInitFromTpm(): Unexpected TPM structure type");
-        //console.log("nonStandardInitFromTpm(): Unexpected TPM structure type");
-    }
-}

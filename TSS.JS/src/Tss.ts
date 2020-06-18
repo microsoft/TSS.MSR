@@ -53,7 +53,7 @@ export class Session
         this.SessOut = new TPMS_AUTH_RESPONSE(nonceTpm, sessionAttributes);
     }
 
-    public static Pw(authValue: Buffer): Session
+    public static Pw(authValue: Buffer = null): Session
     {
         let s = new Session();
         s.SessIn.sessionHandle = new TPM_HANDLE(TPM_RH.RS_PW);

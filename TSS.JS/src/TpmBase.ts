@@ -185,12 +185,10 @@ export class TpmBase
             else if (this.sessions.length < numAuthHandles)
                 this.sessions = this.sessions.concat(new Array<Session>(numAuthHandles - this.sessions.length));
 
-            //let numSess: number = 0;
             for (let i: number = 0; i < numAuthHandles; ++i)
             {
-                if (this.sessions[i] != null)
-                    continue;
-                this.sessions[i] = Session.Pw(new Buffer(0));
+                if (this.sessions[i] == null)
+                    this.sessions[i] = Session.Pw();
             }
 
             // We do not know the size of the authorization area yet.
@@ -245,7 +243,7 @@ export class TpmBase
         return respBuf;
     }
 
-    protected generateError(respCode: TPM_RC, errMsg: string, errorsAllowed: boolean = true): undefined
+    protected generateError(respCode: TPM_RC, errMsg: string, errorsAllowed: boolean): undefined
     {
         this._lastError = new TpmError(respCode, TPM_CC[this.cmdCode], errMsg);
         if (this.exceptionsEnabled && !errorsAllowed)
@@ -259,17 +257,17 @@ export class TpmBase
         if (this.lastError)
             return null;
 
-        let noThrow = this.errorsAllowed;
+        let errorsAllowed = this.errorsAllowed;
         this.errorsAllowed = !this.exceptionsEnabled;
 
         if (respBuf.size < 10)
         {
             return this.generateError(TPM_RC.TSS_RESP_BUF_TOO_SHORT, 
-                                      'Response buffer is too short: ' + respBuf.size, noThrow);
+                            'Response buffer is too short: ' + respBuf.size, errorsAllowed);
         }
 
         if (respBuf.curPos != 0)
-            throw new Error("Response buffer reading position is not properly initialized!");
+            throw new Error("Response buffer reading position is not properly initialized");
 
         let tag: TPM_ST = respBuf.readShort();
         let respSize: number = respBuf.readInt();
@@ -281,26 +279,24 @@ export class TpmBase
             rc != TPM_RC.SUCCESS && tag != TPM_ST.NO_SESSIONS)
         {
             return this.generateError(TPM_RC.TSS_RESP_BUF_INVALID_SESSION_TAG,
-                                     'Invalid session tag in the response buffer', noThrow);
+                            'Invalid session tag in the response buffer', errorsAllowed);
         }
 
         if (this._lastResponseCode != TPM_RC.SUCCESS)
         {
             return this.generateError(this._lastResponseCode, 
-                        `TPM command {${TPM_CC[this.cmdCode]}} failed with response code {${TPM_RC[rc]}}`, noThrow);
+                        `TPM command {${TPM_CC[this.cmdCode]}} failed with response code {${TPM_RC[rc]}}`,
+                        errorsAllowed);
         }
 
         if (!respType)
-            return null;
+            return null;    // No values are expected to be returned by the TPM
 
         let resp: T = new respType();
 
         // Get the handles
         if (resp.numHandles() > 0)
-        {
-            //if (resp.numHandles() != 1) throw new Error("Unexpected number of handles in the response");
             resp.setHandle(new TPM_HANDLE(respBuf.readInt()));
-        }
 
         // If a response session is present, response buffer contains a field specifying the size of response parameters
         let respParamsSize = tag == TPM_ST.SESSIONS ? respBuf.readInt()
@@ -310,7 +306,9 @@ export class TpmBase
         resp.initFromTpm(respBuf);
 
         if (respParamsSize != respBuf.curPos - paramStart)
-            throw new Error(`Inconsistent TPM response buffer: declared resp param size ${respParamsSize}, actual ${respBuf.curPos - paramStart}`);
+            return this.generateError(TPM_RC.TSS_RESP_BUF_INVALID_SIZE, 
+                        `Inconsistent TPM response params size: expected ${respParamsSize}, actual ${respBuf.curPos - paramStart}`,
+                        errorsAllowed);
 
         return resp;
     } // processResponse()
