@@ -16,33 +16,33 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> should not occur </summary>
+        /// <summary> Should not occur </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ERROR")]
         Error = 0x0000, 
 
-        /// <summary> an object type that contains an RSA key </summary>
+        /// <summary> An object type that contains an RSA key </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_FIRST")]
         First = 0x0001, 
 
-        /// <summary> an object type that contains an RSA key </summary>
+        /// <summary> An object type that contains an RSA key </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_RSA")]
         Rsa = 0x0001, 
 
-        /// <summary> block cipher with various key sizes (Triple Data Encryption Algorithm,
+        /// <summary> Block cipher with various key sizes (Triple Data Encryption Algorithm,
         /// commonly called Triple Data Encryption Standard) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_TDES")]
         Tdes = 0x0003, 
 
-        /// <summary> hash algorithm producing a 160-bit digest </summary>
+        /// <summary> Hash algorithm producing a 160-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA")]
         Sha = 0x0004, 
 
-        /// <summary> redefinition for documentation consistency </summary>
+        /// <summary> Redefinition for documentation consistency </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA1")]
         Sha1 = 0x0004, 
@@ -52,38 +52,38 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_HMAC")]
         Hmac = 0x0005, 
 
-        /// <summary> block cipher with various key sizes </summary>
+        /// <summary> Block cipher with various key sizes </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_AES")]
         Aes = 0x0006, 
 
-        /// <summary> hash-based mask-generation function </summary>
+        /// <summary> Hash-based mask-generation function </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_MGF1")]
         Mgf1 = 0x0007, 
 
-        /// <summary> an object type that may use XOR for encryption or an HMAC for signing and
+        /// <summary> An object type that may use XOR for encryption or an HMAC for signing and
         /// may also refer to a data object that is neither signing nor encrypting </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KEYEDHASH")]
         Keyedhash = 0x0008, 
 
-        /// <summary> hash-based stream cipher </summary>
+        /// <summary> Hash-based stream cipher </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_XOR")]
         Xor = 0x000A, 
 
-        /// <summary> hash algorithm producing a 256-bit digest </summary>
+        /// <summary> Hash algorithm producing a 256-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA256")]
         Sha256 = 0x000B, 
 
-        /// <summary> hash algorithm producing a 384-bit digest </summary>
+        /// <summary> Hash algorithm producing a 384-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA384")]
         Sha384 = 0x000C, 
 
-        /// <summary> hash algorithm producing a 512-bit digest </summary>
+        /// <summary> Hash algorithm producing a 512-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA512")]
         Sha512 = 0x000D, 
@@ -93,96 +93,96 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ALG_NULL")]
         Null = 0x0010, 
 
-        /// <summary> hash algorithm producing a 256-bit digest </summary>
+        /// <summary> Hash algorithm producing a 256-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SM3_256")]
         Sm3256 = 0x0012, 
 
-        /// <summary> symmetric block cipher with 128 bit key </summary>
+        /// <summary> Symmetric block cipher with 128 bit key </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SM4")]
         Sm4 = 0x0013, 
 
-        /// <summary> a signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5) </summary>
+        /// <summary> A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_RSASSA")]
         Rsassa = 0x0014, 
 
-        /// <summary> a padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5) </summary>
+        /// <summary> A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_RSAES")]
         Rsaes = 0x0015, 
 
-        /// <summary> a signature algorithm defined in section 8.1 (RSASSA-PSS) </summary>
+        /// <summary> A signature algorithm defined in section 8.1 (RSASSA-PSS) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_RSAPSS")]
         Rsapss = 0x0016, 
 
-        /// <summary> a padding algorithm defined in Section 7.1 (RSAES_OAEP) </summary>
+        /// <summary> A padding algorithm defined in Section 7.1 (RSAES_OAEP) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_OAEP")]
         Oaep = 0x0017, 
 
-        /// <summary> signature algorithm using elliptic curve cryptography (ECC) </summary>
+        /// <summary> Signature algorithm using elliptic curve cryptography (ECC) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECDSA")]
         Ecdsa = 0x0018, 
 
-        /// <summary> secret sharing using ECC Based on context, this can be either One-Pass
+        /// <summary> Secret sharing using ECC Based on context, this can be either One-Pass
         /// Diffie-Hellman, C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC
         /// CDH) defined in 6.1.1.2 </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECDH")]
         Ecdh = 0x0019, 
 
-        /// <summary> elliptic-curve based, anonymous signing scheme </summary>
+        /// <summary> Elliptic-curve based, anonymous signing scheme </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECDAA")]
         Ecdaa = 0x001A, 
 
-        /// <summary> depending on context, either an elliptic-curve-based signature algorithm,
+        /// <summary> Depending on context, either an elliptic-curve-based signature algorithm,
         /// encryption algorithm, or key exchange protocol </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SM2")]
         Sm2 = 0x001B, 
 
-        /// <summary> elliptic-curve based Schnorr signature </summary>
+        /// <summary> Elliptic-curve based Schnorr signature </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECSCHNORR")]
         Ecschnorr = 0x001C, 
 
-        /// <summary> two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4 </summary>
+        /// <summary> Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4 </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECMQV")]
         Ecmqv = 0x001D, 
 
-        /// <summary> concatenation key derivation function (approved alternative 1) Section 5.8.1
+        /// <summary> Concatenation key derivation function (approved alternative 1) Section 5.8.1
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KDF1_SP800_56A")]
         Kdf1Sp80056a = 0x0020, 
 
-        /// <summary> key derivation function KDF2 Section 13.2 </summary>
+        /// <summary> Key derivation function KDF2 Section 13.2 </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KDF2")]
         Kdf2 = 0x0021, 
 
-        /// <summary> a key derivation method SP800-108, Section 5.1 KDF in Counter Mode </summary>
+        /// <summary> A key derivation method SP800-108, Section 5.1 KDF in Counter Mode </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KDF1_SP800_108")]
         Kdf1Sp800108 = 0x0022, 
 
-        /// <summary> prime field ECC </summary>
+        /// <summary> Prime field ECC </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECC")]
         Ecc = 0x0023, 
 
-        /// <summary> the object type for a symmetric block cipher key </summary>
+        /// <summary> The object type for a symmetric block cipher key </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SYMCIPHER")]
         Symcipher = 0x0025, 
 
-        /// <summary> symmetric block cipher with various key sizes </summary>
+        /// <summary> Symmetric block cipher with various key sizes </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_CAMELLIA")]
         Camellia = 0x0026, 
@@ -296,14 +296,14 @@ namespace Tpm2Lib {
         [Obsolete("Use EccCurve.NistP521 instead")]
         TpmEccNistP521 = 0x0005, 
 
-        /// <summary> curve to support ECDAA </summary>
+        /// <summary> Curve to support ECDAA </summary>
         [EnumMember]
         [SpecTypeName("TPM_ECC_BN_P256")]
         BnP256 = 0x0010,
         [Obsolete("Use EccCurve.BnP256 instead")]
         TpmEccBnP256 = 0x0010, 
 
-        /// <summary> curve to support ECDAA </summary>
+        /// <summary> Curve to support ECDAA </summary>
         [EnumMember]
         [SpecTypeName("TPM_ECC_BN_P638")]
         BnP638 = 0x0011,
@@ -330,12 +330,12 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> size of digest in octets </summary>
+        /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA1_DIGEST_SIZE")]
         DigestSize = 20, 
 
-        /// <summary> size of hash block in octets </summary>
+        /// <summary> Size of hash block in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA1_BLOCK_SIZE")]
         BlockSize = 64
@@ -348,12 +348,12 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> size of digest </summary>
+        /// <summary> Size of digest </summary>
         [EnumMember]
         [SpecTypeName("SHA256_DIGEST_SIZE")]
         DigestSize = 32, 
 
-        /// <summary> size of hash block </summary>
+        /// <summary> Size of hash block </summary>
         [EnumMember]
         [SpecTypeName("SHA256_BLOCK_SIZE")]
         BlockSize = 64
@@ -366,12 +366,12 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> size of digest in octets </summary>
+        /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA384_DIGEST_SIZE")]
         DigestSize = 48, 
 
-        /// <summary> size of hash block in octets </summary>
+        /// <summary> Size of hash block in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA384_BLOCK_SIZE")]
         BlockSize = 128
@@ -384,12 +384,12 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> size of digest in octets </summary>
+        /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA512_DIGEST_SIZE")]
         DigestSize = 64, 
 
-        /// <summary> size of hash block in octets </summary>
+        /// <summary> Size of hash block in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA512_BLOCK_SIZE")]
         BlockSize = 128
@@ -402,12 +402,12 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> size of digest in octets </summary>
+        /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SM3_256_DIGEST_SIZE")]
         DigestSize = 32, 
 
-        /// <summary> size of hash block in octets </summary>
+        /// <summary> Size of hash block in octets </summary>
         [EnumMember]
         [SpecTypeName("SM3_256_BLOCK_SIZE")]
         BlockSize = 64
@@ -420,12 +420,12 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> size of digest in octets </summary>
+        /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA3_256_DIGEST_SIZE")]
         DigestSize = 32, 
 
-        /// <summary> size of hash block in octets </summary>
+        /// <summary> Size of hash block in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA3_256_BLOCK_SIZE")]
         BlockSize = 136
@@ -438,12 +438,12 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> size of digest in octets </summary>
+        /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA3_384_DIGEST_SIZE")]
         DigestSize = 48, 
 
-        /// <summary> size of hash block in octets </summary>
+        /// <summary> Size of hash block in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA3_384_BLOCK_SIZE")]
         BlockSize = 104
@@ -456,12 +456,12 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> size of digest in octets </summary>
+        /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA3_512_DIGEST_SIZE")]
         DigestSize = 64, 
 
-        /// <summary> size of hash block in octets </summary>
+        /// <summary> Size of hash block in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA3_512_BLOCK_SIZE")]
         BlockSize = 72
@@ -512,22 +512,22 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_SPEC_FAMILY")]
         Family = 0x322E3000, 
 
-        /// <summary> the level number for the specification </summary>
+        /// <summary> The level number for the specification </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_LEVEL")]
         Level = 0, 
 
-        /// <summary> the version number of the spec (001.62 * 100) </summary>
+        /// <summary> The version number of the spec (001.62 * 100) </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_VERSION")]
         Version = 162, 
 
-        /// <summary> the year of the version </summary>
+        /// <summary> The year of the version </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_YEAR")]
         Year = 2019, 
 
-        /// <summary> the day of the year (December 26) </summary>
+        /// <summary> The day of the year (December 26) </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_DAY_OF_YEAR")]
         DayOfYear = 360
@@ -1203,12 +1203,12 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_SUCCESS")]
         Success = 0x000, 
 
-        /// <summary> defined for compatibility with TPM 1.2 </summary>
+        /// <summary> Defined for compatibility with TPM 1.2 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_BAD_TAG")]
         BadTag = 0x01E, 
 
-        /// <summary> set for all format 0 response codes </summary>
+        /// <summary> Set for all format 0 response codes </summary>
         [EnumMember]
         [SpecTypeName("RC_VER1")]
         RcVer1 = 0x100, 
@@ -1218,48 +1218,48 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_INITIALIZE")]
         Initialize = RcVer1 + 0x000,  // 0x100
 
-        /// <summary> commands not being accepted because of a TPM failure
+        /// <summary> Commands not being accepted because of a TPM failure
         /// NOTE This may be returned by TPM2_GetTestResult() as the testResult parameter. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_FAILURE")]
         Failure = RcVer1 + 0x001,  // 0x101
 
-        /// <summary> improper use of a sequence handle </summary>
+        /// <summary> Improper use of a sequence handle </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SEQUENCE")]
         Sequence = RcVer1 + 0x003,  // 0x103
 
-        /// <summary> not currently used </summary>
+        /// <summary> Not currently used </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_PRIVATE")]
         Private = RcVer1 + 0x00B,  // 0x10B
 
-        /// <summary> not currently used </summary>
+        /// <summary> Not currently used </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_HMAC")]
         Hmac = RcVer1 + 0x019,  // 0x119
 
-        /// <summary> the command is disabled </summary>
+        /// <summary> The command is disabled </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_DISABLED")]
         Disabled = RcVer1 + 0x020,  // 0x120
 
-        /// <summary> command failed because audit sequence required exclusivity </summary>
+        /// <summary> Command failed because audit sequence required exclusivity </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_EXCLUSIVE")]
         Exclusive = RcVer1 + 0x021,  // 0x121
 
-        /// <summary> authorization handle is not correct for command </summary>
+        /// <summary> Authorization handle is not correct for command </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTH_TYPE")]
         AuthType = RcVer1 + 0x024,  // 0x124
 
-        /// <summary> command requires an authorization session for handle and it is not present. </summary>
+        /// <summary> Command requires an authorization session for handle and it is not present. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTH_MISSING")]
         AuthMissing = RcVer1 + 0x025,  // 0x125
 
-        /// <summary> policy failure in math operation or an invalid authPolicy value </summary>
+        /// <summary> Policy failure in math operation or an invalid authPolicy value </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_POLICY")]
         Policy = RcVer1 + 0x026,  // 0x126
@@ -1274,55 +1274,55 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_PCR_CHANGED")]
         PcrChanged = RcVer1 + 0x028,  // 0x128
 
-        /// <summary> for all commands other than TPM2_FieldUpgradeData(), this code indicates
+        /// <summary> For all commands other than TPM2_FieldUpgradeData(), this code indicates
         /// that the TPM is in field upgrade mode; for TPM2_FieldUpgradeData(), this code
         /// indicates that the TPM is not in field upgrade mode </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_UPGRADE")]
         Upgrade = RcVer1 + 0x02D,  // 0x12D
 
-        /// <summary> context ID counter is at maximum. </summary>
+        /// <summary> Context ID counter is at maximum. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_TOO_MANY_CONTEXTS")]
         TooManyContexts = RcVer1 + 0x02E,  // 0x12E
 
-        /// <summary> authValue or authPolicy is not available for selected entity. </summary>
+        /// <summary> AuthValue or authPolicy is not available for selected entity. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTH_UNAVAILABLE")]
         AuthUnavailable = RcVer1 + 0x02F,  // 0x12F
 
-        /// <summary> a _TPM_Init and Startup(CLEAR) is required before the TPM can resume
+        /// <summary> A _TPM_Init and Startup(CLEAR) is required before the TPM can resume
         /// operation. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REBOOT")]
         Reboot = RcVer1 + 0x030,  // 0x130
 
-        /// <summary> the protection algorithms (hash and symmetric) are not reasonably balanced.
+        /// <summary> The protection algorithms (hash and symmetric) are not reasonably balanced.
         /// The digest size of the hash must be larger than the key size of the symmetric
         /// algorithm. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_UNBALANCED")]
         Unbalanced = RcVer1 + 0x031,  // 0x131
 
-        /// <summary> command commandSize value is inconsistent with contents of the command
+        /// <summary> Command commandSize value is inconsistent with contents of the command
         /// buffer; either the size is not the same as the octets loaded by the hardware interface
         /// layer or the value is not large enough to hold a command header </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_COMMAND_SIZE")]
         CommandSize = RcVer1 + 0x042,  // 0x142
 
-        /// <summary> command code not supported </summary>
+        /// <summary> Command code not supported </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_COMMAND_CODE")]
         CommandCode = RcVer1 + 0x043,  // 0x143
 
-        /// <summary> the value of authorizationSize is out of range or the number of octets in
+        /// <summary> The value of authorizationSize is out of range or the number of octets in
         /// the Authorization Area is greater than required </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTHSIZE")]
         Authsize = RcVer1 + 0x044,  // 0x144
 
-        /// <summary> use of an authorization session with a context command or another command
+        /// <summary> Use of an authorization session with a context command or another command
         /// that cannot have an authorization session. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTH_CONTEXT")]
@@ -1349,13 +1349,13 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_NV_AUTHORIZATION")]
         NvAuthorization = RcVer1 + 0x049,  // 0x149
 
-        /// <summary> an NV Index is used before being initialized or the state saved by
+        /// <summary> An NV Index is used before being initialized or the state saved by
         /// TPM2_Shutdown(STATE) could not be restored </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_UNINITIALIZED")]
         NvUninitialized = RcVer1 + 0x04A,  // 0x14A
 
-        /// <summary> insufficient space for NV allocation </summary>
+        /// <summary> Insufficient space for NV allocation </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_SPACE")]
         NvSpace = RcVer1 + 0x04B,  // 0x14B
@@ -1365,41 +1365,41 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_NV_DEFINED")]
         NvDefined = RcVer1 + 0x04C,  // 0x14C
 
-        /// <summary> context in TPM2_ContextLoad() is not valid </summary>
+        /// <summary> Context in TPM2_ContextLoad() is not valid </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_BAD_CONTEXT")]
         BadContext = RcVer1 + 0x050,  // 0x150
 
-        /// <summary> cpHash value already set or not correct for use </summary>
+        /// <summary> CpHash value already set or not correct for use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_CPHASH")]
         Cphash = RcVer1 + 0x051,  // 0x151
 
-        /// <summary> handle for parent is not a valid parent </summary>
+        /// <summary> Handle for parent is not a valid parent </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_PARENT")]
         Parent = RcVer1 + 0x052,  // 0x152
 
-        /// <summary> some function needs testing. </summary>
+        /// <summary> Some function needs testing. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NEEDS_TEST")]
         NeedsTest = RcVer1 + 0x053,  // 0x153
 
-        /// <summary> returned when an internal function cannot process a request due to an
+        /// <summary> Returned when an internal function cannot process a request due to an
         /// unspecified problem. This code is usually related to invalid parameters that are not
         /// properly filtered by the input unmarshaling code. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NO_RESULT")]
         NoResult = RcVer1 + 0x054,  // 0x154
 
-        /// <summary> the sensitive area did not unmarshal correctly after decryption this code is
+        /// <summary> The sensitive area did not unmarshal correctly after decryption this code is
         /// used in lieu of the other unmarshaling errors so that an attacker cannot determine
         /// where the unmarshaling error occurred </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SENSITIVE")]
         Sensitive = RcVer1 + 0x055,  // 0x155
 
-        /// <summary> largest version 1 code that is not a warning </summary>
+        /// <summary> Largest version 1 code that is not a warning </summary>
         [EnumMember]
         [SpecTypeName("RC_MAX_FM0")]
         RcMaxFm0 = RcVer1 + 0x07F,  // 0x17F
@@ -1411,206 +1411,206 @@ namespace Tpm2Lib {
         [SpecTypeName("RC_FMT1")]
         RcFmt1 = 0x080, 
 
-        /// <summary> asymmetric algorithm not supported or not correct </summary>
+        /// <summary> Asymmetric algorithm not supported or not correct </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_ASYMMETRIC")]
         Asymmetric = RcFmt1 + 0x001,  // 0x81
 
-        /// <summary> inconsistent attributes </summary>
+        /// <summary> Inconsistent attributes </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_ATTRIBUTES")]
         Attributes = RcFmt1 + 0x002,  // 0x82
 
-        /// <summary> hash algorithm not supported or not appropriate </summary>
+        /// <summary> Hash algorithm not supported or not appropriate </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_HASH")]
         Hash = RcFmt1 + 0x003,  // 0x83
 
-        /// <summary> value is out of range or is not correct for the context </summary>
+        /// <summary> Value is out of range or is not correct for the context </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_VALUE")]
         Value = RcFmt1 + 0x004,  // 0x84
 
-        /// <summary> hierarchy is not enabled or is not correct for the use </summary>
+        /// <summary> Hierarchy is not enabled or is not correct for the use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_HIERARCHY")]
         Hierarchy = RcFmt1 + 0x005,  // 0x85
 
-        /// <summary> key size is not supported </summary>
+        /// <summary> Key size is not supported </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_KEY_SIZE")]
         KeySize = RcFmt1 + 0x007,  // 0x87
 
-        /// <summary> mask generation function not supported </summary>
+        /// <summary> Mask generation function not supported </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_MGF")]
         Mgf = RcFmt1 + 0x008,  // 0x88
 
-        /// <summary> mode of operation not supported </summary>
+        /// <summary> Mode of operation not supported </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_MODE")]
         Mode = RcFmt1 + 0x009,  // 0x89
 
-        /// <summary> the type of the value is not appropriate for the use </summary>
+        /// <summary> The type of the value is not appropriate for the use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_TYPE")]
         Type = RcFmt1 + 0x00A,  // 0x8A
 
-        /// <summary> the handle is not correct for the use </summary>
+        /// <summary> The handle is not correct for the use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_HANDLE")]
         Handle = RcFmt1 + 0x00B,  // 0x8B
 
-        /// <summary> unsupported key derivation function or function not appropriate for use </summary>
+        /// <summary> Unsupported key derivation function or function not appropriate for use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_KDF")]
         Kdf = RcFmt1 + 0x00C,  // 0x8C
 
-        /// <summary> value was out of allowed range. </summary>
+        /// <summary> Value was out of allowed range. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_RANGE")]
         Range = RcFmt1 + 0x00D,  // 0x8D
 
-        /// <summary> the authorization HMAC check failed and DA counter incremented </summary>
+        /// <summary> The authorization HMAC check failed and DA counter incremented </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTH_FAIL")]
         AuthFail = RcFmt1 + 0x00E,  // 0x8E
 
-        /// <summary> invalid nonce size or nonce value mismatch </summary>
+        /// <summary> Invalid nonce size or nonce value mismatch </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NONCE")]
         Nonce = RcFmt1 + 0x00F,  // 0x8F
 
-        /// <summary> authorization requires assertion of PP </summary>
+        /// <summary> Authorization requires assertion of PP </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_PP")]
         Pp = RcFmt1 + 0x010,  // 0x90
 
-        /// <summary> unsupported or incompatible scheme </summary>
+        /// <summary> Unsupported or incompatible scheme </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SCHEME")]
         Scheme = RcFmt1 + 0x012,  // 0x92
 
-        /// <summary> structure is the wrong size </summary>
+        /// <summary> Structure is the wrong size </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SIZE")]
         Size = RcFmt1 + 0x015,  // 0x95
 
-        /// <summary> unsupported symmetric algorithm or key size, or not appropriate for instance
+        /// <summary> Unsupported symmetric algorithm or key size, or not appropriate for instance
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SYMMETRIC")]
         Symmetric = RcFmt1 + 0x016,  // 0x96
 
-        /// <summary> incorrect structure tag </summary>
+        /// <summary> Incorrect structure tag </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_TAG")]
         Tag = RcFmt1 + 0x017,  // 0x97
 
-        /// <summary> union selector is incorrect </summary>
+        /// <summary> Union selector is incorrect </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SELECTOR")]
         Selector = RcFmt1 + 0x018,  // 0x98
 
-        /// <summary> the TPM was unable to unmarshal a value because there were not enough octets
+        /// <summary> The TPM was unable to unmarshal a value because there were not enough octets
         /// in the input buffer </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_INSUFFICIENT")]
         Insufficient = RcFmt1 + 0x01A,  // 0x9A
 
-        /// <summary> the signature is not valid </summary>
+        /// <summary> The signature is not valid </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SIGNATURE")]
         Signature = RcFmt1 + 0x01B,  // 0x9B
 
-        /// <summary> key fields are not compatible with the selected use </summary>
+        /// <summary> Key fields are not compatible with the selected use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_KEY")]
         Key = RcFmt1 + 0x01C,  // 0x9C
 
-        /// <summary> a policy check failed </summary>
+        /// <summary> A policy check failed </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_POLICY_FAIL")]
         PolicyFail = RcFmt1 + 0x01D,  // 0x9D
 
-        /// <summary> integrity check failed </summary>
+        /// <summary> Integrity check failed </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_INTEGRITY")]
         Integrity = RcFmt1 + 0x01F,  // 0x9F
 
-        /// <summary> invalid ticket </summary>
+        /// <summary> Invalid ticket </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_TICKET")]
         Ticket = RcFmt1 + 0x020,  // 0xA0
 
-        /// <summary> reserved bits not set to zero as required </summary>
+        /// <summary> Reserved bits not set to zero as required </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_RESERVED_BITS")]
         ReservedBits = RcFmt1 + 0x021,  // 0xA1
 
-        /// <summary> authorization failure without DA implications </summary>
+        /// <summary> Authorization failure without DA implications </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_BAD_AUTH")]
         BadAuth = RcFmt1 + 0x022,  // 0xA2
 
-        /// <summary> the policy has expired </summary>
+        /// <summary> The policy has expired </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_EXPIRED")]
         Expired = RcFmt1 + 0x023,  // 0xA3
 
-        /// <summary> the commandCode in the policy is not the commandCode of the command or the
+        /// <summary> The commandCode in the policy is not the commandCode of the command or the
         /// command code in a policy command references a command that is not implemented </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_POLICY_CC")]
         PolicyCc = RcFmt1 + 0x024,  // 0xA4
 
-        /// <summary> public and sensitive portions of an object are not cryptographically bound </summary>
+        /// <summary> Public and sensitive portions of an object are not cryptographically bound </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_BINDING")]
         Binding = RcFmt1 + 0x025,  // 0xA5
 
-        /// <summary> curve not supported </summary>
+        /// <summary> Curve not supported </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_CURVE")]
         Curve = RcFmt1 + 0x026,  // 0xA6
 
-        /// <summary> point is not on the required curve. </summary>
+        /// <summary> Point is not on the required curve. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_ECC_POINT")]
         EccPoint = RcFmt1 + 0x027,  // 0xA7
 
-        /// <summary> set for warning response codes </summary>
+        /// <summary> Set for warning response codes </summary>
         [EnumMember]
         [SpecTypeName("RC_WARN")]
         RcWarn = 0x900, 
 
-        /// <summary> gap for context ID is too large </summary>
+        /// <summary> Gap for context ID is too large </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_CONTEXT_GAP")]
         ContextGap = RcWarn + 0x001,  // 0x901
 
-        /// <summary> out of memory for object contexts </summary>
+        /// <summary> Out of memory for object contexts </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_OBJECT_MEMORY")]
         ObjectMemory = RcWarn + 0x002,  // 0x902
 
-        /// <summary> out of memory for session contexts </summary>
+        /// <summary> Out of memory for session contexts </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SESSION_MEMORY")]
         SessionMemory = RcWarn + 0x003,  // 0x903
 
-        /// <summary> out of shared object/session memory or need space for internal operations </summary>
+        /// <summary> Out of shared object/session memory or need space for internal operations </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_MEMORY")]
         Memory = RcWarn + 0x004,  // 0x904
 
-        /// <summary> out of session handles a session must be flushed before a new session may be
+        /// <summary> Out of session handles a session must be flushed before a new session may be
         /// created </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SESSION_HANDLES")]
         SessionHandles = RcWarn + 0x005,  // 0x905
 
-        /// <summary> out of object handles the handle space for objects is depleted and a reboot
+        /// <summary> Out of object handles the handle space for objects is depleted and a reboot
         /// is required
         /// NOTE 1 This cannot occur on the reference implementation.
         /// NOTE 2 There is no reason why an implementation would implement a design that would
@@ -1619,12 +1619,12 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_OBJECT_HANDLES")]
         ObjectHandles = RcWarn + 0x006,  // 0x906
 
-        /// <summary> bad locality </summary>
+        /// <summary> Bad locality </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_LOCALITY")]
         Locality = RcWarn + 0x007,  // 0x907
 
-        /// <summary> the TPM has suspended operation on the command; forward progress was made
+        /// <summary> The TPM has suspended operation on the command; forward progress was made
         /// and the command may be retried
         /// See TPM 2.0 Part 1, Multi-tasking.
         /// NOTE This cannot occur on the reference implementation. </summary>
@@ -1632,7 +1632,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_YIELDED")]
         Yielded = RcWarn + 0x008,  // 0x908
 
-        /// <summary> the command was canceled </summary>
+        /// <summary> The command was canceled </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_CANCELED")]
         Canceled = RcWarn + 0x009,  // 0x909
@@ -1642,205 +1642,205 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RC_TESTING")]
         Testing = RcWarn + 0x00A,  // 0x90A
 
-        /// <summary> the 1st handle in the handle area references a transient object or session
+        /// <summary> The 1st handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H0")]
         ReferenceH0 = RcWarn + 0x010,  // 0x910
 
-        /// <summary> the 2nd handle in the handle area references a transient object or session
+        /// <summary> The 2nd handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H1")]
         ReferenceH1 = RcWarn + 0x011,  // 0x911
 
-        /// <summary> the 3rd handle in the handle area references a transient object or session
+        /// <summary> The 3rd handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H2")]
         ReferenceH2 = RcWarn + 0x012,  // 0x912
 
-        /// <summary> the 4th handle in the handle area references a transient object or session
+        /// <summary> The 4th handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H3")]
         ReferenceH3 = RcWarn + 0x013,  // 0x913
 
-        /// <summary> the 5th handle in the handle area references a transient object or session
+        /// <summary> The 5th handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H4")]
         ReferenceH4 = RcWarn + 0x014,  // 0x914
 
-        /// <summary> the 6th handle in the handle area references a transient object or session
+        /// <summary> The 6th handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H5")]
         ReferenceH5 = RcWarn + 0x015,  // 0x915
 
-        /// <summary> the 7th handle in the handle area references a transient object or session
+        /// <summary> The 7th handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H6")]
         ReferenceH6 = RcWarn + 0x016,  // 0x916
 
-        /// <summary> the 1st authorization session handle references a session that is not loaded
+        /// <summary> The 1st authorization session handle references a session that is not loaded
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S0")]
         ReferenceS0 = RcWarn + 0x018,  // 0x918
 
-        /// <summary> the 2nd authorization session handle references a session that is not loaded
+        /// <summary> The 2nd authorization session handle references a session that is not loaded
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S1")]
         ReferenceS1 = RcWarn + 0x019,  // 0x919
 
-        /// <summary> the 3rd authorization session handle references a session that is not loaded
+        /// <summary> The 3rd authorization session handle references a session that is not loaded
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S2")]
         ReferenceS2 = RcWarn + 0x01A,  // 0x91A
 
-        /// <summary> the 4th authorization session handle references a session that is not loaded
+        /// <summary> The 4th authorization session handle references a session that is not loaded
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S3")]
         ReferenceS3 = RcWarn + 0x01B,  // 0x91B
 
-        /// <summary> the 5th session handle references a session that is not loaded </summary>
+        /// <summary> The 5th session handle references a session that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S4")]
         ReferenceS4 = RcWarn + 0x01C,  // 0x91C
 
-        /// <summary> the 6th session handle references a session that is not loaded </summary>
+        /// <summary> The 6th session handle references a session that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S5")]
         ReferenceS5 = RcWarn + 0x01D,  // 0x91D
 
-        /// <summary> the 7th authorization session handle references a session that is not loaded
+        /// <summary> The 7th authorization session handle references a session that is not loaded
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S6")]
         ReferenceS6 = RcWarn + 0x01E,  // 0x91E
 
-        /// <summary> the TPM is rate-limiting accesses to prevent wearout of NV </summary>
+        /// <summary> The TPM is rate-limiting accesses to prevent wearout of NV </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_RATE")]
         NvRate = RcWarn + 0x020,  // 0x920
 
-        /// <summary> authorizations for objects subject to DA protection are not allowed at this
+        /// <summary> Authorizations for objects subject to DA protection are not allowed at this
         /// time because the TPM is in DA lockout mode </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_LOCKOUT")]
         Lockout = RcWarn + 0x021,  // 0x921
 
-        /// <summary> the TPM was not able to start the command </summary>
+        /// <summary> The TPM was not able to start the command </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_RETRY")]
         Retry = RcWarn + 0x022,  // 0x922
 
-        /// <summary> the command may require writing of NV and NV is not current accessible </summary>
+        /// <summary> The command may require writing of NV and NV is not current accessible </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_UNAVAILABLE")]
         NvUnavailable = RcWarn + 0x023,  // 0x923
 
-        /// <summary> this value is reserved and shall not be returned by the TPM </summary>
+        /// <summary> This value is reserved and shall not be returned by the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NOT_USED")]
         NotUsed = RcWarn + 0x7F,  // 0x97F
 
-        /// <summary> add to a handle-related error </summary>
+        /// <summary> Add to a handle-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_H")]
         H = 0x000, 
 
-        /// <summary> add to a parameter-related error </summary>
+        /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_P")]
         P = 0x040, 
 
-        /// <summary> add to a session-related error </summary>
+        /// <summary> Add to a session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_S")]
         S = 0x800, 
 
-        /// <summary> add to a parameter-, handle-, or session-related error </summary>
+        /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_1")]
         _1 = 0x100, 
 
-        /// <summary> add to a parameter-, handle-, or session-related error </summary>
+        /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_2")]
         _2 = 0x200, 
 
-        /// <summary> add to a parameter-, handle-, or session-related error </summary>
+        /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_3")]
         _3 = 0x300, 
 
-        /// <summary> add to a parameter-, handle-, or session-related error </summary>
+        /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_4")]
         _4 = 0x400, 
 
-        /// <summary> add to a parameter-, handle-, or session-related error </summary>
+        /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_5")]
         _5 = 0x500, 
 
-        /// <summary> add to a parameter-, handle-, or session-related error </summary>
+        /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_6")]
         _6 = 0x600, 
 
-        /// <summary> add to a parameter-, handle-, or session-related error </summary>
+        /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_7")]
         _7 = 0x700, 
 
-        /// <summary> add to a parameter-related error </summary>
+        /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_8")]
         _8 = 0x800, 
 
-        /// <summary> add to a parameter-related error </summary>
+        /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_9")]
         _9 = 0x900, 
 
-        /// <summary> add to a parameter-related error </summary>
+        /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_A")]
         A = 0xA00, 
 
-        /// <summary> add to a parameter-related error </summary>
+        /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_B")]
         B = 0xB00, 
 
-        /// <summary> add to a parameter-related error </summary>
+        /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_C")]
         C = 0xC00, 
 
-        /// <summary> add to a parameter-related error </summary>
+        /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_D")]
         D = 0xD00, 
 
-        /// <summary> add to a parameter-related error </summary>
+        /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_E")]
         E = 0xE00, 
 
-        /// <summary> add to a parameter-related error </summary>
+        /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_F")]
         F = 0xF00, 
 
-        /// <summary> number mask </summary>
+        /// <summary> Number mask </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_N_MASK")]
         NMask = 0xF00, 
@@ -2171,7 +2171,7 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> tag value for a response; used when there is an error in the tag. This is
+        /// <summary> Tag value for a response; used when there is an error in the tag. This is
         /// also the value returned from a TPM 1.2 when an error occurs. This value is used in
         /// this specification because an error in the command tag may prevent determination of
         /// the family. When this tag is used in the response, the response code will be
@@ -2184,12 +2184,12 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ST_RSP_COMMAND")]
         RspCommand = 0x00C4, 
 
-        /// <summary> no structure type specified </summary>
+        /// <summary> No structure type specified </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_NULL")]
         Null = 0X8000, 
 
-        /// <summary> tag value for a command/response for a command defined in this
+        /// <summary> Tag value for a command/response for a command defined in this
         /// specification; indicating that the command/response has no attached sessions and no
         /// authorizationSize/parameterSize value is present
         /// If the responseCode from the TPM is not TPM_RC_SUCCESS, then the response tag shall
@@ -2198,79 +2198,79 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_ST_NO_SESSIONS")]
         NoSessions = 0x8001, 
 
-        /// <summary> tag value for a command/response for a command defined in this
+        /// <summary> Tag value for a command/response for a command defined in this
         /// specification; indicating that the command/response has one or more attached sessions
         /// and the authorizationSize/parameterSize field is present </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_SESSIONS")]
         Sessions = 0x8002, 
 
-        /// <summary> tag for an attestation structure </summary>
+        /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_NV")]
         AttestNv = 0x8014, 
 
-        /// <summary> tag for an attestation structure </summary>
+        /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_COMMAND_AUDIT")]
         AttestCommandAudit = 0x8015, 
 
-        /// <summary> tag for an attestation structure </summary>
+        /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_SESSION_AUDIT")]
         AttestSessionAudit = 0x8016, 
 
-        /// <summary> tag for an attestation structure </summary>
+        /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_CERTIFY")]
         AttestCertify = 0x8017, 
 
-        /// <summary> tag for an attestation structure </summary>
+        /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_QUOTE")]
         AttestQuote = 0x8018, 
 
-        /// <summary> tag for an attestation structure </summary>
+        /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_TIME")]
         AttestTime = 0x8019, 
 
-        /// <summary> tag for an attestation structure </summary>
+        /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_CREATION")]
         AttestCreation = 0x801A, 
 
-        /// <summary> tag for an attestation structure </summary>
+        /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_NV_DIGEST")]
         AttestNvDigest = 0x801C, 
 
-        /// <summary> tag for a ticket type </summary>
+        /// <summary> Tag for a ticket type </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_CREATION")]
         Creation = 0x8021, 
 
-        /// <summary> tag for a ticket type </summary>
+        /// <summary> Tag for a ticket type </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_VERIFIED")]
         Verified = 0x8022, 
 
-        /// <summary> tag for a ticket type </summary>
+        /// <summary> Tag for a ticket type </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_AUTH_SECRET")]
         AuthSecret = 0x8023, 
 
-        /// <summary> tag for a ticket type </summary>
+        /// <summary> Tag for a ticket type </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_HASHCHECK")]
         Hashcheck = 0x8024, 
 
-        /// <summary> tag for a ticket type </summary>
+        /// <summary> Tag for a ticket type </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_AUTH_SIGNED")]
         AuthSigned = 0x8025, 
 
-        /// <summary> tag for a structure describing a Field Upgrade Policy </summary>
+        /// <summary> Tag for a structure describing a Field Upgrade Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_FU_MANIFEST")]
         FuManifest = 0x8029
@@ -2284,14 +2284,14 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> on TPM2_Shutdown(), indicates that the TPM should prepare for loss of power
+        /// <summary> On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power
         /// and save state required for an orderly startup (TPM Reset).
         /// on TPM2_Startup(), indicates that the TPM should perform TPM Reset or TPM Restart </summary>
         [EnumMember]
         [SpecTypeName("TPM_SU_CLEAR")]
         Clear = 0x0000, 
 
-        /// <summary> on TPM2_Shutdown(), indicates that the TPM should prepare for loss of power
+        /// <summary> On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power
         /// and save state required for an orderly startup (TPM Restart or TPM Resume)
         /// on TPM2_Startup(), indicates that the TPM should restore the state saved by
         /// TPM2_Shutdown(TPM_SU_STATE) </summary>
@@ -2397,7 +2397,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_CAP_LAST")]
         Last = 0x0000000A, 
 
-        /// <summary> manufacturer-specific values </summary>
+        /// <summary> Manufacturer-specific values </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_VENDOR_PROPERTY")]
         VendorProperty = 0x00000100
@@ -2410,7 +2410,7 @@ namespace Tpm2Lib {
     public enum Pt : uint
     {
 
-        /// <summary> indicates no property type </summary>
+        /// <summary> Indicates no property type </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NONE")]
         None = 0x00000000, 
@@ -2422,33 +2422,33 @@ namespace Tpm2Lib {
         [SpecTypeName("PT_GROUP")]
         PtGroup = 0x00000100, 
 
-        /// <summary> the group of fixed properties returned as TPMS_TAGGED_PROPERTY
+        /// <summary> The group of fixed properties returned as TPMS_TAGGED_PROPERTY
         /// The values in this group are only changed due to a firmware change in the TPM. </summary>
         [EnumMember]
         [SpecTypeName("PT_FIXED")]
         PtFixed = PtGroup * 1,  // 0x100
 
-        /// <summary> a 4-octet character string containing the TPM Family value (TPM_SPEC_FAMILY)
+        /// <summary> A 4-octet character string containing the TPM Family value (TPM_SPEC_FAMILY)
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_FAMILY_INDICATOR")]
         FamilyIndicator = PtFixed + 0,  // 0x100
 
-        /// <summary> the level of the specification
+        /// <summary> The level of the specification
         /// NOTE 1 For this specification, the level is zero.
         /// NOTE 2 The level is on the title page of the specification. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LEVEL")]
         Level = PtFixed + 1,  // 0x101
 
-        /// <summary> the specification Revision times 100
+        /// <summary> The specification Revision times 100
         /// EXAMPLE Revision 01.01 would have a value of 101.
         /// NOTE The Revision value is on the title page of the specification. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_REVISION")]
         Revision = PtFixed + 2,  // 0x102
 
-        /// <summary> the specification day of year using TCG calendar
+        /// <summary> The specification day of year using TCG calendar
         /// EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
         /// NOTE The specification date is on the title page of the specification or errata (see
         /// 6.1). </summary>
@@ -2456,7 +2456,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_DAY_OF_YEAR")]
         DayOfYear = PtFixed + 3,  // 0x103
 
-        /// <summary> the specification year using the CE
+        /// <summary> The specification year using the CE
         /// EXAMPLE The year 2010 has a value of 000007DA16.
         /// NOTE The specification date is on the title page of the specification or errata (see
         /// 6.1). </summary>
@@ -2464,12 +2464,12 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_YEAR")]
         Year = PtFixed + 4,  // 0x104
 
-        /// <summary> the vendor ID unique to each TPM manufacturer </summary>
+        /// <summary> The vendor ID unique to each TPM manufacturer </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MANUFACTURER")]
         Manufacturer = PtFixed + 5,  // 0x105
 
-        /// <summary> the first four characters of the vendor ID string
+        /// <summary> The first four characters of the vendor ID string
         /// NOTE When the vendor string is fewer than 16 octets, the additional property values do
         /// not have to be present. A vendor string of 4 octets can be represented in one 32-bit
         /// value and no null terminating character is required. </summary>
@@ -2477,65 +2477,65 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_VENDOR_STRING_1")]
         VendorString1 = PtFixed + 6,  // 0x106
 
-        /// <summary> the second four characters of the vendor ID string </summary>
+        /// <summary> The second four characters of the vendor ID string </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_VENDOR_STRING_2")]
         VendorString2 = PtFixed + 7,  // 0x107
 
-        /// <summary> the third four characters of the vendor ID string </summary>
+        /// <summary> The third four characters of the vendor ID string </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_VENDOR_STRING_3")]
         VendorString3 = PtFixed + 8,  // 0x108
 
-        /// <summary> the fourth four characters of the vendor ID sting </summary>
+        /// <summary> The fourth four characters of the vendor ID sting </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_VENDOR_STRING_4")]
         VendorString4 = PtFixed + 9,  // 0x109
 
-        /// <summary> vendor-defined value indicating the TPM model </summary>
+        /// <summary> Vendor-defined value indicating the TPM model </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_VENDOR_TPM_TYPE")]
         VendorTpmType = PtFixed + 10,  // 0x10A
 
-        /// <summary> the most-significant 32 bits of a TPM vendor-specific value indicating the
+        /// <summary> The most-significant 32 bits of a TPM vendor-specific value indicating the
         /// version number of the firmware. See 10.12.2 and 10.12.12. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_FIRMWARE_VERSION_1")]
         FirmwareVersion1 = PtFixed + 11,  // 0x10B
 
-        /// <summary> the least-significant 32 bits of a TPM vendor-specific value indicating the
+        /// <summary> The least-significant 32 bits of a TPM vendor-specific value indicating the
         /// version number of the firmware. See 10.12.2 and 10.12.12. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_FIRMWARE_VERSION_2")]
         FirmwareVersion2 = PtFixed + 12,  // 0x10C
 
-        /// <summary> the maximum size of a parameter (typically, a TPM2B_MAX_BUFFER) </summary>
+        /// <summary> The maximum size of a parameter (typically, a TPM2B_MAX_BUFFER) </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_INPUT_BUFFER")]
         InputBuffer = PtFixed + 13,  // 0x10D
 
-        /// <summary> the minimum number of transient objects that can be held in TPM RAM
+        /// <summary> The minimum number of transient objects that can be held in TPM RAM
         /// NOTE This minimum shall be no less than the minimum value required by the
         /// platform-specific specification to which the TPM is built. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_TRANSIENT_MIN")]
         HrTransientMin = PtFixed + 14,  // 0x10E
 
-        /// <summary> the minimum number of persistent objects that can be held in TPM NV memory
+        /// <summary> The minimum number of persistent objects that can be held in TPM NV memory
         /// NOTE This minimum shall be no less than the minimum value required by the
         /// platform-specific specification to which the TPM is built. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_PERSISTENT_MIN")]
         HrPersistentMin = PtFixed + 15,  // 0x10F
 
-        /// <summary> the minimum number of authorization sessions that can be held in TPM RAM
+        /// <summary> The minimum number of authorization sessions that can be held in TPM RAM
         /// NOTE This minimum shall be no less than the minimum value required by the
         /// platform-specific specification to which the TPM is built. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_LOADED_MIN")]
         HrLoadedMin = PtFixed + 16,  // 0x110
 
-        /// <summary> the number of authorization sessions that may be active at a time
+        /// <summary> The number of authorization sessions that may be active at a time
         /// A session is active when it has a context associated with its handle. The context may
         /// either be in TPM RAM or be context saved.
         /// NOTE This value shall be no less than the minimum value required by the
@@ -2544,14 +2544,14 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_ACTIVE_SESSIONS_MAX")]
         ActiveSessionsMax = PtFixed + 17,  // 0x111
 
-        /// <summary> the number of PCR implemented
+        /// <summary> The number of PCR implemented
         /// NOTE This number is determined by the defined attributes, not the number of PCR that
         /// are populated. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_COUNT")]
         PcrCount = PtFixed + 18,  // 0x112
 
-        /// <summary> the minimum number of octets in a TPMS_PCR_SELECT.sizeOfSelect
+        /// <summary> The minimum number of octets in a TPMS_PCR_SELECT.sizeOfSelect
         /// NOTE This value is not determined by the number of PCR implemented but by the number
         /// of PCR required by the platform-specific specification with which the TPM is compliant
         /// or by the implementer if not adhering to a platform-specific specification. </summary>
@@ -2559,14 +2559,14 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_PCR_SELECT_MIN")]
         PcrSelectMin = PtFixed + 19,  // 0x113
 
-        /// <summary> the maximum allowed difference (unsigned) between the contextID values of
+        /// <summary> The maximum allowed difference (unsigned) between the contextID values of
         /// two saved session contexts
         /// This value shall be 2n-1, where n is at least 16. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_CONTEXT_GAP_MAX")]
         ContextGapMax = PtFixed + 20,  // 0x114
 
-        /// <summary> the maximum number of NV Indexes that are allowed to have the TPM_NT_COUNTER
+        /// <summary> The maximum number of NV Indexes that are allowed to have the TPM_NT_COUNTER
         /// attribute
         /// NOTE 1 It is allowed for this value to be larger than the number of NV Indexes that
         /// can be defined. This would be indicative of a TPM implementation that did not use
@@ -2577,23 +2577,23 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_NV_COUNTERS_MAX")]
         NvCountersMax = PtFixed + 22,  // 0x116
 
-        /// <summary> the maximum size of an NV Index data area </summary>
+        /// <summary> The maximum size of an NV Index data area </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_INDEX_MAX")]
         NvIndexMax = PtFixed + 23,  // 0x117
 
-        /// <summary> a TPMA_MEMORY indicating the memory management method for the TPM </summary>
+        /// <summary> A TPMA_MEMORY indicating the memory management method for the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MEMORY")]
         Memory = PtFixed + 24,  // 0x118
 
-        /// <summary> interval, in milliseconds, between updates to the copy of
+        /// <summary> Interval, in milliseconds, between updates to the copy of
         /// TPMS_CLOCK_INFO.clock in NV </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_CLOCK_UPDATE")]
         ClockUpdate = PtFixed + 25,  // 0x119
 
-        /// <summary> the algorithm used for the integrity HMAC on saved contexts and for hashing
+        /// <summary> The algorithm used for the integrity HMAC on saved contexts and for hashing
         /// the fuData of TPM2_FirmwareRead() </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_CONTEXT_HASH")]
@@ -2609,7 +2609,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_CONTEXT_SYM_SIZE")]
         ContextSymSize = PtFixed + 28,  // 0x11C
 
-        /// <summary> the modulus - 1 of the count for NV update of an orderly counter
+        /// <summary> The modulus - 1 of the count for NV update of an orderly counter
         /// The returned value is MAX_ORDERLY_COUNT.
         /// This will have a value of 2N 1 where 1 N 32
         /// NOTE 1 An orderly counter is an NV Index with an TPM_NT of TPM_NV_COUNTER and
@@ -2620,34 +2620,34 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_ORDERLY_COUNT")]
         OrderlyCount = PtFixed + 29,  // 0x11D
 
-        /// <summary> the maximum value for commandSize in a command </summary>
+        /// <summary> The maximum value for commandSize in a command </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_COMMAND_SIZE")]
         MaxCommandSize = PtFixed + 30,  // 0x11E
 
-        /// <summary> the maximum value for responseSize in a response </summary>
+        /// <summary> The maximum value for responseSize in a response </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_RESPONSE_SIZE")]
         MaxResponseSize = PtFixed + 31,  // 0x11F
 
-        /// <summary> the maximum size of a digest that can be produced by the TPM </summary>
+        /// <summary> The maximum size of a digest that can be produced by the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_DIGEST")]
         MaxDigest = PtFixed + 32,  // 0x120
 
-        /// <summary> the maximum size of an object context that will be returned by
+        /// <summary> The maximum size of an object context that will be returned by
         /// TPM2_ContextSave </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_OBJECT_CONTEXT")]
         MaxObjectContext = PtFixed + 33,  // 0x121
 
-        /// <summary> the maximum size of a session context that will be returned by
+        /// <summary> The maximum size of a session context that will be returned by
         /// TPM2_ContextSave </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_SESSION_CONTEXT")]
         MaxSessionContext = PtFixed + 34,  // 0x122
 
-        /// <summary> platform-specific family (a TPM_PS value)(see Table 25)
+        /// <summary> Platform-specific family (a TPM_PS value)(see Table 25)
         /// NOTE The platform-specific values for the TPM_PT_PS parameters are in the relevant
         /// platform-specific specification. In the reference implementation, all of these values
         /// are 0. </summary>
@@ -2655,66 +2655,66 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_PS_FAMILY_INDICATOR")]
         PsFamilyIndicator = PtFixed + 35,  // 0x123
 
-        /// <summary> the level of the platform-specific specification </summary>
+        /// <summary> The level of the platform-specific specification </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PS_LEVEL")]
         PsLevel = PtFixed + 36,  // 0x124
 
-        /// <summary> a platform specific value </summary>
+        /// <summary> A platform specific value </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PS_REVISION")]
         PsRevision = PtFixed + 37,  // 0x125
 
-        /// <summary> the platform-specific TPM specification day of year using TCG calendar
+        /// <summary> The platform-specific TPM specification day of year using TCG calendar
         /// EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16). </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PS_DAY_OF_YEAR")]
         PsDayOfYear = PtFixed + 38,  // 0x126
 
-        /// <summary> the platform-specific TPM specification year using the CE
+        /// <summary> The platform-specific TPM specification year using the CE
         /// EXAMPLE The year 2010 has a value of 000007DA16. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PS_YEAR")]
         PsYear = PtFixed + 39,  // 0x127
 
-        /// <summary> the number of split signing operations supported by the TPM </summary>
+        /// <summary> The number of split signing operations supported by the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_SPLIT_MAX")]
         SplitMax = PtFixed + 40,  // 0x128
 
-        /// <summary> total number of commands implemented in the TPM </summary>
+        /// <summary> Total number of commands implemented in the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_TOTAL_COMMANDS")]
         TotalCommands = PtFixed + 41,  // 0x129
 
-        /// <summary> number of commands from the TPM library that are implemented </summary>
+        /// <summary> Number of commands from the TPM library that are implemented </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LIBRARY_COMMANDS")]
         LibraryCommands = PtFixed + 42,  // 0x12A
 
-        /// <summary> number of vendor commands that are implemented </summary>
+        /// <summary> Number of vendor commands that are implemented </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_VENDOR_COMMANDS")]
         VendorCommands = PtFixed + 43,  // 0x12B
 
-        /// <summary> the maximum data size in one NV write, NV read, NV extend, or NV certify
+        /// <summary> The maximum data size in one NV write, NV read, NV extend, or NV certify
         /// command </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_BUFFER_MAX")]
         NvBufferMax = PtFixed + 44,  // 0x12C
 
-        /// <summary> a TPMA_MODES value, indicating that the TPM is designed for these modes. </summary>
+        /// <summary> A TPMA_MODES value, indicating that the TPM is designed for these modes. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MODES")]
         Modes = PtFixed + 45,  // 0x12D
 
-        /// <summary> the maximum size of a TPMS_CAPABILITY_DATA structure returned in
+        /// <summary> The maximum size of a TPMS_CAPABILITY_DATA structure returned in
         /// TPM2_GetCapability(). </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_CAP_BUFFER")]
         MaxCapBuffer = PtFixed + 46,  // 0x12E
 
-        /// <summary> the group of variable properties returned as TPMS_TAGGED_PROPERTY
+        /// <summary> The group of variable properties returned as TPMS_TAGGED_PROPERTY
         /// The properties in this group change because of a Protected Capability other than a
         /// firmware update. The values are not necessarily persistent across all power
         /// transitions. </summary>
@@ -2732,17 +2732,17 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_STARTUP_CLEAR")]
         StartupClear = PtVar + 1,  // 0x201
 
-        /// <summary> the number of NV Indexes currently defined </summary>
+        /// <summary> The number of NV Indexes currently defined </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_NV_INDEX")]
         HrNvIndex = PtVar + 2,  // 0x202
 
-        /// <summary> the number of authorization sessions currently loaded into TPM RAM </summary>
+        /// <summary> The number of authorization sessions currently loaded into TPM RAM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_LOADED")]
         HrLoaded = PtVar + 3,  // 0x203
 
-        /// <summary> the number of additional authorization sessions, of any type, that could be
+        /// <summary> The number of additional authorization sessions, of any type, that could be
         /// loaded into TPM RAM
         /// This value is an estimate. If this value is at least 1, then at least one
         /// authorization session of any type may be loaded. Any command that changes the RAM
@@ -2753,13 +2753,13 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_HR_LOADED_AVAIL")]
         HrLoadedAvail = PtVar + 4,  // 0x204
 
-        /// <summary> the number of active authorization sessions currently being tracked by the TPM
+        /// <summary> The number of active authorization sessions currently being tracked by the TPM
         /// This is the sum of the loaded and saved sessions. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_ACTIVE")]
         HrActive = PtVar + 5,  // 0x205
 
-        /// <summary> the number of additional authorization sessions, of any type, that could be created
+        /// <summary> The number of additional authorization sessions, of any type, that could be created
         /// This value is an estimate. If this value is at least 1, then at least one
         /// authorization session of any type may be created. Any command that changes the RAM
         /// memory allocation can make this estimate invalid.
@@ -2769,7 +2769,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_HR_ACTIVE_AVAIL")]
         HrActiveAvail = PtVar + 6,  // 0x206
 
-        /// <summary> estimate of the number of additional transient objects that could be loaded
+        /// <summary> Estimate of the number of additional transient objects that could be loaded
         /// into TPM RAM
         /// This value is an estimate. If this value is at least 1, then at least one object of
         /// any type may be loaded. Any command that changes the memory allocation can make this
@@ -2780,12 +2780,12 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_HR_TRANSIENT_AVAIL")]
         HrTransientAvail = PtVar + 7,  // 0x207
 
-        /// <summary> the number of persistent objects currently loaded into TPM NV memory </summary>
+        /// <summary> The number of persistent objects currently loaded into TPM NV memory </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_PERSISTENT")]
         HrPersistent = PtVar + 8,  // 0x208
 
-        /// <summary> the number of additional persistent objects that could be loaded into NV memory
+        /// <summary> The number of additional persistent objects that could be loaded into NV memory
         /// This value is an estimate. If this value is at least 1, then at least one object of
         /// any type may be made persistent. Any command that changes the NV memory allocation can
         /// make this estimate invalid.
@@ -2795,12 +2795,12 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_HR_PERSISTENT_AVAIL")]
         HrPersistentAvail = PtVar + 9,  // 0x209
 
-        /// <summary> the number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute </summary>
+        /// <summary> The number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_COUNTERS")]
         NvCounters = PtVar + 10,  // 0x20A
 
-        /// <summary> the number of additional NV Indexes that can be defined with their TPM_NT of
+        /// <summary> The number of additional NV Indexes that can be defined with their TPM_NT of
         /// TPM_NV_COUNTER and the TPMA_NV_ORDERLY attribute SET
         /// This value is an estimate. If this value is at least 1, then at least one NV Index may
         /// be created with a TPM_NT of TPM_NV_COUNTER and the TPMA_NV_ORDERLY attributes. Any
@@ -2811,51 +2811,51 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_PT_NV_COUNTERS_AVAIL")]
         NvCountersAvail = PtVar + 11,  // 0x20B
 
-        /// <summary> code that limits the algorithms that may be used with the TPM </summary>
+        /// <summary> Code that limits the algorithms that may be used with the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_ALGORITHM_SET")]
         AlgorithmSet = PtVar + 12,  // 0x20C
 
-        /// <summary> the number of loaded ECC curves </summary>
+        /// <summary> The number of loaded ECC curves </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LOADED_CURVES")]
         LoadedCurves = PtVar + 13,  // 0x20D
 
-        /// <summary> the current value of the lockout counter (failedTries) </summary>
+        /// <summary> The current value of the lockout counter (failedTries) </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LOCKOUT_COUNTER")]
         LockoutCounter = PtVar + 14,  // 0x20E
 
-        /// <summary> the number of authorization failures before DA lockout is invoked </summary>
+        /// <summary> The number of authorization failures before DA lockout is invoked </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_AUTH_FAIL")]
         MaxAuthFail = PtVar + 15,  // 0x20F
 
-        /// <summary> the number of seconds before the value reported by TPM_PT_LOCKOUT_COUNTER is
+        /// <summary> The number of seconds before the value reported by TPM_PT_LOCKOUT_COUNTER is
         /// decremented </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LOCKOUT_INTERVAL")]
         LockoutInterval = PtVar + 16,  // 0x210
 
-        /// <summary> the number of seconds after a lockoutAuth failure before use of lockoutAuth
+        /// <summary> The number of seconds after a lockoutAuth failure before use of lockoutAuth
         /// may be attempted again </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LOCKOUT_RECOVERY")]
         LockoutRecovery = PtVar + 17,  // 0x211
 
-        /// <summary> number of milliseconds before the TPM will accept another command that will
+        /// <summary> Number of milliseconds before the TPM will accept another command that will
         /// modify NV
         /// This value is an approximation and may go up or down over time. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_WRITE_RECOVERY")]
         NvWriteRecovery = PtVar + 18,  // 0x212
 
-        /// <summary> the high-order 32 bits of the command audit counter </summary>
+        /// <summary> The high-order 32 bits of the command audit counter </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_AUDIT_COUNTER_0")]
         AuditCounter0 = PtVar + 19,  // 0x213
 
-        /// <summary> the low-order 32 bits of the command audit counter </summary>
+        /// <summary> The low-order 32 bits of the command audit counter </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_AUDIT_COUNTER_1")]
         AuditCounter1 = PtVar + 20 // 0x214
@@ -2871,113 +2871,113 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> bottom of the range of TPM_PT_PCR properties </summary>
+        /// <summary> Bottom of the range of TPM_PT_PCR properties </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_FIRST")]
         First = 0x00000000, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and
         /// restored by TPM_SU_STATE </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_SAVE")]
         Save = 0x00000000, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
         /// locality 0
         /// This property is only present if a locality other than 0 is implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_EXTEND_L0")]
         ExtendL0 = 0x00000001, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
         /// TPM2_PCR_Reset() from locality 0 </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_RESET_L0")]
         ResetL0 = 0x00000002, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
         /// locality 1
         /// This property is only present if locality 1 is implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_EXTEND_L1")]
         ExtendL1 = 0x00000003, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
         /// TPM2_PCR_Reset() from locality 1
         /// This property is only present if locality 1 is implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_RESET_L1")]
         ResetL1 = 0x00000004, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
         /// locality 2
         /// This property is only present if localities 1 and 2 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_EXTEND_L2")]
         ExtendL2 = 0x00000005, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
         /// TPM2_PCR_Reset() from locality 2
         /// This property is only present if localities 1 and 2 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_RESET_L2")]
         ResetL2 = 0x00000006, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
         /// locality 3
         /// This property is only present if localities 1, 2, and 3 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_EXTEND_L3")]
         ExtendL3 = 0x00000007, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
         /// TPM2_PCR_Reset() from locality 3
         /// This property is only present if localities 1, 2, and 3 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_RESET_L3")]
         ResetL3 = 0x00000008, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
         /// locality 4
         /// This property is only present if localities 1, 2, 3, and 4 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_EXTEND_L4")]
         ExtendL4 = 0x00000009, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
         /// TPM2_PCR_Reset() from locality 4
         /// This property is only present if localities 1, 2, 3, and 4 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_RESET_L4")]
         ResetL4 = 0x0000000A, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that modifications to this PCR
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that modifications to this PCR
         /// (reset or Extend) will not increment the pcrUpdateCounter </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_NO_INCREMENT")]
         NoIncrement = 0x00000011, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR is reset by a D-RTM event
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is reset by a D-RTM event
         /// These PCR are reset to -1 on TPM2_Startup() and reset to 0 on a _TPM_Hash_End event
         /// following a _TPM_Hash_Start event. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_DRTM_RESET")]
         DrtmReset = 0x00000012, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by policy
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by policy
         /// This property is only present if the TPM supports policy control of a PCR. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_POLICY")]
         Policy = 0x00000013, 
 
-        /// <summary> a SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by an
+        /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by an
         /// authorization value
         /// This property is only present if the TPM supports authorization control of a PCR. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_AUTH")]
         Auth = 0x00000014, 
 
-        /// <summary> top of the range of TPM_PT_PCR properties of the implementation
+        /// <summary> Top of the range of TPM_PT_PCR properties of the implementation
         /// If the TPM receives a request for a PCR property with a value larger than this, the
         /// TPM will return a zero length list and set the moreData parameter to NO.
         /// NOTE This is an implementation-specific value. The value shown reflects the reference
@@ -2995,7 +2995,7 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> not platform specific </summary>
+        /// <summary> Not platform specific </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_MAIN")]
         Main = 0x00000000, 
@@ -3156,80 +3156,80 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RH_FIRST")]
         First = 0x40000000, 
 
-        /// <summary> not used1 </summary>
+        /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_SRK")]
         Srk = 0x40000000, 
 
-        /// <summary> handle references the Storage Primary Seed (SPS), the ownerAuth, and the
+        /// <summary> Handle references the Storage Primary Seed (SPS), the ownerAuth, and the
         /// ownerPolicy </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_OWNER")]
         Owner = 0x40000001, 
 
-        /// <summary> not used1 </summary>
+        /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_REVOKE")]
         Revoke = 0x40000002, 
 
-        /// <summary> not used1 </summary>
+        /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_TRANSPORT")]
         Transport = 0x40000003, 
 
-        /// <summary> not used1 </summary>
+        /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_OPERATOR")]
         Operator = 0x40000004, 
 
-        /// <summary> not used1 </summary>
+        /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_ADMIN")]
         Admin = 0x40000005, 
 
-        /// <summary> not used1 </summary>
+        /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_EK")]
         Ek = 0x40000006, 
 
-        /// <summary> a handle associated with the null hierarchy, an EmptyAuth authValue, and an
+        /// <summary> A handle associated with the null hierarchy, an EmptyAuth authValue, and an
         /// Empty Policy authPolicy. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_NULL")]
         Null = 0x40000007, 
 
-        /// <summary> value reserved to the TPM to indicate a handle location that has not been
+        /// <summary> Value reserved to the TPM to indicate a handle location that has not been
         /// initialized or assigned </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_UNASSIGNED")]
         Unassigned = 0x40000008, 
 
-        /// <summary> authorization value used to indicate a password authorization session </summary>
+        /// <summary> Authorization value used to indicate a password authorization session </summary>
         [EnumMember]
         [SpecTypeName("TPM_RS_PW")]
         Pw = 0x40000009,
         [Obsolete("Use TpmRh.Pw instead")]
         TpmRsPw = 0x40000009, 
 
-        /// <summary> references the authorization associated with the dictionary attack lockout
+        /// <summary> References the authorization associated with the dictionary attack lockout
         /// reset </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_LOCKOUT")]
         Lockout = 0x4000000A, 
 
-        /// <summary> references the Endorsement Primary Seed (EPS), endorsementAuth, and
+        /// <summary> References the Endorsement Primary Seed (EPS), endorsementAuth, and
         /// endorsementPolicy </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_ENDORSEMENT")]
         Endorsement = 0x4000000B, 
 
-        /// <summary> references the Platform Primary Seed (PPS), platformAuth, and platformPolicy
+        /// <summary> References the Platform Primary Seed (PPS), platformAuth, and platformPolicy
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_PLATFORM")]
         Platform = 0x4000000C, 
 
-        /// <summary> for phEnableNV </summary>
+        /// <summary> For phEnableNV </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_PLATFORM_NV")]
         PlatformNv = 0x4000000D, 
@@ -3257,7 +3257,7 @@ namespace Tpm2Lib {
         [SpecTypeName("TPM_RH_ACT_F")]
         ActF = 0x4000011F, 
 
-        /// <summary> the top of the reserved handle area
+        /// <summary> The top of the reserved handle area
         /// This is set to allow TPM2_GetCapability() to know where to stop. It may vary as
         /// implementations add to the permanent handle area. </summary>
         [EnumMember]
@@ -3318,23 +3318,23 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> in a command, a non-specific request for AC information; in a response,
+        /// <summary> In a command, a non-specific request for AC information; in a response,
         /// indicates that outputData is not meaningful </summary>
         [EnumMember]
         [SpecTypeName("TPM_AT_ANY")]
         Any = 0x00000000, 
 
-        /// <summary> indicates a TCG defined, device-specific error </summary>
+        /// <summary> Indicates a TCG defined, device-specific error </summary>
         [EnumMember]
         [SpecTypeName("TPM_AT_ERROR")]
         Error = 0x00000001, 
 
-        /// <summary> indicates the most significant 32 bits of a pairing value for the AC </summary>
+        /// <summary> Indicates the most significant 32 bits of a pairing value for the AC </summary>
         [EnumMember]
         [SpecTypeName("TPM_AT_PV1")]
         Pv1 = 0x00000002, 
 
-        /// <summary> value added to a TPM_AT to indicate a vendor-specific tag value </summary>
+        /// <summary> Value added to a TPM_AT to indicate a vendor-specific tag value </summary>
         [EnumMember]
         [SpecTypeName("TPM_AT_VEND")]
         Vend = 0x80000000
@@ -3346,7 +3346,7 @@ namespace Tpm2Lib {
     public enum Ae : uint
     {
 
-        /// <summary> in a command, a non-specific request for AC information; in a response,
+        /// <summary> In a command, a non-specific request for AC information; in a response,
         /// indicates that outputData is not meaningful </summary>
         [EnumMember]
         [SpecTypeName("TPM_AE_NONE")]
@@ -3390,7 +3390,7 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> temporary define </summary>
+        /// <summary> Temporary define </summary>
         [EnumMember]
         [SpecTypeName("FIELD_UPGRADE_IMPLEMENTED")]
         FieldUpgradeImplemented = Logic.No,  // 0x0
@@ -3412,7 +3412,7 @@ namespace Tpm2Lib {
         [SpecTypeName("MATH_LIB")]
         MathLib = ImplementationConstants.Ossl,  // 0x1
 
-        /// <summary> the number of PCR in the TPM </summary>
+        /// <summary> The number of PCR in the TPM </summary>
         [EnumMember]
         [SpecTypeName("IMPLEMENTATION_PCR")]
         ImplementationPcr = 24, 
@@ -3421,7 +3421,7 @@ namespace Tpm2Lib {
         [SpecTypeName("PCR_SELECT_MAX")]
         PcrSelectMax = ((ImplementationPcr+7)/8),  // 0x3
 
-        /// <summary> the number of PCR required by the relevant platform specification </summary>
+        /// <summary> The number of PCR required by the relevant platform specification </summary>
         [EnumMember]
         [SpecTypeName("PLATFORM_PCR")]
         PlatformPcr = 24, 
@@ -3430,64 +3430,64 @@ namespace Tpm2Lib {
         [SpecTypeName("PCR_SELECT_MIN")]
         PcrSelectMin = ((PlatformPcr + 7) / 8),  // 0x3
 
-        /// <summary> the D-RTM PCR
+        /// <summary> The D-RTM PCR
         /// NOTE This value is not defined when the TPM does not implement D-RTM </summary>
         [EnumMember]
         [SpecTypeName("DRTM_PCR")]
         DrtmPcr = 17, 
 
-        /// <summary> the PCR that will receive the H-CRTM value at TPM2_Startup. This value
+        /// <summary> The PCR that will receive the H-CRTM value at TPM2_Startup. This value
         /// should not be changed. </summary>
         [EnumMember]
         [SpecTypeName("HCRTM_PCR")]
         HcrtmPcr = 0, 
 
-        /// <summary> the number of localities supported by the TPM
+        /// <summary> The number of localities supported by the TPM
         /// This is expected to be either 5 for a PC, or 1 for just about everything else. </summary>
         [EnumMember]
         [SpecTypeName("NUM_LOCALITIES")]
         NumLocalities = 5, 
 
-        /// <summary> the maximum number of handles in the handle area
+        /// <summary> The maximum number of handles in the handle area
         /// This should be produced by the Part 3 parser but is here for now. </summary>
         [EnumMember]
         [SpecTypeName("MAX_HANDLE_NUM")]
         MaxHandleNum = 3, 
 
-        /// <summary> the number of simultaneously active sessions that are supported by the TPM
+        /// <summary> The number of simultaneously active sessions that are supported by the TPM
         /// implementation </summary>
         [EnumMember]
         [SpecTypeName("MAX_ACTIVE_SESSIONS")]
         MaxActiveSessions = 64, 
 
-        /// <summary> the number of sessions that the TPM may have in memory </summary>
+        /// <summary> The number of sessions that the TPM may have in memory </summary>
         [EnumMember]
         [SpecTypeName("MAX_LOADED_SESSIONS")]
         MaxLoadedSessions = 3, 
 
-        /// <summary> this is the current maximum value </summary>
+        /// <summary> This is the current maximum value </summary>
         [EnumMember]
         [SpecTypeName("MAX_SESSION_NUM")]
         MaxSessionNum = 3, 
 
-        /// <summary> the number of simultaneously loaded objects that are supported by the TPM;
+        /// <summary> The number of simultaneously loaded objects that are supported by the TPM;
         /// this number does not include the objects that may be placed in NV memory by
         /// TPM2_EvictControl(). </summary>
         [EnumMember]
         [SpecTypeName("MAX_LOADED_OBJECTS")]
         MaxLoadedObjects = 3, 
 
-        /// <summary> the minimum number of evict objects supported by the TPM </summary>
+        /// <summary> The minimum number of evict objects supported by the TPM </summary>
         [EnumMember]
         [SpecTypeName("MIN_EVICT_OBJECTS")]
         MinEvictObjects = 2, 
 
-        /// <summary> number of PCR groups that have individual policies </summary>
+        /// <summary> Number of PCR groups that have individual policies </summary>
         [EnumMember]
         [SpecTypeName("NUM_POLICY_PCR_GROUP")]
         NumPolicyPcrGroup = 1, 
 
-        /// <summary> number of PCR groups that have individual authorization values </summary>
+        /// <summary> Number of PCR groups that have individual authorization values </summary>
         [EnumMember]
         [SpecTypeName("NUM_AUTHVALUE_PCR_GROUP")]
         NumAuthvaluePcrGroup = 1, 
@@ -3500,27 +3500,27 @@ namespace Tpm2Lib {
         [SpecTypeName("MAX_DIGEST_BUFFER")]
         MaxDigestBuffer = 1024, 
 
-        /// <summary> maximum data size allowed in an NV Index </summary>
+        /// <summary> Maximum data size allowed in an NV Index </summary>
         [EnumMember]
         [SpecTypeName("MAX_NV_INDEX_SIZE")]
         MaxNvIndexSize = 2048, 
 
-        /// <summary> maximum data size in one NV read or write command </summary>
+        /// <summary> Maximum data size in one NV read or write command </summary>
         [EnumMember]
         [SpecTypeName("MAX_NV_BUFFER_SIZE")]
         MaxNvBufferSize = 1024, 
 
-        /// <summary> maximum size of a capability buffer </summary>
+        /// <summary> Maximum size of a capability buffer </summary>
         [EnumMember]
         [SpecTypeName("MAX_CAP_BUFFER")]
         MaxCapBuffer = 1024, 
 
-        /// <summary> size of NV memory in octets </summary>
+        /// <summary> Size of NV memory in octets </summary>
         [EnumMember]
         [SpecTypeName("NV_MEMORY_SIZE")]
         NvMemorySize = 16384, 
 
-        /// <summary> the TPM will not allocate a non-counter index if it would prevent allocation
+        /// <summary> The TPM will not allocate a non-counter index if it would prevent allocation
         /// of this number of indices. </summary>
         [EnumMember]
         [SpecTypeName("MIN_COUNTER_INDICES")]
@@ -3530,49 +3530,49 @@ namespace Tpm2Lib {
         [SpecTypeName("NUM_STATIC_PCR")]
         NumStaticPcr = 16, 
 
-        /// <summary> number of algorithms that can be in a list </summary>
+        /// <summary> Number of algorithms that can be in a list </summary>
         [EnumMember]
         [SpecTypeName("MAX_ALG_LIST_SIZE")]
         MaxAlgListSize = 64, 
 
-        /// <summary> size of the Primary Seed in octets </summary>
+        /// <summary> Size of the Primary Seed in octets </summary>
         [EnumMember]
         [SpecTypeName("PRIMARY_SEED_SIZE")]
         PrimarySeedSize = 32, 
 
-        /// <summary> context encryption algorithm
+        /// <summary> Context encryption algorithm
         /// Just use the root so that the macros in GpMacros.h will work correctly. </summary>
         [EnumMember]
         [SpecTypeName("CONTEXT_ENCRYPT_ALGORITHM")]
         ContextEncryptAlgorithm = TpmAlgId.Aes,  // 0x6
 
-        /// <summary> the update interval expressed as a power of 2 seconds
+        /// <summary> The update interval expressed as a power of 2 seconds
         /// A value of 12 is 4,096 seconds (~68 minutes). </summary>
         [EnumMember]
         [SpecTypeName("NV_CLOCK_UPDATE_INTERVAL")]
         NvClockUpdateInterval = 12, 
 
-        /// <summary> number of PCR groups that allow policy/auth </summary>
+        /// <summary> Number of PCR groups that allow policy/auth </summary>
         [EnumMember]
         [SpecTypeName("NUM_POLICY_PCR")]
         NumPolicyPcr = 1, 
 
-        /// <summary> maximum size of a command </summary>
+        /// <summary> Maximum size of a command </summary>
         [EnumMember]
         [SpecTypeName("MAX_COMMAND_SIZE")]
         MaxCommandSize = 4096, 
 
-        /// <summary> maximum size of a response </summary>
+        /// <summary> Maximum size of a response </summary>
         [EnumMember]
         [SpecTypeName("MAX_RESPONSE_SIZE")]
         MaxResponseSize = 4096, 
 
-        /// <summary> number between 1 and 32 inclusive </summary>
+        /// <summary> Number between 1 and 32 inclusive </summary>
         [EnumMember]
         [SpecTypeName("ORDERLY_BITS")]
         OrderlyBits = 8, 
 
-        /// <summary> the maximum number of octets that may be in a sealed blob; 128 is the
+        /// <summary> The maximum number of octets that may be in a sealed blob; 128 is the
         /// minimum allowed value </summary>
         [EnumMember]
         [SpecTypeName("MAX_SYM_DATA")]
@@ -3593,7 +3593,7 @@ namespace Tpm2Lib {
         [SpecTypeName("RSA_DEFAULT_PUBLIC_EXPONENT")]
         RsaDefaultPublicExponent = 0x00010001, 
 
-        /// <summary> indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented </summary>
+        /// <summary> Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented </summary>
         [EnumMember]
         [SpecTypeName("ENABLE_PCR_NO_INCREMENT")]
         EnablePcrNoIncrement = Logic.Yes,  // 0x1
@@ -3645,12 +3645,12 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> to mask off the HR </summary>
+        /// <summary> To mask off the HR </summary>
         [EnumMember]
         [SpecTypeName("HR_HANDLE_MASK")]
         HrHandleMask = 0x00FFFFFF, 
 
-        /// <summary> to mask off the variable part </summary>
+        /// <summary> To mask off the variable part </summary>
         [EnumMember]
         [SpecTypeName("HR_RANGE_MASK")]
         HrRangeMask = unchecked ((uint)(0xFF000000)), 
@@ -3687,87 +3687,87 @@ namespace Tpm2Lib {
         [SpecTypeName("HR_PERMANENT")]
         HrPermanent = ((uint)Ht.Permanent << (int)HrShift),  // 0x40000000
 
-        /// <summary> first PCR </summary>
+        /// <summary> First PCR </summary>
         [EnumMember]
         [SpecTypeName("PCR_FIRST")]
         PcrFirst = (HrPcr + 0),  // 0x0
 
-        /// <summary> last PCR </summary>
+        /// <summary> Last PCR </summary>
         [EnumMember]
         [SpecTypeName("PCR_LAST")]
         PcrLast = (PcrFirst + Implementation.ImplementationPcr-1),  // 0x17
 
-        /// <summary> first HMAC session </summary>
+        /// <summary> First HMAC session </summary>
         [EnumMember]
         [SpecTypeName("HMAC_SESSION_FIRST")]
         HmacSessionFirst = (HrHmacSession + 0),  // 0x2000000
 
-        /// <summary> last HMAC session </summary>
+        /// <summary> Last HMAC session </summary>
         [EnumMember]
         [SpecTypeName("HMAC_SESSION_LAST")]
         HmacSessionLast = (HmacSessionFirst+Implementation.MaxActiveSessions-1),  // 0x200003F
 
-        /// <summary> used in GetCapability </summary>
+        /// <summary> Used in GetCapability </summary>
         [EnumMember]
         [SpecTypeName("LOADED_SESSION_FIRST")]
         LoadedSessionFirst = HmacSessionFirst,  // 0x2000000
 
-        /// <summary> used in GetCapability </summary>
+        /// <summary> Used in GetCapability </summary>
         [EnumMember]
         [SpecTypeName("LOADED_SESSION_LAST")]
         LoadedSessionLast = HmacSessionLast,  // 0x200003F
 
-        /// <summary> first policy session </summary>
+        /// <summary> First policy session </summary>
         [EnumMember]
         [SpecTypeName("POLICY_SESSION_FIRST")]
         PolicySessionFirst = (HrPolicySession + 0),  // 0x3000000
 
-        /// <summary> last policy session </summary>
+        /// <summary> Last policy session </summary>
         [EnumMember]
         [SpecTypeName("POLICY_SESSION_LAST")]
         PolicySessionLast = (PolicySessionFirst + Implementation.MaxActiveSessions-1),  // 0x300003F
 
-        /// <summary> first transient object </summary>
+        /// <summary> First transient object </summary>
         [EnumMember]
         [SpecTypeName("TRANSIENT_FIRST")]
         TransientFirst = (HrTransient + 0),  // 0x80000000
 
-        /// <summary> used in GetCapability </summary>
+        /// <summary> Used in GetCapability </summary>
         [EnumMember]
         [SpecTypeName("ACTIVE_SESSION_FIRST")]
         ActiveSessionFirst = PolicySessionFirst,  // 0x3000000
 
-        /// <summary> used in GetCapability </summary>
+        /// <summary> Used in GetCapability </summary>
         [EnumMember]
         [SpecTypeName("ACTIVE_SESSION_LAST")]
         ActiveSessionLast = PolicySessionLast,  // 0x300003F
 
-        /// <summary> last transient object </summary>
+        /// <summary> Last transient object </summary>
         [EnumMember]
         [SpecTypeName("TRANSIENT_LAST")]
         TransientLast = (TransientFirst+Implementation.MaxLoadedObjects-1),  // 0x80000002
 
-        /// <summary> first persistent object </summary>
+        /// <summary> First persistent object </summary>
         [EnumMember]
         [SpecTypeName("PERSISTENT_FIRST")]
         PersistentFirst = (HrPersistent + 0),  // 0x81000000
 
-        /// <summary> last persistent object </summary>
+        /// <summary> Last persistent object </summary>
         [EnumMember]
         [SpecTypeName("PERSISTENT_LAST")]
         PersistentLast = (PersistentFirst + 0x00FFFFFF),  // 0x81FFFFFF
 
-        /// <summary> first platform persistent object </summary>
+        /// <summary> First platform persistent object </summary>
         [EnumMember]
         [SpecTypeName("PLATFORM_PERSISTENT")]
         PlatformPersistent = (PersistentFirst + 0x00800000),  // 0x81800000
 
-        /// <summary> first allowed NV Index </summary>
+        /// <summary> First allowed NV Index </summary>
         [EnumMember]
         [SpecTypeName("NV_INDEX_FIRST")]
         NvIndexFirst = (HrNvIndex + 0),  // 0x1000000
 
-        /// <summary> last allowed NV Index </summary>
+        /// <summary> Last allowed NV Index </summary>
         [EnumMember]
         [SpecTypeName("NV_INDEX_LAST")]
         NvIndexLast = (NvIndexFirst + 0x00FFFFFF),  // 0x1FFFFFF
@@ -3785,12 +3785,12 @@ namespace Tpm2Lib {
         [SpecTypeName("HR_NV_AC")]
         HrNvAc = (((uint)Ht.NvIndex << (int)HrShift) + 0xD00000),  // 0x1D00000
 
-        /// <summary> first NV Index aliased to Attached Component </summary>
+        /// <summary> First NV Index aliased to Attached Component </summary>
         [EnumMember]
         [SpecTypeName("NV_AC_FIRST")]
         NvAcFirst = (HrNvAc + 0),  // 0x1D00000
 
-        /// <summary> last NV Index aliased to Attached Component </summary>
+        /// <summary> Last NV Index aliased to Attached Component </summary>
         [EnumMember]
         [SpecTypeName("NV_AC_LAST")]
         NvAcLast = (HrNvAc + 0x0000FFFF),  // 0x1D0FFFF
@@ -3800,12 +3800,12 @@ namespace Tpm2Lib {
         [SpecTypeName("HR_AC")]
         HrAc = unchecked ((uint)(((uint)Ht.Ac << (int)HrShift))),  // 0x90000000
 
-        /// <summary> first Attached Component </summary>
+        /// <summary> First Attached Component </summary>
         [EnumMember]
         [SpecTypeName("AC_FIRST")]
         AcFirst = unchecked ((uint)((HrAc + 0))),  // 0x90000000
 
-        /// <summary> last Attached Component </summary>
+        /// <summary> Last Attached Component </summary>
         [EnumMember]
         [SpecTypeName("AC_LAST")]
         AcLast = unchecked ((uint)((HrAc + 0x0000FFFF))) // 0x9000FFFF
@@ -4237,7 +4237,7 @@ namespace Tpm2Lib {
     {
         None = 0,
 
-        /// <summary> indicates the command being selected </summary>
+        /// <summary> Indicates the command being selected </summary>
         [EnumMember]
         commandIndexBitMask = 0x0000FFFF,
         [EnumMember]
@@ -4293,7 +4293,7 @@ namespace Tpm2Lib {
         [EnumMember]
         Flushed = 0x1000000, 
 
-        /// <summary> indicates the number of the handles in the handle area for this command </summary>
+        /// <summary> Indicates the number of the handles in the handle area for this command </summary>
         [EnumMember]
         cHandlesBitMask = 0x0E000000,
         [EnumMember]
@@ -4316,7 +4316,7 @@ namespace Tpm2Lib {
         [EnumMember]
         V = 0x20000000, 
 
-        /// <summary> allocated for software; shall be zero </summary>
+        /// <summary> Allocated for software; shall be zero </summary>
         [EnumMember]
         ResBitMask = 0xC0000000,
         [EnumMember]
@@ -4381,12 +4381,12 @@ namespace Tpm2Lib {
         [EnumMember]
         DataEncipherment = 0x10000000, 
 
-        /// <summary> asymmetric key with decrypt and restricted SET key has the attributes of a
+        /// <summary> Asymmetric key with decrypt and restricted SET key has the attributes of a
         /// parent key </summary>
         [EnumMember]
         KeyEncipherment = 0x20000000, 
 
-        /// <summary> fixedTPM SET in Subject Key (objectHandle) </summary>
+        /// <summary> FixedTPM SET in Subject Key (objectHandle) </summary>
         [EnumMember]
         Nonrepudiation = 0x40000000, 
 
@@ -4394,7 +4394,7 @@ namespace Tpm2Lib {
         [EnumMember]
         ContentCommitment = 0x40000000, 
 
-        /// <summary> sign SET in Subject Key (objectHandle) </summary>
+        /// <summary> Sign SET in Subject Key (objectHandle) </summary>
         [EnumMember]
         DigitalSignature = 0x80000000
     }
@@ -4488,7 +4488,7 @@ namespace Tpm2Lib {
         [EnumMember]
         indexBit23 = 0x00800000,
 
-        /// <summary> constant value of TPM_HT_NV_INDEX indicating the NV Index range </summary>
+        /// <summary> Constant value of TPM_HT_NV_INDEX indicating the NV Index range </summary>
         [EnumMember]
         RhNvBitMask = 0xFF000000,
         [EnumMember]
@@ -5053,12 +5053,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_ALGORITHM_DESCRIPTION")]
     public partial class AlgorithmDescription: TpmStructureBase
     {
-        /// <summary> an algorithm </summary>
+        /// <summary> An algorithm </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmAlgId alg { get; set; }
 
-        /// <summary> the attributes of the algorithm </summary>
+        /// <summary> The attributes of the algorithm </summary>
         [MarshalAs(1)]
         [DataMember()]
         public AlgorithmAttr attributes { get; set; }
@@ -5071,8 +5071,8 @@ namespace Tpm2Lib {
             attributes = src.attributes;
         }
 
-        /// <param name = "_alg"> an algorithm </param>
-        /// <param name = "_attributes"> the attributes of the algorithm </param>
+        /// <param name = "_alg"> An algorithm </param>
+        /// <param name = "_attributes"> The attributes of the algorithm </param>
         public AlgorithmDescription(TpmAlgId _alg, AlgorithmAttr _attributes)
         {
             alg = _alg;
@@ -5109,7 +5109,7 @@ namespace Tpm2Lib {
             digest = src.digest;
         }
 
-        /// <param name = "_hashAlg"> selector of the hash contained in the digest that implies the
+        /// <param name = "_hashAlg"> Selector of the hash contained in the digest that implies the
         ///        size of the digest
         ///        NOTE The leading + on the type indicates that this structure should pass an
         ///        indication to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will
@@ -5134,7 +5134,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_DIGEST")]
     public partial class Tpm2bDigest: TpmStructureBase, IPublicIdUnion
     {
-        /// <summary> the buffer area that can be no larger than a digest </summary>
+        /// <summary> The buffer area that can be no larger than a digest </summary>
         [Range(MaxVal = 0u /*sizeof(TPMU_HA)*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -5144,7 +5144,7 @@ namespace Tpm2Lib {
 
         public Tpm2bDigest(Tpm2bDigest src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> the buffer area that can be no larger than a digest </param>
+        /// <param name = "_buffer"> The buffer area that can be no larger than a digest </param>
         public Tpm2bDigest(byte[] _buffer) { buffer = _buffer; }
 
         public virtual TpmAlgId GetUnionSelector() { return TpmAlgId.Keyedhash; }
@@ -5186,7 +5186,7 @@ namespace Tpm2Lib {
 
         public Tpm2bNonce(Tpm2bNonce _Tpm2bNonce) : base(_Tpm2bNonce) {}
 
-        /// <param name = "_buffer"> the buffer area that can be no larger than a digest </param>
+        /// <param name = "_buffer"> The buffer area that can be no larger than a digest </param>
         public Tpm2bNonce(byte[] _buffer) : base(_buffer) {}
 
         new public Tpm2bNonce Copy() { return CreateCopy<Tpm2bNonce>(); }
@@ -5207,7 +5207,7 @@ namespace Tpm2Lib {
 
         public Tpm2bAuth(Tpm2bAuth _Tpm2bAuth) : base(_Tpm2bAuth) {}
 
-        /// <param name = "_buffer"> the buffer area that can be no larger than a digest </param>
+        /// <param name = "_buffer"> The buffer area that can be no larger than a digest </param>
         public Tpm2bAuth(byte[] _buffer) : base(_buffer) {}
 
         new public Tpm2bAuth Copy() { return CreateCopy<Tpm2bAuth>(); }
@@ -5227,7 +5227,7 @@ namespace Tpm2Lib {
 
         public Tpm2bOperand(Tpm2bOperand _Tpm2bOperand) : base(_Tpm2bOperand) {}
 
-        /// <param name = "_buffer"> the buffer area that can be no larger than a digest </param>
+        /// <param name = "_buffer"> The buffer area that can be no larger than a digest </param>
         public Tpm2bOperand(byte[] _buffer) : base(_buffer) {}
 
         new public Tpm2bOperand Copy() { return CreateCopy<Tpm2bOperand>(); }
@@ -5240,7 +5240,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_EVENT")]
     public partial class Tpm2bEvent: TpmStructureBase
     {
-        /// <summary> the operand </summary>
+        /// <summary> The operand </summary>
         [Range(MaxVal = 1024u /*1024*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -5250,7 +5250,7 @@ namespace Tpm2Lib {
 
         public Tpm2bEvent(Tpm2bEvent src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> the operand </param>
+        /// <param name = "_buffer"> The operand </param>
         public Tpm2bEvent(byte[] _buffer) { buffer = _buffer; }
 
         new public Tpm2bEvent Copy() { return CreateCopy<Tpm2bEvent>(); }
@@ -5265,7 +5265,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_MAX_BUFFER")]
     public partial class Tpm2bMaxBuffer: TpmStructureBase
     {
-        /// <summary> the operand </summary>
+        /// <summary> The operand </summary>
         [Range(MaxVal = 1024u /*MAX_DIGEST_BUFFER*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -5275,7 +5275,7 @@ namespace Tpm2Lib {
 
         public Tpm2bMaxBuffer(Tpm2bMaxBuffer src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> the operand </param>
+        /// <param name = "_buffer"> The operand </param>
         public Tpm2bMaxBuffer(byte[] _buffer) { buffer = _buffer; }
 
         new public Tpm2bMaxBuffer Copy() { return CreateCopy<Tpm2bMaxBuffer>(); }
@@ -5289,7 +5289,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_MAX_NV_BUFFER")]
     public partial class Tpm2bMaxNvBuffer: TpmStructureBase
     {
-        /// <summary> the operand
+        /// <summary> The operand
         /// NOTE MAX_NV_BUFFER_SIZE is TPM-dependent </summary>
         [Range(MaxVal = 1024u /*MAX_NV_BUFFER_SIZE*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
@@ -5300,7 +5300,7 @@ namespace Tpm2Lib {
 
         public Tpm2bMaxNvBuffer(Tpm2bMaxNvBuffer src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> the operand
+        /// <param name = "_buffer"> The operand
         ///        NOTE MAX_NV_BUFFER_SIZE is TPM-dependent </param>
         public Tpm2bMaxNvBuffer(byte[] _buffer) { buffer = _buffer; }
 
@@ -5315,7 +5315,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_TIMEOUT")]
     public partial class Tpm2bTimeout: TpmStructureBase
     {
-        /// <summary> the timeout value </summary>
+        /// <summary> The timeout value </summary>
         [Range(MaxVal = 8u /*sizeof(UINT64)*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -5325,7 +5325,7 @@ namespace Tpm2Lib {
 
         public Tpm2bTimeout(Tpm2bTimeout src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> the timeout value </param>
+        /// <param name = "_buffer"> The timeout value </param>
         public Tpm2bTimeout(byte[] _buffer) { buffer = _buffer; }
 
         new public Tpm2bTimeout Copy() { return CreateCopy<Tpm2bTimeout>(); }
@@ -5340,7 +5340,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_IV")]
     public partial class Tpm2bIv: TpmStructureBase
     {
-        /// <summary> the IV value </summary>
+        /// <summary> The IV value </summary>
         [Range(MaxVal = 16u /*MAX_SYM_BLOCK_SIZE*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -5350,7 +5350,7 @@ namespace Tpm2Lib {
 
         public Tpm2bIv(Tpm2bIv src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> the IV value </param>
+        /// <param name = "_buffer"> The IV value </param>
         public Tpm2bIv(byte[] _buffer) { buffer = _buffer; }
 
         new public Tpm2bIv Copy() { return CreateCopy<Tpm2bIv>(); }
@@ -5363,7 +5363,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_NAME")]
     public partial class Tpm2bName: TpmStructureBase
     {
-        /// <summary> the Name structure </summary>
+        /// <summary> The Name structure </summary>
         [Range(MaxVal = 0u /*sizeof(TPMU_NAME)*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -5373,7 +5373,7 @@ namespace Tpm2Lib {
 
         public Tpm2bName(Tpm2bName src) { name = src.name; }
 
-        /// <param name = "_name"> the Name structure </param>
+        /// <param name = "_name"> The Name structure </param>
         public Tpm2bName(byte[] _name) { name = _name; }
 
         new public Tpm2bName Copy() { return CreateCopy<Tpm2bName>(); }
@@ -5386,7 +5386,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_PCR_SELECT")]
     public partial class PcrSelect: TpmStructureBase
     {
-        /// <summary> the bit map of selected PCR </summary>
+        /// <summary> The bit map of selected PCR </summary>
         [Range(MinVal = 3u /*PCR_SELECT_MIN*/, MaxVal = 3u /*PCR_SELECT_MAX*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "sizeofSelect", 1)]
         [DataMember()]
@@ -5396,7 +5396,7 @@ namespace Tpm2Lib {
 
         public PcrSelect(PcrSelect src) { pcrSelect = src.pcrSelect; }
 
-        /// <param name = "_pcrSelect"> the bit map of selected PCR </param>
+        /// <param name = "_pcrSelect"> The bit map of selected PCR </param>
         public PcrSelect(byte[] _pcrSelect) { pcrSelect = _pcrSelect; }
 
         new public PcrSelect Copy() { return CreateCopy<PcrSelect>(); }
@@ -5410,12 +5410,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_PCR_SELECTION")]
     public partial class PcrSelection: TpmStructureBase
     {
-        /// <summary> the hash algorithm associated with the selection </summary>
+        /// <summary> The hash algorithm associated with the selection </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmAlgId hash { get; set; }
 
-        /// <summary> the bit map of selected PCR </summary>
+        /// <summary> The bit map of selected PCR </summary>
         [Range(MinVal = 3u /*PCR_SELECT_MIN*/, MaxVal = 3u /*PCR_SELECT_MAX*/)]
         [MarshalAs(1, MarshalType.VariableLengthArray, "sizeofSelect", 1)]
         [DataMember()]
@@ -5429,8 +5429,8 @@ namespace Tpm2Lib {
             pcrSelect = src.pcrSelect;
         }
 
-        /// <param name = "_hash"> the hash algorithm associated with the selection </param>
-        /// <param name = "_pcrSelect"> the bit map of selected PCR </param>
+        /// <param name = "_hash"> The hash algorithm associated with the selection </param>
+        /// <param name = "_pcrSelect"> The bit map of selected PCR </param>
         public PcrSelection(TpmAlgId _hash, byte[] _pcrSelect)
         {
             hash = _hash;
@@ -5450,13 +5450,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_TK_CREATION")]
     public partial class TkCreation: TpmStructureBase
     {
-        /// <summary> ticket structure tag </summary>
+        /// <summary> Ticket structure tag </summary>
         [Range(OnlyVal = 32801u /*TPM_ST_CREATION*/)]
         [MarshalAs(0)]
         [DataMember()]
         public TpmSt tag = TpmSt.Creation;
 
-        /// <summary> the hierarchy containing name </summary>
+        /// <summary> The hierarchy containing name </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle hierarchy { get; set; }
@@ -5474,7 +5474,7 @@ namespace Tpm2Lib {
             digest = src.digest;
         }
 
-        /// <param name = "_hierarchy"> the hierarchy containing name </param>
+        /// <param name = "_hierarchy"> The hierarchy containing name </param>
         /// <param name = "_digest"> This shall be the HMAC produced using a proof value of hierarchy.
         ///        </param>
         public TkCreation(TpmHandle _hierarchy, byte[] _digest)
@@ -5496,13 +5496,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_TK_VERIFIED")]
     public partial class TkVerified: TpmStructureBase
     {
-        /// <summary> ticket structure tag </summary>
+        /// <summary> Ticket structure tag </summary>
         [Range(OnlyVal = 32802u /*TPM_ST_VERIFIED*/)]
         [MarshalAs(0)]
         [DataMember()]
         public TpmSt tag = TpmSt.Verified;
 
-        /// <summary> the hierarchy containing keyName </summary>
+        /// <summary> The hierarchy containing keyName </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle hierarchy { get; set; }
@@ -5520,7 +5520,7 @@ namespace Tpm2Lib {
             digest = src.digest;
         }
 
-        /// <param name = "_hierarchy"> the hierarchy containing keyName </param>
+        /// <param name = "_hierarchy"> The hierarchy containing keyName </param>
         /// <param name = "_digest"> This shall be the HMAC produced using a proof value of hierarchy.
         ///        </param>
         public TkVerified(TpmHandle _hierarchy, byte[] _digest)
@@ -5543,13 +5543,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_TK_AUTH")]
     public partial class TkAuth: TpmStructureBase
     {
-        /// <summary> ticket structure tag </summary>
+        /// <summary> Ticket structure tag </summary>
         [Range(Values = new[] {32805u /*TPM_ST_AUTH_SIGNED*/, 32803u /*TPM_ST_AUTH_SECRET*/})]
         [MarshalAs(0)]
         [DataMember()]
         public TpmSt tag { get; set; }
 
-        /// <summary> the hierarchy of the object used to produce the ticket </summary>
+        /// <summary> The hierarchy of the object used to produce the ticket </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle hierarchy { get; set; }
@@ -5568,8 +5568,8 @@ namespace Tpm2Lib {
             digest = src.digest;
         }
 
-        /// <param name = "_tag"> ticket structure tag </param>
-        /// <param name = "_hierarchy"> the hierarchy of the object used to produce the ticket </param>
+        /// <param name = "_tag"> Ticket structure tag </param>
+        /// <param name = "_hierarchy"> The hierarchy of the object used to produce the ticket </param>
         /// <param name = "_digest"> This shall be the HMAC produced using a proof value of hierarchy.
         ///        </param>
         public TkAuth(TpmSt _tag, TpmHandle _hierarchy, byte[] _digest)
@@ -5592,13 +5592,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_TK_HASHCHECK")]
     public partial class TkHashcheck: TpmStructureBase
     {
-        /// <summary> ticket structure tag </summary>
+        /// <summary> Ticket structure tag </summary>
         [Range(OnlyVal = 32804u /*TPM_ST_HASHCHECK*/)]
         [MarshalAs(0)]
         [DataMember()]
         public TpmSt tag = TpmSt.Hashcheck;
 
-        /// <summary> the hierarchy </summary>
+        /// <summary> The hierarchy </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle hierarchy { get; set; }
@@ -5616,7 +5616,7 @@ namespace Tpm2Lib {
             digest = src.digest;
         }
 
-        /// <param name = "_hierarchy"> the hierarchy </param>
+        /// <param name = "_hierarchy"> The hierarchy </param>
         /// <param name = "_digest"> This shall be the HMAC produced using a proof value of hierarchy.
         ///        </param>
         public TkHashcheck(TpmHandle _hierarchy, byte[] _digest)
@@ -5638,12 +5638,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_ALG_PROPERTY")]
     public partial class AlgProperty: TpmStructureBase
     {
-        /// <summary> an algorithm identifier </summary>
+        /// <summary> An algorithm identifier </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmAlgId alg { get; set; }
 
-        /// <summary> the attributes of the algorithm </summary>
+        /// <summary> The attributes of the algorithm </summary>
         [MarshalAs(1)]
         [DataMember()]
         public AlgorithmAttr algProperties { get; set; }
@@ -5656,8 +5656,8 @@ namespace Tpm2Lib {
             algProperties = src.algProperties;
         }
 
-        /// <param name = "_alg"> an algorithm identifier </param>
-        /// <param name = "_algProperties"> the attributes of the algorithm </param>
+        /// <param name = "_alg"> An algorithm identifier </param>
+        /// <param name = "_algProperties"> The attributes of the algorithm </param>
         public AlgProperty(TpmAlgId _alg, AlgorithmAttr _algProperties)
         {
             alg = _alg;
@@ -5676,12 +5676,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_TAGGED_PROPERTY")]
     public partial class TaggedProperty: TpmStructureBase
     {
-        /// <summary> a property identifier </summary>
+        /// <summary> A property identifier </summary>
         [MarshalAs(0)]
         [DataMember()]
         public Pt property { get; set; }
 
-        /// <summary> the value of the property </summary>
+        /// <summary> The value of the property </summary>
         [MarshalAs(1)]
         [DataMember()]
         public uint value { get; set; }
@@ -5694,8 +5694,8 @@ namespace Tpm2Lib {
             value = src.value;
         }
 
-        /// <param name = "_property"> a property identifier </param>
-        /// <param name = "_value"> the value of the property </param>
+        /// <param name = "_property"> A property identifier </param>
+        /// <param name = "_value"> The value of the property </param>
         public TaggedProperty(Pt _property, uint _value)
         {
             property = _property;
@@ -5714,12 +5714,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_TAGGED_PCR_SELECT")]
     public partial class TaggedPcrSelect: TpmStructureBase
     {
-        /// <summary> the property identifier </summary>
+        /// <summary> The property identifier </summary>
         [MarshalAs(0)]
         [DataMember()]
         public PtPcr tag { get; set; }
 
-        /// <summary> the bit map of PCR with the identified property </summary>
+        /// <summary> The bit map of PCR with the identified property </summary>
         [Range(MinVal = 3u /*PCR_SELECT_MIN*/, MaxVal = 3u /*PCR_SELECT_MAX*/)]
         [MarshalAs(1, MarshalType.VariableLengthArray, "sizeofSelect", 1)]
         [DataMember()]
@@ -5733,8 +5733,8 @@ namespace Tpm2Lib {
             pcrSelect = src.pcrSelect;
         }
 
-        /// <param name = "_tag"> the property identifier </param>
-        /// <param name = "_pcrSelect"> the bit map of PCR with the identified property </param>
+        /// <param name = "_tag"> The property identifier </param>
+        /// <param name = "_pcrSelect"> The bit map of PCR with the identified property </param>
         public TaggedPcrSelect(PtPcr _tag, byte[] _pcrSelect)
         {
             tag = _tag;
@@ -5754,12 +5754,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_TAGGED_POLICY")]
     public partial class TaggedPolicy: TpmStructureBase
     {
-        /// <summary> a permanent handle </summary>
+        /// <summary> A permanent handle </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
 
-        /// <summary> the policy algorithm and hash </summary>
+        /// <summary> The policy algorithm and hash </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHash policyHash { get; set; }
@@ -5772,8 +5772,8 @@ namespace Tpm2Lib {
             policyHash = src.policyHash;
         }
 
-        /// <param name = "_handle"> a permanent handle </param>
-        /// <param name = "_policyHash"> the policy algorithm and hash </param>
+        /// <param name = "_handle"> A permanent handle </param>
+        /// <param name = "_policyHash"> The policy algorithm and hash </param>
         public TaggedPolicy(TpmHandle _handle, TpmHash _policyHash)
         {
             handle = _handle;
@@ -5792,17 +5792,17 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_ACT_DATA")]
     public partial class ActData: TpmStructureBase
     {
-        /// <summary> a permanent handle </summary>
+        /// <summary> A permanent handle </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
 
-        /// <summary> the current timeout of the ACT </summary>
+        /// <summary> The current timeout of the ACT </summary>
         [MarshalAs(1)]
         [DataMember()]
         public uint timeout { get; set; }
 
-        /// <summary> the state of the ACT </summary>
+        /// <summary> The state of the ACT </summary>
         [MarshalAs(2)]
         [DataMember()]
         public ActAttr attributes { get; set; }
@@ -5816,9 +5816,9 @@ namespace Tpm2Lib {
             attributes = src.attributes;
         }
 
-        /// <param name = "_handle"> a permanent handle </param>
-        /// <param name = "_timeout"> the current timeout of the ACT </param>
-        /// <param name = "_attributes"> the state of the ACT </param>
+        /// <param name = "_handle"> A permanent handle </param>
+        /// <param name = "_timeout"> The current timeout of the ACT </param>
+        /// <param name = "_attributes"> The state of the ACT </param>
         public ActData(TpmHandle _handle, uint _timeout, ActAttr _attributes)
         {
             handle = _handle;
@@ -5837,7 +5837,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_CC")]
     public partial class CcArray: TpmStructureBase, ICapabilitiesUnion
     {
-        /// <summary> a list of command codes
+        /// <summary> A list of command codes
         /// The maximum only applies to a command code list in a command. The response size is
         /// limited only by the size of the parameter buffer. </summary>
         [Range(MaxVal = 410u /*MAX_CAP_CC*/)]
@@ -5849,7 +5849,7 @@ namespace Tpm2Lib {
 
         public CcArray(CcArray src) { commandCodes = src.commandCodes; }
 
-        /// <param name = "_commandCodes"> a list of command codes
+        /// <param name = "_commandCodes"> A list of command codes
         ///        The maximum only applies to a command code list in a command. The response size is
         ///        limited only by the size of the parameter buffer. </param>
         public CcArray(TpmCc[] _commandCodes) { commandCodes = _commandCodes; }
@@ -5867,7 +5867,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_CCA")]
     public partial class CcaArray: TpmStructureBase, ICapabilitiesUnion
     {
-        /// <summary> a list of command codes attributes </summary>
+        /// <summary> A list of command codes attributes </summary>
         [Range(MaxVal = 410u /*MAX_CAP_CC*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
@@ -5877,7 +5877,7 @@ namespace Tpm2Lib {
 
         public CcaArray(CcaArray src) { commandAttributes = src.commandAttributes; }
 
-        /// <param name = "_commandAttributes"> a list of command codes attributes </param>
+        /// <param name = "_commandAttributes"> A list of command codes attributes </param>
         public CcaArray(CcAttr[] _commandAttributes) { commandAttributes = _commandAttributes; }
 
         public virtual Cap GetUnionSelector() { return Cap.Commands; }
@@ -5892,7 +5892,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_ALG")]
     public partial class AlgArray: TpmStructureBase
     {
-        /// <summary> a list of algorithm IDs
+        /// <summary> A list of algorithm IDs
         /// The maximum only applies to an algorithm list in a command. The response size is
         /// limited only by the size of the parameter buffer. </summary>
         [Range(MaxVal = 64u /*MAX_ALG_LIST_SIZE*/)]
@@ -5904,7 +5904,7 @@ namespace Tpm2Lib {
 
         public AlgArray(AlgArray src) { algorithms = src.algorithms; }
 
-        /// <param name = "_algorithms"> a list of algorithm IDs
+        /// <param name = "_algorithms"> A list of algorithm IDs
         ///        The maximum only applies to an algorithm list in a command. The response size is
         ///        limited only by the size of the parameter buffer. </param>
         public AlgArray(TpmAlgId[] _algorithms) { algorithms = _algorithms; }
@@ -5920,7 +5920,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_HANDLE")]
     public partial class HandleArray: TpmStructureBase, ICapabilitiesUnion
     {
-        /// <summary> an array of handles </summary>
+        /// <summary> An array of handles </summary>
         [Range(MaxVal = 254u /*MAX_CAP_HANDLES*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
@@ -5930,7 +5930,7 @@ namespace Tpm2Lib {
 
         public HandleArray(HandleArray src) { handle = src.handle; }
 
-        /// <param name = "_handle"> an array of handles </param>
+        /// <param name = "_handle"> An array of handles </param>
         public HandleArray(TpmHandle[] _handle) { handle = _handle; }
 
         public virtual Cap GetUnionSelector() { return Cap.Handles; }
@@ -5946,7 +5946,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_DIGEST")]
     public partial class DigestArray: TpmStructureBase
     {
-        /// <summary> a list of digests
+        /// <summary> A list of digests
         /// For TPM2_PolicyOR(), all digests will have been computed using the digest of the
         /// policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for
         /// the bank containing the PCR. </summary>
@@ -5959,7 +5959,7 @@ namespace Tpm2Lib {
 
         public DigestArray(DigestArray src) { digests = src.digests; }
 
-        /// <param name = "_digests"> a list of digests
+        /// <param name = "_digests"> A list of digests
         ///        For TPM2_PolicyOR(), all digests will have been computed using the digest of the
         ///        policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for
         ///        the bank containing the PCR. </param>
@@ -5977,7 +5977,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_DIGEST_VALUES")]
     public partial class DigestValuesArray: TpmStructureBase
     {
-        /// <summary> a list of tagged digests </summary>
+        /// <summary> A list of tagged digests </summary>
         [Range(MaxVal = 3u /*HASH_COUNT*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
@@ -5987,7 +5987,7 @@ namespace Tpm2Lib {
 
         public DigestValuesArray(DigestValuesArray src) { digests = src.digests; }
 
-        /// <param name = "_digests"> a list of tagged digests </param>
+        /// <param name = "_digests"> A list of tagged digests </param>
         public DigestValuesArray(TpmHash[] _digests) { digests = _digests; }
 
         new public DigestValuesArray Copy() { return CreateCopy<DigestValuesArray>(); }
@@ -6001,7 +6001,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_PCR_SELECTION")]
     public partial class PcrSelectionArray: TpmStructureBase, ICapabilitiesUnion
     {
-        /// <summary> list of selections </summary>
+        /// <summary> List of selections </summary>
         [Range(MaxVal = 3u /*HASH_COUNT*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
@@ -6011,7 +6011,7 @@ namespace Tpm2Lib {
 
         public PcrSelectionArray(PcrSelectionArray src) { pcrSelections = src.pcrSelections; }
 
-        /// <param name = "_pcrSelections"> list of selections </param>
+        /// <param name = "_pcrSelections"> List of selections </param>
         public PcrSelectionArray(PcrSelection[] _pcrSelections) { pcrSelections = _pcrSelections; }
 
         public virtual Cap GetUnionSelector() { return Cap.Pcrs; }
@@ -6027,7 +6027,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_ALG_PROPERTY")]
     public partial class AlgPropertyArray: TpmStructureBase, ICapabilitiesUnion
     {
-        /// <summary> list of properties </summary>
+        /// <summary> List of properties </summary>
         [Range(MaxVal = 169u /*MAX_CAP_ALGS*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
@@ -6037,7 +6037,7 @@ namespace Tpm2Lib {
 
         public AlgPropertyArray(AlgPropertyArray src) { algProperties = src.algProperties; }
 
-        /// <param name = "_algProperties"> list of properties </param>
+        /// <param name = "_algProperties"> List of properties </param>
         public AlgPropertyArray(AlgProperty[] _algProperties) { algProperties = _algProperties; }
 
         public virtual Cap GetUnionSelector() { return Cap.Algs; }
@@ -6053,7 +6053,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_TAGGED_TPM_PROPERTY")]
     public partial class TaggedTpmPropertyArray: TpmStructureBase, ICapabilitiesUnion
     {
-        /// <summary> an array of tagged properties </summary>
+        /// <summary> An array of tagged properties </summary>
         [Range(MaxVal = 127u /*MAX_TPM_PROPERTIES*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
@@ -6063,7 +6063,7 @@ namespace Tpm2Lib {
 
         public TaggedTpmPropertyArray(TaggedTpmPropertyArray src) { tpmProperty = src.tpmProperty; }
 
-        /// <param name = "_tpmProperty"> an array of tagged properties </param>
+        /// <param name = "_tpmProperty"> An array of tagged properties </param>
         public TaggedTpmPropertyArray(TaggedProperty[] _tpmProperty) { tpmProperty = _tpmProperty; }
 
         public virtual Cap GetUnionSelector() { return Cap.TpmProperties; }
@@ -6079,7 +6079,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_TAGGED_PCR_PROPERTY")]
     public partial class TaggedPcrPropertyArray: TpmStructureBase, ICapabilitiesUnion
     {
-        /// <summary> a tagged PCR selection </summary>
+        /// <summary> A tagged PCR selection </summary>
         [Range(MaxVal = 203u /*MAX_PCR_PROPERTIES*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
@@ -6089,7 +6089,7 @@ namespace Tpm2Lib {
 
         public TaggedPcrPropertyArray(TaggedPcrPropertyArray src) { pcrProperty = src.pcrProperty; }
 
-        /// <param name = "_pcrProperty"> a tagged PCR selection </param>
+        /// <param name = "_pcrProperty"> A tagged PCR selection </param>
         public TaggedPcrPropertyArray(TaggedPcrSelect[] _pcrProperty) { pcrProperty = _pcrProperty; }
 
         public virtual Cap GetUnionSelector() { return Cap.PcrProperties; }
@@ -6105,7 +6105,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_ECC_CURVE")]
     public partial class EccCurveArray: TpmStructureBase, ICapabilitiesUnion
     {
-        /// <summary> array of ECC curve identifiers </summary>
+        /// <summary> Array of ECC curve identifiers </summary>
         [Range(MaxVal = 508u /*MAX_ECC_CURVES*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
@@ -6115,7 +6115,7 @@ namespace Tpm2Lib {
 
         public EccCurveArray(EccCurveArray src) { eccCurves = src.eccCurves; }
 
-        /// <param name = "_eccCurves"> array of ECC curve identifiers </param>
+        /// <param name = "_eccCurves"> Array of ECC curve identifiers </param>
         public EccCurveArray(EccCurve[] _eccCurves) { eccCurves = _eccCurves; }
 
         public virtual Cap GetUnionSelector() { return Cap.EccCurves; }
@@ -6132,7 +6132,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_TAGGED_POLICY")]
     public partial class TaggedPolicyArray: TpmStructureBase, ICapabilitiesUnion
     {
-        /// <summary> array of tagged policies </summary>
+        /// <summary> Array of tagged policies </summary>
         [Range(MaxVal = 14u /*MAX_TAGGED_POLICIES*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
@@ -6142,7 +6142,7 @@ namespace Tpm2Lib {
 
         public TaggedPolicyArray(TaggedPolicyArray src) { policies = src.policies; }
 
-        /// <param name = "_policies"> array of tagged policies </param>
+        /// <param name = "_policies"> Array of tagged policies </param>
         public TaggedPolicyArray(TaggedPolicy[] _policies) { policies = _policies; }
 
         public virtual Cap GetUnionSelector() { return Cap.AuthPolicies; }
@@ -6158,7 +6158,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_ACT_DATA")]
     public partial class ActDataArray: TpmStructureBase, ICapabilitiesUnion
     {
-        /// <summary> array of ACT data </summary>
+        /// <summary> Array of ACT data </summary>
         [Range(MaxVal = 84u /*MAX_ACT_DATA*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
@@ -6168,7 +6168,7 @@ namespace Tpm2Lib {
 
         public ActDataArray(ActDataArray src) { actData = src.actData; }
 
-        /// <param name = "_actData"> array of ACT data </param>
+        /// <param name = "_actData"> Array of ACT data </param>
         public ActDataArray(ActData[] _actData) { actData = _actData; }
 
         public virtual Cap GetUnionSelector() { return Cap.Act; }
@@ -6194,13 +6194,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_CAPABILITY_DATA")]
     public partial class CapabilityData: TpmStructureBase
     {
-        /// <summary> the capability </summary>
+        /// <summary> The capability </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public Cap capability {
             get { return data.GetUnionSelector(); }
         }
 
-        /// <summary> the capability data
+        /// <summary> The capability data
         /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, PcrSelectionArray,
         /// TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray,
         /// ActDataArray]) </summary>
@@ -6212,7 +6212,7 @@ namespace Tpm2Lib {
 
         public CapabilityData(CapabilityData src) { data = src.data; }
 
-        /// <param name = "_data"> the capability data
+        /// <param name = "_data"> The capability data
         ///        (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, PcrSelectionArray,
         ///        TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray,
         ///        ActDataArray]) </param>
@@ -6228,7 +6228,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_CLOCK_INFO")]
     public partial class ClockInfo: TpmStructureBase
     {
-        /// <summary> time value in milliseconds that advances while the TPM is powered
+        /// <summary> Time value in milliseconds that advances while the TPM is powered
         /// NOTE The interpretation of the time-origin (clock=0) is out of the scope of this
         /// specification, although Coordinated Universal Time (UTC) is expected to be a common
         /// convention. This structure element is used to report on the TPM's Clock value.
@@ -6238,18 +6238,18 @@ namespace Tpm2Lib {
         [DataMember()]
         public ulong clock { get; set; }
 
-        /// <summary> number of occurrences of TPM Reset since the last TPM2_Clear() </summary>
+        /// <summary> Number of occurrences of TPM Reset since the last TPM2_Clear() </summary>
         [MarshalAs(1)]
         [DataMember()]
         public uint resetCount { get; set; }
 
-        /// <summary> number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since
+        /// <summary> Number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since
         /// the last TPM Reset or TPM2_Clear(). </summary>
         [MarshalAs(2)]
         [DataMember()]
         public uint restartCount { get; set; }
 
-        /// <summary> no value of Clock greater than the current value of Clock has been
+        /// <summary> No value of Clock greater than the current value of Clock has been
         /// previously reported by the TPM. Set to YES on TPM2_Clear(). </summary>
         [MarshalAs(3)]
         [DataMember()]
@@ -6265,17 +6265,17 @@ namespace Tpm2Lib {
             safe = src.safe;
         }
 
-        /// <param name = "_clock"> time value in milliseconds that advances while the TPM is powered
+        /// <param name = "_clock"> Time value in milliseconds that advances while the TPM is powered
         ///        NOTE The interpretation of the time-origin (clock=0) is out of the scope of this
         ///        specification, although Coordinated Universal Time (UTC) is expected to be a common
         ///        convention. This structure element is used to report on the TPM's Clock value.
         ///        This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()).
         ///        This value may be advanced by TPM2_ClockSet(). </param>
-        /// <param name = "_resetCount"> number of occurrences of TPM Reset since the last
+        /// <param name = "_resetCount"> Number of occurrences of TPM Reset since the last
         ///        TPM2_Clear() </param>
-        /// <param name = "_restartCount"> number of times that TPM2_Shutdown() or _TPM_Hash_Start
+        /// <param name = "_restartCount"> Number of times that TPM2_Shutdown() or _TPM_Hash_Start
         ///        have occurred since the last TPM Reset or TPM2_Clear(). </param>
-        /// <param name = "_safe"> no value of Clock greater than the current value of Clock has been
+        /// <param name = "_safe"> No value of Clock greater than the current value of Clock has been
         ///        previously reported by the TPM. Set to YES on TPM2_Clear(). </param>
         public ClockInfo(ulong _clock, uint _resetCount, uint _restartCount, byte _safe)
         {
@@ -6297,13 +6297,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_TIME_INFO")]
     public partial class TimeInfo: TpmStructureBase
     {
-        /// <summary> time in milliseconds since the TIme circuit was last reset
+        /// <summary> Time in milliseconds since the TIme circuit was last reset
         /// This structure element is used to report on the TPM's Time value. </summary>
         [MarshalAs(0)]
         [DataMember()]
         public ulong time { get; set; }
 
-        /// <summary> a structure containing the clock information </summary>
+        /// <summary> A structure containing the clock information </summary>
         [MarshalAs(1)]
         [DataMember()]
         public ClockInfo clockInfo { get; set; }
@@ -6316,9 +6316,9 @@ namespace Tpm2Lib {
             clockInfo = src.clockInfo;
         }
 
-        /// <param name = "_time"> time in milliseconds since the TIme circuit was last reset
+        /// <param name = "_time"> Time in milliseconds since the TIme circuit was last reset
         ///        This structure element is used to report on the TPM's Time value. </param>
-        /// <param name = "_clockInfo"> a structure containing the clock information </param>
+        /// <param name = "_clockInfo"> A structure containing the clock information </param>
         public TimeInfo(ulong _time, ClockInfo _clockInfo)
         {
             time = _time;
@@ -6336,12 +6336,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_TIME_ATTEST_INFO")]
     public partial class TimeAttestInfo: TpmStructureBase, IAttestUnion
     {
-        /// <summary> the Time, Clock, resetCount, restartCount, and Safe indicator </summary>
+        /// <summary> The Time, Clock, resetCount, restartCount, and Safe indicator </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TimeInfo time { get; set; }
 
-        /// <summary> a TPM vendor-specific value indicating the version number of the firmware </summary>
+        /// <summary> A TPM vendor-specific value indicating the version number of the firmware </summary>
         [MarshalAs(1)]
         [DataMember()]
         public ulong firmwareVersion { get; set; }
@@ -6354,8 +6354,8 @@ namespace Tpm2Lib {
             firmwareVersion = src.firmwareVersion;
         }
 
-        /// <param name = "_time"> the Time, Clock, resetCount, restartCount, and Safe indicator </param>
-        /// <param name = "_firmwareVersion"> a TPM vendor-specific value indicating the version
+        /// <param name = "_time"> The Time, Clock, resetCount, restartCount, and Safe indicator </param>
+        /// <param name = "_firmwareVersion"> A TPM vendor-specific value indicating the version
         ///        number of the firmware </param>
         public TimeAttestInfo(TimeInfo _time, ulong _firmwareVersion)
         {
@@ -6413,12 +6413,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_QUOTE_INFO")]
     public partial class QuoteInfo: TpmStructureBase, IAttestUnion
     {
-        /// <summary> information on algID, PCR selected and digest </summary>
+        /// <summary> Information on algID, PCR selected and digest </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "pcrSelectCount", 4)]
         [DataMember()]
         public PcrSelection[] pcrSelect;
 
-        /// <summary> digest of the selected PCR using the hash of the signing key </summary>
+        /// <summary> Digest of the selected PCR using the hash of the signing key </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "pcrDigestSize", 2)]
         [DataMember()]
         public byte[] pcrDigest;
@@ -6431,8 +6431,8 @@ namespace Tpm2Lib {
             pcrDigest = src.pcrDigest;
         }
 
-        /// <param name = "_pcrSelect"> information on algID, PCR selected and digest </param>
-        /// <param name = "_pcrDigest"> digest of the selected PCR using the hash of the signing key </param>
+        /// <param name = "_pcrSelect"> Information on algID, PCR selected and digest </param>
+        /// <param name = "_pcrDigest"> Digest of the selected PCR using the hash of the signing key </param>
         public QuoteInfo(PcrSelection[] _pcrSelect, byte[] _pcrDigest)
         {
             pcrSelect = _pcrSelect;
@@ -6452,22 +6452,22 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_COMMAND_AUDIT_INFO")]
     public partial class CommandAuditInfo: TpmStructureBase, IAttestUnion
     {
-        /// <summary> the monotonic audit counter </summary>
+        /// <summary> The monotonic audit counter </summary>
         [MarshalAs(0)]
         [DataMember()]
         public ulong auditCounter { get; set; }
 
-        /// <summary> hash algorithm used for the command audit </summary>
+        /// <summary> Hash algorithm used for the command audit </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmAlgId digestAlg { get; set; }
 
-        /// <summary> the current value of the audit digest </summary>
+        /// <summary> The current value of the audit digest </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "auditDigestSize", 2)]
         [DataMember()]
         public byte[] auditDigest;
 
-        /// <summary> digest of the command codes being audited using digestAlg </summary>
+        /// <summary> Digest of the command codes being audited using digestAlg </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "commandDigestSize", 2)]
         [DataMember()]
         public byte[] commandDigest;
@@ -6482,10 +6482,10 @@ namespace Tpm2Lib {
             commandDigest = src.commandDigest;
         }
 
-        /// <param name = "_auditCounter"> the monotonic audit counter </param>
-        /// <param name = "_digestAlg"> hash algorithm used for the command audit </param>
-        /// <param name = "_auditDigest"> the current value of the audit digest </param>
-        /// <param name = "_commandDigest"> digest of the command codes being audited using digestAlg </param>
+        /// <param name = "_auditCounter"> The monotonic audit counter </param>
+        /// <param name = "_digestAlg"> Hash algorithm used for the command audit </param>
+        /// <param name = "_auditDigest"> The current value of the audit digest </param>
+        /// <param name = "_commandDigest"> Digest of the command codes being audited using digestAlg </param>
         public CommandAuditInfo(ulong _auditCounter, TpmAlgId _digestAlg, byte[] _auditDigest, byte[] _commandDigest)
         {
             auditCounter = _auditCounter;
@@ -6506,14 +6506,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_SESSION_AUDIT_INFO")]
     public partial class SessionAuditInfo: TpmStructureBase, IAttestUnion
     {
-        /// <summary> current exclusive status of the session
+        /// <summary> Current exclusive status of the session
         /// TRUE if all of the commands recorded in the sessionDigest were executed without any
         /// intervening TPM command that did not use this audit session </summary>
         [MarshalAs(0)]
         [DataMember()]
         public byte exclusiveSession { get; set; }
 
-        /// <summary> the current value of the session audit digest </summary>
+        /// <summary> The current value of the session audit digest </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "sessionDigestSize", 2)]
         [DataMember()]
         public byte[] sessionDigest;
@@ -6526,10 +6526,10 @@ namespace Tpm2Lib {
             sessionDigest = src.sessionDigest;
         }
 
-        /// <param name = "_exclusiveSession"> current exclusive status of the session
+        /// <param name = "_exclusiveSession"> Current exclusive status of the session
         ///        TRUE if all of the commands recorded in the sessionDigest were executed without any
         ///        intervening TPM command that did not use this audit session </param>
-        /// <param name = "_sessionDigest"> the current value of the session audit digest </param>
+        /// <param name = "_sessionDigest"> The current value of the session audit digest </param>
         public SessionAuditInfo(byte _exclusiveSession, byte[] _sessionDigest)
         {
             exclusiveSession = _exclusiveSession;
@@ -6553,7 +6553,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] objectName;
 
-        /// <summary> creationHash </summary>
+        /// <summary> CreationHash </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "creationHashSize", 2)]
         [DataMember()]
         public byte[] creationHash;
@@ -6567,7 +6567,7 @@ namespace Tpm2Lib {
         }
 
         /// <param name = "_objectName"> Name of the object </param>
-        /// <param name = "_creationHash"> creationHash </param>
+        /// <param name = "_creationHash"> CreationHash </param>
         public CreationInfo(byte[] _objectName, byte[] _creationHash)
         {
             objectName = _objectName;
@@ -6592,12 +6592,12 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] indexName;
 
-        /// <summary> the offset parameter of TPM2_NV_Certify() </summary>
+        /// <summary> The offset parameter of TPM2_NV_Certify() </summary>
         [MarshalAs(1)]
         [DataMember()]
         public ushort offset { get; set; }
 
-        /// <summary> contents of the NV Index </summary>
+        /// <summary> Contents of the NV Index </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "nvContentsSize", 2)]
         [DataMember()]
         public byte[] nvContents;
@@ -6612,8 +6612,8 @@ namespace Tpm2Lib {
         }
 
         /// <param name = "_indexName"> Name of the NV Index </param>
-        /// <param name = "_offset"> the offset parameter of TPM2_NV_Certify() </param>
-        /// <param name = "_nvContents"> contents of the NV Index </param>
+        /// <param name = "_offset"> The offset parameter of TPM2_NV_Certify() </param>
+        /// <param name = "_nvContents"> Contents of the NV Index </param>
         public NvCertifyInfo(byte[] _indexName, ushort _offset, byte[] _nvContents)
         {
             indexName = _indexName;
@@ -6640,7 +6640,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] indexName;
 
-        /// <summary> hash of the contents of the index </summary>
+        /// <summary> Hash of the contents of the index </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "nvDigestSize", 2)]
         [DataMember()]
         public byte[] nvDigest;
@@ -6654,7 +6654,7 @@ namespace Tpm2Lib {
         }
 
         /// <param name = "_indexName"> Name of the NV Index </param>
-        /// <param name = "_nvDigest"> hash of the contents of the index </param>
+        /// <param name = "_nvDigest"> Hash of the contents of the index </param>
         public NvDigestCertifyInfo(byte[] _indexName, byte[] _nvDigest)
         {
             indexName = _indexName;
@@ -6685,13 +6685,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_ATTEST")]
     public partial class Attest: TpmStructureBase
     {
-        /// <summary> the indication that this structure was created by a TPM (always
+        /// <summary> The indication that this structure was created by a TPM (always
         /// TPM_GENERATED_VALUE) </summary>
         [MarshalAs(0)]
         [DataMember()]
         public Generated magic { get; set; }
 
-        /// <summary> type of the attestation structure </summary>
+        /// <summary> Type of the attestation structure </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmSt type {
             get { return attested.GetUnionSelector(); }
@@ -6702,7 +6702,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] qualifiedSigner;
 
-        /// <summary> external information supplied by caller
+        /// <summary> External information supplied by caller
         /// NOTE A TPM2B_DATA structure provides room for a digest and a method indicator to
         /// indicate the components of the digest. The definition of this method indicator is
         /// outside the scope of this specification. </summary>
@@ -6720,7 +6720,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public ulong firmwareVersion { get; set; }
 
-        /// <summary> the type-specific attestation information
+        /// <summary> The type-specific attestation information
         /// (One of [CertifyInfo, CreationInfo, QuoteInfo, CommandAuditInfo, SessionAuditInfo,
         /// TimeAttestInfo, NvCertifyInfo, NvDigestCertifyInfo]) </summary>
         [MarshalAs(6, MarshalType.Union, "type")]
@@ -6739,17 +6739,17 @@ namespace Tpm2Lib {
             attested = src.attested;
         }
 
-        /// <param name = "_magic"> the indication that this structure was created by a TPM (always
+        /// <param name = "_magic"> The indication that this structure was created by a TPM (always
         ///        TPM_GENERATED_VALUE) </param>
         /// <param name = "_qualifiedSigner"> Qualified Name of the signing key </param>
-        /// <param name = "_extraData"> external information supplied by caller
+        /// <param name = "_extraData"> External information supplied by caller
         ///        NOTE A TPM2B_DATA structure provides room for a digest and a method indicator to
         ///        indicate the components of the digest. The definition of this method indicator is
         ///        outside the scope of this specification. </param>
         /// <param name = "_clockInfo"> Clock, resetCount, restartCount, and Safe </param>
         /// <param name = "_firmwareVersion"> TPM-vendor-specific value identifying the version number
         ///        of the firmware </param>
-        /// <param name = "_attested"> the type-specific attestation information
+        /// <param name = "_attested"> The type-specific attestation information
         ///        (One of [CertifyInfo, CreationInfo, QuoteInfo, CommandAuditInfo, SessionAuditInfo,
         ///        TimeAttestInfo, NvCertifyInfo, NvDigestCertifyInfo]) </param>
         public Attest(Generated _magic, byte[] _qualifiedSigner, byte[] _extraData, ClockInfo _clockInfo, ulong _firmwareVersion, IAttestUnion _attested)
@@ -6774,7 +6774,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_ATTEST")]
     public partial class Tpm2bAttest: TpmStructureBase
     {
-        /// <summary> the signed structure </summary>
+        /// <summary> The signed structure </summary>
         [Range(MaxVal = 68u /*sizeof(TPMS_ATTEST)*/)]
         [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
         [DataMember()]
@@ -6784,7 +6784,7 @@ namespace Tpm2Lib {
 
         public Tpm2bAttest(Tpm2bAttest src) { attestationData = src.attestationData; }
 
-        /// <param name = "_attestationData"> the signed structure </param>
+        /// <param name = "_attestationData"> The signed structure </param>
         public Tpm2bAttest(Attest _attestationData) { attestationData = _attestationData; }
 
         new public Tpm2bAttest Copy() { return CreateCopy<Tpm2bAttest>(); }
@@ -6800,22 +6800,22 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_AUTH_COMMAND")]
     public partial class AuthCommand: TpmStructureBase
     {
-        /// <summary> the session handle </summary>
+        /// <summary> The session handle </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle sessionHandle { get; set; }
 
-        /// <summary> the session nonce, may be the Empty Buffer </summary>
+        /// <summary> The session nonce, may be the Empty Buffer </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "nonceSize", 2)]
         [DataMember()]
         public byte[] nonce;
 
-        /// <summary> the session attributes </summary>
+        /// <summary> The session attributes </summary>
         [MarshalAs(2)]
         [DataMember()]
         public SessionAttr sessionAttributes { get; set; }
 
-        /// <summary> either an HMAC, a password, or an EmptyAuth </summary>
+        /// <summary> Either an HMAC, a password, or an EmptyAuth </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "hmacSize", 2)]
         [DataMember()]
         public byte[] hmac;
@@ -6830,10 +6830,10 @@ namespace Tpm2Lib {
             hmac = src.hmac;
         }
 
-        /// <param name = "_sessionHandle"> the session handle </param>
-        /// <param name = "_nonce"> the session nonce, may be the Empty Buffer </param>
-        /// <param name = "_sessionAttributes"> the session attributes </param>
-        /// <param name = "_hmac"> either an HMAC, a password, or an EmptyAuth </param>
+        /// <param name = "_sessionHandle"> The session handle </param>
+        /// <param name = "_nonce"> The session nonce, may be the Empty Buffer </param>
+        /// <param name = "_sessionAttributes"> The session attributes </param>
+        /// <param name = "_hmac"> Either an HMAC, a password, or an EmptyAuth </param>
         public AuthCommand(TpmHandle _sessionHandle, byte[] _nonce, SessionAttr _sessionAttributes, byte[] _hmac)
         {
             sessionHandle = _sessionHandle;
@@ -6856,17 +6856,17 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_AUTH_RESPONSE")]
     public partial class AuthResponse: TpmStructureBase
     {
-        /// <summary> the session nonce, may be the Empty Buffer </summary>
+        /// <summary> The session nonce, may be the Empty Buffer </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "nonceSize", 2)]
         [DataMember()]
         public byte[] nonce;
 
-        /// <summary> the session attributes </summary>
+        /// <summary> The session attributes </summary>
         [MarshalAs(1)]
         [DataMember()]
         public SessionAttr sessionAttributes { get; set; }
 
-        /// <summary> either an HMAC or an EmptyAuth </summary>
+        /// <summary> Either an HMAC or an EmptyAuth </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "hmacSize", 2)]
         [DataMember()]
         public byte[] hmac;
@@ -6880,9 +6880,9 @@ namespace Tpm2Lib {
             hmac = src.hmac;
         }
 
-        /// <param name = "_nonce"> the session nonce, may be the Empty Buffer </param>
-        /// <param name = "_sessionAttributes"> the session attributes </param>
-        /// <param name = "_hmac"> either an HMAC or an EmptyAuth </param>
+        /// <param name = "_nonce"> The session nonce, may be the Empty Buffer </param>
+        /// <param name = "_sessionAttributes"> The session attributes </param>
+        /// <param name = "_hmac"> Either an HMAC or an EmptyAuth </param>
         public AuthResponse(byte[] _nonce, SessionAttr _sessionAttributes, byte[] _hmac)
         {
             nonce = _nonce;
@@ -7109,7 +7109,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_SYM_KEY")]
     public partial class Tpm2bSymKey: TpmStructureBase, ISensitiveCompositeUnion
     {
-        /// <summary> the key </summary>
+        /// <summary> The key </summary>
         [Range(MaxVal = 32u /*MAX_SYM_KEY_BYTES*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -7119,7 +7119,7 @@ namespace Tpm2Lib {
 
         public Tpm2bSymKey(Tpm2bSymKey src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> the key </param>
+        /// <param name = "_buffer"> The key </param>
         public Tpm2bSymKey(byte[] _buffer) { buffer = _buffer; }
 
         public virtual TpmAlgId GetUnionSelector() { return TpmAlgId.Symcipher; }
@@ -7135,7 +7135,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_SYMCIPHER_PARMS")]
     public partial class SymcipherParms: TpmStructureBase, IPublicParmsUnion
     {
-        /// <summary> a symmetric block cipher </summary>
+        /// <summary> A symmetric block cipher </summary>
         [MarshalAs(0)]
         [DataMember()]
         public SymDefObject sym { get; set; }
@@ -7144,7 +7144,7 @@ namespace Tpm2Lib {
 
         public SymcipherParms(SymcipherParms src) { sym = src.sym; }
 
-        /// <param name = "_sym"> a symmetric block cipher </param>
+        /// <param name = "_sym"> A symmetric block cipher </param>
         public SymcipherParms(SymDefObject _sym) { sym = _sym; }
 
         public virtual TpmAlgId GetUnionSelector() { return TpmAlgId.Symcipher; }
@@ -7161,7 +7161,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_LABEL")]
     public partial class Tpm2bLabel: TpmStructureBase
     {
-        /// <summary> symmetric data for a created object or the label and context for a derived
+        /// <summary> Symmetric data for a created object or the label and context for a derived
         /// object </summary>
         [Range(MaxVal = 32u /*LABEL_MAX_BUFFER*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
@@ -7172,7 +7172,7 @@ namespace Tpm2Lib {
 
         public Tpm2bLabel(Tpm2bLabel src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> symmetric data for a created object or the label and context for
+        /// <param name = "_buffer"> Symmetric data for a created object or the label and context for
         ///        a derived object </param>
         public Tpm2bLabel(byte[] _buffer) { buffer = _buffer; }
 
@@ -7225,7 +7225,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_DERIVE")]
     public partial class Tpm2bDerive: TpmStructureBase
     {
-        /// <summary> symmetric data for a created object or the label and context for a derived
+        /// <summary> Symmetric data for a created object or the label and context for a derived
         /// object </summary>
         [Range(MaxVal = 4u /*sizeof(TPMS_DERIVE)*/)]
         [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
@@ -7236,7 +7236,7 @@ namespace Tpm2Lib {
 
         public Tpm2bDerive(Tpm2bDerive src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> symmetric data for a created object or the label and context for
+        /// <param name = "_buffer"> Symmetric data for a created object or the label and context for
         ///        a derived object </param>
         public Tpm2bDerive(TpmDerive _buffer) { buffer = _buffer; }
 
@@ -7250,7 +7250,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_SENSITIVE_DATA")]
     public partial class Tpm2bSensitiveData: TpmStructureBase, ISensitiveCompositeUnion
     {
-        /// <summary> symmetric data for a created object or the label and context for a derived
+        /// <summary> Symmetric data for a created object or the label and context for a derived
         /// object </summary>
         [Range(MaxVal = 128u /*sizeof(TPMU_SENSITIVE_CREATE)*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
@@ -7261,7 +7261,7 @@ namespace Tpm2Lib {
 
         public Tpm2bSensitiveData(Tpm2bSensitiveData src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> symmetric data for a created object or the label and context for
+        /// <param name = "_buffer"> Symmetric data for a created object or the label and context for
         ///        a derived object </param>
         public Tpm2bSensitiveData(byte[] _buffer) { buffer = _buffer; }
 
@@ -7279,12 +7279,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_SENSITIVE_CREATE")]
     public partial class SensitiveCreate: TpmStructureBase
     {
-        /// <summary> the USER auth secret value </summary>
+        /// <summary> The USER auth secret value </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "userAuthSize", 2)]
         [DataMember()]
         public byte[] userAuth;
 
-        /// <summary> data to be sealed, a key, or derivation values </summary>
+        /// <summary> Data to be sealed, a key, or derivation values </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "dataSize", 2)]
         [DataMember()]
         public byte[] data;
@@ -7297,8 +7297,8 @@ namespace Tpm2Lib {
             data = src.data;
         }
 
-        /// <param name = "_userAuth"> the USER auth secret value </param>
-        /// <param name = "_data"> data to be sealed, a key, or derivation values </param>
+        /// <param name = "_userAuth"> The USER auth secret value </param>
+        /// <param name = "_data"> Data to be sealed, a key, or derivation values </param>
         public SensitiveCreate(byte[] _userAuth, byte[] _data)
         {
             userAuth = _userAuth;
@@ -7319,7 +7319,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_SENSITIVE_CREATE")]
     public partial class Tpm2bSensitiveCreate: TpmStructureBase
     {
-        /// <summary> data to be sealed or a symmetric key value. </summary>
+        /// <summary> Data to be sealed or a symmetric key value. </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
         [DataMember()]
         public SensitiveCreate sensitive { get; set; }
@@ -7328,7 +7328,7 @@ namespace Tpm2Lib {
 
         public Tpm2bSensitiveCreate(Tpm2bSensitiveCreate src) { sensitive = src.sensitive; }
 
-        /// <param name = "_sensitive"> data to be sealed or a symmetric key value. </param>
+        /// <param name = "_sensitive"> Data to be sealed or a symmetric key value. </param>
         public Tpm2bSensitiveCreate(SensitiveCreate _sensitive) { sensitive = _sensitive; }
 
         new public Tpm2bSensitiveCreate Copy() { return CreateCopy<Tpm2bSensitiveCreate>(); }
@@ -7343,7 +7343,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_SCHEME_HASH")]
     public partial class SchemeHash: TpmStructureBase, ISchemeKeyedhashUnion, ISigSchemeUnion, IKdfSchemeUnion, IAsymSchemeUnion, ISignatureUnion
     {
-        /// <summary> the hash algorithm used to digest the message </summary>
+        /// <summary> The hash algorithm used to digest the message </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmAlgId hashAlg { get; set; }
@@ -7352,7 +7352,7 @@ namespace Tpm2Lib {
 
         public SchemeHash(SchemeHash src) { hashAlg = src.hashAlg; }
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeHash(TpmAlgId _hashAlg) { hashAlg = _hashAlg; }
 
         public virtual TpmAlgId GetUnionSelector() { return TpmAlgId.Hmac; }
@@ -7368,12 +7368,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_SCHEME_ECDAA")]
     public partial class SchemeEcdaa: TpmStructureBase, ISigSchemeUnion, IAsymSchemeUnion
     {
-        /// <summary> the hash algorithm used to digest the message </summary>
+        /// <summary> The hash algorithm used to digest the message </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmAlgId hashAlg { get; set; }
 
-        /// <summary> the counter value that is used between TPM2_Commit() and the sign operation </summary>
+        /// <summary> The counter value that is used between TPM2_Commit() and the sign operation </summary>
         [MarshalAs(1)]
         [DataMember()]
         public ushort count { get; set; }
@@ -7386,8 +7386,8 @@ namespace Tpm2Lib {
             count = src.count;
         }
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
-        /// <param name = "_count"> the counter value that is used between TPM2_Commit() and the sign
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
+        /// <param name = "_count"> The counter value that is used between TPM2_Commit() and the sign
         ///        operation </param>
         public SchemeEcdaa(TpmAlgId _hashAlg, ushort _count)
         {
@@ -7411,7 +7411,7 @@ namespace Tpm2Lib {
 
         public SchemeHmac(SchemeHmac _SchemeHmac) : base(_SchemeHmac) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeHmac(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Hmac; }
@@ -7427,12 +7427,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_SCHEME_XOR")]
     public partial class SchemeXor: TpmStructureBase, ISchemeKeyedhashUnion
     {
-        /// <summary> the hash algorithm used to digest the message </summary>
+        /// <summary> The hash algorithm used to digest the message </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmAlgId hashAlg { get; set; }
 
-        /// <summary> the key derivation function </summary>
+        /// <summary> The key derivation function </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmAlgId kdf { get; set; }
@@ -7448,8 +7448,8 @@ namespace Tpm2Lib {
             kdf = src.kdf;
         }
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
-        /// <param name = "_kdf"> the key derivation function </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
+        /// <param name = "_kdf"> The key derivation function </param>
         public SchemeXor(TpmAlgId _hashAlg, TpmAlgId _kdf)
         {
             hashAlg = _hashAlg;
@@ -7490,13 +7490,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_KEYEDHASH_SCHEME")]
     public partial class KeyedhashScheme: TpmStructureBase
     {
-        /// <summary> selects the scheme </summary>
+        /// <summary> Selects the scheme </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the scheme parameters
+        /// <summary> The scheme parameters
         /// (One of [SchemeHmac, SchemeXor, NullSchemeKeyedhash]) </summary>
         [MarshalAs(1, MarshalType.Union, "scheme")]
         [DataMember()]
@@ -7506,7 +7506,7 @@ namespace Tpm2Lib {
 
         public KeyedhashScheme(KeyedhashScheme src) { details = src.details; }
 
-        /// <param name = "_details"> the scheme parameters
+        /// <param name = "_details"> The scheme parameters
         ///        (One of [SchemeHmac, SchemeXor, NullSchemeKeyedhash]) </param>
         public KeyedhashScheme(ISchemeKeyedhashUnion _details) { details = _details; }
 
@@ -7525,7 +7525,7 @@ namespace Tpm2Lib {
 
         public SigSchemeRsassa(SigSchemeRsassa _SigSchemeRsassa) : base(_SigSchemeRsassa) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SigSchemeRsassa(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Rsassa; }
@@ -7545,7 +7545,7 @@ namespace Tpm2Lib {
 
         public SigSchemeRsapss(SigSchemeRsapss _SigSchemeRsapss) : base(_SigSchemeRsapss) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SigSchemeRsapss(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Rsapss; }
@@ -7566,7 +7566,7 @@ namespace Tpm2Lib {
 
         public SigSchemeEcdsa(SigSchemeEcdsa _SigSchemeEcdsa) : base(_SigSchemeEcdsa) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SigSchemeEcdsa(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Ecdsa; }
@@ -7587,7 +7587,7 @@ namespace Tpm2Lib {
 
         public SigSchemeSm2(SigSchemeSm2 _SigSchemeSm2) : base(_SigSchemeSm2) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SigSchemeSm2(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Sm2; }
@@ -7608,7 +7608,7 @@ namespace Tpm2Lib {
 
         public SigSchemeEcschnorr(SigSchemeEcschnorr _SigSchemeEcschnorr) : base(_SigSchemeEcschnorr) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SigSchemeEcschnorr(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Ecschnorr; }
@@ -7629,8 +7629,8 @@ namespace Tpm2Lib {
 
         public SigSchemeEcdaa(SigSchemeEcdaa _SigSchemeEcdaa) : base(_SigSchemeEcdaa) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
-        /// <param name = "_count"> the counter value that is used between TPM2_Commit() and the sign
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
+        /// <param name = "_count"> The counter value that is used between TPM2_Commit() and the sign
         ///        operation </param>
         public SigSchemeEcdaa(TpmAlgId _hashAlg, ushort _count)
             : base(_hashAlg, _count)
@@ -7675,13 +7675,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_SIG_SCHEME")]
     public partial class SigScheme: TpmStructureBase
     {
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> scheme parameters
+        /// <summary> Scheme parameters
         /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
         [MarshalAs(1, MarshalType.Union, "scheme")]
@@ -7692,7 +7692,7 @@ namespace Tpm2Lib {
 
         public SigScheme(SigScheme src) { details = src.details; }
 
-        /// <param name = "_details"> scheme parameters
+        /// <param name = "_details"> Scheme parameters
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
         public SigScheme(ISigSchemeUnion _details) { details = _details; }
@@ -7712,7 +7712,7 @@ namespace Tpm2Lib {
 
         public EncSchemeOaep(EncSchemeOaep _EncSchemeOaep) : base(_EncSchemeOaep) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public EncSchemeOaep(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Oaep; }
@@ -7747,7 +7747,7 @@ namespace Tpm2Lib {
 
         public KeySchemeEcdh(KeySchemeEcdh _KeySchemeEcdh) : base(_KeySchemeEcdh) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public KeySchemeEcdh(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Ecdh; }
@@ -7767,7 +7767,7 @@ namespace Tpm2Lib {
 
         public KeySchemeEcmqv(KeySchemeEcmqv _KeySchemeEcmqv) : base(_KeySchemeEcmqv) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public KeySchemeEcmqv(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Ecmqv; }
@@ -7788,7 +7788,7 @@ namespace Tpm2Lib {
 
         public KdfSchemeMgf1(KdfSchemeMgf1 _KdfSchemeMgf1) : base(_KdfSchemeMgf1) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public KdfSchemeMgf1(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Mgf1; }
@@ -7809,7 +7809,7 @@ namespace Tpm2Lib {
 
         public KdfSchemeKdf1Sp80056a(KdfSchemeKdf1Sp80056a _KdfSchemeKdf1Sp80056a) : base(_KdfSchemeKdf1Sp80056a) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public KdfSchemeKdf1Sp80056a(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Kdf1Sp80056a; }
@@ -7830,7 +7830,7 @@ namespace Tpm2Lib {
 
         public KdfSchemeKdf2(KdfSchemeKdf2 _KdfSchemeKdf2) : base(_KdfSchemeKdf2) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public KdfSchemeKdf2(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Kdf2; }
@@ -7851,7 +7851,7 @@ namespace Tpm2Lib {
 
         public KdfSchemeKdf1Sp800108(KdfSchemeKdf1Sp800108 _KdfSchemeKdf1Sp800108) : base(_KdfSchemeKdf1Sp800108) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public KdfSchemeKdf1Sp800108(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Kdf1Sp800108; }
@@ -7889,13 +7889,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_KDF_SCHEME")]
     public partial class KdfScheme: TpmStructureBase
     {
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> scheme parameters
+        /// <summary> Scheme parameters
         /// (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
         /// SchemeHash, NullKdfScheme]) </summary>
         [MarshalAs(1, MarshalType.Union, "scheme")]
@@ -7906,7 +7906,7 @@ namespace Tpm2Lib {
 
         public KdfScheme(KdfScheme src) { details = src.details; }
 
-        /// <param name = "_details"> scheme parameters
+        /// <param name = "_details"> Scheme parameters
         ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
         ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
         public KdfScheme(IKdfSchemeUnion _details) { details = _details; }
@@ -7955,13 +7955,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_ASYM_SCHEME")]
     public partial class AsymScheme: TpmStructureBase
     {
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> scheme parameters
+        /// <summary> Scheme parameters
         /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
@@ -7973,7 +7973,7 @@ namespace Tpm2Lib {
 
         public AsymScheme(AsymScheme src) { details = src.details; }
 
-        /// <param name = "_details"> scheme parameters
+        /// <param name = "_details"> Scheme parameters
         ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
@@ -8005,13 +8005,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_RSA_SCHEME")]
     public partial class RsaScheme: TpmStructureBase
     {
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> scheme parameters
+        /// <summary> Scheme parameters
         /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
@@ -8023,7 +8023,7 @@ namespace Tpm2Lib {
 
         public RsaScheme(RsaScheme src) { details = src.details; }
 
-        /// <param name = "_details"> scheme parameters
+        /// <param name = "_details"> Scheme parameters
         ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
@@ -8055,13 +8055,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_RSA_DECRYPT")]
     public partial class RsaDecrypt: TpmStructureBase
     {
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> scheme parameters
+        /// <summary> Scheme parameters
         /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
@@ -8073,7 +8073,7 @@ namespace Tpm2Lib {
 
         public RsaDecrypt(RsaDecrypt src) { details = src.details; }
 
-        /// <param name = "_details"> scheme parameters
+        /// <param name = "_details"> Scheme parameters
         ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
@@ -8139,7 +8139,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_ECC_PARAMETER")]
     public partial class Tpm2bEccParameter: TpmStructureBase, ISensitiveCompositeUnion
     {
-        /// <summary> the parameter data </summary>
+        /// <summary> The parameter data </summary>
         [Range(MaxVal = 48u /*MAX_ECC_KEY_BYTES*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -8149,7 +8149,7 @@ namespace Tpm2Lib {
 
         public Tpm2bEccParameter(Tpm2bEccParameter src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> the parameter data </param>
+        /// <param name = "_buffer"> The parameter data </param>
         public Tpm2bEccParameter(byte[] _buffer) { buffer = _buffer; }
 
         public virtual TpmAlgId GetUnionSelector() { return TpmAlgId.Ecc; }
@@ -8205,7 +8205,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_ECC_POINT")]
     public partial class Tpm2bEccPoint: TpmStructureBase
     {
-        /// <summary> coordinates </summary>
+        /// <summary> Coordinates </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
         [DataMember()]
         public EccPoint point { get; set; }
@@ -8214,7 +8214,7 @@ namespace Tpm2Lib {
 
         public Tpm2bEccPoint(Tpm2bEccPoint src) { point = src.point; }
 
-        /// <param name = "_point"> coordinates </param>
+        /// <param name = "_point"> Coordinates </param>
         public Tpm2bEccPoint(EccPoint _point) { point = _point; }
 
         new public Tpm2bEccPoint Copy() { return CreateCopy<Tpm2bEccPoint>(); }
@@ -8243,13 +8243,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_ECC_SCHEME")]
     public partial class EccScheme: TpmStructureBase
     {
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId scheme {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> scheme parameters
+        /// <summary> Scheme parameters
         /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
@@ -8261,7 +8261,7 @@ namespace Tpm2Lib {
 
         public EccScheme(EccScheme src) { details = src.details; }
 
-        /// <param name = "_details"> scheme parameters
+        /// <param name = "_details"> Scheme parameters
         ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
@@ -8302,7 +8302,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_ALGORITHM_DETAIL_ECC")]
     public partial class AlgorithmDetailEcc: TpmStructureBase
     {
-        /// <summary> identifier for the curve </summary>
+        /// <summary> Identifier for the curve </summary>
         [MarshalAs(0)]
         [DataMember()]
         public EccCurve curveID { get; set; }
@@ -8312,13 +8312,13 @@ namespace Tpm2Lib {
         [DataMember()]
         public ushort keySize { get; set; }
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId kdfScheme {
             get { return kdf != null ? kdf.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret
+        /// <summary> If not TPM_ALG_NULL, the required KDF and hash algorithm used in secret
         /// sharing operations
         /// (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
         /// SchemeHash, NullKdfScheme]) </summary>
@@ -8326,7 +8326,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public IKdfSchemeUnion kdf { get; set; }
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId signScheme {
             get { return sign != null ? sign.GetUnionSelector() : TpmAlgId.Null; }
@@ -8346,32 +8346,32 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] p;
 
-        /// <summary> coefficient of the linear term in the curve equation </summary>
+        /// <summary> Coefficient of the linear term in the curve equation </summary>
         [MarshalAs(7, MarshalType.VariableLengthArray, "aSize", 2)]
         [DataMember()]
         public byte[] a;
 
-        /// <summary> constant term for curve equation </summary>
+        /// <summary> Constant term for curve equation </summary>
         [MarshalAs(8, MarshalType.VariableLengthArray, "bSize", 2)]
         [DataMember()]
         public byte[] b;
 
-        /// <summary> x coordinate of base point G </summary>
+        /// <summary> X coordinate of base point G </summary>
         [MarshalAs(9, MarshalType.VariableLengthArray, "gXSize", 2)]
         [DataMember()]
         public byte[] gX;
 
-        /// <summary> y coordinate of base point G </summary>
+        /// <summary> Y coordinate of base point G </summary>
         [MarshalAs(10, MarshalType.VariableLengthArray, "gYSize", 2)]
         [DataMember()]
         public byte[] gY;
 
-        /// <summary> order of G </summary>
+        /// <summary> Order of G </summary>
         [MarshalAs(11, MarshalType.VariableLengthArray, "nSize", 2)]
         [DataMember()]
         public byte[] n;
 
-        /// <summary> cofactor (a size of zero indicates a cofactor of 1) </summary>
+        /// <summary> Cofactor (a size of zero indicates a cofactor of 1) </summary>
         [MarshalAs(12, MarshalType.VariableLengthArray, "hSize", 2)]
         [DataMember()]
         public byte[] h;
@@ -8393,9 +8393,9 @@ namespace Tpm2Lib {
             h = src.h;
         }
 
-        /// <param name = "_curveID"> identifier for the curve </param>
+        /// <param name = "_curveID"> Identifier for the curve </param>
         /// <param name = "_keySize"> Size in bits of the key </param>
-        /// <param name = "_kdf"> if not TPM_ALG_NULL, the required KDF and hash algorithm used in
+        /// <param name = "_kdf"> If not TPM_ALG_NULL, the required KDF and hash algorithm used in
         ///        secret sharing operations
         ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
         ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
@@ -8405,12 +8405,12 @@ namespace Tpm2Lib {
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
         /// <param name = "_p"> Fp (the modulus) </param>
-        /// <param name = "_a"> coefficient of the linear term in the curve equation </param>
-        /// <param name = "_b"> constant term for curve equation </param>
-        /// <param name = "_gX"> x coordinate of base point G </param>
-        /// <param name = "_gY"> y coordinate of base point G </param>
-        /// <param name = "_n"> order of G </param>
-        /// <param name = "_h"> cofactor (a size of zero indicates a cofactor of 1) </param>
+        /// <param name = "_a"> Coefficient of the linear term in the curve equation </param>
+        /// <param name = "_b"> Constant term for curve equation </param>
+        /// <param name = "_gX"> X coordinate of base point G </param>
+        /// <param name = "_gY"> Y coordinate of base point G </param>
+        /// <param name = "_n"> Order of G </param>
+        /// <param name = "_h"> Cofactor (a size of zero indicates a cofactor of 1) </param>
         public AlgorithmDetailEcc(EccCurve _curveID, ushort _keySize, IKdfSchemeUnion _kdf, IAsymSchemeUnion _sign, byte[] _p, byte[] _a, byte[] _b, byte[] _gX, byte[] _gY, byte[] _n, byte[] _h)
         {
             curveID = _curveID;
@@ -8437,7 +8437,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_SIGNATURE_RSA")]
     public partial class SignatureRsa: TpmStructureBase, ISignatureUnion
     {
-        /// <summary> the hash algorithm used to digest the message
+        /// <summary> The hash algorithm used to digest the message
         /// TPM_ALG_NULL is not allowed. </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -8456,7 +8456,7 @@ namespace Tpm2Lib {
             sig = src.sig;
         }
 
-        /// <param name = "_hash"> the hash algorithm used to digest the message
+        /// <param name = "_hash"> The hash algorithm used to digest the message
         ///        TPM_ALG_NULL is not allowed. </param>
         /// <param name = "_sig"> The signature is the size of a public key. </param>
         public SignatureRsa(TpmAlgId _hash, byte[] _sig)
@@ -8481,7 +8481,7 @@ namespace Tpm2Lib {
 
         public SignatureRsassa(SignatureRsassa _SignatureRsassa) : base(_SignatureRsassa) {}
 
-        /// <param name = "_hash"> the hash algorithm used to digest the message
+        /// <param name = "_hash"> The hash algorithm used to digest the message
         ///        TPM_ALG_NULL is not allowed. </param>
         /// <param name = "_sig"> The signature is the size of a public key. </param>
         public SignatureRsassa(TpmAlgId _hash, byte[] _sig)
@@ -8504,7 +8504,7 @@ namespace Tpm2Lib {
 
         public SignatureRsapss(SignatureRsapss _SignatureRsapss) : base(_SignatureRsapss) {}
 
-        /// <param name = "_hash"> the hash algorithm used to digest the message
+        /// <param name = "_hash"> The hash algorithm used to digest the message
         ///        TPM_ALG_NULL is not allowed. </param>
         /// <param name = "_sig"> The signature is the size of a public key. </param>
         public SignatureRsapss(TpmAlgId _hash, byte[] _sig)
@@ -8524,7 +8524,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_SIGNATURE_ECC")]
     public partial class SignatureEcc: TpmStructureBase, ISignatureUnion
     {
-        /// <summary> the hash algorithm used in the signature process
+        /// <summary> The hash algorithm used in the signature process
         /// TPM_ALG_NULL is not allowed. </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -8547,7 +8547,7 @@ namespace Tpm2Lib {
             signatureS = src.signatureS;
         }
 
-        /// <param name = "_hash"> the hash algorithm used in the signature process
+        /// <param name = "_hash"> The hash algorithm used in the signature process
         ///        TPM_ALG_NULL is not allowed. </param>
         /// <param name = "_signatureR"> TBD </param>
         /// <param name = "_signatureS"> TBD </param>
@@ -8574,7 +8574,7 @@ namespace Tpm2Lib {
 
         public SignatureEcdsa(SignatureEcdsa _SignatureEcdsa) : base(_SignatureEcdsa) {}
 
-        /// <param name = "_hash"> the hash algorithm used in the signature process
+        /// <param name = "_hash"> The hash algorithm used in the signature process
         ///        TPM_ALG_NULL is not allowed. </param>
         /// <param name = "_signatureR"> TBD </param>
         /// <param name = "_signatureS"> TBD </param>
@@ -8598,7 +8598,7 @@ namespace Tpm2Lib {
 
         public SignatureEcdaa(SignatureEcdaa _SignatureEcdaa) : base(_SignatureEcdaa) {}
 
-        /// <param name = "_hash"> the hash algorithm used in the signature process
+        /// <param name = "_hash"> The hash algorithm used in the signature process
         ///        TPM_ALG_NULL is not allowed. </param>
         /// <param name = "_signatureR"> TBD </param>
         /// <param name = "_signatureS"> TBD </param>
@@ -8622,7 +8622,7 @@ namespace Tpm2Lib {
 
         public SignatureSm2(SignatureSm2 _SignatureSm2) : base(_SignatureSm2) {}
 
-        /// <param name = "_hash"> the hash algorithm used in the signature process
+        /// <param name = "_hash"> The hash algorithm used in the signature process
         ///        TPM_ALG_NULL is not allowed. </param>
         /// <param name = "_signatureR"> TBD </param>
         /// <param name = "_signatureS"> TBD </param>
@@ -8646,7 +8646,7 @@ namespace Tpm2Lib {
 
         public SignatureEcschnorr(SignatureEcschnorr _SignatureEcschnorr) : base(_SignatureEcschnorr) {}
 
-        /// <param name = "_hash"> the hash algorithm used in the signature process
+        /// <param name = "_hash"> The hash algorithm used in the signature process
         ///        TPM_ALG_NULL is not allowed. </param>
         /// <param name = "_signatureR"> TBD </param>
         /// <param name = "_signatureS"> TBD </param>
@@ -8698,7 +8698,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_SIGNATURE")]
     public partial class Signature: TpmStructureBase
     {
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId sigAlg {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
@@ -8730,7 +8730,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_ENCRYPTED_SECRET")]
     public partial class Tpm2bEncryptedSecret: TpmStructureBase
     {
-        /// <summary> secret </summary>
+        /// <summary> Secret </summary>
         [Range(MaxVal = 0u /*sizeof(TPMU_ENCRYPTED_SECRET)*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -8740,7 +8740,7 @@ namespace Tpm2Lib {
 
         public Tpm2bEncryptedSecret(Tpm2bEncryptedSecret src) { secret = src.secret; }
 
-        /// <param name = "_secret"> secret </param>
+        /// <param name = "_secret"> Secret </param>
         public Tpm2bEncryptedSecret(byte[] _secret) { secret = _secret; }
 
         new public Tpm2bEncryptedSecret Copy() { return CreateCopy<Tpm2bEncryptedSecret>(); }
@@ -8760,7 +8760,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_KEYEDHASH_PARMS")]
     public partial class KeyedhashParms: TpmStructureBase, IPublicParmsUnion
     {
-        /// <summary> selects the scheme </summary>
+        /// <summary> Selects the scheme </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId schemeScheme {
             get { return scheme != null ? scheme.GetUnionSelector() : TpmAlgId.Null; }
@@ -8815,7 +8815,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_ASYM_PARMS")]
     public partial class AsymParms: TpmStructureBase, IPublicParmsUnion
     {
-        /// <summary> the companion symmetric algorithm for a restricted decryption key and shall
+        /// <summary> The companion symmetric algorithm for a restricted decryption key and shall
         /// be set to a supported symmetric algorithm
         /// This field is optional for keys that are not decryption keys and shall be set to
         /// TPM_ALG_NULL if not used. </summary>
@@ -8823,13 +8823,13 @@ namespace Tpm2Lib {
         [DataMember()]
         public SymDefObject symmetric { get; set; }
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId schemeScheme {
             get { return scheme != null ? scheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> for a key with the sign attribute SET, a valid signing scheme for the key type
+        /// <summary> For a key with the sign attribute SET, a valid signing scheme for the key type
         /// for a key with the decrypt attribute SET, a valid key exchange protocol
         /// for a key with sign and decrypt attributes, shall be TPM_ALG_NULL
         /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
@@ -8847,11 +8847,11 @@ namespace Tpm2Lib {
             scheme = src.scheme;
         }
 
-        /// <param name = "_symmetric"> the companion symmetric algorithm for a restricted decryption
+        /// <param name = "_symmetric"> The companion symmetric algorithm for a restricted decryption
         ///        key and shall be set to a supported symmetric algorithm
         ///        This field is optional for keys that are not decryption keys and shall be set to
         ///        TPM_ALG_NULL if not used. </param>
-        /// <param name = "_scheme"> for a key with the sign attribute SET, a valid signing scheme for
+        /// <param name = "_scheme"> For a key with the sign attribute SET, a valid signing scheme for
         ///        the key type
         ///        for a key with the decrypt attribute SET, a valid key exchange protocol
         ///        for a key with sign and decrypt attributes, shall be TPM_ALG_NULL
@@ -8897,7 +8897,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_RSA_PARMS")]
     public partial class RsaParms: TpmStructureBase, IPublicParmsUnion
     {
-        /// <summary> for a restricted decryption key, shall be set to a supported symmetric
+        /// <summary> For a restricted decryption key, shall be set to a supported symmetric
         /// algorithm, key size, and mode.
         /// if the key is not a restricted decryption key, this field shall be set to
         /// TPM_ALG_NULL. </summary>
@@ -8905,13 +8905,13 @@ namespace Tpm2Lib {
         [DataMember()]
         public SymDefObject symmetric { get; set; }
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId schemeScheme {
             get { return scheme != null ? scheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> scheme.scheme shall be:
+        /// <summary> Scheme.scheme shall be:
         /// for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL
         /// for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA
         /// for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL
@@ -8926,12 +8926,12 @@ namespace Tpm2Lib {
         [DataMember()]
         public IAsymSchemeUnion scheme { get; set; }
 
-        /// <summary> number of bits in the public modulus </summary>
+        /// <summary> Number of bits in the public modulus </summary>
         [MarshalAs(3)]
         [DataMember()]
         public ushort keyBits { get; set; }
 
-        /// <summary> the public exponent
+        /// <summary> The public exponent
         /// A prime number greater than 2. </summary>
         [MarshalAs(4)]
         [DataMember()]
@@ -8947,11 +8947,11 @@ namespace Tpm2Lib {
             exponent = src.exponent;
         }
 
-        /// <param name = "_symmetric"> for a restricted decryption key, shall be set to a supported
+        /// <param name = "_symmetric"> For a restricted decryption key, shall be set to a supported
         ///        symmetric algorithm, key size, and mode.
         ///        if the key is not a restricted decryption key, this field shall be set to
         ///        TPM_ALG_NULL. </param>
-        /// <param name = "_scheme"> scheme.scheme shall be:
+        /// <param name = "_scheme"> Scheme.scheme shall be:
         ///        for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL
         ///        for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA
         ///        for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL
@@ -8962,8 +8962,8 @@ namespace Tpm2Lib {
         ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
-        /// <param name = "_keyBits"> number of bits in the public modulus </param>
-        /// <param name = "_exponent"> the public exponent
+        /// <param name = "_keyBits"> Number of bits in the public modulus </param>
+        /// <param name = "_exponent"> The public exponent
         ///        A prime number greater than 2. </param>
         public RsaParms(SymDefObject _symmetric, IAsymSchemeUnion _scheme, ushort _keyBits, uint _exponent)
         {
@@ -9010,7 +9010,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_ECC_PARMS")]
     public partial class EccParms: TpmStructureBase, IPublicParmsUnion
     {
-        /// <summary> for a restricted decryption key, shall be set to a supported symmetric
+        /// <summary> For a restricted decryption key, shall be set to a supported symmetric
         /// algorithm, key size. and mode.
         /// if the key is not a restricted decryption key, this field shall be set to
         /// TPM_ALG_NULL. </summary>
@@ -9018,7 +9018,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public SymDefObject symmetric { get; set; }
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId schemeScheme {
             get { return scheme != null ? scheme.GetUnionSelector() : TpmAlgId.Null; }
@@ -9042,13 +9042,13 @@ namespace Tpm2Lib {
         [DataMember()]
         public EccCurve curveID { get; set; }
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId kdfScheme {
             get { return kdf != null ? kdf.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> an optional key derivation scheme for generating a symmetric key from a Z value
+        /// <summary> An optional key derivation scheme for generating a symmetric key from a Z value
         /// If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required
         /// to be NULL.
         /// NOTE There are currently no commands where this parameter has effect and, in the
@@ -9069,7 +9069,7 @@ namespace Tpm2Lib {
             kdf = src.kdf;
         }
 
-        /// <param name = "_symmetric"> for a restricted decryption key, shall be set to a supported
+        /// <param name = "_symmetric"> For a restricted decryption key, shall be set to a supported
         ///        symmetric algorithm, key size. and mode.
         ///        if the key is not a restricted decryption key, this field shall be set to
         ///        TPM_ALG_NULL. </param>
@@ -9084,7 +9084,7 @@ namespace Tpm2Lib {
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
         /// <param name = "_curveID"> ECC curve ID </param>
-        /// <param name = "_kdf"> an optional key derivation scheme for generating a symmetric key
+        /// <param name = "_kdf"> An optional key derivation scheme for generating a symmetric key
         ///        from a Z value
         ///        If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is
         ///        required to be NULL.
@@ -9119,13 +9119,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_PUBLIC_PARMS")]
     public partial class PublicParms: TpmStructureBase
     {
-        /// <summary> the algorithm to be tested </summary>
+        /// <summary> The algorithm to be tested </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId type {
             get { return parameters.GetUnionSelector(); }
         }
 
-        /// <summary> the algorithm details
+        /// <summary> The algorithm details
         /// (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </summary>
         [MarshalAs(1, MarshalType.Union, "type")]
         [DataMember()]
@@ -9135,7 +9135,7 @@ namespace Tpm2Lib {
 
         public PublicParms(PublicParms src) { parameters = src.parameters; }
 
-        /// <param name = "_parameters"> the algorithm details
+        /// <param name = "_parameters"> The algorithm details
         ///        (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </param>
         public PublicParms(IPublicParmsUnion _parameters) { parameters = _parameters; }
 
@@ -9163,39 +9163,39 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_PUBLIC")]
     public partial class TpmPublic: TpmStructureBase
     {
-        /// <summary> algorithm associated with this object </summary>
+        /// <summary> Algorithm associated with this object </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId type {
             get { return parameters.GetUnionSelector(); }
         }
 
-        /// <summary> algorithm used for computing the Name of the object
+        /// <summary> Algorithm used for computing the Name of the object
         /// NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate
         /// that the nameAlg may be TPM_ALG_NULL. </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmAlgId nameAlg { get; set; }
 
-        /// <summary> attributes that, along with type, determine the manipulations of this object
+        /// <summary> Attributes that, along with type, determine the manipulations of this object
         /// </summary>
         [MarshalAs(2)]
         [DataMember()]
         public ObjectAttr objectAttributes { get; set; }
 
-        /// <summary> optional policy for using this key
+        /// <summary> Optional policy for using this key
         /// The policy is computed using the nameAlg of the object.
         /// NOTE Shall be the Empty Policy if no authorization policy is present. </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "authPolicySize", 2)]
         [DataMember()]
         public byte[] authPolicy;
 
-        /// <summary> the algorithm or structure details
+        /// <summary> The algorithm or structure details
         /// (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </summary>
         [MarshalAs(4, MarshalType.Union, "type")]
         [DataMember()]
         public IPublicParmsUnion parameters { get; set; }
 
-        /// <summary> the unique identifier of the structure
+        /// <summary> The unique identifier of the structure
         /// For an asymmetric key, this would be the public key.
         /// (One of [Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint,
         /// TpmDerive]) </summary>
@@ -9214,17 +9214,17 @@ namespace Tpm2Lib {
             unique = src.unique;
         }
 
-        /// <param name = "_nameAlg"> algorithm used for computing the Name of the object
+        /// <param name = "_nameAlg"> Algorithm used for computing the Name of the object
         ///        NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to
         ///        indicate that the nameAlg may be TPM_ALG_NULL. </param>
-        /// <param name = "_objectAttributes"> attributes that, along with type, determine the
+        /// <param name = "_objectAttributes"> Attributes that, along with type, determine the
         ///        manipulations of this object </param>
-        /// <param name = "_authPolicy"> optional policy for using this key
+        /// <param name = "_authPolicy"> Optional policy for using this key
         ///        The policy is computed using the nameAlg of the object.
         ///        NOTE Shall be the Empty Policy if no authorization policy is present. </param>
-        /// <param name = "_parameters"> the algorithm or structure details
+        /// <param name = "_parameters"> The algorithm or structure details
         ///        (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </param>
-        /// <param name = "_unique"> the unique identifier of the structure
+        /// <param name = "_unique"> The unique identifier of the structure
         ///        For an asymmetric key, this would be the public key.
         ///        (One of [Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint,
         ///        TpmDerive]) </param>
@@ -9249,7 +9249,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_PUBLIC")]
     public partial class Tpm2bPublic: TpmStructureBase
     {
-        /// <summary> the public area
+        /// <summary> The public area
         /// NOTE The + indicates that the caller may specify that use of TPM_ALG_NULL is allowed
         /// for nameAlg. </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
@@ -9260,7 +9260,7 @@ namespace Tpm2Lib {
 
         public Tpm2bPublic(Tpm2bPublic src) { publicArea = src.publicArea; }
 
-        /// <param name = "_publicArea"> the public area
+        /// <param name = "_publicArea"> The public area
         ///        NOTE The + indicates that the caller may specify that use of TPM_ALG_NULL is
         ///        allowed for nameAlg. </param>
         public Tpm2bPublic(TpmPublic _publicArea) { publicArea = _publicArea; }
@@ -9275,7 +9275,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_TEMPLATE")]
     public partial class Tpm2bTemplate: TpmStructureBase
     {
-        /// <summary> the public area </summary>
+        /// <summary> The public area </summary>
         [Range(MaxVal = 30u /*sizeof(TPMT_PUBLIC)*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -9285,7 +9285,7 @@ namespace Tpm2Lib {
 
         public Tpm2bTemplate(Tpm2bTemplate src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> the public area </param>
+        /// <param name = "_buffer"> The public area </param>
         public Tpm2bTemplate(byte[] _buffer) { buffer = _buffer; }
 
         new public Tpm2bTemplate Copy() { return CreateCopy<Tpm2bTemplate>(); }
@@ -9322,7 +9322,7 @@ namespace Tpm2Lib {
         public override TpmStructureBase Clone() { return Copy(); }
     }
 
-    /// <summary> authValue shall not be larger than the size of the digest produced by the
+    /// <summary> AuthValue shall not be larger than the size of the digest produced by the
     /// nameAlg of the object. seedValue shall be the size of the digest produced by the
     /// nameAlg of the object. </summary>
     [DataContract]
@@ -9335,26 +9335,26 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_SENSITIVE")]
     public partial class Sensitive: TpmStructureBase
     {
-        /// <summary> identifier for the sensitive area
+        /// <summary> Identifier for the sensitive area
         /// This shall be the same as the type parameter of the associated public area. </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId sensitiveType {
             get { return sensitive.GetUnionSelector(); }
         }
 
-        /// <summary> user authorization data
+        /// <summary> User authorization data
         /// The authValue may be a zero-length string. </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "authValueSize", 2)]
         [DataMember()]
         public byte[] authValue;
 
-        /// <summary> for a parent object, the optional protection seed; for other objects, the
+        /// <summary> For a parent object, the optional protection seed; for other objects, the
         /// obfuscation value </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "seedValueSize", 2)]
         [DataMember()]
         public byte[] seedValue;
 
-        /// <summary> the type-specific private data
+        /// <summary> The type-specific private data
         /// (One of [Tpm2bPrivateKeyRsa, Tpm2bEccParameter, Tpm2bSensitiveData, Tpm2bSymKey,
         /// Tpm2bPrivateVendorSpecific]) </summary>
         [MarshalAs(3, MarshalType.Union, "sensitiveType")]
@@ -9370,11 +9370,11 @@ namespace Tpm2Lib {
             sensitive = src.sensitive;
         }
 
-        /// <param name = "_authValue"> user authorization data
+        /// <param name = "_authValue"> User authorization data
         ///        The authValue may be a zero-length string. </param>
-        /// <param name = "_seedValue"> for a parent object, the optional protection seed; for other
+        /// <param name = "_seedValue"> For a parent object, the optional protection seed; for other
         ///        objects, the obfuscation value </param>
-        /// <param name = "_sensitive"> the type-specific private data
+        /// <param name = "_sensitive"> The type-specific private data
         ///        (One of [Tpm2bPrivateKeyRsa, Tpm2bEccParameter, Tpm2bSensitiveData, Tpm2bSymKey,
         ///        Tpm2bPrivateVendorSpecific]) </param>
         public Sensitive(byte[] _authValue, byte[] _seedValue, ISensitiveCompositeUnion _sensitive)
@@ -9397,7 +9397,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_SENSITIVE")]
     public partial class Tpm2bSensitive: TpmStructureBase
     {
-        /// <summary> an unencrypted sensitive area </summary>
+        /// <summary> An unencrypted sensitive area </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
         [DataMember()]
         public Sensitive sensitiveArea { get; set; }
@@ -9406,7 +9406,7 @@ namespace Tpm2Lib {
 
         public Tpm2bSensitive(Tpm2bSensitive src) { sensitiveArea = src.sensitiveArea; }
 
-        /// <param name = "_sensitiveArea"> an unencrypted sensitive area </param>
+        /// <param name = "_sensitiveArea"> An unencrypted sensitive area </param>
         public Tpm2bSensitive(Sensitive _sensitiveArea) { sensitiveArea = _sensitiveArea; }
 
         new public Tpm2bSensitive Copy() { return CreateCopy<Tpm2bSensitive>(); }
@@ -9425,12 +9425,12 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] integrityOuter;
 
-        /// <summary> could also be a TPM2B_IV </summary>
+        /// <summary> Could also be a TPM2B_IV </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "integrityInnerSize", 2)]
         [DataMember()]
         public byte[] integrityInner;
 
-        /// <summary> the sensitive area </summary>
+        /// <summary> The sensitive area </summary>
         [MarshalAs(2, MarshalType.SizedStruct, "sensitiveSize", 2)]
         [DataMember()]
         public Sensitive sensitive { get; set; }
@@ -9445,8 +9445,8 @@ namespace Tpm2Lib {
         }
 
         /// <param name = "_integrityOuter"> TBD </param>
-        /// <param name = "_integrityInner"> could also be a TPM2B_IV </param>
-        /// <param name = "_sensitive"> the sensitive area </param>
+        /// <param name = "_integrityInner"> Could also be a TPM2B_IV </param>
+        /// <param name = "_sensitive"> The sensitive area </param>
         public _Private(byte[] _integrityOuter, byte[] _integrityInner, Sensitive _sensitive)
         {
             integrityOuter = _integrityOuter;
@@ -9465,7 +9465,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_PRIVATE")]
     public partial class TpmPrivate: TpmStructureBase
     {
-        /// <summary> an encrypted private area </summary>
+        /// <summary> An encrypted private area </summary>
         [Range(MaxVal = 1024u /*sizeof(_PRIVATE)*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -9475,7 +9475,7 @@ namespace Tpm2Lib {
 
         public TpmPrivate(TpmPrivate src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> an encrypted private area </param>
+        /// <param name = "_buffer"> An encrypted private area </param>
         public TpmPrivate(byte[] _buffer) { buffer = _buffer; }
 
         new public TpmPrivate Copy() { return CreateCopy<TpmPrivate>(); }
@@ -9493,7 +9493,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] integrityHMAC;
 
-        /// <summary> credential protector information returned if name matches the referenced object
+        /// <summary> Credential protector information returned if name matches the referenced object
         /// All of the encIdentity is encrypted, including the size field.
         /// NOTE The TPM is not required to check that the size is not larger than the digest of
         /// the nameAlg. However, if the size is larger, the ID object may not be usable on a TPM
@@ -9512,7 +9512,7 @@ namespace Tpm2Lib {
 
         /// <param name = "_integrityHMAC"> HMAC using the nameAlg of the storage key on the target
         ///        TPM </param>
-        /// <param name = "_encIdentity"> credential protector information returned if name matches
+        /// <param name = "_encIdentity"> Credential protector information returned if name matches
         ///        the referenced object
         ///        All of the encIdentity is encrypted, including the size field.
         ///        NOTE The TPM is not required to check that the size is not larger than the digest
@@ -9536,7 +9536,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_ID_OBJECT")]
     public partial class Tpm2bIdObject: TpmStructureBase
     {
-        /// <summary> an encrypted credential area </summary>
+        /// <summary> An encrypted credential area </summary>
         [Range(MaxVal = 2u /*sizeof(TPMS_ID_OBJECT)*/)]
         [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
         [DataMember()]
@@ -9546,7 +9546,7 @@ namespace Tpm2Lib {
 
         public Tpm2bIdObject(Tpm2bIdObject src) { credential = src.credential; }
 
-        /// <param name = "_credential"> an encrypted credential area </param>
+        /// <param name = "_credential"> An encrypted credential area </param>
         public Tpm2bIdObject(IdObject _credential) { credential = _credential; }
 
         new public Tpm2bIdObject Copy() { return CreateCopy<Tpm2bIdObject>(); }
@@ -9606,30 +9606,30 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_NV_PUBLIC")]
     public partial class NvPublic: TpmStructureBase
     {
-        /// <summary> the handle of the data area </summary>
+        /// <summary> The handle of the data area </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        /// <summary> hash algorithm used to compute the name of the Index and used for the
+        /// <summary> Hash algorithm used to compute the name of the Index and used for the
         /// authPolicy. For an extend index, the hash algorithm used for the extend. </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmAlgId nameAlg { get; set; }
 
-        /// <summary> the Index attributes </summary>
+        /// <summary> The Index attributes </summary>
         [MarshalAs(2)]
         [DataMember()]
         public NvAttr attributes { get; set; }
 
-        /// <summary> optional access policy for the Index
+        /// <summary> Optional access policy for the Index
         /// The policy is computed using the nameAlg
         /// NOTE Shall be the Empty Policy if no authorization policy is present. </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "authPolicySize", 2)]
         [DataMember()]
         public byte[] authPolicy;
 
-        /// <summary> the size of the data area
+        /// <summary> The size of the data area
         /// The maximum size is implementation-dependent. The minimum maximum size is
         /// platform-specific. </summary>
         [Range(MaxVal = 2048u /*MAX_NV_INDEX_SIZE*/)]
@@ -9651,14 +9651,14 @@ namespace Tpm2Lib {
             dataSize = src.dataSize;
         }
 
-        /// <param name = "_nvIndex"> the handle of the data area </param>
-        /// <param name = "_nameAlg"> hash algorithm used to compute the name of the Index and used
+        /// <param name = "_nvIndex"> The handle of the data area </param>
+        /// <param name = "_nameAlg"> Hash algorithm used to compute the name of the Index and used
         ///        for the authPolicy. For an extend index, the hash algorithm used for the extend. </param>
-        /// <param name = "_attributes"> the Index attributes </param>
-        /// <param name = "_authPolicy"> optional access policy for the Index
+        /// <param name = "_attributes"> The Index attributes </param>
+        /// <param name = "_authPolicy"> Optional access policy for the Index
         ///        The policy is computed using the nameAlg
         ///        NOTE Shall be the Empty Policy if no authorization policy is present. </param>
-        /// <param name = "_dataSize"> the size of the data area
+        /// <param name = "_dataSize"> The size of the data area
         ///        The maximum size is implementation-dependent. The minimum maximum size is
         ///        platform-specific. </param>
         public NvPublic(TpmHandle _nvIndex, TpmAlgId _nameAlg, NvAttr _attributes, byte[] _authPolicy, ushort _dataSize)
@@ -9681,7 +9681,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_NV_PUBLIC")]
     public partial class Tpm2bNvPublic: TpmStructureBase
     {
-        /// <summary> the public area </summary>
+        /// <summary> The public area </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "size", 2)]
         [DataMember()]
         public NvPublic nvPublic { get; set; }
@@ -9690,7 +9690,7 @@ namespace Tpm2Lib {
 
         public Tpm2bNvPublic(Tpm2bNvPublic src) { nvPublic = src.nvPublic; }
 
-        /// <param name = "_nvPublic"> the public area </param>
+        /// <param name = "_nvPublic"> The public area </param>
         public Tpm2bNvPublic(NvPublic _nvPublic) { nvPublic = _nvPublic; }
 
         new public Tpm2bNvPublic Copy() { return CreateCopy<Tpm2bNvPublic>(); }
@@ -9704,7 +9704,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2B_CONTEXT_SENSITIVE")]
     public partial class Tpm2bContextSensitive: TpmStructureBase
     {
-        /// <summary> the sensitive data </summary>
+        /// <summary> The sensitive data </summary>
         [Range(MaxVal = 1264u /*MAX_CONTEXT_SIZE*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "size", 2)]
         [DataMember()]
@@ -9714,7 +9714,7 @@ namespace Tpm2Lib {
 
         public Tpm2bContextSensitive(Tpm2bContextSensitive src) { buffer = src.buffer; }
 
-        /// <param name = "_buffer"> the sensitive data </param>
+        /// <param name = "_buffer"> The sensitive data </param>
         public Tpm2bContextSensitive(byte[] _buffer) { buffer = _buffer; }
 
         new public Tpm2bContextSensitive Copy() { return CreateCopy<Tpm2bContextSensitive>(); }
@@ -9728,12 +9728,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_CONTEXT_DATA")]
     public partial class ContextData: TpmStructureBase
     {
-        /// <summary> the integrity value </summary>
+        /// <summary> The integrity value </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "integritySize", 2)]
         [DataMember()]
         public byte[] integrity;
 
-        /// <summary> the sensitive area </summary>
+        /// <summary> The sensitive area </summary>
         [MarshalAs(1, MarshalType.EncryptedVariableLengthArray)]
         [DataMember()]
         public byte[] encrypted;
@@ -9746,8 +9746,8 @@ namespace Tpm2Lib {
             encrypted = src.encrypted;
         }
 
-        /// <param name = "_integrity"> the integrity value </param>
-        /// <param name = "_encrypted"> the sensitive area </param>
+        /// <param name = "_integrity"> The integrity value </param>
+        /// <param name = "_encrypted"> The sensitive area </param>
         public ContextData(byte[] _integrity, byte[] _encrypted)
         {
             integrity = _integrity;
@@ -9792,24 +9792,24 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_CONTEXT")]
     public partial class Context: TpmStructureBase
     {
-        /// <summary> the sequence number of the context
+        /// <summary> The sequence number of the context
         /// NOTE Transient object contexts and session contexts used different counters. </summary>
         [MarshalAs(0)]
         [DataMember()]
         public ulong sequence { get; set; }
 
-        /// <summary> a handle indicating if the context is a session, object, or sequence object
+        /// <summary> A handle indicating if the context is a session, object, or sequence object
         /// (see Table 222 Context Handle Values </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle savedHandle { get; set; }
 
-        /// <summary> the hierarchy of the context </summary>
+        /// <summary> The hierarchy of the context </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmHandle hierarchy { get; set; }
 
-        /// <summary> the context data and integrity HMAC </summary>
+        /// <summary> The context data and integrity HMAC </summary>
         [MarshalAs(3, MarshalType.SizedStruct, "contextBlobSize", 2)]
         [DataMember()]
         public ContextData contextBlob { get; set; }
@@ -9827,12 +9827,12 @@ namespace Tpm2Lib {
             contextBlob = src.contextBlob;
         }
 
-        /// <param name = "_sequence"> the sequence number of the context
+        /// <param name = "_sequence"> The sequence number of the context
         ///        NOTE Transient object contexts and session contexts used different counters. </param>
-        /// <param name = "_savedHandle"> a handle indicating if the context is a session, object, or
+        /// <param name = "_savedHandle"> A handle indicating if the context is a session, object, or
         ///        sequence object (see Table 222 Context Handle Values </param>
-        /// <param name = "_hierarchy"> the hierarchy of the context </param>
-        /// <param name = "_contextBlob"> the context data and integrity HMAC </param>
+        /// <param name = "_hierarchy"> The hierarchy of the context </param>
+        /// <param name = "_contextBlob"> The context data and integrity HMAC </param>
         public Context(ulong _sequence, TpmHandle _savedHandle, TpmHandle _hierarchy, ContextData _contextBlob)
         {
             sequence = _sequence;
@@ -9857,24 +9857,24 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_CREATION_DATA")]
     public partial class CreationData: TpmStructureBase
     {
-        /// <summary> list indicating the PCR included in pcrDigest </summary>
+        /// <summary> List indicating the PCR included in pcrDigest </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "pcrSelectCount", 4)]
         [DataMember()]
         public PcrSelection[] pcrSelect;
 
-        /// <summary> digest of the selected PCR using nameAlg of the object for which this
+        /// <summary> Digest of the selected PCR using nameAlg of the object for which this
         /// structure is being created
         /// pcrDigest.size shall be zero if the pcrSelect list is empty. </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "pcrDigestSize", 2)]
         [DataMember()]
         public byte[] pcrDigest;
 
-        /// <summary> the locality at which the object was created </summary>
+        /// <summary> The locality at which the object was created </summary>
         [MarshalAs(2)]
         [DataMember()]
         public LocalityAttr locality { get; set; }
 
-        /// <summary> nameAlg of the parent </summary>
+        /// <summary> NameAlg of the parent </summary>
         [MarshalAs(3)]
         [DataMember()]
         public TpmAlgId parentNameAlg { get; set; }
@@ -9893,7 +9893,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] parentQualifiedName;
 
-        /// <summary> association with additional information added by the key creator
+        /// <summary> Association with additional information added by the key creator
         /// This will be the contents of the outsideInfo parameter in TPM2_Create() or
         /// TPM2_CreatePrimary(). </summary>
         [MarshalAs(6, MarshalType.VariableLengthArray, "outsideInfoSize", 2)]
@@ -9913,19 +9913,19 @@ namespace Tpm2Lib {
             outsideInfo = src.outsideInfo;
         }
 
-        /// <param name = "_pcrSelect"> list indicating the PCR included in pcrDigest </param>
-        /// <param name = "_pcrDigest"> digest of the selected PCR using nameAlg of the object for
+        /// <param name = "_pcrSelect"> List indicating the PCR included in pcrDigest </param>
+        /// <param name = "_pcrDigest"> Digest of the selected PCR using nameAlg of the object for
         ///        which this structure is being created
         ///        pcrDigest.size shall be zero if the pcrSelect list is empty. </param>
-        /// <param name = "_locality"> the locality at which the object was created </param>
-        /// <param name = "_parentNameAlg"> nameAlg of the parent </param>
+        /// <param name = "_locality"> The locality at which the object was created </param>
+        /// <param name = "_parentNameAlg"> NameAlg of the parent </param>
         /// <param name = "_parentName"> Name of the parent at time of creation
         ///        The size will match digest size associated with parentNameAlg unless it is
         ///        TPM_ALG_NULL, in which case the size will be 4 and parentName will be the hierarchy
         ///        handle. </param>
         /// <param name = "_parentQualifiedName"> Qualified Name of the parent at the time of creation
         ///        Size is the same as parentName. </param>
-        /// <param name = "_outsideInfo"> association with additional information added by the key creator
+        /// <param name = "_outsideInfo"> Association with additional information added by the key creator
         ///        This will be the contents of the outsideInfo parameter in TPM2_Create() or
         ///        TPM2_CreatePrimary(). </param>
         public CreationData(PcrSelection[] _pcrSelect, byte[] _pcrDigest, LocalityAttr _locality, TpmAlgId _parentNameAlg, byte[] _parentName, byte[] _parentQualifiedName, byte[] _outsideInfo)
@@ -9974,12 +9974,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMS_AC_OUTPUT")]
     public partial class AcOutput: TpmStructureBase
     {
-        /// <summary> tag indicating the contents of data </summary>
+        /// <summary> Tag indicating the contents of data </summary>
         [MarshalAs(0)]
         [DataMember()]
         public At tag { get; set; }
 
-        /// <summary> the data returned from the AC </summary>
+        /// <summary> The data returned from the AC </summary>
         [MarshalAs(1)]
         [DataMember()]
         public uint data { get; set; }
@@ -9992,8 +9992,8 @@ namespace Tpm2Lib {
             data = src.data;
         }
 
-        /// <param name = "_tag"> tag indicating the contents of data </param>
-        /// <param name = "_data"> the data returned from the AC </param>
+        /// <param name = "_tag"> Tag indicating the contents of data </param>
+        /// <param name = "_data"> The data returned from the AC </param>
         public AcOutput(At _tag, uint _data)
         {
             tag = _tag;
@@ -10010,7 +10010,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPML_AC_CAPABILITIES")]
     public partial class AcCapabilitiesArray: TpmStructureBase
     {
-        /// <summary> a list of AC values </summary>
+        /// <summary> A list of AC values </summary>
         [Range(MaxVal = 127u /*MAX_AC_CAPABILITIES*/)]
         [MarshalAs(0, MarshalType.VariableLengthArray, "count", 4)]
         [DataMember()]
@@ -10020,7 +10020,7 @@ namespace Tpm2Lib {
 
         public AcCapabilitiesArray(AcCapabilitiesArray src) { acCapabilities = src.acCapabilities; }
 
-        /// <param name = "_acCapabilities"> a list of AC values </param>
+        /// <param name = "_acCapabilities"> A list of AC values </param>
         public AcCapabilitiesArray(AcOutput[] _acCapabilities) { acCapabilities = _acCapabilities; }
 
         new public AcCapabilitiesArray Copy() { return CreateCopy<AcCapabilitiesArray>(); }
@@ -10105,14 +10105,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_IncrementalSelfTest_REQUEST")]
     public partial class Tpm2IncrementalSelfTestRequest: TpmStructureBase
     {
-        /// <summary> list of algorithms that should be tested </summary>
+        /// <summary> List of algorithms that should be tested </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "toTestCount", 4)]
         [DataMember()]
         public TpmAlgId[] toTest;
 
         public Tpm2IncrementalSelfTestRequest() {}
 
-        /// <param name = "_toTest"> list of algorithms that should be tested </param>
+        /// <param name = "_toTest"> List of algorithms that should be tested </param>
         public Tpm2IncrementalSelfTestRequest(TpmAlgId[] _toTest) { toTest = _toTest; }
 
         new public Tpm2IncrementalSelfTestRequest Copy() { return CreateCopy<Tpm2IncrementalSelfTestRequest>(); }
@@ -10125,7 +10125,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_IncrementalSelfTest_RESPONSE")]
     public partial class Tpm2IncrementalSelfTestResponse: TpmStructureBase
     {
-        /// <summary> list of algorithms that need testing </summary>
+        /// <summary> List of algorithms that need testing </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "toDoListCount", 4)]
         [DataMember()]
         public TpmAlgId[] toDoList;
@@ -10159,7 +10159,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_GetTestResult_RESPONSE")]
     public partial class Tpm2GetTestResultResponse: TpmStructureBase
     {
-        /// <summary> test result data
+        /// <summary> Test result data
         /// contains manufacturer-specific information </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "outDataSize", 2)]
         [DataMember()]
@@ -10193,45 +10193,45 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_StartAuthSession_REQUEST")]
     public partial class Tpm2StartAuthSessionRequest: TpmStructureBase
     {
-        /// <summary> handle of a loaded decrypt key used to encrypt salt
+        /// <summary> Handle of a loaded decrypt key used to encrypt salt
         /// may be TPM_RH_NULL
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle tpmKey { get; set; }
 
-        /// <summary> entity providing the authValue
+        /// <summary> Entity providing the authValue
         /// may be TPM_RH_NULL
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle bind { get; set; }
 
-        /// <summary> initial nonceCaller, sets nonceTPM size for the session
+        /// <summary> Initial nonceCaller, sets nonceTPM size for the session
         /// shall be at least 16 octets </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "nonceCallerSize", 2)]
         [DataMember()]
         public byte[] nonceCaller;
 
-        /// <summary> value encrypted according to the type of tpmKey
+        /// <summary> Value encrypted according to the type of tpmKey
         /// If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer. </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "encryptedSaltSize", 2)]
         [DataMember()]
         public byte[] encryptedSalt;
 
-        /// <summary> indicates the type of the session; simple HMAC or policy (including a trial
+        /// <summary> Indicates the type of the session; simple HMAC or policy (including a trial
         /// policy) </summary>
         [MarshalAs(4)]
         [DataMember()]
         public TpmSe sessionType { get; set; }
 
-        /// <summary> the algorithm and key size for parameter encryption
+        /// <summary> The algorithm and key size for parameter encryption
         /// may select TPM_ALG_NULL </summary>
         [MarshalAs(5)]
         [DataMember()]
         public SymDef symmetric { get; set; }
 
-        /// <summary> hash algorithm to use for the session
+        /// <summary> Hash algorithm to use for the session
         /// Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL </summary>
         [MarshalAs(6)]
         [DataMember()]
@@ -10243,21 +10243,21 @@ namespace Tpm2Lib {
             authHash = TpmAlgId.Null;
         }
 
-        /// <param name = "_tpmKey"> handle of a loaded decrypt key used to encrypt salt
+        /// <param name = "_tpmKey"> Handle of a loaded decrypt key used to encrypt salt
         ///        may be TPM_RH_NULL
         ///        Auth Index: None </param>
-        /// <param name = "_bind"> entity providing the authValue
+        /// <param name = "_bind"> Entity providing the authValue
         ///        may be TPM_RH_NULL
         ///        Auth Index: None </param>
-        /// <param name = "_nonceCaller"> initial nonceCaller, sets nonceTPM size for the session
+        /// <param name = "_nonceCaller"> Initial nonceCaller, sets nonceTPM size for the session
         ///        shall be at least 16 octets </param>
-        /// <param name = "_encryptedSalt"> value encrypted according to the type of tpmKey
+        /// <param name = "_encryptedSalt"> Value encrypted according to the type of tpmKey
         ///        If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer. </param>
-        /// <param name = "_sessionType"> indicates the type of the session; simple HMAC or policy
+        /// <param name = "_sessionType"> Indicates the type of the session; simple HMAC or policy
         ///        (including a trial policy) </param>
-        /// <param name = "_symmetric"> the algorithm and key size for parameter encryption
+        /// <param name = "_symmetric"> The algorithm and key size for parameter encryption
         ///        may select TPM_ALG_NULL </param>
-        /// <param name = "_authHash"> hash algorithm to use for the session
+        /// <param name = "_authHash"> Hash algorithm to use for the session
         ///        Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL </param>
         public Tpm2StartAuthSessionRequest(TpmHandle _tpmKey, TpmHandle _bind, byte[] _nonceCaller, byte[] _encryptedSalt, TpmSe _sessionType, SymDef _symmetric, TpmAlgId _authHash)
         {
@@ -10283,12 +10283,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_StartAuthSession_RESPONSE")]
     public partial class Tpm2StartAuthSessionResponse: TpmStructureBase
     {
-        /// <summary> handle for the newly created session </summary>
+        /// <summary> Handle for the newly created session </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
 
-        /// <summary> the initial nonce from the TPM, used in the computation of the sessionKey </summary>
+        /// <summary> The initial nonce from the TPM, used in the computation of the sessionKey </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "nonceTPMSize", 2)]
         [DataMember()]
         public byte[] nonceTPM;
@@ -10317,14 +10317,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyRestart_REQUEST")]
     public partial class Tpm2PolicyRestartRequest: TpmStructureBase
     {
-        /// <summary> the handle for the policy session </summary>
+        /// <summary> The handle for the policy session </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle sessionHandle { get; set; }
 
         public Tpm2PolicyRestartRequest() { sessionHandle = new TpmHandle(); }
 
-        /// <param name = "_sessionHandle"> the handle for the policy session </param>
+        /// <param name = "_sessionHandle"> The handle for the policy session </param>
         public Tpm2PolicyRestartRequest(TpmHandle _sessionHandle) { sessionHandle = _sessionHandle; }
 
         new public Tpm2PolicyRestartRequest Copy() { return CreateCopy<Tpm2PolicyRestartRequest>(); }
@@ -10346,24 +10346,24 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Create_REQUEST")]
     public partial class Tpm2CreateRequest: TpmStructureBase
     {
-        /// <summary> handle of parent for new object
+        /// <summary> Handle of parent for new object
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle parentHandle { get; set; }
 
-        /// <summary> the sensitive data </summary>
+        /// <summary> The sensitive data </summary>
         [MarshalAs(1, MarshalType.SizedStruct, "inSensitiveSize", 2)]
         [DataMember()]
         public SensitiveCreate inSensitive { get; set; }
 
-        /// <summary> the public template </summary>
+        /// <summary> The public template </summary>
         [MarshalAs(2, MarshalType.SizedStruct, "inPublicSize", 2)]
         [DataMember()]
         public TpmPublic inPublic { get; set; }
 
-        /// <summary> data that will be included in the creation data for this object to provide
+        /// <summary> Data that will be included in the creation data for this object to provide
         /// permanent, verifiable linkage between this object and some object owner data </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "outsideInfoSize", 2)]
         [DataMember()]
@@ -10376,12 +10376,12 @@ namespace Tpm2Lib {
 
         public Tpm2CreateRequest() { parentHandle = new TpmHandle(); }
 
-        /// <param name = "_parentHandle"> handle of parent for new object
+        /// <param name = "_parentHandle"> Handle of parent for new object
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_inSensitive"> the sensitive data </param>
-        /// <param name = "_inPublic"> the public template </param>
-        /// <param name = "_outsideInfo"> data that will be included in the creation data for this
+        /// <param name = "_inSensitive"> The sensitive data </param>
+        /// <param name = "_inPublic"> The public template </param>
+        /// <param name = "_outsideInfo"> Data that will be included in the creation data for this
         ///        object to provide permanent, verifiable linkage between this object and some object
         ///        owner data </param>
         /// <param name = "_creationPCR"> PCR that will be used in creation data </param>
@@ -10414,27 +10414,27 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Create_RESPONSE")]
     public partial class Tpm2CreateResponse: TpmStructureBase
     {
-        /// <summary> the private portion of the object </summary>
+        /// <summary> The private portion of the object </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmPrivate outPrivate { get; set; }
 
-        /// <summary> the public portion of the created object </summary>
+        /// <summary> The public portion of the created object </summary>
         [MarshalAs(1, MarshalType.SizedStruct, "outPublicSize", 2)]
         [DataMember()]
         public TpmPublic outPublic { get; set; }
 
-        /// <summary> contains a TPMS_CREATION_DATA </summary>
+        /// <summary> Contains a TPMS_CREATION_DATA </summary>
         [MarshalAs(2, MarshalType.SizedStruct, "creationDataSize", 2)]
         [DataMember()]
         public CreationData creationData { get; set; }
 
-        /// <summary> digest of creationData using nameAlg of outPublic </summary>
+        /// <summary> Digest of creationData using nameAlg of outPublic </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "creationHashSize", 2)]
         [DataMember()]
         public byte[] creationHash;
 
-        /// <summary> ticket used by TPM2_CertifyCreation() to validate that the creation data was
+        /// <summary> Ticket used by TPM2_CertifyCreation() to validate that the creation data was
         /// produced by the TPM </summary>
         [MarshalAs(4)]
         [DataMember()]
@@ -10473,12 +10473,12 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle parentHandle { get; set; }
 
-        /// <summary> the private portion of the object </summary>
+        /// <summary> The private portion of the object </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmPrivate inPrivate { get; set; }
 
-        /// <summary> the public portion of the object </summary>
+        /// <summary> The public portion of the object </summary>
         [MarshalAs(2, MarshalType.SizedStruct, "inPublicSize", 2)]
         [DataMember()]
         public TpmPublic inPublic { get; set; }
@@ -10488,8 +10488,8 @@ namespace Tpm2Lib {
         /// <param name = "_parentHandle"> TPM handle of parent key; shall not be a reserved handle
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_inPrivate"> the private portion of the object </param>
-        /// <param name = "_inPublic"> the public portion of the object </param>
+        /// <param name = "_inPrivate"> The private portion of the object </param>
+        /// <param name = "_inPublic"> The public portion of the object </param>
         public Tpm2LoadRequest(TpmHandle _parentHandle, TpmPrivate _inPrivate, TpmPublic _inPublic)
         {
             parentHandle = _parentHandle;
@@ -10510,7 +10510,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Load_RESPONSE")]
     public partial class Tpm2LoadResponse: TpmStructureBase
     {
-        /// <summary> handle of type TPM_HT_TRANSIENT for the loaded object </summary>
+        /// <summary> Handle of type TPM_HT_TRANSIENT for the loaded object </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
@@ -10543,26 +10543,26 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_LoadExternal_REQUEST")]
     public partial class Tpm2LoadExternalRequest: TpmStructureBase
     {
-        /// <summary> the sensitive portion of the object (optional) </summary>
+        /// <summary> The sensitive portion of the object (optional) </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "inPrivateSize", 2)]
         [DataMember()]
         public Sensitive inPrivate { get; set; }
 
-        /// <summary> the public portion of the object </summary>
+        /// <summary> The public portion of the object </summary>
         [MarshalAs(1, MarshalType.SizedStruct, "inPublicSize", 2)]
         [DataMember()]
         public TpmPublic inPublic { get; set; }
 
-        /// <summary> hierarchy with which the object area is associated </summary>
+        /// <summary> Hierarchy with which the object area is associated </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmHandle hierarchy { get; set; }
 
         public Tpm2LoadExternalRequest() { hierarchy = new TpmHandle(); }
 
-        /// <param name = "_inPrivate"> the sensitive portion of the object (optional) </param>
-        /// <param name = "_inPublic"> the public portion of the object </param>
-        /// <param name = "_hierarchy"> hierarchy with which the object area is associated </param>
+        /// <param name = "_inPrivate"> The sensitive portion of the object (optional) </param>
+        /// <param name = "_inPublic"> The public portion of the object </param>
+        /// <param name = "_hierarchy"> Hierarchy with which the object area is associated </param>
         public Tpm2LoadExternalRequest(Sensitive _inPrivate, TpmPublic _inPublic, TpmHandle _hierarchy)
         {
             inPrivate = _inPrivate;
@@ -10583,12 +10583,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_LoadExternal_RESPONSE")]
     public partial class Tpm2LoadExternalResponse: TpmStructureBase
     {
-        /// <summary> handle of type TPM_HT_TRANSIENT for the loaded object </summary>
+        /// <summary> Handle of type TPM_HT_TRANSIENT for the loaded object </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
 
-        /// <summary> name of the loaded object </summary>
+        /// <summary> Name of the loaded object </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "nameSize", 2)]
         [DataMember()]
         public byte[] name;
@@ -10635,17 +10635,17 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ReadPublic_RESPONSE")]
     public partial class Tpm2ReadPublicResponse: TpmStructureBase
     {
-        /// <summary> structure containing the public area of an object </summary>
+        /// <summary> Structure containing the public area of an object </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "outPublicSize", 2)]
         [DataMember()]
         public TpmPublic outPublic { get; set; }
 
-        /// <summary> name of the object </summary>
+        /// <summary> Name of the object </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "nameSize", 2)]
         [DataMember()]
         public byte[] name;
 
-        /// <summary> the Qualified Name of the object </summary>
+        /// <summary> The Qualified Name of the object </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "qualifiedNameSize", 2)]
         [DataMember()]
         public byte[] qualifiedName;
@@ -10672,26 +10672,26 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ActivateCredential_REQUEST")]
     public partial class Tpm2ActivateCredentialRequest: TpmStructureBase
     {
-        /// <summary> handle of the object associated with certificate in credentialBlob
+        /// <summary> Handle of the object associated with certificate in credentialBlob
         /// Auth Index: 1
         /// Auth Role: ADMIN </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle activateHandle { get; set; }
 
-        /// <summary> loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
+        /// <summary> Loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
         /// Auth Index: 2
         /// Auth Role: USER </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle keyHandle { get; set; }
 
-        /// <summary> the credential </summary>
+        /// <summary> The credential </summary>
         [MarshalAs(2, MarshalType.SizedStruct, "credentialBlobSize", 2)]
         [DataMember()]
         public IdObject credentialBlob { get; set; }
 
-        /// <summary> keyHandle algorithm-dependent encrypted seed that protects credentialBlob </summary>
+        /// <summary> KeyHandle algorithm-dependent encrypted seed that protects credentialBlob </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "secretSize", 2)]
         [DataMember()]
         public byte[] secret;
@@ -10701,14 +10701,14 @@ namespace Tpm2Lib {
             keyHandle = new TpmHandle();
         }
 
-        /// <param name = "_activateHandle"> handle of the object associated with certificate in credentialBlob
+        /// <param name = "_activateHandle"> Handle of the object associated with certificate in credentialBlob
         ///        Auth Index: 1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "_keyHandle"> loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
+        /// <param name = "_keyHandle"> Loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "_credentialBlob"> the credential </param>
-        /// <param name = "_secret"> keyHandle algorithm-dependent encrypted seed that protects
+        /// <param name = "_credentialBlob"> The credential </param>
+        /// <param name = "_secret"> KeyHandle algorithm-dependent encrypted seed that protects
         ///        credentialBlob </param>
         public Tpm2ActivateCredentialRequest(TpmHandle _activateHandle, TpmHandle _keyHandle, IdObject _credentialBlob, byte[] _secret)
         {
@@ -10729,7 +10729,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ActivateCredential_RESPONSE")]
     public partial class Tpm2ActivateCredentialResponse: TpmStructureBase
     {
-        /// <summary> the decrypted certificate information
+        /// <summary> The decrypted certificate information
         /// the data should be no larger than the size of the digest of the nameAlg associated
         /// with keyHandle </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "certInfoSize", 2)]
@@ -10752,14 +10752,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_MakeCredential_REQUEST")]
     public partial class Tpm2MakeCredentialRequest: TpmStructureBase
     {
-        /// <summary> loaded public area, used to encrypt the sensitive area containing the
+        /// <summary> Loaded public area, used to encrypt the sensitive area containing the
         /// credential key
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
 
-        /// <summary> the credential information </summary>
+        /// <summary> The credential information </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "credentialSize", 2)]
         [DataMember()]
         public byte[] credential;
@@ -10771,10 +10771,10 @@ namespace Tpm2Lib {
 
         public Tpm2MakeCredentialRequest() { handle = new TpmHandle(); }
 
-        /// <param name = "_handle"> loaded public area, used to encrypt the sensitive area containing
+        /// <param name = "_handle"> Loaded public area, used to encrypt the sensitive area containing
         ///        the credential key
         ///        Auth Index: None </param>
-        /// <param name = "_credential"> the credential information </param>
+        /// <param name = "_credential"> The credential information </param>
         /// <param name = "_objectName"> Name of the object to which the credential applies </param>
         public Tpm2MakeCredentialRequest(TpmHandle _handle, byte[] _credential, byte[] _objectName)
         {
@@ -10795,12 +10795,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_MakeCredential_RESPONSE")]
     public partial class Tpm2MakeCredentialResponse: TpmStructureBase
     {
-        /// <summary> the credential </summary>
+        /// <summary> The credential </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "credentialBlobSize", 2)]
         [DataMember()]
         public IdObject credentialBlob { get; set; }
 
-        /// <summary> handle algorithm-dependent data that wraps the key that encrypts
+        /// <summary> Handle algorithm-dependent data that wraps the key that encrypts
         /// credentialBlob </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "secretSize", 2)]
         [DataMember()]
@@ -10825,7 +10825,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Unseal_REQUEST")]
     public partial class Tpm2UnsealRequest: TpmStructureBase
     {
-        /// <summary> handle of a loaded data object
+        /// <summary> Handle of a loaded data object
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
@@ -10834,7 +10834,7 @@ namespace Tpm2Lib {
 
         public Tpm2UnsealRequest() { itemHandle = new TpmHandle(); }
 
-        /// <param name = "_itemHandle"> handle of a loaded data object
+        /// <param name = "_itemHandle"> Handle of a loaded data object
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         public Tpm2UnsealRequest(TpmHandle _itemHandle) { itemHandle = _itemHandle; }
@@ -10849,7 +10849,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Unseal_RESPONSE")]
     public partial class Tpm2UnsealResponse: TpmStructureBase
     {
-        /// <summary> unsealed data
+        /// <summary> Unsealed data
         /// Size of outData is limited to be no more than 128 octets. </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "outDataSize", 2)]
         [DataMember()]
@@ -10871,20 +10871,20 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ObjectChangeAuth_REQUEST")]
     public partial class Tpm2ObjectChangeAuthRequest: TpmStructureBase
     {
-        /// <summary> handle of the object
+        /// <summary> Handle of the object
         /// Auth Index: 1
         /// Auth Role: ADMIN </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle objectHandle { get; set; }
 
-        /// <summary> handle of the parent
+        /// <summary> Handle of the parent
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle parentHandle { get; set; }
 
-        /// <summary> new authorization value </summary>
+        /// <summary> New authorization value </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "newAuthSize", 2)]
         [DataMember()]
         public byte[] newAuth;
@@ -10894,12 +10894,12 @@ namespace Tpm2Lib {
             parentHandle = new TpmHandle();
         }
 
-        /// <param name = "_objectHandle"> handle of the object
+        /// <param name = "_objectHandle"> Handle of the object
         ///        Auth Index: 1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "_parentHandle"> handle of the parent
+        /// <param name = "_parentHandle"> Handle of the parent
         ///        Auth Index: None </param>
-        /// <param name = "_newAuth"> new authorization value </param>
+        /// <param name = "_newAuth"> New authorization value </param>
         public Tpm2ObjectChangeAuthRequest(TpmHandle _objectHandle, TpmHandle _parentHandle, byte[] _newAuth)
         {
             objectHandle = _objectHandle;
@@ -10919,7 +10919,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ObjectChangeAuth_RESPONSE")]
     public partial class Tpm2ObjectChangeAuthResponse: TpmStructureBase
     {
-        /// <summary> private area containing the new authorization value </summary>
+        /// <summary> Private area containing the new authorization value </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmPrivate outPrivate { get; set; }
@@ -10953,12 +10953,12 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle parentHandle { get; set; }
 
-        /// <summary> the sensitive data, see TPM 2.0 Part 1 Sensitive Values </summary>
+        /// <summary> The sensitive data, see TPM 2.0 Part 1 Sensitive Values </summary>
         [MarshalAs(1, MarshalType.SizedStruct, "inSensitiveSize", 2)]
         [DataMember()]
         public SensitiveCreate inSensitive { get; set; }
 
-        /// <summary> the public template </summary>
+        /// <summary> The public template </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "inPublicSize", 2)]
         [DataMember()]
         public byte[] inPublic;
@@ -10969,8 +10969,8 @@ namespace Tpm2Lib {
         ///        key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_inSensitive"> the sensitive data, see TPM 2.0 Part 1 Sensitive Values </param>
-        /// <param name = "_inPublic"> the public template </param>
+        /// <param name = "_inSensitive"> The sensitive data, see TPM 2.0 Part 1 Sensitive Values </param>
+        /// <param name = "_inPublic"> The public template </param>
         public Tpm2CreateLoadedRequest(TpmHandle _parentHandle, SensitiveCreate _inSensitive, byte[] _inPublic)
         {
             parentHandle = _parentHandle;
@@ -10996,22 +10996,22 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_CreateLoaded_RESPONSE")]
     public partial class Tpm2CreateLoadedResponse: TpmStructureBase
     {
-        /// <summary> handle of type TPM_HT_TRANSIENT for created object </summary>
+        /// <summary> Handle of type TPM_HT_TRANSIENT for created object </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
 
-        /// <summary> the sensitive area of the object (optional) </summary>
+        /// <summary> The sensitive area of the object (optional) </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmPrivate outPrivate { get; set; }
 
-        /// <summary> the public portion of the created object </summary>
+        /// <summary> The public portion of the created object </summary>
         [MarshalAs(2, MarshalType.SizedStruct, "outPublicSize", 2)]
         [DataMember()]
         public TpmPublic outPublic { get; set; }
 
-        /// <summary> the name of the created object </summary>
+        /// <summary> The name of the created object </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "nameSize", 2)]
         [DataMember()]
         public byte[] name;
@@ -11041,27 +11041,27 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Duplicate_REQUEST")]
     public partial class Tpm2DuplicateRequest: TpmStructureBase
     {
-        /// <summary> loaded object to duplicate
+        /// <summary> Loaded object to duplicate
         /// Auth Index: 1
         /// Auth Role: DUP </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle objectHandle { get; set; }
 
-        /// <summary> shall reference the public area of an asymmetric key
+        /// <summary> Shall reference the public area of an asymmetric key
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle newParentHandle { get; set; }
 
-        /// <summary> optional symmetric encryption key
+        /// <summary> Optional symmetric encryption key
         /// The size for this key is set to zero when the TPM is to generate the key. This
         /// parameter may be encrypted. </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "encryptionKeyInSize", 2)]
         [DataMember()]
         public byte[] encryptionKeyIn;
 
-        /// <summary> definition for the symmetric algorithm to be used for the inner wrapper
+        /// <summary> Definition for the symmetric algorithm to be used for the inner wrapper
         /// may be TPM_ALG_NULL if no inner wrapper is applied </summary>
         [MarshalAs(3)]
         [DataMember()]
@@ -11072,15 +11072,15 @@ namespace Tpm2Lib {
             newParentHandle = new TpmHandle();
         }
 
-        /// <param name = "_objectHandle"> loaded object to duplicate
+        /// <param name = "_objectHandle"> Loaded object to duplicate
         ///        Auth Index: 1
         ///        Auth Role: DUP </param>
-        /// <param name = "_newParentHandle"> shall reference the public area of an asymmetric key
+        /// <param name = "_newParentHandle"> Shall reference the public area of an asymmetric key
         ///        Auth Index: None </param>
-        /// <param name = "_encryptionKeyIn"> optional symmetric encryption key
+        /// <param name = "_encryptionKeyIn"> Optional symmetric encryption key
         ///        The size for this key is set to zero when the TPM is to generate the key. This
         ///        parameter may be encrypted. </param>
-        /// <param name = "_symmetricAlg"> definition for the symmetric algorithm to be used for the
+        /// <param name = "_symmetricAlg"> Definition for the symmetric algorithm to be used for the
         ///        inner wrapper
         ///        may be TPM_ALG_NULL if no inner wrapper is applied </param>
         public Tpm2DuplicateRequest(TpmHandle _objectHandle, TpmHandle _newParentHandle, byte[] _encryptionKeyIn, SymDefObject _symmetricAlg)
@@ -11112,13 +11112,13 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] encryptionKeyOut;
 
-        /// <summary> private area that may be encrypted by encryptionKeyIn; and may be doubly
+        /// <summary> Private area that may be encrypted by encryptionKeyIn; and may be doubly
         /// encrypted </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmPrivate duplicate { get; set; }
 
-        /// <summary> seed protected by the asymmetric algorithms of new parent (NP) </summary>
+        /// <summary> Seed protected by the asymmetric algorithms of new parent (NP) </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "outSymSeedSize", 2)]
         [DataMember()]
         public byte[] outSymSeed;
@@ -11150,30 +11150,30 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Rewrap_REQUEST")]
     public partial class Tpm2RewrapRequest: TpmStructureBase
     {
-        /// <summary> parent of object
+        /// <summary> Parent of object
         /// Auth Index: 1
         /// Auth Role: User </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle oldParent { get; set; }
 
-        /// <summary> new parent of the object
+        /// <summary> New parent of the object
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle newParent { get; set; }
 
-        /// <summary> an object encrypted using symmetric key derived from inSymSeed </summary>
+        /// <summary> An object encrypted using symmetric key derived from inSymSeed </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmPrivate inDuplicate { get; set; }
 
-        /// <summary> the Name of the object being rewrapped </summary>
+        /// <summary> The Name of the object being rewrapped </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "nameSize", 2)]
         [DataMember()]
         public byte[] name;
 
-        /// <summary> the seed for the symmetric key and HMAC key
+        /// <summary> The seed for the symmetric key and HMAC key
         /// needs oldParent private key to recover the seed and generate the symmetric key </summary>
         [MarshalAs(4, MarshalType.VariableLengthArray, "inSymSeedSize", 2)]
         [DataMember()]
@@ -11184,15 +11184,15 @@ namespace Tpm2Lib {
             newParent = new TpmHandle();
         }
 
-        /// <param name = "_oldParent"> parent of object
+        /// <param name = "_oldParent"> Parent of object
         ///        Auth Index: 1
         ///        Auth Role: User </param>
-        /// <param name = "_newParent"> new parent of the object
+        /// <param name = "_newParent"> New parent of the object
         ///        Auth Index: None </param>
-        /// <param name = "_inDuplicate"> an object encrypted using symmetric key derived from
+        /// <param name = "_inDuplicate"> An object encrypted using symmetric key derived from
         ///        inSymSeed </param>
-        /// <param name = "_name"> the Name of the object being rewrapped </param>
-        /// <param name = "_inSymSeed"> the seed for the symmetric key and HMAC key
+        /// <param name = "_name"> The Name of the object being rewrapped </param>
+        /// <param name = "_inSymSeed"> The seed for the symmetric key and HMAC key
         ///        needs oldParent private key to recover the seed and generate the symmetric key </param>
         public Tpm2RewrapRequest(TpmHandle _oldParent, TpmHandle _newParent, TpmPrivate _inDuplicate, byte[] _name, byte[] _inSymSeed)
         {
@@ -11220,12 +11220,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Rewrap_RESPONSE")]
     public partial class Tpm2RewrapResponse: TpmStructureBase
     {
-        /// <summary> an object encrypted using symmetric key derived from outSymSeed </summary>
+        /// <summary> An object encrypted using symmetric key derived from outSymSeed </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmPrivate outDuplicate { get; set; }
 
-        /// <summary> seed for a symmetric key protected by newParent asymmetric key </summary>
+        /// <summary> Seed for a symmetric key protected by newParent asymmetric key </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "outSymSeedSize", 2)]
         [DataMember()]
         public byte[] outSymSeed;
@@ -11255,20 +11255,20 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Import_REQUEST")]
     public partial class Tpm2ImportRequest: TpmStructureBase
     {
-        /// <summary> the handle of the new parent for the object
+        /// <summary> The handle of the new parent for the object
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle parentHandle { get; set; }
 
-        /// <summary> the optional symmetric encryption key used as the inner wrapper for duplicate
+        /// <summary> The optional symmetric encryption key used as the inner wrapper for duplicate
         /// If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer. </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "encryptionKeySize", 2)]
         [DataMember()]
         public byte[] encryptionKey;
 
-        /// <summary> the public area of the object to be imported
+        /// <summary> The public area of the object to be imported
         /// This is provided so that the integrity value for duplicate and the object attributes
         /// can be checked.
         /// NOTE Even if the integrity value of the object is not checked on input, the object
@@ -11277,19 +11277,19 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmPublic objectPublic { get; set; }
 
-        /// <summary> the symmetrically encrypted duplicate object that may contain an inner
+        /// <summary> The symmetrically encrypted duplicate object that may contain an inner
         /// symmetric wrapper </summary>
         [MarshalAs(3)]
         [DataMember()]
         public TpmPrivate duplicate { get; set; }
 
-        /// <summary> the seed for the symmetric key and HMAC key
+        /// <summary> The seed for the symmetric key and HMAC key
         /// inSymSeed is encrypted/encoded using the algorithms of newParent. </summary>
         [MarshalAs(4, MarshalType.VariableLengthArray, "inSymSeedSize", 2)]
         [DataMember()]
         public byte[] inSymSeed;
 
-        /// <summary> definition for the symmetric algorithm to use for the inner wrapper
+        /// <summary> Definition for the symmetric algorithm to use for the inner wrapper
         /// If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall
         /// be the Empty Buffer. </summary>
         [MarshalAs(5)]
@@ -11298,22 +11298,22 @@ namespace Tpm2Lib {
 
         public Tpm2ImportRequest() { parentHandle = new TpmHandle(); }
 
-        /// <param name = "_parentHandle"> the handle of the new parent for the object
+        /// <param name = "_parentHandle"> The handle of the new parent for the object
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_encryptionKey"> the optional symmetric encryption key used as the inner
+        /// <param name = "_encryptionKey"> The optional symmetric encryption key used as the inner
         ///        wrapper for duplicate
         ///        If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer. </param>
-        /// <param name = "_objectPublic"> the public area of the object to be imported
+        /// <param name = "_objectPublic"> The public area of the object to be imported
         ///        This is provided so that the integrity value for duplicate and the object
         ///        attributes can be checked.
         ///        NOTE Even if the integrity value of the object is not checked on input, the object
         ///        Name is required to create the integrity value for the imported object. </param>
-        /// <param name = "_duplicate"> the symmetrically encrypted duplicate object that may contain
+        /// <param name = "_duplicate"> The symmetrically encrypted duplicate object that may contain
         ///        an inner symmetric wrapper </param>
-        /// <param name = "_inSymSeed"> the seed for the symmetric key and HMAC key
+        /// <param name = "_inSymSeed"> The seed for the symmetric key and HMAC key
         ///        inSymSeed is encrypted/encoded using the algorithms of newParent. </param>
-        /// <param name = "_symmetricAlg"> definition for the symmetric algorithm to use for the inner
+        /// <param name = "_symmetricAlg"> Definition for the symmetric algorithm to use for the inner
         ///        wrapper
         ///        If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
         ///        shall be the Empty Buffer. </param>
@@ -11341,7 +11341,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Import_RESPONSE")]
     public partial class Tpm2ImportResponse: TpmStructureBase
     {
-        /// <summary> the sensitive area encrypted with the symmetric key of parentHandle </summary>
+        /// <summary> The sensitive area encrypted with the symmetric key of parentHandle </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmPrivate outPrivate { get; set; }
@@ -11381,13 +11381,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_RSA_Encrypt_REQUEST")]
     public partial class Tpm2RsaEncryptRequest: TpmStructureBase
     {
-        /// <summary> reference to public portion of RSA key to use for encryption
+        /// <summary> Reference to public portion of RSA key to use for encryption
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle keyHandle { get; set; }
 
-        /// <summary> message to be encrypted
+        /// <summary> Message to be encrypted
         /// NOTE 1 The data type was chosen because it limits the overall size of the input to no
         /// greater than the size of the largest RSA public key. This may be larger than allowed
         /// for keyHandle. </summary>
@@ -11395,13 +11395,13 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] message;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /// <summary> The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
         /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
@@ -11409,7 +11409,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public IAsymSchemeUnion inScheme { get; set; }
 
-        /// <summary> optional label L to be associated with the message
+        /// <summary> Optional label L to be associated with the message
         /// Size of the buffer is zero if no label is present
         /// NOTE 2 See description of label above. </summary>
         [MarshalAs(4, MarshalType.VariableLengthArray, "labelSize", 2)]
@@ -11418,18 +11418,18 @@ namespace Tpm2Lib {
 
         public Tpm2RsaEncryptRequest() { keyHandle = new TpmHandle(); }
 
-        /// <param name = "_keyHandle"> reference to public portion of RSA key to use for encryption
+        /// <param name = "_keyHandle"> Reference to public portion of RSA key to use for encryption
         ///        Auth Index: None </param>
-        /// <param name = "_message"> message to be encrypted
+        /// <param name = "_message"> Message to be encrypted
         ///        NOTE 1 The data type was chosen because it limits the overall size of the input to
         ///        no greater than the size of the largest RSA public key. This may be larger than
         ///        allowed for keyHandle. </param>
-        /// <param name = "_inScheme"> the padding scheme to use if scheme associated with keyHandle
+        /// <param name = "_inScheme"> The padding scheme to use if scheme associated with keyHandle
         ///        is TPM_ALG_NULL
         ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
-        /// <param name = "_label"> optional label L to be associated with the message
+        /// <param name = "_label"> Optional label L to be associated with the message
         ///        Size of the buffer is zero if no label is present
         ///        NOTE 2 See description of label above. </param>
         public Tpm2RsaEncryptRequest(TpmHandle _keyHandle, byte[] _message, IAsymSchemeUnion _inScheme, byte[] _label)
@@ -11454,7 +11454,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_RSA_Encrypt_RESPONSE")]
     public partial class Tpm2RsaEncryptResponse: TpmStructureBase
     {
-        /// <summary> encrypted output </summary>
+        /// <summary> Encrypted output </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "outDataSize", 2)]
         [DataMember()]
         public byte[] outData;
@@ -11498,19 +11498,19 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle keyHandle { get; set; }
 
-        /// <summary> cipher text to be decrypted
+        /// <summary> Cipher text to be decrypted
         /// NOTE An encrypted RSA data block is the size of the public modulus. </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "cipherTextSize", 2)]
         [DataMember()]
         public byte[] cipherText;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /// <summary> The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
         /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
@@ -11518,7 +11518,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public IAsymSchemeUnion inScheme { get; set; }
 
-        /// <summary> label whose association with the message is to be verified </summary>
+        /// <summary> Label whose association with the message is to be verified </summary>
         [MarshalAs(4, MarshalType.VariableLengthArray, "labelSize", 2)]
         [DataMember()]
         public byte[] label;
@@ -11528,14 +11528,14 @@ namespace Tpm2Lib {
         /// <param name = "_keyHandle"> RSA key to use for decryption
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_cipherText"> cipher text to be decrypted
+        /// <param name = "_cipherText"> Cipher text to be decrypted
         ///        NOTE An encrypted RSA data block is the size of the public modulus. </param>
-        /// <param name = "_inScheme"> the padding scheme to use if scheme associated with keyHandle
+        /// <param name = "_inScheme"> The padding scheme to use if scheme associated with keyHandle
         ///        is TPM_ALG_NULL
         ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
-        /// <param name = "_label"> label whose association with the message is to be verified </param>
+        /// <param name = "_label"> Label whose association with the message is to be verified </param>
         public Tpm2RsaDecryptRequest(TpmHandle _keyHandle, byte[] _cipherText, IAsymSchemeUnion _inScheme, byte[] _label)
         {
             keyHandle = _keyHandle;
@@ -11555,7 +11555,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_RSA_Decrypt_RESPONSE")]
     public partial class Tpm2RsaDecryptResponse: TpmStructureBase
     {
-        /// <summary> decrypted output </summary>
+        /// <summary> Decrypted output </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "messageSize", 2)]
         [DataMember()]
         public byte[] message;
@@ -11603,12 +11603,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ECDH_KeyGen_RESPONSE")]
     public partial class Tpm2EcdhKeyGenResponse: TpmStructureBase
     {
-        /// <summary> results of P h[de]Qs </summary>
+        /// <summary> Results of P h[de]Qs </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "zPointSize", 2)]
         [DataMember()]
         public EccPoint zPoint { get; set; }
 
-        /// <summary> generated ephemeral public point (Qe) </summary>
+        /// <summary> Generated ephemeral public point (Qe) </summary>
         [MarshalAs(1, MarshalType.SizedStruct, "pubPointSize", 2)]
         [DataMember()]
         public EccPoint pubPoint { get; set; }
@@ -11636,24 +11636,24 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ECDH_ZGen_REQUEST")]
     public partial class Tpm2EcdhZGenRequest: TpmStructureBase
     {
-        /// <summary> handle of a loaded ECC key
+        /// <summary> Handle of a loaded ECC key
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle keyHandle { get; set; }
 
-        /// <summary> a public key </summary>
+        /// <summary> A public key </summary>
         [MarshalAs(1, MarshalType.SizedStruct, "inPointSize", 2)]
         [DataMember()]
         public EccPoint inPoint { get; set; }
 
         public Tpm2EcdhZGenRequest() { keyHandle = new TpmHandle(); }
 
-        /// <param name = "_keyHandle"> handle of a loaded ECC key
+        /// <param name = "_keyHandle"> Handle of a loaded ECC key
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_inPoint"> a public key </param>
+        /// <param name = "_inPoint"> A public key </param>
         public Tpm2EcdhZGenRequest(TpmHandle _keyHandle, EccPoint _inPoint)
         {
             keyHandle = _keyHandle;
@@ -11696,14 +11696,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ECC_Parameters_REQUEST")]
     public partial class Tpm2EccParametersRequest: TpmStructureBase
     {
-        /// <summary> parameter set selector </summary>
+        /// <summary> Parameter set selector </summary>
         [MarshalAs(0)]
         [DataMember()]
         public EccCurve curveID { get; set; }
 
         public Tpm2EccParametersRequest() {}
 
-        /// <param name = "_curveID"> parameter set selector </param>
+        /// <param name = "_curveID"> Parameter set selector </param>
         public Tpm2EccParametersRequest(EccCurve _curveID) { curveID = _curveID; }
 
         new public Tpm2EccParametersRequest Copy() { return CreateCopy<Tpm2EccParametersRequest>(); }
@@ -11744,7 +11744,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ZGen_2Phase_REQUEST")]
     public partial class Tpm2ZGen2PhaseRequest: TpmStructureBase
     {
-        /// <summary> handle of an unrestricted decryption key ECC
+        /// <summary> Handle of an unrestricted decryption key ECC
         /// The private key referenced by this handle is used as dS,A
         /// Auth Index: 1
         /// Auth Role: USER </summary>
@@ -11752,22 +11752,22 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle keyA { get; set; }
 
-        /// <summary> other partys static public key (Qs,B = (Xs,B, Ys,B)) </summary>
+        /// <summary> Other partys static public key (Qs,B = (Xs,B, Ys,B)) </summary>
         [MarshalAs(1, MarshalType.SizedStruct, "inQsBSize", 2)]
         [DataMember()]
         public EccPoint inQsB { get; set; }
 
-        /// <summary> other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) </summary>
+        /// <summary> Other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) </summary>
         [MarshalAs(2, MarshalType.SizedStruct, "inQeBSize", 2)]
         [DataMember()]
         public EccPoint inQeB { get; set; }
 
-        /// <summary> the key exchange scheme </summary>
+        /// <summary> The key exchange scheme </summary>
         [MarshalAs(3)]
         [DataMember()]
         public TpmAlgId inScheme { get; set; }
 
-        /// <summary> value returned by TPM2_EC_Ephemeral() </summary>
+        /// <summary> Value returned by TPM2_EC_Ephemeral() </summary>
         [MarshalAs(4)]
         [DataMember()]
         public ushort counter { get; set; }
@@ -11777,14 +11777,14 @@ namespace Tpm2Lib {
             inScheme = TpmAlgId.Null;
         }
 
-        /// <param name = "_keyA"> handle of an unrestricted decryption key ECC
+        /// <param name = "_keyA"> Handle of an unrestricted decryption key ECC
         ///        The private key referenced by this handle is used as dS,A
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_inQsB"> other partys static public key (Qs,B = (Xs,B, Ys,B)) </param>
-        /// <param name = "_inQeB"> other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) </param>
-        /// <param name = "_inScheme"> the key exchange scheme </param>
-        /// <param name = "_counter"> value returned by TPM2_EC_Ephemeral() </param>
+        /// <param name = "_inQsB"> Other partys static public key (Qs,B = (Xs,B, Ys,B)) </param>
+        /// <param name = "_inQeB"> Other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) </param>
+        /// <param name = "_inScheme"> The key exchange scheme </param>
+        /// <param name = "_counter"> Value returned by TPM2_EC_Ephemeral() </param>
         public Tpm2ZGen2PhaseRequest(TpmHandle _keyA, EccPoint _inQsB, EccPoint _inQeB, TpmAlgId _inScheme, ushort _counter)
         {
             keyA = _keyA;
@@ -11846,7 +11846,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ECC_Encrypt_REQUEST")]
     public partial class Tpm2EccEncryptRequest: TpmStructureBase
     {
-        /// <summary> reference to public portion of ECC key to use for encryption
+        /// <summary> Reference to public portion of ECC key to use for encryption
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -11857,13 +11857,13 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] plainText;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
         /// (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
         /// SchemeHash, NullKdfScheme]) </summary>
         [MarshalAs(3, MarshalType.Union, "inSchemeScheme")]
@@ -11872,10 +11872,10 @@ namespace Tpm2Lib {
 
         public Tpm2EccEncryptRequest() { keyHandle = new TpmHandle(); }
 
-        /// <param name = "_keyHandle"> reference to public portion of ECC key to use for encryption
+        /// <param name = "_keyHandle"> Reference to public portion of ECC key to use for encryption
         ///        Auth Index: None </param>
         /// <param name = "_plainText"> Plaintext to be encrypted </param>
-        /// <param name = "_inScheme"> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /// <param name = "_inScheme"> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
         ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
         ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
         public Tpm2EccEncryptRequest(TpmHandle _keyHandle, byte[] _plainText, IKdfSchemeUnion _inScheme)
@@ -11896,17 +11896,17 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ECC_Encrypt_RESPONSE")]
     public partial class Tpm2EccEncryptResponse: TpmStructureBase
     {
-        /// <summary> the public ephemeral key used for ECDH </summary>
+        /// <summary> The public ephemeral key used for ECDH </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "C1Size", 2)]
         [DataMember()]
         public EccPoint C1 { get; set; }
 
-        /// <summary> the data block produced by the XOR process </summary>
+        /// <summary> The data block produced by the XOR process </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "C2Size", 2)]
         [DataMember()]
         public byte[] C2;
 
-        /// <summary> the integrity value </summary>
+        /// <summary> The integrity value </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "C3Size", 2)]
         [DataMember()]
         public byte[] C3;
@@ -11947,28 +11947,28 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle keyHandle { get; set; }
 
-        /// <summary> the public ephemeral key used for ECDH </summary>
+        /// <summary> The public ephemeral key used for ECDH </summary>
         [MarshalAs(1, MarshalType.SizedStruct, "C1Size", 2)]
         [DataMember()]
         public EccPoint C1 { get; set; }
 
-        /// <summary> the data block produced by the XOR process </summary>
+        /// <summary> The data block produced by the XOR process </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "C2Size", 2)]
         [DataMember()]
         public byte[] C2;
 
-        /// <summary> the integrity value </summary>
+        /// <summary> The integrity value </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "C3Size", 2)]
         [DataMember()]
         public byte[] C3;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
         /// (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
         /// SchemeHash, NullKdfScheme]) </summary>
         [MarshalAs(5, MarshalType.Union, "inSchemeScheme")]
@@ -11980,10 +11980,10 @@ namespace Tpm2Lib {
         /// <param name = "_keyHandle"> ECC key to use for decryption
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_C1"> the public ephemeral key used for ECDH </param>
-        /// <param name = "_C2"> the data block produced by the XOR process </param>
-        /// <param name = "_C3"> the integrity value </param>
-        /// <param name = "_inScheme"> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /// <param name = "_C1"> The public ephemeral key used for ECDH </param>
+        /// <param name = "_C2"> The data block produced by the XOR process </param>
+        /// <param name = "_C3"> The integrity value </param>
+        /// <param name = "_inScheme"> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
         ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
         ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
         public Tpm2EccDecryptRequest(TpmHandle _keyHandle, EccPoint _C1, byte[] _C2, byte[] _C3, IKdfSchemeUnion _inScheme)
@@ -12005,7 +12005,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ECC_Decrypt_RESPONSE")]
     public partial class Tpm2EccDecryptResponse: TpmStructureBase
     {
-        /// <summary> decrypted output </summary>
+        /// <summary> Decrypted output </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "plainTextSize", 2)]
         [DataMember()]
         public byte[] plainText;
@@ -12027,31 +12027,31 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_EncryptDecrypt_REQUEST")]
     public partial class Tpm2EncryptDecryptRequest: TpmStructureBase
     {
-        /// <summary> the symmetric key used for the operation
+        /// <summary> The symmetric key used for the operation
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle keyHandle { get; set; }
 
-        /// <summary> if YES, then the operation is decryption; if NO, the operation is encryption
+        /// <summary> If YES, then the operation is decryption; if NO, the operation is encryption
         /// </summary>
         [MarshalAs(1)]
         [DataMember()]
         public byte decrypt { get; set; }
 
-        /// <summary> symmetric encryption/decryption mode
+        /// <summary> Symmetric encryption/decryption mode
         /// this field shall match the default mode of the key or be TPM_ALG_NULL. </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmAlgId mode { get; set; }
 
-        /// <summary> an initial value as required by the algorithm </summary>
+        /// <summary> An initial value as required by the algorithm </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "ivInSize", 2)]
         [DataMember()]
         public byte[] ivIn;
 
-        /// <summary> the data to be encrypted/decrypted </summary>
+        /// <summary> The data to be encrypted/decrypted </summary>
         [MarshalAs(4, MarshalType.VariableLengthArray, "inDataSize", 2)]
         [DataMember()]
         public byte[] inData;
@@ -12061,15 +12061,15 @@ namespace Tpm2Lib {
             mode = TpmAlgId.Null;
         }
 
-        /// <param name = "_keyHandle"> the symmetric key used for the operation
+        /// <param name = "_keyHandle"> The symmetric key used for the operation
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_decrypt"> if YES, then the operation is decryption; if NO, the operation
+        /// <param name = "_decrypt"> If YES, then the operation is decryption; if NO, the operation
         ///        is encryption </param>
-        /// <param name = "_mode"> symmetric encryption/decryption mode
+        /// <param name = "_mode"> Symmetric encryption/decryption mode
         ///        this field shall match the default mode of the key or be TPM_ALG_NULL. </param>
-        /// <param name = "_ivIn"> an initial value as required by the algorithm </param>
-        /// <param name = "_inData"> the data to be encrypted/decrypted </param>
+        /// <param name = "_ivIn"> An initial value as required by the algorithm </param>
+        /// <param name = "_inData"> The data to be encrypted/decrypted </param>
         public Tpm2EncryptDecryptRequest(TpmHandle _keyHandle, byte _decrypt, TpmAlgId _mode, byte[] _ivIn, byte[] _inData)
         {
             keyHandle = _keyHandle;
@@ -12090,12 +12090,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_EncryptDecrypt_RESPONSE")]
     public partial class Tpm2EncryptDecryptResponse: TpmStructureBase
     {
-        /// <summary> encrypted or decrypted output </summary>
+        /// <summary> Encrypted or decrypted output </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "outDataSize", 2)]
         [DataMember()]
         public byte[] outData;
 
-        /// <summary> chaining value to use for IV in next round </summary>
+        /// <summary> Chaining value to use for IV in next round </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "ivOutSize", 2)]
         [DataMember()]
         public byte[] ivOut;
@@ -12121,31 +12121,31 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_EncryptDecrypt2_REQUEST")]
     public partial class Tpm2EncryptDecrypt2Request: TpmStructureBase
     {
-        /// <summary> the symmetric key used for the operation
+        /// <summary> The symmetric key used for the operation
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle keyHandle { get; set; }
 
-        /// <summary> the data to be encrypted/decrypted </summary>
+        /// <summary> The data to be encrypted/decrypted </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "inDataSize", 2)]
         [DataMember()]
         public byte[] inData;
 
-        /// <summary> if YES, then the operation is decryption; if NO, the operation is encryption
+        /// <summary> If YES, then the operation is decryption; if NO, the operation is encryption
         /// </summary>
         [MarshalAs(2)]
         [DataMember()]
         public byte decrypt { get; set; }
 
-        /// <summary> symmetric mode
+        /// <summary> Symmetric mode
         /// this field shall match the default mode of the key or be TPM_ALG_NULL. </summary>
         [MarshalAs(3)]
         [DataMember()]
         public TpmAlgId mode { get; set; }
 
-        /// <summary> an initial value as required by the algorithm </summary>
+        /// <summary> An initial value as required by the algorithm </summary>
         [MarshalAs(4, MarshalType.VariableLengthArray, "ivInSize", 2)]
         [DataMember()]
         public byte[] ivIn;
@@ -12155,15 +12155,15 @@ namespace Tpm2Lib {
             mode = TpmAlgId.Null;
         }
 
-        /// <param name = "_keyHandle"> the symmetric key used for the operation
+        /// <param name = "_keyHandle"> The symmetric key used for the operation
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_inData"> the data to be encrypted/decrypted </param>
-        /// <param name = "_decrypt"> if YES, then the operation is decryption; if NO, the operation
+        /// <param name = "_inData"> The data to be encrypted/decrypted </param>
+        /// <param name = "_decrypt"> If YES, then the operation is decryption; if NO, the operation
         ///        is encryption </param>
-        /// <param name = "_mode"> symmetric mode
+        /// <param name = "_mode"> Symmetric mode
         ///        this field shall match the default mode of the key or be TPM_ALG_NULL. </param>
-        /// <param name = "_ivIn"> an initial value as required by the algorithm </param>
+        /// <param name = "_ivIn"> An initial value as required by the algorithm </param>
         public Tpm2EncryptDecrypt2Request(TpmHandle _keyHandle, byte[] _inData, byte _decrypt, TpmAlgId _mode, byte[] _ivIn)
         {
             keyHandle = _keyHandle;
@@ -12184,12 +12184,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_EncryptDecrypt2_RESPONSE")]
     public partial class Tpm2EncryptDecrypt2Response: TpmStructureBase
     {
-        /// <summary> encrypted or decrypted output </summary>
+        /// <summary> Encrypted or decrypted output </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "outDataSize", 2)]
         [DataMember()]
         public byte[] outData;
 
-        /// <summary> chaining value to use for IV in next round </summary>
+        /// <summary> Chaining value to use for IV in next round </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "ivOutSize", 2)]
         [DataMember()]
         public byte[] ivOut;
@@ -12215,17 +12215,17 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Hash_REQUEST")]
     public partial class Tpm2HashRequest: TpmStructureBase
     {
-        /// <summary> data to be hashed </summary>
+        /// <summary> Data to be hashed </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "dataSize", 2)]
         [DataMember()]
         public byte[] data;
 
-        /// <summary> algorithm for the hash being computed shall not be TPM_ALG_NULL </summary>
+        /// <summary> Algorithm for the hash being computed shall not be TPM_ALG_NULL </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmAlgId hashAlg { get; set; }
 
-        /// <summary> hierarchy to use for the ticket (TPM_RH_NULL allowed) </summary>
+        /// <summary> Hierarchy to use for the ticket (TPM_RH_NULL allowed) </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmHandle hierarchy { get; set; }
@@ -12235,9 +12235,9 @@ namespace Tpm2Lib {
             hierarchy = new TpmHandle();
         }
 
-        /// <param name = "_data"> data to be hashed </param>
-        /// <param name = "_hashAlg"> algorithm for the hash being computed shall not be TPM_ALG_NULL </param>
-        /// <param name = "_hierarchy"> hierarchy to use for the ticket (TPM_RH_NULL allowed) </param>
+        /// <param name = "_data"> Data to be hashed </param>
+        /// <param name = "_hashAlg"> Algorithm for the hash being computed shall not be TPM_ALG_NULL </param>
+        /// <param name = "_hierarchy"> Hierarchy to use for the ticket (TPM_RH_NULL allowed) </param>
         public Tpm2HashRequest(byte[] _data, TpmAlgId _hashAlg, TpmHandle _hierarchy)
         {
             data = _data;
@@ -12257,12 +12257,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Hash_RESPONSE")]
     public partial class Tpm2HashResponse: TpmStructureBase
     {
-        /// <summary> results </summary>
+        /// <summary> Results </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "outHashSize", 2)]
         [DataMember()]
         public byte[] outHash;
 
-        /// <summary> ticket indicating that the sequence of octets used to compute outDigest did
+        /// <summary> Ticket indicating that the sequence of octets used to compute outDigest did
         /// not start with TPM_GENERATED_VALUE
         /// will be a NULL ticket if the digest may not be signed with a restricted key </summary>
         [MarshalAs(1)]
@@ -12290,7 +12290,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_HMAC_REQUEST")]
     public partial class Tpm2HmacRequest: TpmStructureBase
     {
-        /// <summary> handle for the symmetric signing key providing the HMAC key
+        /// <summary> Handle for the symmetric signing key providing the HMAC key
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
@@ -12302,7 +12302,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] buffer;
 
-        /// <summary> algorithm to use for HMAC </summary>
+        /// <summary> Algorithm to use for HMAC </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmAlgId hashAlg { get; set; }
@@ -12312,11 +12312,11 @@ namespace Tpm2Lib {
             hashAlg = TpmAlgId.Null;
         }
 
-        /// <param name = "_handle"> handle for the symmetric signing key providing the HMAC key
+        /// <param name = "_handle"> Handle for the symmetric signing key providing the HMAC key
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <param name = "_buffer"> HMAC data </param>
-        /// <param name = "_hashAlg"> algorithm to use for HMAC </param>
+        /// <param name = "_hashAlg"> Algorithm to use for HMAC </param>
         public Tpm2HmacRequest(TpmHandle _handle, byte[] _buffer, TpmAlgId _hashAlg)
         {
             handle = _handle;
@@ -12335,7 +12335,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_HMAC_RESPONSE")]
     public partial class Tpm2HmacResponse: TpmStructureBase
     {
-        /// <summary> the returned HMAC in a sized buffer </summary>
+        /// <summary> The returned HMAC in a sized buffer </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "outHMACSize", 2)]
         [DataMember()]
         public byte[] outHMAC;
@@ -12357,7 +12357,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_MAC_REQUEST")]
     public partial class Tpm2MacRequest: TpmStructureBase
     {
-        /// <summary> handle for the symmetric signing key providing the MAC key
+        /// <summary> Handle for the symmetric signing key providing the MAC key
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
@@ -12369,7 +12369,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] buffer;
 
-        /// <summary> algorithm to use for MAC </summary>
+        /// <summary> Algorithm to use for MAC </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmAlgId inScheme { get; set; }
@@ -12379,11 +12379,11 @@ namespace Tpm2Lib {
             inScheme = TpmAlgId.Null;
         }
 
-        /// <param name = "_handle"> handle for the symmetric signing key providing the MAC key
+        /// <param name = "_handle"> Handle for the symmetric signing key providing the MAC key
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <param name = "_buffer"> MAC data </param>
-        /// <param name = "_inScheme"> algorithm to use for MAC </param>
+        /// <param name = "_inScheme"> Algorithm to use for MAC </param>
         public Tpm2MacRequest(TpmHandle _handle, byte[] _buffer, TpmAlgId _inScheme)
         {
             handle = _handle;
@@ -12402,7 +12402,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_MAC_RESPONSE")]
     public partial class Tpm2MacResponse: TpmStructureBase
     {
-        /// <summary> the returned MAC in a sized buffer </summary>
+        /// <summary> The returned MAC in a sized buffer </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "outMACSize", 2)]
         [DataMember()]
         public byte[] outMAC;
@@ -12422,14 +12422,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_GetRandom_REQUEST")]
     public partial class Tpm2GetRandomRequest: TpmStructureBase
     {
-        /// <summary> number of octets to return </summary>
+        /// <summary> Number of octets to return </summary>
         [MarshalAs(0)]
         [DataMember()]
         public ushort bytesRequested { get; set; }
 
         public Tpm2GetRandomRequest() {}
 
-        /// <param name = "_bytesRequested"> number of octets to return </param>
+        /// <param name = "_bytesRequested"> Number of octets to return </param>
         public Tpm2GetRandomRequest(ushort _bytesRequested) { bytesRequested = _bytesRequested; }
 
         new public Tpm2GetRandomRequest Copy() { return CreateCopy<Tpm2GetRandomRequest>(); }
@@ -12443,7 +12443,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_GetRandom_RESPONSE")]
     public partial class Tpm2GetRandomResponse: TpmStructureBase
     {
-        /// <summary> the random octets </summary>
+        /// <summary> The random octets </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "randomBytesSize", 2)]
         [DataMember()]
         public byte[] randomBytes;
@@ -12462,14 +12462,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_StirRandom_REQUEST")]
     public partial class Tpm2StirRandomRequest: TpmStructureBase
     {
-        /// <summary> additional information </summary>
+        /// <summary> Additional information </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "inDataSize", 2)]
         [DataMember()]
         public byte[] inData;
 
         public Tpm2StirRandomRequest() {}
 
-        /// <param name = "_inData"> additional information </param>
+        /// <param name = "_inData"> Additional information </param>
         public Tpm2StirRandomRequest(byte[] _inData) { inData = _inData; }
 
         new public Tpm2StirRandomRequest Copy() { return CreateCopy<Tpm2StirRandomRequest>(); }
@@ -12486,19 +12486,19 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_HMAC_Start_REQUEST")]
     public partial class Tpm2HmacStartRequest: TpmStructureBase
     {
-        /// <summary> handle of an HMAC key
+        /// <summary> Handle of an HMAC key
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
 
-        /// <summary> authorization value for subsequent use of the sequence </summary>
+        /// <summary> Authorization value for subsequent use of the sequence </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "authSize", 2)]
         [DataMember()]
         public byte[] auth;
 
-        /// <summary> the hash algorithm to use for the HMAC </summary>
+        /// <summary> The hash algorithm to use for the HMAC </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmAlgId hashAlg { get; set; }
@@ -12508,11 +12508,11 @@ namespace Tpm2Lib {
             hashAlg = TpmAlgId.Null;
         }
 
-        /// <param name = "_handle"> handle of an HMAC key
+        /// <param name = "_handle"> Handle of an HMAC key
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_auth"> authorization value for subsequent use of the sequence </param>
-        /// <param name = "_hashAlg"> the hash algorithm to use for the HMAC </param>
+        /// <param name = "_auth"> Authorization value for subsequent use of the sequence </param>
+        /// <param name = "_hashAlg"> The hash algorithm to use for the HMAC </param>
         public Tpm2HmacStartRequest(TpmHandle _handle, byte[] _auth, TpmAlgId _hashAlg)
         {
             handle = _handle;
@@ -12533,7 +12533,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_HMAC_Start_RESPONSE")]
     public partial class Tpm2HmacStartResponse: TpmStructureBase
     {
-        /// <summary> a handle to reference the sequence </summary>
+        /// <summary> A handle to reference the sequence </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
@@ -12556,19 +12556,19 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_MAC_Start_REQUEST")]
     public partial class Tpm2MacStartRequest: TpmStructureBase
     {
-        /// <summary> handle of a MAC key
+        /// <summary> Handle of a MAC key
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
 
-        /// <summary> authorization value for subsequent use of the sequence </summary>
+        /// <summary> Authorization value for subsequent use of the sequence </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "authSize", 2)]
         [DataMember()]
         public byte[] auth;
 
-        /// <summary> the algorithm to use for the MAC </summary>
+        /// <summary> The algorithm to use for the MAC </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmAlgId inScheme { get; set; }
@@ -12578,11 +12578,11 @@ namespace Tpm2Lib {
             inScheme = TpmAlgId.Null;
         }
 
-        /// <param name = "_handle"> handle of a MAC key
+        /// <param name = "_handle"> Handle of a MAC key
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_auth"> authorization value for subsequent use of the sequence </param>
-        /// <param name = "_inScheme"> the algorithm to use for the MAC </param>
+        /// <param name = "_auth"> Authorization value for subsequent use of the sequence </param>
+        /// <param name = "_inScheme"> The algorithm to use for the MAC </param>
         public Tpm2MacStartRequest(TpmHandle _handle, byte[] _auth, TpmAlgId _inScheme)
         {
             handle = _handle;
@@ -12603,7 +12603,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_MAC_Start_RESPONSE")]
     public partial class Tpm2MacStartResponse: TpmStructureBase
     {
-        /// <summary> a handle to reference the sequence </summary>
+        /// <summary> A handle to reference the sequence </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
@@ -12626,12 +12626,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_HashSequenceStart_REQUEST")]
     public partial class Tpm2HashSequenceStartRequest: TpmStructureBase
     {
-        /// <summary> authorization value for subsequent use of the sequence </summary>
+        /// <summary> Authorization value for subsequent use of the sequence </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "authSize", 2)]
         [DataMember()]
         public byte[] auth;
 
-        /// <summary> the hash algorithm to use for the hash sequence
+        /// <summary> The hash algorithm to use for the hash sequence
         /// An Event Sequence starts if this is TPM_ALG_NULL. </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -12639,8 +12639,8 @@ namespace Tpm2Lib {
 
         public Tpm2HashSequenceStartRequest() { hashAlg = TpmAlgId.Null; }
 
-        /// <param name = "_auth"> authorization value for subsequent use of the sequence </param>
-        /// <param name = "_hashAlg"> the hash algorithm to use for the hash sequence
+        /// <param name = "_auth"> Authorization value for subsequent use of the sequence </param>
+        /// <param name = "_hashAlg"> The hash algorithm to use for the hash sequence
         ///        An Event Sequence starts if this is TPM_ALG_NULL. </param>
         public Tpm2HashSequenceStartRequest(byte[] _auth, TpmAlgId _hashAlg)
         {
@@ -12662,7 +12662,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_HashSequenceStart_RESPONSE")]
     public partial class Tpm2HashSequenceStartResponse: TpmStructureBase
     {
-        /// <summary> a handle to reference the sequence </summary>
+        /// <summary> A handle to reference the sequence </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
@@ -12683,24 +12683,24 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_SequenceUpdate_REQUEST")]
     public partial class Tpm2SequenceUpdateRequest: TpmStructureBase
     {
-        /// <summary> handle for the sequence object
+        /// <summary> Handle for the sequence object
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle sequenceHandle { get; set; }
 
-        /// <summary> data to be added to hash </summary>
+        /// <summary> Data to be added to hash </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "bufferSize", 2)]
         [DataMember()]
         public byte[] buffer;
 
         public Tpm2SequenceUpdateRequest() { sequenceHandle = new TpmHandle(); }
 
-        /// <param name = "_sequenceHandle"> handle for the sequence object
+        /// <param name = "_sequenceHandle"> Handle for the sequence object
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_buffer"> data to be added to hash </param>
+        /// <param name = "_buffer"> Data to be added to hash </param>
         public Tpm2SequenceUpdateRequest(TpmHandle _sequenceHandle, byte[] _buffer)
         {
             sequenceHandle = _sequenceHandle;
@@ -12719,19 +12719,19 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_SequenceComplete_REQUEST")]
     public partial class Tpm2SequenceCompleteRequest: TpmStructureBase
     {
-        /// <summary> authorization for the sequence
+        /// <summary> Authorization for the sequence
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle sequenceHandle { get; set; }
 
-        /// <summary> data to be added to the hash/HMAC </summary>
+        /// <summary> Data to be added to the hash/HMAC </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "bufferSize", 2)]
         [DataMember()]
         public byte[] buffer;
 
-        /// <summary> hierarchy of the ticket for a hash </summary>
+        /// <summary> Hierarchy of the ticket for a hash </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmHandle hierarchy { get; set; }
@@ -12741,11 +12741,11 @@ namespace Tpm2Lib {
             hierarchy = new TpmHandle();
         }
 
-        /// <param name = "_sequenceHandle"> authorization for the sequence
+        /// <param name = "_sequenceHandle"> Authorization for the sequence
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_buffer"> data to be added to the hash/HMAC </param>
-        /// <param name = "_hierarchy"> hierarchy of the ticket for a hash </param>
+        /// <param name = "_buffer"> Data to be added to the hash/HMAC </param>
+        /// <param name = "_hierarchy"> Hierarchy of the ticket for a hash </param>
         public Tpm2SequenceCompleteRequest(TpmHandle _sequenceHandle, byte[] _buffer, TpmHandle _hierarchy)
         {
             sequenceHandle = _sequenceHandle;
@@ -12765,12 +12765,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_SequenceComplete_RESPONSE")]
     public partial class Tpm2SequenceCompleteResponse: TpmStructureBase
     {
-        /// <summary> the returned HMAC or digest in a sized buffer </summary>
+        /// <summary> The returned HMAC or digest in a sized buffer </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "resultSize", 2)]
         [DataMember()]
         public byte[] result;
 
-        /// <summary> ticket indicating that the sequence of octets used to compute outDigest did
+        /// <summary> Ticket indicating that the sequence of octets used to compute outDigest did
         /// not start with TPM_GENERATED_VALUE
         /// This is a NULL Ticket when the sequence is HMAC. </summary>
         [MarshalAs(1)]
@@ -12808,14 +12808,14 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle pcrHandle { get; set; }
 
-        /// <summary> authorization for the sequence
+        /// <summary> Authorization for the sequence
         /// Auth Index: 2
         /// Auth Role: USER </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle sequenceHandle { get; set; }
 
-        /// <summary> data to be added to the Event </summary>
+        /// <summary> Data to be added to the Event </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "bufferSize", 2)]
         [DataMember()]
         public byte[] buffer;
@@ -12828,10 +12828,10 @@ namespace Tpm2Lib {
         /// <param name = "_pcrHandle"> PCR to be extended with the Event data
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_sequenceHandle"> authorization for the sequence
+        /// <param name = "_sequenceHandle"> Authorization for the sequence
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "_buffer"> data to be added to the Event </param>
+        /// <param name = "_buffer"> Data to be added to the Event </param>
         public Tpm2EventSequenceCompleteRequest(TpmHandle _pcrHandle, TpmHandle _sequenceHandle, byte[] _buffer)
         {
             pcrHandle = _pcrHandle;
@@ -12854,7 +12854,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_EventSequenceComplete_RESPONSE")]
     public partial class Tpm2EventSequenceCompleteResponse: TpmStructureBase
     {
-        /// <summary> list of digests computed for the PCR </summary>
+        /// <summary> List of digests computed for the PCR </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "resultsCount", 4)]
         [DataMember()]
         public TpmHash[] results;
@@ -12890,32 +12890,32 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Certify_REQUEST")]
     public partial class Tpm2CertifyRequest: TpmStructureBase
     {
-        /// <summary> handle of the object to be certified
+        /// <summary> Handle of the object to be certified
         /// Auth Index: 1
         /// Auth Role: ADMIN </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle objectHandle { get; set; }
 
-        /// <summary> handle of the key used to sign the attestation structure
+        /// <summary> Handle of the key used to sign the attestation structure
         /// Auth Index: 2
         /// Auth Role: USER </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle signHandle { get; set; }
 
-        /// <summary> user provided qualifying data </summary>
+        /// <summary> User provided qualifying data </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "qualifyingDataSize", 2)]
         [DataMember()]
         public byte[] qualifyingData;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(3, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
         [MarshalAs(4, MarshalType.Union, "inSchemeScheme")]
@@ -12927,14 +12927,14 @@ namespace Tpm2Lib {
             signHandle = new TpmHandle();
         }
 
-        /// <param name = "_objectHandle"> handle of the object to be certified
+        /// <param name = "_objectHandle"> Handle of the object to be certified
         ///        Auth Index: 1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "_signHandle"> handle of the key used to sign the attestation structure
+        /// <param name = "_signHandle"> Handle of the key used to sign the attestation structure
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "_qualifyingData"> user provided qualifying data </param>
-        /// <param name = "_inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "_qualifyingData"> User provided qualifying data </param>
+        /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
         public Tpm2CertifyRequest(TpmHandle _objectHandle, TpmHandle _signHandle, byte[] _qualifyingData, ISigSchemeUnion _inScheme)
@@ -12973,18 +12973,18 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Certify_RESPONSE")]
     public partial class Tpm2CertifyResponse: TpmStructureBase
     {
-        /// <summary> the structure that was signed </summary>
+        /// <summary> The structure that was signed </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "certifyInfoSize", 2)]
         [DataMember()]
         public Attest certifyInfo { get; set; }
 
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the asymmetric signature over certifyInfo using the key referenced by signHandle
+        /// <summary> The asymmetric signature over certifyInfo using the key referenced by signHandle
         /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
@@ -13026,43 +13026,43 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_CertifyCreation_REQUEST")]
     public partial class Tpm2CertifyCreationRequest: TpmStructureBase
     {
-        /// <summary> handle of the key that will sign the attestation block
+        /// <summary> Handle of the key that will sign the attestation block
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle signHandle { get; set; }
 
-        /// <summary> the object associated with the creation data
+        /// <summary> The object associated with the creation data
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle objectHandle { get; set; }
 
-        /// <summary> user-provided qualifying data </summary>
+        /// <summary> User-provided qualifying data </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "qualifyingDataSize", 2)]
         [DataMember()]
         public byte[] qualifyingData;
 
-        /// <summary> hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary() </summary>
+        /// <summary> Hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary() </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "creationHashSize", 2)]
         [DataMember()]
         public byte[] creationHash;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
         [MarshalAs(5, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
 
-        /// <summary> ticket produced by TPM2_Create() or TPM2_CreatePrimary() </summary>
+        /// <summary> Ticket produced by TPM2_Create() or TPM2_CreatePrimary() </summary>
         [MarshalAs(6)]
         [DataMember()]
         public TkCreation creationTicket { get; set; }
@@ -13072,18 +13072,18 @@ namespace Tpm2Lib {
             objectHandle = new TpmHandle();
         }
 
-        /// <param name = "_signHandle"> handle of the key that will sign the attestation block
+        /// <param name = "_signHandle"> Handle of the key that will sign the attestation block
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_objectHandle"> the object associated with the creation data
+        /// <param name = "_objectHandle"> The object associated with the creation data
         ///        Auth Index: None </param>
-        /// <param name = "_qualifyingData"> user-provided qualifying data </param>
-        /// <param name = "_creationHash"> hash of the creation data produced by TPM2_Create() or
+        /// <param name = "_qualifyingData"> User-provided qualifying data </param>
+        /// <param name = "_creationHash"> Hash of the creation data produced by TPM2_Create() or
         ///        TPM2_CreatePrimary() </param>
-        /// <param name = "_inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <param name = "_creationTicket"> ticket produced by TPM2_Create() or TPM2_CreatePrimary() </param>
+        /// <param name = "_creationTicket"> Ticket produced by TPM2_Create() or TPM2_CreatePrimary() </param>
         public Tpm2CertifyCreationRequest(TpmHandle _signHandle, TpmHandle _objectHandle, byte[] _qualifyingData, byte[] _creationHash, ISigSchemeUnion _inScheme, TkCreation _creationTicket)
         {
             signHandle = _signHandle;
@@ -13121,18 +13121,18 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_CertifyCreation_RESPONSE")]
     public partial class Tpm2CertifyCreationResponse: TpmStructureBase
     {
-        /// <summary> the structure that was signed </summary>
+        /// <summary> The structure that was signed </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "certifyInfoSize", 2)]
         [DataMember()]
         public Attest certifyInfo { get; set; }
 
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the signature over certifyInfo
+        /// <summary> The signature over certifyInfo
         /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
@@ -13170,25 +13170,25 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Quote_REQUEST")]
     public partial class Tpm2QuoteRequest: TpmStructureBase
     {
-        /// <summary> handle of key that will perform signature
+        /// <summary> Handle of key that will perform signature
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle signHandle { get; set; }
 
-        /// <summary> data supplied by the caller </summary>
+        /// <summary> Data supplied by the caller </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "qualifyingDataSize", 2)]
         [DataMember()]
         public byte[] qualifyingData;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
         [MarshalAs(3, MarshalType.Union, "inSchemeScheme")]
@@ -13202,11 +13202,11 @@ namespace Tpm2Lib {
 
         public Tpm2QuoteRequest() { signHandle = new TpmHandle(); }
 
-        /// <param name = "_signHandle"> handle of key that will perform signature
+        /// <param name = "_signHandle"> Handle of key that will perform signature
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_qualifyingData"> data supplied by the caller </param>
-        /// <param name = "_inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "_qualifyingData"> Data supplied by the caller </param>
+        /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
         /// <param name = "_PCRselect"> PCR set to quote </param>
@@ -13242,18 +13242,18 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Quote_RESPONSE")]
     public partial class Tpm2QuoteResponse: TpmStructureBase
     {
-        /// <summary> the quoted information </summary>
+        /// <summary> The quoted information </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "quotedSize", 2)]
         [DataMember()]
         public Attest quoted { get; set; }
 
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the signature over quoted
+        /// <summary> The signature over quoted
         /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
@@ -13291,38 +13291,38 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_GetSessionAuditDigest_REQUEST")]
     public partial class Tpm2GetSessionAuditDigestRequest: TpmStructureBase
     {
-        /// <summary> handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /// <summary> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle privacyAdminHandle { get; set; }
 
-        /// <summary> handle of the signing key
+        /// <summary> Handle of the signing key
         /// Auth Index: 2
         /// Auth Role: USER </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle signHandle { get; set; }
 
-        /// <summary> handle of the audit session
+        /// <summary> Handle of the audit session
         /// Auth Index: None </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmHandle sessionHandle { get; set; }
 
-        /// <summary> user-provided qualifying data may be zero-length </summary>
+        /// <summary> User-provided qualifying data may be zero-length </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "qualifyingDataSize", 2)]
         [DataMember()]
         public byte[] qualifyingData;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
         [MarshalAs(5, MarshalType.Union, "inSchemeScheme")]
@@ -13335,16 +13335,16 @@ namespace Tpm2Lib {
             sessionHandle = new TpmHandle();
         }
 
-        /// <param name = "_privacyAdminHandle"> handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /// <param name = "_privacyAdminHandle"> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_signHandle"> handle of the signing key
+        /// <param name = "_signHandle"> Handle of the signing key
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "_sessionHandle"> handle of the audit session
+        /// <param name = "_sessionHandle"> Handle of the audit session
         ///        Auth Index: None </param>
-        /// <param name = "_qualifyingData"> user-provided qualifying data may be zero-length </param>
-        /// <param name = "_inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "_qualifyingData"> User-provided qualifying data may be zero-length </param>
+        /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
         public Tpm2GetSessionAuditDigestRequest(TpmHandle _privacyAdminHandle, TpmHandle _signHandle, TpmHandle _sessionHandle, byte[] _qualifyingData, ISigSchemeUnion _inScheme)
@@ -13380,18 +13380,18 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_GetSessionAuditDigest_RESPONSE")]
     public partial class Tpm2GetSessionAuditDigestResponse: TpmStructureBase
     {
-        /// <summary> the audit information that was signed </summary>
+        /// <summary> The audit information that was signed </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "auditInfoSize", 2)]
         [DataMember()]
         public Attest auditInfo { get; set; }
 
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the signature over auditInfo
+        /// <summary> The signature over auditInfo
         /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
@@ -13431,32 +13431,32 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_GetCommandAuditDigest_REQUEST")]
     public partial class Tpm2GetCommandAuditDigestRequest: TpmStructureBase
     {
-        /// <summary> handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /// <summary> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle privacyHandle { get; set; }
 
-        /// <summary> the handle of the signing key
+        /// <summary> The handle of the signing key
         /// Auth Index: 2
         /// Auth Role: USER </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle signHandle { get; set; }
 
-        /// <summary> other data to associate with this audit digest </summary>
+        /// <summary> Other data to associate with this audit digest </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "qualifyingDataSize", 2)]
         [DataMember()]
         public byte[] qualifyingData;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(3, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
         [MarshalAs(4, MarshalType.Union, "inSchemeScheme")]
@@ -13468,14 +13468,14 @@ namespace Tpm2Lib {
             signHandle = new TpmHandle();
         }
 
-        /// <param name = "_privacyHandle"> handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /// <param name = "_privacyHandle"> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_signHandle"> the handle of the signing key
+        /// <param name = "_signHandle"> The handle of the signing key
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "_qualifyingData"> other data to associate with this audit digest </param>
-        /// <param name = "_inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "_qualifyingData"> Other data to associate with this audit digest </param>
+        /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
         public Tpm2GetCommandAuditDigestRequest(TpmHandle _privacyHandle, TpmHandle _signHandle, byte[] _qualifyingData, ISigSchemeUnion _inScheme)
@@ -13512,18 +13512,18 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_GetCommandAuditDigest_RESPONSE")]
     public partial class Tpm2GetCommandAuditDigestResponse: TpmStructureBase
     {
-        /// <summary> the auditInfo that was signed </summary>
+        /// <summary> The auditInfo that was signed </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "auditInfoSize", 2)]
         [DataMember()]
         public Attest auditInfo { get; set; }
 
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the signature over auditInfo
+        /// <summary> The signature over auditInfo
         /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
@@ -13561,32 +13561,32 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_GetTime_REQUEST")]
     public partial class Tpm2GetTimeRequest: TpmStructureBase
     {
-        /// <summary> handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /// <summary> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle privacyAdminHandle { get; set; }
 
-        /// <summary> the keyHandle identifier of a loaded key that can perform digital signatures
+        /// <summary> The keyHandle identifier of a loaded key that can perform digital signatures
         /// Auth Index: 2
         /// Auth Role: USER </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle signHandle { get; set; }
 
-        /// <summary> data to tick stamp </summary>
+        /// <summary> Data to tick stamp </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "qualifyingDataSize", 2)]
         [DataMember()]
         public byte[] qualifyingData;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(3, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
         [MarshalAs(4, MarshalType.Union, "inSchemeScheme")]
@@ -13598,15 +13598,15 @@ namespace Tpm2Lib {
             signHandle = new TpmHandle();
         }
 
-        /// <param name = "_privacyAdminHandle"> handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /// <param name = "_privacyAdminHandle"> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_signHandle"> the keyHandle identifier of a loaded key that can perform
+        /// <param name = "_signHandle"> The keyHandle identifier of a loaded key that can perform
         ///        digital signatures
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "_qualifyingData"> data to tick stamp </param>
-        /// <param name = "_inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "_qualifyingData"> Data to tick stamp </param>
+        /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
         public Tpm2GetTimeRequest(TpmHandle _privacyAdminHandle, TpmHandle _signHandle, byte[] _qualifyingData, ISigSchemeUnion _inScheme)
@@ -13641,18 +13641,18 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_GetTime_RESPONSE")]
     public partial class Tpm2GetTimeResponse: TpmStructureBase
     {
-        /// <summary> standard TPM-generated attestation block </summary>
+        /// <summary> Standard TPM-generated attestation block </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "timeInfoSize", 2)]
         [DataMember()]
         public Attest timeInfo { get; set; }
 
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the signature over timeInfo
+        /// <summary> The signature over timeInfo
         /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
@@ -13695,39 +13695,39 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_CertifyX509_REQUEST")]
     public partial class Tpm2CertifyX509Request: TpmStructureBase
     {
-        /// <summary> handle of the object to be certified
+        /// <summary> Handle of the object to be certified
         /// Auth Index: 1
         /// Auth Role: ADMIN </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle objectHandle { get; set; }
 
-        /// <summary> handle of the key used to sign the attestation structure
+        /// <summary> Handle of the key used to sign the attestation structure
         /// Auth Index: 2
         /// Auth Role: USER </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle signHandle { get; set; }
 
-        /// <summary> shall be an Empty Buffer </summary>
+        /// <summary> Shall be an Empty Buffer </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "reservedSize", 2)]
         [DataMember()]
         public byte[] reserved;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(3, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
         [MarshalAs(4, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
 
-        /// <summary> a DER encoded partial certificate </summary>
+        /// <summary> A DER encoded partial certificate </summary>
         [MarshalAs(5, MarshalType.VariableLengthArray, "partialCertificateSize", 2)]
         [DataMember()]
         public byte[] partialCertificate;
@@ -13737,17 +13737,17 @@ namespace Tpm2Lib {
             signHandle = new TpmHandle();
         }
 
-        /// <param name = "_objectHandle"> handle of the object to be certified
+        /// <param name = "_objectHandle"> Handle of the object to be certified
         ///        Auth Index: 1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "_signHandle"> handle of the key used to sign the attestation structure
+        /// <param name = "_signHandle"> Handle of the key used to sign the attestation structure
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "_reserved"> shall be an Empty Buffer </param>
-        /// <param name = "_inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "_reserved"> Shall be an Empty Buffer </param>
+        /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <param name = "_partialCertificate"> a DER encoded partial certificate </param>
+        /// <param name = "_partialCertificate"> A DER encoded partial certificate </param>
         public Tpm2CertifyX509Request(TpmHandle _objectHandle, TpmHandle _signHandle, byte[] _reserved, ISigSchemeUnion _inScheme, byte[] _partialCertificate)
         {
             objectHandle = _objectHandle;
@@ -13785,18 +13785,18 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_CertifyX509_RESPONSE")]
     public partial class Tpm2CertifyX509Response: TpmStructureBase
     {
-        /// <summary> a DER encoded SEQUENCE containing the DER encoded fields added to
+        /// <summary> A DER encoded SEQUENCE containing the DER encoded fields added to
         /// partialCertificate to make it a complete RFC5280 TBSCertificate. </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "addedToCertificateSize", 2)]
         [DataMember()]
         public byte[] addedToCertificate;
 
-        /// <summary> the digest that was signed </summary>
+        /// <summary> The digest that was signed </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "tbsDigestSize", 2)]
         [DataMember()]
         public byte[] tbsDigest;
 
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
@@ -13833,36 +13833,36 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Commit_REQUEST")]
     public partial class Tpm2CommitRequest: TpmStructureBase
     {
-        /// <summary> handle of the key that will be used in the signing operation
+        /// <summary> Handle of the key that will be used in the signing operation
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle signHandle { get; set; }
 
-        /// <summary> a point (M) on the curve used by signHandle </summary>
+        /// <summary> A point (M) on the curve used by signHandle </summary>
         [MarshalAs(1, MarshalType.SizedStruct, "P1Size", 2)]
         [DataMember()]
         public EccPoint P1 { get; set; }
 
-        /// <summary> octet array used to derive x-coordinate of a base point </summary>
+        /// <summary> Octet array used to derive x-coordinate of a base point </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "s2Size", 2)]
         [DataMember()]
         public byte[] s2;
 
-        /// <summary> y coordinate of the point associated with s2 </summary>
+        /// <summary> Y coordinate of the point associated with s2 </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "y2Size", 2)]
         [DataMember()]
         public byte[] y2;
 
         public Tpm2CommitRequest() { signHandle = new TpmHandle(); }
 
-        /// <param name = "_signHandle"> handle of the key that will be used in the signing operation
+        /// <param name = "_signHandle"> Handle of the key that will be used in the signing operation
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_P1"> a point (M) on the curve used by signHandle </param>
-        /// <param name = "_s2"> octet array used to derive x-coordinate of a base point </param>
-        /// <param name = "_y2"> y coordinate of the point associated with s2 </param>
+        /// <param name = "_P1"> A point (M) on the curve used by signHandle </param>
+        /// <param name = "_s2"> Octet array used to derive x-coordinate of a base point </param>
+        /// <param name = "_y2"> Y coordinate of the point associated with s2 </param>
         public Tpm2CommitRequest(TpmHandle _signHandle, EccPoint _P1, byte[] _s2, byte[] _y2)
         {
             signHandle = _signHandle;
@@ -13902,7 +13902,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public EccPoint E { get; set; }
 
-        /// <summary> least-significant 16 bits of commitCount </summary>
+        /// <summary> Least-significant 16 bits of commitCount </summary>
         [MarshalAs(3)]
         [DataMember()]
         public ushort counter { get; set; }
@@ -13951,12 +13951,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_EC_Ephemeral_RESPONSE")]
     public partial class Tpm2EcEphemeralResponse: TpmStructureBase
     {
-        /// <summary> ephemeral public key Q [r]G </summary>
+        /// <summary> Ephemeral public key Q [r]G </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "QSize", 2)]
         [DataMember()]
         public EccPoint Q { get; set; }
 
-        /// <summary> least-significant 16 bits of commitCount </summary>
+        /// <summary> Least-significant 16 bits of commitCount </summary>
         [MarshalAs(1)]
         [DataMember()]
         public ushort counter { get; set; }
@@ -13994,24 +13994,24 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_VerifySignature_REQUEST")]
     public partial class Tpm2VerifySignatureRequest: TpmStructureBase
     {
-        /// <summary> handle of public key that will be used in the validation
+        /// <summary> Handle of public key that will be used in the validation
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle keyHandle { get; set; }
 
-        /// <summary> digest of the signed message </summary>
+        /// <summary> Digest of the signed message </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "digestSize", 2)]
         [DataMember()]
         public byte[] digest;
 
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signature to be tested
+        /// <summary> Signature to be tested
         /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
         [MarshalAs(3, MarshalType.Union, "signatureSigAlg")]
@@ -14020,10 +14020,10 @@ namespace Tpm2Lib {
 
         public Tpm2VerifySignatureRequest() { keyHandle = new TpmHandle(); }
 
-        /// <param name = "_keyHandle"> handle of public key that will be used in the validation
+        /// <param name = "_keyHandle"> Handle of public key that will be used in the validation
         ///        Auth Index: None </param>
-        /// <param name = "_digest"> digest of the signed message </param>
-        /// <param name = "_signature"> signature to be tested
+        /// <param name = "_digest"> Digest of the signed message </param>
+        /// <param name = "_signature"> Signature to be tested
         ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
         public Tpm2VerifySignatureRequest(TpmHandle _keyHandle, byte[] _digest, ISignatureUnion _signature)
@@ -14085,25 +14085,25 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle keyHandle { get; set; }
 
-        /// <summary> digest to be signed </summary>
+        /// <summary> Digest to be signed </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "digestSize", 2)]
         [DataMember()]
         public byte[] digest;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(2, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
+        /// <summary> Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
         /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
         [MarshalAs(3, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
 
-        /// <summary> proof that digest was created by the TPM
+        /// <summary> Proof that digest was created by the TPM
         /// If keyHandle is not a restricted signing key, then this may be a NULL Ticket with tag
         /// = TPM_ST_CHECKHASH. </summary>
         [MarshalAs(4)]
@@ -14115,11 +14115,11 @@ namespace Tpm2Lib {
         /// <param name = "_keyHandle"> Handle of key that will perform signing
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_digest"> digest to be signed </param>
-        /// <param name = "_inScheme"> signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
+        /// <param name = "_digest"> Digest to be signed </param>
+        /// <param name = "_inScheme"> Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <param name = "_validation"> proof that digest was created by the TPM
+        /// <param name = "_validation"> Proof that digest was created by the TPM
         ///        If keyHandle is not a restricted signing key, then this may be a NULL Ticket with
         ///        tag = TPM_ST_CHECKHASH. </param>
         public Tpm2SignRequest(TpmHandle _keyHandle, byte[] _digest, ISigSchemeUnion _inScheme, TkHashcheck _validation)
@@ -14154,13 +14154,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Sign_RESPONSE")]
     public partial class Tpm2SignResponse: TpmStructureBase
     {
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the signature
+        /// <summary> The signature
         /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
         [MarshalAs(1, MarshalType.Union, "signatureSigAlg")]
@@ -14192,18 +14192,18 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle auth { get; set; }
 
-        /// <summary> hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not
+        /// <summary> Hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not
         /// changed </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmAlgId auditAlg { get; set; }
 
-        /// <summary> list of commands that will be added to those that will be audited </summary>
+        /// <summary> List of commands that will be added to those that will be audited </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "setListCount", 4)]
         [DataMember()]
         public TpmCc[] setList;
 
-        /// <summary> list of commands that will no longer be audited </summary>
+        /// <summary> List of commands that will no longer be audited </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "clearListCount", 4)]
         [DataMember()]
         public TpmCc[] clearList;
@@ -14216,11 +14216,11 @@ namespace Tpm2Lib {
         /// <param name = "_auth"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_auditAlg"> hash algorithm for the audit digest; if TPM_ALG_NULL, then the
+        /// <param name = "_auditAlg"> Hash algorithm for the audit digest; if TPM_ALG_NULL, then the
         ///        hash is not changed </param>
-        /// <param name = "_setList"> list of commands that will be added to those that will be
+        /// <param name = "_setList"> List of commands that will be added to those that will be
         ///        audited </param>
-        /// <param name = "_clearList"> list of commands that will no longer be audited </param>
+        /// <param name = "_clearList"> List of commands that will no longer be audited </param>
         public Tpm2SetCommandCodeAuditStatusRequest(TpmHandle _auth, TpmAlgId _auditAlg, TpmCc[] _setList, TpmCc[] _clearList)
         {
             auth = _auth;
@@ -14243,24 +14243,24 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PCR_Extend_REQUEST")]
     public partial class Tpm2PcrExtendRequest: TpmStructureBase
     {
-        /// <summary> handle of the PCR
+        /// <summary> Handle of the PCR
         /// Auth Handle: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle pcrHandle { get; set; }
 
-        /// <summary> list of tagged digest values to be extended </summary>
+        /// <summary> List of tagged digest values to be extended </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "digestsCount", 4)]
         [DataMember()]
         public TpmHash[] digests;
 
         public Tpm2PcrExtendRequest() { pcrHandle = new TpmHandle(); }
 
-        /// <param name = "_pcrHandle"> handle of the PCR
+        /// <param name = "_pcrHandle"> Handle of the PCR
         ///        Auth Handle: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_digests"> list of tagged digest values to be extended </param>
+        /// <param name = "_digests"> List of tagged digest values to be extended </param>
         public Tpm2PcrExtendRequest(TpmHandle _pcrHandle, TpmHash[] _digests)
         {
             pcrHandle = _pcrHandle;
@@ -14350,17 +14350,17 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PCR_Read_RESPONSE")]
     public partial class Tpm2PcrReadResponse: TpmStructureBase
     {
-        /// <summary> the current value of the PCR update counter </summary>
+        /// <summary> The current value of the PCR update counter </summary>
         [MarshalAs(0)]
         [DataMember()]
         public uint pcrUpdateCounter { get; set; }
 
-        /// <summary> the PCR in the returned list </summary>
+        /// <summary> The PCR in the returned list </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "pcrSelectionOutCount", 4)]
         [DataMember()]
         public PcrSelection[] pcrSelectionOut;
 
-        /// <summary> the contents of the PCR indicated in pcrSelectOut-? pcrSelection[] as tagged
+        /// <summary> The contents of the PCR indicated in pcrSelectOut-? pcrSelection[] as tagged
         /// digests </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "pcrValuesCount", 4)]
         [DataMember()]
@@ -14394,7 +14394,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the requested allocation </summary>
+        /// <summary> The requested allocation </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "pcrAllocationCount", 4)]
         [DataMember()]
         public PcrSelection[] pcrAllocation;
@@ -14404,7 +14404,7 @@ namespace Tpm2Lib {
         /// <param name = "_authHandle"> TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_pcrAllocation"> the requested allocation </param>
+        /// <param name = "_pcrAllocation"> The requested allocation </param>
         public Tpm2PcrAllocateRequest(TpmHandle _authHandle, PcrSelection[] _pcrAllocation)
         {
             authHandle = _authHandle;
@@ -14427,12 +14427,12 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte allocationSuccess { get; set; }
 
-        /// <summary> maximum number of PCR that may be in a bank </summary>
+        /// <summary> Maximum number of PCR that may be in a bank </summary>
         [MarshalAs(1)]
         [DataMember()]
         public uint maxPCR { get; set; }
 
-        /// <summary> number of octets required to satisfy the request </summary>
+        /// <summary> Number of octets required to satisfy the request </summary>
         [MarshalAs(2)]
         [DataMember()]
         public uint sizeNeeded { get; set; }
@@ -14472,17 +14472,17 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the desired authPolicy </summary>
+        /// <summary> The desired authPolicy </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "authPolicySize", 2)]
         [DataMember()]
         public byte[] authPolicy;
 
-        /// <summary> the hash algorithm of the policy </summary>
+        /// <summary> The hash algorithm of the policy </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmAlgId hashAlg { get; set; }
 
-        /// <summary> the PCR for which the policy is to be set </summary>
+        /// <summary> The PCR for which the policy is to be set </summary>
         [MarshalAs(3)]
         [DataMember()]
         public TpmHandle pcrNum { get; set; }
@@ -14496,9 +14496,9 @@ namespace Tpm2Lib {
         /// <param name = "_authHandle"> TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_authPolicy"> the desired authPolicy </param>
-        /// <param name = "_hashAlg"> the hash algorithm of the policy </param>
-        /// <param name = "_pcrNum"> the PCR for which the policy is to be set </param>
+        /// <param name = "_authPolicy"> The desired authPolicy </param>
+        /// <param name = "_hashAlg"> The hash algorithm of the policy </param>
+        /// <param name = "_pcrNum"> The PCR for which the policy is to be set </param>
         public Tpm2PcrSetAuthPolicyRequest(TpmHandle _authHandle, byte[] _authPolicy, TpmAlgId _hashAlg, TpmHandle _pcrNum)
         {
             authHandle = _authHandle;
@@ -14518,24 +14518,24 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PCR_SetAuthValue_REQUEST")]
     public partial class Tpm2PcrSetAuthValueRequest: TpmStructureBase
     {
-        /// <summary> handle for a PCR that may have an authorization value set
+        /// <summary> Handle for a PCR that may have an authorization value set
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle pcrHandle { get; set; }
 
-        /// <summary> the desired authorization value </summary>
+        /// <summary> The desired authorization value </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "authSize", 2)]
         [DataMember()]
         public byte[] auth;
 
         public Tpm2PcrSetAuthValueRequest() { pcrHandle = new TpmHandle(); }
 
-        /// <param name = "_pcrHandle"> handle for a PCR that may have an authorization value set
+        /// <param name = "_pcrHandle"> Handle for a PCR that may have an authorization value set
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_auth"> the desired authorization value </param>
+        /// <param name = "_auth"> The desired authorization value </param>
         public Tpm2PcrSetAuthValueRequest(TpmHandle _pcrHandle, byte[] _auth)
         {
             pcrHandle = _pcrHandle;
@@ -14556,7 +14556,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PCR_Reset_REQUEST")]
     public partial class Tpm2PcrResetRequest: TpmStructureBase
     {
-        /// <summary> the PCR to reset
+        /// <summary> The PCR to reset
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
@@ -14565,7 +14565,7 @@ namespace Tpm2Lib {
 
         public Tpm2PcrResetRequest() { pcrHandle = new TpmHandle(); }
 
-        /// <param name = "_pcrHandle"> the PCR to reset
+        /// <param name = "_pcrHandle"> The PCR to reset
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         public Tpm2PcrResetRequest(TpmHandle _pcrHandle) { pcrHandle = _pcrHandle; }
@@ -14596,25 +14596,25 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicySigned_REQUEST")]
     public partial class Tpm2PolicySignedRequest: TpmStructureBase
     {
-        /// <summary> handle for a key that will validate the signature
+        /// <summary> Handle for a key that will validate the signature
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle authObject { get; set; }
 
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the policy nonce for the session
+        /// <summary> The policy nonce for the session
         /// This can be the Empty Buffer. </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "nonceTPMSize", 2)]
         [DataMember()]
         public byte[] nonceTPM;
 
-        /// <summary> digest of the command parameters to which this authorization is limited
+        /// <summary> Digest of the command parameters to which this authorization is limited
         /// This is not the cpHash for this command but the cpHash for the command to which this
         /// policy session will be applied. If it is not limited, the parameter will be the Empty
         /// Buffer. </summary>
@@ -14622,26 +14622,26 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] cpHashA;
 
-        /// <summary> a reference to a policy relating to the authorization may be the Empty Buffer
+        /// <summary> A reference to a policy relating to the authorization may be the Empty Buffer
         /// Size is limited to be no larger than the nonce size supported on the TPM. </summary>
         [MarshalAs(4, MarshalType.VariableLengthArray, "policyRefSize", 2)]
         [DataMember()]
         public byte[] policyRef;
 
-        /// <summary> time when authorization will expire, measured in seconds from the time that
+        /// <summary> Time when authorization will expire, measured in seconds from the time that
         /// nonceTPM was generated
         /// If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </summary>
         [MarshalAs(5)]
         [DataMember()]
         public int expiration { get; set; }
 
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(6, MarshalType.UnionSelector)]
         public TpmAlgId authSigAlg {
             get { return auth != null ? auth.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signed authorization (not optional)
+        /// <summary> Signed authorization (not optional)
         /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
         [MarshalAs(7, MarshalType.Union, "authSigAlg")]
@@ -14653,23 +14653,23 @@ namespace Tpm2Lib {
             policySession = new TpmHandle();
         }
 
-        /// <param name = "_authObject"> handle for a key that will validate the signature
+        /// <param name = "_authObject"> Handle for a key that will validate the signature
         ///        Auth Index: None </param>
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_nonceTPM"> the policy nonce for the session
+        /// <param name = "_nonceTPM"> The policy nonce for the session
         ///        This can be the Empty Buffer. </param>
-        /// <param name = "_cpHashA"> digest of the command parameters to which this authorization is limited
+        /// <param name = "_cpHashA"> Digest of the command parameters to which this authorization is limited
         ///        This is not the cpHash for this command but the cpHash for the command to which
         ///        this policy session will be applied. If it is not limited, the parameter will be
         ///        the Empty Buffer. </param>
-        /// <param name = "_policyRef"> a reference to a policy relating to the authorization may be
+        /// <param name = "_policyRef"> A reference to a policy relating to the authorization may be
         ///        the Empty Buffer
         ///        Size is limited to be no larger than the nonce size supported on the TPM. </param>
-        /// <param name = "_expiration"> time when authorization will expire, measured in seconds from
+        /// <param name = "_expiration"> Time when authorization will expire, measured in seconds from
         ///        the time that nonceTPM was generated
         ///        If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
-        /// <param name = "_auth"> signed authorization (not optional)
+        /// <param name = "_auth"> Signed authorization (not optional)
         ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
         public Tpm2PolicySignedRequest(TpmHandle _authObject, TpmHandle _policySession, byte[] _nonceTPM, byte[] _cpHashA, byte[] _policyRef, int _expiration, ISignatureUnion _auth)
@@ -14696,14 +14696,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicySigned_RESPONSE")]
     public partial class Tpm2PolicySignedResponse: TpmStructureBase
     {
-        /// <summary> implementation-specific time value, used to indicate to the TPM when the
+        /// <summary> Implementation-specific time value, used to indicate to the TPM when the
         /// ticket expires
         /// NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer. </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "timeoutSize", 2)]
         [DataMember()]
         public byte[] timeout;
 
-        /// <summary> produced if the command succeeds and expiration in the command was non-zero;
+        /// <summary> Produced if the command succeeds and expiration in the command was non-zero;
         /// this ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5 </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -14732,26 +14732,26 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicySecret_REQUEST")]
     public partial class Tpm2PolicySecretRequest: TpmStructureBase
     {
-        /// <summary> handle for an entity providing the authorization
+        /// <summary> Handle for an entity providing the authorization
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the policy nonce for the session
+        /// <summary> The policy nonce for the session
         /// This can be the Empty Buffer. </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "nonceTPMSize", 2)]
         [DataMember()]
         public byte[] nonceTPM;
 
-        /// <summary> digest of the command parameters to which this authorization is limited
+        /// <summary> Digest of the command parameters to which this authorization is limited
         /// This not the cpHash for this command but the cpHash for the command to which this
         /// policy session will be applied. If it is not limited, the parameter will be the Empty
         /// Buffer. </summary>
@@ -14759,13 +14759,13 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] cpHashA;
 
-        /// <summary> a reference to a policy relating to the authorization may be the Empty Buffer
+        /// <summary> A reference to a policy relating to the authorization may be the Empty Buffer
         /// Size is limited to be no larger than the nonce size supported on the TPM. </summary>
         [MarshalAs(4, MarshalType.VariableLengthArray, "policyRefSize", 2)]
         [DataMember()]
         public byte[] policyRef;
 
-        /// <summary> time when authorization will expire, measured in seconds from the time that
+        /// <summary> Time when authorization will expire, measured in seconds from the time that
         /// nonceTPM was generated
         /// If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </summary>
         [MarshalAs(5)]
@@ -14777,21 +14777,21 @@ namespace Tpm2Lib {
             policySession = new TpmHandle();
         }
 
-        /// <param name = "_authHandle"> handle for an entity providing the authorization
+        /// <param name = "_authHandle"> Handle for an entity providing the authorization
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_nonceTPM"> the policy nonce for the session
+        /// <param name = "_nonceTPM"> The policy nonce for the session
         ///        This can be the Empty Buffer. </param>
-        /// <param name = "_cpHashA"> digest of the command parameters to which this authorization is limited
+        /// <param name = "_cpHashA"> Digest of the command parameters to which this authorization is limited
         ///        This not the cpHash for this command but the cpHash for the command to which this
         ///        policy session will be applied. If it is not limited, the parameter will be the
         ///        Empty Buffer. </param>
-        /// <param name = "_policyRef"> a reference to a policy relating to the authorization may be
+        /// <param name = "_policyRef"> A reference to a policy relating to the authorization may be
         ///        the Empty Buffer
         ///        Size is limited to be no larger than the nonce size supported on the TPM. </param>
-        /// <param name = "_expiration"> time when authorization will expire, measured in seconds from
+        /// <param name = "_expiration"> Time when authorization will expire, measured in seconds from
         ///        the time that nonceTPM was generated
         ///        If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
         public Tpm2PolicySecretRequest(TpmHandle _authHandle, TpmHandle _policySession, byte[] _nonceTPM, byte[] _cpHashA, byte[] _policyRef, int _expiration)
@@ -14819,13 +14819,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicySecret_RESPONSE")]
     public partial class Tpm2PolicySecretResponse: TpmStructureBase
     {
-        /// <summary> implementation-specific time value used to indicate to the TPM when the
+        /// <summary> Implementation-specific time value used to indicate to the TPM when the
         /// ticket expires </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "timeoutSize", 2)]
         [DataMember()]
         public byte[] timeout;
 
-        /// <summary> produced if the command succeeds and expiration in the command was non-zero
+        /// <summary> Produced if the command succeeds and expiration in the command was non-zero
         /// ( See 23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -14853,36 +14853,36 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyTicket_REQUEST")]
     public partial class Tpm2PolicyTicketRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> time when authorization will expire
+        /// <summary> Time when authorization will expire
         /// The contents are TPM specific. This shall be the value returned when ticket was
         /// produced. </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "timeoutSize", 2)]
         [DataMember()]
         public byte[] timeout;
 
-        /// <summary> digest of the command parameters to which this authorization is limited
+        /// <summary> Digest of the command parameters to which this authorization is limited
         /// If it is not limited, the parameter will be the Empty Buffer. </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "cpHashASize", 2)]
         [DataMember()]
         public byte[] cpHashA;
 
-        /// <summary> reference to a qualifier for the policy may be the Empty Buffer </summary>
+        /// <summary> Reference to a qualifier for the policy may be the Empty Buffer </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "policyRefSize", 2)]
         [DataMember()]
         public byte[] policyRef;
 
-        /// <summary> name of the object that provided the authorization </summary>
+        /// <summary> Name of the object that provided the authorization </summary>
         [MarshalAs(4, MarshalType.VariableLengthArray, "authNameSize", 2)]
         [DataMember()]
         public byte[] authName;
 
-        /// <summary> an authorization ticket returned by the TPM in response to a
+        /// <summary> An authorization ticket returned by the TPM in response to a
         /// TPM2_PolicySigned() or TPM2_PolicySecret() </summary>
         [MarshalAs(5)]
         [DataMember()]
@@ -14890,17 +14890,17 @@ namespace Tpm2Lib {
 
         public Tpm2PolicyTicketRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_timeout"> time when authorization will expire
+        /// <param name = "_timeout"> Time when authorization will expire
         ///        The contents are TPM specific. This shall be the value returned when ticket was
         ///        produced. </param>
-        /// <param name = "_cpHashA"> digest of the command parameters to which this authorization is limited
+        /// <param name = "_cpHashA"> Digest of the command parameters to which this authorization is limited
         ///        If it is not limited, the parameter will be the Empty Buffer. </param>
-        /// <param name = "_policyRef"> reference to a qualifier for the policy may be the Empty
+        /// <param name = "_policyRef"> Reference to a qualifier for the policy may be the Empty
         ///        Buffer </param>
-        /// <param name = "_authName"> name of the object that provided the authorization </param>
-        /// <param name = "_ticket"> an authorization ticket returned by the TPM in response to a
+        /// <param name = "_authName"> Name of the object that provided the authorization </param>
+        /// <param name = "_ticket"> An authorization ticket returned by the TPM in response to a
         ///        TPM2_PolicySigned() or TPM2_PolicySecret() </param>
         public Tpm2PolicyTicketRequest(TpmHandle _policySession, byte[] _timeout, byte[] _cpHashA, byte[] _policyRef, byte[] _authName, TkAuth _ticket)
         {
@@ -14926,22 +14926,22 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyOR_REQUEST")]
     public partial class Tpm2PolicyORRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the list of hashes to check for a match </summary>
+        /// <summary> The list of hashes to check for a match </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "pHashListCount", 4)]
         [DataMember()]
         public Tpm2bDigest[] pHashList;
 
         public Tpm2PolicyORRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_pHashList"> the list of hashes to check for a match </param>
+        /// <param name = "_pHashList"> The list of hashes to check for a match </param>
         public Tpm2PolicyORRequest(TpmHandle _policySession, Tpm2bDigest[] _pHashList)
         {
             policySession = _policySession;
@@ -14962,30 +14962,30 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyPCR_REQUEST")]
     public partial class Tpm2PolicyPCRRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> expected digest value of the selected PCR using the hash algorithm of the
+        /// <summary> Expected digest value of the selected PCR using the hash algorithm of the
         /// session; may be zero length </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "pcrDigestSize", 2)]
         [DataMember()]
         public byte[] pcrDigest;
 
-        /// <summary> the PCR to include in the check digest </summary>
+        /// <summary> The PCR to include in the check digest </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "pcrsCount", 4)]
         [DataMember()]
         public PcrSelection[] pcrs;
 
         public Tpm2PolicyPCRRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_pcrDigest"> expected digest value of the selected PCR using the hash
+        /// <param name = "_pcrDigest"> Expected digest value of the selected PCR using the hash
         ///        algorithm of the session; may be zero length </param>
-        /// <param name = "_pcrs"> the PCR to include in the check digest </param>
+        /// <param name = "_pcrs"> The PCR to include in the check digest </param>
         public Tpm2PolicyPCRRequest(TpmHandle _policySession, byte[] _pcrDigest, PcrSelection[] _pcrs)
         {
             policySession = _policySession;
@@ -15006,22 +15006,22 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyLocality_REQUEST")]
     public partial class Tpm2PolicyLocalityRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the allowed localities for the policy </summary>
+        /// <summary> The allowed localities for the policy </summary>
         [MarshalAs(1)]
         [DataMember()]
         public LocalityAttr locality { get; set; }
 
         public Tpm2PolicyLocalityRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_locality"> the allowed localities for the policy </param>
+        /// <param name = "_locality"> The allowed localities for the policy </param>
         public Tpm2PolicyLocalityRequest(TpmHandle _policySession, LocalityAttr _locality)
         {
             policySession = _policySession;
@@ -15042,36 +15042,36 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyNV_REQUEST")]
     public partial class Tpm2PolicyNVRequest: TpmStructureBase
     {
-        /// <summary> handle indicating the source of the authorization value
+        /// <summary> Handle indicating the source of the authorization value
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the NV Index of the area to read
+        /// <summary> The NV Index of the area to read
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the second operand </summary>
+        /// <summary> The second operand </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "operandBSize", 2)]
         [DataMember()]
         public byte[] operandB;
 
-        /// <summary> the octet offset in the NV Index for the start of operand A </summary>
+        /// <summary> The octet offset in the NV Index for the start of operand A </summary>
         [MarshalAs(4)]
         [DataMember()]
         public ushort offset { get; set; }
 
-        /// <summary> the comparison to make </summary>
+        /// <summary> The comparison to make </summary>
         [MarshalAs(5)]
         [DataMember()]
         public Eo operation { get; set; }
@@ -15082,16 +15082,16 @@ namespace Tpm2Lib {
             policySession = new TpmHandle();
         }
 
-        /// <param name = "_authHandle"> handle indicating the source of the authorization value
+        /// <param name = "_authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_nvIndex"> the NV Index of the area to read
+        /// <param name = "_nvIndex"> The NV Index of the area to read
         ///        Auth Index: None </param>
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_operandB"> the second operand </param>
-        /// <param name = "_offset"> the octet offset in the NV Index for the start of operand A </param>
-        /// <param name = "_operation"> the comparison to make </param>
+        /// <param name = "_operandB"> The second operand </param>
+        /// <param name = "_offset"> The octet offset in the NV Index for the start of operand A </param>
+        /// <param name = "_operation"> The comparison to make </param>
         public Tpm2PolicyNVRequest(TpmHandle _authHandle, TpmHandle _nvIndex, TpmHandle _policySession, byte[] _operandB, ushort _offset, Eo _operation)
         {
             authHandle = _authHandle;
@@ -15115,35 +15115,35 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyCounterTimer_REQUEST")]
     public partial class Tpm2PolicyCounterTimerRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the second operand </summary>
+        /// <summary> The second operand </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "operandBSize", 2)]
         [DataMember()]
         public byte[] operandB;
 
-        /// <summary> the octet offset in the TPMS_TIME_INFO structure for the start of operand A </summary>
+        /// <summary> The octet offset in the TPMS_TIME_INFO structure for the start of operand A </summary>
         [MarshalAs(2)]
         [DataMember()]
         public ushort offset { get; set; }
 
-        /// <summary> the comparison to make </summary>
+        /// <summary> The comparison to make </summary>
         [MarshalAs(3)]
         [DataMember()]
         public Eo operation { get; set; }
 
         public Tpm2PolicyCounterTimerRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_operandB"> the second operand </param>
-        /// <param name = "_offset"> the octet offset in the TPMS_TIME_INFO structure for the start of
+        /// <param name = "_operandB"> The second operand </param>
+        /// <param name = "_offset"> The octet offset in the TPMS_TIME_INFO structure for the start of
         ///        operand A </param>
-        /// <param name = "_operation"> the comparison to make </param>
+        /// <param name = "_operation"> The comparison to make </param>
         public Tpm2PolicyCounterTimerRequest(TpmHandle _policySession, byte[] _operandB, ushort _offset, Eo _operation)
         {
             policySession = _policySession;
@@ -15165,22 +15165,22 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyCommandCode_REQUEST")]
     public partial class Tpm2PolicyCommandCodeRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the allowed commandCode </summary>
+        /// <summary> The allowed commandCode </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmCc code { get; set; }
 
         public Tpm2PolicyCommandCodeRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_code"> the allowed commandCode </param>
+        /// <param name = "_code"> The allowed commandCode </param>
         public Tpm2PolicyCommandCodeRequest(TpmHandle _policySession, TpmCc _code)
         {
             policySession = _policySession;
@@ -15199,7 +15199,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyPhysicalPresence_REQUEST")]
     public partial class Tpm2PolicyPhysicalPresenceRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -15207,7 +15207,7 @@ namespace Tpm2Lib {
 
         public Tpm2PolicyPhysicalPresenceRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         public Tpm2PolicyPhysicalPresenceRequest(TpmHandle _policySession) { policySession = _policySession; }
 
@@ -15223,22 +15223,22 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyCpHash_REQUEST")]
     public partial class Tpm2PolicyCpHashRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the cpHash added to the policy </summary>
+        /// <summary> The cpHash added to the policy </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "cpHashASize", 2)]
         [DataMember()]
         public byte[] cpHashA;
 
         public Tpm2PolicyCpHashRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_cpHashA"> the cpHash added to the policy </param>
+        /// <param name = "_cpHashA"> The cpHash added to the policy </param>
         public Tpm2PolicyCpHashRequest(TpmHandle _policySession, byte[] _cpHashA)
         {
             policySession = _policySession;
@@ -15259,22 +15259,22 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyNameHash_REQUEST")]
     public partial class Tpm2PolicyNameHashRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the digest to be added to the policy </summary>
+        /// <summary> The digest to be added to the policy </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "nameHashSize", 2)]
         [DataMember()]
         public byte[] nameHash;
 
         public Tpm2PolicyNameHashRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_nameHash"> the digest to be added to the policy </param>
+        /// <param name = "_nameHash"> The digest to be added to the policy </param>
         public Tpm2PolicyNameHashRequest(TpmHandle _policySession, byte[] _nameHash)
         {
             policySession = _policySession;
@@ -15293,23 +15293,23 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyDuplicationSelect_REQUEST")]
     public partial class Tpm2PolicyDuplicationSelectRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the Name of the object to be duplicated </summary>
+        /// <summary> The Name of the object to be duplicated </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "objectNameSize", 2)]
         [DataMember()]
         public byte[] objectName;
 
-        /// <summary> the Name of the new parent </summary>
+        /// <summary> The Name of the new parent </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "newParentNameSize", 2)]
         [DataMember()]
         public byte[] newParentName;
 
-        /// <summary> if YES, the objectName will be included in the value in
+        /// <summary> If YES, the objectName will be included in the value in
         /// policySessionpolicyDigest </summary>
         [MarshalAs(3)]
         [DataMember()]
@@ -15317,11 +15317,11 @@ namespace Tpm2Lib {
 
         public Tpm2PolicyDuplicationSelectRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_objectName"> the Name of the object to be duplicated </param>
-        /// <param name = "_newParentName"> the Name of the new parent </param>
-        /// <param name = "_includeObject"> if YES, the objectName will be included in the value in
+        /// <param name = "_objectName"> The Name of the object to be duplicated </param>
+        /// <param name = "_newParentName"> The Name of the new parent </param>
+        /// <param name = "_includeObject"> If YES, the objectName will be included in the value in
         ///        policySessionpolicyDigest </param>
         public Tpm2PolicyDuplicationSelectRequest(TpmHandle _policySession, byte[] _objectName, byte[] _newParentName, byte _includeObject)
         {
@@ -15345,18 +15345,18 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyAuthorize_REQUEST")]
     public partial class Tpm2PolicyAuthorizeRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> digest of the policy being approved </summary>
+        /// <summary> Digest of the policy being approved </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "approvedPolicySize", 2)]
         [DataMember()]
         public byte[] approvedPolicy;
 
-        /// <summary> a policy qualifier </summary>
+        /// <summary> A policy qualifier </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "policyRefSize", 2)]
         [DataMember()]
         public byte[] policyRef;
@@ -15366,19 +15366,19 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] keySign;
 
-        /// <summary> ticket validating that approvedPolicy and policyRef were signed by keySign </summary>
+        /// <summary> Ticket validating that approvedPolicy and policyRef were signed by keySign </summary>
         [MarshalAs(4)]
         [DataMember()]
         public TkVerified checkTicket { get; set; }
 
         public Tpm2PolicyAuthorizeRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_approvedPolicy"> digest of the policy being approved </param>
-        /// <param name = "_policyRef"> a policy qualifier </param>
+        /// <param name = "_approvedPolicy"> Digest of the policy being approved </param>
+        /// <param name = "_policyRef"> A policy qualifier </param>
         /// <param name = "_keySign"> Name of a key that can sign a policy addition </param>
-        /// <param name = "_checkTicket"> ticket validating that approvedPolicy and policyRef were
+        /// <param name = "_checkTicket"> Ticket validating that approvedPolicy and policyRef were
         ///        signed by keySign </param>
         public Tpm2PolicyAuthorizeRequest(TpmHandle _policySession, byte[] _approvedPolicy, byte[] _policyRef, byte[] _keySign, TkVerified _checkTicket)
         {
@@ -15401,7 +15401,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyAuthValue_REQUEST")]
     public partial class Tpm2PolicyAuthValueRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -15409,7 +15409,7 @@ namespace Tpm2Lib {
 
         public Tpm2PolicyAuthValueRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         public Tpm2PolicyAuthValueRequest(TpmHandle _policySession) { policySession = _policySession; }
 
@@ -15425,7 +15425,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyPassword_REQUEST")]
     public partial class Tpm2PolicyPasswordRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -15433,7 +15433,7 @@ namespace Tpm2Lib {
 
         public Tpm2PolicyPasswordRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         public Tpm2PolicyPasswordRequest(TpmHandle _policySession) { policySession = _policySession; }
 
@@ -15450,7 +15450,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyGetDigest_REQUEST")]
     public partial class Tpm2PolicyGetDigestRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session
+        /// <summary> Handle for the policy session
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -15458,7 +15458,7 @@ namespace Tpm2Lib {
 
         public Tpm2PolicyGetDigestRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session
+        /// <param name = "_policySession"> Handle for the policy session
         ///        Auth Index: None </param>
         public Tpm2PolicyGetDigestRequest(TpmHandle _policySession) { policySession = _policySession; }
 
@@ -15474,7 +15474,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyGetDigest_RESPONSE")]
     public partial class Tpm2PolicyGetDigestResponse: TpmStructureBase
     {
-        /// <summary> the current value of the policySessionpolicyDigest </summary>
+        /// <summary> The current value of the policySessionpolicyDigest </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "policyDigestSize", 2)]
         [DataMember()]
         public byte[] policyDigest;
@@ -15496,7 +15496,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyNvWritten_REQUEST")]
     public partial class Tpm2PolicyNvWrittenRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -15510,7 +15510,7 @@ namespace Tpm2Lib {
 
         public Tpm2PolicyNvWrittenRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         /// <param name = "_writtenSet"> YES if NV Index is required to have been written
         ///        NO if NV Index is required not to have been written </param>
@@ -15533,22 +15533,22 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyTemplate_REQUEST")]
     public partial class Tpm2PolicyTemplateRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the digest to be added to the policy </summary>
+        /// <summary> The digest to be added to the policy </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "templateHashSize", 2)]
         [DataMember()]
         public byte[] templateHash;
 
         public Tpm2PolicyTemplateRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_templateHash"> the digest to be added to the policy </param>
+        /// <param name = "_templateHash"> The digest to be added to the policy </param>
         public Tpm2PolicyTemplateRequest(TpmHandle _policySession, byte[] _templateHash)
         {
             policySession = _policySession;
@@ -15570,20 +15570,20 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_PolicyAuthorizeNV_REQUEST")]
     public partial class Tpm2PolicyAuthorizeNVRequest: TpmStructureBase
     {
-        /// <summary> handle indicating the source of the authorization value
+        /// <summary> Handle indicating the source of the authorization value
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the NV Index of the area to read
+        /// <summary> The NV Index of the area to read
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(2)]
         [DataMember()]
@@ -15595,12 +15595,12 @@ namespace Tpm2Lib {
             policySession = new TpmHandle();
         }
 
-        /// <param name = "_authHandle"> handle indicating the source of the authorization value
+        /// <param name = "_authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_nvIndex"> the NV Index of the area to read
+        /// <param name = "_nvIndex"> The NV Index of the area to read
         ///        Auth Index: None </param>
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         public Tpm2PolicyAuthorizeNVRequest(TpmHandle _authHandle, TpmHandle _nvIndex, TpmHandle _policySession)
         {
@@ -15633,17 +15633,17 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle primaryHandle { get; set; }
 
-        /// <summary> the sensitive data, see TPM 2.0 Part 1 Sensitive Values </summary>
+        /// <summary> The sensitive data, see TPM 2.0 Part 1 Sensitive Values </summary>
         [MarshalAs(1, MarshalType.SizedStruct, "inSensitiveSize", 2)]
         [DataMember()]
         public SensitiveCreate inSensitive { get; set; }
 
-        /// <summary> the public template </summary>
+        /// <summary> The public template </summary>
         [MarshalAs(2, MarshalType.SizedStruct, "inPublicSize", 2)]
         [DataMember()]
         public TpmPublic inPublic { get; set; }
 
-        /// <summary> data that will be included in the creation data for this object to provide
+        /// <summary> Data that will be included in the creation data for this object to provide
         /// permanent, verifiable linkage between this object and some object owner data </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "outsideInfoSize", 2)]
         [DataMember()]
@@ -15660,9 +15660,9 @@ namespace Tpm2Lib {
         ///        TPM_RH_NULL
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_inSensitive"> the sensitive data, see TPM 2.0 Part 1 Sensitive Values </param>
-        /// <param name = "_inPublic"> the public template </param>
-        /// <param name = "_outsideInfo"> data that will be included in the creation data for this
+        /// <param name = "_inSensitive"> The sensitive data, see TPM 2.0 Part 1 Sensitive Values </param>
+        /// <param name = "_inPublic"> The public template </param>
+        /// <param name = "_outsideInfo"> Data that will be included in the creation data for this
         ///        object to provide permanent, verifiable linkage between this object and some object
         ///        owner data </param>
         /// <param name = "_creationPCR"> PCR that will be used in creation data </param>
@@ -15693,33 +15693,33 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_CreatePrimary_RESPONSE")]
     public partial class Tpm2CreatePrimaryResponse: TpmStructureBase
     {
-        /// <summary> handle of type TPM_HT_TRANSIENT for created Primary Object </summary>
+        /// <summary> Handle of type TPM_HT_TRANSIENT for created Primary Object </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
 
-        /// <summary> the public portion of the created object </summary>
+        /// <summary> The public portion of the created object </summary>
         [MarshalAs(1, MarshalType.SizedStruct, "outPublicSize", 2)]
         [DataMember()]
         public TpmPublic outPublic { get; set; }
 
-        /// <summary> contains a TPMT_CREATION_DATA </summary>
+        /// <summary> Contains a TPMT_CREATION_DATA </summary>
         [MarshalAs(2, MarshalType.SizedStruct, "creationDataSize", 2)]
         [DataMember()]
         public CreationData creationData { get; set; }
 
-        /// <summary> digest of creationData using nameAlg of outPublic </summary>
+        /// <summary> Digest of creationData using nameAlg of outPublic </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "creationHashSize", 2)]
         [DataMember()]
         public byte[] creationHash;
 
-        /// <summary> ticket used by TPM2_CertifyCreation() to validate that the creation data was
+        /// <summary> Ticket used by TPM2_CertifyCreation() to validate that the creation data was
         /// produced by the TPM </summary>
         [MarshalAs(4)]
         [DataMember()]
         public TkCreation creationTicket { get; set; }
 
-        /// <summary> the name of the created object </summary>
+        /// <summary> The name of the created object </summary>
         [MarshalAs(5, MarshalType.VariableLengthArray, "nameSize", 2)]
         [DataMember()]
         public byte[] name;
@@ -15756,7 +15756,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the enable being modified
+        /// <summary> The enable being modified
         /// TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -15775,7 +15775,7 @@ namespace Tpm2Lib {
         /// <param name = "_authHandle"> TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_enable"> the enable being modified
+        /// <param name = "_enable"> The enable being modified
         ///        TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV </param>
         /// <param name = "_state"> YES if the enable should be SET, NO if the enable should be CLEAR </param>
         public Tpm2HierarchyControlRequest(TpmHandle _authHandle, TpmHandle _enable, byte _state)
@@ -15808,13 +15808,13 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> an authorization policy digest; may be the Empty Buffer
+        /// <summary> An authorization policy digest; may be the Empty Buffer
         /// If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer. </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "authPolicySize", 2)]
         [DataMember()]
         public byte[] authPolicy;
 
-        /// <summary> the hash algorithm to use for the policy
+        /// <summary> The hash algorithm to use for the policy
         /// If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL. </summary>
         [MarshalAs(2)]
         [DataMember()]
@@ -15829,9 +15829,9 @@ namespace Tpm2Lib {
         ///        or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_authPolicy"> an authorization policy digest; may be the Empty Buffer
+        /// <param name = "_authPolicy"> An authorization policy digest; may be the Empty Buffer
         ///        If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer. </param>
-        /// <param name = "_hashAlg"> the hash algorithm to use for the policy
+        /// <param name = "_hashAlg"> The hash algorithm to use for the policy
         ///        If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL. </param>
         public Tpm2SetPrimaryPolicyRequest(TpmHandle _authHandle, byte[] _authPolicy, TpmAlgId _hashAlg)
         {
@@ -15977,7 +15977,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> new authorization value </summary>
+        /// <summary> New authorization value </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "newAuthSize", 2)]
         [DataMember()]
         public byte[] newAuth;
@@ -15987,7 +15987,7 @@ namespace Tpm2Lib {
         /// <param name = "_authHandle"> TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_newAuth"> new authorization value </param>
+        /// <param name = "_newAuth"> New authorization value </param>
         public Tpm2HierarchyChangeAuthRequest(TpmHandle _authHandle, byte[] _newAuth)
         {
             authHandle = _authHandle;
@@ -16039,18 +16039,18 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle lockHandle { get; set; }
 
-        /// <summary> count of authorization failures before the lockout is imposed </summary>
+        /// <summary> Count of authorization failures before the lockout is imposed </summary>
         [MarshalAs(1)]
         [DataMember()]
         public uint newMaxTries { get; set; }
 
-        /// <summary> time in seconds before the authorization failure count is automatically decremented
+        /// <summary> Time in seconds before the authorization failure count is automatically decremented
         /// A value of zero indicates that DA protection is disabled. </summary>
         [MarshalAs(2)]
         [DataMember()]
         public uint newRecoveryTime { get; set; }
 
-        /// <summary> time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
+        /// <summary> Time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
         /// A value of zero indicates that a reboot is required. </summary>
         [MarshalAs(3)]
         [DataMember()]
@@ -16061,12 +16061,12 @@ namespace Tpm2Lib {
         /// <param name = "_lockHandle"> TPM_RH_LOCKOUT
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_newMaxTries"> count of authorization failures before the lockout is
+        /// <param name = "_newMaxTries"> Count of authorization failures before the lockout is
         ///        imposed </param>
-        /// <param name = "_newRecoveryTime"> time in seconds before the authorization failure count
+        /// <param name = "_newRecoveryTime"> Time in seconds before the authorization failure count
         ///        is automatically decremented
         ///        A value of zero indicates that DA protection is disabled. </param>
-        /// <param name = "_lockoutRecovery"> time in seconds after a lockoutAuth failure before use
+        /// <param name = "_lockoutRecovery"> Time in seconds after a lockoutAuth failure before use
         ///        of lockoutAuth is allowed
         ///        A value of zero indicates that a reboot is required. </param>
         public Tpm2DictionaryAttackParametersRequest(TpmHandle _lockHandle, uint _newMaxTries, uint _newRecoveryTime, uint _lockoutRecovery)
@@ -16096,13 +16096,13 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle auth { get; set; }
 
-        /// <summary> list of commands to be added to those that will require that Physical
+        /// <summary> List of commands to be added to those that will require that Physical
         /// Presence be asserted </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "setListCount", 4)]
         [DataMember()]
         public TpmCc[] setList;
 
-        /// <summary> list of commands that will no longer require that Physical Presence be
+        /// <summary> List of commands that will no longer require that Physical Presence be
         /// asserted </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "clearListCount", 4)]
         [DataMember()]
@@ -16113,9 +16113,9 @@ namespace Tpm2Lib {
         /// <param name = "_auth"> TPM_RH_PLATFORM+PP
         ///        Auth Index: 1
         ///        Auth Role: USER + Physical Presence </param>
-        /// <param name = "_setList"> list of commands to be added to those that will require that
+        /// <param name = "_setList"> List of commands to be added to those that will require that
         ///        Physical Presence be asserted </param>
-        /// <param name = "_clearList"> list of commands that will no longer require that Physical
+        /// <param name = "_clearList"> List of commands that will no longer require that Physical
         ///        Presence be asserted </param>
         public Tpm2PpCommandsRequest(TpmHandle _auth, TpmCc[] _setList, TpmCc[] _clearList)
         {
@@ -16143,7 +16143,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> a TPM vendor-dependent value indicating the algorithm set selection </summary>
+        /// <summary> A TPM vendor-dependent value indicating the algorithm set selection </summary>
         [MarshalAs(1)]
         [DataMember()]
         public uint algorithmSet { get; set; }
@@ -16153,7 +16153,7 @@ namespace Tpm2Lib {
         /// <param name = "_authHandle"> TPM_RH_PLATFORM
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_algorithmSet"> a TPM vendor-dependent value indicating the algorithm set
+        /// <param name = "_algorithmSet"> A TPM vendor-dependent value indicating the algorithm set
         ///        selection </param>
         public Tpm2SetAlgorithmSetRequest(TpmHandle _authHandle, uint _algorithmSet)
         {
@@ -16193,25 +16193,25 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle authorization { get; set; }
 
-        /// <summary> handle of a public area that contains the TPM Vendor Authorization Key that
+        /// <summary> Handle of a public area that contains the TPM Vendor Authorization Key that
         /// will be used to validate manifestSignature
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle keyHandle { get; set; }
 
-        /// <summary> digest of the first block in the field upgrade sequence </summary>
+        /// <summary> Digest of the first block in the field upgrade sequence </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "fuDigestSize", 2)]
         [DataMember()]
         public byte[] fuDigest;
 
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(3, MarshalType.UnionSelector)]
         public TpmAlgId manifestSignatureSigAlg {
             get { return manifestSignature != null ? manifestSignature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signature over fuDigest using the key associated with keyHandle (not optional)
+        /// <summary> Signature over fuDigest using the key associated with keyHandle (not optional)
         /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
         [MarshalAs(4, MarshalType.Union, "manifestSignatureSigAlg")]
@@ -16226,11 +16226,11 @@ namespace Tpm2Lib {
         /// <param name = "_authorization"> TPM_RH_PLATFORM+{PP}
         ///        Auth Index:1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "_keyHandle"> handle of a public area that contains the TPM Vendor
+        /// <param name = "_keyHandle"> Handle of a public area that contains the TPM Vendor
         ///        Authorization Key that will be used to validate manifestSignature
         ///        Auth Index: None </param>
-        /// <param name = "_fuDigest"> digest of the first block in the field upgrade sequence </param>
-        /// <param name = "_manifestSignature"> signature over fuDigest using the key associated with
+        /// <param name = "_fuDigest"> Digest of the first block in the field upgrade sequence </param>
+        /// <param name = "_manifestSignature"> Signature over fuDigest using the key associated with
         ///        keyHandle (not optional)
         ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
@@ -16256,14 +16256,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_FieldUpgradeData_REQUEST")]
     public partial class Tpm2FieldUpgradeDataRequest: TpmStructureBase
     {
-        /// <summary> field upgrade image data </summary>
+        /// <summary> Field upgrade image data </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "fuDataSize", 2)]
         [DataMember()]
         public byte[] fuData;
 
         public Tpm2FieldUpgradeDataRequest() {}
 
-        /// <param name = "_fuData"> field upgrade image data </param>
+        /// <param name = "_fuData"> Field upgrade image data </param>
         public Tpm2FieldUpgradeDataRequest(byte[] _fuData) { fuData = _fuData; }
 
         new public Tpm2FieldUpgradeDataRequest Copy() { return CreateCopy<Tpm2FieldUpgradeDataRequest>(); }
@@ -16282,13 +16282,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_FieldUpgradeData_RESPONSE")]
     public partial class Tpm2FieldUpgradeDataResponse: TpmStructureBase
     {
-        /// <summary> tagged digest of the next block
+        /// <summary> Tagged digest of the next block
         /// TPM_ALG_NULL if field update is complete </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHash nextDigest { get; set; }
 
-        /// <summary> tagged digest of the first block of the sequence </summary>
+        /// <summary> Tagged digest of the first block of the sequence </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHash firstDigest { get; set; }
@@ -16312,7 +16312,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_FirmwareRead_REQUEST")]
     public partial class Tpm2FirmwareReadRequest: TpmStructureBase
     {
-        /// <summary> the number of previous calls to this command in this sequence
+        /// <summary> The number of previous calls to this command in this sequence
         /// set to 0 on the first call </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -16320,7 +16320,7 @@ namespace Tpm2Lib {
 
         public Tpm2FirmwareReadRequest() {}
 
-        /// <param name = "_sequenceNumber"> the number of previous calls to this command in this sequence
+        /// <param name = "_sequenceNumber"> The number of previous calls to this command in this sequence
         ///        set to 0 on the first call </param>
         public Tpm2FirmwareReadRequest(uint _sequenceNumber) { sequenceNumber = _sequenceNumber; }
 
@@ -16335,7 +16335,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_FirmwareRead_RESPONSE")]
     public partial class Tpm2FirmwareReadResponse: TpmStructureBase
     {
-        /// <summary> field upgrade image data </summary>
+        /// <summary> Field upgrade image data </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "fuDataSize", 2)]
         [DataMember()]
         public byte[] fuData;
@@ -16356,7 +16356,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ContextSave_REQUEST")]
     public partial class Tpm2ContextSaveRequest: TpmStructureBase
     {
-        /// <summary> handle of the resource to save
+        /// <summary> Handle of the resource to save
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -16364,7 +16364,7 @@ namespace Tpm2Lib {
 
         public Tpm2ContextSaveRequest() { saveHandle = new TpmHandle(); }
 
-        /// <param name = "_saveHandle"> handle of the resource to save
+        /// <param name = "_saveHandle"> Handle of the resource to save
         ///        Auth Index: None </param>
         public Tpm2ContextSaveRequest(TpmHandle _saveHandle) { saveHandle = _saveHandle; }
 
@@ -16400,14 +16400,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ContextLoad_REQUEST")]
     public partial class Tpm2ContextLoadRequest: TpmStructureBase
     {
-        /// <summary> the context blob </summary>
+        /// <summary> The context blob </summary>
         [MarshalAs(0)]
         [DataMember()]
         public Context context { get; set; }
 
         public Tpm2ContextLoadRequest() {}
 
-        /// <param name = "_context"> the context blob </param>
+        /// <param name = "_context"> The context blob </param>
         public Tpm2ContextLoadRequest(Context _context) { context = _context; }
 
         new public Tpm2ContextLoadRequest Copy() { return CreateCopy<Tpm2ContextLoadRequest>(); }
@@ -16422,7 +16422,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_ContextLoad_RESPONSE")]
     public partial class Tpm2ContextLoadResponse: TpmStructureBase
     {
-        /// <summary> the handle assigned to the resource after it has been successfully loaded </summary>
+        /// <summary> The handle assigned to the resource after it has been successfully loaded </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle handle { get; set; }
@@ -16443,7 +16443,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_FlushContext_REQUEST")]
     public partial class Tpm2FlushContextRequest: TpmStructureBase
     {
-        /// <summary> the handle of the item to flush
+        /// <summary> The handle of the item to flush
         /// NOTE This is a use of a handle as a parameter. </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -16451,7 +16451,7 @@ namespace Tpm2Lib {
 
         public Tpm2FlushContextRequest() { flushHandle = new TpmHandle(); }
 
-        /// <param name = "_flushHandle"> the handle of the item to flush
+        /// <param name = "_flushHandle"> The handle of the item to flush
         ///        NOTE This is a use of a handle as a parameter. </param>
         public Tpm2FlushContextRequest(TpmHandle _flushHandle) { flushHandle = _flushHandle; }
 
@@ -16474,13 +16474,13 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle auth { get; set; }
 
-        /// <summary> the handle of a loaded object
+        /// <summary> The handle of a loaded object
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle objectHandle { get; set; }
 
-        /// <summary> if objectHandle is a transient object handle, then this is the persistent
+        /// <summary> If objectHandle is a transient object handle, then this is the persistent
         /// handle for the object
         /// if objectHandle is a persistent object handle, then it shall be the same value as
         /// persistentHandle </summary>
@@ -16497,9 +16497,9 @@ namespace Tpm2Lib {
         /// <param name = "_auth"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Handle: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_objectHandle"> the handle of a loaded object
+        /// <param name = "_objectHandle"> The handle of a loaded object
         ///        Auth Index: None </param>
-        /// <param name = "_persistentHandle"> if objectHandle is a transient object handle, then this
+        /// <param name = "_persistentHandle"> If objectHandle is a transient object handle, then this
         ///        is the persistent handle for the object
         ///        if objectHandle is a persistent object handle, then it shall be the same value as
         ///        persistentHandle </param>
@@ -16565,7 +16565,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle auth { get; set; }
 
-        /// <summary> new Clock setting in milliseconds </summary>
+        /// <summary> New Clock setting in milliseconds </summary>
         [MarshalAs(1)]
         [DataMember()]
         public ulong newTime { get; set; }
@@ -16575,7 +16575,7 @@ namespace Tpm2Lib {
         /// <param name = "_auth"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Handle: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_newTime"> new Clock setting in milliseconds </param>
+        /// <param name = "_newTime"> New Clock setting in milliseconds </param>
         public Tpm2ClockSetRequest(TpmHandle _auth, ulong _newTime)
         {
             auth = _auth;
@@ -16631,26 +16631,26 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_GetCapability_REQUEST")]
     public partial class Tpm2GetCapabilityRequest: TpmStructureBase
     {
-        /// <summary> group selection; determines the format of the response </summary>
+        /// <summary> Group selection; determines the format of the response </summary>
         [MarshalAs(0)]
         [DataMember()]
         public Cap capability { get; set; }
 
-        /// <summary> further definition of information </summary>
+        /// <summary> Further definition of information </summary>
         [MarshalAs(1)]
         [DataMember()]
         public uint property { get; set; }
 
-        /// <summary> number of properties of the indicated type to return </summary>
+        /// <summary> Number of properties of the indicated type to return </summary>
         [MarshalAs(2)]
         [DataMember()]
         public uint propertyCount { get; set; }
 
         public Tpm2GetCapabilityRequest() {}
 
-        /// <param name = "_capability"> group selection; determines the format of the response </param>
-        /// <param name = "_property"> further definition of information </param>
-        /// <param name = "_propertyCount"> number of properties of the indicated type to return </param>
+        /// <param name = "_capability"> Group selection; determines the format of the response </param>
+        /// <param name = "_property"> Further definition of information </param>
+        /// <param name = "_propertyCount"> Number of properties of the indicated type to return </param>
         public Tpm2GetCapabilityRequest(Cap _capability, uint _property, uint _propertyCount)
         {
             capability = _capability;
@@ -16680,18 +16680,18 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_GetCapability_RESPONSE")]
     public partial class Tpm2GetCapabilityResponse: TpmStructureBase
     {
-        /// <summary> flag to indicate if there are more values of this type </summary>
+        /// <summary> Flag to indicate if there are more values of this type </summary>
         [MarshalAs(0)]
         [DataMember()]
         public byte moreData { get; set; }
 
-        /// <summary> the capability </summary>
+        /// <summary> The capability </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public Cap capabilityDataCapability {
             get { return capabilityData.GetUnionSelector(); }
         }
 
-        /// <summary> the capability data
+        /// <summary> The capability data
         /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, PcrSelectionArray,
         /// TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray,
         /// ActDataArray]) </summary>
@@ -16724,13 +16724,13 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_TestParms_REQUEST")]
     public partial class Tpm2TestParmsRequest: TpmStructureBase
     {
-        /// <summary> the algorithm to be tested </summary>
+        /// <summary> The algorithm to be tested </summary>
         [MarshalAs(0, MarshalType.UnionSelector)]
         public TpmAlgId parametersType {
             get { return parameters.GetUnionSelector(); }
         }
 
-        /// <summary> algorithm parameters to be validated
+        /// <summary> Algorithm parameters to be validated
         /// (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </summary>
         [MarshalAs(1, MarshalType.Union, "parametersType")]
         [DataMember()]
@@ -16738,7 +16738,7 @@ namespace Tpm2Lib {
 
         public Tpm2TestParmsRequest() {}
 
-        /// <param name = "_parameters"> algorithm parameters to be validated
+        /// <param name = "_parameters"> Algorithm parameters to be validated
         ///        (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </param>
         public Tpm2TestParmsRequest(IPublicParmsUnion _parameters) { parameters = _parameters; }
 
@@ -16763,12 +16763,12 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the authorization value </summary>
+        /// <summary> The authorization value </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "authSize", 2)]
         [DataMember()]
         public byte[] auth;
 
-        /// <summary> the public parameters of the NV area </summary>
+        /// <summary> The public parameters of the NV area </summary>
         [MarshalAs(2, MarshalType.SizedStruct, "publicInfoSize", 2)]
         [DataMember()]
         public NvPublic publicInfo { get; set; }
@@ -16778,8 +16778,8 @@ namespace Tpm2Lib {
         /// <param name = "_authHandle"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_auth"> the authorization value </param>
-        /// <param name = "_publicInfo"> the public parameters of the NV area </param>
+        /// <param name = "_auth"> The authorization value </param>
+        /// <param name = "_publicInfo"> The public parameters of the NV area </param>
         public Tpm2NvDefineSpaceRequest(TpmHandle _authHandle, byte[] _auth, NvPublic _publicInfo)
         {
             authHandle = _authHandle;
@@ -16805,7 +16805,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the NV Index to remove from NV space
+        /// <summary> The NV Index to remove from NV space
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -16819,7 +16819,7 @@ namespace Tpm2Lib {
         /// <param name = "_authHandle"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_nvIndex"> the NV Index to remove from NV space
+        /// <param name = "_nvIndex"> The NV Index to remove from NV space
         ///        Auth Index: None </param>
         public Tpm2NvUndefineSpaceRequest(TpmHandle _authHandle, TpmHandle _nvIndex)
         {
@@ -16883,7 +16883,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_ReadPublic_REQUEST")]
     public partial class Tpm2NvReadPublicRequest: TpmStructureBase
     {
-        /// <summary> the NV Index
+        /// <summary> The NV Index
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
@@ -16891,7 +16891,7 @@ namespace Tpm2Lib {
 
         public Tpm2NvReadPublicRequest() { nvIndex = new TpmHandle(); }
 
-        /// <param name = "_nvIndex"> the NV Index
+        /// <param name = "_nvIndex"> The NV Index
         ///        Auth Index: None </param>
         public Tpm2NvReadPublicRequest(TpmHandle _nvIndex) { nvIndex = _nvIndex; }
 
@@ -16908,12 +16908,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_ReadPublic_RESPONSE")]
     public partial class Tpm2NvReadPublicResponse: TpmStructureBase
     {
-        /// <summary> the public area of the NV Index </summary>
+        /// <summary> The public area of the NV Index </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "nvPublicSize", 2)]
         [DataMember()]
         public NvPublic nvPublic { get; set; }
 
-        /// <summary> the Name of the nvIndex </summary>
+        /// <summary> The Name of the nvIndex </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "nvNameSize", 2)]
         [DataMember()]
         public byte[] nvName;
@@ -16938,25 +16938,25 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_Write_REQUEST")]
     public partial class Tpm2NvWriteRequest: TpmStructureBase
     {
-        /// <summary> handle indicating the source of the authorization value
+        /// <summary> Handle indicating the source of the authorization value
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the NV Index of the area to write
+        /// <summary> The NV Index of the area to write
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        /// <summary> the data to write </summary>
+        /// <summary> The data to write </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "dataSize", 2)]
         [DataMember()]
         public byte[] data;
 
-        /// <summary> the octet offset into the NV Area </summary>
+        /// <summary> The octet offset into the NV Area </summary>
         [MarshalAs(3)]
         [DataMember()]
         public ushort offset { get; set; }
@@ -16966,13 +16966,13 @@ namespace Tpm2Lib {
             nvIndex = new TpmHandle();
         }
 
-        /// <param name = "_authHandle"> handle indicating the source of the authorization value
+        /// <param name = "_authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_nvIndex"> the NV Index of the area to write
+        /// <param name = "_nvIndex"> The NV Index of the area to write
         ///        Auth Index: None </param>
-        /// <param name = "_data"> the data to write </param>
-        /// <param name = "_offset"> the octet offset into the NV Area </param>
+        /// <param name = "_data"> The data to write </param>
+        /// <param name = "_offset"> The octet offset into the NV Area </param>
         public Tpm2NvWriteRequest(TpmHandle _authHandle, TpmHandle _nvIndex, byte[] _data, ushort _offset)
         {
             authHandle = _authHandle;
@@ -16993,14 +16993,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_Increment_REQUEST")]
     public partial class Tpm2NvIncrementRequest: TpmStructureBase
     {
-        /// <summary> handle indicating the source of the authorization value
+        /// <summary> Handle indicating the source of the authorization value
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the NV Index to increment
+        /// <summary> The NV Index to increment
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -17011,10 +17011,10 @@ namespace Tpm2Lib {
             nvIndex = new TpmHandle();
         }
 
-        /// <param name = "_authHandle"> handle indicating the source of the authorization value
+        /// <param name = "_authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_nvIndex"> the NV Index to increment
+        /// <param name = "_nvIndex"> The NV Index to increment
         ///        Auth Index: None </param>
         public Tpm2NvIncrementRequest(TpmHandle _authHandle, TpmHandle _nvIndex)
         {
@@ -17034,20 +17034,20 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_Extend_REQUEST")]
     public partial class Tpm2NvExtendRequest: TpmStructureBase
     {
-        /// <summary> handle indicating the source of the authorization value
+        /// <summary> Handle indicating the source of the authorization value
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the NV Index to extend
+        /// <summary> The NV Index to extend
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        /// <summary> the data to extend </summary>
+        /// <summary> The data to extend </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "dataSize", 2)]
         [DataMember()]
         public byte[] data;
@@ -17057,12 +17057,12 @@ namespace Tpm2Lib {
             nvIndex = new TpmHandle();
         }
 
-        /// <param name = "_authHandle"> handle indicating the source of the authorization value
+        /// <param name = "_authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_nvIndex"> the NV Index to extend
+        /// <param name = "_nvIndex"> The NV Index to extend
         ///        Auth Index: None </param>
-        /// <param name = "_data"> the data to extend </param>
+        /// <param name = "_data"> The data to extend </param>
         public Tpm2NvExtendRequest(TpmHandle _authHandle, TpmHandle _nvIndex, byte[] _data)
         {
             authHandle = _authHandle;
@@ -17083,7 +17083,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_SetBits_REQUEST")]
     public partial class Tpm2NvSetBitsRequest: TpmStructureBase
     {
-        /// <summary> handle indicating the source of the authorization value
+        /// <summary> Handle indicating the source of the authorization value
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
@@ -17096,7 +17096,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        /// <summary> the data to OR with the current contents </summary>
+        /// <summary> The data to OR with the current contents </summary>
         [MarshalAs(2)]
         [DataMember()]
         public ulong bits { get; set; }
@@ -17106,12 +17106,12 @@ namespace Tpm2Lib {
             nvIndex = new TpmHandle();
         }
 
-        /// <param name = "_authHandle"> handle indicating the source of the authorization value
+        /// <param name = "_authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <param name = "_nvIndex"> NV Index of the area in which the bit is to be set
         ///        Auth Index: None </param>
-        /// <param name = "_bits"> the data to OR with the current contents </param>
+        /// <param name = "_bits"> The data to OR with the current contents </param>
         public Tpm2NvSetBitsRequest(TpmHandle _authHandle, TpmHandle _nvIndex, ulong _bits)
         {
             authHandle = _authHandle;
@@ -17132,14 +17132,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_WriteLock_REQUEST")]
     public partial class Tpm2NvWriteLockRequest: TpmStructureBase
     {
-        /// <summary> handle indicating the source of the authorization value
+        /// <summary> Handle indicating the source of the authorization value
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the NV Index of the area to lock
+        /// <summary> The NV Index of the area to lock
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -17150,10 +17150,10 @@ namespace Tpm2Lib {
             nvIndex = new TpmHandle();
         }
 
-        /// <param name = "_authHandle"> handle indicating the source of the authorization value
+        /// <param name = "_authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_nvIndex"> the NV Index of the area to lock
+        /// <param name = "_nvIndex"> The NV Index of the area to lock
         ///        Auth Index: None </param>
         public Tpm2NvWriteLockRequest(TpmHandle _authHandle, TpmHandle _nvIndex)
         {
@@ -17199,25 +17199,25 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_Read_REQUEST")]
     public partial class Tpm2NvReadRequest: TpmStructureBase
     {
-        /// <summary> the handle indicating the source of the authorization value
+        /// <summary> The handle indicating the source of the authorization value
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the NV Index to be read
+        /// <summary> The NV Index to be read
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        /// <summary> number of octets to read </summary>
+        /// <summary> Number of octets to read </summary>
         [MarshalAs(2)]
         [DataMember()]
         public ushort size { get; set; }
 
-        /// <summary> octet offset into the NV area
+        /// <summary> Octet offset into the NV area
         /// This value shall be less than or equal to the size of the nvIndex data. </summary>
         [MarshalAs(3)]
         [DataMember()]
@@ -17228,13 +17228,13 @@ namespace Tpm2Lib {
             nvIndex = new TpmHandle();
         }
 
-        /// <param name = "_authHandle"> the handle indicating the source of the authorization value
+        /// <param name = "_authHandle"> The handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_nvIndex"> the NV Index to be read
+        /// <param name = "_nvIndex"> The NV Index to be read
         ///        Auth Index: None </param>
-        /// <param name = "_size"> number of octets to read </param>
-        /// <param name = "_offset"> octet offset into the NV area
+        /// <param name = "_size"> Number of octets to read </param>
+        /// <param name = "_offset"> Octet offset into the NV area
         ///        This value shall be less than or equal to the size of the nvIndex data. </param>
         public Tpm2NvReadRequest(TpmHandle _authHandle, TpmHandle _nvIndex, ushort _size, ushort _offset)
         {
@@ -17255,7 +17255,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_Read_RESPONSE")]
     public partial class Tpm2NvReadResponse: TpmStructureBase
     {
-        /// <summary> the data read </summary>
+        /// <summary> The data read </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "dataSize", 2)]
         [DataMember()]
         public byte[] data;
@@ -17276,14 +17276,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_ReadLock_REQUEST")]
     public partial class Tpm2NvReadLockRequest: TpmStructureBase
     {
-        /// <summary> the handle indicating the source of the authorization value
+        /// <summary> The handle indicating the source of the authorization value
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> the NV Index to be locked
+        /// <summary> The NV Index to be locked
         /// Auth Index: None </summary>
         [MarshalAs(1)]
         [DataMember()]
@@ -17294,10 +17294,10 @@ namespace Tpm2Lib {
             nvIndex = new TpmHandle();
         }
 
-        /// <param name = "_authHandle"> the handle indicating the source of the authorization value
+        /// <param name = "_authHandle"> The handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_nvIndex"> the NV Index to be locked
+        /// <param name = "_nvIndex"> The NV Index to be locked
         ///        Auth Index: None </param>
         public Tpm2NvReadLockRequest(TpmHandle _authHandle, TpmHandle _nvIndex)
         {
@@ -17316,24 +17316,24 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_ChangeAuth_REQUEST")]
     public partial class Tpm2NvChangeAuthRequest: TpmStructureBase
     {
-        /// <summary> handle of the entity
+        /// <summary> Handle of the entity
         /// Auth Index: 1
         /// Auth Role: ADMIN </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        /// <summary> new authorization value </summary>
+        /// <summary> New authorization value </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "newAuthSize", 2)]
         [DataMember()]
         public byte[] newAuth;
 
         public Tpm2NvChangeAuthRequest() { nvIndex = new TpmHandle(); }
 
-        /// <param name = "_nvIndex"> handle of the entity
+        /// <param name = "_nvIndex"> Handle of the entity
         ///        Auth Index: 1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "_newAuth"> new authorization value </param>
+        /// <param name = "_newAuth"> New authorization value </param>
         public Tpm2NvChangeAuthRequest(TpmHandle _nvIndex, byte[] _newAuth)
         {
             nvIndex = _nvIndex;
@@ -17364,14 +17364,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_Certify_REQUEST")]
     public partial class Tpm2NvCertifyRequest: TpmStructureBase
     {
-        /// <summary> handle of the key used to sign the attestation structure
+        /// <summary> Handle of the key used to sign the attestation structure
         /// Auth Index: 1
         /// Auth Role: USER </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle signHandle { get; set; }
 
-        /// <summary> handle indicating the source of the authorization value for the NV Index
+        /// <summary> Handle indicating the source of the authorization value for the NV Index
         /// Auth Index: 2
         /// Auth Role: USER </summary>
         [MarshalAs(1)]
@@ -17384,30 +17384,30 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        /// <summary> user-provided qualifying data </summary>
+        /// <summary> User-provided qualifying data </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "qualifyingDataSize", 2)]
         [DataMember()]
         public byte[] qualifyingData;
 
-        /// <summary> scheme selector </summary>
+        /// <summary> Scheme selector </summary>
         [MarshalAs(4, MarshalType.UnionSelector)]
         public TpmAlgId inSchemeScheme {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
         [MarshalAs(5, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
 
-        /// <summary> number of octets to certify </summary>
+        /// <summary> Number of octets to certify </summary>
         [MarshalAs(6)]
         [DataMember()]
         public ushort size { get; set; }
 
-        /// <summary> octet offset into the NV area
+        /// <summary> Octet offset into the NV area
         /// This value shall be less than or equal to the size of the nvIndex data. </summary>
         [MarshalAs(7)]
         [DataMember()]
@@ -17419,21 +17419,21 @@ namespace Tpm2Lib {
             nvIndex = new TpmHandle();
         }
 
-        /// <param name = "_signHandle"> handle of the key used to sign the attestation structure
+        /// <param name = "_signHandle"> Handle of the key used to sign the attestation structure
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_authHandle"> handle indicating the source of the authorization value for
+        /// <param name = "_authHandle"> Handle indicating the source of the authorization value for
         ///        the NV Index
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
         /// <param name = "_nvIndex"> Index for the area to be certified
         ///        Auth Index: None </param>
-        /// <param name = "_qualifyingData"> user-provided qualifying data </param>
-        /// <param name = "_inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "_qualifyingData"> User-provided qualifying data </param>
+        /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <param name = "_size"> number of octets to certify </param>
-        /// <param name = "_offset"> octet offset into the NV area
+        /// <param name = "_size"> Number of octets to certify </param>
+        /// <param name = "_offset"> Octet offset into the NV area
         ///        This value shall be less than or equal to the size of the nvIndex data. </param>
         public Tpm2NvCertifyRequest(TpmHandle _signHandle, TpmHandle _authHandle, TpmHandle _nvIndex, byte[] _qualifyingData, ISigSchemeUnion _inScheme, ushort _size, ushort _offset)
         {
@@ -17471,18 +17471,18 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_NV_Certify_RESPONSE")]
     public partial class Tpm2NvCertifyResponse: TpmStructureBase
     {
-        /// <summary> the structure that was signed </summary>
+        /// <summary> The structure that was signed </summary>
         [MarshalAs(0, MarshalType.SizedStruct, "certifyInfoSize", 2)]
         [DataMember()]
         public Attest certifyInfo { get; set; }
 
-        /// <summary> selector of the algorithm used to construct the signature </summary>
+        /// <summary> Selector of the algorithm used to construct the signature </summary>
         [MarshalAs(1, MarshalType.UnionSelector)]
         public TpmAlgId signatureSigAlg {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> the asymmetric signature over certifyInfo using the key referenced by signHandle
+        /// <summary> The asymmetric signature over certifyInfo using the key referenced by signHandle
         /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
@@ -17510,28 +17510,28 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_AC_GetCapability_REQUEST")]
     public partial class Tpm2AcGetCapabilityRequest: TpmStructureBase
     {
-        /// <summary> handle indicating the Attached Component
+        /// <summary> Handle indicating the Attached Component
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle ac { get; set; }
 
-        /// <summary> starting info type </summary>
+        /// <summary> Starting info type </summary>
         [MarshalAs(1)]
         [DataMember()]
         public At capability { get; set; }
 
-        /// <summary> maximum number of values to return </summary>
+        /// <summary> Maximum number of values to return </summary>
         [MarshalAs(2)]
         [DataMember()]
         public uint count { get; set; }
 
         public Tpm2AcGetCapabilityRequest() { ac = new TpmHandle(); }
 
-        /// <param name = "_ac"> handle indicating the Attached Component
+        /// <param name = "_ac"> Handle indicating the Attached Component
         ///        Auth Index: None </param>
-        /// <param name = "_capability"> starting info type </param>
-        /// <param name = "_count"> maximum number of values to return </param>
+        /// <param name = "_capability"> Starting info type </param>
+        /// <param name = "_count"> Maximum number of values to return </param>
         public Tpm2AcGetCapabilityRequest(TpmHandle _ac, At _capability, uint _count)
         {
             ac = _ac;
@@ -17550,12 +17550,12 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_AC_GetCapability_RESPONSE")]
     public partial class Tpm2AcGetCapabilityResponse: TpmStructureBase
     {
-        /// <summary> flag to indicate whether there are more values </summary>
+        /// <summary> Flag to indicate whether there are more values </summary>
         [MarshalAs(0)]
         [DataMember()]
         public byte moreData { get; set; }
 
-        /// <summary> list of capabilities </summary>
+        /// <summary> List of capabilities </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "capabilitiesDataCount", 4)]
         [DataMember()]
         public AcOutput[] capabilitiesData;
@@ -17580,21 +17580,21 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_AC_Send_REQUEST")]
     public partial class Tpm2AcSendRequest: TpmStructureBase
     {
-        /// <summary> handle of the object being sent to ac
+        /// <summary> Handle of the object being sent to ac
         /// Auth Index: 1
         /// Auth Role: DUP </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle sendObject { get; set; }
 
-        /// <summary> the handle indicating the source of the authorization value
+        /// <summary> The handle indicating the source of the authorization value
         /// Auth Index: 2
         /// Auth Role: USER </summary>
         [MarshalAs(1)]
         [DataMember()]
         public TpmHandle authHandle { get; set; }
 
-        /// <summary> handle indicating the Attached Component to which the object will be sent
+        /// <summary> Handle indicating the Attached Component to which the object will be sent
         /// Auth Index: None </summary>
         [MarshalAs(2)]
         [DataMember()]
@@ -17611,13 +17611,13 @@ namespace Tpm2Lib {
             ac = new TpmHandle();
         }
 
-        /// <param name = "_sendObject"> handle of the object being sent to ac
+        /// <param name = "_sendObject"> Handle of the object being sent to ac
         ///        Auth Index: 1
         ///        Auth Role: DUP </param>
-        /// <param name = "_authHandle"> the handle indicating the source of the authorization value
+        /// <param name = "_authHandle"> The handle indicating the source of the authorization value
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "_ac"> handle indicating the Attached Component to which the object will be sent
+        /// <param name = "_ac"> Handle indicating the Attached Component to which the object will be sent
         ///        Auth Index: None </param>
         /// <param name = "_acDataIn"> Optional non sensitive information related to the object </param>
         public Tpm2AcSendRequest(TpmHandle _sendObject, TpmHandle _authHandle, TpmHandle _ac, byte[] _acDataIn)
@@ -17663,28 +17663,28 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Policy_AC_SendSelect_REQUEST")]
     public partial class Tpm2PolicyAcSendSelectRequest: TpmStructureBase
     {
-        /// <summary> handle for the policy session being extended
+        /// <summary> Handle for the policy session being extended
         /// Auth Index: None </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        /// <summary> the Name of the Object to be sent </summary>
+        /// <summary> The Name of the Object to be sent </summary>
         [MarshalAs(1, MarshalType.VariableLengthArray, "objectNameSize", 2)]
         [DataMember()]
         public byte[] objectName;
 
-        /// <summary> the Name associated with authHandle used in the TPM2_AC_Send() command </summary>
+        /// <summary> The Name associated with authHandle used in the TPM2_AC_Send() command </summary>
         [MarshalAs(2, MarshalType.VariableLengthArray, "authHandleNameSize", 2)]
         [DataMember()]
         public byte[] authHandleName;
 
-        /// <summary> the Name of the Attached Component to which the Object will be sent </summary>
+        /// <summary> The Name of the Attached Component to which the Object will be sent </summary>
         [MarshalAs(3, MarshalType.VariableLengthArray, "acNameSize", 2)]
         [DataMember()]
         public byte[] acName;
 
-        /// <summary> if SET, objectName will be included in the value in
+        /// <summary> If SET, objectName will be included in the value in
         /// policySessionpolicyDigest </summary>
         [MarshalAs(4)]
         [DataMember()]
@@ -17692,14 +17692,14 @@ namespace Tpm2Lib {
 
         public Tpm2PolicyAcSendSelectRequest() { policySession = new TpmHandle(); }
 
-        /// <param name = "_policySession"> handle for the policy session being extended
+        /// <param name = "_policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "_objectName"> the Name of the Object to be sent </param>
-        /// <param name = "_authHandleName"> the Name associated with authHandle used in the
+        /// <param name = "_objectName"> The Name of the Object to be sent </param>
+        /// <param name = "_authHandleName"> The Name associated with authHandle used in the
         ///        TPM2_AC_Send() command </param>
-        /// <param name = "_acName"> the Name of the Attached Component to which the Object will be
+        /// <param name = "_acName"> The Name of the Attached Component to which the Object will be
         ///        sent </param>
-        /// <param name = "_includeObject"> if SET, objectName will be included in the value in
+        /// <param name = "_includeObject"> If SET, objectName will be included in the value in
         ///        policySessionpolicyDigest </param>
         public Tpm2PolicyAcSendSelectRequest(TpmHandle _policySession, byte[] _objectName, byte[] _authHandleName, byte[] _acName, byte _includeObject)
         {
@@ -17729,7 +17729,7 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle actHandle { get; set; }
 
-        /// <summary> the start timeout value for the ACT in seconds </summary>
+        /// <summary> The start timeout value for the ACT in seconds </summary>
         [MarshalAs(1)]
         [DataMember()]
         public uint startTimeout { get; set; }
@@ -17739,7 +17739,7 @@ namespace Tpm2Lib {
         /// <param name = "_actHandle"> Handle of the selected ACT
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "_startTimeout"> the start timeout value for the ACT in seconds </param>
+        /// <param name = "_startTimeout"> The start timeout value for the ACT in seconds </param>
         public Tpm2ActSetTimeoutRequest(TpmHandle _actHandle, uint _startTimeout)
         {
             actHandle = _actHandle;
@@ -17756,14 +17756,14 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Vendor_TCG_Test_REQUEST")]
     public partial class Tpm2VendorTcgTestRequest: TpmStructureBase
     {
-        /// <summary> dummy data </summary>
+        /// <summary> Dummy data </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "inputDataSize", 2)]
         [DataMember()]
         public byte[] inputData;
 
         public Tpm2VendorTcgTestRequest() {}
 
-        /// <param name = "_inputData"> dummy data </param>
+        /// <param name = "_inputData"> Dummy data </param>
         public Tpm2VendorTcgTestRequest(byte[] _inputData) { inputData = _inputData; }
 
         new public Tpm2VendorTcgTestRequest Copy() { return CreateCopy<Tpm2VendorTcgTestRequest>(); }
@@ -17776,7 +17776,7 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM2_Vendor_TCG_Test_RESPONSE")]
     public partial class Tpm2VendorTcgTestResponse: TpmStructureBase
     {
-        /// <summary> dummy data </summary>
+        /// <summary> Dummy data </summary>
         [MarshalAs(0, MarshalType.VariableLengthArray, "outputDataSize", 2)]
         [DataMember()]
         public byte[] outputData;
@@ -17800,7 +17800,7 @@ namespace Tpm2Lib {
 
         public SchemeRsassa(SchemeRsassa _SchemeRsassa) : base(_SchemeRsassa) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeRsassa(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeRsassa Copy() { return CreateCopy<SchemeRsassa>(); }
@@ -17818,7 +17818,7 @@ namespace Tpm2Lib {
 
         public SchemeRsapss(SchemeRsapss _SchemeRsapss) : base(_SchemeRsapss) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeRsapss(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeRsapss Copy() { return CreateCopy<SchemeRsapss>(); }
@@ -17837,7 +17837,7 @@ namespace Tpm2Lib {
 
         public SchemeEcdsa(SchemeEcdsa _SchemeEcdsa) : base(_SchemeEcdsa) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeEcdsa(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeEcdsa Copy() { return CreateCopy<SchemeEcdsa>(); }
@@ -17856,7 +17856,7 @@ namespace Tpm2Lib {
 
         public SchemeSm2(SchemeSm2 _SchemeSm2) : base(_SchemeSm2) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeSm2(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeSm2 Copy() { return CreateCopy<SchemeSm2>(); }
@@ -17875,7 +17875,7 @@ namespace Tpm2Lib {
 
         public SchemeEcschnorr(SchemeEcschnorr _SchemeEcschnorr) : base(_SchemeEcschnorr) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeEcschnorr(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeEcschnorr Copy() { return CreateCopy<SchemeEcschnorr>(); }
@@ -17893,7 +17893,7 @@ namespace Tpm2Lib {
 
         public SchemeOaep(SchemeOaep _SchemeOaep) : base(_SchemeOaep) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeOaep(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeOaep Copy() { return CreateCopy<SchemeOaep>(); }
@@ -17924,7 +17924,7 @@ namespace Tpm2Lib {
 
         public SchemeEcdh(SchemeEcdh _SchemeEcdh) : base(_SchemeEcdh) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeEcdh(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeEcdh Copy() { return CreateCopy<SchemeEcdh>(); }
@@ -17942,7 +17942,7 @@ namespace Tpm2Lib {
 
         public SchemeEcmqv(SchemeEcmqv _SchemeEcmqv) : base(_SchemeEcmqv) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeEcmqv(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeEcmqv Copy() { return CreateCopy<SchemeEcmqv>(); }
@@ -17961,7 +17961,7 @@ namespace Tpm2Lib {
 
         public SchemeMgf1(SchemeMgf1 _SchemeMgf1) : base(_SchemeMgf1) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeMgf1(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeMgf1 Copy() { return CreateCopy<SchemeMgf1>(); }
@@ -17980,7 +17980,7 @@ namespace Tpm2Lib {
 
         public SchemeKdf1Sp80056a(SchemeKdf1Sp80056a _SchemeKdf1Sp80056a) : base(_SchemeKdf1Sp80056a) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeKdf1Sp80056a(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeKdf1Sp80056a Copy() { return CreateCopy<SchemeKdf1Sp80056a>(); }
@@ -17999,7 +17999,7 @@ namespace Tpm2Lib {
 
         public SchemeKdf2(SchemeKdf2 _SchemeKdf2) : base(_SchemeKdf2) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeKdf2(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeKdf2 Copy() { return CreateCopy<SchemeKdf2>(); }
@@ -18018,7 +18018,7 @@ namespace Tpm2Lib {
 
         public SchemeKdf1Sp800108(SchemeKdf1Sp800108 _SchemeKdf1Sp800108) : base(_SchemeKdf1Sp800108) {}
 
-        /// <param name = "_hashAlg"> the hash algorithm used to digest the message </param>
+        /// <param name = "_hashAlg"> The hash algorithm used to digest the message </param>
         public SchemeKdf1Sp800108(TpmAlgId _hashAlg) : base(_hashAlg) {}
 
         new public SchemeKdf1Sp800108 Copy() { return CreateCopy<SchemeKdf1Sp800108>(); }
@@ -18303,7 +18303,7 @@ namespace Tpm2Lib {
 
         public Tpm2bDigestSymcipher(Tpm2bDigestSymcipher _Tpm2bDigestSymcipher) : base(_Tpm2bDigestSymcipher) {}
 
-        /// <param name = "_buffer"> the buffer area that can be no larger than a digest </param>
+        /// <param name = "_buffer"> The buffer area that can be no larger than a digest </param>
         public Tpm2bDigestSymcipher(byte[] _buffer) : base(_buffer) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Symcipher; }
@@ -18322,7 +18322,7 @@ namespace Tpm2Lib {
 
         public Tpm2bDigestKeyedhash(Tpm2bDigestKeyedhash _Tpm2bDigestKeyedhash) : base(_Tpm2bDigestKeyedhash) {}
 
-        /// <param name = "_buffer"> the buffer area that can be no larger than a digest </param>
+        /// <param name = "_buffer"> The buffer area that can be no larger than a digest </param>
         public Tpm2bDigestKeyedhash(byte[] _buffer) : base(_buffer) {}
 
         public override TpmAlgId GetUnionSelector() { return TpmAlgId.Keyedhash; }
@@ -18383,8 +18383,8 @@ namespace Tpm2Lib {
 
         /// This command causes the TPM to perform a test of the selected algorithms.
         /// 
-        /// <param name = "toTest"> list of algorithms that should be tested </param>
-        /// <returns> toDoList - list of algorithms that need testing </returns>
+        /// <param name = "toTest"> List of algorithms that should be tested </param>
+        /// <returns> toDoList - List of algorithms that need testing </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmAlgId[] IncrementalSelfTest(
@@ -18399,7 +18399,7 @@ namespace Tpm2Lib {
 
         /// This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status.
         /// 
-        /// <returns> outData - test result data
+        /// <returns> outData - Test result data
         ///                     contains manufacturer-specific information
         ///           testResult - TBD </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -18419,24 +18419,24 @@ namespace Tpm2Lib {
 
         /// This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters.
         /// 
-        /// <param name = "tpmKey"> handle of a loaded decrypt key used to encrypt salt
+        /// <param name = "tpmKey"> Handle of a loaded decrypt key used to encrypt salt
         ///        may be TPM_RH_NULL
         ///        Auth Index: None </param>
-        /// <param name = "bind"> entity providing the authValue
+        /// <param name = "bind"> Entity providing the authValue
         ///        may be TPM_RH_NULL
         ///        Auth Index: None </param>
-        /// <param name = "nonceCaller"> initial nonceCaller, sets nonceTPM size for the session
+        /// <param name = "nonceCaller"> Initial nonceCaller, sets nonceTPM size for the session
         ///        shall be at least 16 octets </param>
-        /// <param name = "encryptedSalt"> value encrypted according to the type of tpmKey
+        /// <param name = "encryptedSalt"> Value encrypted according to the type of tpmKey
         ///        If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer. </param>
-        /// <param name = "sessionType"> indicates the type of the session; simple HMAC or policy
+        /// <param name = "sessionType"> Indicates the type of the session; simple HMAC or policy
         ///        (including a trial policy) </param>
-        /// <param name = "symmetric"> the algorithm and key size for parameter encryption
+        /// <param name = "symmetric"> The algorithm and key size for parameter encryption
         ///        may select TPM_ALG_NULL </param>
-        /// <param name = "authHash"> hash algorithm to use for the session
+        /// <param name = "authHash"> Hash algorithm to use for the session
         ///        Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL </param>
-        /// <returns> handle - handle for the newly created session
-        ///           nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey </returns>
+        /// <returns> handle - Handle for the newly created session
+        ///           nonceTPM - The initial nonce from the TPM, used in the computation of the sessionKey </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle StartAuthSession(
@@ -18469,7 +18469,7 @@ namespace Tpm2Lib {
 
         /// This command allows a policy authorization session to be returned to its initial state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be replayed because the session restarts with the same nonceTPM. If the PCR are valid for the policy, the policy may then succeed.
         /// 
-        /// <param name = "sessionHandle"> the handle for the policy session </param>
+        /// <param name = "sessionHandle"> The handle for the policy session </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyRestart(
@@ -18483,20 +18483,20 @@ namespace Tpm2Lib {
 
         /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
         /// 
-        /// <param name = "parentHandle"> handle of parent for new object
+        /// <param name = "parentHandle"> Handle of parent for new object
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "inSensitive"> the sensitive data </param>
-        /// <param name = "inPublic"> the public template </param>
-        /// <param name = "outsideInfo"> data that will be included in the creation data for this
+        /// <param name = "inSensitive"> The sensitive data </param>
+        /// <param name = "inPublic"> The public template </param>
+        /// <param name = "outsideInfo"> Data that will be included in the creation data for this
         ///        object to provide permanent, verifiable linkage between this object and some object
         ///        owner data </param>
         /// <param name = "creationPCR"> PCR that will be used in creation data </param>
-        /// <returns> outPrivate - the private portion of the object
-        ///           outPublic - the public portion of the created object
-        ///           creationData - contains a TPMS_CREATION_DATA
-        ///           creationHash - digest of creationData using nameAlg of outPublic
-        ///           creationTicket - ticket used by TPM2_CertifyCreation() to validate that the
+        /// <returns> outPrivate - The private portion of the object
+        ///           outPublic - The public portion of the created object
+        ///           creationData - Contains a TPMS_CREATION_DATA
+        ///           creationHash - Digest of creationData using nameAlg of outPublic
+        ///           creationTicket - Ticket used by TPM2_CertifyCreation() to validate that the
         ///                            creation data was produced by the TPM </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -18538,9 +18538,9 @@ namespace Tpm2Lib {
         /// <param name = "parentHandle"> TPM handle of parent key; shall not be a reserved handle
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "inPrivate"> the private portion of the object </param>
-        /// <param name = "inPublic"> the public portion of the object </param>
-        /// <returns> handle - handle of type TPM_HT_TRANSIENT for the loaded object
+        /// <param name = "inPrivate"> The private portion of the object </param>
+        /// <param name = "inPublic"> The public portion of the object </param>
+        /// <returns> handle - Handle of type TPM_HT_TRANSIENT for the loaded object
         ///           name - Name of the loaded object </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -18562,11 +18562,11 @@ namespace Tpm2Lib {
 
         /// This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area.
         /// 
-        /// <param name = "inPrivate"> the sensitive portion of the object (optional) </param>
-        /// <param name = "inPublic"> the public portion of the object </param>
-        /// <param name = "hierarchy"> hierarchy with which the object area is associated </param>
-        /// <returns> handle - handle of type TPM_HT_TRANSIENT for the loaded object
-        ///           name - name of the loaded object </returns>
+        /// <param name = "inPrivate"> The sensitive portion of the object (optional) </param>
+        /// <param name = "inPublic"> The public portion of the object </param>
+        /// <param name = "hierarchy"> Hierarchy with which the object area is associated </param>
+        /// <returns> handle - Handle of type TPM_HT_TRANSIENT for the loaded object
+        ///           name - Name of the loaded object </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle LoadExternal(
@@ -18589,9 +18589,9 @@ namespace Tpm2Lib {
         /// 
         /// <param name = "objectHandle"> TPM handle of an object
         ///        Auth Index: None </param>
-        /// <returns> outPublic - structure containing the public area of an object
-        ///           name - name of the object
-        ///           qualifiedName - the Qualified Name of the object </returns>
+        /// <returns> outPublic - Structure containing the public area of an object
+        ///           name - Name of the object
+        ///           qualifiedName - The Qualified Name of the object </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmPublic ReadPublic(
@@ -18613,16 +18613,16 @@ namespace Tpm2Lib {
 
         /// This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object.
         /// 
-        /// <param name = "activateHandle"> handle of the object associated with certificate in credentialBlob
+        /// <param name = "activateHandle"> Handle of the object associated with certificate in credentialBlob
         ///        Auth Index: 1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "keyHandle"> loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
+        /// <param name = "keyHandle"> Loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "credentialBlob"> the credential </param>
-        /// <param name = "secret"> keyHandle algorithm-dependent encrypted seed that protects
+        /// <param name = "credentialBlob"> The credential </param>
+        /// <param name = "secret"> KeyHandle algorithm-dependent encrypted seed that protects
         ///        credentialBlob </param>
-        /// <returns> certInfo - the decrypted certificate information
+        /// <returns> certInfo - The decrypted certificate information
         ///                      the data should be no larger than the size of the digest of the
         ///                      nameAlg associated with keyHandle </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -18647,13 +18647,13 @@ namespace Tpm2Lib {
 
         /// This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
         /// 
-        /// <param name = "handle"> loaded public area, used to encrypt the sensitive area containing
+        /// <param name = "handle"> Loaded public area, used to encrypt the sensitive area containing
         ///        the credential key
         ///        Auth Index: None </param>
-        /// <param name = "credential"> the credential information </param>
+        /// <param name = "credential"> The credential information </param>
         /// <param name = "objectName"> Name of the object to which the credential applies </param>
-        /// <returns> credentialBlob - the credential
-        ///           secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob </returns>
+        /// <returns> credentialBlob - The credential
+        ///           secret - Handle algorithm-dependent data that wraps the key that encrypts credentialBlob </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public IdObject MakeCredential(
@@ -18678,10 +18678,10 @@ namespace Tpm2Lib {
 
         /// This command returns the data in a loaded Sealed Data Object.
         /// 
-        /// <param name = "itemHandle"> handle of a loaded data object
+        /// <param name = "itemHandle"> Handle of a loaded data object
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <returns> outData - unsealed data
+        /// <returns> outData - Unsealed data
         ///                     Size of outData is limited to be no more than 128 octets. </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -18697,13 +18697,13 @@ namespace Tpm2Lib {
 
         /// This command is used to change the authorization secret for a TPM-resident object.
         /// 
-        /// <param name = "objectHandle"> handle of the object
+        /// <param name = "objectHandle"> Handle of the object
         ///        Auth Index: 1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "parentHandle"> handle of the parent
+        /// <param name = "parentHandle"> Handle of the parent
         ///        Auth Index: None </param>
-        /// <param name = "newAuth"> new authorization value </param>
-        /// <returns> outPrivate - private area containing the new authorization value </returns>
+        /// <param name = "newAuth"> New authorization value </param>
+        /// <returns> outPrivate - Private area containing the new authorization value </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmPrivate ObjectChangeAuth(
@@ -18728,12 +18728,12 @@ namespace Tpm2Lib {
         ///        TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "inSensitive"> the sensitive data, see TPM 2.0 Part 1 Sensitive Values </param>
-        /// <param name = "inPublic"> the public template </param>
-        /// <returns> handle - handle of type TPM_HT_TRANSIENT for created object
-        ///           outPrivate - the sensitive area of the object (optional)
-        ///           outPublic - the public portion of the created object
-        ///           name - the name of the created object </returns>
+        /// <param name = "inSensitive"> The sensitive data, see TPM 2.0 Part 1 Sensitive Values </param>
+        /// <param name = "inPublic"> The public template </param>
+        /// <returns> handle - Handle of type TPM_HT_TRANSIENT for created object
+        ///           outPrivate - The sensitive area of the object (optional)
+        ///           outPublic - The public portion of the created object
+        ///           name - The name of the created object </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle CreateLoaded(
@@ -18761,24 +18761,24 @@ namespace Tpm2Lib {
 
         /// This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
         /// 
-        /// <param name = "objectHandle"> loaded object to duplicate
+        /// <param name = "objectHandle"> Loaded object to duplicate
         ///        Auth Index: 1
         ///        Auth Role: DUP </param>
-        /// <param name = "newParentHandle"> shall reference the public area of an asymmetric key
+        /// <param name = "newParentHandle"> Shall reference the public area of an asymmetric key
         ///        Auth Index: None </param>
-        /// <param name = "encryptionKeyIn"> optional symmetric encryption key
+        /// <param name = "encryptionKeyIn"> Optional symmetric encryption key
         ///        The size for this key is set to zero when the TPM is to generate the key. This
         ///        parameter may be encrypted. </param>
-        /// <param name = "symmetricAlg"> definition for the symmetric algorithm to be used for the
+        /// <param name = "symmetricAlg"> Definition for the symmetric algorithm to be used for the
         ///        inner wrapper
         ///        may be TPM_ALG_NULL if no inner wrapper is applied </param>
         /// <returns> encryptionKeyOut - If the caller provided an encryption key or if symmetricAlg
         ///                              was TPM_ALG_NULL, then this will be the Empty Buffer;
         ///                              otherwise, it shall contain the TPM-generated, symmetric
         ///                              encryption key for the inner wrapper.
-        ///           duplicate - private area that may be encrypted by encryptionKeyIn; and may be
+        ///           duplicate - Private area that may be encrypted by encryptionKeyIn; and may be
         ///                       doubly encrypted
-        ///           outSymSeed - seed protected by the asymmetric algorithms of new parent (NP) </returns>
+        ///           outSymSeed - Seed protected by the asymmetric algorithms of new parent (NP) </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] Duplicate(
@@ -18808,18 +18808,18 @@ namespace Tpm2Lib {
 
         /// This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
         /// 
-        /// <param name = "oldParent"> parent of object
+        /// <param name = "oldParent"> Parent of object
         ///        Auth Index: 1
         ///        Auth Role: User </param>
-        /// <param name = "newParent"> new parent of the object
+        /// <param name = "newParent"> New parent of the object
         ///        Auth Index: None </param>
-        /// <param name = "inDuplicate"> an object encrypted using symmetric key derived from
+        /// <param name = "inDuplicate"> An object encrypted using symmetric key derived from
         ///        inSymSeed </param>
-        /// <param name = "name"> the Name of the object being rewrapped </param>
-        /// <param name = "inSymSeed"> the seed for the symmetric key and HMAC key
+        /// <param name = "name"> The Name of the object being rewrapped </param>
+        /// <param name = "inSymSeed"> The seed for the symmetric key and HMAC key
         ///        needs oldParent private key to recover the seed and generate the symmetric key </param>
-        /// <returns> outDuplicate - an object encrypted using symmetric key derived from outSymSeed
-        ///           outSymSeed - seed for a symmetric key protected by newParent asymmetric key </returns>
+        /// <returns> outDuplicate - An object encrypted using symmetric key derived from outSymSeed
+        ///           outSymSeed - Seed for a symmetric key protected by newParent asymmetric key </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmPrivate Rewrap(
@@ -18848,25 +18848,25 @@ namespace Tpm2Lib {
 
         /// This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
         /// 
-        /// <param name = "parentHandle"> the handle of the new parent for the object
+        /// <param name = "parentHandle"> The handle of the new parent for the object
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "encryptionKey"> the optional symmetric encryption key used as the inner
+        /// <param name = "encryptionKey"> The optional symmetric encryption key used as the inner
         ///        wrapper for duplicate
         ///        If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer. </param>
-        /// <param name = "objectPublic"> the public area of the object to be imported
+        /// <param name = "objectPublic"> The public area of the object to be imported
         ///        This is provided so that the integrity value for duplicate and the object
         ///        attributes can be checked.
         ///        NOTE Even if the integrity value of the object is not checked on input, the object
         ///        Name is required to create the integrity value for the imported object. </param>
-        /// <param name = "duplicate"> the symmetrically encrypted duplicate object that may contain
+        /// <param name = "duplicate"> The symmetrically encrypted duplicate object that may contain
         ///        an inner symmetric wrapper </param>
-        /// <param name = "inSymSeed"> the seed for the symmetric key and HMAC key
+        /// <param name = "inSymSeed"> The seed for the symmetric key and HMAC key
         ///        inSymSeed is encrypted/encoded using the algorithms of newParent. </param>
-        /// <param name = "symmetricAlg"> definition for the symmetric algorithm to use for the inner wrapper
+        /// <param name = "symmetricAlg"> Definition for the symmetric algorithm to use for the inner wrapper
         ///        If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
         ///        shall be the Empty Buffer. </param>
-        /// <returns> outPrivate - the sensitive area encrypted with the symmetric key of parentHandle </returns>
+        /// <returns> outPrivate - The sensitive area encrypted with the symmetric key of parentHandle </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmPrivate Import(
@@ -18893,21 +18893,21 @@ namespace Tpm2Lib {
 
         /// This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
         /// 
-        /// <param name = "keyHandle"> reference to public portion of RSA key to use for encryption
+        /// <param name = "keyHandle"> Reference to public portion of RSA key to use for encryption
         ///        Auth Index: None </param>
-        /// <param name = "message"> message to be encrypted
+        /// <param name = "message"> Message to be encrypted
         ///        NOTE 1 The data type was chosen because it limits the overall size of the input to
         ///        no greater than the size of the largest RSA public key. This may be larger than
         ///        allowed for keyHandle. </param>
-        /// <param name = "inScheme"> the padding scheme to use if scheme associated with keyHandle is
+        /// <param name = "inScheme"> The padding scheme to use if scheme associated with keyHandle is
         ///        TPM_ALG_NULL
         ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
-        /// <param name = "label"> optional label L to be associated with the message
+        /// <param name = "label"> Optional label L to be associated with the message
         ///        Size of the buffer is zero if no label is present
         ///        NOTE 2 See description of label above. </param>
-        /// <returns> outData - encrypted output </returns>
+        /// <returns> outData - Encrypted output </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] RsaEncrypt(
@@ -18933,15 +18933,15 @@ namespace Tpm2Lib {
         /// <param name = "keyHandle"> RSA key to use for decryption
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "cipherText"> cipher text to be decrypted
+        /// <param name = "cipherText"> Cipher text to be decrypted
         ///        NOTE An encrypted RSA data block is the size of the public modulus. </param>
-        /// <param name = "inScheme"> the padding scheme to use if scheme associated with keyHandle is
+        /// <param name = "inScheme"> The padding scheme to use if scheme associated with keyHandle is
         ///        TPM_ALG_NULL
         ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
-        /// <param name = "label"> label whose association with the message is to be verified </param>
-        /// <returns> message - decrypted output </returns>
+        /// <param name = "label"> Label whose association with the message is to be verified </param>
+        /// <returns> message - Decrypted output </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] RsaDecrypt(
@@ -18966,8 +18966,8 @@ namespace Tpm2Lib {
         /// 
         /// <param name = "keyHandle"> Handle of a loaded ECC key public area.
         ///        Auth Index: None </param>
-        /// <returns> zPoint - results of P h[de]Qs
-        ///           pubPoint - generated ephemeral public point (Qe) </returns>
+        /// <returns> zPoint - Results of P h[de]Qs
+        ///           pubPoint - Generated ephemeral public point (Qe) </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public EccPoint EcdhKeyGen(
@@ -18986,10 +18986,10 @@ namespace Tpm2Lib {
 
         /// This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h is the cofactor of the curve).
         /// 
-        /// <param name = "keyHandle"> handle of a loaded ECC key
+        /// <param name = "keyHandle"> Handle of a loaded ECC key
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "inPoint"> a public key </param>
+        /// <param name = "inPoint"> A public key </param>
         /// <returns> outPoint - X and Y coordinates of the product of the multiplication Z = (xZ ,
         ///                      yZ) [hdS]QB </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -19010,7 +19010,7 @@ namespace Tpm2Lib {
 
         /// This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.
         /// 
-        /// <param name = "curveID"> parameter set selector </param>
+        /// <param name = "curveID"> Parameter set selector </param>
         /// <returns> parameters - ECC parameters for the selected curve </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -19026,14 +19026,14 @@ namespace Tpm2Lib {
 
         /// This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key.
         /// 
-        /// <param name = "keyA"> handle of an unrestricted decryption key ECC
+        /// <param name = "keyA"> Handle of an unrestricted decryption key ECC
         ///        The private key referenced by this handle is used as dS,A
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "inQsB"> other partys static public key (Qs,B = (Xs,B, Ys,B)) </param>
-        /// <param name = "inQeB"> other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) </param>
-        /// <param name = "inScheme"> the key exchange scheme </param>
-        /// <param name = "counter"> value returned by TPM2_EC_Ephemeral() </param>
+        /// <param name = "inQsB"> Other partys static public key (Qs,B = (Xs,B, Ys,B)) </param>
+        /// <param name = "inQeB"> Other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) </param>
+        /// <param name = "inScheme"> The key exchange scheme </param>
+        /// <param name = "counter"> Value returned by TPM2_EC_Ephemeral() </param>
         /// <returns> outZ1 - X and Y coordinates of the computed value (scheme dependent)
         ///           outZ2 - X and Y coordinates of the second computed value (scheme dependent) </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -19064,15 +19064,15 @@ namespace Tpm2Lib {
 
         /// This command performs ECC encryption as described in Part 1, Annex D.
         /// 
-        /// <param name = "keyHandle"> reference to public portion of ECC key to use for encryption
+        /// <param name = "keyHandle"> Reference to public portion of ECC key to use for encryption
         ///        Auth Index: None </param>
         /// <param name = "plainText"> Plaintext to be encrypted </param>
-        /// <param name = "inScheme"> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /// <param name = "inScheme"> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
         ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
         ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
-        /// <returns> C1 - the public ephemeral key used for ECDH
-        ///           C2 - the data block produced by the XOR process
-        ///           C3 - the integrity value </returns>
+        /// <returns> C1 - The public ephemeral key used for ECDH
+        ///           C2 - The data block produced by the XOR process
+        ///           C3 - The integrity value </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public EccPoint EccEncrypt(
@@ -19103,13 +19103,13 @@ namespace Tpm2Lib {
         /// <param name = "keyHandle"> ECC key to use for decryption
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "C1"> the public ephemeral key used for ECDH </param>
-        /// <param name = "C2"> the data block produced by the XOR process </param>
-        /// <param name = "C3"> the integrity value </param>
-        /// <param name = "inScheme"> the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+        /// <param name = "C1"> The public ephemeral key used for ECDH </param>
+        /// <param name = "C2"> The data block produced by the XOR process </param>
+        /// <param name = "C3"> The integrity value </param>
+        /// <param name = "inScheme"> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
         ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
         ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
-        /// <returns> plainText - decrypted output </returns>
+        /// <returns> plainText - Decrypted output </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] EccDecrypt(
@@ -19134,17 +19134,17 @@ namespace Tpm2Lib {
 
         /// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
         /// 
-        /// <param name = "keyHandle"> the symmetric key used for the operation
+        /// <param name = "keyHandle"> The symmetric key used for the operation
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "decrypt"> if YES, then the operation is decryption; if NO, the operation is
+        /// <param name = "decrypt"> If YES, then the operation is decryption; if NO, the operation is
         ///        encryption </param>
-        /// <param name = "mode"> symmetric encryption/decryption mode
+        /// <param name = "mode"> Symmetric encryption/decryption mode
         ///        this field shall match the default mode of the key or be TPM_ALG_NULL. </param>
-        /// <param name = "ivIn"> an initial value as required by the algorithm </param>
-        /// <param name = "inData"> the data to be encrypted/decrypted </param>
-        /// <returns> outData - encrypted or decrypted output
-        ///           ivOut - chaining value to use for IV in next round </returns>
+        /// <param name = "ivIn"> An initial value as required by the algorithm </param>
+        /// <param name = "inData"> The data to be encrypted/decrypted </param>
+        /// <returns> outData - Encrypted or decrypted output
+        ///           ivOut - Chaining value to use for IV in next round </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] EncryptDecrypt(
@@ -19173,17 +19173,17 @@ namespace Tpm2Lib {
 
         /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
         /// 
-        /// <param name = "keyHandle"> the symmetric key used for the operation
+        /// <param name = "keyHandle"> The symmetric key used for the operation
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "inData"> the data to be encrypted/decrypted </param>
-        /// <param name = "decrypt"> if YES, then the operation is decryption; if NO, the operation is
+        /// <param name = "inData"> The data to be encrypted/decrypted </param>
+        /// <param name = "decrypt"> If YES, then the operation is decryption; if NO, the operation is
         ///        encryption </param>
-        /// <param name = "mode"> symmetric mode
+        /// <param name = "mode"> Symmetric mode
         ///        this field shall match the default mode of the key or be TPM_ALG_NULL. </param>
-        /// <param name = "ivIn"> an initial value as required by the algorithm </param>
-        /// <returns> outData - encrypted or decrypted output
-        ///           ivOut - chaining value to use for IV in next round </returns>
+        /// <param name = "ivIn"> An initial value as required by the algorithm </param>
+        /// <returns> outData - Encrypted or decrypted output
+        ///           ivOut - Chaining value to use for IV in next round </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] EncryptDecrypt2(
@@ -19212,11 +19212,11 @@ namespace Tpm2Lib {
 
         /// This command performs a hash operation on a data buffer and returns the results.
         /// 
-        /// <param name = "data"> data to be hashed </param>
-        /// <param name = "hashAlg"> algorithm for the hash being computed shall not be TPM_ALG_NULL </param>
-        /// <param name = "hierarchy"> hierarchy to use for the ticket (TPM_RH_NULL allowed) </param>
-        /// <returns> outHash - results
-        ///           validation - ticket indicating that the sequence of octets used to compute
+        /// <param name = "data"> Data to be hashed </param>
+        /// <param name = "hashAlg"> Algorithm for the hash being computed shall not be TPM_ALG_NULL </param>
+        /// <param name = "hierarchy"> Hierarchy to use for the ticket (TPM_RH_NULL allowed) </param>
+        /// <returns> outHash - Results
+        ///           validation - Ticket indicating that the sequence of octets used to compute
         ///                        outDigest did not start with TPM_GENERATED_VALUE
         ///                        will be a NULL ticket if the digest may not be signed with a
         ///                        restricted key </returns>
@@ -19244,12 +19244,12 @@ namespace Tpm2Lib {
 
         /// This command performs an HMAC on the supplied data using the indicated hash algorithm.
         /// 
-        /// <param name = "handle"> handle for the symmetric signing key providing the HMAC key
+        /// <param name = "handle"> Handle for the symmetric signing key providing the HMAC key
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <param name = "buffer"> HMAC data </param>
-        /// <param name = "hashAlg"> algorithm to use for HMAC </param>
-        /// <returns> outHMAC - the returned HMAC in a sized buffer </returns>
+        /// <param name = "hashAlg"> Algorithm to use for HMAC </param>
+        /// <returns> outHMAC - The returned HMAC in a sized buffer </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] Hmac(
@@ -19270,12 +19270,12 @@ namespace Tpm2Lib {
 
         /// This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
         /// 
-        /// <param name = "handle"> handle for the symmetric signing key providing the MAC key
+        /// <param name = "handle"> Handle for the symmetric signing key providing the MAC key
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <param name = "buffer"> MAC data </param>
-        /// <param name = "inScheme"> algorithm to use for MAC </param>
-        /// <returns> outMAC - the returned MAC in a sized buffer </returns>
+        /// <param name = "inScheme"> Algorithm to use for MAC </param>
+        /// <returns> outMAC - The returned MAC in a sized buffer </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] Mac(
@@ -19296,8 +19296,8 @@ namespace Tpm2Lib {
 
         /// This command returns the next bytesRequested octets from the random number generator (RNG).
         /// 
-        /// <param name = "bytesRequested"> number of octets to return </param>
-        /// <returns> randomBytes - the random octets </returns>
+        /// <param name = "bytesRequested"> Number of octets to return </param>
+        /// <returns> randomBytes - The random octets </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] GetRandom(
@@ -19312,7 +19312,7 @@ namespace Tpm2Lib {
 
         /// This command is used to add "additional information" to the RNG state.
         /// 
-        /// <param name = "inData"> additional information </param>
+        /// <param name = "inData"> Additional information </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void StirRandom(
@@ -19326,12 +19326,12 @@ namespace Tpm2Lib {
 
         /// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
         /// 
-        /// <param name = "handle"> handle of an HMAC key
+        /// <param name = "handle"> Handle of an HMAC key
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
-        /// <param name = "hashAlg"> the hash algorithm to use for the HMAC </param>
-        /// <returns> handle - a handle to reference the sequence </returns>
+        /// <param name = "auth"> Authorization value for subsequent use of the sequence </param>
+        /// <param name = "hashAlg"> The hash algorithm to use for the HMAC </param>
+        /// <returns> handle - A handle to reference the sequence </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle HmacStart(
@@ -19352,12 +19352,12 @@ namespace Tpm2Lib {
 
         /// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
         /// 
-        /// <param name = "handle"> handle of a MAC key
+        /// <param name = "handle"> Handle of a MAC key
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
-        /// <param name = "inScheme"> the algorithm to use for the MAC </param>
-        /// <returns> handle - a handle to reference the sequence </returns>
+        /// <param name = "auth"> Authorization value for subsequent use of the sequence </param>
+        /// <param name = "inScheme"> The algorithm to use for the MAC </param>
+        /// <returns> handle - A handle to reference the sequence </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle MacStart(
@@ -19378,10 +19378,10 @@ namespace Tpm2Lib {
 
         /// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH.
         /// 
-        /// <param name = "auth"> authorization value for subsequent use of the sequence </param>
-        /// <param name = "hashAlg"> the hash algorithm to use for the hash sequence
+        /// <param name = "auth"> Authorization value for subsequent use of the sequence </param>
+        /// <param name = "hashAlg"> The hash algorithm to use for the hash sequence
         ///        An Event Sequence starts if this is TPM_ALG_NULL. </param>
-        /// <returns> handle - a handle to reference the sequence </returns>
+        /// <returns> handle - A handle to reference the sequence </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle HashSequenceStart(
@@ -19400,10 +19400,10 @@ namespace Tpm2Lib {
 
         /// This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM.
         /// 
-        /// <param name = "sequenceHandle"> handle for the sequence object
+        /// <param name = "sequenceHandle"> Handle for the sequence object
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "buffer"> data to be added to hash </param>
+        /// <param name = "buffer"> Data to be added to hash </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void SequenceUpdate(
@@ -19421,13 +19421,13 @@ namespace Tpm2Lib {
 
         /// This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
         /// 
-        /// <param name = "sequenceHandle"> authorization for the sequence
+        /// <param name = "sequenceHandle"> Authorization for the sequence
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "buffer"> data to be added to the hash/HMAC </param>
-        /// <param name = "hierarchy"> hierarchy of the ticket for a hash </param>
-        /// <returns> result - the returned HMAC or digest in a sized buffer
-        ///           validation - ticket indicating that the sequence of octets used to compute
+        /// <param name = "buffer"> Data to be added to the hash/HMAC </param>
+        /// <param name = "hierarchy"> Hierarchy of the ticket for a hash </param>
+        /// <returns> result - The returned HMAC or digest in a sized buffer
+        ///           validation - Ticket indicating that the sequence of octets used to compute
         ///                        outDigest did not start with TPM_GENERATED_VALUE
         ///                        This is a NULL Ticket when the sequence is HMAC. </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -19457,11 +19457,11 @@ namespace Tpm2Lib {
         /// <param name = "pcrHandle"> PCR to be extended with the Event data
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "sequenceHandle"> authorization for the sequence
+        /// <param name = "sequenceHandle"> Authorization for the sequence
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "buffer"> data to be added to the Event </param>
-        /// <returns> results - list of digests computed for the PCR </returns>
+        /// <param name = "buffer"> Data to be added to the Event </param>
+        /// <returns> results - List of digests computed for the PCR </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHash[] EventSequenceComplete(
@@ -19482,18 +19482,18 @@ namespace Tpm2Lib {
 
         /// The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
         /// 
-        /// <param name = "objectHandle"> handle of the object to be certified
+        /// <param name = "objectHandle"> Handle of the object to be certified
         ///        Auth Index: 1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "signHandle"> handle of the key used to sign the attestation structure
+        /// <param name = "signHandle"> Handle of the key used to sign the attestation structure
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "qualifyingData"> user provided qualifying data </param>
-        /// <param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "qualifyingData"> User provided qualifying data </param>
+        /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <returns> certifyInfo - the structure that was signed
-        ///           signature - the asymmetric signature over certifyInfo using the key referenced
+        /// <returns> certifyInfo - The structure that was signed
+        ///           signature - The asymmetric signature over certifyInfo using the key referenced
         ///                       by signHandle </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -19521,20 +19521,20 @@ namespace Tpm2Lib {
 
         /// This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash).
         /// 
-        /// <param name = "signHandle"> handle of the key that will sign the attestation block
+        /// <param name = "signHandle"> Handle of the key that will sign the attestation block
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "objectHandle"> the object associated with the creation data
+        /// <param name = "objectHandle"> The object associated with the creation data
         ///        Auth Index: None </param>
-        /// <param name = "qualifyingData"> user-provided qualifying data </param>
-        /// <param name = "creationHash"> hash of the creation data produced by TPM2_Create() or
+        /// <param name = "qualifyingData"> User-provided qualifying data </param>
+        /// <param name = "creationHash"> Hash of the creation data produced by TPM2_Create() or
         ///        TPM2_CreatePrimary() </param>
-        /// <param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <param name = "creationTicket"> ticket produced by TPM2_Create() or TPM2_CreatePrimary() </param>
-        /// <returns> certifyInfo - the structure that was signed
-        ///           signature - the signature over certifyInfo </returns>
+        /// <param name = "creationTicket"> Ticket produced by TPM2_Create() or TPM2_CreatePrimary() </param>
+        /// <returns> certifyInfo - The structure that was signed
+        ///           signature - The signature over certifyInfo </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest CertifyCreation(
@@ -19565,16 +19565,16 @@ namespace Tpm2Lib {
 
         /// This command is used to quote PCR values.
         /// 
-        /// <param name = "signHandle"> handle of key that will perform signature
+        /// <param name = "signHandle"> Handle of key that will perform signature
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "qualifyingData"> data supplied by the caller </param>
-        /// <param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "qualifyingData"> Data supplied by the caller </param>
+        /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
         /// <param name = "PCRselect"> PCR set to quote </param>
-        /// <returns> quoted - the quoted information
-        ///           signature - the signature over quoted </returns>
+        /// <returns> quoted - The quoted information
+        ///           signature - The signature over quoted </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest Quote(
@@ -19601,20 +19601,20 @@ namespace Tpm2Lib {
 
         /// This command returns a digital signature of the audit session digest.
         /// 
-        /// <param name = "privacyAdminHandle"> handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /// <param name = "privacyAdminHandle"> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "signHandle"> handle of the signing key
+        /// <param name = "signHandle"> Handle of the signing key
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "sessionHandle"> handle of the audit session
+        /// <param name = "sessionHandle"> Handle of the audit session
         ///        Auth Index: None </param>
-        /// <param name = "qualifyingData"> user-provided qualifying data may be zero-length </param>
-        /// <param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "qualifyingData"> User-provided qualifying data may be zero-length </param>
+        /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <returns> auditInfo - the audit information that was signed
-        ///           signature - the signature over auditInfo </returns>
+        /// <returns> auditInfo - The audit information that was signed
+        ///           signature - The signature over auditInfo </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest GetSessionAuditDigest(
@@ -19643,18 +19643,18 @@ namespace Tpm2Lib {
 
         /// This command returns the current value of the command audit digest, a digest of the commands being audited, and the audit hash algorithm. These values are placed in an attestation structure and signed with the key referenced by signHandle.
         /// 
-        /// <param name = "privacyHandle"> handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /// <param name = "privacyHandle"> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "signHandle"> the handle of the signing key
+        /// <param name = "signHandle"> The handle of the signing key
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "qualifyingData"> other data to associate with this audit digest </param>
-        /// <param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "qualifyingData"> Other data to associate with this audit digest </param>
+        /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <returns> auditInfo - the auditInfo that was signed
-        ///           signature - the signature over auditInfo </returns>
+        /// <returns> auditInfo - The auditInfo that was signed
+        ///           signature - The signature over auditInfo </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest GetCommandAuditDigest(
@@ -19681,19 +19681,19 @@ namespace Tpm2Lib {
 
         /// This command returns the current values of Time and Clock.
         /// 
-        /// <param name = "privacyAdminHandle"> handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+        /// <param name = "privacyAdminHandle"> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "signHandle"> the keyHandle identifier of a loaded key that can perform
+        /// <param name = "signHandle"> The keyHandle identifier of a loaded key that can perform
         ///        digital signatures
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "qualifyingData"> data to tick stamp </param>
-        /// <param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "qualifyingData"> Data to tick stamp </param>
+        /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <returns> timeInfo - standard TPM-generated attestation block
-        ///           signature - the signature over timeInfo </returns>
+        /// <returns> timeInfo - Standard TPM-generated attestation block
+        ///           signature - The signature over timeInfo </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest GetTime(
@@ -19720,21 +19720,21 @@ namespace Tpm2Lib {
 
         /// The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
         /// 
-        /// <param name = "objectHandle"> handle of the object to be certified
+        /// <param name = "objectHandle"> Handle of the object to be certified
         ///        Auth Index: 1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "signHandle"> handle of the key used to sign the attestation structure
+        /// <param name = "signHandle"> Handle of the key used to sign the attestation structure
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "reserved"> shall be an Empty Buffer </param>
-        /// <param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "reserved"> Shall be an Empty Buffer </param>
+        /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <param name = "partialCertificate"> a DER encoded partial certificate </param>
-        /// <returns> addedToCertificate - a DER encoded SEQUENCE containing the DER encoded fields
+        /// <param name = "partialCertificate"> A DER encoded partial certificate </param>
+        /// <returns> addedToCertificate - A DER encoded SEQUENCE containing the DER encoded fields
         ///                                added to partialCertificate to make it a complete RFC5280
         ///                                TBSCertificate.
-        ///           tbsDigest - the digest that was signed
+        ///           tbsDigest - The digest that was signed
         ///           signature - The signature over tbsDigest </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -19767,16 +19767,16 @@ namespace Tpm2Lib {
 
         /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
         /// 
-        /// <param name = "signHandle"> handle of the key that will be used in the signing operation
+        /// <param name = "signHandle"> Handle of the key that will be used in the signing operation
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "P1"> a point (M) on the curve used by signHandle </param>
-        /// <param name = "s2"> octet array used to derive x-coordinate of a base point </param>
-        /// <param name = "y2"> y coordinate of the point associated with s2 </param>
+        /// <param name = "P1"> A point (M) on the curve used by signHandle </param>
+        /// <param name = "s2"> Octet array used to derive x-coordinate of a base point </param>
+        /// <param name = "y2"> Y coordinate of the point associated with s2 </param>
         /// <returns> K - ECC point K [ds](x2, y2)
         ///           L - ECC point L [r](x2, y2)
         ///           E - ECC point E [r]P1
-        ///           counter - least-significant 16 bits of commitCount </returns>
+        ///           counter - Least-significant 16 bits of commitCount </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public EccPoint Commit(
@@ -19810,8 +19810,8 @@ namespace Tpm2Lib {
         /// TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
         /// 
         /// <param name = "curveID"> The curve for the computed ephemeral point </param>
-        /// <returns> Q - ephemeral public key Q [r]G
-        ///           counter - least-significant 16 bits of commitCount </returns>
+        /// <returns> Q - Ephemeral public key Q [r]G
+        ///           counter - Least-significant 16 bits of commitCount </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public EccPoint EcEphemeral(
@@ -19830,10 +19830,10 @@ namespace Tpm2Lib {
 
         /// This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
         /// 
-        /// <param name = "keyHandle"> handle of public key that will be used in the validation
+        /// <param name = "keyHandle"> Handle of public key that will be used in the validation
         ///        Auth Index: None </param>
-        /// <param name = "digest"> digest of the signed message </param>
-        /// <param name = "signature"> signature to be tested
+        /// <param name = "digest"> Digest of the signed message </param>
+        /// <param name = "signature"> Signature to be tested
         ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
         /// <returns> validation - This ticket is produced by TPM2_VerifySignature(). This formulation
@@ -19863,14 +19863,14 @@ namespace Tpm2Lib {
         /// <param name = "keyHandle"> Handle of key that will perform signing
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "digest"> digest to be signed </param>
-        /// <param name = "inScheme"> signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
+        /// <param name = "digest"> Digest to be signed </param>
+        /// <param name = "inScheme"> Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <param name = "validation"> proof that digest was created by the TPM
+        /// <param name = "validation"> Proof that digest was created by the TPM
         ///        If keyHandle is not a restricted signing key, then this may be a NULL Ticket with
         ///        tag = TPM_ST_CHECKHASH. </param>
-        /// <returns> signature - the signature </returns>
+        /// <returns> signature - The signature </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public ISignatureUnion Sign(
@@ -19896,11 +19896,11 @@ namespace Tpm2Lib {
         /// <param name = "auth"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "auditAlg"> hash algorithm for the audit digest; if TPM_ALG_NULL, then the
+        /// <param name = "auditAlg"> Hash algorithm for the audit digest; if TPM_ALG_NULL, then the
         ///        hash is not changed </param>
-        /// <param name = "setList"> list of commands that will be added to those that will be audited
+        /// <param name = "setList"> List of commands that will be added to those that will be audited
         ///        </param>
-        /// <param name = "clearList"> list of commands that will no longer be audited </param>
+        /// <param name = "clearList"> List of commands that will no longer be audited </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void SetCommandCodeAuditStatus(
@@ -19922,10 +19922,10 @@ namespace Tpm2Lib {
 
         /// This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg).
         /// 
-        /// <param name = "pcrHandle"> handle of the PCR
+        /// <param name = "pcrHandle"> Handle of the PCR
         ///        Auth Handle: 1
         ///        Auth Role: USER </param>
-        /// <param name = "digests"> list of tagged digest values to be extended </param>
+        /// <param name = "digests"> List of tagged digest values to be extended </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PcrExtend(
@@ -19970,9 +19970,9 @@ namespace Tpm2Lib {
         /// This command returns the values of all PCR specified in pcrSelectionIn.
         /// 
         /// <param name = "pcrSelectionIn"> The selection of PCR to read </param>
-        /// <returns> pcrUpdateCounter - the current value of the PCR update counter
-        ///           pcrSelectionOut - the PCR in the returned list
-        ///           pcrValues - the contents of the PCR indicated in pcrSelectOut-? pcrSelection[]
+        /// <returns> pcrUpdateCounter - The current value of the PCR update counter
+        ///           pcrSelectionOut - The PCR in the returned list
+        ///           pcrValues - The contents of the PCR indicated in pcrSelectOut-? pcrSelection[]
         ///                       as tagged digests </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -19998,10 +19998,10 @@ namespace Tpm2Lib {
         /// <param name = "authHandle"> TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "pcrAllocation"> the requested allocation </param>
+        /// <param name = "pcrAllocation"> The requested allocation </param>
         /// <returns> allocationSuccess - YES if the allocation succeeded
-        ///           maxPCR - maximum number of PCR that may be in a bank
-        ///           sizeNeeded - number of octets required to satisfy the request
+        ///           maxPCR - Maximum number of PCR that may be in a bank
+        ///           sizeNeeded - Number of octets required to satisfy the request
         ///           sizeAvailable - Number of octets available. Computed before the allocation. </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -20034,9 +20034,9 @@ namespace Tpm2Lib {
         /// <param name = "authHandle"> TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "authPolicy"> the desired authPolicy </param>
-        /// <param name = "hashAlg"> the hash algorithm of the policy </param>
-        /// <param name = "pcrNum"> the PCR for which the policy is to be set </param>
+        /// <param name = "authPolicy"> The desired authPolicy </param>
+        /// <param name = "hashAlg"> The hash algorithm of the policy </param>
+        /// <param name = "pcrNum"> The PCR for which the policy is to be set </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PcrSetAuthPolicy(
@@ -20058,10 +20058,10 @@ namespace Tpm2Lib {
 
         /// This command changes the authValue of a PCR or group of PCR.
         /// 
-        /// <param name = "pcrHandle"> handle for a PCR that may have an authorization value set
+        /// <param name = "pcrHandle"> Handle for a PCR that may have an authorization value set
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "auth"> the desired authorization value </param>
+        /// <param name = "auth"> The desired authorization value </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PcrSetAuthValue(
@@ -20079,7 +20079,7 @@ namespace Tpm2Lib {
 
         /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
         /// 
-        /// <param name = "pcrHandle"> the PCR to reset
+        /// <param name = "pcrHandle"> The PCR to reset
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -20095,29 +20095,29 @@ namespace Tpm2Lib {
 
         /// This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
         /// 
-        /// <param name = "authObject"> handle for a key that will validate the signature
+        /// <param name = "authObject"> Handle for a key that will validate the signature
         ///        Auth Index: None </param>
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "nonceTPM"> the policy nonce for the session
+        /// <param name = "nonceTPM"> The policy nonce for the session
         ///        This can be the Empty Buffer. </param>
-        /// <param name = "cpHashA"> digest of the command parameters to which this authorization is limited
+        /// <param name = "cpHashA"> Digest of the command parameters to which this authorization is limited
         ///        This is not the cpHash for this command but the cpHash for the command to which
         ///        this policy session will be applied. If it is not limited, the parameter will be
         ///        the Empty Buffer. </param>
-        /// <param name = "policyRef"> a reference to a policy relating to the authorization may be
+        /// <param name = "policyRef"> A reference to a policy relating to the authorization may be
         ///        the Empty Buffer
         ///        Size is limited to be no larger than the nonce size supported on the TPM. </param>
-        /// <param name = "expiration"> time when authorization will expire, measured in seconds from
+        /// <param name = "expiration"> Time when authorization will expire, measured in seconds from
         ///        the time that nonceTPM was generated
         ///        If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
-        /// <param name = "auth"> signed authorization (not optional)
+        /// <param name = "auth"> Signed authorization (not optional)
         ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
-        /// <returns> timeout - implementation-specific time value, used to indicate to the TPM when
+        /// <returns> timeout - Implementation-specific time value, used to indicate to the TPM when
         ///                     the ticket expires
         ///                     NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
-        ///           policyTicket - produced if the command succeeds and expiration in the command
+        ///           policyTicket - Produced if the command succeeds and expiration in the command
         ///                          was non-zero; this ticket will use the TPMT_ST_AUTH_SIGNED
         ///                          structure tag. See 23.2.5 </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -20152,26 +20152,26 @@ namespace Tpm2Lib {
 
         /// This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
         /// 
-        /// <param name = "authHandle"> handle for an entity providing the authorization
+        /// <param name = "authHandle"> Handle for an entity providing the authorization
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "nonceTPM"> the policy nonce for the session
+        /// <param name = "nonceTPM"> The policy nonce for the session
         ///        This can be the Empty Buffer. </param>
-        /// <param name = "cpHashA"> digest of the command parameters to which this authorization is limited
+        /// <param name = "cpHashA"> Digest of the command parameters to which this authorization is limited
         ///        This not the cpHash for this command but the cpHash for the command to which this
         ///        policy session will be applied. If it is not limited, the parameter will be the
         ///        Empty Buffer. </param>
-        /// <param name = "policyRef"> a reference to a policy relating to the authorization may be
+        /// <param name = "policyRef"> A reference to a policy relating to the authorization may be
         ///        the Empty Buffer
         ///        Size is limited to be no larger than the nonce size supported on the TPM. </param>
-        /// <param name = "expiration"> time when authorization will expire, measured in seconds from
+        /// <param name = "expiration"> Time when authorization will expire, measured in seconds from
         ///        the time that nonceTPM was generated
         ///        If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
-        /// <returns> timeout - implementation-specific time value used to indicate to the TPM when
+        /// <returns> timeout - Implementation-specific time value used to indicate to the TPM when
         ///                     the ticket expires
-        ///           policyTicket - produced if the command succeeds and expiration in the command
+        ///           policyTicket - Produced if the command succeeds and expiration in the command
         ///                          was non-zero ( See 23.2.5). This ticket will use the
         ///                          TPMT_ST_AUTH_SECRET structure tag </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -20204,17 +20204,17 @@ namespace Tpm2Lib {
 
         /// This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "timeout"> time when authorization will expire
+        /// <param name = "timeout"> Time when authorization will expire
         ///        The contents are TPM specific. This shall be the value returned when ticket was
         ///        produced. </param>
-        /// <param name = "cpHashA"> digest of the command parameters to which this authorization is limited
+        /// <param name = "cpHashA"> Digest of the command parameters to which this authorization is limited
         ///        If it is not limited, the parameter will be the Empty Buffer. </param>
-        /// <param name = "policyRef"> reference to a qualifier for the policy may be the Empty Buffer
+        /// <param name = "policyRef"> Reference to a qualifier for the policy may be the Empty Buffer
         ///        </param>
-        /// <param name = "authName"> name of the object that provided the authorization </param>
-        /// <param name = "ticket"> an authorization ticket returned by the TPM in response to a
+        /// <param name = "authName"> Name of the object that provided the authorization </param>
+        /// <param name = "ticket"> An authorization ticket returned by the TPM in response to a
         ///        TPM2_PolicySigned() or TPM2_PolicySecret() </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -20241,9 +20241,9 @@ namespace Tpm2Lib {
 
         /// This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "pHashList"> the list of hashes to check for a match </param>
+        /// <param name = "pHashList"> The list of hashes to check for a match </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyOR(
@@ -20261,11 +20261,11 @@ namespace Tpm2Lib {
 
         /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "pcrDigest"> expected digest value of the selected PCR using the hash
+        /// <param name = "pcrDigest"> Expected digest value of the selected PCR using the hash
         ///        algorithm of the session; may be zero length </param>
-        /// <param name = "pcrs"> the PCR to include in the check digest </param>
+        /// <param name = "pcrs"> The PCR to include in the check digest </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyPCR(
@@ -20285,9 +20285,9 @@ namespace Tpm2Lib {
 
         /// This command indicates that the authorization will be limited to a specific locality.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "locality"> the allowed localities for the policy </param>
+        /// <param name = "locality"> The allowed localities for the policy </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyLocality(
@@ -20305,16 +20305,16 @@ namespace Tpm2Lib {
 
         /// This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
         /// 
-        /// <param name = "authHandle"> handle indicating the source of the authorization value
+        /// <param name = "authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "nvIndex"> the NV Index of the area to read
+        /// <param name = "nvIndex"> The NV Index of the area to read
         ///        Auth Index: None </param>
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "operandB"> the second operand </param>
-        /// <param name = "offset"> the octet offset in the NV Index for the start of operand A </param>
-        /// <param name = "operation"> the comparison to make </param>
+        /// <param name = "operandB"> The second operand </param>
+        /// <param name = "offset"> The octet offset in the NV Index for the start of operand A </param>
+        /// <param name = "operation"> The comparison to make </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyNV(
@@ -20340,12 +20340,12 @@ namespace Tpm2Lib {
 
         /// This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "operandB"> the second operand </param>
-        /// <param name = "offset"> the octet offset in the TPMS_TIME_INFO structure for the start of
+        /// <param name = "operandB"> The second operand </param>
+        /// <param name = "offset"> The octet offset in the TPMS_TIME_INFO structure for the start of
         ///        operand A </param>
-        /// <param name = "operation"> the comparison to make </param>
+        /// <param name = "operation"> The comparison to make </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyCounterTimer(
@@ -20367,9 +20367,9 @@ namespace Tpm2Lib {
 
         /// This command indicates that the authorization will be limited to a specific command code.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "code"> the allowed commandCode </param>
+        /// <param name = "code"> The allowed commandCode </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyCommandCode(
@@ -20387,7 +20387,7 @@ namespace Tpm2Lib {
 
         /// This command indicates that physical presence will need to be asserted at the time the authorization is performed.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -20402,9 +20402,9 @@ namespace Tpm2Lib {
 
         /// This command is used to allow a policy to be bound to a specific command and command parameters.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "cpHashA"> the cpHash added to the policy </param>
+        /// <param name = "cpHashA"> The cpHash added to the policy </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyCpHash(
@@ -20422,9 +20422,9 @@ namespace Tpm2Lib {
 
         /// This command allows a policy to be bound to a specific set of TPM entities without being bound to the parameters of the command. This is most useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "nameHash"> the digest to be added to the policy </param>
+        /// <param name = "nameHash"> The digest to be added to the policy </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyNameHash(
@@ -20442,11 +20442,11 @@ namespace Tpm2Lib {
 
         /// This command allows qualification of duplication to allow duplication to a selected new parent.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "objectName"> the Name of the object to be duplicated </param>
-        /// <param name = "newParentName"> the Name of the new parent </param>
-        /// <param name = "includeObject"> if YES, the objectName will be included in the value in
+        /// <param name = "objectName"> The Name of the object to be duplicated </param>
+        /// <param name = "newParentName"> The Name of the new parent </param>
+        /// <param name = "includeObject"> If YES, the objectName will be included in the value in
         ///        policySessionpolicyDigest </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -20469,12 +20469,12 @@ namespace Tpm2Lib {
 
         /// This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "approvedPolicy"> digest of the policy being approved </param>
-        /// <param name = "policyRef"> a policy qualifier </param>
+        /// <param name = "approvedPolicy"> Digest of the policy being approved </param>
+        /// <param name = "policyRef"> A policy qualifier </param>
         /// <param name = "keySign"> Name of a key that can sign a policy addition </param>
-        /// <param name = "checkTicket"> ticket validating that approvedPolicy and policyRef were
+        /// <param name = "checkTicket"> Ticket validating that approvedPolicy and policyRef were
         ///        signed by keySign </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -20499,7 +20499,7 @@ namespace Tpm2Lib {
 
         /// This command allows a policy to be bound to the authorization value of the authorized entity.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -20514,7 +20514,7 @@ namespace Tpm2Lib {
 
         /// This command allows a policy to be bound to the authorization value of the authorized object.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -20529,9 +20529,9 @@ namespace Tpm2Lib {
 
         /// This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
         /// 
-        /// <param name = "policySession"> handle for the policy session
+        /// <param name = "policySession"> Handle for the policy session
         ///        Auth Index: None </param>
-        /// <returns> policyDigest - the current value of the policySessionpolicyDigest </returns>
+        /// <returns> policyDigest - The current value of the policySessionpolicyDigest </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] PolicyGetDigest(
@@ -20546,7 +20546,7 @@ namespace Tpm2Lib {
 
         /// This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         /// <param name = "writtenSet"> YES if NV Index is required to have been written
         ///        NO if NV Index is required not to have been written </param>
@@ -20567,9 +20567,9 @@ namespace Tpm2Lib {
 
         /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "templateHash"> the digest to be added to the policy </param>
+        /// <param name = "templateHash"> The digest to be added to the policy </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyTemplate(
@@ -20587,12 +20587,12 @@ namespace Tpm2Lib {
 
         /// This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
         /// 
-        /// <param name = "authHandle"> handle indicating the source of the authorization value
+        /// <param name = "authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "nvIndex"> the NV Index of the area to read
+        /// <param name = "nvIndex"> The NV Index of the area to read
         ///        Auth Index: None </param>
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -20616,19 +20616,19 @@ namespace Tpm2Lib {
         /// <param name = "primaryHandle"> TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "inSensitive"> the sensitive data, see TPM 2.0 Part 1 Sensitive Values </param>
-        /// <param name = "inPublic"> the public template </param>
-        /// <param name = "outsideInfo"> data that will be included in the creation data for this
+        /// <param name = "inSensitive"> The sensitive data, see TPM 2.0 Part 1 Sensitive Values </param>
+        /// <param name = "inPublic"> The public template </param>
+        /// <param name = "outsideInfo"> Data that will be included in the creation data for this
         ///        object to provide permanent, verifiable linkage between this object and some object
         ///        owner data </param>
         /// <param name = "creationPCR"> PCR that will be used in creation data </param>
-        /// <returns> handle - handle of type TPM_HT_TRANSIENT for created Primary Object
-        ///           outPublic - the public portion of the created object
-        ///           creationData - contains a TPMT_CREATION_DATA
-        ///           creationHash - digest of creationData using nameAlg of outPublic
-        ///           creationTicket - ticket used by TPM2_CertifyCreation() to validate that the
+        /// <returns> handle - Handle of type TPM_HT_TRANSIENT for created Primary Object
+        ///           outPublic - The public portion of the created object
+        ///           creationData - Contains a TPMT_CREATION_DATA
+        ///           creationHash - Digest of creationData using nameAlg of outPublic
+        ///           creationTicket - Ticket used by TPM2_CertifyCreation() to validate that the
         ///                            creation data was produced by the TPM
-        ///           name - the name of the created object </returns>
+        ///           name - The name of the created object </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle CreatePrimary(
@@ -20669,7 +20669,7 @@ namespace Tpm2Lib {
         /// <param name = "authHandle"> TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "enable"> the enable being modified
+        /// <param name = "enable"> The enable being modified
         ///        TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV </param>
         /// <param name = "state"> YES if the enable should be SET, NO if the enable should be CLEAR </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -20695,9 +20695,9 @@ namespace Tpm2Lib {
         ///        or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "authPolicy"> an authorization policy digest; may be the Empty Buffer
+        /// <param name = "authPolicy"> An authorization policy digest; may be the Empty Buffer
         ///        If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer. </param>
-        /// <param name = "hashAlg"> the hash algorithm to use for the policy
+        /// <param name = "hashAlg"> The hash algorithm to use for the policy
         ///        If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL. </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -20791,7 +20791,7 @@ namespace Tpm2Lib {
         /// <param name = "authHandle"> TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "newAuth"> new authorization value </param>
+        /// <param name = "newAuth"> New authorization value </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void HierarchyChangeAuth(
@@ -20828,12 +20828,12 @@ namespace Tpm2Lib {
         /// <param name = "lockHandle"> TPM_RH_LOCKOUT
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "newMaxTries"> count of authorization failures before the lockout is imposed
+        /// <param name = "newMaxTries"> Count of authorization failures before the lockout is imposed
         ///        </param>
-        /// <param name = "newRecoveryTime"> time in seconds before the authorization failure count is
+        /// <param name = "newRecoveryTime"> Time in seconds before the authorization failure count is
         ///        automatically decremented
         ///        A value of zero indicates that DA protection is disabled. </param>
-        /// <param name = "lockoutRecovery"> time in seconds after a lockoutAuth failure before use of
+        /// <param name = "lockoutRecovery"> Time in seconds after a lockoutAuth failure before use of
         ///        lockoutAuth is allowed
         ///        A value of zero indicates that a reboot is required. </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
@@ -20860,9 +20860,9 @@ namespace Tpm2Lib {
         /// <param name = "auth"> TPM_RH_PLATFORM+PP
         ///        Auth Index: 1
         ///        Auth Role: USER + Physical Presence </param>
-        /// <param name = "setList"> list of commands to be added to those that will require that
+        /// <param name = "setList"> List of commands to be added to those that will require that
         ///        Physical Presence be asserted </param>
-        /// <param name = "clearList"> list of commands that will no longer require that Physical
+        /// <param name = "clearList"> List of commands that will no longer require that Physical
         ///        Presence be asserted </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -20886,7 +20886,7 @@ namespace Tpm2Lib {
         /// <param name = "authHandle"> TPM_RH_PLATFORM
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "algorithmSet"> a TPM vendor-dependent value indicating the algorithm set
+        /// <param name = "algorithmSet"> A TPM vendor-dependent value indicating the algorithm set
         ///        selection </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -20908,11 +20908,11 @@ namespace Tpm2Lib {
         /// <param name = "authorization"> TPM_RH_PLATFORM+{PP}
         ///        Auth Index:1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "keyHandle"> handle of a public area that contains the TPM Vendor
+        /// <param name = "keyHandle"> Handle of a public area that contains the TPM Vendor
         ///        Authorization Key that will be used to validate manifestSignature
         ///        Auth Index: None </param>
-        /// <param name = "fuDigest"> digest of the first block in the field upgrade sequence </param>
-        /// <param name = "manifestSignature"> signature over fuDigest using the key associated with
+        /// <param name = "fuDigest"> Digest of the first block in the field upgrade sequence </param>
+        /// <param name = "manifestSignature"> Signature over fuDigest using the key associated with
         ///        keyHandle (not optional)
         ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
@@ -20937,10 +20937,10 @@ namespace Tpm2Lib {
 
         /// This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
         /// 
-        /// <param name = "fuData"> field upgrade image data </param>
-        /// <returns> nextDigest - tagged digest of the next block
+        /// <param name = "fuData"> Field upgrade image data </param>
+        /// <returns> nextDigest - Tagged digest of the next block
         ///                        TPM_ALG_NULL if field update is complete
-        ///           firstDigest - tagged digest of the first block of the sequence </returns>
+        ///           firstDigest - Tagged digest of the first block of the sequence </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHash FieldUpgradeData(
@@ -20959,9 +20959,9 @@ namespace Tpm2Lib {
 
         /// This command is used to read a copy of the current firmware installed in the TPM.
         /// 
-        /// <param name = "sequenceNumber"> the number of previous calls to this command in this sequence
+        /// <param name = "sequenceNumber"> The number of previous calls to this command in this sequence
         ///        set to 0 on the first call </param>
-        /// <returns> fuData - field upgrade image data </returns>
+        /// <returns> fuData - Field upgrade image data </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] FirmwareRead(
@@ -20976,7 +20976,7 @@ namespace Tpm2Lib {
 
         /// This command saves a session context, object context, or sequence object context outside the TPM.
         /// 
-        /// <param name = "saveHandle"> handle of the resource to save
+        /// <param name = "saveHandle"> Handle of the resource to save
         ///        Auth Index: None </param>
         /// <returns> context - This structure is used in TPM2_ContextLoad() and TPM2_ContextSave().
         ///                     If the values of the TPMS_CONTEXT structure in TPM2_ContextLoad() are
@@ -20996,8 +20996,8 @@ namespace Tpm2Lib {
 
         /// This command is used to reload a context that has been saved by TPM2_ContextSave().
         /// 
-        /// <param name = "context"> the context blob </param>
-        /// <returns> handle - the handle assigned to the resource after it has been successfully loaded </returns>
+        /// <param name = "context"> The context blob </param>
+        /// <returns> handle - The handle assigned to the resource after it has been successfully loaded </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle ContextLoad(
@@ -21012,7 +21012,7 @@ namespace Tpm2Lib {
 
         /// This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory.
         /// 
-        /// <param name = "flushHandle"> the handle of the item to flush
+        /// <param name = "flushHandle"> The handle of the item to flush
         ///        NOTE This is a use of a handle as a parameter. </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -21030,9 +21030,9 @@ namespace Tpm2Lib {
         /// <param name = "auth"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Handle: 1
         ///        Auth Role: USER </param>
-        /// <param name = "objectHandle"> the handle of a loaded object
+        /// <param name = "objectHandle"> The handle of a loaded object
         ///        Auth Index: None </param>
-        /// <param name = "persistentHandle"> if objectHandle is a transient object handle, then this
+        /// <param name = "persistentHandle"> If objectHandle is a transient object handle, then this
         ///        is the persistent handle for the object
         ///        if objectHandle is a persistent object handle, then it shall be the same value as
         ///        persistentHandle </param>
@@ -21074,7 +21074,7 @@ namespace Tpm2Lib {
         /// <param name = "auth"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Handle: 1
         ///        Auth Role: USER </param>
-        /// <param name = "newTime"> new Clock setting in milliseconds </param>
+        /// <param name = "newTime"> New Clock setting in milliseconds </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void ClockSet(
@@ -21113,11 +21113,11 @@ namespace Tpm2Lib {
 
         /// This command returns various information regarding the TPM and its current state.
         /// 
-        /// <param name = "capability"> group selection; determines the format of the response </param>
-        /// <param name = "property"> further definition of information </param>
-        /// <param name = "propertyCount"> number of properties of the indicated type to return </param>
-        /// <returns> moreData - flag to indicate if there are more values of this type
-        ///           capabilityData - the capability data </returns>
+        /// <param name = "capability"> Group selection; determines the format of the response </param>
+        /// <param name = "property"> Further definition of information </param>
+        /// <param name = "propertyCount"> Number of properties of the indicated type to return </param>
+        /// <returns> moreData - Flag to indicate if there are more values of this type
+        ///           capabilityData - The capability data </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte GetCapability(
@@ -21142,7 +21142,7 @@ namespace Tpm2Lib {
 
         /// This command is used to check to see if specific combinations of algorithm parameters are supported.
         /// 
-        /// <param name = "parameters"> algorithm parameters to be validated
+        /// <param name = "parameters"> Algorithm parameters to be validated
         ///        (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -21160,8 +21160,8 @@ namespace Tpm2Lib {
         /// <param name = "authHandle"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "auth"> the authorization value </param>
-        /// <param name = "publicInfo"> the public parameters of the NV area </param>
+        /// <param name = "auth"> The authorization value </param>
+        /// <param name = "publicInfo"> The public parameters of the NV area </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvDefineSpace(
@@ -21184,7 +21184,7 @@ namespace Tpm2Lib {
         /// <param name = "authHandle"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "nvIndex"> the NV Index to remove from NV space
+        /// <param name = "nvIndex"> The NV Index to remove from NV space
         ///        Auth Index: None </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -21226,10 +21226,10 @@ namespace Tpm2Lib {
 
         /// This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data.
         /// 
-        /// <param name = "nvIndex"> the NV Index
+        /// <param name = "nvIndex"> The NV Index
         ///        Auth Index: None </param>
-        /// <returns> nvPublic - the public area of the NV Index
-        ///           nvName - the Name of the nvIndex </returns>
+        /// <returns> nvPublic - The public area of the NV Index
+        ///           nvName - The Name of the nvIndex </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public NvPublic NvReadPublic(
@@ -21248,13 +21248,13 @@ namespace Tpm2Lib {
 
         /// This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
         /// 
-        /// <param name = "authHandle"> handle indicating the source of the authorization value
+        /// <param name = "authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "nvIndex"> the NV Index of the area to write
+        /// <param name = "nvIndex"> The NV Index of the area to write
         ///        Auth Index: None </param>
-        /// <param name = "data"> the data to write </param>
-        /// <param name = "offset"> the octet offset into the NV Area </param>
+        /// <param name = "data"> The data to write </param>
+        /// <param name = "offset"> The octet offset into the NV Area </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvWrite(
@@ -21276,10 +21276,10 @@ namespace Tpm2Lib {
 
         /// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
         /// 
-        /// <param name = "authHandle"> handle indicating the source of the authorization value
+        /// <param name = "authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "nvIndex"> the NV Index to increment
+        /// <param name = "nvIndex"> The NV Index to increment
         ///        Auth Index: None </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -21298,12 +21298,12 @@ namespace Tpm2Lib {
 
         /// This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace.
         /// 
-        /// <param name = "authHandle"> handle indicating the source of the authorization value
+        /// <param name = "authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "nvIndex"> the NV Index to extend
+        /// <param name = "nvIndex"> The NV Index to extend
         ///        Auth Index: None </param>
-        /// <param name = "data"> the data to extend </param>
+        /// <param name = "data"> The data to extend </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvExtend(
@@ -21323,12 +21323,12 @@ namespace Tpm2Lib {
 
         /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
         /// 
-        /// <param name = "authHandle"> handle indicating the source of the authorization value
+        /// <param name = "authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <param name = "nvIndex"> NV Index of the area in which the bit is to be set
         ///        Auth Index: None </param>
-        /// <param name = "bits"> the data to OR with the current contents </param>
+        /// <param name = "bits"> The data to OR with the current contents </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvSetBits(
@@ -21348,10 +21348,10 @@ namespace Tpm2Lib {
 
         /// If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET, then this command may be used to inhibit further writes of the NV Index.
         /// 
-        /// <param name = "authHandle"> handle indicating the source of the authorization value
+        /// <param name = "authHandle"> Handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "nvIndex"> the NV Index of the area to lock
+        /// <param name = "nvIndex"> The NV Index of the area to lock
         ///        Auth Index: None </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -21386,15 +21386,15 @@ namespace Tpm2Lib {
 
         /// This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
         /// 
-        /// <param name = "authHandle"> the handle indicating the source of the authorization value
+        /// <param name = "authHandle"> The handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "nvIndex"> the NV Index to be read
+        /// <param name = "nvIndex"> The NV Index to be read
         ///        Auth Index: None </param>
-        /// <param name = "size"> number of octets to read </param>
-        /// <param name = "offset"> octet offset into the NV area
+        /// <param name = "size"> Number of octets to read </param>
+        /// <param name = "offset"> Octet offset into the NV area
         ///        This value shall be less than or equal to the size of the nvIndex data. </param>
-        /// <returns> data - the data read </returns>
+        /// <returns> data - The data read </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] NvRead(
@@ -21417,10 +21417,10 @@ namespace Tpm2Lib {
 
         /// If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
         /// 
-        /// <param name = "authHandle"> the handle indicating the source of the authorization value
+        /// <param name = "authHandle"> The handle indicating the source of the authorization value
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "nvIndex"> the NV Index to be locked
+        /// <param name = "nvIndex"> The NV Index to be locked
         ///        Auth Index: None </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -21439,10 +21439,10 @@ namespace Tpm2Lib {
 
         /// This command allows the authorization secret for an NV Index to be changed.
         /// 
-        /// <param name = "nvIndex"> handle of the entity
+        /// <param name = "nvIndex"> Handle of the entity
         ///        Auth Index: 1
         ///        Auth Role: ADMIN </param>
-        /// <param name = "newAuth"> new authorization value </param>
+        /// <param name = "newAuth"> New authorization value </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvChangeAuth(
@@ -21460,24 +21460,24 @@ namespace Tpm2Lib {
 
         /// The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.
         /// 
-        /// <param name = "signHandle"> handle of the key used to sign the attestation structure
+        /// <param name = "signHandle"> Handle of the key used to sign the attestation structure
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "authHandle"> handle indicating the source of the authorization value for
+        /// <param name = "authHandle"> Handle indicating the source of the authorization value for
         ///        the NV Index
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
         /// <param name = "nvIndex"> Index for the area to be certified
         ///        Auth Index: None </param>
-        /// <param name = "qualifyingData"> user-provided qualifying data </param>
-        /// <param name = "inScheme"> signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+        /// <param name = "qualifyingData"> User-provided qualifying data </param>
+        /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
         ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
-        /// <param name = "size"> number of octets to certify </param>
-        /// <param name = "offset"> octet offset into the NV area
+        /// <param name = "size"> Number of octets to certify </param>
+        /// <param name = "offset"> Octet offset into the NV area
         ///        This value shall be less than or equal to the size of the nvIndex data. </param>
-        /// <returns> certifyInfo - the structure that was signed
-        ///           signature - the asymmetric signature over certifyInfo using the key referenced
+        /// <returns> certifyInfo - The structure that was signed
+        ///           signature - The asymmetric signature over certifyInfo using the key referenced
         ///                       by signHandle </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -21511,12 +21511,12 @@ namespace Tpm2Lib {
 
         /// The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
         /// 
-        /// <param name = "ac"> handle indicating the Attached Component
+        /// <param name = "ac"> Handle indicating the Attached Component
         ///        Auth Index: None </param>
-        /// <param name = "capability"> starting info type </param>
-        /// <param name = "count"> maximum number of values to return </param>
-        /// <returns> moreData - flag to indicate whether there are more values
-        ///           capabilitiesData - list of capabilities </returns>
+        /// <param name = "capability"> Starting info type </param>
+        /// <param name = "count"> Maximum number of values to return </param>
+        /// <returns> moreData - Flag to indicate whether there are more values
+        ///           capabilitiesData - List of capabilities </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte AcGetCapability(
@@ -21541,13 +21541,13 @@ namespace Tpm2Lib {
 
         /// The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
         /// 
-        /// <param name = "sendObject"> handle of the object being sent to ac
+        /// <param name = "sendObject"> Handle of the object being sent to ac
         ///        Auth Index: 1
         ///        Auth Role: DUP </param>
-        /// <param name = "authHandle"> the handle indicating the source of the authorization value
+        /// <param name = "authHandle"> The handle indicating the source of the authorization value
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        /// <param name = "ac"> handle indicating the Attached Component to which the object will be sent
+        /// <param name = "ac"> Handle indicating the Attached Component to which the object will be sent
         ///        Auth Index: None </param>
         /// <param name = "acDataIn"> Optional non sensitive information related to the object </param>
         /// <returns> acDataOut - May include AC specific data or information about an error. </returns>
@@ -21573,14 +21573,14 @@ namespace Tpm2Lib {
 
         /// This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
         /// 
-        /// <param name = "policySession"> handle for the policy session being extended
+        /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        /// <param name = "objectName"> the Name of the Object to be sent </param>
-        /// <param name = "authHandleName"> the Name associated with authHandle used in the
+        /// <param name = "objectName"> The Name of the Object to be sent </param>
+        /// <param name = "authHandleName"> The Name associated with authHandle used in the
         ///        TPM2_AC_Send() command </param>
-        /// <param name = "acName"> the Name of the Attached Component to which the Object will be
+        /// <param name = "acName"> The Name of the Attached Component to which the Object will be
         ///        sent </param>
-        /// <param name = "includeObject"> if SET, objectName will be included in the value in
+        /// <param name = "includeObject"> If SET, objectName will be included in the value in
         ///        policySessionpolicyDigest </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
@@ -21608,7 +21608,7 @@ namespace Tpm2Lib {
         /// <param name = "actHandle"> Handle of the selected ACT
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        /// <param name = "startTimeout"> the start timeout value for the ACT in seconds </param>
+        /// <param name = "startTimeout"> The start timeout value for the ACT in seconds </param>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void ActSetTimeout(
@@ -21626,8 +21626,8 @@ namespace Tpm2Lib {
 
         /// This is a placeholder to allow testing of the dispatch code.
         /// 
-        /// <param name = "inputData"> dummy data </param>
-        /// <returns> outputData - dummy data </returns>
+        /// <param name = "inputData"> Dummy data </param>
+        /// <returns> outputData - Dummy data </returns>
         [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] VendorTcgTest(
