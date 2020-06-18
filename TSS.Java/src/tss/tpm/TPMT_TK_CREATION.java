@@ -7,22 +7,20 @@ import tss.*;
 
 //>>>
 
-/**
- *  This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind the
- *  creation data to the object to which it applies. The ticket is computed by
+/** This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind
+ *  the creation data to the object to which it applies. The ticket is computed by
  */
 public class TPMT_TK_CREATION extends TpmStructure
 {
-    /** the hierarchy containing name */
+    /** The hierarchy containing name  */
     public TPM_HANDLE hierarchy;
     
-    /** This shall be the HMAC produced using a proof value of hierarchy. */
+    /** This shall be the HMAC produced using a proof value of hierarchy.  */
     public byte[] digest;
     
     public TPMT_TK_CREATION() { hierarchy = new TPM_HANDLE(); }
     
-    /**
-     *  @param _hierarchy the hierarchy containing name
+    /** @param _hierarchy The hierarchy containing name
      *  @param _digest This shall be the HMAC produced using a proof value of hierarchy.
      */
     public TPMT_TK_CREATION(TPM_HANDLE _hierarchy, byte[] _digest)
@@ -30,7 +28,7 @@ public class TPMT_TK_CREATION extends TpmStructure
         hierarchy = _hierarchy;
         digest = _digest;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -38,7 +36,7 @@ public class TPMT_TK_CREATION extends TpmStructure
         hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(digest);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -49,7 +47,7 @@ public class TPMT_TK_CREATION extends TpmStructure
         digest = new byte[_digestSize];
         buf.readArrayOfInts(digest, 1, _digestSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -57,24 +55,27 @@ public class TPMT_TK_CREATION extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMT_TK_CREATION fromTpm (byte[] x) 
+    
+    public static TPMT_TK_CREATION fromBytes (byte[] byteBuf) 
     {
         TPMT_TK_CREATION ret = new TPMT_TK_CREATION();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMT_TK_CREATION fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMT_TK_CREATION fromTpm (InByteBuf buf) 
     {
         TPMT_TK_CREATION ret = new TPMT_TK_CREATION();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -83,7 +84,7 @@ public class TPMT_TK_CREATION extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

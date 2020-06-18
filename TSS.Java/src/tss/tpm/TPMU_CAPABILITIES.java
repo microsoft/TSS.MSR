@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** Table 119 Definition of TPMU_CAPABILITIES Union [OUT] */
+/** Table 119 Definition of TPMU_CAPABILITIES Union [OUT]  */
 public interface TPMU_CAPABILITIES extends TpmUnion
 {
     public TPM_CAP GetUnionSelector();

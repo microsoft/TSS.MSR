@@ -7,35 +7,30 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command duplicates a loaded object so that it may be used in a different hierarchy.
- *  The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
- *  Only the public area of newParentHandle is required to be loaded.
+/** This command duplicates a loaded object so that it may be used in a different
+ *  hierarchy. The new parent key for the duplicate may be on the same or different TPM or
+ *  TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
  */
 public class TPM2_Duplicate_REQUEST extends TpmStructure
 {
-    /**
-     *  loaded object to duplicate
+    /** Loaded object to duplicate
      *  Auth Index: 1
      *  Auth Role: DUP
      */
     public TPM_HANDLE objectHandle;
     
-    /**
-     *  shall reference the public area of an asymmetric key
+    /** Shall reference the public area of an asymmetric key
      *  Auth Index: None
      */
     public TPM_HANDLE newParentHandle;
     
-    /**
-     *  optional symmetric encryption key
+    /** Optional symmetric encryption key
      *  The size for this key is set to zero when the TPM is to generate the key. This
      *  parameter may be encrypted.
      */
     public byte[] encryptionKeyIn;
     
-    /**
-     *  definition for the symmetric algorithm to be used for the inner wrapper
+    /** Definition for the symmetric algorithm to be used for the inner wrapper
      *  may be TPM_ALG_NULL if no inner wrapper is applied
      */
     public TPMT_SYM_DEF_OBJECT symmetricAlg;
@@ -45,17 +40,16 @@ public class TPM2_Duplicate_REQUEST extends TpmStructure
         objectHandle = new TPM_HANDLE();
         newParentHandle = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _objectHandle loaded object to duplicate
+    
+    /** @param _objectHandle Loaded object to duplicate
      *         Auth Index: 1
      *         Auth Role: DUP
-     *  @param _newParentHandle shall reference the public area of an asymmetric key
+     *  @param _newParentHandle Shall reference the public area of an asymmetric key
      *         Auth Index: None
-     *  @param _encryptionKeyIn optional symmetric encryption key
+     *  @param _encryptionKeyIn Optional symmetric encryption key
      *         The size for this key is set to zero when the TPM is to generate the key. This
      *         parameter may be encrypted.
-     *  @param _symmetricAlg definition for the symmetric algorithm to be used for the inner wrapper
+     *  @param _symmetricAlg Definition for the symmetric algorithm to be used for the inner wrapper
      *         may be TPM_ALG_NULL if no inner wrapper is applied
      */
     public TPM2_Duplicate_REQUEST(TPM_HANDLE _objectHandle, TPM_HANDLE _newParentHandle, byte[] _encryptionKeyIn, TPMT_SYM_DEF_OBJECT _symmetricAlg)
@@ -65,14 +59,14 @@ public class TPM2_Duplicate_REQUEST extends TpmStructure
         encryptionKeyIn = _encryptionKeyIn;
         symmetricAlg = _symmetricAlg;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeSizedByteBuf(encryptionKeyIn);
         symmetricAlg.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -81,7 +75,7 @@ public class TPM2_Duplicate_REQUEST extends TpmStructure
         buf.readArrayOfInts(encryptionKeyIn, 1, _encryptionKeyInSize);
         symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -89,24 +83,27 @@ public class TPM2_Duplicate_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_Duplicate_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_Duplicate_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_Duplicate_REQUEST ret = new TPM2_Duplicate_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_Duplicate_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_Duplicate_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_Duplicate_REQUEST ret = new TPM2_Duplicate_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -115,7 +112,7 @@ public class TPM2_Duplicate_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

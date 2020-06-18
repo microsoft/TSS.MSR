@@ -7,47 +7,44 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to create a Primary Object under one of the Primary Seeds or a
- *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
- *  object to be created. The size of the unique field shall not be checked for consistency
- *  with the other object parameters. The command will create and load a Primary Object. The
- *  sensitive area is not returned.
+/** This command is used to create a Primary Object under one of the Primary Seeds or a
+ *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for
+ *  the object to be created. The size of the unique field shall not be checked for
+ *  consistency with the other object parameters. The command will create and load a
+ *  Primary Object. The sensitive area is not returned.
  */
 public class TPM2_CreatePrimary_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
+    /** TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE primaryHandle;
     
-    /** the sensitive data, see TPM 2.0 Part 1 Sensitive Values */
+    /** The sensitive data, see TPM 2.0 Part 1 Sensitive Values  */
     public TPMS_SENSITIVE_CREATE inSensitive;
     
-    /** the public template */
+    /** The public template  */
     public TPMT_PUBLIC inPublic;
     
-    /**
-     *  data that will be included in the creation data for this object to provide permanent,
+    /** Data that will be included in the creation data for this object to provide permanent,
      *  verifiable linkage between this object and some object owner data
      */
     public byte[] outsideInfo;
     
-    /** PCR that will be used in creation data */
+    /** PCR that will be used in creation data  */
     public TPMS_PCR_SELECTION[] creationPCR;
     
     public TPM2_CreatePrimary_REQUEST() { primaryHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _primaryHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
+    /** @param _primaryHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _inSensitive the sensitive data, see TPM 2.0 Part 1 Sensitive Values
-     *  @param _inPublic the public template
-     *  @param _outsideInfo data that will be included in the creation data for this object to provide permanent,
-     *         verifiable linkage between this object and some object owner data
+     *  @param _inSensitive The sensitive data, see TPM 2.0 Part 1 Sensitive Values
+     *  @param _inPublic The public template
+     *  @param _outsideInfo Data that will be included in the creation data for this object to
+     *         provide permanent, verifiable linkage between this object and some object owner
+     *  data
      *  @param _creationPCR PCR that will be used in creation data
      */
     public TPM2_CreatePrimary_REQUEST(TPM_HANDLE _primaryHandle, TPMS_SENSITIVE_CREATE _inSensitive, TPMT_PUBLIC _inPublic, byte[] _outsideInfo, TPMS_PCR_SELECTION[] _creationPCR)
@@ -58,7 +55,7 @@ public class TPM2_CreatePrimary_REQUEST extends TpmStructure
         outsideInfo = _outsideInfo;
         creationPCR = _creationPCR;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -71,7 +68,7 @@ public class TPM2_CreatePrimary_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(outsideInfo);
         buf.writeObjArr(creationPCR);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -91,7 +88,7 @@ public class TPM2_CreatePrimary_REQUEST extends TpmStructure
         for (int j=0; j < _creationPCRCount; j++) creationPCR[j] = new TPMS_PCR_SELECTION();
         buf.readArrayOfTpmObjects(creationPCR, _creationPCRCount);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -99,24 +96,27 @@ public class TPM2_CreatePrimary_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_CreatePrimary_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_CreatePrimary_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_CreatePrimary_REQUEST ret = new TPM2_CreatePrimary_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_CreatePrimary_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_CreatePrimary_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_CreatePrimary_REQUEST ret = new TPM2_CreatePrimary_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -125,7 +125,7 @@ public class TPM2_CreatePrimary_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

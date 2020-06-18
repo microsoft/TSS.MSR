@@ -7,15 +7,14 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command uses the TPM to recover the Z value from a public point (QB) and a private
- *  key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
- *  key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
- *  is the cofactor of the curve).
+/** This command uses the TPM to recover the Z value from a public point (QB) and a
+ *  private key (ds). It will perform the multiplication of the provided inPoint (QB) with
+ *  the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)
+ *  [hds]QB; where h is the cofactor of the curve).
  */
 public class ECDH_ZGenResponse extends TpmStructure
 {
-    /** X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB */
+    /** X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB  */
     public TPMS_ECC_POINT outPoint;
     
     public ECDH_ZGenResponse() {}
@@ -27,7 +26,7 @@ public class ECDH_ZGenResponse extends TpmStructure
         if (outPoint != null)
             outPoint.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -36,7 +35,7 @@ public class ECDH_ZGenResponse extends TpmStructure
         outPoint = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -44,24 +43,27 @@ public class ECDH_ZGenResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static ECDH_ZGenResponse fromTpm (byte[] x) 
+    
+    public static ECDH_ZGenResponse fromBytes (byte[] byteBuf) 
     {
         ECDH_ZGenResponse ret = new ECDH_ZGenResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static ECDH_ZGenResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static ECDH_ZGenResponse fromTpm (InByteBuf buf) 
     {
         ECDH_ZGenResponse ret = new ECDH_ZGenResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -70,7 +72,7 @@ public class ECDH_ZGenResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

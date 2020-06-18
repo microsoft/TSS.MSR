@@ -7,29 +7,26 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command allows setting of the authorization policy for the lockout (lockoutPolicy),
- *  the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the
- *  endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown
- *  Timers (ACT), this command may also be used to set the authorization policy for an ACT.
+/** This command allows setting of the authorization policy for the lockout
+ *  (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy
+ *  (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing
+ *  Authenticated Countdown Timers (ACT), this command may also be used to set the
+ *  authorization policy for an ACT.
  */
 public class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
+    /** TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
     
-    /**
-     *  an authorization policy digest; may be the Empty Buffer
+    /** An authorization policy digest; may be the Empty Buffer
      *  If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer.
      */
     public byte[] authPolicy;
     
-    /**
-     *  the hash algorithm to use for the policy
+    /** The hash algorithm to use for the policy
      *  If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL.
      */
     public TPM_ALG_ID hashAlg;
@@ -39,14 +36,14 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
         authHandle = new TPM_HANDLE();
         hashAlg = TPM_ALG_ID.NULL;
     }
-
-    /**
-     *  @param _authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
+    
+    /** @param _authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or
+     *         TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _authPolicy an authorization policy digest; may be the Empty Buffer
+     *  @param _authPolicy An authorization policy digest; may be the Empty Buffer
      *         If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer.
-     *  @param _hashAlg the hash algorithm to use for the policy
+     *  @param _hashAlg The hash algorithm to use for the policy
      *         If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL.
      */
     public TPM2_SetPrimaryPolicy_REQUEST(TPM_HANDLE _authHandle, byte[] _authPolicy, TPM_ALG_ID _hashAlg)
@@ -55,14 +52,14 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
         authPolicy = _authPolicy;
         hashAlg = _hashAlg;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeSizedByteBuf(authPolicy);
         hashAlg.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -71,7 +68,7 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
         buf.readArrayOfInts(authPolicy, 1, _authPolicySize);
         hashAlg = TPM_ALG_ID.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -79,24 +76,27 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_SetPrimaryPolicy_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_SetPrimaryPolicy_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_SetPrimaryPolicy_REQUEST ret = new TPM2_SetPrimaryPolicy_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_SetPrimaryPolicy_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_SetPrimaryPolicy_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_SetPrimaryPolicy_REQUEST ret = new TPM2_SetPrimaryPolicy_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -105,7 +105,7 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

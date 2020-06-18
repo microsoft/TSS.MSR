@@ -7,17 +7,16 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
- *  uses the private ephemeral key and a loaded public key (QS) to compute the shared
+/** This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G).
+ *  It uses the private ephemeral key and a loaded public key (QS) to compute the shared
  *  secret value (P [hde]QS).
  */
 public class ECDH_KeyGenResponse extends TpmStructure
 {
-    /** results of P h[de]Qs */
+    /** Results of P h[de]Qs  */
     public TPMS_ECC_POINT zPoint;
     
-    /** generated ephemeral public point (Qe) */
+    /** Generated ephemeral public point (Qe)  */
     public TPMS_ECC_POINT pubPoint;
     
     public ECDH_KeyGenResponse() {}
@@ -32,7 +31,7 @@ public class ECDH_KeyGenResponse extends TpmStructure
         if (pubPoint != null)
             pubPoint.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -45,7 +44,7 @@ public class ECDH_KeyGenResponse extends TpmStructure
         pubPoint = TPMS_ECC_POINT.fromTpm(buf);
         buf.structSize.pop();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -53,24 +52,27 @@ public class ECDH_KeyGenResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static ECDH_KeyGenResponse fromTpm (byte[] x) 
+    
+    public static ECDH_KeyGenResponse fromBytes (byte[] byteBuf) 
     {
         ECDH_KeyGenResponse ret = new ECDH_KeyGenResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static ECDH_KeyGenResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static ECDH_KeyGenResponse fromTpm (InByteBuf buf) 
     {
         ECDH_KeyGenResponse ret = new ECDH_KeyGenResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -79,7 +81,7 @@ public class ECDH_KeyGenResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

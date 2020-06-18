@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This command performs ECC decryption. */
+/** This command performs ECC decryption.  */
 public class ECC_DecryptResponse extends TpmStructure
 {
-    /** decrypted output */
+    /** Decrypted output  */
     public byte[] plainText;
     
     public ECC_DecryptResponse() {}
@@ -20,7 +20,7 @@ public class ECC_DecryptResponse extends TpmStructure
     {
         buf.writeSizedByteBuf(plainText);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -28,7 +28,7 @@ public class ECC_DecryptResponse extends TpmStructure
         plainText = new byte[_plainTextSize];
         buf.readArrayOfInts(plainText, 1, _plainTextSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -36,24 +36,27 @@ public class ECC_DecryptResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static ECC_DecryptResponse fromTpm (byte[] x) 
+    
+    public static ECC_DecryptResponse fromBytes (byte[] byteBuf) 
     {
         ECC_DecryptResponse ret = new ECC_DecryptResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static ECC_DecryptResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static ECC_DecryptResponse fromTpm (InByteBuf buf) 
     {
         ECC_DecryptResponse ret = new ECC_DecryptResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -62,7 +65,7 @@ public class ECC_DecryptResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

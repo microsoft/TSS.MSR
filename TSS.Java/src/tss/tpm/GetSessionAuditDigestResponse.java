@@ -7,16 +7,16 @@ import tss.*;
 
 //>>>
 
-/** This command returns a digital signature of the audit session digest. */
+/** This command returns a digital signature of the audit session digest.  */
 public class GetSessionAuditDigestResponse extends TpmStructure
 {
-    /** the audit information that was signed */
+    /** The audit information that was signed  */
     public TPMS_ATTEST auditInfo;
     
-    /** selector of the algorithm used to construct the signature */
+    /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** the signature over auditInfo */
+    /** The signature over auditInfo  */
     public TPMU_SIGNATURE signature;
     
     public GetSessionAuditDigestResponse() {}
@@ -30,7 +30,7 @@ public class GetSessionAuditDigestResponse extends TpmStructure
         signature.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)signature).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -42,7 +42,7 @@ public class GetSessionAuditDigestResponse extends TpmStructure
         signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_signatureSigAlg));
         signature.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -50,24 +50,27 @@ public class GetSessionAuditDigestResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static GetSessionAuditDigestResponse fromTpm (byte[] x) 
+    
+    public static GetSessionAuditDigestResponse fromBytes (byte[] byteBuf) 
     {
         GetSessionAuditDigestResponse ret = new GetSessionAuditDigestResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static GetSessionAuditDigestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static GetSessionAuditDigestResponse fromTpm (InByteBuf buf) 
     {
         GetSessionAuditDigestResponse ret = new GetSessionAuditDigestResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -76,7 +79,7 @@ public class GetSessionAuditDigestResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

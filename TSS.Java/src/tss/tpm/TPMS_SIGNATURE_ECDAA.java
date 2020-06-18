@@ -7,13 +7,12 @@ import tss.*;
 
 //>>>
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
+/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
 public class TPMS_SIGNATURE_ECDAA extends TPMS_SIGNATURE_ECC
 {
     public TPMS_SIGNATURE_ECDAA() {}
     
-    /**
-     *  @param _hash the hash algorithm used in the signature process
+    /** @param _hash The hash algorithm used in the signature process
      *         TPM_ALG_NULL is not allowed.
      *  @param _signatureR TBD
      *  @param _signatureS TBD
@@ -22,8 +21,8 @@ public class TPMS_SIGNATURE_ECDAA extends TPMS_SIGNATURE_ECC
     {
         super(_hash, _signatureR, _signatureS);
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDAA; }
     
     @Override

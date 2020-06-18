@@ -7,50 +7,43 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to start an authorization session using alternative methods of
- *  establishing the session key (sessionKey). The session key is then used to derive values
- *  used for authorization and for encrypting parameters.
+/** This command is used to start an authorization session using alternative methods of
+ *  establishing the session key (sessionKey). The session key is then used to derive
+ *  values used for authorization and for encrypting parameters.
  */
 public class TPM2_StartAuthSession_REQUEST extends TpmStructure
 {
-    /**
-     *  handle of a loaded decrypt key used to encrypt salt
+    /** Handle of a loaded decrypt key used to encrypt salt
      *  may be TPM_RH_NULL
      *  Auth Index: None
      */
     public TPM_HANDLE tpmKey;
     
-    /**
-     *  entity providing the authValue
+    /** Entity providing the authValue
      *  may be TPM_RH_NULL
      *  Auth Index: None
      */
     public TPM_HANDLE bind;
     
-    /**
-     *  initial nonceCaller, sets nonceTPM size for the session
+    /** Initial nonceCaller, sets nonceTPM size for the session
      *  shall be at least 16 octets
      */
     public byte[] nonceCaller;
     
-    /**
-     *  value encrypted according to the type of tpmKey
+    /** Value encrypted according to the type of tpmKey
      *  If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.
      */
     public byte[] encryptedSalt;
     
-    /** indicates the type of the session; simple HMAC or policy (including a trial policy) */
+    /** Indicates the type of the session; simple HMAC or policy (including a trial policy)  */
     public TPM_SE sessionType;
     
-    /**
-     *  the algorithm and key size for parameter encryption
+    /** The algorithm and key size for parameter encryption
      *  may select TPM_ALG_NULL
      */
     public TPMT_SYM_DEF symmetric;
     
-    /**
-     *  hash algorithm to use for the session
+    /** Hash algorithm to use for the session
      *  Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL
      */
     public TPM_ALG_ID authHash;
@@ -61,22 +54,23 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
         bind = new TPM_HANDLE();
         authHash = TPM_ALG_ID.NULL;
     }
-
-    /**
-     *  @param _tpmKey handle of a loaded decrypt key used to encrypt salt
+    
+    /** @param _tpmKey Handle of a loaded decrypt key used to encrypt salt
      *         may be TPM_RH_NULL
      *         Auth Index: None
-     *  @param _bind entity providing the authValue
+     *  @param _bind Entity providing the authValue
      *         may be TPM_RH_NULL
      *         Auth Index: None
-     *  @param _nonceCaller initial nonceCaller, sets nonceTPM size for the session
+     *  @param _nonceCaller Initial nonceCaller, sets nonceTPM size for the session
      *         shall be at least 16 octets
-     *  @param _encryptedSalt value encrypted according to the type of tpmKey
+     *  @param _encryptedSalt Value encrypted according to the type of tpmKey
      *         If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.
-     *  @param _sessionType indicates the type of the session; simple HMAC or policy (including a trial policy)
-     *  @param _symmetric the algorithm and key size for parameter encryption
+     *  @param _sessionType Indicates the type of the session; simple HMAC or policy
+     *  (including a
+     *         trial policy)
+     *  @param _symmetric The algorithm and key size for parameter encryption
      *         may select TPM_ALG_NULL
-     *  @param _authHash hash algorithm to use for the session
+     *  @param _authHash Hash algorithm to use for the session
      *         Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL
      */
     public TPM2_StartAuthSession_REQUEST(TPM_HANDLE _tpmKey, TPM_HANDLE _bind, byte[] _nonceCaller, byte[] _encryptedSalt, TPM_SE _sessionType, TPMT_SYM_DEF _symmetric, TPM_ALG_ID _authHash)
@@ -89,7 +83,7 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
         symmetric = _symmetric;
         authHash = _authHash;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -99,7 +93,7 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
         symmetric.toTpm(buf);
         authHash.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -113,7 +107,7 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
         symmetric = TPMT_SYM_DEF.fromTpm(buf);
         authHash = TPM_ALG_ID.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -121,24 +115,27 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_StartAuthSession_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_StartAuthSession_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_StartAuthSession_REQUEST ret = new TPM2_StartAuthSession_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_StartAuthSession_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_StartAuthSession_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_StartAuthSession_REQUEST ret = new TPM2_StartAuthSession_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -147,7 +144,7 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

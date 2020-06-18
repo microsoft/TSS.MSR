@@ -7,16 +7,15 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command adds the last part of data, if any, to an Event Sequence and returns the
+/** This command adds the last part of data, if any, to an Event Sequence and returns the
  *  result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
- *  returned digest list is processed in the same manner as the digest list input parameter to
- *  TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
- *  extended with the associated digest value from the list.
+ *  returned digest list is processed in the same manner as the digest list input
+ *  parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with
+ *  pcrHandle, it is extended with the associated digest value from the list.
  */
 public class EventSequenceCompleteResponse extends TpmStructure
 {
-    /** list of digests computed for the PCR */
+    /** List of digests computed for the PCR  */
     public TPMT_HA[] results;
     
     public EventSequenceCompleteResponse() {}
@@ -26,7 +25,7 @@ public class EventSequenceCompleteResponse extends TpmStructure
     {
         buf.writeObjArr(results);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -35,7 +34,7 @@ public class EventSequenceCompleteResponse extends TpmStructure
         for (int j=0; j < _resultsCount; j++) results[j] = new TPMT_HA();
         buf.readArrayOfTpmObjects(results, _resultsCount);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -43,24 +42,27 @@ public class EventSequenceCompleteResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static EventSequenceCompleteResponse fromTpm (byte[] x) 
+    
+    public static EventSequenceCompleteResponse fromBytes (byte[] byteBuf) 
     {
         EventSequenceCompleteResponse ret = new EventSequenceCompleteResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static EventSequenceCompleteResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static EventSequenceCompleteResponse fromTpm (InByteBuf buf) 
     {
         EventSequenceCompleteResponse ret = new EventSequenceCompleteResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -69,7 +71,7 @@ public class EventSequenceCompleteResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

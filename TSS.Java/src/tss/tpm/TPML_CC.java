@@ -7,29 +7,27 @@ import tss.*;
 
 //>>>
 
-/**
- *  A list of command codes may be input to the TPM or returned by the TPM
- *  depending on the command.
+/** A list of command codes may be input to the TPM or returned by the TPM depending on
+ *  the command.
  */
 public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
 {
-    /**
-     *  a list of command codes
-     *  The maximum only applies to a command code list in a command. The response size is limited only by
-     *  the size of the parameter buffer.
+    /** A list of command codes
+     *  The maximum only applies to a command code list in a command. The response size is
+     *  limited only by the size of the parameter buffer.
      */
     public TPM_CC[] commandCodes;
     
     public TPML_CC() {}
     
-    /**
-     *  @param _commandCodes a list of command codes
-     *         The maximum only applies to a command code list in a command. The response size is limited only by
-     *         the size of the parameter buffer.
+    /** @param _commandCodes A list of command codes
+     *         The maximum only applies to a command code list in a command. The response size
+     *  is
+     *         limited only by the size of the parameter buffer.
      */
     public TPML_CC(TPM_CC[] _commandCodes) { commandCodes = _commandCodes; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.PP_COMMANDS; }
     
     @Override
@@ -37,7 +35,7 @@ public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
     {
         buf.writeObjArr(commandCodes);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -45,7 +43,7 @@ public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
         commandCodes = new TPM_CC[_count];
         for (int j=0; j < _count; j++) commandCodes[j] = TPM_CC.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -53,24 +51,27 @@ public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPML_CC fromTpm (byte[] x) 
+    
+    public static TPML_CC fromBytes (byte[] byteBuf) 
     {
         TPML_CC ret = new TPML_CC();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPML_CC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPML_CC fromTpm (InByteBuf buf) 
     {
         TPML_CC ret = new TPML_CC();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -79,7 +80,7 @@ public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,21 +7,20 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure is used for a sized buffer that cannot be larger than the largest digest
- *  produced by any hash algorithm implemented on the TPM.
+/** This structure is used for a sized buffer that cannot be larger than the largest
+ *  digest produced by any hash algorithm implemented on the TPM.
  */
 public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
 {
-    /** the buffer area that can be no larger than a digest */
+    /** The buffer area that can be no larger than a digest  */
     public byte[] buffer;
     
     public TPM2B_DIGEST() {}
     
-    /** @param _buffer the buffer area that can be no larger than a digest */
+    /** @param _buffer The buffer area that can be no larger than a digest  */
     public TPM2B_DIGEST(byte[] _buffer) { buffer = _buffer; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KEYEDHASH; }
     
     @Override
@@ -29,7 +28,7 @@ public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
     {
         buf.writeSizedByteBuf(buffer);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -37,7 +36,7 @@ public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -45,24 +44,27 @@ public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_DIGEST fromTpm (byte[] x) 
+    
+    public static TPM2B_DIGEST fromBytes (byte[] byteBuf) 
     {
         TPM2B_DIGEST ret = new TPM2B_DIGEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_DIGEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_DIGEST fromTpm (InByteBuf buf) 
     {
         TPM2B_DIGEST ret = new TPM2B_DIGEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -71,7 +73,7 @@ public class TPM2B_DIGEST extends TpmStructure implements TPMU_PUBLIC_ID
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

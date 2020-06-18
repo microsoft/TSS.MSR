@@ -7,22 +7,19 @@ import tss.*;
 
 //>>>
 
-/**
- *  This type is a sized buffer that can hold a maximally sized buffer for NV data commands
- *  such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
+/** This type is a sized buffer that can hold a maximally sized buffer for NV data
+ *  commands such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
  */
 public class TPM2B_MAX_NV_BUFFER extends TpmStructure
 {
-    /**
-     *  the operand
+    /** The operand
      *  NOTE MAX_NV_BUFFER_SIZE is TPM-dependent
      */
     public byte[] buffer;
     
     public TPM2B_MAX_NV_BUFFER() {}
     
-    /**
-     *  @param _buffer the operand
+    /** @param _buffer The operand
      *         NOTE MAX_NV_BUFFER_SIZE is TPM-dependent
      */
     public TPM2B_MAX_NV_BUFFER(byte[] _buffer) { buffer = _buffer; }
@@ -32,7 +29,7 @@ public class TPM2B_MAX_NV_BUFFER extends TpmStructure
     {
         buf.writeSizedByteBuf(buffer);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -40,7 +37,7 @@ public class TPM2B_MAX_NV_BUFFER extends TpmStructure
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -48,24 +45,27 @@ public class TPM2B_MAX_NV_BUFFER extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_MAX_NV_BUFFER fromTpm (byte[] x) 
+    
+    public static TPM2B_MAX_NV_BUFFER fromBytes (byte[] byteBuf) 
     {
         TPM2B_MAX_NV_BUFFER ret = new TPM2B_MAX_NV_BUFFER();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_MAX_NV_BUFFER fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_MAX_NV_BUFFER fromTpm (InByteBuf buf) 
     {
         TPM2B_MAX_NV_BUFFER ret = new TPM2B_MAX_NV_BUFFER();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -74,7 +74,7 @@ public class TPM2B_MAX_NV_BUFFER extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

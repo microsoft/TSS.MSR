@@ -7,15 +7,14 @@ import tss.*;
 
 //>>>
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_XOR for the union TPMU_SYM_DETAILS
  */
 public class TPMS_XOR_SYM_DETAILS extends TPMS_NULL_UNION
 {
     public TPMS_XOR_SYM_DETAILS() {}
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.XOR; }
     
     @Override

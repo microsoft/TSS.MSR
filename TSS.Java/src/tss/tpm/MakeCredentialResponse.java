@@ -7,16 +7,15 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command allows the TPM to perform the actions required of a Certificate Authority
+/** This command allows the TPM to perform the actions required of a Certificate Authority
  *  (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
  */
 public class MakeCredentialResponse extends TpmStructure
 {
-    /** the credential */
+    /** The credential  */
     public TPMS_ID_OBJECT credentialBlob;
     
-    /** handle algorithm-dependent data that wraps the key that encrypts credentialBlob */
+    /** Handle algorithm-dependent data that wraps the key that encrypts credentialBlob  */
     public byte[] secret;
     
     public MakeCredentialResponse() {}
@@ -29,7 +28,7 @@ public class MakeCredentialResponse extends TpmStructure
             credentialBlob.toTpm(buf);
         buf.writeSizedByteBuf(secret);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -41,7 +40,7 @@ public class MakeCredentialResponse extends TpmStructure
         secret = new byte[_secretSize];
         buf.readArrayOfInts(secret, 1, _secretSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -49,24 +48,27 @@ public class MakeCredentialResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static MakeCredentialResponse fromTpm (byte[] x) 
+    
+    public static MakeCredentialResponse fromBytes (byte[] byteBuf) 
     {
         MakeCredentialResponse ret = new MakeCredentialResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static MakeCredentialResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static MakeCredentialResponse fromTpm (InByteBuf buf) 
     {
         MakeCredentialResponse ret = new MakeCredentialResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -75,7 +77,7 @@ public class MakeCredentialResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

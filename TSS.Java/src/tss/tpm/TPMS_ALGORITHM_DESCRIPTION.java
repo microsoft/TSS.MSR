@@ -7,37 +7,33 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure is a return value for a TPM2_GetCapability() that reads
- *  the installed algorithms.
- */
+/** This structure is a return value for a TPM2_GetCapability() that reads the installed algorithms.  */
 public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
 {
-    /** an algorithm */
+    /** An algorithm  */
     public TPM_ALG_ID alg;
     
-    /** the attributes of the algorithm */
+    /** The attributes of the algorithm  */
     public TPMA_ALGORITHM attributes;
     
     public TPMS_ALGORITHM_DESCRIPTION() { alg = TPM_ALG_ID.NULL; }
     
-    /**
-     *  @param _alg an algorithm
-     *  @param _attributes the attributes of the algorithm
+    /** @param _alg An algorithm
+     *  @param _attributes The attributes of the algorithm
      */
     public TPMS_ALGORITHM_DESCRIPTION(TPM_ALG_ID _alg, TPMA_ALGORITHM _attributes)
     {
         alg = _alg;
         attributes = _attributes;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         alg.toTpm(buf);
         attributes.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -45,7 +41,7 @@ public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
         int _attributes = buf.readInt();
         attributes = TPMA_ALGORITHM.fromInt(_attributes);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -53,24 +49,27 @@ public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_ALGORITHM_DESCRIPTION fromTpm (byte[] x) 
+    
+    public static TPMS_ALGORITHM_DESCRIPTION fromBytes (byte[] byteBuf) 
     {
         TPMS_ALGORITHM_DESCRIPTION ret = new TPMS_ALGORITHM_DESCRIPTION();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_ALGORITHM_DESCRIPTION fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_ALGORITHM_DESCRIPTION fromTpm (InByteBuf buf) 
     {
         TPMS_ALGORITHM_DESCRIPTION ret = new TPMS_ALGORITHM_DESCRIPTION();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -79,7 +78,7 @@ public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

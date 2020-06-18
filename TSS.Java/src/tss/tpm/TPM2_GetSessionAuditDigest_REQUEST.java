@@ -7,36 +7,33 @@ import tss.*;
 
 //>>>
 
-/** This command returns a digital signature of the audit session digest. */
+/** This command returns a digital signature of the audit session digest.  */
 public class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
 {
-    /**
-     *  handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+    /** Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE privacyAdminHandle;
     
-    /**
-     *  handle of the signing key
+    /** Handle of the signing key
      *  Auth Index: 2
      *  Auth Role: USER
      */
     public TPM_HANDLE signHandle;
     
-    /**
-     *  handle of the audit session
+    /** Handle of the audit session
      *  Auth Index: None
      */
     public TPM_HANDLE sessionHandle;
     
-    /** user-provided qualifying data may be zero-length */
+    /** User-provided qualifying data may be zero-length  */
     public byte[] qualifyingData;
     
-    /** scheme selector */
+    /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** signing scheme to use if the scheme for signHandle is TPM_ALG_NULL */
+    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL  */
     public TPMU_SIG_SCHEME inScheme;
     
     public TPM2_GetSessionAuditDigest_REQUEST()
@@ -45,21 +42,20 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
         signHandle = new TPM_HANDLE();
         sessionHandle = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _privacyAdminHandle handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+    
+    /** @param _privacyAdminHandle Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _signHandle handle of the signing key
+     *  @param _signHandle Handle of the signing key
      *         Auth Index: 2
      *         Auth Role: USER
-     *  @param _sessionHandle handle of the audit session
+     *  @param _sessionHandle Handle of the audit session
      *         Auth Index: None
-     *  @param _qualifyingData user-provided qualifying data may be zero-length
-     *  @param _inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+     *  @param _qualifyingData User-provided qualifying data may be zero-length
+     *  @param _inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      */
     public TPM2_GetSessionAuditDigest_REQUEST(TPM_HANDLE _privacyAdminHandle, TPM_HANDLE _signHandle, TPM_HANDLE _sessionHandle, byte[] _qualifyingData, TPMU_SIG_SCHEME _inScheme)
     {
@@ -69,7 +65,7 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
         qualifyingData = _qualifyingData;
         inScheme = _inScheme;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -77,7 +73,7 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
         inScheme.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)inScheme).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -88,7 +84,7 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
         inScheme = UnionFactory.create("TPMU_SIG_SCHEME", new TPM_ALG_ID(_inSchemeScheme));
         inScheme.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -96,24 +92,27 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_GetSessionAuditDigest_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_GetSessionAuditDigest_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_GetSessionAuditDigest_REQUEST ret = new TPM2_GetSessionAuditDigest_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_GetSessionAuditDigest_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_GetSessionAuditDigest_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_GetSessionAuditDigest_REQUEST ret = new TPM2_GetSessionAuditDigest_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -122,7 +121,7 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

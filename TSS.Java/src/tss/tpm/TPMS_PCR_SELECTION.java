@@ -7,34 +7,33 @@ import tss.*;
 
 //>>>
 
-/** Table 94 Definition of TPMS_PCR_SELECTION Structure */
+/** Table 94 Definition of TPMS_PCR_SELECTION Structure  */
 public class TPMS_PCR_SELECTION extends TpmStructure
 {
-    /** the hash algorithm associated with the selection */
+    /** The hash algorithm associated with the selection  */
     public TPM_ALG_ID hash;
     
-    /** the bit map of selected PCR */
+    /** The bit map of selected PCR  */
     public byte[] pcrSelect;
     
     public TPMS_PCR_SELECTION() { hash = TPM_ALG_ID.NULL; }
     
-    /**
-     *  @param _hash the hash algorithm associated with the selection
-     *  @param _pcrSelect the bit map of selected PCR
+    /** @param _hash The hash algorithm associated with the selection
+     *  @param _pcrSelect The bit map of selected PCR
      */
     public TPMS_PCR_SELECTION(TPM_ALG_ID _hash, byte[] _pcrSelect)
     {
         hash = _hash;
         pcrSelect = _pcrSelect;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         hash.toTpm(buf);
         buf.writeSizedByteBuf(pcrSelect, 1);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -43,7 +42,7 @@ public class TPMS_PCR_SELECTION extends TpmStructure
         pcrSelect = new byte[_sizeofSelect];
         buf.readArrayOfInts(pcrSelect, 1, _sizeofSelect);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -51,24 +50,27 @@ public class TPMS_PCR_SELECTION extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_PCR_SELECTION fromTpm (byte[] x) 
+    
+    public static TPMS_PCR_SELECTION fromBytes (byte[] byteBuf) 
     {
         TPMS_PCR_SELECTION ret = new TPMS_PCR_SELECTION();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_PCR_SELECTION fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_PCR_SELECTION fromTpm (InByteBuf buf) 
     {
         TPMS_PCR_SELECTION ret = new TPMS_PCR_SELECTION();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -77,7 +79,7 @@ public class TPMS_PCR_SELECTION extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

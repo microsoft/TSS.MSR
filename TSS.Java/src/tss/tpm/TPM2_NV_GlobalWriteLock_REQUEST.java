@@ -7,14 +7,12 @@ import tss.*;
 
 //>>>
 
-/**
- *  The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
+/** The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
  *  TPMA_NV_GLOBALLOCK attribute SET.
  */
 public class TPM2_NV_GlobalWriteLock_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *  Auth Index: 1
      *  Auth Role: USER
      */
@@ -22,8 +20,7 @@ public class TPM2_NV_GlobalWriteLock_REQUEST extends TpmStructure
     
     public TPM2_NV_GlobalWriteLock_REQUEST() { authHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /** @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
      */
@@ -37,7 +34,7 @@ public class TPM2_NV_GlobalWriteLock_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -6,8 +6,7 @@ import tss.tpm.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-/**
- *  The Tpm class provides Java functions to program a TPM.
+/** The Tpm class provides Java functions to program a TPM.
  *  <P>
  *  The TPM spec defines TPM command with names like TPM2_PCR_Read().
  *  The Java rendering of the spec drops the 'TPM2_' prefix: e.g. PCR_Read().
@@ -16,19 +15,19 @@ import tss.tpm.*;
  *  TPM command returns an error. Such helpers have names beginning with underscore '_'.
  *  <P>
  *  Tpm objects must be "connected" to a physical TPM or TPM simulator using the _setDevice()
- *  method.  Some devices (like the TPM simulator) need to be configured before they can be used.
+ *  method.  Some devices (like the TPM simulator) need to be configured before they can
+ *  be used.
  *  See the sample code that is part of the TSS.Java distribution for more information.
  */
 public class Tpm extends TpmBase
 {
-    /**
-     *  TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM
-     *  initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid
-     *  after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed
-     *  successfully. If a TPM requires TPM2_Startup() and another command is received, or if the
-     *  TPM receives TPM2_Startup() when it is not required, the TPM shall
+    /** TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that
+     *  TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only
+     *  valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has
+     *  completed successfully. If a TPM requires TPM2_Startup() and another command is
+     *  received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall
      *  return TPM_RC_INITIALIZE.
-     *  
+    
      *  @param startupType TPM_SU_CLEAR or TPM_SU_STATE
      */
     public void Startup(TPM_SU startupType)
@@ -37,11 +36,10 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Startup, null, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to prepare the TPM for a power cycle. The shutdownType parameter
+    
+    /** This command is used to prepare the TPM for a power cycle. The shutdownType parameter
      *  indicates how the subsequent TPM2_Startup() will be processed.
-     *  
+    
      *  @param shutdownType TPM_SU_CLEAR or TPM_SU_STATE
      */
     public void Shutdown(TPM_SU shutdownType)
@@ -50,12 +48,11 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Shutdown, null, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command causes the TPM to perform a test of its capabilities. If the fullTest is YES,
-     *  the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that
-     *  have not previously been tested.
-     *  
+    
+    /** This command causes the TPM to perform a test of its capabilities. If the fullTest is
+     *  YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those
+     *  functions that have not previously been tested.
+    
      *  @param fullTest YES if full test to be performed
      *         NO if only test of untested functions required
      */
@@ -65,12 +62,11 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.SelfTest, null, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command causes the TPM to perform a test of the selected algorithms.
-     *  
-     *  @param toTest list of algorithms that should be tested
-     *  @return toDoList - list of algorithms that need testing
+    
+    /** This command causes the TPM to perform a test of the selected algorithms.
+    
+     *  @param toTest List of algorithms that should be tested
+     *  @return toDoList - List of algorithms that need testing
      */
     public TPM_ALG_ID[] IncrementalSelfTest(TPM_ALG_ID[] toTest)
     {
@@ -79,12 +75,11 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.IncrementalSelfTest, null, 0, 0, inStruct, outStruct);
         return outStruct.toDoList;
     }
-
-    /**
-     *  This command returns manufacturer-specific information regarding the results of a self-test and
-     *  an indication of the test status.
-     *  
-     *  @return outData - test result data
+    
+    /** This command returns manufacturer-specific information regarding the results of a
+     *  self-test and an indication of the test status.
+    
+     *  @return outData - Test result data
      *                    contains manufacturer-specific information<br>
      *          testResult - TBD
      */
@@ -95,29 +90,30 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.GetTestResult, null, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command is used to start an authorization session using alternative methods of
-     *  establishing the session key (sessionKey). The session key is then used to derive values
-     *  used for authorization and for encrypting parameters.
-     *  
-     *  @param tpmKey handle of a loaded decrypt key used to encrypt salt
+    
+    /** This command is used to start an authorization session using alternative methods of
+     *  establishing the session key (sessionKey). The session key is then used to derive
+     *  values used for authorization and for encrypting parameters.
+    
+     *  @param tpmKey Handle of a loaded decrypt key used to encrypt salt
      *         may be TPM_RH_NULL
      *         Auth Index: None
-     *  @param bind entity providing the authValue
+     *  @param bind Entity providing the authValue
      *         may be TPM_RH_NULL
      *         Auth Index: None
-     *  @param nonceCaller initial nonceCaller, sets nonceTPM size for the session
+     *  @param nonceCaller Initial nonceCaller, sets nonceTPM size for the session
      *         shall be at least 16 octets
-     *  @param encryptedSalt value encrypted according to the type of tpmKey
+     *  @param encryptedSalt Value encrypted according to the type of tpmKey
      *         If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.
-     *  @param sessionType indicates the type of the session; simple HMAC or policy (including a trial policy)
-     *  @param symmetric the algorithm and key size for parameter encryption
+     *  @param sessionType Indicates the type of the session; simple HMAC or policy (including
+     *  a
+     *         trial policy)
+     *  @param symmetric The algorithm and key size for parameter encryption
      *         may select TPM_ALG_NULL
-     *  @param authHash hash algorithm to use for the session
+     *  @param authHash Hash algorithm to use for the session
      *         Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL
-     *  @return handle - handle for the newly created session<br>
-     *          nonceTPM - the initial nonce from the TPM, used in the computation of the sessionKey
+     *  @return handle - Handle for the newly created session<br>
+     *          nonceTPM - The initial nonce from the TPM, used in the computation of the sessionKey
      */
     public StartAuthSessionResponse StartAuthSession(TPM_HANDLE tpmKey, TPM_HANDLE bind, byte[] nonceCaller, byte[] encryptedSalt, TPM_SE sessionType, TPMT_SYM_DEF symmetric, TPM_ALG_ID authHash)
     {
@@ -126,16 +122,15 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.StartAuthSession, new TPM_HANDLE[] {tpmKey, bind}, 0, 1, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command allows a policy authorization session to be returned to its initial state.
-     *  This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code
-     *  indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was
-     *  executed. Restarting the session allows the authorizations to be replayed because the
-     *  session restarts with the same nonceTPM. If the PCR are valid for the policy,
-     *  the policy may then succeed.
-     *  
-     *  @param sessionHandle the handle for the policy session
+    
+    /** This command allows a policy authorization session to be returned to its initial
+     *  state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response
+     *  code indicates that a policy will fail because the PCR have changed after
+     *  TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be
+     *  replayed because the session restarts with the same nonceTPM. If the PCR are valid for
+     *  the policy, the policy may then succeed.
+    
+     *  @param sessionHandle The handle for the policy session
      */
     public void PolicyRestart(TPM_HANDLE sessionHandle)
     {
@@ -143,30 +138,30 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyRestart, new TPM_HANDLE[] {sessionHandle}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to create an object that can be loaded into a TPM using TPM2_Load().
-     *  If the command completes successfully, the TPM will create the new object and return the
-     *  objects creation data (creationData), its public area (outPublic), and its encrypted
-     *  sensitive area (outPrivate). Preservation of the returned data is the responsibility of
-     *  the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
-     *  only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
-     *  object is in the unique field.
-     *  
-     *  @param parentHandle handle of parent for new object
+    
+    /** This command is used to create an object that can be loaded into a TPM using
+     *  TPM2_Load(). If the command completes successfully, the TPM will create the new object
+     *  and return the objects creation data (creationData), its public area (outPublic), and
+     *  its encrypted sensitive area (outPrivate). Preservation of the returned data is the
+     *  responsibility of the caller. The object will need to be loaded (TPM2_Load()) before
+     *  it may be used. The only difference between the inPublic TPMT_PUBLIC template and the
+     *  outPublic TPMT_PUBLIC object is in the unique field.
+    
+     *  @param parentHandle Handle of parent for new object
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param inSensitive the sensitive data
-     *  @param inPublic the public template
-     *  @param outsideInfo data that will be included in the creation data for this object to provide permanent,
-     *         verifiable linkage between this object and some object owner data
+     *  @param inSensitive The sensitive data
+     *  @param inPublic The public template
+     *  @param outsideInfo Data that will be included in the creation data for this object to
+     *         provide permanent, verifiable linkage between this object and some object owner
+     *  data
      *  @param creationPCR PCR that will be used in creation data
-     *  @return outPrivate - the private portion of the object<br>
-     *          outPublic - the public portion of the created object<br>
-     *          creationData - contains a TPMS_CREATION_DATA<br>
-     *          creationHash - digest of creationData using nameAlg of outPublic<br>
-     *          creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
-     *                           was produced by the TPM
+     *  @return outPrivate - The private portion of the object<br>
+     *          outPublic - The public portion of the created object<br>
+     *          creationData - Contains a TPMS_CREATION_DATA<br>
+     *          creationHash - Digest of creationData using nameAlg of outPublic<br>
+     *          creationTicket - Ticket used by TPM2_CertifyCreation() to validate that the
+     *                           creation data was produced by the TPM
      */
     public CreateResponse Create(TPM_HANDLE parentHandle, TPMS_SENSITIVE_CREATE inSensitive, TPMT_PUBLIC inPublic, byte[] outsideInfo, TPMS_PCR_SELECTION[] creationPCR)
     {
@@ -175,18 +170,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Create, new TPM_HANDLE[] {parentHandle}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command is used to load objects into the TPM. This command is used when both a
-     *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
-     *  TPM2_LoadExternal command is used.
-     *  
+    
+    /** This command is used to load objects into the TPM. This command is used when both a
+     *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be
+     *  loaded, the TPM2_LoadExternal command is used.
+    
      *  @param parentHandle TPM handle of parent key; shall not be a reserved handle
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param inPrivate the private portion of the object
-     *  @param inPublic the public portion of the object
-     *  @return handle - handle of type TPM_HT_TRANSIENT for the loaded object
+     *  @param inPrivate The private portion of the object
+     *  @param inPublic The public portion of the object
+     *  @return handle - Handle of type TPM_HT_TRANSIENT for the loaded object
      */
     public TPM_HANDLE Load(TPM_HANDLE parentHandle, TPM2B_PRIVATE inPrivate, TPMT_PUBLIC inPublic)
     {
@@ -195,15 +189,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Load, new TPM_HANDLE[] {parentHandle}, 1, 1, inStruct, outStruct);
         return outStruct.handle;
     }
-
-    /**
-     *  This command is used to load an object that is not a Protected Object into the TPM. The
-     *  command allows loading of a public area or both a public and sensitive area.
-     *  
-     *  @param inPrivate the sensitive portion of the object (optional)
-     *  @param inPublic the public portion of the object
-     *  @param hierarchy hierarchy with which the object area is associated
-     *  @return handle - handle of type TPM_HT_TRANSIENT for the loaded object
+    
+    /** This command is used to load an object that is not a Protected Object into the TPM.
+     *  The command allows loading of a public area or both a public and sensitive area.
+    
+     *  @param inPrivate The sensitive portion of the object (optional)
+     *  @param inPublic The public portion of the object
+     *  @param hierarchy Hierarchy with which the object area is associated
+     *  @return handle - Handle of type TPM_HT_TRANSIENT for the loaded object
      */
     public TPM_HANDLE LoadExternal(TPMT_SENSITIVE inPrivate, TPMT_PUBLIC inPublic, TPM_HANDLE hierarchy)
     {
@@ -212,15 +205,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.LoadExternal, null, 0, 1, inStruct, outStruct);
         return outStruct.handle;
     }
-
-    /**
-     *  This command allows access to the public area of a loaded object.
-     *  
+    
+    /** This command allows access to the public area of a loaded object.
+    
      *  @param objectHandle TPM handle of an object
      *         Auth Index: None
-     *  @return outPublic - structure containing the public area of an object<br>
-     *          name - name of the object<br>
-     *          qualifiedName - the Qualified Name of the object
+     *  @return outPublic - Structure containing the public area of an object<br>
+     *          name - Name of the object<br>
+     *          qualifiedName - The Qualified Name of the object
      */
     public ReadPublicResponse ReadPublic(TPM_HANDLE objectHandle)
     {
@@ -229,20 +221,19 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ReadPublic, new TPM_HANDLE[] {objectHandle}, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command enables the association of a credential with an object in a way that ensures
-     *  that the TPM has validated the parameters of the credentialed object.
-     *  
-     *  @param activateHandle handle of the object associated with certificate in credentialBlob
+    
+    /** This command enables the association of a credential with an object in a way that
+     *  ensures that the TPM has validated the parameters of the credentialed object.
+    
+     *  @param activateHandle Handle of the object associated with certificate in credentialBlob
      *         Auth Index: 1
      *         Auth Role: ADMIN
-     *  @param keyHandle loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
+     *  @param keyHandle Loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
      *         Auth Index: 2
      *         Auth Role: USER
-     *  @param credentialBlob the credential
-     *  @param secret keyHandle algorithm-dependent encrypted seed that protects credentialBlob
-     *  @return certInfo - the decrypted certificate information
+     *  @param credentialBlob The credential
+     *  @param secret KeyHandle algorithm-dependent encrypted seed that protects credentialBlob
+     *  @return certInfo - The decrypted certificate information
      *                     the data should be no larger than the size of the digest of the nameAlg
      *                     associated with keyHandle
      */
@@ -253,18 +244,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ActivateCredential, new TPM_HANDLE[] {activateHandle, keyHandle}, 2, 0, inStruct, outStruct);
         return outStruct.certInfo;
     }
-
-    /**
-     *  This command allows the TPM to perform the actions required of a Certificate Authority
+    
+    /** This command allows the TPM to perform the actions required of a Certificate Authority
      *  (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
-     *  
-     *  @param handle loaded public area, used to encrypt the sensitive area containing the
+    
+     *  @param handle Loaded public area, used to encrypt the sensitive area containing the
      *         credential key
      *         Auth Index: None
-     *  @param credential the credential information
+     *  @param credential The credential information
      *  @param objectName Name of the object to which the credential applies
-     *  @return credentialBlob - the credential<br>
-     *          secret - handle algorithm-dependent data that wraps the key that encrypts credentialBlob
+     *  @return credentialBlob - The credential<br>
+     *          secret - Handle algorithm-dependent data that wraps the key that encrypts credentialBlob
      */
     public MakeCredentialResponse MakeCredential(TPM_HANDLE handle, byte[] credential, byte[] objectName)
     {
@@ -273,14 +263,13 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.MakeCredential, new TPM_HANDLE[] {handle}, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command returns the data in a loaded Sealed Data Object.
-     *  
-     *  @param itemHandle handle of a loaded data object
+    
+    /** This command returns the data in a loaded Sealed Data Object.
+    
+     *  @param itemHandle Handle of a loaded data object
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @return outData - unsealed data
+     *  @return outData - Unsealed data
      *                    Size of outData is limited to be no more than 128 octets.
      */
     public byte[] Unseal(TPM_HANDLE itemHandle)
@@ -290,17 +279,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Unseal, new TPM_HANDLE[] {itemHandle}, 1, 0, inStruct, outStruct);
         return outStruct.outData;
     }
-
-    /**
-     *  This command is used to change the authorization secret for a TPM-resident object.
-     *  
-     *  @param objectHandle handle of the object
+    
+    /** This command is used to change the authorization secret for a TPM-resident object.
+    
+     *  @param objectHandle Handle of the object
      *         Auth Index: 1
      *         Auth Role: ADMIN
-     *  @param parentHandle handle of the parent
+     *  @param parentHandle Handle of the parent
      *         Auth Index: None
-     *  @param newAuth new authorization value
-     *  @return outPrivate - private area containing the new authorization value
+     *  @param newAuth New authorization value
+     *  @return outPrivate - Private area containing the new authorization value
      */
     public TPM2B_PRIVATE ObjectChangeAuth(TPM_HANDLE objectHandle, TPM_HANDLE parentHandle, byte[] newAuth)
     {
@@ -309,24 +297,23 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ObjectChangeAuth, new TPM_HANDLE[] {objectHandle, parentHandle}, 1, 0, inStruct, outStruct);
         return outStruct.outPrivate;
     }
-
-    /**
-     *  This command creates an object and loads it in the TPM. This command allows creation of
-     *  any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
-     *  If parentHandle references a Primary Seed, then a Primary Object is created; if
-     *  parentHandle references a Storage Parent, then an Ordinary Object is created; and if
-     *  parentHandle references a Derivation Parent, then a Derived Object is generated.
-     *  
-     *  @param parentHandle Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT,
-     *         TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
+    
+    /** This command creates an object and loads it in the TPM. This command allows creation
+     *  of any type of object (Primary, Ordinary, or Derived) depending on the type of
+     *  parentHandle. If parentHandle references a Primary Seed, then a Primary Object is
+     *  created; if parentHandle references a Storage Parent, then an Ordinary Object is
+     *  created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
+    
+     *  @param parentHandle Handle of a transient storage key, a persistent storage key,
+     *         TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param inSensitive the sensitive data, see TPM 2.0 Part 1 Sensitive Values
-     *  @param inPublic the public template
-     *  @return handle - handle of type TPM_HT_TRANSIENT for created object<br>
-     *          outPrivate - the sensitive area of the object (optional)<br>
-     *          outPublic - the public portion of the created object<br>
-     *          name - the name of the created object
+     *  @param inSensitive The sensitive data, see TPM 2.0 Part 1 Sensitive Values
+     *  @param inPublic The public template
+     *  @return handle - Handle of type TPM_HT_TRANSIENT for created object<br>
+     *          outPrivate - The sensitive area of the object (optional)<br>
+     *          outPublic - The public portion of the created object<br>
+     *          name - The name of the created object
      */
     public CreateLoadedResponse CreateLoaded(TPM_HANDLE parentHandle, TPMS_SENSITIVE_CREATE inSensitive, byte[] inPublic)
     {
@@ -335,27 +322,30 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.CreateLoaded, new TPM_HANDLE[] {parentHandle}, 1, 1, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command duplicates a loaded object so that it may be used in a different hierarchy.
-     *  The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
-     *  Only the public area of newParentHandle is required to be loaded.
-     *  
-     *  @param objectHandle loaded object to duplicate
+    
+    /** This command duplicates a loaded object so that it may be used in a different
+     *  hierarchy. The new parent key for the duplicate may be on the same or different TPM or
+     *  TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
+    
+     *  @param objectHandle Loaded object to duplicate
      *         Auth Index: 1
      *         Auth Role: DUP
-     *  @param newParentHandle shall reference the public area of an asymmetric key
+     *  @param newParentHandle Shall reference the public area of an asymmetric key
      *         Auth Index: None
-     *  @param encryptionKeyIn optional symmetric encryption key
+     *  @param encryptionKeyIn Optional symmetric encryption key
      *         The size for this key is set to zero when the TPM is to generate the key. This
      *         parameter may be encrypted.
-     *  @param symmetricAlg definition for the symmetric algorithm to be used for the inner wrapper
+     *  @param symmetricAlg Definition for the symmetric algorithm to be used for the inner wrapper
      *         may be TPM_ALG_NULL if no inner wrapper is applied
-     *  @return encryptionKeyOut - If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then this
-     *                             will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric
-     *                             encryption key for the inner wrapper.<br>
-     *          duplicate - private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted<br>
-     *          outSymSeed - seed protected by the asymmetric algorithms of new parent (NP)
+     *  @return encryptionKeyOut - If the caller provided an encryption key or if symmetricAlg
+     *  was
+     *                             TPM_ALG_NULL, then this will be the Empty Buffer;
+     *  otherwise, it
+     *                             shall contain the TPM-generated, symmetric encryption key for
+     *                             the inner wrapper.<br>
+     *          duplicate - Private area that may be encrypted by encryptionKeyIn; and may be
+     *                      doubly encrypted<br>
+     *          outSymSeed - Seed protected by the asymmetric algorithms of new parent (NP)
      */
     public DuplicateResponse Duplicate(TPM_HANDLE objectHandle, TPM_HANDLE newParentHandle, byte[] encryptionKeyIn, TPMT_SYM_DEF_OBJECT symmetricAlg)
     {
@@ -364,26 +354,25 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Duplicate, new TPM_HANDLE[] {objectHandle, newParentHandle}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command allows the TPM to serve in the role as a Duplication Authority. If proper
-     *  authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
-     *  are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
-     *  protection seed value is generated according to the methods appropriate for newParent and
-     *  the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
-     *  returned in outDuplicate and the symmetric key returned in outSymKey.
-     *  
-     *  @param oldParent parent of object
+    
+    /** This command allows the TPM to serve in the role as a Duplication Authority. If proper
+     *  authorization for use of the oldParent is provided, then an HMAC key and a symmetric
+     *  key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate.
+     *  A new protection seed value is generated according to the methods appropriate for
+     *  newParent and the blob is re-encrypted and a new integrity value is computed. The
+     *  re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
+    
+     *  @param oldParent Parent of object
      *         Auth Index: 1
      *         Auth Role: User
-     *  @param newParent new parent of the object
+     *  @param newParent New parent of the object
      *         Auth Index: None
-     *  @param inDuplicate an object encrypted using symmetric key derived from inSymSeed
-     *  @param name the Name of the object being rewrapped
-     *  @param inSymSeed the seed for the symmetric key and HMAC key
+     *  @param inDuplicate An object encrypted using symmetric key derived from inSymSeed
+     *  @param name The Name of the object being rewrapped
+     *  @param inSymSeed The seed for the symmetric key and HMAC key
      *         needs oldParent private key to recover the seed and generate the symmetric key
-     *  @return outDuplicate - an object encrypted using symmetric key derived from outSymSeed<br>
-     *          outSymSeed - seed for a symmetric key protected by newParent asymmetric key
+     *  @return outDuplicate - An object encrypted using symmetric key derived from outSymSeed<br>
+     *          outSymSeed - Seed for a symmetric key protected by newParent asymmetric key
      */
     public RewrapResponse Rewrap(TPM_HANDLE oldParent, TPM_HANDLE newParent, TPM2B_PRIVATE inDuplicate, byte[] name, byte[] inSymSeed)
     {
@@ -392,29 +381,31 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Rewrap, new TPM_HANDLE[] {oldParent, newParent}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command allows an object to be encrypted using the symmetric encryption values of a
-     *  Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
-     *  imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
-     *  
-     *  @param parentHandle the handle of the new parent for the object
+    
+    /** This command allows an object to be encrypted using the symmetric encryption values of
+     *  a Storage Key. After encryption, the object may be loaded and used in the new
+     *  hierarchy. The imported object (duplicate) may be singly encrypted, multiply
+     *  encrypted, or unencrypted.
+    
+     *  @param parentHandle The handle of the new parent for the object
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param encryptionKey the optional symmetric encryption key used as the inner wrapper for duplicate
+     *  @param encryptionKey The optional symmetric encryption key used as the inner wrapper
+     *  for duplicate
      *         If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer.
-     *  @param objectPublic the public area of the object to be imported
-     *         This is provided so that the integrity value for duplicate and the object attributes can
-     *         be checked.
-     *         NOTE Even if the integrity value of the object is not checked on input, the object Name is
-     *         required to create the integrity value for the imported object.
-     *  @param duplicate the symmetrically encrypted duplicate object that may contain an inner symmetric wrapper
-     *  @param inSymSeed the seed for the symmetric key and HMAC key
+     *  @param objectPublic The public area of the object to be imported
+     *         This is provided so that the integrity value for duplicate and the object
+     *         attributes can be checked.
+     *         NOTE Even if the integrity value of the object is not checked on input, the object
+     *         Name is required to create the integrity value for the imported object.
+     *  @param duplicate The symmetrically encrypted duplicate object that may contain an inner
+     *         symmetric wrapper
+     *  @param inSymSeed The seed for the symmetric key and HMAC key
      *         inSymSeed is encrypted/encoded using the algorithms of newParent.
-     *  @param symmetricAlg definition for the symmetric algorithm to use for the inner wrapper
+     *  @param symmetricAlg Definition for the symmetric algorithm to use for the inner wrapper
      *         If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
      *         shall be the Empty Buffer.
-     *  @return outPrivate - the sensitive area encrypted with the symmetric key of parentHandle
+     *  @return outPrivate - The sensitive area encrypted with the symmetric key of parentHandle
      */
     public TPM2B_PRIVATE Import(TPM_HANDLE parentHandle, byte[] encryptionKey, TPMT_PUBLIC objectPublic, TPM2B_PRIVATE duplicate, byte[] inSymSeed, TPMT_SYM_DEF_OBJECT symmetricAlg)
     {
@@ -423,28 +414,28 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Import, new TPM_HANDLE[] {parentHandle}, 1, 0, inStruct, outStruct);
         return outStruct.outPrivate;
     }
-
-    /**
-     *  This command performs RSA encryption using the indicated padding scheme according to IETF
-     *  RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
-     *  specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
-     *  shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
-     *  
-     *  @param keyHandle reference to public portion of RSA key to use for encryption
+    
+    /** This command performs RSA encryption using the indicated padding scheme according to
+     *  IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use
+     *  inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL,
+     *  then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+    
+     *  @param keyHandle Reference to public portion of RSA key to use for encryption
      *         Auth Index: None
-     *  @param message message to be encrypted
-     *         NOTE 1 The data type was chosen because it limits the overall size of the input to no
-     *         greater than the size of the largest RSA public key. This may be larger
-     *         than allowed for keyHandle.
-     *  @param inScheme the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
+     *  @param message Message to be encrypted
+     *         NOTE 1 The data type was chosen because it limits the overall size of the input
+     *  to
+     *         no greater than the size of the largest RSA public key. This may be larger than
+     *         allowed for keyHandle.
+     *  @param inScheme The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
      *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-     *         TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     *  @param label optional label L to be associated with the message
+     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+     *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *  @param label Optional label L to be associated with the message
      *         Size of the buffer is zero if no label is present
      *         NOTE 2 See description of label above.
-     *  @return outData - encrypted output
+     *  @return outData - Encrypted output
      */
     public byte[] RSA_Encrypt(TPM_HANDLE keyHandle, byte[] message, TPMU_ASYM_SCHEME inScheme, byte[] label)
     {
@@ -453,23 +444,22 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.RSA_Encrypt, new TPM_HANDLE[] {keyHandle}, 0, 0, inStruct, outStruct);
         return outStruct.outData;
     }
-
-    /**
-     *  This command performs RSA decryption using the indicated padding scheme according
-     *  to IETF RFC 8017 ((PKCS#1).
-     *  
+    
+    /** This command performs RSA decryption using the indicated padding scheme according to
+     *  IETF RFC 8017 ((PKCS#1).
+    
      *  @param keyHandle RSA key to use for decryption
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param cipherText cipher text to be decrypted
+     *  @param cipherText Cipher text to be decrypted
      *         NOTE An encrypted RSA data block is the size of the public modulus.
-     *  @param inScheme the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
+     *  @param inScheme The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
      *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-     *         TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     *  @param label label whose association with the message is to be verified
-     *  @return message - decrypted output
+     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+     *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *  @param label Label whose association with the message is to be verified
+     *  @return message - Decrypted output
      */
     public byte[] RSA_Decrypt(TPM_HANDLE keyHandle, byte[] cipherText, TPMU_ASYM_SCHEME inScheme, byte[] label)
     {
@@ -478,16 +468,15 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.RSA_Decrypt, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
         return outStruct.message;
     }
-
-    /**
-     *  This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
-     *  uses the private ephemeral key and a loaded public key (QS) to compute the shared
+    
+    /** This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G).
+     *  It uses the private ephemeral key and a loaded public key (QS) to compute the shared
      *  secret value (P [hde]QS).
-     *  
+    
      *  @param keyHandle Handle of a loaded ECC key public area.
      *         Auth Index: None
-     *  @return zPoint - results of P h[de]Qs<br>
-     *          pubPoint - generated ephemeral public point (Qe)
+     *  @return zPoint - Results of P h[de]Qs<br>
+     *          pubPoint - Generated ephemeral public point (Qe)
      */
     public ECDH_KeyGenResponse ECDH_KeyGen(TPM_HANDLE keyHandle)
     {
@@ -496,18 +485,18 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ECDH_KeyGen, new TPM_HANDLE[] {keyHandle}, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command uses the TPM to recover the Z value from a public point (QB) and a private
-     *  key (ds). It will perform the multiplication of the provided inPoint (QB) with the private
-     *  key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h
-     *  is the cofactor of the curve).
-     *  
-     *  @param keyHandle handle of a loaded ECC key
+    
+    /** This command uses the TPM to recover the Z value from a public point (QB) and a
+     *  private key (ds). It will perform the multiplication of the provided inPoint (QB) with
+     *  the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)
+     *  [hds]QB; where h is the cofactor of the curve).
+    
+     *  @param keyHandle Handle of a loaded ECC key
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param inPoint a public key
-     *  @return outPoint - X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB
+     *  @param inPoint A public key
+     *  @return outPoint - X and Y coordinates of the product of the multiplication Z = (xZ ,
+     *  yZ) [hdS]QB
      */
     public TPMS_ECC_POINT ECDH_ZGen(TPM_HANDLE keyHandle, TPMS_ECC_POINT inPoint)
     {
@@ -516,12 +505,10 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ECDH_ZGen, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
         return outStruct.outPoint;
     }
-
-    /**
-     *  This command returns the parameters of an ECC curve identified by
-     *  its TCG-assigned curveID.
-     *  
-     *  @param curveID parameter set selector
+    
+    /** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.
+    
+     *  @param curveID Parameter set selector
      *  @return parameters - ECC parameters for the selected curve
      */
     public TPMS_ALGORITHM_DETAIL_ECC ECC_Parameters(TPM_ECC_CURVE curveID)
@@ -531,21 +518,20 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ECC_Parameters, null, 0, 0, inStruct, outStruct);
         return outStruct.parameters;
     }
-
-    /**
-     *  This command supports two-phase key exchange protocols. The command is used in combination
-     *  with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the
-     *  public point of that ephemeral key along with a numeric value that allows the TPM to
-     *  regenerate the associated private key.
-     *  
-     *  @param keyA handle of an unrestricted decryption key ECC
+    
+    /** This command supports two-phase key exchange protocols. The command is used in
+     *  combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key
+     *  and returns the public point of that ephemeral key along with a numeric value that
+     *  allows the TPM to regenerate the associated private key.
+    
+     *  @param keyA Handle of an unrestricted decryption key ECC
      *         The private key referenced by this handle is used as dS,A
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param inQsB other partys static public key (Qs,B = (Xs,B, Ys,B))
-     *  @param inQeB other party's ephemeral public key (Qe,B = (Xe,B, Ye,B))
-     *  @param inScheme the key exchange scheme
-     *  @param counter value returned by TPM2_EC_Ephemeral()
+     *  @param inQsB Other partys static public key (Qs,B = (Xs,B, Ys,B))
+     *  @param inQeB Other party's ephemeral public key (Qe,B = (Xe,B, Ye,B))
+     *  @param inScheme The key exchange scheme
+     *  @param counter Value returned by TPM2_EC_Ephemeral()
      *  @return outZ1 - X and Y coordinates of the computed value (scheme dependent)<br>
      *          outZ2 - X and Y coordinates of the second computed value (scheme dependent)
      */
@@ -556,19 +542,19 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ZGen_2Phase, new TPM_HANDLE[] {keyA}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command performs ECC encryption as described in Part 1, Annex D.
-     *  
-     *  @param keyHandle reference to public portion of ECC key to use for encryption
+    
+    /** This command performs ECC encryption as described in Part 1, Annex D.
+    
+     *  @param keyHandle Reference to public portion of ECC key to use for encryption
      *         Auth Index: None
      *  @param plainText Plaintext to be encrypted
-     *  @param inScheme the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-     *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
-     *  @return C1 - the public ephemeral key used for ECDH<br>
-     *          C2 - the data block produced by the XOR process<br>
-     *          C3 - the integrity value
+     *  @param inScheme The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+     *         TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
+     *  TPMS_NULL_KDF_SCHEME])
+     *  @return C1 - The public ephemeral key used for ECDH<br>
+     *          C2 - The data block produced by the XOR process<br>
+     *          C3 - The integrity value
      */
     public ECC_EncryptResponse ECC_Encrypt(TPM_HANDLE keyHandle, byte[] plainText, TPMU_KDF_SCHEME inScheme)
     {
@@ -577,20 +563,20 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ECC_Encrypt, new TPM_HANDLE[] {keyHandle}, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command performs ECC decryption.
-     *  
+    
+    /** This command performs ECC decryption.
+    
      *  @param keyHandle ECC key to use for decryption
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param C1 the public ephemeral key used for ECDH
-     *  @param C2 the data block produced by the XOR process
-     *  @param C3 the integrity value
-     *  @param inScheme the KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-     *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
-     *  @return plainText - decrypted output
+     *  @param C1 The public ephemeral key used for ECDH
+     *  @param C2 The data block produced by the XOR process
+     *  @param C3 The integrity value
+     *  @param inScheme The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+     *         TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
+     *  TPMS_NULL_KDF_SCHEME])
+     *  @return plainText - Decrypted output
      */
     public byte[] ECC_Decrypt(TPM_HANDLE keyHandle, TPMS_ECC_POINT C1, byte[] C2, byte[] C3, TPMU_KDF_SCHEME inScheme)
     {
@@ -599,21 +585,20 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ECC_Decrypt, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
         return outStruct.plainText;
     }
-
-    /**
-     *  NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
-     *  reflected in platform-specific specifications.
-     *  
-     *  @param keyHandle the symmetric key used for the operation
+    
+    /** NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This
+     *  should be reflected in platform-specific specifications.
+    
+     *  @param keyHandle The symmetric key used for the operation
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param decrypt if YES, then the operation is decryption; if NO, the operation is encryption
-     *  @param mode symmetric encryption/decryption mode
+     *  @param decrypt If YES, then the operation is decryption; if NO, the operation is encryption
+     *  @param mode Symmetric encryption/decryption mode
      *         this field shall match the default mode of the key or be TPM_ALG_NULL.
-     *  @param ivIn an initial value as required by the algorithm
-     *  @param inData the data to be encrypted/decrypted
-     *  @return outData - encrypted or decrypted output<br>
-     *          ivOut - chaining value to use for IV in next round
+     *  @param ivIn An initial value as required by the algorithm
+     *  @param inData The data to be encrypted/decrypted
+     *  @return outData - Encrypted or decrypted output<br>
+     *          ivOut - Chaining value to use for IV in next round
      */
     public EncryptDecryptResponse EncryptDecrypt(TPM_HANDLE keyHandle, byte decrypt, TPM_ALG_ID mode, byte[] ivIn, byte[] inData)
     {
@@ -622,21 +607,20 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.EncryptDecrypt, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
-     *  the first parameter. This permits inData to be parameter encrypted.
-     *  
-     *  @param keyHandle the symmetric key used for the operation
+    
+    /** This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter
+     *  is the first parameter. This permits inData to be parameter encrypted.
+    
+     *  @param keyHandle The symmetric key used for the operation
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param inData the data to be encrypted/decrypted
-     *  @param decrypt if YES, then the operation is decryption; if NO, the operation is encryption
-     *  @param mode symmetric mode
+     *  @param inData The data to be encrypted/decrypted
+     *  @param decrypt If YES, then the operation is decryption; if NO, the operation is encryption
+     *  @param mode Symmetric mode
      *         this field shall match the default mode of the key or be TPM_ALG_NULL.
-     *  @param ivIn an initial value as required by the algorithm
-     *  @return outData - encrypted or decrypted output<br>
-     *          ivOut - chaining value to use for IV in next round
+     *  @param ivIn An initial value as required by the algorithm
+     *  @return outData - Encrypted or decrypted output<br>
+     *          ivOut - Chaining value to use for IV in next round
      */
     public EncryptDecrypt2Response EncryptDecrypt2(TPM_HANDLE keyHandle, byte[] inData, byte decrypt, TPM_ALG_ID mode, byte[] ivIn)
     {
@@ -645,18 +629,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.EncryptDecrypt2, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command performs a hash operation on a data buffer and returns the results.
-     *  
-     *  @param data data to be hashed
-     *  @param hashAlg algorithm for the hash being computed shall not be TPM_ALG_NULL
-     *  @param hierarchy hierarchy to use for the ticket (TPM_RH_NULL allowed)
-     *  @return outHash - results<br>
-     *          validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
-     *                       TPM_GENERATED_VALUE
-     *                       will be a NULL ticket if the digest may not be signed with a restricted
-     *                       key
+    
+    /** This command performs a hash operation on a data buffer and returns the results.
+    
+     *  @param data Data to be hashed
+     *  @param hashAlg Algorithm for the hash being computed shall not be TPM_ALG_NULL
+     *  @param hierarchy Hierarchy to use for the ticket (TPM_RH_NULL allowed)
+     *  @return outHash - Results<br>
+     *          validation - Ticket indicating that the sequence of octets used to compute
+     *                       outDigest did not start with TPM_GENERATED_VALUE
+     *                       will be a NULL ticket if the digest may not be signed with a
+     *                       restricted key
      */
     public HashResponse Hash(byte[] data, TPM_ALG_ID hashAlg, TPM_HANDLE hierarchy)
     {
@@ -665,16 +648,15 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Hash, null, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command performs an HMAC on the supplied data using the indicated hash algorithm.
-     *  
-     *  @param handle handle for the symmetric signing key providing the HMAC key
+    
+    /** This command performs an HMAC on the supplied data using the indicated hash algorithm.
+    
+     *  @param handle Handle for the symmetric signing key providing the HMAC key
      *         Auth Index: 1
      *         Auth Role: USER
      *  @param buffer HMAC data
-     *  @param hashAlg algorithm to use for HMAC
-     *  @return outHMAC - the returned HMAC in a sized buffer
+     *  @param hashAlg Algorithm to use for HMAC
+     *  @return outHMAC - The returned HMAC in a sized buffer
      */
     public byte[] HMAC(TPM_HANDLE handle, byte[] buffer, TPM_ALG_ID hashAlg)
     {
@@ -683,17 +665,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.HMAC, new TPM_HANDLE[] {handle}, 1, 0, inStruct, outStruct);
         return outStruct.outHMAC;
     }
-
-    /**
-     *  This command performs an HMAC or a block cipher MAC on the supplied data
-     *  using the indicated algorithm.
-     *  
-     *  @param handle handle for the symmetric signing key providing the MAC key
+    
+    /** This command performs an HMAC or a block cipher MAC on the supplied data using the
+     *  indicated algorithm.
+    
+     *  @param handle Handle for the symmetric signing key providing the MAC key
      *         Auth Index: 1
      *         Auth Role: USER
      *  @param buffer MAC data
-     *  @param inScheme algorithm to use for MAC
-     *  @return outMAC - the returned MAC in a sized buffer
+     *  @param inScheme Algorithm to use for MAC
+     *  @return outMAC - The returned MAC in a sized buffer
      */
     public byte[] MAC(TPM_HANDLE handle, byte[] buffer, TPM_ALG_ID inScheme)
     {
@@ -702,13 +683,11 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.MAC, new TPM_HANDLE[] {handle}, 1, 0, inStruct, outStruct);
         return outStruct.outMAC;
     }
-
-    /**
-     *  This command returns the next bytesRequested octets from the random
-     *  number generator (RNG).
-     *  
-     *  @param bytesRequested number of octets to return
-     *  @return randomBytes - the random octets
+    
+    /** This command returns the next bytesRequested octets from the random number generator (RNG).
+    
+     *  @param bytesRequested Number of octets to return
+     *  @return randomBytes - The random octets
      */
     public byte[] GetRandom(int bytesRequested)
     {
@@ -717,11 +696,10 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.GetRandom, null, 0, 0, inStruct, outStruct);
         return outStruct.randomBytes;
     }
-
-    /**
-     *  This command is used to add "additional information" to the RNG state.
-     *  
-     *  @param inData additional information
+    
+    /** This command is used to add "additional information" to the RNG state.
+    
+     *  @param inData Additional information
      */
     public void StirRandom(byte[] inData)
     {
@@ -729,18 +707,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.StirRandom, null, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence
-     *  structure, assign a handle to the sequence, and set the authValue of the sequence
-     *  object to the value in auth.
-     *  
-     *  @param handle handle of an HMAC key
+    
+    /** This command starts an HMAC sequence. The TPM will create and initialize an HMAC
+     *  sequence structure, assign a handle to the sequence, and set the authValue of the
+     *  sequence object to the value in auth.
+    
+     *  @param handle Handle of an HMAC key
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param auth authorization value for subsequent use of the sequence
-     *  @param hashAlg the hash algorithm to use for the HMAC
-     *  @return handle - a handle to reference the sequence
+     *  @param auth Authorization value for subsequent use of the sequence
+     *  @param hashAlg The hash algorithm to use for the HMAC
+     *  @return handle - A handle to reference the sequence
      */
     public TPM_HANDLE HMAC_Start(TPM_HANDLE handle, byte[] auth, TPM_ALG_ID hashAlg)
     {
@@ -749,18 +726,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.HMAC_Start, new TPM_HANDLE[] {handle}, 1, 1, inStruct, outStruct);
         return outStruct.handle;
     }
-
-    /**
-     *  This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
+    
+    /** This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
      *  structure, assign a handle to the sequence, and set the authValue of the sequence
      *  object to the value in auth.
-     *  
-     *  @param handle handle of a MAC key
+    
+     *  @param handle Handle of a MAC key
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param auth authorization value for subsequent use of the sequence
-     *  @param inScheme the algorithm to use for the MAC
-     *  @return handle - a handle to reference the sequence
+     *  @param auth Authorization value for subsequent use of the sequence
+     *  @param inScheme The algorithm to use for the MAC
+     *  @return handle - A handle to reference the sequence
      */
     public TPM_HANDLE MAC_Start(TPM_HANDLE handle, byte[] auth, TPM_ALG_ID inScheme)
     {
@@ -769,17 +745,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.MAC_Start, new TPM_HANDLE[] {handle}, 1, 1, inStruct, outStruct);
         return outStruct.handle;
     }
-
-    /**
-     *  This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
-     *  hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
-     *  If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
+    
+    /** This command starts a hash or an Event Sequence. If hashAlg is an implemented hash,
+     *  then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is
+     *  started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
      *  shall return TPM_RC_HASH.
-     *  
-     *  @param auth authorization value for subsequent use of the sequence
-     *  @param hashAlg the hash algorithm to use for the hash sequence
+    
+     *  @param auth Authorization value for subsequent use of the sequence
+     *  @param hashAlg The hash algorithm to use for the hash sequence
      *         An Event Sequence starts if this is TPM_ALG_NULL.
-     *  @return handle - a handle to reference the sequence
+     *  @return handle - A handle to reference the sequence
      */
     public TPM_HANDLE HashSequenceStart(byte[] auth, TPM_ALG_ID hashAlg)
     {
@@ -788,15 +763,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.HashSequenceStart, null, 0, 1, inStruct, outStruct);
         return outStruct.handle;
     }
-
-    /**
-     *  This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any
-     *  size up to the limits of the TPM.
-     *  
-     *  @param sequenceHandle handle for the sequence object
+    
+    /** This command is used to add data to a hash or HMAC sequence. The amount of data in
+     *  buffer may be any size up to the limits of the TPM.
+    
+     *  @param sequenceHandle Handle for the sequence object
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param buffer data to be added to hash
+     *  @param buffer Data to be added to hash
      */
     public void SequenceUpdate(TPM_HANDLE sequenceHandle, byte[] buffer)
     {
@@ -804,19 +778,18 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.SequenceUpdate, new TPM_HANDLE[] {sequenceHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command adds the last part of data, if any, to a hash/HMAC sequence
-     *  and returns the result.
-     *  
-     *  @param sequenceHandle authorization for the sequence
+    
+    /** This command adds the last part of data, if any, to a hash/HMAC sequence and returns
+     *  the result.
+    
+     *  @param sequenceHandle Authorization for the sequence
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param buffer data to be added to the hash/HMAC
-     *  @param hierarchy hierarchy of the ticket for a hash
-     *  @return result - the returned HMAC or digest in a sized buffer<br>
-     *          validation - ticket indicating that the sequence of octets used to compute outDigest did not start with
-     *                       TPM_GENERATED_VALUE
+     *  @param buffer Data to be added to the hash/HMAC
+     *  @param hierarchy Hierarchy of the ticket for a hash
+     *  @return result - The returned HMAC or digest in a sized buffer<br>
+     *          validation - Ticket indicating that the sequence of octets used to compute
+     *                       outDigest did not start with TPM_GENERATED_VALUE
      *                       This is a NULL Ticket when the sequence is HMAC.
      */
     public SequenceCompleteResponse SequenceComplete(TPM_HANDLE sequenceHandle, byte[] buffer, TPM_HANDLE hierarchy)
@@ -826,22 +799,21 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.SequenceComplete, new TPM_HANDLE[] {sequenceHandle}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command adds the last part of data, if any, to an Event Sequence and returns the
+    
+    /** This command adds the last part of data, if any, to an Event Sequence and returns the
      *  result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
-     *  returned digest list is processed in the same manner as the digest list input parameter to
-     *  TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is
-     *  extended with the associated digest value from the list.
-     *  
+     *  returned digest list is processed in the same manner as the digest list input
+     *  parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with
+     *  pcrHandle, it is extended with the associated digest value from the list.
+    
      *  @param pcrHandle PCR to be extended with the Event data
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param sequenceHandle authorization for the sequence
+     *  @param sequenceHandle Authorization for the sequence
      *         Auth Index: 2
      *         Auth Role: USER
-     *  @param buffer data to be added to the Event
-     *  @return results - list of digests computed for the PCR
+     *  @param buffer Data to be added to the Event
+     *  @return results - List of digests computed for the PCR
      */
     public TPMT_HA[] EventSequenceComplete(TPM_HANDLE pcrHandle, TPM_HANDLE sequenceHandle, byte[] buffer)
     {
@@ -850,27 +822,27 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.EventSequenceComplete, new TPM_HANDLE[] {pcrHandle, sequenceHandle}, 2, 0, inStruct, outStruct);
         return outStruct.results;
     }
-
-    /**
-     *  The purpose of this command is to prove that an object with a specific Name is loaded in
-     *  the TPM. By certifying that the object is loaded, the TPM warrants that a public area with
-     *  a given Name is self-consistent and associated with a valid sensitive area. If a relying
-     *  party has a public area that has the same Name as a Name certified with this command, then the
-     *  values in that public area are correct.
-     *  
-     *  @param objectHandle handle of the object to be certified
+    
+    /** The purpose of this command is to prove that an object with a specific Name is loaded
+     *  in the TPM. By certifying that the object is loaded, the TPM warrants that a public
+     *  area with a given Name is self-consistent and associated with a valid sensitive area.
+     *  If a relying party has a public area that has the same Name as a Name certified with
+     *  this command, then the values in that public area are correct.
+    
+     *  @param objectHandle Handle of the object to be certified
      *         Auth Index: 1
      *         Auth Role: ADMIN
-     *  @param signHandle handle of the key used to sign the attestation structure
+     *  @param signHandle Handle of the key used to sign the attestation structure
      *         Auth Index: 2
      *         Auth Role: USER
-     *  @param qualifyingData user provided qualifying data
-     *  @param inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+     *  @param qualifyingData User provided qualifying data
+     *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     *  @return certifyInfo - the structure that was signed<br>
-     *          signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
+     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *  @return certifyInfo - The structure that was signed<br>
+     *          signature - The asymmetric signature over certifyInfo using the key referenced
+     *  by signHandle
      */
     public CertifyResponse Certify(TPM_HANDLE objectHandle, TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
@@ -879,27 +851,26 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Certify, new TPM_HANDLE[] {objectHandle, signHandle}, 2, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command is used to prove the association between an object and its creation data. The
-     *  TPM will validate that the ticket was produced by the TPM and that the ticket validates
-     *  the association between a loaded public area and the provided hash of the
+    
+    /** This command is used to prove the association between an object and its creation data.
+     *  The TPM will validate that the ticket was produced by the TPM and that the ticket
+     *  validates the association between a loaded public area and the provided hash of the
      *  creation data (creationHash).
-     *  
-     *  @param signHandle handle of the key that will sign the attestation block
+    
+     *  @param signHandle Handle of the key that will sign the attestation block
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param objectHandle the object associated with the creation data
+     *  @param objectHandle The object associated with the creation data
      *         Auth Index: None
-     *  @param qualifyingData user-provided qualifying data
-     *  @param creationHash hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary()
-     *  @param inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+     *  @param qualifyingData User-provided qualifying data
+     *  @param creationHash Hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary()
+     *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     *  @param creationTicket ticket produced by TPM2_Create() or TPM2_CreatePrimary()
-     *  @return certifyInfo - the structure that was signed<br>
-     *          signature - the signature over certifyInfo
+     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *  @param creationTicket Ticket produced by TPM2_Create() or TPM2_CreatePrimary()
+     *  @return certifyInfo - The structure that was signed<br>
+     *          signature - The signature over certifyInfo
      */
     public CertifyCreationResponse CertifyCreation(TPM_HANDLE signHandle, TPM_HANDLE objectHandle, byte[] qualifyingData, byte[] creationHash, TPMU_SIG_SCHEME inScheme, TPMT_TK_CREATION creationTicket)
     {
@@ -908,21 +879,20 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.CertifyCreation, new TPM_HANDLE[] {signHandle, objectHandle}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command is used to quote PCR values.
-     *  
-     *  @param signHandle handle of key that will perform signature
+    
+    /** This command is used to quote PCR values.
+    
+     *  @param signHandle Handle of key that will perform signature
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param qualifyingData data supplied by the caller
-     *  @param inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+     *  @param qualifyingData Data supplied by the caller
+     *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
      *  @param PCRselect PCR set to quote
-     *  @return quoted - the quoted information<br>
-     *          signature - the signature over quoted
+     *  @return quoted - The quoted information<br>
+     *          signature - The signature over quoted
      */
     public QuoteResponse Quote(TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme, TPMS_PCR_SELECTION[] PCRselect)
     {
@@ -931,25 +901,24 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Quote, new TPM_HANDLE[] {signHandle}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command returns a digital signature of the audit session digest.
-     *  
-     *  @param privacyAdminHandle handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+    
+    /** This command returns a digital signature of the audit session digest.
+    
+     *  @param privacyAdminHandle Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param signHandle handle of the signing key
+     *  @param signHandle Handle of the signing key
      *         Auth Index: 2
      *         Auth Role: USER
-     *  @param sessionHandle handle of the audit session
+     *  @param sessionHandle Handle of the audit session
      *         Auth Index: None
-     *  @param qualifyingData user-provided qualifying data may be zero-length
-     *  @param inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+     *  @param qualifyingData User-provided qualifying data may be zero-length
+     *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     *  @return auditInfo - the audit information that was signed<br>
-     *          signature - the signature over auditInfo
+     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *  @return auditInfo - The audit information that was signed<br>
+     *          signature - The signature over auditInfo
      */
     public GetSessionAuditDigestResponse GetSessionAuditDigest(TPM_HANDLE privacyAdminHandle, TPM_HANDLE signHandle, TPM_HANDLE sessionHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
@@ -958,25 +927,24 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.GetSessionAuditDigest, new TPM_HANDLE[] {privacyAdminHandle, signHandle, sessionHandle}, 2, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command returns the current value of the command audit digest, a digest of the
+    
+    /** This command returns the current value of the command audit digest, a digest of the
      *  commands being audited, and the audit hash algorithm. These values are placed in an
      *  attestation structure and signed with the key referenced by signHandle.
-     *  
-     *  @param privacyHandle handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+    
+     *  @param privacyHandle Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param signHandle the handle of the signing key
+     *  @param signHandle The handle of the signing key
      *         Auth Index: 2
      *         Auth Role: USER
-     *  @param qualifyingData other data to associate with this audit digest
-     *  @param inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+     *  @param qualifyingData Other data to associate with this audit digest
+     *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     *  @return auditInfo - the auditInfo that was signed<br>
-     *          signature - the signature over auditInfo
+     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *  @return auditInfo - The auditInfo that was signed<br>
+     *          signature - The signature over auditInfo
      */
     public GetCommandAuditDigestResponse GetCommandAuditDigest(TPM_HANDLE privacyHandle, TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
@@ -985,23 +953,22 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.GetCommandAuditDigest, new TPM_HANDLE[] {privacyHandle, signHandle}, 2, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command returns the current values of Time and Clock.
-     *  
-     *  @param privacyAdminHandle handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+    
+    /** This command returns the current values of Time and Clock.
+    
+     *  @param privacyAdminHandle Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param signHandle the keyHandle identifier of a loaded key that can perform digital signatures
+     *  @param signHandle The keyHandle identifier of a loaded key that can perform digital signatures
      *         Auth Index: 2
      *         Auth Role: USER
-     *  @param qualifyingData data to tick stamp
-     *  @param inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+     *  @param qualifyingData Data to tick stamp
+     *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     *  @return timeInfo - standard TPM-generated attestation block<br>
-     *          signature - the signature over timeInfo
+     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *  @return timeInfo - Standard TPM-generated attestation block<br>
+     *          signature - The signature over timeInfo
      */
     public GetTimeResponse GetTime(TPM_HANDLE privacyAdminHandle, TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
@@ -1010,30 +977,30 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.GetTime, new TPM_HANDLE[] {privacyAdminHandle, signHandle}, 2, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  The purpose of this command is to generate an X.509 certificate that proves an object with
-     *  a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify,
-     *  which uses a TCG-defined data structure to convey attestation information,
-     *  TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate
-     *  that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and
-     *  Certificate Revocation List (CRL) Profile.
-     *  
-     *  @param objectHandle handle of the object to be certified
+    
+    /** The purpose of this command is to generate an X.509 certificate that proves an object
+     *  with a specific public key and attributes is loaded in the TPM. In contrast to
+     *  TPM2_Certify, which uses a TCG-defined data structure to convey attestation
+     *  information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded
+     *  X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key
+     *  Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
+    
+     *  @param objectHandle Handle of the object to be certified
      *         Auth Index: 1
      *         Auth Role: ADMIN
-     *  @param signHandle handle of the key used to sign the attestation structure
+     *  @param signHandle Handle of the key used to sign the attestation structure
      *         Auth Index: 2
      *         Auth Role: USER
-     *  @param reserved shall be an Empty Buffer
-     *  @param inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+     *  @param reserved Shall be an Empty Buffer
+     *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     *  @param partialCertificate a DER encoded partial certificate
-     *  @return addedToCertificate - a DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate to make it a
-     *                               complete RFC5280 TBSCertificate.<br>
-     *          tbsDigest - the digest that was signed<br>
+     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *  @param partialCertificate A DER encoded partial certificate
+     *  @return addedToCertificate - A DER encoded SEQUENCE containing the DER encoded fields
+     *                               added to partialCertificate to make it a complete RFC5280
+     *                               TBSCertificate.<br>
+     *          tbsDigest - The digest that was signed<br>
      *          signature - The signature over tbsDigest
      */
     public CertifyX509Response CertifyX509(TPM_HANDLE objectHandle, TPM_HANDLE signHandle, byte[] reserved, TPMU_SIG_SCHEME inScheme, byte[] partialCertificate)
@@ -1043,23 +1010,22 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.CertifyX509, new TPM_HANDLE[] {objectHandle, signHandle}, 2, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
-     *  perform the point multiplications on the provided points and return intermediate signing
-     *  values. The signHandle parameter shall refer to an ECC key and the signing scheme must
-     *  be anonymous (TPM_RC_SCHEME).
-     *  
-     *  @param signHandle handle of the key that will be used in the signing operation
+    
+    /** TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM
+     *  will perform the point multiplications on the provided points and return intermediate
+     *  signing values. The signHandle parameter shall refer to an ECC key and the signing
+     *  scheme must be anonymous (TPM_RC_SCHEME).
+    
+     *  @param signHandle Handle of the key that will be used in the signing operation
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param P1 a point (M) on the curve used by signHandle
-     *  @param s2 octet array used to derive x-coordinate of a base point
-     *  @param y2 y coordinate of the point associated with s2
+     *  @param P1 A point (M) on the curve used by signHandle
+     *  @param s2 Octet array used to derive x-coordinate of a base point
+     *  @param y2 Y coordinate of the point associated with s2
      *  @return K - ECC point K [ds](x2, y2)<br>
      *          L - ECC point L [r](x2, y2)<br>
      *          E - ECC point E [r]P1<br>
-     *          counter - least-significant 16 bits of commitCount
+     *          counter - Least-significant 16 bits of commitCount
      */
     public CommitResponse Commit(TPM_HANDLE signHandle, TPMS_ECC_POINT P1, byte[] s2, byte[] y2)
     {
@@ -1068,13 +1034,12 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Commit, new TPM_HANDLE[] {signHandle}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
-     *  
+    
+    /** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
+    
      *  @param curveID The curve for the computed ephemeral point
-     *  @return Q - ephemeral public key Q [r]G<br>
-     *          counter - least-significant 16 bits of commitCount
+     *  @return Q - Ephemeral public key Q [r]G<br>
+     *          counter - Least-significant 16 bits of commitCount
      */
     public EC_EphemeralResponse EC_Ephemeral(TPM_ECC_CURVE curveID)
     {
@@ -1083,21 +1048,21 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.EC_Ephemeral, null, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command uses loaded keys to validate a signature on a message with the
-     *  message digest passed to the TPM.
-     *  
-     *  @param keyHandle handle of public key that will be used in the validation
+    
+    /** This command uses loaded keys to validate a signature on a message with the message
+     *  digest passed to the TPM.
+    
+     *  @param keyHandle Handle of public key that will be used in the validation
      *         Auth Index: None
-     *  @param digest digest of the signed message
-     *  @param signature signature to be tested
+     *  @param digest Digest of the signed message
+     *  @param signature Signature to be tested
      *         (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     *  @return validation - This ticket is produced by TPM2_VerifySignature(). This formulation is used for multiple
-     *                       ticket uses. The ticket provides evidence that the TPM has validated that a digest was
-     *                       signed by a key with the Name of keyName. The ticket is computed by
+     *  @return validation - This ticket is produced by TPM2_VerifySignature(). This formulation
+     *                       is used for multiple ticket uses. The ticket provides evidence that
+     *                       the TPM has validated that a digest was signed by a key with the Name
+     *                       of keyName. The ticket is computed by
      */
     public TPMT_TK_VERIFIED VerifySignature(TPM_HANDLE keyHandle, byte[] digest, TPMU_SIGNATURE signature)
     {
@@ -1106,23 +1071,22 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.VerifySignature, new TPM_HANDLE[] {keyHandle}, 0, 0, inStruct, outStruct);
         return outStruct.validation;
     }
-
-    /**
-     *  This command causes the TPM to sign an externally provided hash with the specified
+    
+    /** This command causes the TPM to sign an externally provided hash with the specified
      *  symmetric or asymmetric signing key.
-     *  
+    
      *  @param keyHandle Handle of key that will perform signing
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param digest digest to be signed
-     *  @param inScheme signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
+     *  @param digest Digest to be signed
+     *  @param inScheme Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
      *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     *  @param validation proof that digest was created by the TPM
-     *         If keyHandle is not a restricted signing key, then this may be a NULL Ticket
-     *         with tag = TPM_ST_CHECKHASH.
-     *  @return signature - the signature
+     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *  @param validation Proof that digest was created by the TPM
+     *         If keyHandle is not a restricted signing key, then this may be a NULL Ticket with
+     *         tag = TPM_ST_CHECKHASH.
+     *  @return signature - The signature
      */
     public TPMU_SIGNATURE Sign(TPM_HANDLE keyHandle, byte[] digest, TPMU_SIG_SCHEME inScheme, TPMT_TK_HASHCHECK validation)
     {
@@ -1131,18 +1095,19 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Sign, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
         return outStruct.signature;
     }
-
-    /**
-     *  This command may be used by the Privacy Administrator or platform to change the audit
-     *  status of a command or to set the hash algorithm used for the audit digest, but
-     *  not both at the same time.
-     *  
+    
+    /** This command may be used by the Privacy Administrator or platform to change the audit
+     *  status of a command or to set the hash algorithm used for the audit digest, but not
+     *  both at the same time.
+    
      *  @param auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param auditAlg hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed
-     *  @param setList list of commands that will be added to those that will be audited
-     *  @param clearList list of commands that will no longer be audited
+     *  @param auditAlg Hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is
+     *  not
+     *         changed
+     *  @param setList List of commands that will be added to those that will be audited
+     *  @param clearList List of commands that will no longer be audited
      */
     public void SetCommandCodeAuditStatus(TPM_HANDLE auth, TPM_ALG_ID auditAlg, TPM_CC[] setList, TPM_CC[] clearList)
     {
@@ -1150,17 +1115,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.SetCommandCodeAuditStatus, new TPM_HANDLE[] {auth}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to cause an update to the indicated PCR. The digests parameter
-     *  contains one or more tagged digest values identified by an algorithm ID. For each digest,
-     *  the PCR associated with pcrHandle is Extended into the bank
-     *  identified by the tag (hashAlg).
-     *  
-     *  @param pcrHandle handle of the PCR
+    
+    /** This command is used to cause an update to the indicated PCR. The digests parameter
+     *  contains one or more tagged digest values identified by an algorithm ID. For each
+     *  digest, the PCR associated with pcrHandle is Extended into the bank identified by the
+     *  tag (hashAlg).
+    
+     *  @param pcrHandle Handle of the PCR
      *         Auth Handle: 1
      *         Auth Role: USER
-     *  @param digests list of tagged digest values to be extended
+     *  @param digests List of tagged digest values to be extended
      */
     public void PCR_Extend(TPM_HANDLE pcrHandle, TPMT_HA[] digests)
     {
@@ -1168,17 +1132,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PCR_Extend, new TPM_HANDLE[] {pcrHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to cause an update to the indicated PCR.
-     *  
+    
+    /** This command is used to cause an update to the indicated PCR.
+    
      *  @param pcrHandle Handle of the PCR
      *         Auth Handle: 1
      *         Auth Role: USER
      *  @param eventData Event data in sized buffer
-     *  @return digests - Table 80 shows the basic hash-agile structure used in this specification. To handle hash
-     *                    agility, this structure uses the hashAlg parameter to indicate the algorithm used to
-     *                    compute the digest and, by implication, the size of the digest.
+     *  @return digests - Table 80 shows the basic hash-agile structure used in this
+     *                    specification. To handle hash agility, this structure uses the hashAlg
+     *                    parameter to indicate the algorithm used to compute the digest and, by
+     *                    implication, the size of the digest.
      */
     public TPMT_HA[] PCR_Event(TPM_HANDLE pcrHandle, byte[] eventData)
     {
@@ -1187,14 +1151,15 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PCR_Event, new TPM_HANDLE[] {pcrHandle}, 1, 0, inStruct, outStruct);
         return outStruct.digests;
     }
-
-    /**
-     *  This command returns the values of all PCR specified in pcrSelectionIn.
-     *  
+    
+    /** This command returns the values of all PCR specified in pcrSelectionIn.
+    
      *  @param pcrSelectionIn The selection of PCR to read
-     *  @return pcrUpdateCounter - the current value of the PCR update counter<br>
-     *          pcrSelectionOut - the PCR in the returned list<br>
-     *          pcrValues - the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests
+     *  @return pcrUpdateCounter - The current value of the PCR update counter<br>
+     *          pcrSelectionOut - The PCR in the returned list<br>
+     *          pcrValues - The contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[]
+     *  as
+     *                      tagged digests
      */
     public PCR_ReadResponse PCR_Read(TPMS_PCR_SELECTION[] pcrSelectionIn)
     {
@@ -1203,18 +1168,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PCR_Read, null, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command is used to set the desired PCR allocation of PCR and algorithms. This command
-     *  requires Platform Authorization.
-     *  
+    
+    /** This command is used to set the desired PCR allocation of PCR and algorithms. This
+     *  command requires Platform Authorization.
+    
      *  @param authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param pcrAllocation the requested allocation
+     *  @param pcrAllocation The requested allocation
      *  @return allocationSuccess - YES if the allocation succeeded<br>
-     *          maxPCR - maximum number of PCR that may be in a bank<br>
-     *          sizeNeeded - number of octets required to satisfy the request<br>
+     *          maxPCR - Maximum number of PCR that may be in a bank<br>
+     *          sizeNeeded - Number of octets required to satisfy the request<br>
      *          sizeAvailable - Number of octets available. Computed before the allocation.
      */
     public PCR_AllocateResponse PCR_Allocate(TPM_HANDLE authHandle, TPMS_PCR_SELECTION[] pcrAllocation)
@@ -1224,17 +1188,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PCR_Allocate, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command is used to associate a policy with a PCR or group of PCR. The policy
+    
+    /** This command is used to associate a policy with a PCR or group of PCR. The policy
      *  determines the conditions under which a PCR may be extended or reset.
-     *  
+    
      *  @param authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param authPolicy the desired authPolicy
-     *  @param hashAlg the hash algorithm of the policy
-     *  @param pcrNum the PCR for which the policy is to be set
+     *  @param authPolicy The desired authPolicy
+     *  @param hashAlg The hash algorithm of the policy
+     *  @param pcrNum The PCR for which the policy is to be set
      */
     public void PCR_SetAuthPolicy(TPM_HANDLE authHandle, byte[] authPolicy, TPM_ALG_ID hashAlg, TPM_HANDLE pcrNum)
     {
@@ -1242,14 +1205,13 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PCR_SetAuthPolicy, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command changes the authValue of a PCR or group of PCR.
-     *  
-     *  @param pcrHandle handle for a PCR that may have an authorization value set
+    
+    /** This command changes the authValue of a PCR or group of PCR.
+    
+     *  @param pcrHandle Handle for a PCR that may have an authorization value set
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param auth the desired authorization value
+     *  @param auth The desired authorization value
      */
     public void PCR_SetAuthValue(TPM_HANDLE pcrHandle, byte[] auth)
     {
@@ -1257,13 +1219,12 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PCR_SetAuthValue, new TPM_HANDLE[] {pcrHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  If the attribute of a PCR allows the PCR to be reset and proper authorization is provided,
-     *  then this command may be used to set the PCR in all banks to zero. The attributes of the
-     *  PCR may restrict the locality that can perform the reset operation.
-     *  
-     *  @param pcrHandle the PCR to reset
+    
+    /** If the attribute of a PCR allows the PCR to be reset and proper authorization is
+     *  provided, then this command may be used to set the PCR in all banks to zero. The
+     *  attributes of the PCR may restrict the locality that can perform the reset operation.
+    
+     *  @param pcrHandle The PCR to reset
      *         Auth Index: 1
      *         Auth Role: USER
      */
@@ -1273,34 +1234,37 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PCR_Reset, new TPM_HANDLE[] {pcrHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command includes a signed authorization in a policy. The command ties the policy to a
-     *  signing key by including the Name of the signing key in the policyDigest
-     *  
-     *  @param authObject handle for a key that will validate the signature
+    
+    /** This command includes a signed authorization in a policy. The command ties the policy
+     *  to a signing key by including the Name of the signing key in the policyDigest
+    
+     *  @param authObject Handle for a key that will validate the signature
      *         Auth Index: None
-     *  @param policySession handle for the policy session being extended
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param nonceTPM the policy nonce for the session
+     *  @param nonceTPM The policy nonce for the session
      *         This can be the Empty Buffer.
-     *  @param cpHashA digest of the command parameters to which this authorization is limited
-     *         This is not the cpHash for this command but the cpHash for the command to which this
-     *         policy session will be applied. If it is not limited, the parameter
-     *         will be the Empty Buffer.
-     *  @param policyRef a reference to a policy relating to the authorization may be the Empty Buffer
+     *  @param cpHashA Digest of the command parameters to which this authorization is limited
+     *         This is not the cpHash for this command but the cpHash for the command to which
+     *         this policy session will be applied. If it is not limited, the parameter will be
+     *         the Empty Buffer.
+     *  @param policyRef A reference to a policy relating to the authorization may be the
+     *  Empty Buffer
      *         Size is limited to be no larger than the nonce size supported on the TPM.
-     *  @param expiration time when authorization will expire, measured in seconds from the time that nonceTPM was
-     *         generated
+     *  @param expiration Time when authorization will expire, measured in seconds from the time
+     *         that nonceTPM was generated
      *         If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
-     *  @param auth signed authorization (not optional)
+     *  @param auth Signed authorization (not optional)
      *         (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     *  @return timeout - implementation-specific time value, used to indicate to the TPM when the ticket expires
+     *  @return timeout - Implementation-specific time value, used to indicate to the TPM when
+     *  the
+     *                    ticket expires
      *                    NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.<br>
-     *          policyTicket - produced if the command succeeds and expiration in the command was non-zero; this ticket
-     *                         will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
+     *          policyTicket - Produced if the command succeeds and expiration in the command was
+     *                         non-zero; this ticket will use the TPMT_ST_AUTH_SIGNED structure
+     *                         tag. See 23.2.5
      */
     public PolicySignedResponse PolicySigned(TPM_HANDLE authObject, TPM_HANDLE policySession, byte[] nonceTPM, byte[] cpHashA, byte[] policyRef, int expiration, TPMU_SIGNATURE auth)
     {
@@ -1309,31 +1273,34 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicySigned, new TPM_HANDLE[] {authObject, policySession}, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command includes a secret-based authorization to a policy. The caller proves
+    
+    /** This command includes a secret-based authorization to a policy. The caller proves
      *  knowledge of the secret value using an authorization session using the authValue
      *  associated with authHandle. A password session, an HMAC session, or a policy session
      *  containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-     *  
-     *  @param authHandle handle for an entity providing the authorization
+    
+     *  @param authHandle Handle for an entity providing the authorization
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param policySession handle for the policy session being extended
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param nonceTPM the policy nonce for the session
+     *  @param nonceTPM The policy nonce for the session
      *         This can be the Empty Buffer.
-     *  @param cpHashA digest of the command parameters to which this authorization is limited
-     *         This not the cpHash for this command but the cpHash for the command to which this policy
-     *         session will be applied. If it is not limited, the parameter will be the Empty Buffer.
-     *  @param policyRef a reference to a policy relating to the authorization may be the Empty Buffer
+     *  @param cpHashA Digest of the command parameters to which this authorization is limited
+     *         This not the cpHash for this command but the cpHash for the command to which this
+     *         policy session will be applied. If it is not limited, the parameter will be the
+     *         Empty Buffer.
+     *  @param policyRef A reference to a policy relating to the authorization may be the
+     *  Empty Buffer
      *         Size is limited to be no larger than the nonce size supported on the TPM.
-     *  @param expiration time when authorization will expire, measured in seconds from the time that nonceTPM was
-     *         generated
+     *  @param expiration Time when authorization will expire, measured in seconds from the time
+     *         that nonceTPM was generated
      *         If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
-     *  @return timeout - implementation-specific time value used to indicate to the TPM when the ticket expires<br>
-     *          policyTicket - produced if the command succeeds and expiration in the command was non-zero ( See 23.2.5).
-     *                         This ticket will use the TPMT_ST_AUTH_SECRET structure tag
+     *  @return timeout - Implementation-specific time value used to indicate to the TPM when the
+     *                    ticket expires<br>
+     *          policyTicket - Produced if the command succeeds and expiration in the command was
+     *                         non-zero ( See 23.2.5). This ticket will use the
+     *                         TPMT_ST_AUTH_SECRET structure tag
      */
     public PolicySecretResponse PolicySecret(TPM_HANDLE authHandle, TPM_HANDLE policySession, byte[] nonceTPM, byte[] cpHashA, byte[] policyRef, int expiration)
     {
@@ -1342,21 +1309,21 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicySecret, new TPM_HANDLE[] {authHandle, policySession}, 1, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a
-     *  signed authorization. The ticket represents a validated authorization that had an
+    
+    /** This command is similar to TPM2_PolicySigned() except that it takes a ticket instead
+     *  of a signed authorization. The ticket represents a validated authorization that had an
      *  expiration time associated with it.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param timeout time when authorization will expire
-     *         The contents are TPM specific. This shall be the value returned when ticket was produced.
-     *  @param cpHashA digest of the command parameters to which this authorization is limited
+     *  @param timeout Time when authorization will expire
+     *         The contents are TPM specific. This shall be the value returned when ticket was
+     *  produced.
+     *  @param cpHashA Digest of the command parameters to which this authorization is limited
      *         If it is not limited, the parameter will be the Empty Buffer.
-     *  @param policyRef reference to a qualifier for the policy may be the Empty Buffer
-     *  @param authName name of the object that provided the authorization
-     *  @param ticket an authorization ticket returned by the TPM in response to a
+     *  @param policyRef Reference to a qualifier for the policy may be the Empty Buffer
+     *  @param authName Name of the object that provided the authorization
+     *  @param ticket An authorization ticket returned by the TPM in response to a
      *         TPM2_PolicySigned() or TPM2_PolicySecret()
      */
     public void PolicyTicket(TPM_HANDLE policySession, byte[] timeout, byte[] cpHashA, byte[] policyRef, byte[] authName, TPMT_TK_AUTH ticket)
@@ -1365,16 +1332,15 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyTicket, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows options in authorizations without requiring that the TPM evaluate all
-     *  of the options. If a policy may be satisfied by different sets of conditions, the TPM need
-     *  only evaluate one set that satisfies the policy. This command will indicate that one of
-     *  the required sets of conditions has been satisfied.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command allows options in authorizations without requiring that the TPM evaluate
+     *  all of the options. If a policy may be satisfied by different sets of conditions, the
+     *  TPM need only evaluate one set that satisfies the policy. This command will indicate
+     *  that one of the required sets of conditions has been satisfied.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param pHashList the list of hashes to check for a match
+     *  @param pHashList The list of hashes to check for a match
      */
     public void PolicyOR(TPM_HANDLE policySession, TPM2B_DIGEST[] pHashList)
     {
@@ -1382,17 +1348,18 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyOR, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to cause conditional gating of a policy based on PCR. This command
-     *  together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in
-     *  one state and a different set of authorizations when the PCR are in a different state.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command is used to cause conditional gating of a policy based on PCR. This
+     *  command together with TPM2_PolicyOR() allows one group of authorizations to occur when
+     *  PCR are in one state and a different set of authorizations when the PCR are in a
+     *  different state.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param pcrDigest expected digest value of the selected PCR using the hash algorithm of the
+     *  @param pcrDigest Expected digest value of the selected PCR using the hash algorithm of
+     *  the
      *         session; may be zero length
-     *  @param pcrs the PCR to include in the check digest
+     *  @param pcrs The PCR to include in the check digest
      */
     public void PolicyPCR(TPM_HANDLE policySession, byte[] pcrDigest, TPMS_PCR_SELECTION[] pcrs)
     {
@@ -1400,13 +1367,12 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyPCR, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command indicates that the authorization will be limited to a specific locality.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command indicates that the authorization will be limited to a specific locality.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param locality the allowed localities for the policy
+     *  @param locality The allowed localities for the policy
      */
     public void PolicyLocality(TPM_HANDLE policySession, TPMA_LOCALITY locality)
     {
@@ -1414,22 +1380,21 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyLocality, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to cause conditional gating of a policy based on the contents of an
-     *  NV Index. It is an immediate assertion. The NV index is validated during the
+    
+    /** This command is used to cause conditional gating of a policy based on the contents of
+     *  an NV Index. It is an immediate assertion. The NV index is validated during the
      *  TPM2_PolicyNV() command, not when the session is used for authorization.
-     *  
-     *  @param authHandle handle indicating the source of the authorization value
+    
+     *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param nvIndex the NV Index of the area to read
+     *  @param nvIndex The NV Index of the area to read
      *         Auth Index: None
-     *  @param policySession handle for the policy session being extended
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param operandB the second operand
-     *  @param offset the octet offset in the NV Index for the start of operand A
-     *  @param operation the comparison to make
+     *  @param operandB The second operand
+     *  @param offset The octet offset in the NV Index for the start of operand A
+     *  @param operation The comparison to make
      */
     public void PolicyNV(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, TPM_HANDLE policySession, byte[] operandB, int offset, TPM_EO operation)
     {
@@ -1437,16 +1402,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyNV, new TPM_HANDLE[] {authHandle, nvIndex, policySession}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to cause conditional gating of a policy based on the contents of
+    
+    /** This command is used to cause conditional gating of a policy based on the contents of
      *  the TPMS_TIME_INFO structure.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param operandB the second operand
-     *  @param offset the octet offset in the TPMS_TIME_INFO structure for the start of operand A
-     *  @param operation the comparison to make
+     *  @param operandB The second operand
+     *  @param offset The octet offset in the TPMS_TIME_INFO structure for the start of
+     *  operand A
+     *  @param operation The comparison to make
      */
     public void PolicyCounterTimer(TPM_HANDLE policySession, byte[] operandB, int offset, TPM_EO operation)
     {
@@ -1454,13 +1419,12 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyCounterTimer, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command indicates that the authorization will be limited to a specific command code.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command indicates that the authorization will be limited to a specific command code.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param code the allowed commandCode
+     *  @param code The allowed commandCode
      */
     public void PolicyCommandCode(TPM_HANDLE policySession, TPM_CC code)
     {
@@ -1468,12 +1432,11 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyCommandCode, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command indicates that physical presence will need to be asserted at the time
-     *  the authorization is performed.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command indicates that physical presence will need to be asserted at the time the
+     *  authorization is performed.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      */
     public void PolicyPhysicalPresence(TPM_HANDLE policySession)
@@ -1482,14 +1445,12 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyPhysicalPresence, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to allow a policy to be bound to a specific command
-     *  and command parameters.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command is used to allow a policy to be bound to a specific command and command parameters.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param cpHashA the cpHash added to the policy
+     *  @param cpHashA The cpHash added to the policy
      */
     public void PolicyCpHash(TPM_HANDLE policySession, byte[] cpHashA)
     {
@@ -1497,15 +1458,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyCpHash, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows a policy to be bound to a specific set of TPM entities without being
-     *  bound to the parameters of the command. This is most useful for commands such as
+    
+    /** This command allows a policy to be bound to a specific set of TPM entities without
+     *  being bound to the parameters of the command. This is most useful for commands such as
      *  TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param nameHash the digest to be added to the policy
+     *  @param nameHash The digest to be added to the policy
      */
     public void PolicyNameHash(TPM_HANDLE policySession, byte[] nameHash)
     {
@@ -1513,16 +1473,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyNameHash, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows qualification of duplication to allow duplication
-     *  to a selected new parent.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command allows qualification of duplication to allow duplication to a selected
+     *  new parent.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param objectName the Name of the object to be duplicated
-     *  @param newParentName the Name of the new parent
-     *  @param includeObject if YES, the objectName will be included in the value in policySessionpolicyDigest
+     *  @param objectName The Name of the object to be duplicated
+     *  @param newParentName The Name of the new parent
+     *  @param includeObject If YES, the objectName will be included in the value in
+     *         policySessionpolicyDigest
      */
     public void PolicyDuplicationSelect(TPM_HANDLE policySession, byte[] objectName, byte[] newParentName, byte includeObject)
     {
@@ -1530,18 +1490,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyDuplicationSelect, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows policies to change. If a policy were static, then it would be
-     *  difficult to add users to a policy. This command lets a policy authority sign a new policy
-     *  so that it may be used in an existing policy.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command allows policies to change. If a policy were static, then it would be
+     *  difficult to add users to a policy. This command lets a policy authority sign a new
+     *  policy so that it may be used in an existing policy.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param approvedPolicy digest of the policy being approved
-     *  @param policyRef a policy qualifier
+     *  @param approvedPolicy Digest of the policy being approved
+     *  @param policyRef A policy qualifier
      *  @param keySign Name of a key that can sign a policy addition
-     *  @param checkTicket ticket validating that approvedPolicy and policyRef were signed by keySign
+     *  @param checkTicket Ticket validating that approvedPolicy and policyRef were signed by keySign
      */
     public void PolicyAuthorize(TPM_HANDLE policySession, byte[] approvedPolicy, byte[] policyRef, byte[] keySign, TPMT_TK_VERIFIED checkTicket)
     {
@@ -1549,12 +1508,10 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyAuthorize, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows a policy to be bound to the authorization value
-     *  of the authorized entity.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command allows a policy to be bound to the authorization value of the authorized entity.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      */
     public void PolicyAuthValue(TPM_HANDLE policySession)
@@ -1563,12 +1520,10 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyAuthValue, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows a policy to be bound to the authorization value
-     *  of the authorized object.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command allows a policy to be bound to the authorization value of the authorized object.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      */
     public void PolicyPassword(TPM_HANDLE policySession)
@@ -1577,14 +1532,13 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyPassword, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command returns the current policyDigest of the session. This command allows the TPM
-     *  to be used to perform the actions required to pre-compute the authPolicy for an object.
-     *  
-     *  @param policySession handle for the policy session
+    
+    /** This command returns the current policyDigest of the session. This command allows the
+     *  TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
+    
+     *  @param policySession Handle for the policy session
      *         Auth Index: None
-     *  @return policyDigest - the current value of the policySessionpolicyDigest
+     *  @return policyDigest - The current value of the policySessionpolicyDigest
      */
     public byte[] PolicyGetDigest(TPM_HANDLE policySession)
     {
@@ -1593,13 +1547,12 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyGetDigest, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, outStruct);
         return outStruct.policyDigest;
     }
-
-    /**
-     *  This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
-     *  deferred assertion. Values are stored in the policy session context and checked when the
-     *  policy is used for authorization.
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
+     *  deferred assertion. Values are stored in the policy session context and checked when
+     *  the policy is used for authorization.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param writtenSet YES if NV Index is required to have been written
      *         NO if NV Index is required not to have been written
@@ -1610,15 +1563,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyNvWritten, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows a policy to be bound to a specific creation template. This is most
-     *  useful for an object creation command such as TPM2_Create(),
-     *  TPM2_CreatePrimary(), or TPM2_CreateLoaded().
-     *  
-     *  @param policySession handle for the policy session being extended
+    
+    /** This command allows a policy to be bound to a specific creation template. This is most
+     *  useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or
+     *  TPM2_CreateLoaded().
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param templateHash the digest to be added to the policy
+     *  @param templateHash The digest to be added to the policy
      */
     public void PolicyTemplate(TPM_HANDLE policySession, byte[] templateHash)
     {
@@ -1626,19 +1578,18 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyTemplate, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command provides a capability that is the equivalent of a revocable policy. With
-     *  TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may
-     *  not be withdrawn. With this command, the approved policy is kept in an NV Index location
-     *  so that the policy may be changed as needed to render the old policy unusable.
-     *  
-     *  @param authHandle handle indicating the source of the authorization value
+    
+    /** This command provides a capability that is the equivalent of a revocable policy. With
+     *  TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization
+     *  may not be withdrawn. With this command, the approved policy is kept in an NV Index
+     *  location so that the policy may be changed as needed to render the old policy unusable.
+    
+     *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param nvIndex the NV Index of the area to read
+     *  @param nvIndex The NV Index of the area to read
      *         Auth Index: None
-     *  @param policySession handle for the policy session being extended
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      */
     public void PolicyAuthorizeNV(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, TPM_HANDLE policySession)
@@ -1647,29 +1598,29 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PolicyAuthorizeNV, new TPM_HANDLE[] {authHandle, nvIndex, policySession}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to create a Primary Object under one of the Primary Seeds or a
-     *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
-     *  object to be created. The size of the unique field shall not be checked for consistency
-     *  with the other object parameters. The command will create and load a Primary Object. The
-     *  sensitive area is not returned.
-     *  
+    
+    /** This command is used to create a Primary Object under one of the Primary Seeds or a
+     *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for
+     *  the object to be created. The size of the unique field shall not be checked for
+     *  consistency with the other object parameters. The command will create and load a
+     *  Primary Object. The sensitive area is not returned.
+    
      *  @param primaryHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param inSensitive the sensitive data, see TPM 2.0 Part 1 Sensitive Values
-     *  @param inPublic the public template
-     *  @param outsideInfo data that will be included in the creation data for this object to provide permanent,
-     *         verifiable linkage between this object and some object owner data
+     *  @param inSensitive The sensitive data, see TPM 2.0 Part 1 Sensitive Values
+     *  @param inPublic The public template
+     *  @param outsideInfo Data that will be included in the creation data for this object to
+     *         provide permanent, verifiable linkage between this object and some object owner
+     *  data
      *  @param creationPCR PCR that will be used in creation data
-     *  @return handle - handle of type TPM_HT_TRANSIENT for created Primary Object<br>
-     *          outPublic - the public portion of the created object<br>
-     *          creationData - contains a TPMT_CREATION_DATA<br>
-     *          creationHash - digest of creationData using nameAlg of outPublic<br>
-     *          creationTicket - ticket used by TPM2_CertifyCreation() to validate that the creation data
-     *                           was produced by the TPM<br>
-     *          name - the name of the created object
+     *  @return handle - Handle of type TPM_HT_TRANSIENT for created Primary Object<br>
+     *          outPublic - The public portion of the created object<br>
+     *          creationData - Contains a TPMT_CREATION_DATA<br>
+     *          creationHash - Digest of creationData using nameAlg of outPublic<br>
+     *          creationTicket - Ticket used by TPM2_CertifyCreation() to validate that the
+     *                           creation data was produced by the TPM<br>
+     *          name - The name of the created object
      */
     public CreatePrimaryResponse CreatePrimary(TPM_HANDLE primaryHandle, TPMS_SENSITIVE_CREATE inSensitive, TPMT_PUBLIC inPublic, byte[] outsideInfo, TPMS_PCR_SELECTION[] creationPCR)
     {
@@ -1678,16 +1629,15 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.CreatePrimary, new TPM_HANDLE[] {primaryHandle}, 1, 1, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command enables and disables use of a hierarchy and its associated NV storage. The
-     *  command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
+    
+    /** This command enables and disables use of a hierarchy and its associated NV storage.
+     *  The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
      *  proper authorization is provided.
-     *  
+    
      *  @param authHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param enable the enable being modified
+     *  @param enable The enable being modified
      *         TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV
      *  @param state YES if the enable should be SET, NO if the enable should be CLEAR
      */
@@ -1697,19 +1647,20 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.HierarchyControl, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows setting of the authorization policy for the lockout (lockoutPolicy),
-     *  the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the
-     *  endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown
-     *  Timers (ACT), this command may also be used to set the authorization policy for an ACT.
-     *  
-     *  @param authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
+    
+    /** This command allows setting of the authorization policy for the lockout
+     *  (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy
+     *  (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing
+     *  Authenticated Countdown Timers (ACT), this command may also be used to set the
+     *  authorization policy for an ACT.
+    
+     *  @param authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or
+     *         TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param authPolicy an authorization policy digest; may be the Empty Buffer
+     *  @param authPolicy An authorization policy digest; may be the Empty Buffer
      *         If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer.
-     *  @param hashAlg the hash algorithm to use for the policy
+     *  @param hashAlg The hash algorithm to use for the policy
      *         If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL.
      */
     public void SetPrimaryPolicy(TPM_HANDLE authHandle, byte[] authPolicy, TPM_ALG_ID hashAlg)
@@ -1718,11 +1669,10 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.SetPrimaryPolicy, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This replaces the current platform primary seed (PPS) with a value from the RNG and sets
-     *  platformPolicy to the default initialization value (the Empty Buffer).
-     *  
+    
+    /** This replaces the current platform primary seed (PPS) with a value from the RNG and
+     *  sets platformPolicy to the default initialization value (the Empty Buffer).
+    
      *  @param authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1733,14 +1683,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ChangePPS, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This replaces the current endorsement primary seed (EPS) with a value from the RNG and
-     *  sets the Endorsement hierarchy controls to their default initialization values: ehEnable
-     *  is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will
-     *  flush any resident objects (transient or persistent) in the Endorsement hierarchy and not
-     *  allow objects in the hierarchy associated with the previous EPS to be loaded.
-     *  
+    
+    /** This replaces the current endorsement primary seed (EPS) with a value from the RNG and
+     *  sets the Endorsement hierarchy controls to their default initialization values:
+     *  ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty
+     *  Buffer. It will flush any resident objects (transient or persistent) in the
+     *  Endorsement hierarchy and not allow objects in the hierarchy associated with the
+     *  previous EPS to be loaded.
+    
      *  @param authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -1751,10 +1701,9 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ChangeEPS, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command removes all TPM context associated with a specific Owner.
-     *  
+    
+    /** This command removes all TPM context associated with a specific Owner.
+    
      *  @param authHandle TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -1765,14 +1714,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Clear, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
-     *  
+    
+    /** TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
+    
      *  @param auth TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
-     *  @param disable YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR.
+     *  @param disable YES if the disableOwnerClear flag is to be SET, NO if the flag is to be
+     *  CLEAR.
      */
     public void ClearControl(TPM_HANDLE auth, byte disable)
     {
@@ -1780,15 +1729,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ClearControl, new TPM_HANDLE[] {auth}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows the authorization secret for a hierarchy or lockout to be changed
+    
+    /** This command allows the authorization secret for a hierarchy or lockout to be changed
      *  using the current authorization value as the command authorization.
-     *  
+    
      *  @param authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param newAuth new authorization value
+     *  @param newAuth New authorization value
      */
     public void HierarchyChangeAuth(TPM_HANDLE authHandle, byte[] newAuth)
     {
@@ -1796,12 +1744,11 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.HierarchyChangeAuth, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command cancels the effect of a TPM lockout due to a number of successive
-     *  authorization failures. If this command is properly authorized, the
-     *  lockout counter is set to zero.
-     *  
+    
+    /** This command cancels the effect of a TPM lockout due to a number of successive
+     *  authorization failures. If this command is properly authorized, the lockout counter is
+     *  set to zero.
+    
      *  @param lockHandle TPM_RH_LOCKOUT
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1812,17 +1759,18 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.DictionaryAttackLockReset, new TPM_HANDLE[] {lockHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command changes the lockout parameters.
-     *  
+    
+    /** This command changes the lockout parameters.
+    
      *  @param lockHandle TPM_RH_LOCKOUT
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param newMaxTries count of authorization failures before the lockout is imposed
-     *  @param newRecoveryTime time in seconds before the authorization failure count is automatically decremented
+     *  @param newMaxTries Count of authorization failures before the lockout is imposed
+     *  @param newRecoveryTime Time in seconds before the authorization failure count is
+     *         automatically decremented
      *         A value of zero indicates that DA protection is disabled.
-     *  @param lockoutRecovery time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
+     *  @param lockoutRecovery Time in seconds after a lockoutAuth failure before use of
+     *         lockoutAuth is allowed
      *         A value of zero indicates that a reboot is required.
      */
     public void DictionaryAttackParameters(TPM_HANDLE lockHandle, int newMaxTries, int newRecoveryTime, int lockoutRecovery)
@@ -1831,16 +1779,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.DictionaryAttackParameters, new TPM_HANDLE[] {lockHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to determine which commands require assertion of Physical Presence
-     *  (PP) in addition to platformAuth/platformPolicy.
-     *  
+    
+    /** This command is used to determine which commands require assertion of Physical
+     *  Presence (PP) in addition to platformAuth/platformPolicy.
+    
      *  @param auth TPM_RH_PLATFORM+PP
      *         Auth Index: 1
      *         Auth Role: USER + Physical Presence
-     *  @param setList list of commands to be added to those that will require that Physical Presence be asserted
-     *  @param clearList list of commands that will no longer require that Physical Presence be asserted
+     *  @param setList List of commands to be added to those that will require that Physical
+     *         Presence be asserted
+     *  @param clearList List of commands that will no longer require that Physical Presence
+     *  be asserted
      */
     public void PP_Commands(TPM_HANDLE auth, TPM_CC[] setList, TPM_CC[] clearList)
     {
@@ -1848,15 +1797,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.PP_Commands, new TPM_HANDLE[] {auth}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows the platform to change the set of algorithms that are used by the TPM.
-     *  The algorithmSet setting is a vendor-dependent value.
-     *  
+    
+    /** This command allows the platform to change the set of algorithms that are used by the
+     *  TPM. The algorithmSet setting is a vendor-dependent value.
+    
      *  @param authHandle TPM_RH_PLATFORM
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param algorithmSet a TPM vendor-dependent value indicating the algorithm set selection
+     *  @param algorithmSet A TPM vendor-dependent value indicating the algorithm set selection
      */
     public void SetAlgorithmSet(TPM_HANDLE authHandle, int algorithmSet)
     {
@@ -1864,19 +1812,19 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.SetAlgorithmSet, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command uses platformPolicy and a TPM Vendor Authorization Key to
-     *  authorize a Field Upgrade Manifest.
-     *  
+    
+    /** This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a
+     *  Field Upgrade Manifest.
+    
      *  @param authorization TPM_RH_PLATFORM+{PP}
      *         Auth Index:1
      *         Auth Role: ADMIN
-     *  @param keyHandle handle of a public area that contains the TPM Vendor Authorization Key that will be used
-     *         to validate manifestSignature
+     *  @param keyHandle Handle of a public area that contains the TPM Vendor Authorization Key
+     *         that will be used to validate manifestSignature
      *         Auth Index: None
-     *  @param fuDigest digest of the first block in the field upgrade sequence
-     *  @param manifestSignature signature over fuDigest using the key associated with keyHandle (not optional)
+     *  @param fuDigest Digest of the first block in the field upgrade sequence
+     *  @param manifestSignature Signature over fuDigest using the key associated with keyHandle
+     *         (not optional)
      *         (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -1887,17 +1835,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.FieldUpgradeStart, new TPM_HANDLE[] {authorization, keyHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command will take the actual field upgrade image to be installed on the TPM. The
+    
+    /** This command will take the actual field upgrade image to be installed on the TPM. The
      *  exact format of fuData is vendor-specific. This command is only possible following a
      *  successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
      *  TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
-     *  
-     *  @param fuData field upgrade image data
-     *  @return nextDigest - tagged digest of the next block
+    
+     *  @param fuData Field upgrade image data
+     *  @return nextDigest - Tagged digest of the next block
      *                       TPM_ALG_NULL if field update is complete<br>
-     *          firstDigest - tagged digest of the first block of the sequence
+     *          firstDigest - Tagged digest of the first block of the sequence
      */
     public FieldUpgradeDataResponse FieldUpgradeData(byte[] fuData)
     {
@@ -1906,13 +1853,12 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.FieldUpgradeData, null, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command is used to read a copy of the current firmware installed in the TPM.
-     *  
-     *  @param sequenceNumber the number of previous calls to this command in this sequence
+    
+    /** This command is used to read a copy of the current firmware installed in the TPM.
+    
+     *  @param sequenceNumber The number of previous calls to this command in this sequence
      *         set to 0 on the first call
-     *  @return fuData - field upgrade image data
+     *  @return fuData - Field upgrade image data
      */
     public byte[] FirmwareRead(int sequenceNumber)
     {
@@ -1921,16 +1867,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.FirmwareRead, null, 0, 0, inStruct, outStruct);
         return outStruct.fuData;
     }
-
-    /**
-     *  This command saves a session context, object context, or sequence object
-     *  context outside the TPM.
-     *  
-     *  @param saveHandle handle of the resource to save
+    
+    /** This command saves a session context, object context, or sequence object context
+     *  outside the TPM.
+    
+     *  @param saveHandle Handle of the resource to save
      *         Auth Index: None
-     *  @return context - This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
-     *                    TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
-     *                    context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
+     *  @return context - This structure is used in TPM2_ContextLoad() and TPM2_ContextSave().
+     *  If
+     *                    the values of the TPMS_CONTEXT structure in TPM2_ContextLoad() are not
+     *                    the same as the values when the context was saved (TPM2_ContextSave()),
+     *                    then the TPM shall not load the context.
      */
     public TPMS_CONTEXT ContextSave(TPM_HANDLE saveHandle)
     {
@@ -1939,12 +1886,11 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ContextSave, new TPM_HANDLE[] {saveHandle}, 0, 0, inStruct, outStruct);
         return outStruct.context;
     }
-
-    /**
-     *  This command is used to reload a context that has been saved by TPM2_ContextSave().
-     *  
-     *  @param context the context blob
-     *  @return handle - the handle assigned to the resource after it has been successfully loaded
+    
+    /** This command is used to reload a context that has been saved by TPM2_ContextSave().
+    
+     *  @param context The context blob
+     *  @return handle - The handle assigned to the resource after it has been successfully loaded
      */
     public TPM_HANDLE ContextLoad(TPMS_CONTEXT context)
     {
@@ -1953,12 +1899,11 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ContextLoad, null, 0, 1, inStruct, outStruct);
         return outStruct.handle;
     }
-
-    /**
-     *  This command causes all context associated with a loaded object, sequence object, or session
-     *  to be removed from TPM memory.
-     *  
-     *  @param flushHandle the handle of the item to flush
+    
+    /** This command causes all context associated with a loaded object, sequence object, or
+     *  session to be removed from TPM memory.
+    
+     *  @param flushHandle The handle of the item to flush
      *         NOTE This is a use of a handle as a parameter.
      */
     public void FlushContext(TPM_HANDLE flushHandle)
@@ -1967,20 +1912,19 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.FlushContext, null, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows certain Transient Objects to be made persistent or a
-     *  persistent object to be evicted.
-     *  
+    
+    /** This command allows certain Transient Objects to be made persistent or a persistent
+     *  object to be evicted.
+    
      *  @param auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
-     *  @param objectHandle the handle of a loaded object
+     *  @param objectHandle The handle of a loaded object
      *         Auth Index: None
-     *  @param persistentHandle if objectHandle is a transient object handle, then this is the persistent handle for the
-     *         object
-     *         if objectHandle is a persistent object handle, then it shall be the same value
-     *         as persistentHandle
+     *  @param persistentHandle If objectHandle is a transient object handle, then this is the
+     *         persistent handle for the object
+     *         if objectHandle is a persistent object handle, then it shall be the same value as
+     *         persistentHandle
      */
     public void EvictControl(TPM_HANDLE auth, TPM_HANDLE objectHandle, TPM_HANDLE persistentHandle)
     {
@@ -1988,12 +1932,12 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.EvictControl, new TPM_HANDLE[] {auth, objectHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command reads the current TPMS_TIME_INFO structure that contains the current setting
-     *  of Time, Clock, resetCount, and restartCount.
-     *  
-     *  @return currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().
+    
+    /** This command reads the current TPMS_TIME_INFO structure that contains the current
+     *  setting of Time, Clock, resetCount, and restartCount.
+    
+     *  @return currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and
+     *                        TPM2_ReadClock().
      */
     public TPMS_TIME_INFO ReadClock()
     {
@@ -2002,17 +1946,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ReadClock, null, 0, 0, inStruct, outStruct);
         return outStruct.currentTime;
     }
-
-    /**
-     *  This command is used to advance the value of the TPMs Clock. The command will fail if
+    
+    /** This command is used to advance the value of the TPMs Clock. The command will fail if
      *  newTime is less than the current value of Clock or if the new time is greater than
-     *  FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of
-     *  these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
-     *  
+     *  FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If
+     *  either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
+    
      *  @param auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
-     *  @param newTime new Clock setting in milliseconds
+     *  @param newTime New Clock setting in milliseconds
      */
     public void ClockSet(TPM_HANDLE auth, long newTime)
     {
@@ -2020,11 +1963,10 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ClockSet, new TPM_HANDLE[] {auth}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command adjusts the rate of advance of Clock and Time to provide a better
+    
+    /** This command adjusts the rate of advance of Clock and Time to provide a better
      *  approximation to real time.
-     *  
+    
      *  @param auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -2036,15 +1978,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ClockRateAdjust, new TPM_HANDLE[] {auth}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command returns various information regarding the TPM and its current state.
-     *  
-     *  @param capability group selection; determines the format of the response
-     *  @param property further definition of information
-     *  @param propertyCount number of properties of the indicated type to return
-     *  @return moreData - flag to indicate if there are more values of this type<br>
-     *          capabilityData - the capability data
+    
+    /** This command returns various information regarding the TPM and its current state.
+    
+     *  @param capability Group selection; determines the format of the response
+     *  @param property Further definition of information
+     *  @param propertyCount Number of properties of the indicated type to return
+     *  @return moreData - Flag to indicate if there are more values of this type<br>
+     *          capabilityData - The capability data
      */
     public GetCapabilityResponse GetCapability(TPM_CAP capability, int property, int propertyCount)
     {
@@ -2053,12 +1994,11 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.GetCapability, null, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command is used to check to see if specific combinations of algorithm
-     *  parameters are supported.
-     *  
-     *  @param parameters algorithm parameters to be validated
+    
+    /** This command is used to check to see if specific combinations of algorithm parameters
+     *  are supported.
+    
+     *  @param parameters Algorithm parameters to be validated
      *         (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
      *         TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
      */
@@ -2068,17 +2008,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.TestParms, null, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command defines the attributes of an NV Index and causes the TPM to reserve space to
-     *  hold the data associated with the NV Index. If a definition already exists at the NV Index, the
-     *  TPM will return TPM_RC_NV_DEFINED.
-     *  
+    
+    /** This command defines the attributes of an NV Index and causes the TPM to reserve space
+     *  to hold the data associated with the NV Index. If a definition already exists at the
+     *  NV Index, the TPM will return TPM_RC_NV_DEFINED.
+    
      *  @param authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param auth the authorization value
-     *  @param publicInfo the public parameters of the NV area
+     *  @param auth The authorization value
+     *  @param publicInfo The public parameters of the NV area
      */
     public void NV_DefineSpace(TPM_HANDLE authHandle, byte[] auth, TPMS_NV_PUBLIC publicInfo)
     {
@@ -2086,14 +2025,13 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_DefineSpace, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command removes an Index from the TPM.
-     *  
+    
+    /** This command removes an Index from the TPM.
+    
      *  @param authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param nvIndex the NV Index to remove from NV space
+     *  @param nvIndex The NV Index to remove from NV space
      *         Auth Index: None
      */
     public void NV_UndefineSpace(TPM_HANDLE authHandle, TPM_HANDLE nvIndex)
@@ -2102,11 +2040,10 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_UndefineSpace, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows removal of a platform-created NV Index that has
+    
+    /** This command allows removal of a platform-created NV Index that has
      *  TPMA_NV_POLICY_DELETE SET.
-     *  
+    
      *  @param nvIndex Index to be deleted
      *         Auth Index: 1
      *         Auth Role: ADMIN
@@ -2120,15 +2057,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_UndefineSpaceSpecial, new TPM_HANDLE[] {nvIndex, platform}, 2, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to read the public area and Name of an NV Index. The public area of
-     *  an Index is not privacy-sensitive and no authorization is required to read this data.
-     *  
-     *  @param nvIndex the NV Index
+    
+    /** This command is used to read the public area and Name of an NV Index. The public area
+     *  of an Index is not privacy-sensitive and no authorization is required to read this data.
+    
+     *  @param nvIndex The NV Index
      *         Auth Index: None
-     *  @return nvPublic - the public area of the NV Index<br>
-     *          nvName - the Name of the nvIndex
+     *  @return nvPublic - The public area of the NV Index<br>
+     *          nvName - The Name of the nvIndex
      */
     public NV_ReadPublicResponse NV_ReadPublic(TPM_HANDLE nvIndex)
     {
@@ -2137,18 +2073,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_ReadPublic, new TPM_HANDLE[] {nvIndex}, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  This command writes a value to an area in NV memory that was previously
-     *  defined by TPM2_NV_DefineSpace().
-     *  
-     *  @param authHandle handle indicating the source of the authorization value
+    
+    /** This command writes a value to an area in NV memory that was previously defined by
+     *  TPM2_NV_DefineSpace().
+    
+     *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param nvIndex the NV Index of the area to write
+     *  @param nvIndex The NV Index of the area to write
      *         Auth Index: None
-     *  @param data the data to write
-     *  @param offset the octet offset into the NV Area
+     *  @param data The data to write
+     *  @param offset The octet offset into the NV Area
      */
     public void NV_Write(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, byte[] data, int offset)
     {
@@ -2156,15 +2091,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_Write, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
+    
+    /** This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
      *  attribute. The data value of the NV Index is incremented by one.
-     *  
-     *  @param authHandle handle indicating the source of the authorization value
+    
+     *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param nvIndex the NV Index to increment
+     *  @param nvIndex The NV Index to increment
      *         Auth Index: None
      */
     public void NV_Increment(TPM_HANDLE authHandle, TPM_HANDLE nvIndex)
@@ -2173,17 +2107,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_Increment, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command extends a value to an area in NV memory that was previously
-     *  defined by TPM2_NV_DefineSpace.
-     *  
-     *  @param authHandle handle indicating the source of the authorization value
+    
+    /** This command extends a value to an area in NV memory that was previously defined by
+     *  TPM2_NV_DefineSpace.
+    
+     *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param nvIndex the NV Index to extend
+     *  @param nvIndex The NV Index to extend
      *         Auth Index: None
-     *  @param data the data to extend
+     *  @param data The data to extend
      */
     public void NV_Extend(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, byte[] data)
     {
@@ -2191,18 +2124,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_Extend, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to SET bits in an NV Index that was created as a bit field. Any
-     *  number of bits from 0 to 64 may be SET. The contents of bits are ORed with the
-     *  current contents of the NV Index.
-     *  
-     *  @param authHandle handle indicating the source of the authorization value
+    
+    /** This command is used to SET bits in an NV Index that was created as a bit field. Any
+     *  number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current
+     *  contents of the NV Index.
+    
+     *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
      *  @param nvIndex NV Index of the area in which the bit is to be set
      *         Auth Index: None
-     *  @param bits the data to OR with the current contents
+     *  @param bits The data to OR with the current contents
      */
     public void NV_SetBits(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, long bits)
     {
@@ -2210,15 +2142,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_SetBits, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET,
-     *  then this command may be used to inhibit further writes of the NV Index.
-     *  
-     *  @param authHandle handle indicating the source of the authorization value
+    
+    /** If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are
+     *  SET, then this command may be used to inhibit further writes of the NV Index.
+    
+     *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param nvIndex the NV Index of the area to lock
+     *  @param nvIndex The NV Index of the area to lock
      *         Auth Index: None
      */
     public void NV_WriteLock(TPM_HANDLE authHandle, TPM_HANDLE nvIndex)
@@ -2227,11 +2158,10 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_WriteLock, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
+    
+    /** The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
      *  TPMA_NV_GLOBALLOCK attribute SET.
-     *  
+    
      *  @param authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2242,20 +2172,18 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_GlobalWriteLock, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command reads a value from an area in NV memory previously defined
-     *  by TPM2_NV_DefineSpace().
-     *  
-     *  @param authHandle the handle indicating the source of the authorization value
+    
+    /** This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
+    
+     *  @param authHandle The handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param nvIndex the NV Index to be read
+     *  @param nvIndex The NV Index to be read
      *         Auth Index: None
-     *  @param size number of octets to read
-     *  @param offset octet offset into the NV area
+     *  @param size Number of octets to read
+     *  @param offset Octet offset into the NV area
      *         This value shall be less than or equal to the size of the nvIndex data.
-     *  @return data - the data read
+     *  @return data - The data read
      */
     public byte[] NV_Read(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, int size, int offset)
     {
@@ -2264,15 +2192,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_Read, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, outStruct);
         return outStruct.data;
     }
-
-    /**
-     *  If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
+    
+    /** If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
      *  further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
-     *  
-     *  @param authHandle the handle indicating the source of the authorization value
+    
+     *  @param authHandle The handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param nvIndex the NV Index to be locked
+     *  @param nvIndex The NV Index to be locked
      *         Auth Index: None
      */
     public void NV_ReadLock(TPM_HANDLE authHandle, TPM_HANDLE nvIndex)
@@ -2281,14 +2208,13 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_ReadLock, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command allows the authorization secret for an NV Index to be changed.
-     *  
-     *  @param nvIndex handle of the entity
+    
+    /** This command allows the authorization secret for an NV Index to be changed.
+    
+     *  @param nvIndex Handle of the entity
      *         Auth Index: 1
      *         Auth Role: ADMIN
-     *  @param newAuth new authorization value
+     *  @param newAuth New authorization value
      */
     public void NV_ChangeAuth(TPM_HANDLE nvIndex, byte[] newAuth)
     {
@@ -2296,29 +2222,29 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_ChangeAuth, new TPM_HANDLE[] {nvIndex}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  The purpose of this command is to certify the contents of an NV Index or
-     *  portion of an NV Index.
-     *  
-     *  @param signHandle handle of the key used to sign the attestation structure
+    
+    /** The purpose of this command is to certify the contents of an NV Index or portion of an
+     *  NV Index.
+    
+     *  @param signHandle Handle of the key used to sign the attestation structure
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param authHandle handle indicating the source of the authorization value for the NV Index
+     *  @param authHandle Handle indicating the source of the authorization value for the NV Index
      *         Auth Index: 2
      *         Auth Role: USER
      *  @param nvIndex Index for the area to be certified
      *         Auth Index: None
-     *  @param qualifyingData user-provided qualifying data
-     *  @param inScheme signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+     *  @param qualifyingData User-provided qualifying data
+     *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     *  @param size number of octets to certify
-     *  @param offset octet offset into the NV area
+     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *  @param size Number of octets to certify
+     *  @param offset Octet offset into the NV area
      *         This value shall be less than or equal to the size of the nvIndex data.
-     *  @return certifyInfo - the structure that was signed<br>
-     *          signature - the asymmetric signature over certifyInfo using the key referenced by signHandle
+     *  @return certifyInfo - The structure that was signed<br>
+     *          signature - The asymmetric signature over certifyInfo using the key referenced
+     *  by signHandle
      */
     public NV_CertifyResponse NV_Certify(TPM_HANDLE signHandle, TPM_HANDLE authHandle, TPM_HANDLE nvIndex, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme, int size, int offset)
     {
@@ -2327,17 +2253,16 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.NV_Certify, new TPM_HANDLE[] {signHandle, authHandle, nvIndex}, 2, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  The purpose of this command is to obtain information about an Attached Component
+    
+    /** The purpose of this command is to obtain information about an Attached Component
      *  referenced by an AC handle.
-     *  
-     *  @param ac handle indicating the Attached Component
+    
+     *  @param ac Handle indicating the Attached Component
      *         Auth Index: None
-     *  @param capability starting info type
-     *  @param count maximum number of values to return
-     *  @return moreData - flag to indicate whether there are more values<br>
-     *          capabilitiesData - list of capabilities
+     *  @param capability Starting info type
+     *  @param count Maximum number of values to return
+     *  @return moreData - Flag to indicate whether there are more values<br>
+     *          capabilitiesData - List of capabilities
      */
     public AC_GetCapabilityResponse AC_GetCapability(TPM_HANDLE ac, TPM_AT capability, int count)
     {
@@ -2346,18 +2271,17 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.AC_GetCapability, new TPM_HANDLE[] {ac}, 0, 0, inStruct, outStruct);
         return outStruct;
     }
-
-    /**
-     *  The purpose of this command is to send (copy) a loaded object from the TPM
-     *  to an Attached Component.
-     *  
-     *  @param sendObject handle of the object being sent to ac
+    
+    /** The purpose of this command is to send (copy) a loaded object from the TPM to an
+     *  Attached Component.
+    
+     *  @param sendObject Handle of the object being sent to ac
      *         Auth Index: 1
      *         Auth Role: DUP
-     *  @param authHandle the handle indicating the source of the authorization value
+     *  @param authHandle The handle indicating the source of the authorization value
      *         Auth Index: 2
      *         Auth Role: USER
-     *  @param ac handle indicating the Attached Component to which the object will be sent
+     *  @param ac Handle indicating the Attached Component to which the object will be sent
      *         Auth Index: None
      *  @param acDataIn Optional non sensitive information related to the object
      *  @return acDataOut - May include AC specific data or information about an error.
@@ -2369,19 +2293,19 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.AC_Send, new TPM_HANDLE[] {sendObject, authHandle, ac}, 2, 0, inStruct, outStruct);
         return outStruct.acDataOut;
     }
-
-    /**
-     *  This command allows qualification of the sending (copying) of an Object to an Attached
+    
+    /** This command allows qualification of the sending (copying) of an Object to an Attached
      *  Component (AC). Qualification includes selection of the receiving AC and the method of
-     *  authentication for the AC, and, in certain circumstances, the Object to
-     *  be sent may be specified.
-     *  
-     *  @param policySession handle for the policy session being extended
+     *  authentication for the AC, and, in certain circumstances, the Object to be sent may be
+     *  specified.
+    
+     *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param objectName the Name of the Object to be sent
-     *  @param authHandleName the Name associated with authHandle used in the TPM2_AC_Send() command
-     *  @param acName the Name of the Attached Component to which the Object will be sent
-     *  @param includeObject if SET, objectName will be included in the value in policySessionpolicyDigest
+     *  @param objectName The Name of the Object to be sent
+     *  @param authHandleName The Name associated with authHandle used in the TPM2_AC_Send() command
+     *  @param acName The Name of the Attached Component to which the Object will be sent
+     *  @param includeObject If SET, objectName will be included in the value in
+     *  policySessionpolicyDigest
      */
     public void Policy_AC_SendSelect(TPM_HANDLE policySession, byte[] objectName, byte[] authHandleName, byte[] acName, byte includeObject)
     {
@@ -2389,15 +2313,14 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Policy_AC_SendSelect, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This command is used to set the time remaining before an Authenticated
-     *  Countdown Timer (ACT) expires.
-     *  
+    
+    /** This command is used to set the time remaining before an Authenticated Countdown Timer
+     *  (ACT) expires.
+    
      *  @param actHandle Handle of the selected ACT
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param startTimeout the start timeout value for the ACT in seconds
+     *  @param startTimeout The start timeout value for the ACT in seconds
      */
     public void ACT_SetTimeout(TPM_HANDLE actHandle, int startTimeout)
     {
@@ -2405,12 +2328,11 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.ACT_SetTimeout, new TPM_HANDLE[] {actHandle}, 1, 0, inStruct, null);
         return;
     }
-
-    /**
-     *  This is a placeholder to allow testing of the dispatch code.
-     *  
-     *  @param inputData dummy data
-     *  @return outputData - dummy data
+    
+    /** This is a placeholder to allow testing of the dispatch code.
+    
+     *  @param inputData Dummy data
+     *  @return outputData - Dummy data
      */
     public byte[] Vendor_TCG_Test(byte[] inputData)
     {
@@ -2419,7 +2341,7 @@ public class Tpm extends TpmBase
         DispatchCommand(TPM_CC.Vendor_TCG_Test, null, 0, 0, inStruct, outStruct);
         return outStruct.outputData;
     }
-
+    
 }
 
 //<<<

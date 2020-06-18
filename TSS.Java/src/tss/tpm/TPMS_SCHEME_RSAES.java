@@ -7,10 +7,7 @@ import tss.*;
 
 //>>>
 
-/**
- *  Underlying type comment: These are the RSA encryption schemes that only need a hash algorithm as
- *  a controlling parameter.
- */
+/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.  */
 public class TPMS_SCHEME_RSAES extends TPMS_ENC_SCHEME_RSAES
 {
     public TPMS_SCHEME_RSAES() {}

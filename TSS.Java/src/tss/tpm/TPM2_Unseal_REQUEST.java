@@ -7,11 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This command returns the data in a loaded Sealed Data Object. */
+/** This command returns the data in a loaded Sealed Data Object.  */
 public class TPM2_Unseal_REQUEST extends TpmStructure
 {
-    /**
-     *  handle of a loaded data object
+    /** Handle of a loaded data object
      *  Auth Index: 1
      *  Auth Role: USER
      */
@@ -19,8 +18,7 @@ public class TPM2_Unseal_REQUEST extends TpmStructure
     
     public TPM2_Unseal_REQUEST() { itemHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _itemHandle handle of a loaded data object
+    /** @param _itemHandle Handle of a loaded data object
      *         Auth Index: 1
      *         Auth Role: USER
      */
@@ -34,7 +32,7 @@ public class TPM2_Unseal_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

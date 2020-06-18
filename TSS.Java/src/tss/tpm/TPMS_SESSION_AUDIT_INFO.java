@@ -7,34 +7,33 @@ import tss.*;
 
 //>>>
 
-/** This is the attested data for TPM2_GetSessionAuditDigest(). */
+/** This is the attested data for TPM2_GetSessionAuditDigest().  */
 public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 {
-    /**
-     *  current exclusive status of the session
+    /** Current exclusive status of the session
      *  TRUE if all of the commands recorded in the sessionDigest were executed without any
      *  intervening TPM command that did not use this audit session
      */
     public byte exclusiveSession;
     
-    /** the current value of the session audit digest */
+    /** The current value of the session audit digest  */
     public byte[] sessionDigest;
     
     public TPMS_SESSION_AUDIT_INFO() {}
     
-    /**
-     *  @param _exclusiveSession current exclusive status of the session
-     *         TRUE if all of the commands recorded in the sessionDigest were executed without any
+    /** @param _exclusiveSession Current exclusive status of the session
+     *         TRUE if all of the commands recorded in the sessionDigest were executed without
+     *  any
      *         intervening TPM command that did not use this audit session
-     *  @param _sessionDigest the current value of the session audit digest
+     *  @param _sessionDigest The current value of the session audit digest
      */
     public TPMS_SESSION_AUDIT_INFO(byte _exclusiveSession, byte[] _sessionDigest)
     {
         exclusiveSession = _exclusiveSession;
         sessionDigest = _sessionDigest;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_SESSION_AUDIT; }
     
     @Override
@@ -43,7 +42,7 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeByte(exclusiveSession);
         buf.writeSizedByteBuf(sessionDigest);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -52,7 +51,7 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         sessionDigest = new byte[_sessionDigestSize];
         buf.readArrayOfInts(sessionDigest, 1, _sessionDigestSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -60,24 +59,27 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_SESSION_AUDIT_INFO fromTpm (byte[] x) 
+    
+    public static TPMS_SESSION_AUDIT_INFO fromBytes (byte[] byteBuf) 
     {
         TPMS_SESSION_AUDIT_INFO ret = new TPMS_SESSION_AUDIT_INFO();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_SESSION_AUDIT_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_SESSION_AUDIT_INFO fromTpm (InByteBuf buf) 
     {
         TPMS_SESSION_AUDIT_INFO ret = new TPMS_SESSION_AUDIT_INFO();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -86,7 +88,7 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

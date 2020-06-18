@@ -7,28 +7,27 @@ import tss.*;
 
 //>>>
 
-/** This is the format used for each of the authorizations in the session area of a command. */
+/** This is the format used for each of the authorizations in the session area of a command.  */
 public class TPMS_AUTH_COMMAND extends TpmStructure
 {
-    /** the session handle */
+    /** The session handle  */
     public TPM_HANDLE sessionHandle;
     
-    /** the session nonce, may be the Empty Buffer */
+    /** The session nonce, may be the Empty Buffer  */
     public byte[] nonce;
     
-    /** the session attributes */
+    /** The session attributes  */
     public TPMA_SESSION sessionAttributes;
     
-    /** either an HMAC, a password, or an EmptyAuth */
+    /** Either an HMAC, a password, or an EmptyAuth  */
     public byte[] hmac;
     
     public TPMS_AUTH_COMMAND() { sessionHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _sessionHandle the session handle
-     *  @param _nonce the session nonce, may be the Empty Buffer
-     *  @param _sessionAttributes the session attributes
-     *  @param _hmac either an HMAC, a password, or an EmptyAuth
+    /** @param _sessionHandle The session handle
+     *  @param _nonce The session nonce, may be the Empty Buffer
+     *  @param _sessionAttributes The session attributes
+     *  @param _hmac Either an HMAC, a password, or an EmptyAuth
      */
     public TPMS_AUTH_COMMAND(TPM_HANDLE _sessionHandle, byte[] _nonce, TPMA_SESSION _sessionAttributes, byte[] _hmac)
     {
@@ -37,7 +36,7 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
         sessionAttributes = _sessionAttributes;
         hmac = _hmac;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -46,7 +45,7 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
         sessionAttributes.toTpm(buf);
         buf.writeSizedByteBuf(hmac);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -60,7 +59,7 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
         hmac = new byte[_hmacSize];
         buf.readArrayOfInts(hmac, 1, _hmacSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -68,24 +67,27 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_AUTH_COMMAND fromTpm (byte[] x) 
+    
+    public static TPMS_AUTH_COMMAND fromBytes (byte[] byteBuf) 
     {
         TPMS_AUTH_COMMAND ret = new TPMS_AUTH_COMMAND();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_AUTH_COMMAND fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_AUTH_COMMAND fromTpm (InByteBuf buf) 
     {
         TPMS_AUTH_COMMAND ret = new TPMS_AUTH_COMMAND();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -94,7 +96,7 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

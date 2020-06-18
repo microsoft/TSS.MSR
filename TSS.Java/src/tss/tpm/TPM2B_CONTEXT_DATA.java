@@ -7,14 +7,14 @@ import tss.*;
 
 //>>>
 
-/** This structure is used in a TPMS_CONTEXT. */
+/** This structure is used in a TPMS_CONTEXT.  */
 public class TPM2B_CONTEXT_DATA extends TpmStructure
 {
     public TPMS_CONTEXT_DATA buffer;
     
     public TPM2B_CONTEXT_DATA() {}
     
-    /** @param _buffer TBD */
+    /** @param _buffer TBD  */
     public TPM2B_CONTEXT_DATA(TPMS_CONTEXT_DATA _buffer) { buffer = _buffer; }
     
     @Override
@@ -24,7 +24,7 @@ public class TPM2B_CONTEXT_DATA extends TpmStructure
         if (buffer != null)
             buffer.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -33,7 +33,7 @@ public class TPM2B_CONTEXT_DATA extends TpmStructure
         buffer = TPMS_CONTEXT_DATA.fromTpm(buf);
         buf.structSize.pop();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -41,24 +41,27 @@ public class TPM2B_CONTEXT_DATA extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_CONTEXT_DATA fromTpm (byte[] x) 
+    
+    public static TPM2B_CONTEXT_DATA fromBytes (byte[] byteBuf) 
     {
         TPM2B_CONTEXT_DATA ret = new TPM2B_CONTEXT_DATA();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_CONTEXT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_CONTEXT_DATA fromTpm (InByteBuf buf) 
     {
         TPM2B_CONTEXT_DATA ret = new TPM2B_CONTEXT_DATA();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -67,7 +70,7 @@ public class TPM2B_CONTEXT_DATA extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

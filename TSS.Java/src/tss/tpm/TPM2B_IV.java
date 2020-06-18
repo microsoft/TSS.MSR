@@ -7,19 +7,18 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure is used for passing an initial value for a symmetric block cipher to or
- *  from the TPM. The size is set to be the largest block size of any implemented symmetric
- *  cipher implemented on the TPM.
+/** This structure is used for passing an initial value for a symmetric block cipher to or
+ *  from the TPM. The size is set to be the largest block size of any implemented
+ *  symmetric cipher implemented on the TPM.
  */
 public class TPM2B_IV extends TpmStructure
 {
-    /** the IV value */
+    /** The IV value  */
     public byte[] buffer;
     
     public TPM2B_IV() {}
     
-    /** @param _buffer the IV value */
+    /** @param _buffer The IV value  */
     public TPM2B_IV(byte[] _buffer) { buffer = _buffer; }
     
     @Override
@@ -27,7 +26,7 @@ public class TPM2B_IV extends TpmStructure
     {
         buf.writeSizedByteBuf(buffer);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -35,7 +34,7 @@ public class TPM2B_IV extends TpmStructure
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -43,24 +42,27 @@ public class TPM2B_IV extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_IV fromTpm (byte[] x) 
+    
+    public static TPM2B_IV fromBytes (byte[] byteBuf) 
     {
         TPM2B_IV ret = new TPM2B_IV();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_IV fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_IV fromTpm (InByteBuf buf) 
     {
         TPM2B_IV ret = new TPM2B_IV();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -69,7 +71,7 @@ public class TPM2B_IV extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

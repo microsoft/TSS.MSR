@@ -7,9 +7,8 @@ import java.util.*;
 
 //>>>
 
-/**
- *  Table 2 is the list of algorithms to which the TCG has assigned an algorithm identifier
- *  along with its numeric identifier.
+/** Table 2 is the list of algorithms to which the TCG has assigned an algorithm
+ *  identifier along with its numeric identifier.
  */
 public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
 {
@@ -17,173 +16,163 @@ public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_ALG_ID. qualifier.
     public enum _N {
-        /** should not occur */
-        ERROR,
+        /** Should not occur  */
+        ERROR, 
         
-        /** an object type that contains an RSA key */
-        FIRST,
+        /** An object type that contains an RSA key  */
+        FIRST, 
         
-        /** an object type that contains an RSA key */
-        RSA,
+        /** An object type that contains an RSA key  */
+        RSA, 
         
-        /**
-         *  block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called
+        /** Block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called
          *  Triple Data Encryption Standard)
          */
-        TDES,
+        TDES, 
         
-        /** hash algorithm producing a 160-bit digest */
-        SHA,
+        /** Hash algorithm producing a 160-bit digest  */
+        SHA, 
         
-        /** redefinition for documentation consistency */
-        SHA1,
+        /** Redefinition for documentation consistency  */
+        SHA1, 
         
-        /** Hash Message Authentication Code (HMAC) algorithm */
-        HMAC,
+        /** Hash Message Authentication Code (HMAC) algorithm  */
+        HMAC, 
         
-        /** block cipher with various key sizes */
-        AES,
+        /** Block cipher with various key sizes  */
+        AES, 
         
-        /** hash-based mask-generation function */
-        MGF1,
+        /** Hash-based mask-generation function  */
+        MGF1, 
         
-        /**
-         *  an object type that may use XOR for encryption or an HMAC for signing and may also refer
-         *  to a data object that is neither signing nor encrypting
+        /** An object type that may use XOR for encryption or an HMAC for signing and may also
+         *  refer to a data object that is neither signing nor encrypting
          */
-        KEYEDHASH,
+        KEYEDHASH, 
         
-        /** hash-based stream cipher */
-        XOR,
+        /** Hash-based stream cipher  */
+        XOR, 
         
-        /** hash algorithm producing a 256-bit digest */
-        SHA256,
+        /** Hash algorithm producing a 256-bit digest  */
+        SHA256, 
         
-        /** hash algorithm producing a 384-bit digest */
-        SHA384,
+        /** Hash algorithm producing a 384-bit digest  */
+        SHA384, 
         
-        /** hash algorithm producing a 512-bit digest */
-        SHA512,
+        /** Hash algorithm producing a 512-bit digest  */
+        SHA512, 
         
-        /** Indication that no algorithm is selected */
-        NULL,
+        /** Indication that no algorithm is selected  */
+        NULL, 
         
-        /** hash algorithm producing a 256-bit digest */
-        SM3_256,
+        /** Hash algorithm producing a 256-bit digest  */
+        SM3_256, 
         
-        /** symmetric block cipher with 128 bit key */
-        SM4,
+        /** Symmetric block cipher with 128 bit key  */
+        SM4, 
         
-        /** a signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5) */
-        RSASSA,
+        /** A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5)  */
+        RSASSA, 
         
-        /** a padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5) */
-        RSAES,
+        /** A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5)  */
+        RSAES, 
         
-        /** a signature algorithm defined in section 8.1 (RSASSA-PSS) */
-        RSAPSS,
+        /** A signature algorithm defined in section 8.1 (RSASSA-PSS)  */
+        RSAPSS, 
         
-        /** a padding algorithm defined in Section 7.1 (RSAES_OAEP) */
-        OAEP,
+        /** A padding algorithm defined in Section 7.1 (RSAES_OAEP)  */
+        OAEP, 
         
-        /** signature algorithm using elliptic curve cryptography (ECC) */
-        ECDSA,
+        /** Signature algorithm using elliptic curve cryptography (ECC)  */
+        ECDSA, 
         
-        /**
-         *  secret sharing using ECC Based on context, this can be either One-Pass Diffie-Hellman,
-         *  C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC
-         *  CDH) defined in 6.1.1.2
+        /** Secret sharing using ECC Based on context, this can be either One-Pass Diffie-Hellman,
+         *  C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC CDH) defined in 6.1.1.2
          */
-        ECDH,
+        ECDH, 
         
-        /** elliptic-curve based, anonymous signing scheme */
-        ECDAA,
+        /** Elliptic-curve based, anonymous signing scheme  */
+        ECDAA, 
         
-        /**
-         *  depending on context, either an elliptic-curve-based signature algorithm, encryption
+        /** Depending on context, either an elliptic-curve-based signature algorithm, encryption
          *  algorithm, or key exchange protocol
          */
-        SM2,
+        SM2, 
         
-        /** elliptic-curve based Schnorr signature */
-        ECSCHNORR,
+        /** Elliptic-curve based Schnorr signature  */
+        ECSCHNORR, 
         
-        /** two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4 */
-        ECMQV,
+        /** Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4  */
+        ECMQV, 
         
-        /** concatenation key derivation function (approved alternative 1) Section 5.8.1 */
-        KDF1_SP800_56A,
+        /** Concatenation key derivation function (approved alternative 1) Section 5.8.1  */
+        KDF1_SP800_56A, 
         
-        /** key derivation function KDF2 Section 13.2 */
-        KDF2,
+        /** Key derivation function KDF2 Section 13.2  */
+        KDF2, 
         
-        /** a key derivation method SP800-108, Section 5.1 KDF in Counter Mode */
-        KDF1_SP800_108,
+        /** A key derivation method SP800-108, Section 5.1 KDF in Counter Mode  */
+        KDF1_SP800_108, 
         
-        /** prime field ECC */
-        ECC,
+        /** Prime field ECC  */
+        ECC, 
         
-        /** the object type for a symmetric block cipher key */
-        SYMCIPHER,
+        /** The object type for a symmetric block cipher key  */
+        SYMCIPHER, 
         
-        /** symmetric block cipher with various key sizes */
-        CAMELLIA,
+        /** Symmetric block cipher with various key sizes  */
+        CAMELLIA, 
         
-        /** Hash algorithm producing a 256-bit digest */
-        SHA3_256,
+        /** Hash algorithm producing a 256-bit digest  */
+        SHA3_256, 
         
-        /** Hash algorithm producing a 384-bit digest */
-        SHA3_384,
+        /** Hash algorithm producing a 384-bit digest  */
+        SHA3_384, 
         
-        /** Hash algorithm producing a 512-bit digest */
-        SHA3_512,
+        /** Hash algorithm producing a 512-bit digest  */
+        SHA3_512, 
         
-        CMAC,
+        CMAC, 
         
-        /**
-         *  Counter mode if implemented, all symmetric block ciphers (S type) implemented shall
-         *  be capable of using this mode.
+        /** Counter mode if implemented, all symmetric block ciphers (S type) implemented shall be
+         *  capable of using this mode.
          */
-        CTR,
+        CTR, 
         
-        /**
-         *  Output Feedback mode if implemented, all symmetric block ciphers (S type) implemented shall
-         *  be capable of using this mode.
-         */
-        OFB,
-        
-        /**
-         *  Cipher Block Chaining mode if implemented, all symmetric block ciphers (S type) implemented
+        /** Output Feedback mode if implemented, all symmetric block ciphers (S type) implemented
          *  shall be capable of using this mode.
          */
-        CBC,
+        OFB, 
         
-        /**
-         *  Cipher Feedback mode if implemented, all symmetric block ciphers (S type) implemented shall
-         *  be capable of using this mode.
+        /** Cipher Block Chaining mode if implemented, all symmetric block ciphers (S type)
+         *  implemented shall be capable of using this mode.
          */
-        CFB,
+        CBC, 
         
-        /**
-         *  Electronic Codebook mode if implemented, all implemented symmetric block ciphers (S type)
+        /** Cipher Feedback mode if implemented, all symmetric block ciphers (S type) implemented
          *  shall be capable of using this mode.
-         *  NOTE This mode is not recommended for uses unless the key is frequently
-         *  rotated such as in video codecs
          */
-        ECB,
+        CFB, 
         
-        LAST,
+        /** Electronic Codebook mode if implemented, all implemented symmetric block ciphers (S
+         *  type) shall be capable of using this mode.
+         *  NOTE This mode is not recommended for uses unless the key is frequently rotated such
+         *  as in video codecs
+         */
+        ECB, 
         
-        /** Phony alg ID to be used for the first union member with no selector */
-        ANY,
+        LAST, 
         
-        /** Phony alg ID to be used for the second union member with no selector */
+        /** Phony alg ID to be used for the first union member with no selector  */
+        ANY, 
+        
+        /** Phony alg ID to be used for the second union member with no selector  */
         ANY2
     }
-
+    
     private static ValueMap<TPM_ALG_ID> _ValueMap = new ValueMap<TPM_ALG_ID>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_ALG_ID
         ERROR = new TPM_ALG_ID(0x0000, _N.ERROR),
         FIRST = new TPM_ALG_ID(0x0001, _N.FIRST),

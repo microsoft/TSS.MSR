@@ -7,67 +7,61 @@ import tss.*;
 
 //>>>
 
-/**
- *  A TPM compatible with this specification and supporting RSA shall support two primes and
- *  an exponent of zero. An exponent of zero indicates that the exponent is the default of 216
- *  + 1. Support for other values is optional. Use of other exponents in duplicated keys is
- *  not recommended because the resulting keys would not be interoperable with other TPMs.
+/** A TPM compatible with this specification and supporting RSA shall support two primes
+ *  and an exponent of zero. An exponent of zero indicates that the exponent is the
+ *  default of 216 + 1. Support for other values is optional. Use of other exponents in
+ *  duplicated keys is not recommended because the resulting keys would not be
+ *  interoperable with other TPMs.
  */
 public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
-    /**
-     *  for a restricted decryption key, shall be set to a supported symmetric algorithm, key
+    /** For a restricted decryption key, shall be set to a supported symmetric algorithm, key
      *  size, and mode.
-     *  if the key is not a restricted decryption key, this field shall be set to
-     *  TPM_ALG_NULL.
+     *  if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
      */
     public TPMT_SYM_DEF_OBJECT symmetric;
     
-    /** scheme selector */
+    /** Scheme selector  */
     public TPM_ALG_ID schemeScheme() { return scheme != null ? scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /**
-     *  scheme.scheme shall be:
+    /** Scheme.scheme shall be:
      *  for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL
      *  for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA
-     *  for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless
-     *  the object also has the sign attribute
+     *  for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL
+     *  unless the object also has the sign attribute
      *  for a restricted decryption key, TPM_ALG_NULL
-     *  NOTE When both sign and decrypt are SET, restricted shall be CLEAR and
-     *  scheme shall be TPM_ALG_NULL.
+     *  NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be
+     *  TPM_ALG_NULL.
      */
     public TPMU_ASYM_SCHEME scheme;
     
-    /** number of bits in the public modulus */
+    /** Number of bits in the public modulus  */
     public short keyBits;
     
-    /**
-     *  the public exponent
+    /** The public exponent
      *  A prime number greater than 2.
      */
     public int exponent;
     
     public TPMS_RSA_PARMS() {}
     
-    /**
-     *  @param _symmetric for a restricted decryption key, shall be set to a supported symmetric algorithm, key
-     *         size, and mode.
-     *         if the key is not a restricted decryption key, this field shall be set to
-     *         TPM_ALG_NULL.
-     *  @param _scheme scheme.scheme shall be:
+    /** @param _symmetric For a restricted decryption key, shall be set to a supported symmetric
+     *         algorithm, key size, and mode.
+     *         if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
+     *  @param _scheme Scheme.scheme shall be:
      *         for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL
      *         for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA
-     *         for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL unless
-     *         the object also has the sign attribute
+     *         for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL
+     *         unless the object also has the sign attribute
      *         for a restricted decryption key, TPM_ALG_NULL
-     *         NOTE When both sign and decrypt are SET, restricted shall be CLEAR and
-     *         scheme shall be TPM_ALG_NULL.
+     *         NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall
+     *         be TPM_ALG_NULL.
      *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-     *         TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     *  @param _keyBits number of bits in the public modulus
-     *  @param _exponent the public exponent
+     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+     *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *  @param _keyBits Number of bits in the public modulus
+     *  @param _exponent The public exponent
      *         A prime number greater than 2.
      */
     public TPMS_RSA_PARMS(TPMT_SYM_DEF_OBJECT _symmetric, TPMU_ASYM_SCHEME _scheme, int _keyBits, int _exponent)
@@ -77,8 +71,8 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         keyBits = (short)_keyBits;
         exponent = _exponent;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSA; }
     
     @Override
@@ -90,7 +84,7 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         buf.writeShort(keyBits);
         buf.writeInt(exponent);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -101,7 +95,7 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         keyBits = buf.readShort();
         exponent = buf.readInt();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -109,24 +103,27 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_RSA_PARMS fromTpm (byte[] x) 
+    
+    public static TPMS_RSA_PARMS fromBytes (byte[] byteBuf) 
     {
         TPMS_RSA_PARMS ret = new TPMS_RSA_PARMS();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_RSA_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_RSA_PARMS fromTpm (InByteBuf buf) 
     {
         TPMS_RSA_PARMS ret = new TPMS_RSA_PARMS();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -135,7 +132,7 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,15 +7,15 @@ import tss.*;
 
 //>>>
 
-/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. */
+/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.  */
 public class TPM2_EC_Ephemeral_REQUEST extends TpmStructure
 {
-    /** The curve for the computed ephemeral point */
+    /** The curve for the computed ephemeral point  */
     public TPM_ECC_CURVE curveID;
     
     public TPM2_EC_Ephemeral_REQUEST() {}
     
-    /** @param _curveID The curve for the computed ephemeral point */
+    /** @param _curveID The curve for the computed ephemeral point  */
     public TPM2_EC_Ephemeral_REQUEST(TPM_ECC_CURVE _curveID) { curveID = _curveID; }
     
     @Override
@@ -23,13 +23,13 @@ public class TPM2_EC_Ephemeral_REQUEST extends TpmStructure
     {
         curveID.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         curveID = TPM_ECC_CURVE.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -37,24 +37,27 @@ public class TPM2_EC_Ephemeral_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_EC_Ephemeral_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_EC_Ephemeral_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_EC_Ephemeral_REQUEST ret = new TPM2_EC_Ephemeral_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_EC_Ephemeral_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_EC_Ephemeral_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_EC_Ephemeral_REQUEST ret = new TPM2_EC_Ephemeral_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -63,7 +66,7 @@ public class TPM2_EC_Ephemeral_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

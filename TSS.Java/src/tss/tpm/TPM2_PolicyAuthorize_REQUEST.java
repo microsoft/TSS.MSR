@@ -7,40 +7,38 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command allows policies to change. If a policy were static, then it would be
- *  difficult to add users to a policy. This command lets a policy authority sign a new policy
- *  so that it may be used in an existing policy.
+/** This command allows policies to change. If a policy were static, then it would be
+ *  difficult to add users to a policy. This command lets a policy authority sign a new
+ *  policy so that it may be used in an existing policy.
  */
 public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
 {
-    /**
-     *  handle for the policy session being extended
+    /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
     
-    /** digest of the policy being approved */
+    /** Digest of the policy being approved  */
     public byte[] approvedPolicy;
     
-    /** a policy qualifier */
+    /** A policy qualifier  */
     public byte[] policyRef;
     
-    /** Name of a key that can sign a policy addition */
+    /** Name of a key that can sign a policy addition  */
     public byte[] keySign;
     
-    /** ticket validating that approvedPolicy and policyRef were signed by keySign */
+    /** Ticket validating that approvedPolicy and policyRef were signed by keySign  */
     public TPMT_TK_VERIFIED checkTicket;
     
     public TPM2_PolicyAuthorize_REQUEST() { policySession = new TPM_HANDLE(); }
     
-    /**
-     *  @param _policySession handle for the policy session being extended
+    /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param _approvedPolicy digest of the policy being approved
-     *  @param _policyRef a policy qualifier
+     *  @param _approvedPolicy Digest of the policy being approved
+     *  @param _policyRef A policy qualifier
      *  @param _keySign Name of a key that can sign a policy addition
-     *  @param _checkTicket ticket validating that approvedPolicy and policyRef were signed by keySign
+     *  @param _checkTicket Ticket validating that approvedPolicy and policyRef were signed by
+     *  keySign
      */
     public TPM2_PolicyAuthorize_REQUEST(TPM_HANDLE _policySession, byte[] _approvedPolicy, byte[] _policyRef, byte[] _keySign, TPMT_TK_VERIFIED _checkTicket)
     {
@@ -50,7 +48,7 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
         keySign = _keySign;
         checkTicket = _checkTicket;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -59,7 +57,7 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(keySign);
         checkTicket.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -74,7 +72,7 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
         buf.readArrayOfInts(keySign, 1, _keySignSize);
         checkTicket = TPMT_TK_VERIFIED.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -82,24 +80,27 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_PolicyAuthorize_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_PolicyAuthorize_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_PolicyAuthorize_REQUEST ret = new TPM2_PolicyAuthorize_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_PolicyAuthorize_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_PolicyAuthorize_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PolicyAuthorize_REQUEST ret = new TPM2_PolicyAuthorize_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -108,7 +109,7 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

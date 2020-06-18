@@ -7,22 +7,21 @@ import tss.*;
 
 //>>>
 
-/**
- *  TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM
- *  initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid
- *  after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed
- *  successfully. If a TPM requires TPM2_Startup() and another command is received, or if the
- *  TPM receives TPM2_Startup() when it is not required, the TPM shall
+/** TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that
+ *  TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only
+ *  valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has
+ *  completed successfully. If a TPM requires TPM2_Startup() and another command is
+ *  received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall
  *  return TPM_RC_INITIALIZE.
  */
 public class TPM2_Startup_REQUEST extends TpmStructure
 {
-    /** TPM_SU_CLEAR or TPM_SU_STATE */
+    /** TPM_SU_CLEAR or TPM_SU_STATE  */
     public TPM_SU startupType;
     
     public TPM2_Startup_REQUEST() {}
     
-    /** @param _startupType TPM_SU_CLEAR or TPM_SU_STATE */
+    /** @param _startupType TPM_SU_CLEAR or TPM_SU_STATE  */
     public TPM2_Startup_REQUEST(TPM_SU _startupType) { startupType = _startupType; }
     
     @Override
@@ -30,13 +29,13 @@ public class TPM2_Startup_REQUEST extends TpmStructure
     {
         startupType.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         startupType = TPM_SU.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -44,24 +43,27 @@ public class TPM2_Startup_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_Startup_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_Startup_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_Startup_REQUEST ret = new TPM2_Startup_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_Startup_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_Startup_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_Startup_REQUEST ret = new TPM2_Startup_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -70,7 +72,7 @@ public class TPM2_Startup_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,16 +7,16 @@ import tss.*;
 
 //>>>
 
-/** This command allows access to the public area of a loaded object. */
+/** This command allows access to the public area of a loaded object.  */
 public class ReadPublicResponse extends TpmStructure
 {
-    /** structure containing the public area of an object */
+    /** Structure containing the public area of an object  */
     public TPMT_PUBLIC outPublic;
     
-    /** name of the object */
+    /** Name of the object  */
     public byte[] name;
     
-    /** the Qualified Name of the object */
+    /** The Qualified Name of the object  */
     public byte[] qualifiedName;
     
     public ReadPublicResponse() {}
@@ -30,7 +30,7 @@ public class ReadPublicResponse extends TpmStructure
         buf.writeSizedByteBuf(name);
         buf.writeSizedByteBuf(qualifiedName);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -45,7 +45,7 @@ public class ReadPublicResponse extends TpmStructure
         qualifiedName = new byte[_qualifiedNameSize];
         buf.readArrayOfInts(qualifiedName, 1, _qualifiedNameSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -53,24 +53,27 @@ public class ReadPublicResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static ReadPublicResponse fromTpm (byte[] x) 
+    
+    public static ReadPublicResponse fromBytes (byte[] byteBuf) 
     {
         ReadPublicResponse ret = new ReadPublicResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static ReadPublicResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static ReadPublicResponse fromTpm (InByteBuf buf) 
     {
         ReadPublicResponse ret = new ReadPublicResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -79,7 +82,7 @@ public class ReadPublicResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

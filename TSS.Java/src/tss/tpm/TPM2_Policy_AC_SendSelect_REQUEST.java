@@ -7,41 +7,39 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command allows qualification of the sending (copying) of an Object to an Attached
+/** This command allows qualification of the sending (copying) of an Object to an Attached
  *  Component (AC). Qualification includes selection of the receiving AC and the method of
- *  authentication for the AC, and, in certain circumstances, the Object to
- *  be sent may be specified.
+ *  authentication for the AC, and, in certain circumstances, the Object to be sent may be
+ *  specified.
  */
 public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
 {
-    /**
-     *  handle for the policy session being extended
+    /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
     
-    /** the Name of the Object to be sent */
+    /** The Name of the Object to be sent  */
     public byte[] objectName;
     
-    /** the Name associated with authHandle used in the TPM2_AC_Send() command */
+    /** The Name associated with authHandle used in the TPM2_AC_Send() command  */
     public byte[] authHandleName;
     
-    /** the Name of the Attached Component to which the Object will be sent */
+    /** The Name of the Attached Component to which the Object will be sent  */
     public byte[] acName;
     
-    /** if SET, objectName will be included in the value in policySessionpolicyDigest */
+    /** If SET, objectName will be included in the value in policySessionpolicyDigest  */
     public byte includeObject;
     
     public TPM2_Policy_AC_SendSelect_REQUEST() { policySession = new TPM_HANDLE(); }
     
-    /**
-     *  @param _policySession handle for the policy session being extended
+    /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param _objectName the Name of the Object to be sent
-     *  @param _authHandleName the Name associated with authHandle used in the TPM2_AC_Send() command
-     *  @param _acName the Name of the Attached Component to which the Object will be sent
-     *  @param _includeObject if SET, objectName will be included in the value in policySessionpolicyDigest
+     *  @param _objectName The Name of the Object to be sent
+     *  @param _authHandleName The Name associated with authHandle used in the TPM2_AC_Send() command
+     *  @param _acName The Name of the Attached Component to which the Object will be sent
+     *  @param _includeObject If SET, objectName will be included in the value in
+     *  policySessionpolicyDigest
      */
     public TPM2_Policy_AC_SendSelect_REQUEST(TPM_HANDLE _policySession, byte[] _objectName, byte[] _authHandleName, byte[] _acName, byte _includeObject)
     {
@@ -51,7 +49,7 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
         acName = _acName;
         includeObject = _includeObject;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -60,7 +58,7 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(acName);
         buf.writeByte(includeObject);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -75,7 +73,7 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
         buf.readArrayOfInts(acName, 1, _acNameSize);
         includeObject = buf.readByte();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -83,24 +81,27 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_Policy_AC_SendSelect_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_Policy_AC_SendSelect_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_Policy_AC_SendSelect_REQUEST ret = new TPM2_Policy_AC_SendSelect_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_Policy_AC_SendSelect_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_Policy_AC_SendSelect_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_Policy_AC_SendSelect_REQUEST ret = new TPM2_Policy_AC_SendSelect_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -109,7 +110,7 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

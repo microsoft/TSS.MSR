@@ -7,21 +7,20 @@ import tss.*;
 
 //>>>
 
-/**
- *  This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY values. It is
- *  returned by a TPM2_GetCapability().
+/** This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY
+ *  values. It is returned by a TPM2_GetCapability().
  */
 public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
-    /** an array of tagged properties */
+    /** An array of tagged properties  */
     public TPMS_TAGGED_PROPERTY[] tpmProperty;
     
     public TPML_TAGGED_TPM_PROPERTY() {}
     
-    /** @param _tpmProperty an array of tagged properties */
+    /** @param _tpmProperty An array of tagged properties  */
     public TPML_TAGGED_TPM_PROPERTY(TPMS_TAGGED_PROPERTY[] _tpmProperty) { tpmProperty = _tpmProperty; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.TPM_PROPERTIES; }
     
     @Override
@@ -29,7 +28,7 @@ public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
     {
         buf.writeObjArr(tpmProperty);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -38,7 +37,7 @@ public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
         for (int j=0; j < _count; j++) tpmProperty[j] = new TPMS_TAGGED_PROPERTY();
         buf.readArrayOfTpmObjects(tpmProperty, _count);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -46,24 +45,27 @@ public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPML_TAGGED_TPM_PROPERTY fromTpm (byte[] x) 
+    
+    public static TPML_TAGGED_TPM_PROPERTY fromBytes (byte[] byteBuf) 
     {
         TPML_TAGGED_TPM_PROPERTY ret = new TPML_TAGGED_TPM_PROPERTY();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPML_TAGGED_TPM_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPML_TAGGED_TPM_PROPERTY fromTpm (InByteBuf buf) 
     {
         TPML_TAGGED_TPM_PROPERTY ret = new TPML_TAGGED_TPM_PROPERTY();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -72,7 +74,7 @@ public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

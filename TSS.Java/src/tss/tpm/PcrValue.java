@@ -7,19 +7,18 @@ import tss.*;
 
 //>>>
 
-/** Contains a PCR index and associated hash(pcr-value) [TSS] */
+/** Contains a PCR index and associated hash(pcr-value) [TSS]  */
 public class PcrValue extends TpmStructure
 {
-    /** PCR Index */
+    /** PCR Index  */
     public int index;
     
-    /** PCR Value */
+    /** PCR Value  */
     public TPMT_HA value;
     
     public PcrValue() {}
     
-    /**
-     *  @param _index PCR Index
+    /** @param _index PCR Index
      *  @param _value PCR Value
      */
     public PcrValue(int _index, TPMT_HA _value)
@@ -27,21 +26,21 @@ public class PcrValue extends TpmStructure
         index = _index;
         value = _value;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt(index);
         value.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         index = buf.readInt();
         value = TPMT_HA.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -49,24 +48,27 @@ public class PcrValue extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static PcrValue fromTpm (byte[] x) 
+    
+    public static PcrValue fromBytes (byte[] byteBuf) 
     {
         PcrValue ret = new PcrValue();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static PcrValue fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static PcrValue fromTpm (InByteBuf buf) 
     {
         PcrValue ret = new PcrValue();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -75,7 +77,7 @@ public class PcrValue extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

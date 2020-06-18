@@ -7,24 +7,23 @@ import tss.*;
 
 //>>>
 
-/**
- *  TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
- *  perform the point multiplications on the provided points and return intermediate signing
- *  values. The signHandle parameter shall refer to an ECC key and the signing scheme must
- *  be anonymous (TPM_RC_SCHEME).
+/** TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM
+ *  will perform the point multiplications on the provided points and return intermediate
+ *  signing values. The signHandle parameter shall refer to an ECC key and the signing
+ *  scheme must be anonymous (TPM_RC_SCHEME).
  */
 public class CommitResponse extends TpmStructure
 {
-    /** ECC point K [ds](x2, y2) */
+    /** ECC point K [ds](x2, y2)  */
     public TPMS_ECC_POINT K;
     
-    /** ECC point L [r](x2, y2) */
+    /** ECC point L [r](x2, y2)  */
     public TPMS_ECC_POINT L;
     
-    /** ECC point E [r]P1 */
+    /** ECC point E [r]P1  */
     public TPMS_ECC_POINT E;
     
-    /** least-significant 16 bits of commitCount */
+    /** Least-significant 16 bits of commitCount  */
     public short counter;
     
     public CommitResponse() {}
@@ -43,7 +42,7 @@ public class CommitResponse extends TpmStructure
             E.toTpm(buf);
         buf.writeShort(counter);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -61,7 +60,7 @@ public class CommitResponse extends TpmStructure
         buf.structSize.pop();
         counter = buf.readShort();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -69,24 +68,27 @@ public class CommitResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static CommitResponse fromTpm (byte[] x) 
+    
+    public static CommitResponse fromBytes (byte[] byteBuf) 
     {
         CommitResponse ret = new CommitResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static CommitResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static CommitResponse fromTpm (InByteBuf buf) 
     {
         CommitResponse ret = new CommitResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -95,7 +97,7 @@ public class CommitResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

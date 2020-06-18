@@ -7,53 +7,53 @@ import java.util.*;
 
 //>>>
 
-/** Table 18 Definition of (UINT16) TPM_EO Constants [IN/OUT] */
+/** Table 18 Definition of (UINT16) TPM_EO Constants [IN/OUT]  */
 public final class TPM_EO extends TpmEnum<TPM_EO>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_EO. qualifier.
     public enum _N {
-        /** A = B */
-        EQ,
+        /** A = B  */
+        EQ, 
         
-        /** A B */
-        NEQ,
+        /** A B  */
+        NEQ, 
         
-        /** A ˃ B signed */
-        SIGNED_GT,
+        /** A ˃ B signed  */
+        SIGNED_GT, 
         
-        /** A ˃ B unsigned */
-        UNSIGNED_GT,
+        /** A ˃ B unsigned  */
+        UNSIGNED_GT, 
         
-        /** A ˂ B signed */
-        SIGNED_LT,
+        /** A ˂ B signed  */
+        SIGNED_LT, 
         
-        /** A ˂ B unsigned */
-        UNSIGNED_LT,
+        /** A ˂ B unsigned  */
+        UNSIGNED_LT, 
         
-        /** A B signed */
-        SIGNED_GE,
+        /** A B signed  */
+        SIGNED_GE, 
         
-        /** A B unsigned */
-        UNSIGNED_GE,
+        /** A B unsigned  */
+        UNSIGNED_GE, 
         
-        /** A B signed */
-        SIGNED_LE,
+        /** A B signed  */
+        SIGNED_LE, 
         
-        /** A B unsigned */
-        UNSIGNED_LE,
+        /** A B unsigned  */
+        UNSIGNED_LE, 
         
-        /** All bits SET in B are SET in A. ((A∧B)=B) */
-        BITSET,
+        /** All bits SET in B are SET in A. ((A∧B)=B)  */
+        BITSET, 
         
-        /** All bits SET in B are CLEAR in A. ((A∧B)=0) */
+        /** All bits SET in B are CLEAR in A. ((A∧B)=0)  */
         BITCLEAR
     }
-
+    
     private static ValueMap<TPM_EO> _ValueMap = new ValueMap<TPM_EO>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_EO
         EQ = new TPM_EO(0x0000, _N.EQ),
         NEQ = new TPM_EO(0x0001, _N.NEQ),

@@ -7,42 +7,39 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command allows the authorization secret for a hierarchy or lockout to be changed
+/** This command allows the authorization secret for a hierarchy or lockout to be changed
  *  using the current authorization value as the command authorization.
  */
 public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /** TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
     
-    /** new authorization value */
+    /** New authorization value  */
     public byte[] newAuth;
     
     public TPM2_HierarchyChangeAuth_REQUEST() { authHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /** @param _authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _newAuth new authorization value
+     *  @param _newAuth New authorization value
      */
     public TPM2_HierarchyChangeAuth_REQUEST(TPM_HANDLE _authHandle, byte[] _newAuth)
     {
         authHandle = _authHandle;
         newAuth = _newAuth;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeSizedByteBuf(newAuth);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -50,7 +47,7 @@ public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
         newAuth = new byte[_newAuthSize];
         buf.readArrayOfInts(newAuth, 1, _newAuthSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -58,24 +55,27 @@ public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_HierarchyChangeAuth_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_HierarchyChangeAuth_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_HierarchyChangeAuth_REQUEST ret = new TPM2_HierarchyChangeAuth_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_HierarchyChangeAuth_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_HierarchyChangeAuth_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_HierarchyChangeAuth_REQUEST ret = new TPM2_HierarchyChangeAuth_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -84,7 +84,7 @@ public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

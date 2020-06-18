@@ -7,18 +7,17 @@ import tss.*;
 
 //>>>
 
-/**
- *  This TPM-dependent structure is used to provide the timeout value for an authorization.
- *  The size shall be 8 or less.
+/** This TPM-dependent structure is used to provide the timeout value for an
+ *  authorization. The size shall be 8 or less.
  */
 public class TPM2B_TIMEOUT extends TpmStructure
 {
-    /** the timeout value */
+    /** The timeout value  */
     public byte[] buffer;
     
     public TPM2B_TIMEOUT() {}
     
-    /** @param _buffer the timeout value */
+    /** @param _buffer The timeout value  */
     public TPM2B_TIMEOUT(byte[] _buffer) { buffer = _buffer; }
     
     @Override
@@ -26,7 +25,7 @@ public class TPM2B_TIMEOUT extends TpmStructure
     {
         buf.writeSizedByteBuf(buffer);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -34,7 +33,7 @@ public class TPM2B_TIMEOUT extends TpmStructure
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -42,24 +41,27 @@ public class TPM2B_TIMEOUT extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_TIMEOUT fromTpm (byte[] x) 
+    
+    public static TPM2B_TIMEOUT fromBytes (byte[] byteBuf) 
     {
         TPM2B_TIMEOUT ret = new TPM2B_TIMEOUT();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_TIMEOUT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_TIMEOUT fromTpm (InByteBuf buf) 
     {
         TPM2B_TIMEOUT ret = new TPM2B_TIMEOUT();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -68,7 +70,7 @@ public class TPM2B_TIMEOUT extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

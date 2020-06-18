@@ -7,9 +7,8 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command reads the current TPMS_TIME_INFO structure that contains the current setting
- *  of Time, Clock, resetCount, and restartCount.
+/** This command reads the current TPMS_TIME_INFO structure that contains the current
+ *  setting of Time, Clock, resetCount, and restartCount.
  */
 public class ReadClockResponse extends TpmStructure
 {
@@ -22,13 +21,13 @@ public class ReadClockResponse extends TpmStructure
     {
         currentTime.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         currentTime = TPMS_TIME_INFO.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -36,24 +35,27 @@ public class ReadClockResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static ReadClockResponse fromTpm (byte[] x) 
+    
+    public static ReadClockResponse fromBytes (byte[] byteBuf) 
     {
         ReadClockResponse ret = new ReadClockResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static ReadClockResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static ReadClockResponse fromTpm (InByteBuf buf) 
     {
         ReadClockResponse ret = new ReadClockResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -62,7 +64,7 @@ public class ReadClockResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

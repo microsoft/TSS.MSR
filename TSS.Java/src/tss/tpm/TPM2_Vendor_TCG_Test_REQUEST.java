@@ -7,15 +7,15 @@ import tss.*;
 
 //>>>
 
-/** This is a placeholder to allow testing of the dispatch code. */
+/** This is a placeholder to allow testing of the dispatch code.  */
 public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
 {
-    /** dummy data */
+    /** Dummy data  */
     public byte[] inputData;
     
     public TPM2_Vendor_TCG_Test_REQUEST() {}
     
-    /** @param _inputData dummy data */
+    /** @param _inputData Dummy data  */
     public TPM2_Vendor_TCG_Test_REQUEST(byte[] _inputData) { inputData = _inputData; }
     
     @Override
@@ -23,7 +23,7 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
     {
         buf.writeSizedByteBuf(inputData);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -31,7 +31,7 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
         inputData = new byte[_inputDataSize];
         buf.readArrayOfInts(inputData, 1, _inputDataSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +39,27 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_Vendor_TCG_Test_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_Vendor_TCG_Test_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_Vendor_TCG_Test_REQUEST ret = new TPM2_Vendor_TCG_Test_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_Vendor_TCG_Test_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_Vendor_TCG_Test_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_Vendor_TCG_Test_REQUEST ret = new TPM2_Vendor_TCG_Test_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +68,7 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

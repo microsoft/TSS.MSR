@@ -7,24 +7,23 @@ import tss.*;
 
 //>>>
 
-/** This structure is used in TPM2_GetCapability() to return the ACT data. */
+/** This structure is used in TPM2_GetCapability() to return the ACT data.  */
 public class TPMS_ACT_DATA extends TpmStructure
 {
-    /** a permanent handle */
+    /** A permanent handle  */
     public TPM_HANDLE handle;
     
-    /** the current timeout of the ACT */
+    /** The current timeout of the ACT  */
     public int timeout;
     
-    /** the state of the ACT */
+    /** The state of the ACT  */
     public TPMA_ACT attributes;
     
     public TPMS_ACT_DATA() { handle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _handle a permanent handle
-     *  @param _timeout the current timeout of the ACT
-     *  @param _attributes the state of the ACT
+    /** @param _handle A permanent handle
+     *  @param _timeout The current timeout of the ACT
+     *  @param _attributes The state of the ACT
      */
     public TPMS_ACT_DATA(TPM_HANDLE _handle, int _timeout, TPMA_ACT _attributes)
     {
@@ -32,7 +31,7 @@ public class TPMS_ACT_DATA extends TpmStructure
         timeout = _timeout;
         attributes = _attributes;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -40,7 +39,7 @@ public class TPMS_ACT_DATA extends TpmStructure
         buf.writeInt(timeout);
         attributes.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -49,7 +48,7 @@ public class TPMS_ACT_DATA extends TpmStructure
         int _attributes = buf.readInt();
         attributes = TPMA_ACT.fromInt(_attributes);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -57,24 +56,27 @@ public class TPMS_ACT_DATA extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_ACT_DATA fromTpm (byte[] x) 
+    
+    public static TPMS_ACT_DATA fromBytes (byte[] byteBuf) 
     {
         TPMS_ACT_DATA ret = new TPMS_ACT_DATA();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_ACT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_ACT_DATA fromTpm (InByteBuf buf) 
     {
         TPMS_ACT_DATA ret = new TPMS_ACT_DATA();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -83,7 +85,7 @@ public class TPMS_ACT_DATA extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

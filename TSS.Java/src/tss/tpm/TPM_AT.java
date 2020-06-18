@@ -7,8 +7,7 @@ import java.util.*;
 
 //>>>
 
-/**
- *  These constants are used in TPM2_AC_GetCapability() to indicate the first tagged value
+/** These constants are used in TPM2_AC_GetCapability() to indicate the first tagged value
  *  returned from an attached component.
  */
 public final class TPM_AT extends TpmEnum<TPM_AT>
@@ -17,25 +16,24 @@ public final class TPM_AT extends TpmEnum<TPM_AT>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_AT. qualifier.
     public enum _N {
-        /**
-         *  in a command, a non-specific request for AC information; in a response, indicates that
+        /** In a command, a non-specific request for AC information; in a response, indicates that
          *  outputData is not meaningful
          */
-        ANY,
+        ANY, 
         
-        /** indicates a TCG defined, device-specific error */
-        ERROR,
+        /** Indicates a TCG defined, device-specific error  */
+        ERROR, 
         
-        /** indicates the most significant 32 bits of a pairing value for the AC */
-        PV1,
+        /** Indicates the most significant 32 bits of a pairing value for the AC  */
+        PV1, 
         
-        /** value added to a TPM_AT to indicate a vendor-specific tag value */
+        /** Value added to a TPM_AT to indicate a vendor-specific tag value  */
         VEND
     }
-
+    
     private static ValueMap<TPM_AT> _ValueMap = new ValueMap<TPM_AT>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_AT
         ANY = new TPM_AT(0x00000000, _N.ANY),
         ERROR = new TPM_AT(0x00000001, _N.ERROR),

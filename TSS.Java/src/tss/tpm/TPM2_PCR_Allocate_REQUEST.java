@@ -7,42 +7,39 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to set the desired PCR allocation of PCR and algorithms. This command
- *  requires Platform Authorization.
+/** This command is used to set the desired PCR allocation of PCR and algorithms. This
+ *  command requires Platform Authorization.
  */
 public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_PLATFORM+{PP}
+    /** TPM_RH_PLATFORM+{PP}
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
     
-    /** the requested allocation */
+    /** The requested allocation  */
     public TPMS_PCR_SELECTION[] pcrAllocation;
     
     public TPM2_PCR_Allocate_REQUEST() { authHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _authHandle TPM_RH_PLATFORM+{PP}
+    /** @param _authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _pcrAllocation the requested allocation
+     *  @param _pcrAllocation The requested allocation
      */
     public TPM2_PCR_Allocate_REQUEST(TPM_HANDLE _authHandle, TPMS_PCR_SELECTION[] _pcrAllocation)
     {
         authHandle = _authHandle;
         pcrAllocation = _pcrAllocation;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeObjArr(pcrAllocation);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -51,7 +48,7 @@ public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
         for (int j=0; j < _pcrAllocationCount; j++) pcrAllocation[j] = new TPMS_PCR_SELECTION();
         buf.readArrayOfTpmObjects(pcrAllocation, _pcrAllocationCount);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -59,24 +56,27 @@ public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_PCR_Allocate_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_PCR_Allocate_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_PCR_Allocate_REQUEST ret = new TPM2_PCR_Allocate_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_PCR_Allocate_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_PCR_Allocate_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PCR_Allocate_REQUEST ret = new TPM2_PCR_Allocate_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -85,7 +85,7 @@ public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

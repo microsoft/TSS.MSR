@@ -7,18 +7,15 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command returns the parameters of an ECC curve identified by
- *  its TCG-assigned curveID.
- */
+/** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.  */
 public class TPM2_ECC_Parameters_REQUEST extends TpmStructure
 {
-    /** parameter set selector */
+    /** Parameter set selector  */
     public TPM_ECC_CURVE curveID;
     
     public TPM2_ECC_Parameters_REQUEST() {}
     
-    /** @param _curveID parameter set selector */
+    /** @param _curveID Parameter set selector  */
     public TPM2_ECC_Parameters_REQUEST(TPM_ECC_CURVE _curveID) { curveID = _curveID; }
     
     @Override
@@ -26,13 +23,13 @@ public class TPM2_ECC_Parameters_REQUEST extends TpmStructure
     {
         curveID.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         curveID = TPM_ECC_CURVE.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -40,24 +37,27 @@ public class TPM2_ECC_Parameters_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_ECC_Parameters_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_ECC_Parameters_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_ECC_Parameters_REQUEST ret = new TPM2_ECC_Parameters_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_ECC_Parameters_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_ECC_Parameters_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_ECC_Parameters_REQUEST ret = new TPM2_ECC_Parameters_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -66,7 +66,7 @@ public class TPM2_ECC_Parameters_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,21 +7,20 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to prove the association between an object and its creation data. The
- *  TPM will validate that the ticket was produced by the TPM and that the ticket validates
- *  the association between a loaded public area and the provided hash of the
+/** This command is used to prove the association between an object and its creation data.
+ *  The TPM will validate that the ticket was produced by the TPM and that the ticket
+ *  validates the association between a loaded public area and the provided hash of the
  *  creation data (creationHash).
  */
 public class CertifyCreationResponse extends TpmStructure
 {
-    /** the structure that was signed */
+    /** The structure that was signed  */
     public TPMS_ATTEST certifyInfo;
     
-    /** selector of the algorithm used to construct the signature */
+    /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** the signature over certifyInfo */
+    /** The signature over certifyInfo  */
     public TPMU_SIGNATURE signature;
     
     public CertifyCreationResponse() {}
@@ -35,7 +34,7 @@ public class CertifyCreationResponse extends TpmStructure
         signature.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)signature).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -47,7 +46,7 @@ public class CertifyCreationResponse extends TpmStructure
         signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_signatureSigAlg));
         signature.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -55,24 +54,27 @@ public class CertifyCreationResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static CertifyCreationResponse fromTpm (byte[] x) 
+    
+    public static CertifyCreationResponse fromBytes (byte[] byteBuf) 
     {
         CertifyCreationResponse ret = new CertifyCreationResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static CertifyCreationResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static CertifyCreationResponse fromTpm (InByteBuf buf) 
     {
         CertifyCreationResponse ret = new CertifyCreationResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -81,7 +83,7 @@ public class CertifyCreationResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

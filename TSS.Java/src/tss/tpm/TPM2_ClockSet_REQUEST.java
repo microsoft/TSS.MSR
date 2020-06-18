@@ -7,50 +7,47 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to advance the value of the TPMs Clock. The command will fail if
+/** This command is used to advance the value of the TPMs Clock. The command will fail if
  *  newTime is less than the current value of Clock or if the new time is greater than
- *  FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of
- *  these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
+ *  FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If
+ *  either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
  */
 public class TPM2_ClockSet_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *  Auth Handle: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE auth;
     
-    /** new Clock setting in milliseconds */
+    /** New Clock setting in milliseconds  */
     public long newTime;
     
     public TPM2_ClockSet_REQUEST() { auth = new TPM_HANDLE(); }
     
-    /**
-     *  @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /** @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
-     *  @param _newTime new Clock setting in milliseconds
+     *  @param _newTime New Clock setting in milliseconds
      */
     public TPM2_ClockSet_REQUEST(TPM_HANDLE _auth, long _newTime)
     {
         auth = _auth;
         newTime = _newTime;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeInt64(newTime);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         newTime = buf.readInt64();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -58,24 +55,27 @@ public class TPM2_ClockSet_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_ClockSet_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_ClockSet_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_ClockSet_REQUEST ret = new TPM2_ClockSet_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_ClockSet_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_ClockSet_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_ClockSet_REQUEST ret = new TPM2_ClockSet_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -84,7 +84,7 @@ public class TPM2_ClockSet_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

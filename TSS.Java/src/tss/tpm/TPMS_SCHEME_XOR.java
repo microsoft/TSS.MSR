@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** This structure is for the XOR encryption scheme. */
+/** This structure is for the XOR encryption scheme.  */
 public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHASH
 {
-    /** the hash algorithm used to digest the message */
+    /** The hash algorithm used to digest the message  */
     public TPM_ALG_ID hashAlg;
     
-    /** the key derivation function */
+    /** The key derivation function  */
     public TPM_ALG_ID kdf;
     
     public TPMS_SCHEME_XOR()
@@ -21,18 +21,17 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
         hashAlg = TPM_ALG_ID.NULL;
         kdf = TPM_ALG_ID.NULL;
     }
-
-    /**
-     *  @param _hashAlg the hash algorithm used to digest the message
-     *  @param _kdf the key derivation function
+    
+    /** @param _hashAlg The hash algorithm used to digest the message
+     *  @param _kdf The key derivation function
      */
     public TPMS_SCHEME_XOR(TPM_ALG_ID _hashAlg, TPM_ALG_ID _kdf)
     {
         hashAlg = _hashAlg;
         kdf = _kdf;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.XOR; }
     
     @Override
@@ -41,14 +40,14 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
         hashAlg.toTpm(buf);
         kdf.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         hashAlg = TPM_ALG_ID.fromTpm(buf);
         kdf = TPM_ALG_ID.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -56,24 +55,27 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_SCHEME_XOR fromTpm (byte[] x) 
+    
+    public static TPMS_SCHEME_XOR fromBytes (byte[] byteBuf) 
     {
         TPMS_SCHEME_XOR ret = new TPMS_SCHEME_XOR();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_SCHEME_XOR fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_SCHEME_XOR fromTpm (InByteBuf buf) 
     {
         TPMS_SCHEME_XOR ret = new TPMS_SCHEME_XOR();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -82,7 +84,7 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,26 +7,24 @@ import tss.*;
 
 //>>>
 
-/**
- *  This list is used to convey a list of digest values. This type is used in
+/** This list is used to convey a list of digest values. This type is used in
  *  TPM2_PolicyOR() and in TPM2_PCR_Read().
  */
 public class TPML_DIGEST extends TpmStructure
 {
-    /**
-     *  a list of digests
-     *  For TPM2_PolicyOR(), all digests will have been computed using the digest of the policy
-     *  session. For TPM2_PCR_Read(), each digest will be the size of the digest for
+    /** A list of digests
+     *  For TPM2_PolicyOR(), all digests will have been computed using the digest of the
+     *  policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for
      *  the bank containing the PCR.
      */
     public TPM2B_DIGEST[] digests;
     
     public TPML_DIGEST() {}
     
-    /**
-     *  @param _digests a list of digests
-     *         For TPM2_PolicyOR(), all digests will have been computed using the digest of the policy
-     *         session. For TPM2_PCR_Read(), each digest will be the size of the digest for
+    /** @param _digests A list of digests
+     *         For TPM2_PolicyOR(), all digests will have been computed using the digest of the
+     *         policy session. For TPM2_PCR_Read(), each digest will be the size of the digest
+     *  for
      *         the bank containing the PCR.
      */
     public TPML_DIGEST(TPM2B_DIGEST[] _digests) { digests = _digests; }
@@ -36,7 +34,7 @@ public class TPML_DIGEST extends TpmStructure
     {
         buf.writeObjArr(digests);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -45,7 +43,7 @@ public class TPML_DIGEST extends TpmStructure
         for (int j=0; j < _count; j++) digests[j] = new TPM2B_DIGEST();
         buf.readArrayOfTpmObjects(digests, _count);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -53,24 +51,27 @@ public class TPML_DIGEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPML_DIGEST fromTpm (byte[] x) 
+    
+    public static TPML_DIGEST fromBytes (byte[] byteBuf) 
     {
         TPML_DIGEST ret = new TPML_DIGEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPML_DIGEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPML_DIGEST fromTpm (InByteBuf buf) 
     {
         TPML_DIGEST ret = new TPML_DIGEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -79,7 +80,7 @@ public class TPML_DIGEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

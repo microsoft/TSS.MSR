@@ -7,8 +7,7 @@ import tss.*;
 
 //>>>
 
-/**
- *  Base class for empty union elements.
+/** Base class for empty union elements.
  *  An empty union element does not contain any data to marshal.
  *  This data structure can be used in place of any other union
  *  initialized with its own empty element.
@@ -17,7 +16,7 @@ public class TPMS_NULL_UNION extends TpmStructure implements TPMU_SYM_DETAILS, T
 {
     public TPMS_NULL_UNION() {}
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.NULL; }
     
     @Override

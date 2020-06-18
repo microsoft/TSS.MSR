@@ -7,21 +7,18 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command allows removal of a platform-created NV Index that has
+/** This command allows removal of a platform-created NV Index that has
  *  TPMA_NV_POLICY_DELETE SET.
  */
 public class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
 {
-    /**
-     *  Index to be deleted
+    /** Index to be deleted
      *  Auth Index: 1
      *  Auth Role: ADMIN
      */
     public TPM_HANDLE nvIndex;
     
-    /**
-     *  TPM_RH_PLATFORM + {PP}
+    /** TPM_RH_PLATFORM + {PP}
      *  Auth Index: 2
      *  Auth Role: USER
      */
@@ -32,9 +29,8 @@ public class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
         nvIndex = new TPM_HANDLE();
         platform = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _nvIndex Index to be deleted
+    
+    /** @param _nvIndex Index to be deleted
      *         Auth Index: 1
      *         Auth Role: ADMIN
      *  @param _platform TPM_RH_PLATFORM + {PP}
@@ -46,7 +42,7 @@ public class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
         nvIndex = _nvIndex;
         platform = _platform;
     }
-
+    
     @Override
     public String toString()
     {
@@ -55,7 +51,7 @@ public class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

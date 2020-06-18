@@ -7,14 +7,13 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
+/** This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
  *  structure, assign a handle to the sequence, and set the authValue of the sequence
  *  object to the value in auth.
  */
 public class MAC_StartResponse extends TpmStructure
 {
-    /** a handle to reference the sequence */
+    /** A handle to reference the sequence  */
     public TPM_HANDLE handle;
     
     public MAC_StartResponse() { handle = new TPM_HANDLE(); }
@@ -24,13 +23,13 @@ public class MAC_StartResponse extends TpmStructure
     {
         handle.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -38,24 +37,27 @@ public class MAC_StartResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static MAC_StartResponse fromTpm (byte[] x) 
+    
+    public static MAC_StartResponse fromBytes (byte[] byteBuf) 
     {
         MAC_StartResponse ret = new MAC_StartResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static MAC_StartResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static MAC_StartResponse fromTpm (InByteBuf buf) 
     {
         MAC_StartResponse ret = new MAC_StartResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -64,7 +66,7 @@ public class MAC_StartResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,45 +7,44 @@ import tss.*;
 
 //>>>
 
-/** TPM2_ClearControl() disables and enables the execution of TPM2_Clear(). */
+/** TPM2_ClearControl() disables and enables the execution of TPM2_Clear().  */
 public class TPM2_ClearControl_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
+    /** TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
      *  Auth Handle: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE auth;
     
-    /** YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR. */
+    /** YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR.  */
     public byte disable;
     
     public TPM2_ClearControl_REQUEST() { auth = new TPM_HANDLE(); }
     
-    /**
-     *  @param _auth TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
+    /** @param _auth TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
-     *  @param _disable YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR.
+     *  @param _disable YES if the disableOwnerClear flag is to be SET, NO if the flag is to
+     *  be CLEAR.
      */
     public TPM2_ClearControl_REQUEST(TPM_HANDLE _auth, byte _disable)
     {
         auth = _auth;
         disable = _disable;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeByte(disable);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         disable = buf.readByte();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -53,24 +52,27 @@ public class TPM2_ClearControl_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_ClearControl_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_ClearControl_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_ClearControl_REQUEST ret = new TPM2_ClearControl_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_ClearControl_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_ClearControl_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_ClearControl_REQUEST ret = new TPM2_ClearControl_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -79,7 +81,7 @@ public class TPM2_ClearControl_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

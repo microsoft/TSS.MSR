@@ -114,7 +114,7 @@ public class Tss
             throw new RuntimeException("Symmetric alg mode not supported");
         int symmKeySize = symDef.keyBits;
 
-        byte[] seed = Helpers.getRandom(Crypto.digestSize(nameAlg));
+        byte[] seed = Helpers.RandomBytes(Crypto.digestSize(nameAlg));
         byte[] encSeed = Crypto.oaepEncrypt(ekParms, ekPubKey, seed, schemeAlg, "IDENTITY");
         act.Secret = encSeed;
 
@@ -213,7 +213,7 @@ public class Tss
             byte[] innerData = Helpers.concatenate(innerIntegrity, sens);
 
             int aesKeyLen = innerWrapper.keyBits/8;
-            innerWrapperKey = Helpers.getRandom(aesKeyLen);
+            innerWrapperKey = Helpers.RandomBytes(aesKeyLen);
             encryptedSensitive = Crypto.cfbEncrypt(true,TPM_ALG_ID.AES,innerWrapperKey,nullVec,innerData);
             blob.EncryptionKey = innerWrapperKey;
         }
@@ -229,7 +229,7 @@ public class Tss
 
         int newParentSymmKeyLen = newParentSymDef.keyBits;
         // Otherwise we know we are AES128
-        byte[] seed = Helpers.getRandom(newParentSymmKeyLen/8);
+        byte[] seed = Helpers.RandomBytes(newParentSymmKeyLen/8);
         byte[] encryptedSeed = targetParent.encrypt(seed, "DUPLICATE");
 
         byte[] symmKey = Crypto.KDFa(targetParent.nameAlg,seed,"STORAGE",_publicPart.getName(),nullVec,newParentSymmKeyLen);

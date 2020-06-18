@@ -7,15 +7,15 @@ import tss.*;
 
 //>>>
 
-/** Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation */
+/** Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation  */
 public class TPM2B_DIGEST_SYMCIPHER extends TPM2B_DIGEST
 {
     public TPM2B_DIGEST_SYMCIPHER() {}
     
-    /** @param _buffer the buffer area that can be no larger than a digest */
+    /** @param _buffer The buffer area that can be no larger than a digest  */
     public TPM2B_DIGEST_SYMCIPHER(byte[] _buffer) { super(_buffer); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.SYMCIPHER; }
     
     @Override

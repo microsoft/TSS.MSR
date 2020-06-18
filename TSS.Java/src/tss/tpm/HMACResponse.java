@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This command performs an HMAC on the supplied data using the indicated hash algorithm. */
+/** This command performs an HMAC on the supplied data using the indicated hash algorithm.  */
 public class HMACResponse extends TpmStructure
 {
-    /** the returned HMAC in a sized buffer */
+    /** The returned HMAC in a sized buffer  */
     public byte[] outHMAC;
     
     public HMACResponse() {}
@@ -20,7 +20,7 @@ public class HMACResponse extends TpmStructure
     {
         buf.writeSizedByteBuf(outHMAC);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -28,7 +28,7 @@ public class HMACResponse extends TpmStructure
         outHMAC = new byte[_outHMACSize];
         buf.readArrayOfInts(outHMAC, 1, _outHMACSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -36,24 +36,27 @@ public class HMACResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static HMACResponse fromTpm (byte[] x) 
+    
+    public static HMACResponse fromBytes (byte[] byteBuf) 
     {
         HMACResponse ret = new HMACResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static HMACResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static HMACResponse fromTpm (InByteBuf buf) 
     {
         HMACResponse ret = new HMACResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -62,7 +65,7 @@ public class HMACResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

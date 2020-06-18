@@ -7,23 +7,22 @@ import tss.*;
 
 //>>>
 
-/** Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure */
+/** Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure  */
 public class TPMT_RSA_SCHEME extends TpmStructure
 {
-    /** scheme selector */
+    /** Scheme selector  */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** scheme parameters */
+    /** Scheme parameters  */
     public TPMU_ASYM_SCHEME details;
     
     public TPMT_RSA_SCHEME() {}
     
-    /**
-     *  @param _details scheme parameters
+    /** @param _details Scheme parameters
      *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-     *         TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+     *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
      */
     public TPMT_RSA_SCHEME(TPMU_ASYM_SCHEME _details) { details = _details; }
     
@@ -34,7 +33,7 @@ public class TPMT_RSA_SCHEME extends TpmStructure
         details.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)details).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -42,7 +41,7 @@ public class TPMT_RSA_SCHEME extends TpmStructure
         details = UnionFactory.create("TPMU_ASYM_SCHEME", new TPM_ALG_ID(_scheme));
         details.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -50,24 +49,27 @@ public class TPMT_RSA_SCHEME extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMT_RSA_SCHEME fromTpm (byte[] x) 
+    
+    public static TPMT_RSA_SCHEME fromBytes (byte[] byteBuf) 
     {
         TPMT_RSA_SCHEME ret = new TPMT_RSA_SCHEME();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMT_RSA_SCHEME fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMT_RSA_SCHEME fromTpm (InByteBuf buf) 
     {
         TPMT_RSA_SCHEME ret = new TPMT_RSA_SCHEME();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -76,7 +78,7 @@ public class TPMT_RSA_SCHEME extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

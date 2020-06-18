@@ -7,16 +7,15 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is
- *  the first parameter. This permits inData to be parameter encrypted.
+/** This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter
+ *  is the first parameter. This permits inData to be parameter encrypted.
  */
 public class EncryptDecrypt2Response extends TpmStructure
 {
-    /** encrypted or decrypted output */
+    /** Encrypted or decrypted output  */
     public byte[] outData;
     
-    /** chaining value to use for IV in next round */
+    /** Chaining value to use for IV in next round  */
     public byte[] ivOut;
     
     public EncryptDecrypt2Response() {}
@@ -27,7 +26,7 @@ public class EncryptDecrypt2Response extends TpmStructure
         buf.writeSizedByteBuf(outData);
         buf.writeSizedByteBuf(ivOut);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -38,7 +37,7 @@ public class EncryptDecrypt2Response extends TpmStructure
         ivOut = new byte[_ivOutSize];
         buf.readArrayOfInts(ivOut, 1, _ivOutSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -46,24 +45,27 @@ public class EncryptDecrypt2Response extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static EncryptDecrypt2Response fromTpm (byte[] x) 
+    
+    public static EncryptDecrypt2Response fromBytes (byte[] byteBuf) 
     {
         EncryptDecrypt2Response ret = new EncryptDecrypt2Response();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static EncryptDecrypt2Response fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static EncryptDecrypt2Response fromTpm (InByteBuf buf) 
     {
         EncryptDecrypt2Response ret = new EncryptDecrypt2Response();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -72,7 +74,7 @@ public class EncryptDecrypt2Response extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

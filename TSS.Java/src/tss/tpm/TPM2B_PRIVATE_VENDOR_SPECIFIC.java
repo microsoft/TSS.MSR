@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure is defined for coding purposes. For IO to the TPM, the sensitive portion of
- *  the key will be in a canonical form. For an RSA key, this will be one of the prime factors
- *  of the public modulus. After loading, it is typical that other values will be computed so
- *  that computations using the private key will not need to start with just one prime factor.
- *  This structure can be used to store the results of such vendor-specific calculations.
+/** This structure is defined for coding purposes. For IO to the TPM, the sensitive
+ *  portion of the key will be in a canonical form. For an RSA key, this will be one of
+ *  the prime factors of the public modulus. After loading, it is typical that other
+ *  values will be computed so that computations using the private key will not need to
+ *  start with just one prime factor. This structure can be used to store the results of
+ *  such vendor-specific calculations.
  */
 public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
@@ -20,10 +20,10 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
     
     public TPM2B_PRIVATE_VENDOR_SPECIFIC() {}
     
-    /** @param _buffer TBD */
+    /** @param _buffer TBD  */
     public TPM2B_PRIVATE_VENDOR_SPECIFIC(byte[] _buffer) { buffer = _buffer; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ANY; }
     
     @Override
@@ -31,7 +31,7 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
     {
         buf.writeSizedByteBuf(buffer);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -39,7 +39,7 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -47,24 +47,27 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromTpm (byte[] x) 
+    
+    public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromBytes (byte[] byteBuf) 
     {
         TPM2B_PRIVATE_VENDOR_SPECIFIC ret = new TPM2B_PRIVATE_VENDOR_SPECIFIC();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromTpm (InByteBuf buf) 
     {
         TPM2B_PRIVATE_VENDOR_SPECIFIC ret = new TPM2B_PRIVATE_VENDOR_SPECIFIC();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -73,7 +76,7 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

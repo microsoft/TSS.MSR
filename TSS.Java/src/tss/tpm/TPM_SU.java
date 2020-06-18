@@ -7,8 +7,7 @@ import java.util.*;
 
 //>>>
 
-/**
- *  These values are used in TPM2_Startup() to indicate the shutdown and startup mode. The
+/** These values are used in TPM2_Startup() to indicate the shutdown and startup mode. The
  *  defined startup sequences are:
  */
 public final class TPM_SU extends TpmEnum<TPM_SU>
@@ -17,25 +16,23 @@ public final class TPM_SU extends TpmEnum<TPM_SU>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_SU. qualifier.
     public enum _N {
-        /**
-         *  on TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save state
-         *  required for an orderly startup (TPM Reset).
+        /** On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save
+         *  state required for an orderly startup (TPM Reset).
          *  on TPM2_Startup(), indicates that the TPM should perform TPM Reset or TPM Restart
          */
-        CLEAR,
+        CLEAR, 
         
-        /**
-         *  on TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save state
-         *  required for an orderly startup (TPM Restart or TPM Resume)
+        /** On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save
+         *  state required for an orderly startup (TPM Restart or TPM Resume)
          *  on TPM2_Startup(), indicates that the TPM should restore the state saved by
          *  TPM2_Shutdown(TPM_SU_STATE)
          */
         STATE
     }
-
+    
     private static ValueMap<TPM_SU> _ValueMap = new ValueMap<TPM_SU>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_SU
         CLEAR = new TPM_SU(0x0000, _N.CLEAR),
         STATE = new TPM_SU(0x0001, _N.STATE);

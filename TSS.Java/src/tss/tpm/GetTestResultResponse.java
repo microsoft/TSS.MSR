@@ -7,14 +7,12 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command returns manufacturer-specific information regarding the results of a self-test and
- *  an indication of the test status.
+/** This command returns manufacturer-specific information regarding the results of a
+ *  self-test and an indication of the test status.
  */
 public class GetTestResultResponse extends TpmStructure
 {
-    /**
-     *  test result data
+    /** Test result data
      *  contains manufacturer-specific information
      */
     public byte[] outData;
@@ -29,7 +27,7 @@ public class GetTestResultResponse extends TpmStructure
         buf.writeSizedByteBuf(outData);
         testResult.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -38,7 +36,7 @@ public class GetTestResultResponse extends TpmStructure
         buf.readArrayOfInts(outData, 1, _outDataSize);
         testResult = TPM_RC.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -46,24 +44,27 @@ public class GetTestResultResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static GetTestResultResponse fromTpm (byte[] x) 
+    
+    public static GetTestResultResponse fromBytes (byte[] byteBuf) 
     {
         GetTestResultResponse ret = new GetTestResultResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static GetTestResultResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static GetTestResultResponse fromTpm (InByteBuf buf) 
     {
         GetTestResultResponse ret = new GetTestResultResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -72,7 +73,7 @@ public class GetTestResultResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

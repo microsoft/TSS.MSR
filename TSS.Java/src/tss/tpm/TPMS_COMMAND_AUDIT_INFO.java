@@ -7,28 +7,27 @@ import tss.*;
 
 //>>>
 
-/** This is the attested data for TPM2_GetCommandAuditDigest(). */
+/** This is the attested data for TPM2_GetCommandAuditDigest().  */
 public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 {
-    /** the monotonic audit counter */
+    /** The monotonic audit counter  */
     public long auditCounter;
     
-    /** hash algorithm used for the command audit */
+    /** Hash algorithm used for the command audit  */
     public TPM_ALG_ID digestAlg;
     
-    /** the current value of the audit digest */
+    /** The current value of the audit digest  */
     public byte[] auditDigest;
     
-    /** digest of the command codes being audited using digestAlg */
+    /** Digest of the command codes being audited using digestAlg  */
     public byte[] commandDigest;
     
     public TPMS_COMMAND_AUDIT_INFO() { digestAlg = TPM_ALG_ID.NULL; }
     
-    /**
-     *  @param _auditCounter the monotonic audit counter
-     *  @param _digestAlg hash algorithm used for the command audit
-     *  @param _auditDigest the current value of the audit digest
-     *  @param _commandDigest digest of the command codes being audited using digestAlg
+    /** @param _auditCounter The monotonic audit counter
+     *  @param _digestAlg Hash algorithm used for the command audit
+     *  @param _auditDigest The current value of the audit digest
+     *  @param _commandDigest Digest of the command codes being audited using digestAlg
      */
     public TPMS_COMMAND_AUDIT_INFO(long _auditCounter, TPM_ALG_ID _digestAlg, byte[] _auditDigest, byte[] _commandDigest)
     {
@@ -37,8 +36,8 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         auditDigest = _auditDigest;
         commandDigest = _commandDigest;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_COMMAND_AUDIT; }
     
     @Override
@@ -49,7 +48,7 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeSizedByteBuf(auditDigest);
         buf.writeSizedByteBuf(commandDigest);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -62,7 +61,7 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         commandDigest = new byte[_commandDigestSize];
         buf.readArrayOfInts(commandDigest, 1, _commandDigestSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -70,24 +69,27 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_COMMAND_AUDIT_INFO fromTpm (byte[] x) 
+    
+    public static TPMS_COMMAND_AUDIT_INFO fromBytes (byte[] byteBuf) 
     {
         TPMS_COMMAND_AUDIT_INFO ret = new TPMS_COMMAND_AUDIT_INFO();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_COMMAND_AUDIT_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_COMMAND_AUDIT_INFO fromTpm (InByteBuf buf) 
     {
         TPMS_COMMAND_AUDIT_INFO ret = new TPMS_COMMAND_AUDIT_INFO();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -96,7 +98,7 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,32 +7,29 @@ import tss.*;
 
 //>>>
 
-/**
- *  NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
- *  reflected in platform-specific specifications.
+/** NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This
+ *  should be reflected in platform-specific specifications.
  */
 public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
 {
-    /**
-     *  the symmetric key used for the operation
+    /** The symmetric key used for the operation
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE keyHandle;
     
-    /** if YES, then the operation is decryption; if NO, the operation is encryption */
+    /** If YES, then the operation is decryption; if NO, the operation is encryption  */
     public byte decrypt;
     
-    /**
-     *  symmetric encryption/decryption mode
+    /** Symmetric encryption/decryption mode
      *  this field shall match the default mode of the key or be TPM_ALG_NULL.
      */
     public TPM_ALG_ID mode;
     
-    /** an initial value as required by the algorithm */
+    /** An initial value as required by the algorithm  */
     public byte[] ivIn;
     
-    /** the data to be encrypted/decrypted */
+    /** The data to be encrypted/decrypted  */
     public byte[] inData;
     
     public TPM2_EncryptDecrypt_REQUEST()
@@ -40,16 +37,15 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
         keyHandle = new TPM_HANDLE();
         mode = TPM_ALG_ID.NULL;
     }
-
-    /**
-     *  @param _keyHandle the symmetric key used for the operation
+    
+    /** @param _keyHandle The symmetric key used for the operation
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _decrypt if YES, then the operation is decryption; if NO, the operation is encryption
-     *  @param _mode symmetric encryption/decryption mode
+     *  @param _decrypt If YES, then the operation is decryption; if NO, the operation is encryption
+     *  @param _mode Symmetric encryption/decryption mode
      *         this field shall match the default mode of the key or be TPM_ALG_NULL.
-     *  @param _ivIn an initial value as required by the algorithm
-     *  @param _inData the data to be encrypted/decrypted
+     *  @param _ivIn An initial value as required by the algorithm
+     *  @param _inData The data to be encrypted/decrypted
      */
     public TPM2_EncryptDecrypt_REQUEST(TPM_HANDLE _keyHandle, byte _decrypt, TPM_ALG_ID _mode, byte[] _ivIn, byte[] _inData)
     {
@@ -59,7 +55,7 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
         ivIn = _ivIn;
         inData = _inData;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -68,7 +64,7 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(ivIn);
         buf.writeSizedByteBuf(inData);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -81,7 +77,7 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
         inData = new byte[_inDataSize];
         buf.readArrayOfInts(inData, 1, _inDataSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -89,24 +85,27 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_EncryptDecrypt_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_EncryptDecrypt_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_EncryptDecrypt_REQUEST ret = new TPM2_EncryptDecrypt_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_EncryptDecrypt_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_EncryptDecrypt_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_EncryptDecrypt_REQUEST ret = new TPM2_EncryptDecrypt_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -115,7 +114,7 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,9 +7,8 @@ import java.util.*;
 
 //>>>
 
-/**
- *  This type is used in TPM2_StartAuthSession() to indicate the type of
- *  the session to be created.
+/** This type is used in TPM2_StartAuthSession() to indicate the type of the session to be
+ *  created.
  */
 public final class TPM_SE extends TpmEnum<TPM_SE>
 {
@@ -17,22 +16,20 @@ public final class TPM_SE extends TpmEnum<TPM_SE>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_SE. qualifier.
     public enum _N {
-        HMAC,
+        HMAC, 
         
-        POLICY,
+        POLICY, 
         
-        /**
-         *  The policy session is being used to compute the policyHash and not for command
-         *  authorization.
+        /** The policy session is being used to compute the policyHash and not for command authorization.
          *  This setting modifies some policy commands and prevents session from being used to
          *  authorize a command.
          */
         TRIAL
     }
-
+    
     private static ValueMap<TPM_SE> _ValueMap = new ValueMap<TPM_SE>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_SE
         HMAC = new TPM_SE(0x00, _N.HMAC),
         POLICY = new TPM_SE(0x01, _N.POLICY),

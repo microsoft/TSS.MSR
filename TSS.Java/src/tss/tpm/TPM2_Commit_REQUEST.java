@@ -7,39 +7,36 @@ import tss.*;
 
 //>>>
 
-/**
- *  TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will
- *  perform the point multiplications on the provided points and return intermediate signing
- *  values. The signHandle parameter shall refer to an ECC key and the signing scheme must
- *  be anonymous (TPM_RC_SCHEME).
+/** TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM
+ *  will perform the point multiplications on the provided points and return intermediate
+ *  signing values. The signHandle parameter shall refer to an ECC key and the signing
+ *  scheme must be anonymous (TPM_RC_SCHEME).
  */
 public class TPM2_Commit_REQUEST extends TpmStructure
 {
-    /**
-     *  handle of the key that will be used in the signing operation
+    /** Handle of the key that will be used in the signing operation
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE signHandle;
     
-    /** a point (M) on the curve used by signHandle */
+    /** A point (M) on the curve used by signHandle  */
     public TPMS_ECC_POINT P1;
     
-    /** octet array used to derive x-coordinate of a base point */
+    /** Octet array used to derive x-coordinate of a base point  */
     public byte[] s2;
     
-    /** y coordinate of the point associated with s2 */
+    /** Y coordinate of the point associated with s2  */
     public byte[] y2;
     
     public TPM2_Commit_REQUEST() { signHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _signHandle handle of the key that will be used in the signing operation
+    /** @param _signHandle Handle of the key that will be used in the signing operation
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _P1 a point (M) on the curve used by signHandle
-     *  @param _s2 octet array used to derive x-coordinate of a base point
-     *  @param _y2 y coordinate of the point associated with s2
+     *  @param _P1 A point (M) on the curve used by signHandle
+     *  @param _s2 Octet array used to derive x-coordinate of a base point
+     *  @param _y2 Y coordinate of the point associated with s2
      */
     public TPM2_Commit_REQUEST(TPM_HANDLE _signHandle, TPMS_ECC_POINT _P1, byte[] _s2, byte[] _y2)
     {
@@ -48,7 +45,7 @@ public class TPM2_Commit_REQUEST extends TpmStructure
         s2 = _s2;
         y2 = _y2;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -58,7 +55,7 @@ public class TPM2_Commit_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(s2);
         buf.writeSizedByteBuf(y2);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -73,7 +70,7 @@ public class TPM2_Commit_REQUEST extends TpmStructure
         y2 = new byte[_y2Size];
         buf.readArrayOfInts(y2, 1, _y2Size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -81,24 +78,27 @@ public class TPM2_Commit_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_Commit_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_Commit_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_Commit_REQUEST ret = new TPM2_Commit_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_Commit_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_Commit_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_Commit_REQUEST ret = new TPM2_Commit_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -107,7 +107,7 @@ public class TPM2_Commit_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

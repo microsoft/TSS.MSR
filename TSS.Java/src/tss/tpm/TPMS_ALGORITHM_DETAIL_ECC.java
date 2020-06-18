@@ -7,75 +7,74 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure is used to report on the curve parameters of an ECC curve. It is
+/** This structure is used to report on the curve parameters of an ECC curve. It is
  *  returned by TPM2_ECC_Parameters().
  */
 public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
 {
-    /** identifier for the curve */
+    /** Identifier for the curve  */
     public TPM_ECC_CURVE curveID;
     
-    /** Size in bits of the key */
+    /** Size in bits of the key  */
     public short keySize;
     
-    /** scheme selector */
+    /** Scheme selector  */
     public TPM_ALG_ID kdfScheme() { return kdf != null ? kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations */
+    /** If not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations  */
     public TPMU_KDF_SCHEME kdf;
     
-    /** scheme selector */
+    /** Scheme selector  */
     public TPM_ALG_ID signScheme() { return sign != null ? sign.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /**
-     *  If not TPM_ALG_NULL, this is the mandatory signature scheme that is required
-     *  to be used with this curve.
+    /** If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be
+     *  used with this curve.
      */
     public TPMU_ASYM_SCHEME sign;
     
-    /** Fp (the modulus) */
+    /** Fp (the modulus)  */
     public byte[] p;
     
-    /** coefficient of the linear term in the curve equation */
+    /** Coefficient of the linear term in the curve equation  */
     public byte[] a;
     
-    /** constant term for curve equation */
+    /** Constant term for curve equation  */
     public byte[] b;
     
-    /** x coordinate of base point G */
+    /** X coordinate of base point G  */
     public byte[] gX;
     
-    /** y coordinate of base point G */
+    /** Y coordinate of base point G  */
     public byte[] gY;
     
-    /** order of G */
+    /** Order of G  */
     public byte[] n;
     
-    /** cofactor (a size of zero indicates a cofactor of 1) */
+    /** Cofactor (a size of zero indicates a cofactor of 1)  */
     public byte[] h;
     
     public TPMS_ALGORITHM_DETAIL_ECC() {}
     
-    /**
-     *  @param _curveID identifier for the curve
+    /** @param _curveID Identifier for the curve
      *  @param _keySize Size in bits of the key
-     *  @param _kdf if not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations
-     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-     *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+     *  @param _kdf If not TPM_ALG_NULL, the required KDF and hash algorithm used in secret
+     *         sharing operations
+     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+     *         TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
+     *  TPMS_NULL_KDF_SCHEME])
      *  @param _sign If not TPM_ALG_NULL, this is the mandatory signature scheme that is required
      *         to be used with this curve.
      *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-     *         TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+     *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
      *  @param _p Fp (the modulus)
-     *  @param _a coefficient of the linear term in the curve equation
-     *  @param _b constant term for curve equation
-     *  @param _gX x coordinate of base point G
-     *  @param _gY y coordinate of base point G
-     *  @param _n order of G
-     *  @param _h cofactor (a size of zero indicates a cofactor of 1)
+     *  @param _a Coefficient of the linear term in the curve equation
+     *  @param _b Constant term for curve equation
+     *  @param _gX X coordinate of base point G
+     *  @param _gY Y coordinate of base point G
+     *  @param _n Order of G
+     *  @param _h Cofactor (a size of zero indicates a cofactor of 1)
      */
     public TPMS_ALGORITHM_DETAIL_ECC(TPM_ECC_CURVE _curveID, int _keySize, TPMU_KDF_SCHEME _kdf, TPMU_ASYM_SCHEME _sign, byte[] _p, byte[] _a, byte[] _b, byte[] _gX, byte[] _gY, byte[] _n, byte[] _h)
     {
@@ -91,7 +90,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         n = _n;
         h = _h;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -109,7 +108,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         buf.writeSizedByteBuf(n);
         buf.writeSizedByteBuf(h);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -143,7 +142,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         h = new byte[_hSize];
         buf.readArrayOfInts(h, 1, _hSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -151,24 +150,27 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_ALGORITHM_DETAIL_ECC fromTpm (byte[] x) 
+    
+    public static TPMS_ALGORITHM_DETAIL_ECC fromBytes (byte[] byteBuf) 
     {
         TPMS_ALGORITHM_DETAIL_ECC ret = new TPMS_ALGORITHM_DETAIL_ECC();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_ALGORITHM_DETAIL_ECC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_ALGORITHM_DETAIL_ECC fromTpm (InByteBuf buf) 
     {
         TPMS_ALGORITHM_DETAIL_ECC ret = new TPMS_ALGORITHM_DETAIL_ECC();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -177,7 +179,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

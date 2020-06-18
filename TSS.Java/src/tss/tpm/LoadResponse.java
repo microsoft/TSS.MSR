@@ -7,17 +7,16 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to load objects into the TPM. This command is used when both a
- *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the
- *  TPM2_LoadExternal command is used.
+/** This command is used to load objects into the TPM. This command is used when both a
+ *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be
+ *  loaded, the TPM2_LoadExternal command is used.
  */
 public class LoadResponse extends TpmStructure
 {
-    /** handle of type TPM_HT_TRANSIENT for the loaded object */
+    /** Handle of type TPM_HT_TRANSIENT for the loaded object  */
     public TPM_HANDLE handle;
     
-    /** Name of the loaded object */
+    /** Name of the loaded object  */
     public byte[] name;
     
     public LoadResponse() { handle = new TPM_HANDLE(); }
@@ -28,7 +27,7 @@ public class LoadResponse extends TpmStructure
         handle.toTpm(buf);
         buf.writeSizedByteBuf(name);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -37,7 +36,7 @@ public class LoadResponse extends TpmStructure
         name = new byte[_nameSize];
         buf.readArrayOfInts(name, 1, _nameSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -45,24 +44,27 @@ public class LoadResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static LoadResponse fromTpm (byte[] x) 
+    
+    public static LoadResponse fromBytes (byte[] byteBuf) 
     {
         LoadResponse ret = new LoadResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static LoadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static LoadResponse fromTpm (InByteBuf buf) 
     {
         LoadResponse ret = new LoadResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -71,7 +73,7 @@ public class LoadResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,19 +7,18 @@ import tss.*;
 
 //>>>
 
-/** This structure holds two ECC coordinates that, together, make up an ECC point. */
+/** This structure holds two ECC coordinates that, together, make up an ECC point.  */
 public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
 {
-    /** X coordinate */
+    /** X coordinate  */
     public byte[] x;
     
-    /** Y coordinate */
+    /** Y coordinate  */
     public byte[] y;
     
     public TPMS_ECC_POINT() {}
     
-    /**
-     *  @param _x X coordinate
+    /** @param _x X coordinate
      *  @param _y Y coordinate
      */
     public TPMS_ECC_POINT(byte[] _x, byte[] _y)
@@ -27,8 +26,8 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         x = _x;
         y = _y;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
     
     @Override
@@ -37,7 +36,7 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         buf.writeSizedByteBuf(x);
         buf.writeSizedByteBuf(y);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -48,7 +47,7 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         y = new byte[_ySize];
         buf.readArrayOfInts(y, 1, _ySize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -56,24 +55,27 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_ECC_POINT fromTpm (byte[] x) 
+    
+    public static TPMS_ECC_POINT fromBytes (byte[] byteBuf) 
     {
         TPMS_ECC_POINT ret = new TPMS_ECC_POINT();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_ECC_POINT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_ECC_POINT fromTpm (InByteBuf buf) 
     {
         TPMS_ECC_POINT ret = new TPMS_ECC_POINT();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -82,7 +84,7 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

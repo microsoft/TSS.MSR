@@ -7,44 +7,42 @@ import tss.*;
 
 //>>>
 
-/** This command indicates that the authorization will be limited to a specific locality. */
+/** This command indicates that the authorization will be limited to a specific locality.  */
 public class TPM2_PolicyLocality_REQUEST extends TpmStructure
 {
-    /**
-     *  handle for the policy session being extended
+    /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
     
-    /** the allowed localities for the policy */
+    /** The allowed localities for the policy  */
     public TPMA_LOCALITY locality;
     
     public TPM2_PolicyLocality_REQUEST() { policySession = new TPM_HANDLE(); }
     
-    /**
-     *  @param _policySession handle for the policy session being extended
+    /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param _locality the allowed localities for the policy
+     *  @param _locality The allowed localities for the policy
      */
     public TPM2_PolicyLocality_REQUEST(TPM_HANDLE _policySession, TPMA_LOCALITY _locality)
     {
         policySession = _policySession;
         locality = _locality;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         locality.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         int _locality = buf.readByte();
         locality = TPMA_LOCALITY.fromInt(_locality);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -52,24 +50,27 @@ public class TPM2_PolicyLocality_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_PolicyLocality_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_PolicyLocality_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_PolicyLocality_REQUEST ret = new TPM2_PolicyLocality_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_PolicyLocality_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_PolicyLocality_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PolicyLocality_REQUEST ret = new TPM2_PolicyLocality_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -78,7 +79,7 @@ public class TPM2_PolicyLocality_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

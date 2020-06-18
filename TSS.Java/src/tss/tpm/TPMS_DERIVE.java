@@ -7,10 +7,9 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure contains the label and context fields for a derived object. These values
- *  are used in the derivation KDF. The values in the unique field of inPublic area template
- *  take precedence over the values in the inSensitive parameter.
+/** This structure contains the label and context fields for a derived object. These
+ *  values are used in the derivation KDF. The values in the unique field of inPublic area
+ *  template take precedence over the values in the inSensitive parameter.
  */
 public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID
 {
@@ -20,8 +19,7 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
     
     public TPMS_DERIVE() {}
     
-    /**
-     *  @param _label TBD
+    /** @param _label TBD
      *  @param _context TBD
      */
     public TPMS_DERIVE(byte[] _label, byte[] _context)
@@ -29,8 +27,8 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
         label = _label;
         context = _context;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ANY2; }
     
     @Override
@@ -39,7 +37,7 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
         buf.writeSizedByteBuf(label);
         buf.writeSizedByteBuf(context);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -50,7 +48,7 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
         context = new byte[_contextSize];
         buf.readArrayOfInts(context, 1, _contextSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -58,24 +56,27 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_DERIVE fromTpm (byte[] x) 
+    
+    public static TPMS_DERIVE fromBytes (byte[] byteBuf) 
     {
         TPMS_DERIVE ret = new TPMS_DERIVE();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_DERIVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_DERIVE fromTpm (InByteBuf buf) 
     {
         TPMS_DERIVE ret = new TPMS_DERIVE();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -84,7 +85,7 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

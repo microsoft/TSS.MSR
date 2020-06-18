@@ -13,295 +13,295 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_CC. qualifier.
     public enum _N {
-        /** Compile variable. May decrease based on implementation. */
-        FIRST,
+        /** Compile variable. May decrease based on implementation.  */
+        FIRST, 
         
-        NV_UndefineSpaceSpecial,
+        NV_UndefineSpaceSpecial, 
         
-        EvictControl,
+        EvictControl, 
         
-        HierarchyControl,
+        HierarchyControl, 
         
-        NV_UndefineSpace,
+        NV_UndefineSpace, 
         
-        ChangeEPS,
+        ChangeEPS, 
         
-        ChangePPS,
+        ChangePPS, 
         
-        Clear,
+        Clear, 
         
-        ClearControl,
+        ClearControl, 
         
-        ClockSet,
+        ClockSet, 
         
-        HierarchyChangeAuth,
+        HierarchyChangeAuth, 
         
-        NV_DefineSpace,
+        NV_DefineSpace, 
         
-        PCR_Allocate,
+        PCR_Allocate, 
         
-        PCR_SetAuthPolicy,
+        PCR_SetAuthPolicy, 
         
-        PP_Commands,
+        PP_Commands, 
         
-        SetPrimaryPolicy,
+        SetPrimaryPolicy, 
         
-        FieldUpgradeStart,
+        FieldUpgradeStart, 
         
-        ClockRateAdjust,
+        ClockRateAdjust, 
         
-        CreatePrimary,
+        CreatePrimary, 
         
-        NV_GlobalWriteLock,
+        NV_GlobalWriteLock, 
         
-        GetCommandAuditDigest,
+        GetCommandAuditDigest, 
         
-        NV_Increment,
+        NV_Increment, 
         
-        NV_SetBits,
+        NV_SetBits, 
         
-        NV_Extend,
+        NV_Extend, 
         
-        NV_Write,
+        NV_Write, 
         
-        NV_WriteLock,
+        NV_WriteLock, 
         
-        DictionaryAttackLockReset,
+        DictionaryAttackLockReset, 
         
-        DictionaryAttackParameters,
+        DictionaryAttackParameters, 
         
-        NV_ChangeAuth,
+        NV_ChangeAuth, 
         
-        /** PCR */
-        PCR_Event,
+        /** PCR  */
+        PCR_Event, 
         
-        /** PCR */
-        PCR_Reset,
+        /** PCR  */
+        PCR_Reset, 
         
-        SequenceComplete,
+        SequenceComplete, 
         
-        SetAlgorithmSet,
+        SetAlgorithmSet, 
         
-        SetCommandCodeAuditStatus,
+        SetCommandCodeAuditStatus, 
         
-        FieldUpgradeData,
+        FieldUpgradeData, 
         
-        IncrementalSelfTest,
+        IncrementalSelfTest, 
         
-        SelfTest,
+        SelfTest, 
         
-        Startup,
+        Startup, 
         
-        Shutdown,
+        Shutdown, 
         
-        StirRandom,
+        StirRandom, 
         
-        ActivateCredential,
+        ActivateCredential, 
         
-        Certify,
+        Certify, 
         
-        /** Policy */
-        PolicyNV,
+        /** Policy  */
+        PolicyNV, 
         
-        CertifyCreation,
+        CertifyCreation, 
         
-        Duplicate,
+        Duplicate, 
         
-        GetTime,
+        GetTime, 
         
-        GetSessionAuditDigest,
+        GetSessionAuditDigest, 
         
-        NV_Read,
+        NV_Read, 
         
-        NV_ReadLock,
+        NV_ReadLock, 
         
-        ObjectChangeAuth,
+        ObjectChangeAuth, 
         
-        /** Policy */
-        PolicySecret,
+        /** Policy  */
+        PolicySecret, 
         
-        Rewrap,
+        Rewrap, 
         
-        Create,
+        Create, 
         
-        ECDH_ZGen,
+        ECDH_ZGen, 
         
-        /** See NOTE 1 */
-        HMAC,
+        /** See NOTE 1  */
+        HMAC, 
         
-        /** See NOTE 1 */
-        MAC,
+        /** See NOTE 1  */
+        MAC, 
         
-        Import,
+        Import, 
         
-        Load,
+        Load, 
         
-        Quote,
+        Quote, 
         
-        RSA_Decrypt,
+        RSA_Decrypt, 
         
-        /** See NOTE 1 */
-        HMAC_Start,
+        /** See NOTE 1  */
+        HMAC_Start, 
         
-        /** See NOTE 1 */
-        MAC_Start,
+        /** See NOTE 1  */
+        MAC_Start, 
         
-        SequenceUpdate,
+        SequenceUpdate, 
         
-        Sign,
+        Sign, 
         
-        Unseal,
+        Unseal, 
         
-        /** Policy */
-        PolicySigned,
+        /** Policy  */
+        PolicySigned, 
         
-        /** Context */
-        ContextLoad,
+        /** Context  */
+        ContextLoad, 
         
-        /** Context */
-        ContextSave,
+        /** Context  */
+        ContextSave, 
         
-        ECDH_KeyGen,
+        ECDH_KeyGen, 
         
-        EncryptDecrypt,
+        EncryptDecrypt, 
         
-        /** Context */
-        FlushContext,
+        /** Context  */
+        FlushContext, 
         
-        LoadExternal,
+        LoadExternal, 
         
-        MakeCredential,
+        MakeCredential, 
         
-        /** NV */
-        NV_ReadPublic,
+        /** NV  */
+        NV_ReadPublic, 
         
-        /** Policy */
-        PolicyAuthorize,
+        /** Policy  */
+        PolicyAuthorize, 
         
-        /** Policy */
-        PolicyAuthValue,
+        /** Policy  */
+        PolicyAuthValue, 
         
-        /** Policy */
-        PolicyCommandCode,
+        /** Policy  */
+        PolicyCommandCode, 
         
-        /** Policy */
-        PolicyCounterTimer,
+        /** Policy  */
+        PolicyCounterTimer, 
         
-        /** Policy */
-        PolicyCpHash,
+        /** Policy  */
+        PolicyCpHash, 
         
-        /** Policy */
-        PolicyLocality,
+        /** Policy  */
+        PolicyLocality, 
         
-        /** Policy */
-        PolicyNameHash,
+        /** Policy  */
+        PolicyNameHash, 
         
-        /** Policy */
-        PolicyOR,
+        /** Policy  */
+        PolicyOR, 
         
-        /** Policy */
-        PolicyTicket,
+        /** Policy  */
+        PolicyTicket, 
         
-        ReadPublic,
+        ReadPublic, 
         
-        RSA_Encrypt,
+        RSA_Encrypt, 
         
-        StartAuthSession,
+        StartAuthSession, 
         
-        VerifySignature,
+        VerifySignature, 
         
-        ECC_Parameters,
+        ECC_Parameters, 
         
-        FirmwareRead,
+        FirmwareRead, 
         
-        GetCapability,
+        GetCapability, 
         
-        GetRandom,
+        GetRandom, 
         
-        GetTestResult,
+        GetTestResult, 
         
-        Hash,
+        Hash, 
         
-        /** PCR */
-        PCR_Read,
+        /** PCR  */
+        PCR_Read, 
         
-        /** Policy */
-        PolicyPCR,
+        /** Policy  */
+        PolicyPCR, 
         
-        PolicyRestart,
+        PolicyRestart, 
         
-        ReadClock,
+        ReadClock, 
         
-        PCR_Extend,
+        PCR_Extend, 
         
-        PCR_SetAuthValue,
+        PCR_SetAuthValue, 
         
-        NV_Certify,
+        NV_Certify, 
         
-        EventSequenceComplete,
+        EventSequenceComplete, 
         
-        HashSequenceStart,
+        HashSequenceStart, 
         
-        /** Policy */
-        PolicyPhysicalPresence,
+        /** Policy  */
+        PolicyPhysicalPresence, 
         
-        /** Policy */
-        PolicyDuplicationSelect,
+        /** Policy  */
+        PolicyDuplicationSelect, 
         
-        /** Policy */
-        PolicyGetDigest,
+        /** Policy  */
+        PolicyGetDigest, 
         
-        TestParms,
+        TestParms, 
         
-        Commit,
+        Commit, 
         
-        /** Policy */
-        PolicyPassword,
+        /** Policy  */
+        PolicyPassword, 
         
-        ZGen_2Phase,
+        ZGen_2Phase, 
         
-        EC_Ephemeral,
+        EC_Ephemeral, 
         
-        /** Policy */
-        PolicyNvWritten,
+        /** Policy  */
+        PolicyNvWritten, 
         
-        /** Policy */
-        PolicyTemplate,
+        /** Policy  */
+        PolicyTemplate, 
         
-        CreateLoaded,
+        CreateLoaded, 
         
-        /** Policy */
-        PolicyAuthorizeNV,
+        /** Policy  */
+        PolicyAuthorizeNV, 
         
-        EncryptDecrypt2,
+        EncryptDecrypt2, 
         
-        AC_GetCapability,
+        AC_GetCapability, 
         
-        AC_Send,
+        AC_Send, 
         
-        /** Policy */
-        Policy_AC_SendSelect,
+        /** Policy  */
+        Policy_AC_SendSelect, 
         
-        CertifyX509,
+        CertifyX509, 
         
-        ACT_SetTimeout,
+        ACT_SetTimeout, 
         
-        ECC_Encrypt,
+        ECC_Encrypt, 
         
-        ECC_Decrypt,
+        ECC_Decrypt, 
         
-        /** Compile variable. May increase based on implementation. */
-        LAST,
+        /** Compile variable. May increase based on implementation.  */
+        LAST, 
         
-        CC_VEND,
+        CC_VEND, 
         
-        /** Used for testing of command dispatch */
+        /** Used for testing of command dispatch  */
         Vendor_TCG_Test
     }
-
+    
     private static ValueMap<TPM_CC> _ValueMap = new ValueMap<TPM_CC>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_CC
         FIRST = new TPM_CC(0x0000011F, _N.FIRST),
         NV_UndefineSpaceSpecial = new TPM_CC(0x0000011F, _N.NV_UndefineSpaceSpecial),

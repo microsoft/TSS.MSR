@@ -7,35 +7,33 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command allows qualification of duplication to allow duplication
- *  to a selected new parent.
+/** This command allows qualification of duplication to allow duplication to a selected
+ *  new parent.
  */
 public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
 {
-    /**
-     *  handle for the policy session being extended
+    /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
     
-    /** the Name of the object to be duplicated */
+    /** The Name of the object to be duplicated  */
     public byte[] objectName;
     
-    /** the Name of the new parent */
+    /** The Name of the new parent  */
     public byte[] newParentName;
     
-    /** if YES, the objectName will be included in the value in policySessionpolicyDigest */
+    /** If YES, the objectName will be included in the value in policySessionpolicyDigest  */
     public byte includeObject;
     
     public TPM2_PolicyDuplicationSelect_REQUEST() { policySession = new TPM_HANDLE(); }
     
-    /**
-     *  @param _policySession handle for the policy session being extended
+    /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param _objectName the Name of the object to be duplicated
-     *  @param _newParentName the Name of the new parent
-     *  @param _includeObject if YES, the objectName will be included in the value in policySessionpolicyDigest
+     *  @param _objectName The Name of the object to be duplicated
+     *  @param _newParentName The Name of the new parent
+     *  @param _includeObject If YES, the objectName will be included in the value in
+     *         policySessionpolicyDigest
      */
     public TPM2_PolicyDuplicationSelect_REQUEST(TPM_HANDLE _policySession, byte[] _objectName, byte[] _newParentName, byte _includeObject)
     {
@@ -44,7 +42,7 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
         newParentName = _newParentName;
         includeObject = _includeObject;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -52,7 +50,7 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(newParentName);
         buf.writeByte(includeObject);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -64,7 +62,7 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
         buf.readArrayOfInts(newParentName, 1, _newParentNameSize);
         includeObject = buf.readByte();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -72,24 +70,27 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_PolicyDuplicationSelect_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_PolicyDuplicationSelect_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_PolicyDuplicationSelect_REQUEST ret = new TPM2_PolicyDuplicationSelect_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_PolicyDuplicationSelect_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_PolicyDuplicationSelect_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PolicyDuplicationSelect_REQUEST ret = new TPM2_PolicyDuplicationSelect_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -98,7 +99,7 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,44 +7,44 @@ import tss.*;
 
 //>>>
 
-/** This structure is used for sizing the TPM2B_ID_OBJECT. */
+/** This structure is used for sizing the TPM2B_ID_OBJECT.  */
 public class TPMS_ID_OBJECT extends TpmStructure
 {
-    /** HMAC using the nameAlg of the storage key on the target TPM */
+    /** HMAC using the nameAlg of the storage key on the target TPM  */
     public byte[] integrityHMAC;
     
-    /**
-     *  credential protector information returned if name matches the referenced object
+    /** Credential protector information returned if name matches the referenced object
      *  All of the encIdentity is encrypted, including the size field.
-     *  NOTE The TPM is not required to check that the size is not larger than the digest of the
-     *  nameAlg. However, if the size is larger, the ID object may not be usable on a TPM that has no
-     *  digest larger than produced by nameAlg.
+     *  NOTE The TPM is not required to check that the size is not larger than the digest of
+     *  the nameAlg. However, if the size is larger, the ID object may not be usable on a TPM
+     *  that has no digest larger than produced by nameAlg.
      */
     public byte[] encIdentity;
     
     public TPMS_ID_OBJECT() {}
     
-    /**
-     *  @param _integrityHMAC HMAC using the nameAlg of the storage key on the target TPM
-     *  @param _encIdentity credential protector information returned if name matches the referenced object
+    /** @param _integrityHMAC HMAC using the nameAlg of the storage key on the target TPM
+     *  @param _encIdentity Credential protector information returned if name matches the
+     *         referenced object
      *         All of the encIdentity is encrypted, including the size field.
-     *         NOTE The TPM is not required to check that the size is not larger than the digest of the
-     *         nameAlg. However, if the size is larger, the ID object may not be usable on a TPM that has no
-     *         digest larger than produced by nameAlg.
+     *         NOTE The TPM is not required to check that the size is not larger than the digest
+     *         of the nameAlg. However, if the size is larger, the ID object may not be usable
+     *  on
+     *         a TPM that has no digest larger than produced by nameAlg.
      */
     public TPMS_ID_OBJECT(byte[] _integrityHMAC, byte[] _encIdentity)
     {
         integrityHMAC = _integrityHMAC;
         encIdentity = _encIdentity;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeSizedByteBuf(integrityHMAC);
         buf.writeByteBuf(encIdentity);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -56,7 +56,7 @@ public class TPMS_ID_OBJECT extends TpmStructure
         encIdentity = new byte[_encIdentitySize];
         buf.readArrayOfInts(encIdentity, 1, _encIdentitySize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -64,24 +64,27 @@ public class TPMS_ID_OBJECT extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_ID_OBJECT fromTpm (byte[] x) 
+    
+    public static TPMS_ID_OBJECT fromBytes (byte[] byteBuf) 
     {
         TPMS_ID_OBJECT ret = new TPMS_ID_OBJECT();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_ID_OBJECT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_ID_OBJECT fromTpm (InByteBuf buf) 
     {
         TPMS_ID_OBJECT ret = new TPMS_ID_OBJECT();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -90,7 +93,7 @@ public class TPMS_ID_OBJECT extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,25 +7,24 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command creates an object and loads it in the TPM. This command allows creation of
- *  any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle.
- *  If parentHandle references a Primary Seed, then a Primary Object is created; if
- *  parentHandle references a Storage Parent, then an Ordinary Object is created; and if
- *  parentHandle references a Derivation Parent, then a Derived Object is generated.
+/** This command creates an object and loads it in the TPM. This command allows creation
+ *  of any type of object (Primary, Ordinary, or Derived) depending on the type of
+ *  parentHandle. If parentHandle references a Primary Seed, then a Primary Object is
+ *  created; if parentHandle references a Storage Parent, then an Ordinary Object is
+ *  created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
  */
 public class CreateLoadedResponse extends TpmStructure
 {
-    /** handle of type TPM_HT_TRANSIENT for created object */
+    /** Handle of type TPM_HT_TRANSIENT for created object  */
     public TPM_HANDLE handle;
     
-    /** the sensitive area of the object (optional) */
+    /** The sensitive area of the object (optional)  */
     public TPM2B_PRIVATE outPrivate;
     
-    /** the public portion of the created object */
+    /** The public portion of the created object  */
     public TPMT_PUBLIC outPublic;
     
-    /** the name of the created object */
+    /** The name of the created object  */
     public byte[] name;
     
     public CreateLoadedResponse() { handle = new TPM_HANDLE(); }
@@ -40,7 +39,7 @@ public class CreateLoadedResponse extends TpmStructure
             outPublic.toTpm(buf);
         buf.writeSizedByteBuf(name);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -54,7 +53,7 @@ public class CreateLoadedResponse extends TpmStructure
         name = new byte[_nameSize];
         buf.readArrayOfInts(name, 1, _nameSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -62,24 +61,27 @@ public class CreateLoadedResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static CreateLoadedResponse fromTpm (byte[] x) 
+    
+    public static CreateLoadedResponse fromBytes (byte[] byteBuf) 
     {
         CreateLoadedResponse ret = new CreateLoadedResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static CreateLoadedResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static CreateLoadedResponse fromTpm (InByteBuf buf) 
     {
         CreateLoadedResponse ret = new CreateLoadedResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -88,7 +90,7 @@ public class CreateLoadedResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

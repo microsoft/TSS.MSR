@@ -7,21 +7,20 @@ import tss.*;
 
 //>>>
 
-/**
- *  This list is used to report the ECC curve ID values supported by the TPM. It is
+/** This list is used to report the ECC curve ID values supported by the TPM. It is
  *  returned by a TPM2_GetCapability().
  */
 public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
 {
-    /** array of ECC curve identifiers */
+    /** Array of ECC curve identifiers  */
     public TPM_ECC_CURVE[] eccCurves;
     
     public TPML_ECC_CURVE() {}
     
-    /** @param _eccCurves array of ECC curve identifiers */
+    /** @param _eccCurves Array of ECC curve identifiers  */
     public TPML_ECC_CURVE(TPM_ECC_CURVE[] _eccCurves) { eccCurves = _eccCurves; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.ECC_CURVES; }
     
     @Override
@@ -29,7 +28,7 @@ public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
     {
         buf.writeObjArr(eccCurves);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -37,7 +36,7 @@ public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
         eccCurves = new TPM_ECC_CURVE[_count];
         for (int j=0; j < _count; j++) eccCurves[j] = TPM_ECC_CURVE.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -45,24 +44,27 @@ public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPML_ECC_CURVE fromTpm (byte[] x) 
+    
+    public static TPML_ECC_CURVE fromBytes (byte[] byteBuf) 
     {
         TPML_ECC_CURVE ret = new TPML_ECC_CURVE();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPML_ECC_CURVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPML_ECC_CURVE fromTpm (InByteBuf buf) 
     {
         TPML_ECC_CURVE ret = new TPML_ECC_CURVE();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -71,7 +73,7 @@ public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

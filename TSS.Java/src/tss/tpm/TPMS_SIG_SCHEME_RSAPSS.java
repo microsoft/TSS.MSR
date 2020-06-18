@@ -7,15 +7,15 @@ import tss.*;
 
 //>>>
 
-/** These are the RSA schemes that only need a hash algorithm as a scheme parameter. */
+/** These are the RSA schemes that only need a hash algorithm as a scheme parameter.  */
 public class TPMS_SIG_SCHEME_RSAPSS extends TPMS_SCHEME_HASH
 {
     public TPMS_SIG_SCHEME_RSAPSS() {}
     
-    /** @param _hashAlg the hash algorithm used to digest the message */
+    /** @param _hashAlg The hash algorithm used to digest the message  */
     public TPMS_SIG_SCHEME_RSAPSS(TPM_ALG_ID _hashAlg) { super(_hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSAPSS; }
     
     @Override

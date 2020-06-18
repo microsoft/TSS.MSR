@@ -7,15 +7,15 @@ import tss.*;
 
 //>>>
 
-/** This structure provides a standard method of specifying a list of PCR. */
+/** This structure provides a standard method of specifying a list of PCR.  */
 public class TPMS_PCR_SELECT extends TpmStructure
 {
-    /** the bit map of selected PCR */
+    /** The bit map of selected PCR  */
     public byte[] pcrSelect;
     
     public TPMS_PCR_SELECT() {}
     
-    /** @param _pcrSelect the bit map of selected PCR */
+    /** @param _pcrSelect The bit map of selected PCR  */
     public TPMS_PCR_SELECT(byte[] _pcrSelect) { pcrSelect = _pcrSelect; }
     
     @Override
@@ -23,7 +23,7 @@ public class TPMS_PCR_SELECT extends TpmStructure
     {
         buf.writeSizedByteBuf(pcrSelect, 1);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -31,7 +31,7 @@ public class TPMS_PCR_SELECT extends TpmStructure
         pcrSelect = new byte[_sizeofSelect];
         buf.readArrayOfInts(pcrSelect, 1, _sizeofSelect);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +39,27 @@ public class TPMS_PCR_SELECT extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_PCR_SELECT fromTpm (byte[] x) 
+    
+    public static TPMS_PCR_SELECT fromBytes (byte[] byteBuf) 
     {
         TPMS_PCR_SELECT ret = new TPMS_PCR_SELECT();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_PCR_SELECT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_PCR_SELECT fromTpm (InByteBuf buf) 
     {
         TPMS_PCR_SELECT ret = new TPMS_PCR_SELECT();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +68,7 @@ public class TPMS_PCR_SELECT extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

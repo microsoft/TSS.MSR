@@ -7,33 +7,29 @@ import tss.*;
 
 //>>>
 
-/**
- *  The purpose of this command is to send (copy) a loaded object from the TPM
- *  to an Attached Component.
+/** The purpose of this command is to send (copy) a loaded object from the TPM to an
+ *  Attached Component.
  */
 public class TPM2_AC_Send_REQUEST extends TpmStructure
 {
-    /**
-     *  handle of the object being sent to ac
+    /** Handle of the object being sent to ac
      *  Auth Index: 1
      *  Auth Role: DUP
      */
     public TPM_HANDLE sendObject;
     
-    /**
-     *  the handle indicating the source of the authorization value
+    /** The handle indicating the source of the authorization value
      *  Auth Index: 2
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
     
-    /**
-     *  handle indicating the Attached Component to which the object will be sent
+    /** Handle indicating the Attached Component to which the object will be sent
      *  Auth Index: None
      */
     public TPM_HANDLE ac;
     
-    /** Optional non sensitive information related to the object */
+    /** Optional non sensitive information related to the object  */
     public byte[] acDataIn;
     
     public TPM2_AC_Send_REQUEST()
@@ -42,15 +38,14 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
         authHandle = new TPM_HANDLE();
         ac = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _sendObject handle of the object being sent to ac
+    
+    /** @param _sendObject Handle of the object being sent to ac
      *         Auth Index: 1
      *         Auth Role: DUP
-     *  @param _authHandle the handle indicating the source of the authorization value
+     *  @param _authHandle The handle indicating the source of the authorization value
      *         Auth Index: 2
      *         Auth Role: USER
-     *  @param _ac handle indicating the Attached Component to which the object will be sent
+     *  @param _ac Handle indicating the Attached Component to which the object will be sent
      *         Auth Index: None
      *  @param _acDataIn Optional non sensitive information related to the object
      */
@@ -61,13 +56,13 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
         ac = _ac;
         acDataIn = _acDataIn;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeSizedByteBuf(acDataIn);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -75,7 +70,7 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
         acDataIn = new byte[_acDataInSize];
         buf.readArrayOfInts(acDataIn, 1, _acDataInSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -83,24 +78,27 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_AC_Send_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_AC_Send_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_AC_Send_REQUEST ret = new TPM2_AC_Send_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_AC_Send_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_AC_Send_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_AC_Send_REQUEST ret = new TPM2_AC_Send_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -109,7 +107,7 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

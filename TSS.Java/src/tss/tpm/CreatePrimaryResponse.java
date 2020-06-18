@@ -7,34 +7,32 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to create a Primary Object under one of the Primary Seeds or a
- *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the
- *  object to be created. The size of the unique field shall not be checked for consistency
- *  with the other object parameters. The command will create and load a Primary Object. The
- *  sensitive area is not returned.
+/** This command is used to create a Primary Object under one of the Primary Seeds or a
+ *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for
+ *  the object to be created. The size of the unique field shall not be checked for
+ *  consistency with the other object parameters. The command will create and load a
+ *  Primary Object. The sensitive area is not returned.
  */
 public class CreatePrimaryResponse extends TpmStructure
 {
-    /** handle of type TPM_HT_TRANSIENT for created Primary Object */
+    /** Handle of type TPM_HT_TRANSIENT for created Primary Object  */
     public TPM_HANDLE handle;
     
-    /** the public portion of the created object */
+    /** The public portion of the created object  */
     public TPMT_PUBLIC outPublic;
     
-    /** contains a TPMT_CREATION_DATA */
+    /** Contains a TPMT_CREATION_DATA  */
     public TPMS_CREATION_DATA creationData;
     
-    /** digest of creationData using nameAlg of outPublic */
+    /** Digest of creationData using nameAlg of outPublic  */
     public byte[] creationHash;
     
-    /**
-     *  ticket used by TPM2_CertifyCreation() to validate that the creation data
-     *  was produced by the TPM
+    /** Ticket used by TPM2_CertifyCreation() to validate that the creation data was produced
+     *  by the TPM
      */
     public TPMT_TK_CREATION creationTicket;
     
-    /** the name of the created object */
+    /** The name of the created object  */
     public byte[] name;
     
     public CreatePrimaryResponse() { handle = new TPM_HANDLE(); }
@@ -53,7 +51,7 @@ public class CreatePrimaryResponse extends TpmStructure
         creationTicket.toTpm(buf);
         buf.writeSizedByteBuf(name);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -74,7 +72,7 @@ public class CreatePrimaryResponse extends TpmStructure
         name = new byte[_nameSize];
         buf.readArrayOfInts(name, 1, _nameSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -82,24 +80,27 @@ public class CreatePrimaryResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static CreatePrimaryResponse fromTpm (byte[] x) 
+    
+    public static CreatePrimaryResponse fromBytes (byte[] byteBuf) 
     {
         CreatePrimaryResponse ret = new CreatePrimaryResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static CreatePrimaryResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static CreatePrimaryResponse fromTpm (InByteBuf buf) 
     {
         CreatePrimaryResponse ret = new CreatePrimaryResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -108,7 +109,7 @@ public class CreatePrimaryResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

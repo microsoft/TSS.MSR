@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This is a placeholder to allow testing of the dispatch code. */
+/** This is a placeholder to allow testing of the dispatch code.  */
 public class Vendor_TCG_TestResponse extends TpmStructure
 {
-    /** dummy data */
+    /** Dummy data  */
     public byte[] outputData;
     
     public Vendor_TCG_TestResponse() {}
@@ -20,7 +20,7 @@ public class Vendor_TCG_TestResponse extends TpmStructure
     {
         buf.writeSizedByteBuf(outputData);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -28,7 +28,7 @@ public class Vendor_TCG_TestResponse extends TpmStructure
         outputData = new byte[_outputDataSize];
         buf.readArrayOfInts(outputData, 1, _outputDataSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -36,24 +36,27 @@ public class Vendor_TCG_TestResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static Vendor_TCG_TestResponse fromTpm (byte[] x) 
+    
+    public static Vendor_TCG_TestResponse fromBytes (byte[] byteBuf) 
     {
         Vendor_TCG_TestResponse ret = new Vendor_TCG_TestResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static Vendor_TCG_TestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static Vendor_TCG_TestResponse fromTpm (InByteBuf buf) 
     {
         Vendor_TCG_TestResponse ret = new Vendor_TCG_TestResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -62,7 +65,7 @@ public class Vendor_TCG_TestResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

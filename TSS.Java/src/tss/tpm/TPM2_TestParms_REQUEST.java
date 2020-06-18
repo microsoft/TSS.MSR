@@ -7,22 +7,20 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to check to see if specific combinations of algorithm
- *  parameters are supported.
+/** This command is used to check to see if specific combinations of algorithm parameters
+ *  are supported.
  */
 public class TPM2_TestParms_REQUEST extends TpmStructure
 {
-    /** the algorithm to be tested */
+    /** The algorithm to be tested  */
     public TPM_ALG_ID parametersType() { return parameters.GetUnionSelector(); }
     
-    /** algorithm parameters to be validated */
+    /** Algorithm parameters to be validated  */
     public TPMU_PUBLIC_PARMS parameters;
     
     public TPM2_TestParms_REQUEST() {}
     
-    /**
-     *  @param _parameters algorithm parameters to be validated
+    /** @param _parameters Algorithm parameters to be validated
      *         (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
      *         TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
      */
@@ -35,7 +33,7 @@ public class TPM2_TestParms_REQUEST extends TpmStructure
         parameters.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)parameters).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -43,7 +41,7 @@ public class TPM2_TestParms_REQUEST extends TpmStructure
         parameters = UnionFactory.create("TPMU_PUBLIC_PARMS", new TPM_ALG_ID(_parametersType));
         parameters.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -51,24 +49,27 @@ public class TPM2_TestParms_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_TestParms_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_TestParms_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_TestParms_REQUEST ret = new TPM2_TestParms_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_TestParms_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_TestParms_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_TestParms_REQUEST ret = new TPM2_TestParms_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -77,7 +78,7 @@ public class TPM2_TestParms_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

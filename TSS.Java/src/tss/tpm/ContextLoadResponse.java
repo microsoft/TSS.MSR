@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This command is used to reload a context that has been saved by TPM2_ContextSave(). */
+/** This command is used to reload a context that has been saved by TPM2_ContextSave().  */
 public class ContextLoadResponse extends TpmStructure
 {
-    /** the handle assigned to the resource after it has been successfully loaded */
+    /** The handle assigned to the resource after it has been successfully loaded  */
     public TPM_HANDLE handle;
     
     public ContextLoadResponse() { handle = new TPM_HANDLE(); }
@@ -20,13 +20,13 @@ public class ContextLoadResponse extends TpmStructure
     {
         handle.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -34,24 +34,27 @@ public class ContextLoadResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static ContextLoadResponse fromTpm (byte[] x) 
+    
+    public static ContextLoadResponse fromBytes (byte[] byteBuf) 
     {
         ContextLoadResponse ret = new ContextLoadResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static ContextLoadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static ContextLoadResponse fromTpm (InByteBuf buf) 
     {
         ContextLoadResponse ret = new ContextLoadResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -60,7 +63,7 @@ public class ContextLoadResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

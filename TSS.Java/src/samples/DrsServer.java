@@ -18,12 +18,12 @@ public class DrsServer {
     public static int GetActivationBlob2(Tpm tpm, byte[] ekPubBlob, int ekPubSize, byte[] srkPubBlob, int srkPubSize,
                                                   byte[] actBlobBuffer, int blobBufCapacity)
     {
-        TPMT_PUBLIC ekPub = TPM2B_PUBLIC.fromTpm(ekPubBlob).publicArea; 
-        TPMT_PUBLIC srkPub = TPM2B_PUBLIC.fromTpm(srkPubBlob).publicArea;
+        TPMT_PUBLIC ekPub = TPM2B_PUBLIC.fromBytes(ekPubBlob).publicArea; 
+        TPMT_PUBLIC srkPub = TPM2B_PUBLIC.fromBytes(srkPubBlob).publicArea;
         
         // Start a policy session required for key duplication
         TPM_HANDLE sess = tpm.StartAuthSession(TPM_HANDLE.NULL, TPM_HANDLE.NULL,
-                                               Helpers.getRandom(20), new byte[0], TPM_SE.POLICY,
+                                               Helpers.RandomBytes(20), new byte[0], TPM_SE.POLICY,
                                                new TPMT_SYM_DEF(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL), TPM_ALG_ID.SHA256)
                         .handle;
         // Run the necessary policy command
@@ -38,7 +38,7 @@ public class DrsServer {
                 new TPMS_KEYEDHASH_PARMS(new TPMS_SCHEME_HMAC(TPM_ALG_ID.SHA256)),
                 new TPM2B_DIGEST_KEYEDHASH());
     
-        byte[] keyBytes = Helpers.getRandom(32);
+        byte[] keyBytes = Helpers.RandomBytes(32);
         IdKeySens = new TPMS_SENSITIVE_CREATE(new byte[0], keyBytes);
         CreatePrimaryResponse idKey = tpm.CreatePrimary(TPM_HANDLE.from(TPM_RH.OWNER), IdKeySens, IdKeyTemplate,
                                                            new byte[0], new TPMS_PCR_SELECTION[0]);
@@ -90,7 +90,7 @@ public class DrsServer {
         // Build activation blob for the client device
         //
         
-        OutByteBuf actBlob = new OutByteBuf(actBlobBuffer);
+        OutByteBuf actBlob = new OutByteBuf();
         
         byte[] credBlob = cred.credentialBlob.toTpm();
         actBlob.writeShort((short)credBlob.length);
@@ -111,7 +111,7 @@ public class DrsServer {
         actBlob.writeShort((short)encryptedUri.length);
         actBlob.writeByteBuf(encryptedUri);
         
-        //System.arraycopy(actBlob.buffer(), 0, actBlobBuffer, 0, actBlob.curPos());
+        System.arraycopy(actBlob.buffer(), 0, actBlobBuffer, 0, actBlob.curPos());
         return actBlob.curPos();
     } // GetActivationBlob2()
 

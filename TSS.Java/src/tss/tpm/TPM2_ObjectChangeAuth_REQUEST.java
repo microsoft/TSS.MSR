@@ -7,23 +7,21 @@ import tss.*;
 
 //>>>
 
-/** This command is used to change the authorization secret for a TPM-resident object. */
+/** This command is used to change the authorization secret for a TPM-resident object.  */
 public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
 {
-    /**
-     *  handle of the object
+    /** Handle of the object
      *  Auth Index: 1
      *  Auth Role: ADMIN
      */
     public TPM_HANDLE objectHandle;
     
-    /**
-     *  handle of the parent
+    /** Handle of the parent
      *  Auth Index: None
      */
     public TPM_HANDLE parentHandle;
     
-    /** new authorization value */
+    /** New authorization value  */
     public byte[] newAuth;
     
     public TPM2_ObjectChangeAuth_REQUEST()
@@ -31,14 +29,13 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
         objectHandle = new TPM_HANDLE();
         parentHandle = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _objectHandle handle of the object
+    
+    /** @param _objectHandle Handle of the object
      *         Auth Index: 1
      *         Auth Role: ADMIN
-     *  @param _parentHandle handle of the parent
+     *  @param _parentHandle Handle of the parent
      *         Auth Index: None
-     *  @param _newAuth new authorization value
+     *  @param _newAuth New authorization value
      */
     public TPM2_ObjectChangeAuth_REQUEST(TPM_HANDLE _objectHandle, TPM_HANDLE _parentHandle, byte[] _newAuth)
     {
@@ -46,13 +43,13 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
         parentHandle = _parentHandle;
         newAuth = _newAuth;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeSizedByteBuf(newAuth);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -60,7 +57,7 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
         newAuth = new byte[_newAuthSize];
         buf.readArrayOfInts(newAuth, 1, _newAuthSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -68,24 +65,27 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_ObjectChangeAuth_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_ObjectChangeAuth_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_ObjectChangeAuth_REQUEST ret = new TPM2_ObjectChangeAuth_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_ObjectChangeAuth_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_ObjectChangeAuth_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_ObjectChangeAuth_REQUEST ret = new TPM2_ObjectChangeAuth_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -94,7 +94,7 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,34 +7,33 @@ import tss.*;
 
 //>>>
 
-/** This structure holds the integrity value and the encrypted data for a context. */
+/** This structure holds the integrity value and the encrypted data for a context.  */
 public class TPMS_CONTEXT_DATA extends TpmStructure
 {
-    /** the integrity value */
+    /** The integrity value  */
     public byte[] integrity;
     
-    /** the sensitive area */
+    /** The sensitive area  */
     public byte[] encrypted;
     
     public TPMS_CONTEXT_DATA() {}
     
-    /**
-     *  @param _integrity the integrity value
-     *  @param _encrypted the sensitive area
+    /** @param _integrity The integrity value
+     *  @param _encrypted The sensitive area
      */
     public TPMS_CONTEXT_DATA(byte[] _integrity, byte[] _encrypted)
     {
         integrity = _integrity;
         encrypted = _encrypted;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeSizedByteBuf(integrity);
         buf.writeByteBuf(encrypted);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -46,7 +45,7 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
         encrypted = new byte[_encryptedSize];
         buf.readArrayOfInts(encrypted, 1, _encryptedSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -54,24 +53,27 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_CONTEXT_DATA fromTpm (byte[] x) 
+    
+    public static TPMS_CONTEXT_DATA fromBytes (byte[] byteBuf) 
     {
         TPMS_CONTEXT_DATA ret = new TPMS_CONTEXT_DATA();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_CONTEXT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_CONTEXT_DATA fromTpm (InByteBuf buf) 
     {
         TPMS_CONTEXT_DATA ret = new TPMS_CONTEXT_DATA();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -80,7 +82,7 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

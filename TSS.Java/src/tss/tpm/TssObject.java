@@ -7,22 +7,23 @@ import tss.*;
 
 //>>>
 
-/** Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM key (or other object) */
+/** Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM
+ *  key (or other object)
+ */
 public class TssObject extends TpmStructure
 {
-    /** Public part of key */
+    /** Public part of key  */
     public TPMT_PUBLIC Public;
     
-    /** Sensitive part of key */
+    /** Sensitive part of key  */
     public TPMT_SENSITIVE Sensitive;
     
-    /** Private part is the encrypted sensitive part of key */
+    /** Private part is the encrypted sensitive part of key  */
     public TPM2B_PRIVATE Private;
     
     public TssObject() {}
     
-    /**
-     *  @param _Public Public part of key
+    /** @param _Public Public part of key
      *  @param _Sensitive Sensitive part of key
      *  @param _Private Private part is the encrypted sensitive part of key
      */
@@ -32,7 +33,7 @@ public class TssObject extends TpmStructure
         Sensitive = _Sensitive;
         Private = _Private;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -40,7 +41,7 @@ public class TssObject extends TpmStructure
         Sensitive.toTpm(buf);
         Private.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -48,7 +49,7 @@ public class TssObject extends TpmStructure
         Sensitive = TPMT_SENSITIVE.fromTpm(buf);
         Private = TPM2B_PRIVATE.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -56,24 +57,27 @@ public class TssObject extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TssObject fromTpm (byte[] x) 
+    
+    public static TssObject fromBytes (byte[] byteBuf) 
     {
         TssObject ret = new TssObject();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TssObject fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TssObject fromTpm (InByteBuf buf) 
     {
         TssObject ret = new TssObject();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -82,7 +86,7 @@ public class TssObject extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,49 +7,45 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command causes the TPM to sign an externally provided hash with the specified
+/** This command causes the TPM to sign an externally provided hash with the specified
  *  symmetric or asymmetric signing key.
  */
 public class TPM2_Sign_REQUEST extends TpmStructure
 {
-    /**
-     *  Handle of key that will perform signing
+    /** Handle of key that will perform signing
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE keyHandle;
     
-    /** digest to be signed */
+    /** Digest to be signed  */
     public byte[] digest;
     
-    /** scheme selector */
+    /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL */
+    /** Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL  */
     public TPMU_SIG_SCHEME inScheme;
     
-    /**
-     *  proof that digest was created by the TPM
-     *  If keyHandle is not a restricted signing key, then this may be a NULL Ticket
-     *  with tag = TPM_ST_CHECKHASH.
+    /** Proof that digest was created by the TPM
+     *  If keyHandle is not a restricted signing key, then this may be a NULL Ticket with tag
+     *  = TPM_ST_CHECKHASH.
      */
     public TPMT_TK_HASHCHECK validation;
     
     public TPM2_Sign_REQUEST() { keyHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _keyHandle Handle of key that will perform signing
+    /** @param _keyHandle Handle of key that will perform signing
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _digest digest to be signed
-     *  @param _inScheme signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
+     *  @param _digest Digest to be signed
+     *  @param _inScheme Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
      *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     *  @param _validation proof that digest was created by the TPM
-     *         If keyHandle is not a restricted signing key, then this may be a NULL Ticket
-     *         with tag = TPM_ST_CHECKHASH.
+     *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *  @param _validation Proof that digest was created by the TPM
+     *         If keyHandle is not a restricted signing key, then this may be a NULL Ticket with
+     *         tag = TPM_ST_CHECKHASH.
      */
     public TPM2_Sign_REQUEST(TPM_HANDLE _keyHandle, byte[] _digest, TPMU_SIG_SCHEME _inScheme, TPMT_TK_HASHCHECK _validation)
     {
@@ -58,7 +54,7 @@ public class TPM2_Sign_REQUEST extends TpmStructure
         inScheme = _inScheme;
         validation = _validation;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -67,7 +63,7 @@ public class TPM2_Sign_REQUEST extends TpmStructure
         ((TpmMarshaller)inScheme).toTpm(buf);
         validation.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -79,7 +75,7 @@ public class TPM2_Sign_REQUEST extends TpmStructure
         inScheme.initFromTpm(buf);
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -87,24 +83,27 @@ public class TPM2_Sign_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_Sign_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_Sign_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_Sign_REQUEST ret = new TPM2_Sign_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_Sign_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_Sign_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_Sign_REQUEST ret = new TPM2_Sign_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -113,7 +112,7 @@ public class TPM2_Sign_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

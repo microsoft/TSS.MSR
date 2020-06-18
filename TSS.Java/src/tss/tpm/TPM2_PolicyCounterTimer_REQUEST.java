@@ -7,35 +7,33 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to cause conditional gating of a policy based on the contents of
+/** This command is used to cause conditional gating of a policy based on the contents of
  *  the TPMS_TIME_INFO structure.
  */
 public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
 {
-    /**
-     *  handle for the policy session being extended
+    /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
     
-    /** the second operand */
+    /** The second operand  */
     public byte[] operandB;
     
-    /** the octet offset in the TPMS_TIME_INFO structure for the start of operand A */
+    /** The octet offset in the TPMS_TIME_INFO structure for the start of operand A  */
     public short offset;
     
-    /** the comparison to make */
+    /** The comparison to make  */
     public TPM_EO operation;
     
     public TPM2_PolicyCounterTimer_REQUEST() { policySession = new TPM_HANDLE(); }
     
-    /**
-     *  @param _policySession handle for the policy session being extended
+    /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param _operandB the second operand
-     *  @param _offset the octet offset in the TPMS_TIME_INFO structure for the start of operand A
-     *  @param _operation the comparison to make
+     *  @param _operandB The second operand
+     *  @param _offset The octet offset in the TPMS_TIME_INFO structure for the start of
+     *  operand A
+     *  @param _operation The comparison to make
      */
     public TPM2_PolicyCounterTimer_REQUEST(TPM_HANDLE _policySession, byte[] _operandB, int _offset, TPM_EO _operation)
     {
@@ -44,7 +42,7 @@ public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
         offset = (short)_offset;
         operation = _operation;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -52,7 +50,7 @@ public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
         buf.writeShort(offset);
         operation.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -62,7 +60,7 @@ public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
         offset = buf.readShort();
         operation = TPM_EO.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -70,24 +68,27 @@ public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_PolicyCounterTimer_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_PolicyCounterTimer_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_PolicyCounterTimer_REQUEST ret = new TPM2_PolicyCounterTimer_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_PolicyCounterTimer_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_PolicyCounterTimer_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PolicyCounterTimer_REQUEST ret = new TPM2_PolicyCounterTimer_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -96,7 +97,7 @@ public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,17 +7,16 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to start an authorization session using alternative methods of
- *  establishing the session key (sessionKey). The session key is then used to derive values
- *  used for authorization and for encrypting parameters.
+/** This command is used to start an authorization session using alternative methods of
+ *  establishing the session key (sessionKey). The session key is then used to derive
+ *  values used for authorization and for encrypting parameters.
  */
 public class StartAuthSessionResponse extends TpmStructure
 {
-    /** handle for the newly created session */
+    /** Handle for the newly created session  */
     public TPM_HANDLE handle;
     
-    /** the initial nonce from the TPM, used in the computation of the sessionKey */
+    /** The initial nonce from the TPM, used in the computation of the sessionKey  */
     public byte[] nonceTPM;
     
     public StartAuthSessionResponse() { handle = new TPM_HANDLE(); }
@@ -28,7 +27,7 @@ public class StartAuthSessionResponse extends TpmStructure
         handle.toTpm(buf);
         buf.writeSizedByteBuf(nonceTPM);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -37,7 +36,7 @@ public class StartAuthSessionResponse extends TpmStructure
         nonceTPM = new byte[_nonceTPMSize];
         buf.readArrayOfInts(nonceTPM, 1, _nonceTPMSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -45,24 +44,27 @@ public class StartAuthSessionResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static StartAuthSessionResponse fromTpm (byte[] x) 
+    
+    public static StartAuthSessionResponse fromBytes (byte[] byteBuf) 
     {
         StartAuthSessionResponse ret = new StartAuthSessionResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static StartAuthSessionResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static StartAuthSessionResponse fromTpm (InByteBuf buf) 
     {
         StartAuthSessionResponse ret = new StartAuthSessionResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -71,7 +73,7 @@ public class StartAuthSessionResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

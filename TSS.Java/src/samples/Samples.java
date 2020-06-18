@@ -82,7 +82,7 @@ public class Samples
         byte[] r = tpm.GetRandom(20);
         System.out.println("GetRandom: " + Helpers.toHex(r));
         // seed the TPM RNG with some system-provided entropy
-        tpm.StirRandom(Helpers.getRandom(20));
+        tpm.StirRandom(Helpers.RandomBytes(20));
         // Now the data will be even more random
         r = tpm.GetRandom( 30);
         System.out.println("GetRandom (2): " + Helpers.toHex(r));
@@ -137,7 +137,7 @@ public class Samples
         System.out.println("RSA Primary Key: \n" + rsaPrimary.toString());
 
         // sign with it
-        byte[] dataToSign = Helpers.getRandom(10);
+        byte[] dataToSign = Helpers.RandomBytes(10);
         byte[] digestToSign = Crypto.hash(TPM_ALG_ID.SHA256, dataToSign);
 
         TPMU_SIGNATURE rsaSigSsa = tpm.Sign(rsaPrimary.handle, digestToSign, new TPMS_NULL_SIG_SCHEME(),
@@ -187,7 +187,7 @@ public class Samples
                 new TPMS_ECC_POINT());
 
         // Tell the TPM to make a key with a non-null auth value.
-        TPMS_SENSITIVE_CREATE eccSens = new TPMS_SENSITIVE_CREATE(Helpers.getRandom(10), new byte[0]);
+        TPMS_SENSITIVE_CREATE eccSens = new TPMS_SENSITIVE_CREATE(Helpers.RandomBytes(10), new byte[0]);
 
         CreatePrimaryResponse eccPrimary = tpm.CreatePrimary(TPM_HANDLE.from(TPM_RH.OWNER), eccSens,
                 eccTemplate, new byte[0], new TPMS_PCR_SELECTION[0]);
@@ -245,7 +245,7 @@ public class Samples
                         new TPMS_SIG_SCHEME_RSASSA(TPM_ALG_ID.SHA256),  1024, 65537),
                 new TPM2B_PUBLIC_KEY_RSA());
 
-        TPMS_SENSITIVE_CREATE childSensitive = new TPMS_SENSITIVE_CREATE(Helpers.getRandom(10), new byte[0]);
+        TPMS_SENSITIVE_CREATE childSensitive = new TPMS_SENSITIVE_CREATE(Helpers.RandomBytes(10), new byte[0]);
 
         CreateResponse rsaChild = tpm.Create(rsaSrk.handle, childSensitive, childSigningTemplate, new byte[0],
                 new TPMS_PCR_SELECTION[0]);
@@ -260,7 +260,7 @@ public class Samples
         childHandle.AuthValue = childSensitive.userAuth;
 
         // sign with it
-        byte[] dataToSign = Helpers.getRandom(32);
+        byte[] dataToSign = Helpers.RandomBytes(32);
 
         TPMU_SIGNATURE rsaSig = tpm.Sign(childHandle, dataToSign, new TPMS_NULL_SIG_SCHEME(),
                 new TPMT_TK_HASHCHECK());
@@ -358,7 +358,7 @@ public class Samples
         TPM_ALG_ID hashAlgs[] = new TPM_ALG_ID[] { TPM_ALG_ID.SHA1, TPM_ALG_ID.SHA256, TPM_ALG_ID.SHA384 };
 
         // first demonstrate non-sequence hashing (for short sequences)
-        byte[] toHash = Helpers.getRandom(16);
+        byte[] toHash = Helpers.RandomBytes(16);
         write("Simple hashing of " + Helpers.toHex(toHash));
         for (TPM_ALG_ID h : hashAlgs) {
             HashResponse r = tpm.Hash(toHash, h, TPM_HANDLE.NULL);
@@ -378,7 +378,7 @@ public class Samples
             TPM_HANDLE sequenceHandle = tpm.HashSequenceStart(nullVec, h);
             int numIter = 8;
             for (int j = 0; j < numIter; j++) {
-                byte[] moreData = Helpers.getRandom(8);
+                byte[] moreData = Helpers.RandomBytes(8);
                 buf.writeByteBuf(moreData);
                 if (j != numIter - 1) {
                     tpm.SequenceUpdate(sequenceHandle, moreData);
@@ -420,8 +420,8 @@ public class Samples
 
         // There are three ways for the TPM to HMAC. The HMAC command, an HMAC
         // sequence, or TPM2_Sign()
-        byte[] toHash1 = Helpers.getRandom(10);
-        byte[] toHash2 = Helpers.getRandom(10);
+        byte[] toHash1 = Helpers.RandomBytes(10);
+        byte[] toHash2 = Helpers.RandomBytes(10);
         byte[] toHash = Helpers.concatenate(toHash1, toHash2);
         byte[] expectedHmac = Crypto.hmac(hashAlg, key, toHash);
 
@@ -459,7 +459,7 @@ public class Samples
         // To encrypt and decrypt using a symmetric key we need a TPM-resident
         // key. Easiest
         // is to import it as a primary key
-        byte[] aesKey = Helpers.getRandom(16);
+        byte[] aesKey = Helpers.RandomBytes(16);
         TPMT_PUBLIC aesTemplate = new TPMT_PUBLIC(TPM_ALG_ID.SHA256,
                 new TPMA_OBJECT(TPMA_OBJECT.decrypt, TPMA_OBJECT.sign, TPMA_OBJECT.fixedParent, TPMA_OBJECT.fixedTPM,
                         TPMA_OBJECT.userWithAuth),
@@ -518,7 +518,7 @@ public class Samples
 
         System.out.println("RSA EK: " + rsaEk.outPublic.toString());
 
-        byte[] activationData = Helpers.getRandom(16);
+        byte[] activationData = Helpers.RandomBytes(16);
         // Use tss.java to create an activation credential
         Tss.ActivationCredential bundle = Tss.createActivationCredential(rsaEk.outPublic,
                 rsaEk.name, activationData);
@@ -568,7 +568,7 @@ public class Samples
                 new TPMS_PCR_SELECTION[0]);
         System.out.println("RSA Primary Key: \n" + rsaSrk.toString());
 
-        byte[] activationData = Helpers.getRandom(16);
+        byte[] activationData = Helpers.RandomBytes(16);
         // Use tss.java to create an activation credential. Note we use tss.java
         // to get the name of the
         // object based on the TPMT_PUBLIC.
@@ -576,7 +576,7 @@ public class Samples
                 rsaSrk.outPublic.getName(), activationData);
 
         // A "real" EK needs a policy session to perform ActivateCredential
-        byte[] nonceCaller = Helpers.getRandom(20);
+        byte[] nonceCaller = Helpers.RandomBytes(20);
         StartAuthSessionResponse policySession = tpm.StartAuthSession(TPM_HANDLE.NULL, TPM_HANDLE.NULL,
                 nonceCaller, new byte[0], TPM_SE.POLICY, new TPMT_SYM_DEF(), TPM_ALG_ID.SHA256);
 
@@ -634,7 +634,7 @@ public class Samples
         PCR_ReadResponse pcrs = tpm.PCR_Read(pcrToQuote);
 
         // Quote these PCR
-        byte[] dataToSign = Helpers.getRandom(10);
+        byte[] dataToSign = Helpers.RandomBytes(10);
         QuoteResponse quote = tpm.Quote(quotingKey.handle, dataToSign, new TPMS_NULL_SIG_SCHEME(), pcrToQuote);
 
         System.out.println("Quote signature: \n" + quote.toString());
@@ -805,7 +805,7 @@ public class Samples
         System.out.println("RSA migratable Primary signing Key: \n" + migratableKey.toString());
 
         // Make a session to authorize the duplication
-        byte[] nonceCaller = Helpers.getRandom(20);
+        byte[] nonceCaller = Helpers.RandomBytes(20);
         StartAuthSessionResponse policySession = tpm.StartAuthSession(TPM_HANDLE.NULL, TPM_HANDLE.NULL,
                 nonceCaller, new byte[0], TPM_SE.POLICY, new TPMT_SYM_DEF(), TPM_ALG_ID.SHA1);
 

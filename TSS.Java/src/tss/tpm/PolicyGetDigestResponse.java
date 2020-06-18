@@ -7,13 +7,12 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command returns the current policyDigest of the session. This command allows the TPM
- *  to be used to perform the actions required to pre-compute the authPolicy for an object.
+/** This command returns the current policyDigest of the session. This command allows the
+ *  TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
  */
 public class PolicyGetDigestResponse extends TpmStructure
 {
-    /** the current value of the policySessionpolicyDigest */
+    /** The current value of the policySessionpolicyDigest  */
     public byte[] policyDigest;
     
     public PolicyGetDigestResponse() {}
@@ -23,7 +22,7 @@ public class PolicyGetDigestResponse extends TpmStructure
     {
         buf.writeSizedByteBuf(policyDigest);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -31,7 +30,7 @@ public class PolicyGetDigestResponse extends TpmStructure
         policyDigest = new byte[_policyDigestSize];
         buf.readArrayOfInts(policyDigest, 1, _policyDigestSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +38,27 @@ public class PolicyGetDigestResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static PolicyGetDigestResponse fromTpm (byte[] x) 
+    
+    public static PolicyGetDigestResponse fromBytes (byte[] byteBuf) 
     {
         PolicyGetDigestResponse ret = new PolicyGetDigestResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static PolicyGetDigestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static PolicyGetDigestResponse fromTpm (InByteBuf buf) 
     {
         PolicyGetDigestResponse ret = new PolicyGetDigestResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +67,7 @@ public class PolicyGetDigestResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

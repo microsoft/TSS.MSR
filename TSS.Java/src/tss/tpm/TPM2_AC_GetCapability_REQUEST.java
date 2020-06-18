@@ -7,31 +7,28 @@ import tss.*;
 
 //>>>
 
-/**
- *  The purpose of this command is to obtain information about an Attached Component
+/** The purpose of this command is to obtain information about an Attached Component
  *  referenced by an AC handle.
  */
 public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
 {
-    /**
-     *  handle indicating the Attached Component
+    /** Handle indicating the Attached Component
      *  Auth Index: None
      */
     public TPM_HANDLE ac;
     
-    /** starting info type */
+    /** Starting info type  */
     public TPM_AT capability;
     
-    /** maximum number of values to return */
+    /** Maximum number of values to return  */
     public int count;
     
     public TPM2_AC_GetCapability_REQUEST() { ac = new TPM_HANDLE(); }
     
-    /**
-     *  @param _ac handle indicating the Attached Component
+    /** @param _ac Handle indicating the Attached Component
      *         Auth Index: None
-     *  @param _capability starting info type
-     *  @param _count maximum number of values to return
+     *  @param _capability Starting info type
+     *  @param _count Maximum number of values to return
      */
     public TPM2_AC_GetCapability_REQUEST(TPM_HANDLE _ac, TPM_AT _capability, int _count)
     {
@@ -39,21 +36,21 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
         capability = _capability;
         count = _count;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         capability.toTpm(buf);
         buf.writeInt(count);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         capability = TPM_AT.fromTpm(buf);
         count = buf.readInt();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -61,24 +58,27 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_AC_GetCapability_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_AC_GetCapability_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_AC_GetCapability_REQUEST ret = new TPM2_AC_GetCapability_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_AC_GetCapability_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_AC_GetCapability_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_AC_GetCapability_REQUEST ret = new TPM2_AC_GetCapability_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -87,7 +87,7 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

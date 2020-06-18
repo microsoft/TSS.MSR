@@ -7,24 +7,23 @@ import tss.*;
 
 //>>>
 
-/** This command returns various information regarding the TPM and its current state. */
+/** This command returns various information regarding the TPM and its current state.  */
 public class TPM2_GetCapability_REQUEST extends TpmStructure
 {
-    /** group selection; determines the format of the response */
+    /** Group selection; determines the format of the response  */
     public TPM_CAP capability;
     
-    /** further definition of information */
+    /** Further definition of information  */
     public int property;
     
-    /** number of properties of the indicated type to return */
+    /** Number of properties of the indicated type to return  */
     public int propertyCount;
     
     public TPM2_GetCapability_REQUEST() {}
     
-    /**
-     *  @param _capability group selection; determines the format of the response
-     *  @param _property further definition of information
-     *  @param _propertyCount number of properties of the indicated type to return
+    /** @param _capability Group selection; determines the format of the response
+     *  @param _property Further definition of information
+     *  @param _propertyCount Number of properties of the indicated type to return
      */
     public TPM2_GetCapability_REQUEST(TPM_CAP _capability, int _property, int _propertyCount)
     {
@@ -32,7 +31,7 @@ public class TPM2_GetCapability_REQUEST extends TpmStructure
         property = _property;
         propertyCount = _propertyCount;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -40,7 +39,7 @@ public class TPM2_GetCapability_REQUEST extends TpmStructure
         buf.writeInt(property);
         buf.writeInt(propertyCount);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -48,7 +47,7 @@ public class TPM2_GetCapability_REQUEST extends TpmStructure
         property = buf.readInt();
         propertyCount = buf.readInt();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -56,24 +55,27 @@ public class TPM2_GetCapability_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_GetCapability_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_GetCapability_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_GetCapability_REQUEST ret = new TPM2_GetCapability_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_GetCapability_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_GetCapability_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_GetCapability_REQUEST ret = new TPM2_GetCapability_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -82,7 +84,7 @@ public class TPM2_GetCapability_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

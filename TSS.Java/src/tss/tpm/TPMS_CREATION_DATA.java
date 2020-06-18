@@ -7,68 +7,62 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure provides information relating to the creation environment for the object.
- *  The creation data includes the parent Name, parent Qualified Name, and the digest of
- *  selected PCR. These values represent the environment in which the object was created.
- *  Creation data allows a relying party to determine if an object was created when some
- *  appropriate protections were present.
+/** This structure provides information relating to the creation environment for the
+ *  object. The creation data includes the parent Name, parent Qualified Name, and the
+ *  digest of selected PCR. These values represent the environment in which the object was
+ *  created. Creation data allows a relying party to determine if an object was created
+ *  when some appropriate protections were present.
  */
 public class TPMS_CREATION_DATA extends TpmStructure
 {
-    /** list indicating the PCR included in pcrDigest */
+    /** List indicating the PCR included in pcrDigest  */
     public TPMS_PCR_SELECTION[] pcrSelect;
     
-    /**
-     *  digest of the selected PCR using nameAlg of the object for which this structure is being
-     *  created
+    /** Digest of the selected PCR using nameAlg of the object for which this structure is
+     *  being created
      *  pcrDigest.size shall be zero if the pcrSelect list is empty.
      */
     public byte[] pcrDigest;
     
-    /** the locality at which the object was created */
+    /** The locality at which the object was created  */
     public TPMA_LOCALITY locality;
     
-    /** nameAlg of the parent */
+    /** NameAlg of the parent  */
     public TPM_ALG_ID parentNameAlg;
     
-    /**
-     *  Name of the parent at time of creation
-     *  The size will match digest size associated with parentNameAlg unless it is TPM_ALG_NULL,
-     *  in which case the size will be 4 and parentName will be the hierarchy handle.
+    /** Name of the parent at time of creation
+     *  The size will match digest size associated with parentNameAlg unless it is
+     *  TPM_ALG_NULL, in which case the size will be 4 and parentName will be the hierarchy handle.
      */
     public byte[] parentName;
     
-    /**
-     *  Qualified Name of the parent at the time of creation
+    /** Qualified Name of the parent at the time of creation
      *  Size is the same as parentName.
      */
     public byte[] parentQualifiedName;
     
-    /**
-     *  association with additional information added by the key creator
-     *  This will be the contents of the outsideInfo parameter in TPM2_Create()
-     *  or TPM2_CreatePrimary().
+    /** Association with additional information added by the key creator
+     *  This will be the contents of the outsideInfo parameter in TPM2_Create() or TPM2_CreatePrimary().
      */
     public byte[] outsideInfo;
     
     public TPMS_CREATION_DATA() { parentNameAlg = TPM_ALG_ID.NULL; }
     
-    /**
-     *  @param _pcrSelect list indicating the PCR included in pcrDigest
-     *  @param _pcrDigest digest of the selected PCR using nameAlg of the object for which this structure is being
-     *         created
+    /** @param _pcrSelect List indicating the PCR included in pcrDigest
+     *  @param _pcrDigest Digest of the selected PCR using nameAlg of the object for which this
+     *         structure is being created
      *         pcrDigest.size shall be zero if the pcrSelect list is empty.
-     *  @param _locality the locality at which the object was created
-     *  @param _parentNameAlg nameAlg of the parent
+     *  @param _locality The locality at which the object was created
+     *  @param _parentNameAlg NameAlg of the parent
      *  @param _parentName Name of the parent at time of creation
-     *         The size will match digest size associated with parentNameAlg unless it is TPM_ALG_NULL,
-     *         in which case the size will be 4 and parentName will be the hierarchy handle.
+     *         The size will match digest size associated with parentNameAlg unless it is
+     *         TPM_ALG_NULL, in which case the size will be 4 and parentName will be the hierarchy
+     *         handle.
      *  @param _parentQualifiedName Qualified Name of the parent at the time of creation
      *         Size is the same as parentName.
-     *  @param _outsideInfo association with additional information added by the key creator
-     *         This will be the contents of the outsideInfo parameter in TPM2_Create()
-     *         or TPM2_CreatePrimary().
+     *  @param _outsideInfo Association with additional information added by the key creator
+     *         This will be the contents of the outsideInfo parameter in TPM2_Create() or
+     *         TPM2_CreatePrimary().
      */
     public TPMS_CREATION_DATA(TPMS_PCR_SELECTION[] _pcrSelect, byte[] _pcrDigest, TPMA_LOCALITY _locality, TPM_ALG_ID _parentNameAlg, byte[] _parentName, byte[] _parentQualifiedName, byte[] _outsideInfo)
     {
@@ -80,7 +74,7 @@ public class TPMS_CREATION_DATA extends TpmStructure
         parentQualifiedName = _parentQualifiedName;
         outsideInfo = _outsideInfo;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -92,7 +86,7 @@ public class TPMS_CREATION_DATA extends TpmStructure
         buf.writeSizedByteBuf(parentQualifiedName);
         buf.writeSizedByteBuf(outsideInfo);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -116,7 +110,7 @@ public class TPMS_CREATION_DATA extends TpmStructure
         outsideInfo = new byte[_outsideInfoSize];
         buf.readArrayOfInts(outsideInfo, 1, _outsideInfoSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -124,24 +118,27 @@ public class TPMS_CREATION_DATA extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_CREATION_DATA fromTpm (byte[] x) 
+    
+    public static TPMS_CREATION_DATA fromBytes (byte[] byteBuf) 
     {
         TPMS_CREATION_DATA ret = new TPMS_CREATION_DATA();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_CREATION_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_CREATION_DATA fromTpm (InByteBuf buf) 
     {
         TPMS_CREATION_DATA ret = new TPMS_CREATION_DATA();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -150,7 +147,7 @@ public class TPMS_CREATION_DATA extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

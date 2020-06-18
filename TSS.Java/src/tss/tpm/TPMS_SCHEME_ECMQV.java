@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 
-/** Underlying type comment: These are the ECC schemes that only need a hash algorithm as a controlling parameter. */
+/** These are the ECC schemes that only need a hash algorithm as a controlling parameter.  */
 public class TPMS_SCHEME_ECMQV extends TPMS_KEY_SCHEME_ECMQV
 {
     public TPMS_SCHEME_ECMQV() {}
     
-    /** @param _hashAlg the hash algorithm used to digest the message */
+    /** @param _hashAlg The hash algorithm used to digest the message  */
     public TPMS_SCHEME_ECMQV(TPM_ALG_ID _hashAlg) { super(_hashAlg); }
     
     @Override

@@ -7,15 +7,14 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a
- *  hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started.
- *  If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
+/** This command starts a hash or an Event Sequence. If hashAlg is an implemented hash,
+ *  then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is
+ *  started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
  *  shall return TPM_RC_HASH.
  */
 public class HashSequenceStartResponse extends TpmStructure
 {
-    /** a handle to reference the sequence */
+    /** A handle to reference the sequence  */
     public TPM_HANDLE handle;
     
     public HashSequenceStartResponse() { handle = new TPM_HANDLE(); }
@@ -25,13 +24,13 @@ public class HashSequenceStartResponse extends TpmStructure
     {
         handle.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +38,27 @@ public class HashSequenceStartResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static HashSequenceStartResponse fromTpm (byte[] x) 
+    
+    public static HashSequenceStartResponse fromBytes (byte[] byteBuf) 
     {
         HashSequenceStartResponse ret = new HashSequenceStartResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static HashSequenceStartResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static HashSequenceStartResponse fromTpm (InByteBuf buf) 
     {
         HashSequenceStartResponse ret = new HashSequenceStartResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +67,7 @@ public class HashSequenceStartResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

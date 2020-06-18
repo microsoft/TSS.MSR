@@ -7,29 +7,29 @@ import java.util.*;
 
 //>>>
 
-/** Table 4 Defines for Logic Values */
+/** Table 4 Defines for Logic Values  */
 public final class Logic extends TpmEnum<Logic>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the Logic. qualifier.
     public enum _N {
-        TRUE,
+        TRUE, 
         
-        FALSE,
+        FALSE, 
         
-        YES,
+        YES, 
         
-        NO,
+        NO, 
         
-        SET,
+        SET, 
         
         CLEAR
     }
-
+    
     private static ValueMap<Logic> _ValueMap = new ValueMap<Logic>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final Logic
         TRUE = new Logic(1, _N.TRUE),
         FALSE = new Logic(0, _N.FALSE),

@@ -7,25 +7,23 @@ import tss.*;
 
 //>>>
 
-/**
- *  Most of the ECC signature schemes only require a hash algorithm to complete the definition
- *  and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a count value so they
- *  are typed to be TPMS_SCHEME_ECDAA.
+/** Most of the ECC signature schemes only require a hash algorithm to complete the
+ *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
+ *  count value so they are typed to be TPMS_SCHEME_ECDAA.
  */
 public class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA
 {
     public TPMS_SIG_SCHEME_ECDAA() {}
     
-    /**
-     *  @param _hashAlg the hash algorithm used to digest the message
-     *  @param _count the counter value that is used between TPM2_Commit() and the sign operation
+    /** @param _hashAlg The hash algorithm used to digest the message
+     *  @param _count The counter value that is used between TPM2_Commit() and the sign operation
      */
     public TPMS_SIG_SCHEME_ECDAA(TPM_ALG_ID _hashAlg, int _count)
     {
         super(_hashAlg, _count);
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDAA; }
     
     @Override

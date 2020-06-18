@@ -7,70 +7,66 @@ import tss.*;
 
 //>>>
 
-/** This structure contains the parameters for prime modulus ECC. */
+/** This structure contains the parameters for prime modulus ECC.  */
 public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
-    /**
-     *  for a restricted decryption key, shall be set to a supported symmetric algorithm, key
+    /** For a restricted decryption key, shall be set to a supported symmetric algorithm, key
      *  size. and mode.
-     *  if the key is not a restricted decryption key, this field shall be set to
-     *  TPM_ALG_NULL.
+     *  if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
      */
     public TPMT_SYM_DEF_OBJECT symmetric;
     
-    /** scheme selector */
+    /** Scheme selector  */
     public TPM_ALG_ID schemeScheme() { return scheme != null ? scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /**
-     *  If the sign attribute of the key is SET, then this shall be a valid signing scheme.
-     *  NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field shall
-     *  have the same value.
-     *  If the decrypt attribute of the key is SET, then this shall be a valid key exchange scheme
-     *  or TPM_ALG_NULL.
+    /** If the sign attribute of the key is SET, then this shall be a valid signing scheme.
+     *  NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field
+     *  shall have the same value.
+     *  If the decrypt attribute of the key is SET, then this shall be a valid key exchange
+     *  scheme or TPM_ALG_NULL.
      *  If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
      */
     public TPMU_ASYM_SCHEME scheme;
     
-    /** ECC curve ID */
+    /** ECC curve ID  */
     public TPM_ECC_CURVE curveID;
     
-    /** scheme selector */
+    /** Scheme selector  */
     public TPM_ALG_ID kdfScheme() { return kdf != null ? kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /**
-     *  an optional key derivation scheme for generating a symmetric key from a Z value
-     *  If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required to
-     *  be NULL.
-     *  NOTE There are currently no commands where this parameter has effect and, in the reference
-     *  code, this field needs to be set to TPM_ALG_NULL.
+    /** An optional key derivation scheme for generating a symmetric key from a Z value
+     *  If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required
+     *  to be NULL.
+     *  NOTE There are currently no commands where this parameter has effect and, in the
+     *  reference code, this field needs to be set to TPM_ALG_NULL.
      */
     public TPMU_KDF_SCHEME kdf;
     
     public TPMS_ECC_PARMS() {}
     
-    /**
-     *  @param _symmetric for a restricted decryption key, shall be set to a supported symmetric algorithm, key
-     *         size. and mode.
-     *         if the key is not a restricted decryption key, this field shall be set to
-     *         TPM_ALG_NULL.
-     *  @param _scheme If the sign attribute of the key is SET, then this shall be a valid signing scheme.
-     *         NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field shall
-     *         have the same value.
-     *         If the decrypt attribute of the key is SET, then this shall be a valid key exchange scheme
-     *         or TPM_ALG_NULL.
+    /** @param _symmetric For a restricted decryption key, shall be set to a supported symmetric
+     *         algorithm, key size. and mode.
+     *         if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
+     *  @param _scheme If the sign attribute of the key is SET, then this shall be a valid signing
+     *         scheme.
+     *         NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field
+     *         shall have the same value.
+     *         If the decrypt attribute of the key is SET, then this shall be a valid key exchange
+     *         scheme or TPM_ALG_NULL.
      *         If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
      *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-     *         TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+     *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
      *  @param _curveID ECC curve ID
-     *  @param _kdf an optional key derivation scheme for generating a symmetric key from a Z value
-     *         If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required to
-     *         be NULL.
-     *         NOTE There are currently no commands where this parameter has effect and, in the reference
-     *         code, this field needs to be set to TPM_ALG_NULL.
-     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-     *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+     *  @param _kdf An optional key derivation scheme for generating a symmetric key from a Z value
+     *         If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is
+     *         required to be NULL.
+     *         NOTE There are currently no commands where this parameter has effect and, in the
+     *         reference code, this field needs to be set to TPM_ALG_NULL.
+     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+     *         TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
+     *  TPMS_NULL_KDF_SCHEME])
      */
     public TPMS_ECC_PARMS(TPMT_SYM_DEF_OBJECT _symmetric, TPMU_ASYM_SCHEME _scheme, TPM_ECC_CURVE _curveID, TPMU_KDF_SCHEME _kdf)
     {
@@ -79,8 +75,8 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         curveID = _curveID;
         kdf = _kdf;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
     
     @Override
@@ -93,7 +89,7 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         kdf.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)kdf).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -106,7 +102,7 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         kdf = UnionFactory.create("TPMU_KDF_SCHEME", new TPM_ALG_ID(_kdfScheme));
         kdf.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -114,24 +110,27 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_ECC_PARMS fromTpm (byte[] x) 
+    
+    public static TPMS_ECC_PARMS fromBytes (byte[] byteBuf) 
     {
         TPMS_ECC_PARMS ret = new TPMS_ECC_PARMS();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_ECC_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_ECC_PARMS fromTpm (InByteBuf buf) 
     {
         TPMS_ECC_PARMS ret = new TPMS_ECC_PARMS();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -140,7 +139,7 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

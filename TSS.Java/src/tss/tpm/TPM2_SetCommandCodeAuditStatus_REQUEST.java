@@ -7,27 +7,25 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command may be used by the Privacy Administrator or platform to change the audit
- *  status of a command or to set the hash algorithm used for the audit digest, but
- *  not both at the same time.
+/** This command may be used by the Privacy Administrator or platform to change the audit
+ *  status of a command or to set the hash algorithm used for the audit digest, but not
+ *  both at the same time.
  */
 public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE auth;
     
-    /** hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed */
+    /** Hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed  */
     public TPM_ALG_ID auditAlg;
     
-    /** list of commands that will be added to those that will be audited */
+    /** List of commands that will be added to those that will be audited  */
     public TPM_CC[] setList;
     
-    /** list of commands that will no longer be audited */
+    /** List of commands that will no longer be audited  */
     public TPM_CC[] clearList;
     
     public TPM2_SetCommandCodeAuditStatus_REQUEST()
@@ -35,14 +33,14 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
         auth = new TPM_HANDLE();
         auditAlg = TPM_ALG_ID.NULL;
     }
-
-    /**
-     *  @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    
+    /** @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _auditAlg hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed
-     *  @param _setList list of commands that will be added to those that will be audited
-     *  @param _clearList list of commands that will no longer be audited
+     *  @param _auditAlg Hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is
+     *         not changed
+     *  @param _setList List of commands that will be added to those that will be audited
+     *  @param _clearList List of commands that will no longer be audited
      */
     public TPM2_SetCommandCodeAuditStatus_REQUEST(TPM_HANDLE _auth, TPM_ALG_ID _auditAlg, TPM_CC[] _setList, TPM_CC[] _clearList)
     {
@@ -51,7 +49,7 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
         setList = _setList;
         clearList = _clearList;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -59,7 +57,7 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
         buf.writeObjArr(setList);
         buf.writeObjArr(clearList);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -71,7 +69,7 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
         clearList = new TPM_CC[_clearListCount];
         for (int j=0; j < _clearListCount; j++) clearList[j] = TPM_CC.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -79,24 +77,27 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_SetCommandCodeAuditStatus_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_SetCommandCodeAuditStatus_REQUEST ret = new TPM2_SetCommandCodeAuditStatus_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_SetCommandCodeAuditStatus_REQUEST ret = new TPM2_SetCommandCodeAuditStatus_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -105,7 +106,7 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

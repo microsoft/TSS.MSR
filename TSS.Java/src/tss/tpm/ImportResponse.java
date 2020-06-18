@@ -7,14 +7,14 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command allows an object to be encrypted using the symmetric encryption values of a
- *  Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
- *  imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
+/** This command allows an object to be encrypted using the symmetric encryption values of
+ *  a Storage Key. After encryption, the object may be loaded and used in the new
+ *  hierarchy. The imported object (duplicate) may be singly encrypted, multiply
+ *  encrypted, or unencrypted.
  */
 public class ImportResponse extends TpmStructure
 {
-    /** the sensitive area encrypted with the symmetric key of parentHandle */
+    /** The sensitive area encrypted with the symmetric key of parentHandle  */
     public TPM2B_PRIVATE outPrivate;
     
     public ImportResponse() {}
@@ -24,13 +24,13 @@ public class ImportResponse extends TpmStructure
     {
         outPrivate.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         outPrivate = TPM2B_PRIVATE.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -38,24 +38,27 @@ public class ImportResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static ImportResponse fromTpm (byte[] x) 
+    
+    public static ImportResponse fromBytes (byte[] byteBuf) 
     {
         ImportResponse ret = new ImportResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static ImportResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static ImportResponse fromTpm (InByteBuf buf) 
     {
         ImportResponse ret = new ImportResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -64,7 +67,7 @@ public class ImportResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

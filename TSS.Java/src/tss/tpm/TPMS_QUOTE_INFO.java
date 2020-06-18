@@ -7,28 +7,27 @@ import tss.*;
 
 //>>>
 
-/** This is the attested data for TPM2_Quote(). */
+/** This is the attested data for TPM2_Quote().  */
 public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
 {
-    /** information on algID, PCR selected and digest */
+    /** Information on algID, PCR selected and digest  */
     public TPMS_PCR_SELECTION[] pcrSelect;
     
-    /** digest of the selected PCR using the hash of the signing key */
+    /** Digest of the selected PCR using the hash of the signing key  */
     public byte[] pcrDigest;
     
     public TPMS_QUOTE_INFO() {}
     
-    /**
-     *  @param _pcrSelect information on algID, PCR selected and digest
-     *  @param _pcrDigest digest of the selected PCR using the hash of the signing key
+    /** @param _pcrSelect Information on algID, PCR selected and digest
+     *  @param _pcrDigest Digest of the selected PCR using the hash of the signing key
      */
     public TPMS_QUOTE_INFO(TPMS_PCR_SELECTION[] _pcrSelect, byte[] _pcrDigest)
     {
         pcrSelect = _pcrSelect;
         pcrDigest = _pcrDigest;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_QUOTE; }
     
     @Override
@@ -37,7 +36,7 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeObjArr(pcrSelect);
         buf.writeSizedByteBuf(pcrDigest);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -49,7 +48,7 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
         pcrDigest = new byte[_pcrDigestSize];
         buf.readArrayOfInts(pcrDigest, 1, _pcrDigestSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -57,24 +56,27 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_QUOTE_INFO fromTpm (byte[] x) 
+    
+    public static TPMS_QUOTE_INFO fromBytes (byte[] byteBuf) 
     {
         TPMS_QUOTE_INFO ret = new TPMS_QUOTE_INFO();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_QUOTE_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_QUOTE_INFO fromTpm (InByteBuf buf) 
     {
         TPMS_QUOTE_INFO ret = new TPMS_QUOTE_INFO();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -83,7 +85,7 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

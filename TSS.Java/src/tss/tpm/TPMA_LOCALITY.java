@@ -7,9 +7,8 @@ import java.util.*;
 
 //>>>
 
-/**
- *  In a TPMS_CREATION_DATA structure, this structure is used to indicate the locality of the
- *  command that created the object. No more than one of the locality attributes shall
+/** In a TPMS_CREATION_DATA structure, this structure is used to indicate the locality of
+ *  the command that created the object. No more than one of the locality attributes shall
  *  be set in the creation data.
  */
 public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
@@ -28,17 +27,17 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
         
         LOC_FOUR,
         
-        /** If any of these bits is set, an extended locality is indicated */
+        /** If any of these bits is set, an extended locality is indicated  */
         Extended_BIT_0,
         
         Extended_BIT_1,
         
         Extended_BIT_2
     }
-
+    
     private static ValueMap<TPMA_LOCALITY> _ValueMap = new ValueMap<TPMA_LOCALITY>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPMA_LOCALITY
         LOC_ZERO = new TPMA_LOCALITY(0x1, _N.LOC_ZERO),
         LOC_ONE = new TPMA_LOCALITY(0x2, _N.LOC_ONE),

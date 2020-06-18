@@ -7,43 +7,41 @@ import tss.*;
 
 //>>>
 
-/** This command indicates that the authorization will be limited to a specific command code. */
+/** This command indicates that the authorization will be limited to a specific command code.  */
 public class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
 {
-    /**
-     *  handle for the policy session being extended
+    /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
     
-    /** the allowed commandCode */
+    /** The allowed commandCode  */
     public TPM_CC code;
     
     public TPM2_PolicyCommandCode_REQUEST() { policySession = new TPM_HANDLE(); }
     
-    /**
-     *  @param _policySession handle for the policy session being extended
+    /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param _code the allowed commandCode
+     *  @param _code The allowed commandCode
      */
     public TPM2_PolicyCommandCode_REQUEST(TPM_HANDLE _policySession, TPM_CC _code)
     {
         policySession = _policySession;
         code = _code;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         code.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         code = TPM_CC.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -51,24 +49,27 @@ public class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_PolicyCommandCode_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_PolicyCommandCode_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_PolicyCommandCode_REQUEST ret = new TPM2_PolicyCommandCode_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_PolicyCommandCode_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_PolicyCommandCode_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PolicyCommandCode_REQUEST ret = new TPM2_PolicyCommandCode_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -77,7 +78,7 @@ public class TPM2_PolicyCommandCode_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

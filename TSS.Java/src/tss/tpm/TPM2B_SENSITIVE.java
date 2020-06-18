@@ -7,18 +7,17 @@ import tss.*;
 
 //>>>
 
-/**
- *  The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an
+/** The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an
  *  unencrypted sensitive area but it may be encrypted using parameter encryption.
  */
 public class TPM2B_SENSITIVE extends TpmStructure
 {
-    /** an unencrypted sensitive area */
+    /** An unencrypted sensitive area  */
     public TPMT_SENSITIVE sensitiveArea;
     
     public TPM2B_SENSITIVE() {}
     
-    /** @param _sensitiveArea an unencrypted sensitive area */
+    /** @param _sensitiveArea An unencrypted sensitive area  */
     public TPM2B_SENSITIVE(TPMT_SENSITIVE _sensitiveArea) { sensitiveArea = _sensitiveArea; }
     
     @Override
@@ -28,7 +27,7 @@ public class TPM2B_SENSITIVE extends TpmStructure
         if (sensitiveArea != null)
             sensitiveArea.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -37,7 +36,7 @@ public class TPM2B_SENSITIVE extends TpmStructure
         sensitiveArea = TPMT_SENSITIVE.fromTpm(buf);
         buf.structSize.pop();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -45,24 +44,27 @@ public class TPM2B_SENSITIVE extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_SENSITIVE fromTpm (byte[] x) 
+    
+    public static TPM2B_SENSITIVE fromBytes (byte[] byteBuf) 
     {
         TPM2B_SENSITIVE ret = new TPM2B_SENSITIVE();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_SENSITIVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_SENSITIVE fromTpm (InByteBuf buf) 
     {
         TPM2B_SENSITIVE ret = new TPM2B_SENSITIVE();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -71,7 +73,7 @@ public class TPM2B_SENSITIVE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

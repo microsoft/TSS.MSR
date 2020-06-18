@@ -7,9 +7,8 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never entered into the
- *  TPM and never has a size of zero.
+/** This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never
+ *  entered into the TPM and never has a size of zero.
  */
 public class TPM2B_CREATION_DATA extends TpmStructure
 {
@@ -17,7 +16,7 @@ public class TPM2B_CREATION_DATA extends TpmStructure
     
     public TPM2B_CREATION_DATA() {}
     
-    /** @param _creationData TBD */
+    /** @param _creationData TBD  */
     public TPM2B_CREATION_DATA(TPMS_CREATION_DATA _creationData) { creationData = _creationData; }
     
     @Override
@@ -27,7 +26,7 @@ public class TPM2B_CREATION_DATA extends TpmStructure
         if (creationData != null)
             creationData.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -36,7 +35,7 @@ public class TPM2B_CREATION_DATA extends TpmStructure
         creationData = TPMS_CREATION_DATA.fromTpm(buf);
         buf.structSize.pop();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -44,24 +43,27 @@ public class TPM2B_CREATION_DATA extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_CREATION_DATA fromTpm (byte[] x) 
+    
+    public static TPM2B_CREATION_DATA fromBytes (byte[] byteBuf) 
     {
         TPM2B_CREATION_DATA ret = new TPM2B_CREATION_DATA();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_CREATION_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_CREATION_DATA fromTpm (InByteBuf buf) 
     {
         TPM2B_CREATION_DATA ret = new TPM2B_CREATION_DATA();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -70,7 +72,7 @@ public class TPM2B_CREATION_DATA extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

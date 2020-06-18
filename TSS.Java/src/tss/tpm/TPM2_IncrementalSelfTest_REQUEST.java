@@ -7,15 +7,15 @@ import tss.*;
 
 //>>>
 
-/** This command causes the TPM to perform a test of the selected algorithms. */
+/** This command causes the TPM to perform a test of the selected algorithms.  */
 public class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
 {
-    /** list of algorithms that should be tested */
+    /** List of algorithms that should be tested  */
     public TPM_ALG_ID[] toTest;
     
     public TPM2_IncrementalSelfTest_REQUEST() {}
     
-    /** @param _toTest list of algorithms that should be tested */
+    /** @param _toTest List of algorithms that should be tested  */
     public TPM2_IncrementalSelfTest_REQUEST(TPM_ALG_ID[] _toTest) { toTest = _toTest; }
     
     @Override
@@ -23,7 +23,7 @@ public class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
     {
         buf.writeObjArr(toTest);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -31,7 +31,7 @@ public class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
         toTest = new TPM_ALG_ID[_toTestCount];
         for (int j=0; j < _toTestCount; j++) toTest[j] = TPM_ALG_ID.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +39,27 @@ public class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_IncrementalSelfTest_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_IncrementalSelfTest_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_IncrementalSelfTest_REQUEST ret = new TPM2_IncrementalSelfTest_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_IncrementalSelfTest_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_IncrementalSelfTest_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_IncrementalSelfTest_REQUEST ret = new TPM2_IncrementalSelfTest_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +68,7 @@ public class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

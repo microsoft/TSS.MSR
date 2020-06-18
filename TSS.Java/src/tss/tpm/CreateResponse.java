@@ -7,32 +7,30 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to create an object that can be loaded into a TPM using TPM2_Load().
- *  If the command completes successfully, the TPM will create the new object and return the
- *  objects creation data (creationData), its public area (outPublic), and its encrypted
- *  sensitive area (outPrivate). Preservation of the returned data is the responsibility of
- *  the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The
- *  only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC
- *  object is in the unique field.
+/** This command is used to create an object that can be loaded into a TPM using
+ *  TPM2_Load(). If the command completes successfully, the TPM will create the new object
+ *  and return the objects creation data (creationData), its public area (outPublic), and
+ *  its encrypted sensitive area (outPrivate). Preservation of the returned data is the
+ *  responsibility of the caller. The object will need to be loaded (TPM2_Load()) before
+ *  it may be used. The only difference between the inPublic TPMT_PUBLIC template and the
+ *  outPublic TPMT_PUBLIC object is in the unique field.
  */
 public class CreateResponse extends TpmStructure
 {
-    /** the private portion of the object */
+    /** The private portion of the object  */
     public TPM2B_PRIVATE outPrivate;
     
-    /** the public portion of the created object */
+    /** The public portion of the created object  */
     public TPMT_PUBLIC outPublic;
     
-    /** contains a TPMS_CREATION_DATA */
+    /** Contains a TPMS_CREATION_DATA  */
     public TPMS_CREATION_DATA creationData;
     
-    /** digest of creationData using nameAlg of outPublic */
+    /** Digest of creationData using nameAlg of outPublic  */
     public byte[] creationHash;
     
-    /**
-     *  ticket used by TPM2_CertifyCreation() to validate that the creation data
-     *  was produced by the TPM
+    /** Ticket used by TPM2_CertifyCreation() to validate that the creation data was produced
+     *  by the TPM
      */
     public TPMT_TK_CREATION creationTicket;
     
@@ -51,7 +49,7 @@ public class CreateResponse extends TpmStructure
         buf.writeSizedByteBuf(creationHash);
         creationTicket.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -69,7 +67,7 @@ public class CreateResponse extends TpmStructure
         buf.readArrayOfInts(creationHash, 1, _creationHashSize);
         creationTicket = TPMT_TK_CREATION.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -77,24 +75,27 @@ public class CreateResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static CreateResponse fromTpm (byte[] x) 
+    
+    public static CreateResponse fromBytes (byte[] byteBuf) 
     {
         CreateResponse ret = new CreateResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static CreateResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static CreateResponse fromTpm (InByteBuf buf) 
     {
         CreateResponse ret = new CreateResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -103,7 +104,7 @@ public class CreateResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

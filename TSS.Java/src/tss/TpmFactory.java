@@ -22,7 +22,8 @@ public class TpmFactory
     public static Tpm localTpmSimulator()
     {        
         Tpm tpm = new Tpm();
-        TpmDeviceBase device = new TpmDeviceTcp("localhost", 2321);
+        TpmDevice device = new TpmDeviceTcp("localhost", 2321);
+        device.connect();
         device.powerCycle();
         tpm = new Tpm();
         tpm._setDevice(device);
@@ -42,7 +43,8 @@ public class TpmFactory
     public static Tpm remoteTpm(String hostName, int port)
     {        
         Tpm tpm = new Tpm();
-        TpmDeviceBase device = new TpmDeviceTcp(hostName, port);
+        TpmDevice device = new TpmDeviceTcp(hostName, port);
+        device.connect();
         tpm._setDevice(device);
         return tpm;
     }
@@ -59,7 +61,7 @@ public class TpmFactory
     {        
         Tpm tpm = new Tpm();
         String osName = System.getProperty("os.name");
-        TpmDeviceBase device = null;
+        TpmDevice device = null;
         if (osName.contains("Windows"))
             device = new TpmDeviceTbs();
         else
@@ -72,6 +74,11 @@ public class TpmFactory
                 device = new TpmDeviceTcp("localhost", 2323, true);
                 //System.out.println("Connected to the user mode TPM Resource Manager");
             }
+        }
+        if (!device.connect())
+        {
+            device.close();
+            return null;
         }
         tpm._setDevice(device);
         return tpm;

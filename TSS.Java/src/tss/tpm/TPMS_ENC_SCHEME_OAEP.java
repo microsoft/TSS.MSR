@@ -7,18 +7,15 @@ import tss.*;
 
 //>>>
 
-/**
- *  These are the RSA encryption schemes that only need a hash algorithm as
- *  a controlling parameter.
- */
+/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.  */
 public class TPMS_ENC_SCHEME_OAEP extends TPMS_SCHEME_HASH
 {
     public TPMS_ENC_SCHEME_OAEP() {}
     
-    /** @param _hashAlg the hash algorithm used to digest the message */
+    /** @param _hashAlg The hash algorithm used to digest the message  */
     public TPMS_ENC_SCHEME_OAEP(TPM_ALG_ID _hashAlg) { super(_hashAlg); }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.OAEP; }
     
     @Override

@@ -7,39 +7,35 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to cause conditional gating of a policy based on the contents of an
- *  NV Index. It is an immediate assertion. The NV index is validated during the
+/** This command is used to cause conditional gating of a policy based on the contents of
+ *  an NV Index. It is an immediate assertion. The NV index is validated during the
  *  TPM2_PolicyNV() command, not when the session is used for authorization.
  */
 public class TPM2_PolicyNV_REQUEST extends TpmStructure
 {
-    /**
-     *  handle indicating the source of the authorization value
+    /** Handle indicating the source of the authorization value
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
     
-    /**
-     *  the NV Index of the area to read
+    /** The NV Index of the area to read
      *  Auth Index: None
      */
     public TPM_HANDLE nvIndex;
     
-    /**
-     *  handle for the policy session being extended
+    /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
     
-    /** the second operand */
+    /** The second operand  */
     public byte[] operandB;
     
-    /** the octet offset in the NV Index for the start of operand A */
+    /** The octet offset in the NV Index for the start of operand A  */
     public short offset;
     
-    /** the comparison to make */
+    /** The comparison to make  */
     public TPM_EO operation;
     
     public TPM2_PolicyNV_REQUEST()
@@ -48,18 +44,17 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
         nvIndex = new TPM_HANDLE();
         policySession = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _authHandle handle indicating the source of the authorization value
+    
+    /** @param _authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _nvIndex the NV Index of the area to read
+     *  @param _nvIndex The NV Index of the area to read
      *         Auth Index: None
-     *  @param _policySession handle for the policy session being extended
+     *  @param _policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param _operandB the second operand
-     *  @param _offset the octet offset in the NV Index for the start of operand A
-     *  @param _operation the comparison to make
+     *  @param _operandB The second operand
+     *  @param _offset The octet offset in the NV Index for the start of operand A
+     *  @param _operation The comparison to make
      */
     public TPM2_PolicyNV_REQUEST(TPM_HANDLE _authHandle, TPM_HANDLE _nvIndex, TPM_HANDLE _policySession, byte[] _operandB, int _offset, TPM_EO _operation)
     {
@@ -70,7 +65,7 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
         offset = (short)_offset;
         operation = _operation;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -78,7 +73,7 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
         buf.writeShort(offset);
         operation.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -88,7 +83,7 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
         offset = buf.readShort();
         operation = TPM_EO.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -96,24 +91,27 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_PolicyNV_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_PolicyNV_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_PolicyNV_REQUEST ret = new TPM2_PolicyNV_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_PolicyNV_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_PolicyNV_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PolicyNV_REQUEST ret = new TPM2_PolicyNV_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -122,7 +120,7 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

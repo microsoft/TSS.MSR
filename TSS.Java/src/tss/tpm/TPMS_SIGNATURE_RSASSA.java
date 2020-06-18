@@ -7,13 +7,12 @@ import tss.*;
 
 //>>>
 
-/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
+/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure  */
 public class TPMS_SIGNATURE_RSASSA extends TPMS_SIGNATURE_RSA
 {
     public TPMS_SIGNATURE_RSASSA() {}
     
-    /**
-     *  @param _hash the hash algorithm used to digest the message
+    /** @param _hash The hash algorithm used to digest the message
      *         TPM_ALG_NULL is not allowed.
      *  @param _sig The signature is the size of a public key.
      */
@@ -21,8 +20,8 @@ public class TPMS_SIGNATURE_RSASSA extends TPMS_SIGNATURE_RSA
     {
         super(_hash, _sig);
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSASSA; }
     
     @Override

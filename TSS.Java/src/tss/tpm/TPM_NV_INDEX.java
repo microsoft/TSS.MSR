@@ -7,11 +7,10 @@ import java.util.*;
 
 //>>>
 
-/**
- *  A TPM_NV_INDEX is used to reference a defined location in NV memory. The format of the
- *  Index is changed from TPM 1.2 in order to include the Index in the reserved handle space.
- *  Handles in this range use the digest of the public area of the Index as the Name of the
- *  entity in authorization computations
+/** A TPM_NV_INDEX is used to reference a defined location in NV memory. The format of the
+ *  Index is changed from TPM 1.2 in order to include the Index in the reserved handle
+ *  space. Handles in this range use the digest of the public area of the Index as the
+ *  Name of the entity in authorization computations
  */
 public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
 {
@@ -19,7 +18,7 @@ public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_NV_INDEX. qualifier.
     public enum _N {
-        /** The Index of the NV location */
+        /** The Index of the NV location  */
         index_BIT_0,
         
         index_BIT_1,
@@ -68,7 +67,7 @@ public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
         
         index_BIT_23,
         
-        /** constant value of TPM_HT_NV_INDEX indicating the NV Index range */
+        /** Constant value of TPM_HT_NV_INDEX indicating the NV Index range  */
         RhNv_BIT_0,
         
         RhNv_BIT_1,
@@ -85,10 +84,10 @@ public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
         
         RhNv_BIT_7
     }
-
+    
     private static ValueMap<TPM_NV_INDEX> _ValueMap = new ValueMap<TPM_NV_INDEX>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_NV_INDEX
         index_BIT_0 = new TPM_NV_INDEX(0x1, _N.index_BIT_0),
         index_BIT_1 = new TPM_NV_INDEX(0x2, _N.index_BIT_1),

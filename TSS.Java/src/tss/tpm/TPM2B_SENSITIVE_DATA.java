@@ -7,18 +7,20 @@ import tss.*;
 
 //>>>
 
-/** This buffer wraps the TPMU_SENSITIVE_CREATE structure. */
+/** This buffer wraps the TPMU_SENSITIVE_CREATE structure.  */
 public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
-    /** symmetric data for a created object or the label and context for a derived object */
+    /** Symmetric data for a created object or the label and context for a derived object  */
     public byte[] buffer;
     
     public TPM2B_SENSITIVE_DATA() {}
     
-    /** @param _buffer symmetric data for a created object or the label and context for a derived object */
+    /** @param _buffer Symmetric data for a created object or the label and context for a
+     *  derived object
+     */
     public TPM2B_SENSITIVE_DATA(byte[] _buffer) { buffer = _buffer; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KEYEDHASH; }
     
     @Override
@@ -26,7 +28,7 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
     {
         buf.writeSizedByteBuf(buffer);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -34,7 +36,7 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -42,24 +44,27 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_SENSITIVE_DATA fromTpm (byte[] x) 
+    
+    public static TPM2B_SENSITIVE_DATA fromBytes (byte[] byteBuf) 
     {
         TPM2B_SENSITIVE_DATA ret = new TPM2B_SENSITIVE_DATA();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_SENSITIVE_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_SENSITIVE_DATA fromTpm (InByteBuf buf) 
     {
         TPM2B_SENSITIVE_DATA ret = new TPM2B_SENSITIVE_DATA();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -68,7 +73,7 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

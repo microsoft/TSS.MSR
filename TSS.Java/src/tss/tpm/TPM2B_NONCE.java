@@ -7,12 +7,12 @@ import tss.*;
 
 //>>>
 
-/** Table 83 Definition of Types for TPM2B_NONCE */
+/** Table 83 Definition of Types for TPM2B_NONCE  */
 public class TPM2B_NONCE extends TPM2B_DIGEST
 {
     public TPM2B_NONCE() {}
     
-    /** @param _buffer the buffer area that can be no larger than a digest */
+    /** @param _buffer The buffer area that can be no larger than a digest  */
     public TPM2B_NONCE(byte[] _buffer) { super(_buffer); }
     
     @Override

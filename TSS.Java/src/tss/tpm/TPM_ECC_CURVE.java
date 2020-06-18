@@ -7,9 +7,8 @@ import java.util.*;
 
 //>>>
 
-/**
- *  Table 4 is the list of identifiers for TCG-registered curve ID values for
- *  elliptic curve cryptography.
+/** Table 4 is the list of identifiers for TCG-registered curve ID values for elliptic
+ *  curve cryptography.
  */
 public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
 {
@@ -17,32 +16,32 @@ public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_ECC_CURVE. qualifier.
     public enum _N {
-        NONE,
+        NONE, 
         
-        NIST_P192,
+        NIST_P192, 
         
-        NIST_P224,
+        NIST_P224, 
         
-        NIST_P256,
+        NIST_P256, 
         
-        NIST_P384,
+        NIST_P384, 
         
-        NIST_P521,
+        NIST_P521, 
         
-        /** curve to support ECDAA */
-        BN_P256,
+        /** Curve to support ECDAA  */
+        BN_P256, 
         
-        /** curve to support ECDAA */
-        BN_P638,
+        /** Curve to support ECDAA  */
+        BN_P638, 
         
-        SM2_P256,
+        SM2_P256, 
         
         TEST_P192
     }
-
+    
     private static ValueMap<TPM_ECC_CURVE> _ValueMap = new ValueMap<TPM_ECC_CURVE>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_ECC_CURVE
         NONE = new TPM_ECC_CURVE(0x0000, _N.NONE),
         NIST_P192 = new TPM_ECC_CURVE(0x0001, _N.NIST_P192),

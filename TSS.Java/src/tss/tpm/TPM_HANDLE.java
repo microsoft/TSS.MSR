@@ -7,15 +7,15 @@ import tss.*;
 
 //>>>
 
-/** Handle of a loaded TPM key or other object [TSS] */
+/** Handle of a loaded TPM key or other object [TSS]  */
 public class TPM_HANDLE extends TpmStructure
 {
-    /** Handle value */
+    /** Handle value  */
     public int handle;
     
     public TPM_HANDLE() { handle = TPM_RH.NULL.toInt(); }
     
-    /** @param _handle Handle value */
+    /** @param _handle Handle value  */
     public TPM_HANDLE(int _handle) { handle = _handle; }
     
     @Override
@@ -23,13 +23,13 @@ public class TPM_HANDLE extends TpmStructure
     {
         buf.writeInt(handle);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         handle = buf.readInt();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -37,24 +37,27 @@ public class TPM_HANDLE extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM_HANDLE fromTpm (byte[] x) 
+    
+    public static TPM_HANDLE fromBytes (byte[] byteBuf) 
     {
         TPM_HANDLE ret = new TPM_HANDLE();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM_HANDLE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM_HANDLE fromTpm (InByteBuf buf) 
     {
         TPM_HANDLE ret = new TPM_HANDLE();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -63,7 +66,7 @@ public class TPM_HANDLE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

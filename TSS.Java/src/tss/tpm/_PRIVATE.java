@@ -7,26 +7,24 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is not
- *  directly marshaled or unmarshaled.
+/** This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is
+ *  not directly marshaled or unmarshaled.
  */
 public class _PRIVATE extends TpmStructure
 {
     public byte[] integrityOuter;
     
-    /** could also be a TPM2B_IV */
+    /** Could also be a TPM2B_IV  */
     public byte[] integrityInner;
     
-    /** the sensitive area */
+    /** The sensitive area  */
     public TPMT_SENSITIVE sensitive;
     
     public _PRIVATE() {}
     
-    /**
-     *  @param _integrityOuter TBD
-     *  @param _integrityInner could also be a TPM2B_IV
-     *  @param _sensitive the sensitive area
+    /** @param _integrityOuter TBD
+     *  @param _integrityInner Could also be a TPM2B_IV
+     *  @param _sensitive The sensitive area
      */
     public _PRIVATE(byte[] _integrityOuter, byte[] _integrityInner, TPMT_SENSITIVE _sensitive)
     {
@@ -34,7 +32,7 @@ public class _PRIVATE extends TpmStructure
         integrityInner = _integrityInner;
         sensitive = _sensitive;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -44,7 +42,7 @@ public class _PRIVATE extends TpmStructure
         if (sensitive != null)
             sensitive.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -59,7 +57,7 @@ public class _PRIVATE extends TpmStructure
         sensitive = TPMT_SENSITIVE.fromTpm(buf);
         buf.structSize.pop();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -67,24 +65,27 @@ public class _PRIVATE extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static _PRIVATE fromTpm (byte[] x) 
+    
+    public static _PRIVATE fromBytes (byte[] byteBuf) 
     {
         _PRIVATE ret = new _PRIVATE();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static _PRIVATE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static _PRIVATE fromTpm (InByteBuf buf) 
     {
         _PRIVATE ret = new _PRIVATE();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -93,7 +94,7 @@ public class _PRIVATE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

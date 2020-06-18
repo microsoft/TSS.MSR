@@ -7,8 +7,7 @@ import java.util.*;
 
 //>>>
 
-/**
- *  This structure of this attribute is used to report that the TPM is designed for these
+/** This structure of this attribute is used to report that the TPM is designed for these
  *  modes. This structure may be read using TPM2_GetCapability(capability =
  *  TPM_CAP_TPM_PROPERTIES, property = TPM_PT_MODES).
  */
@@ -18,16 +17,15 @@ public final class TPMA_MODES extends TpmAttribute<TPMA_MODES>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPMA_MODES. qualifier.
     public enum _N {
-        /**
-         *  SET (1): indicates that the TPM is designed to comply with all of the FIPS 140-2
+        /** SET (1): indicates that the TPM is designed to comply with all of the FIPS 140-2
          *  requirements at Level 1 or higher.
          */
         FIPS_140_2
     }
-
+    
     private static ValueMap<TPMA_MODES> _ValueMap = new ValueMap<TPMA_MODES>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPMA_MODES
         FIPS_140_2 = new TPMA_MODES(0x1, _N.FIPS_140_2);
     

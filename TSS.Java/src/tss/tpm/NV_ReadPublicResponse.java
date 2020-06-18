@@ -7,16 +7,15 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to read the public area and Name of an NV Index. The public area of
- *  an Index is not privacy-sensitive and no authorization is required to read this data.
+/** This command is used to read the public area and Name of an NV Index. The public area
+ *  of an Index is not privacy-sensitive and no authorization is required to read this data.
  */
 public class NV_ReadPublicResponse extends TpmStructure
 {
-    /** the public area of the NV Index */
+    /** The public area of the NV Index  */
     public TPMS_NV_PUBLIC nvPublic;
     
-    /** the Name of the nvIndex */
+    /** The Name of the nvIndex  */
     public byte[] nvName;
     
     public NV_ReadPublicResponse() {}
@@ -29,7 +28,7 @@ public class NV_ReadPublicResponse extends TpmStructure
             nvPublic.toTpm(buf);
         buf.writeSizedByteBuf(nvName);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -41,7 +40,7 @@ public class NV_ReadPublicResponse extends TpmStructure
         nvName = new byte[_nvNameSize];
         buf.readArrayOfInts(nvName, 1, _nvNameSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -49,24 +48,27 @@ public class NV_ReadPublicResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static NV_ReadPublicResponse fromTpm (byte[] x) 
+    
+    public static NV_ReadPublicResponse fromBytes (byte[] byteBuf) 
     {
         NV_ReadPublicResponse ret = new NV_ReadPublicResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static NV_ReadPublicResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static NV_ReadPublicResponse fromTpm (InByteBuf buf) 
     {
         NV_ReadPublicResponse ret = new NV_ReadPublicResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -75,7 +77,7 @@ public class NV_ReadPublicResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

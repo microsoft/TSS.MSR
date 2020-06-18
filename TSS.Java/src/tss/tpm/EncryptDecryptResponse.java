@@ -7,16 +7,15 @@ import tss.*;
 
 //>>>
 
-/**
- *  NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be
- *  reflected in platform-specific specifications.
+/** NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This
+ *  should be reflected in platform-specific specifications.
  */
 public class EncryptDecryptResponse extends TpmStructure
 {
-    /** encrypted or decrypted output */
+    /** Encrypted or decrypted output  */
     public byte[] outData;
     
-    /** chaining value to use for IV in next round */
+    /** Chaining value to use for IV in next round  */
     public byte[] ivOut;
     
     public EncryptDecryptResponse() {}
@@ -27,7 +26,7 @@ public class EncryptDecryptResponse extends TpmStructure
         buf.writeSizedByteBuf(outData);
         buf.writeSizedByteBuf(ivOut);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -38,7 +37,7 @@ public class EncryptDecryptResponse extends TpmStructure
         ivOut = new byte[_ivOutSize];
         buf.readArrayOfInts(ivOut, 1, _ivOutSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -46,24 +45,27 @@ public class EncryptDecryptResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static EncryptDecryptResponse fromTpm (byte[] x) 
+    
+    public static EncryptDecryptResponse fromBytes (byte[] byteBuf) 
     {
         EncryptDecryptResponse ret = new EncryptDecryptResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static EncryptDecryptResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static EncryptDecryptResponse fromTpm (InByteBuf buf) 
     {
         EncryptDecryptResponse ret = new EncryptDecryptResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -72,7 +74,7 @@ public class EncryptDecryptResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

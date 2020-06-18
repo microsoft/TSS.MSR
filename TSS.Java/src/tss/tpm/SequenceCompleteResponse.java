@@ -7,18 +7,16 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command adds the last part of data, if any, to a hash/HMAC sequence
- *  and returns the result.
+/** This command adds the last part of data, if any, to a hash/HMAC sequence and returns
+ *  the result.
  */
 public class SequenceCompleteResponse extends TpmStructure
 {
-    /** the returned HMAC or digest in a sized buffer */
+    /** The returned HMAC or digest in a sized buffer  */
     public byte[] result;
     
-    /**
-     *  ticket indicating that the sequence of octets used to compute outDigest did not start with
-     *  TPM_GENERATED_VALUE
+    /** Ticket indicating that the sequence of octets used to compute outDigest did not start
+     *  with TPM_GENERATED_VALUE
      *  This is a NULL Ticket when the sequence is HMAC.
      */
     public TPMT_TK_HASHCHECK validation;
@@ -31,7 +29,7 @@ public class SequenceCompleteResponse extends TpmStructure
         buf.writeSizedByteBuf(result);
         validation.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -40,7 +38,7 @@ public class SequenceCompleteResponse extends TpmStructure
         buf.readArrayOfInts(result, 1, _resultSize);
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -48,24 +46,27 @@ public class SequenceCompleteResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static SequenceCompleteResponse fromTpm (byte[] x) 
+    
+    public static SequenceCompleteResponse fromBytes (byte[] byteBuf) 
     {
         SequenceCompleteResponse ret = new SequenceCompleteResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static SequenceCompleteResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static SequenceCompleteResponse fromTpm (InByteBuf buf) 
     {
         SequenceCompleteResponse ret = new SequenceCompleteResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -74,7 +75,7 @@ public class SequenceCompleteResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

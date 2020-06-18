@@ -7,55 +7,52 @@ import tss.*;
 
 //>>>
 
-/**
- *  Table 201 defines the public area structure. The Name of the object is nameAlg
+/** Table 201 defines the public area structure. The Name of the object is nameAlg
  *  concatenated with the digest of this structure using nameAlg.
  */
 public class TPMT_PUBLIC extends TpmStructure
 {
-    /** algorithm associated with this object */
+    /** Algorithm associated with this object  */
     public TPM_ALG_ID type() { return parameters.GetUnionSelector(); }
     
-    /**
-     *  algorithm used for computing the Name of the object
-     *  NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate that
-     *  the nameAlg may be TPM_ALG_NULL.
+    /** Algorithm used for computing the Name of the object
+     *  NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate
+     *  that the nameAlg may be TPM_ALG_NULL.
      */
     public TPM_ALG_ID nameAlg;
     
-    /** attributes that, along with type, determine the manipulations of this object */
+    /** Attributes that, along with type, determine the manipulations of this object  */
     public TPMA_OBJECT objectAttributes;
     
-    /**
-     *  optional policy for using this key
+    /** Optional policy for using this key
      *  The policy is computed using the nameAlg of the object.
      *  NOTE Shall be the Empty Policy if no authorization policy is present.
      */
     public byte[] authPolicy;
     
-    /** the algorithm or structure details */
+    /** The algorithm or structure details  */
     public TPMU_PUBLIC_PARMS parameters;
     
-    /**
-     *  the unique identifier of the structure
+    /** The unique identifier of the structure
      *  For an asymmetric key, this would be the public key.
      */
     public TPMU_PUBLIC_ID unique;
     
     public TPMT_PUBLIC() { nameAlg = TPM_ALG_ID.NULL; }
     
-    /**
-     *  @param _nameAlg algorithm used for computing the Name of the object
-     *         NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate that
-     *         the nameAlg may be TPM_ALG_NULL.
-     *  @param _objectAttributes attributes that, along with type, determine the manipulations of this object
-     *  @param _authPolicy optional policy for using this key
+    /** @param _nameAlg Algorithm used for computing the Name of the object
+     *         NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to
+     *         indicate that the nameAlg may be TPM_ALG_NULL.
+     *  @param _objectAttributes Attributes that, along with type, determine the manipulations
+     *  of
+     *         this object
+     *  @param _authPolicy Optional policy for using this key
      *         The policy is computed using the nameAlg of the object.
      *         NOTE Shall be the Empty Policy if no authorization policy is present.
-     *  @param _parameters the algorithm or structure details
+     *  @param _parameters The algorithm or structure details
      *         (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
      *         TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
-     *  @param _unique the unique identifier of the structure
+     *  @param _unique The unique identifier of the structure
      *         For an asymmetric key, this would be the public key.
      *         (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
      *         TPMS_ECC_POINT, TPMS_DERIVE])
@@ -68,7 +65,7 @@ public class TPMT_PUBLIC extends TpmStructure
         parameters = _parameters;
         unique = _unique;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -80,7 +77,7 @@ public class TPMT_PUBLIC extends TpmStructure
         ((TpmMarshaller)parameters).toTpm(buf);
         ((TpmMarshaller)unique).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -96,7 +93,7 @@ public class TPMT_PUBLIC extends TpmStructure
         unique = UnionFactory.create("TPMU_PUBLIC_ID", new TPM_ALG_ID(_type));
         unique.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -104,24 +101,27 @@ public class TPMT_PUBLIC extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMT_PUBLIC fromTpm (byte[] x) 
+    
+    public static TPMT_PUBLIC fromBytes (byte[] byteBuf) 
     {
         TPMT_PUBLIC ret = new TPMT_PUBLIC();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMT_PUBLIC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMT_PUBLIC fromTpm (InByteBuf buf) 
     {
         TPMT_PUBLIC ret = new TPMT_PUBLIC();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -130,7 +130,7 @@ public class TPMT_PUBLIC extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

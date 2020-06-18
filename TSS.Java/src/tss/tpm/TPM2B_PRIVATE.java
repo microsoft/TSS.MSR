@@ -7,18 +7,17 @@ import tss.*;
 
 //>>>
 
-/**
- *  The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create, load, and
- *  modify the sensitive area of an object.
+/** The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create,
+ *  load, and modify the sensitive area of an object.
  */
 public class TPM2B_PRIVATE extends TpmStructure
 {
-    /** an encrypted private area */
+    /** An encrypted private area  */
     public byte[] buffer;
     
     public TPM2B_PRIVATE() {}
     
-    /** @param _buffer an encrypted private area */
+    /** @param _buffer An encrypted private area  */
     public TPM2B_PRIVATE(byte[] _buffer) { buffer = _buffer; }
     
     @Override
@@ -26,7 +25,7 @@ public class TPM2B_PRIVATE extends TpmStructure
     {
         buf.writeSizedByteBuf(buffer);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -34,7 +33,7 @@ public class TPM2B_PRIVATE extends TpmStructure
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -42,24 +41,27 @@ public class TPM2B_PRIVATE extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_PRIVATE fromTpm (byte[] x) 
+    
+    public static TPM2B_PRIVATE fromBytes (byte[] byteBuf) 
     {
         TPM2B_PRIVATE ret = new TPM2B_PRIVATE();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_PRIVATE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_PRIVATE fromTpm (InByteBuf buf) 
     {
         TPM2B_PRIVATE ret = new TPM2B_PRIVATE();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -68,7 +70,7 @@ public class TPM2B_PRIVATE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

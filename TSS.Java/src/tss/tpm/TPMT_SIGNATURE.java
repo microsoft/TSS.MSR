@@ -7,8 +7,7 @@ import tss.*;
 
 //>>>
 
-/**
- *  Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric
+/** Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric
  *  signature is indicated. The sigAlg parameter indicates the algorithm used for the
  *  signature. This structure is output from commands such as the attestation commands and
  *  TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(),
@@ -16,16 +15,15 @@ import tss.*;
  */
 public class TPMT_SIGNATURE extends TpmStructure
 {
-    /** selector of the algorithm used to construct the signature */
+    /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID sigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** This shall be the actual signature information. */
+    /** This shall be the actual signature information.  */
     public TPMU_SIGNATURE signature;
     
     public TPMT_SIGNATURE() {}
     
-    /**
-     *  @param _signature This shall be the actual signature information.
+    /** @param _signature This shall be the actual signature information.
      *         (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -39,7 +37,7 @@ public class TPMT_SIGNATURE extends TpmStructure
         signature.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)signature).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -47,7 +45,7 @@ public class TPMT_SIGNATURE extends TpmStructure
         signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_sigAlg));
         signature.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -55,24 +53,27 @@ public class TPMT_SIGNATURE extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMT_SIGNATURE fromTpm (byte[] x) 
+    
+    public static TPMT_SIGNATURE fromBytes (byte[] byteBuf) 
     {
         TPMT_SIGNATURE ret = new TPMT_SIGNATURE();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMT_SIGNATURE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMT_SIGNATURE fromTpm (InByteBuf buf) 
     {
         TPMT_SIGNATURE ret = new TPMT_SIGNATURE();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -81,7 +82,7 @@ public class TPMT_SIGNATURE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

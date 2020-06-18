@@ -7,23 +7,21 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command performs an HMAC or a block cipher MAC on the supplied data
- *  using the indicated algorithm.
+/** This command performs an HMAC or a block cipher MAC on the supplied data using the
+ *  indicated algorithm.
  */
 public class TPM2_MAC_REQUEST extends TpmStructure
 {
-    /**
-     *  handle for the symmetric signing key providing the MAC key
+    /** Handle for the symmetric signing key providing the MAC key
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE handle;
     
-    /** MAC data */
+    /** MAC data  */
     public byte[] buffer;
     
-    /** algorithm to use for MAC */
+    /** Algorithm to use for MAC  */
     public TPM_ALG_ID inScheme;
     
     public TPM2_MAC_REQUEST()
@@ -31,13 +29,12 @@ public class TPM2_MAC_REQUEST extends TpmStructure
         handle = new TPM_HANDLE();
         inScheme = TPM_ALG_ID.NULL;
     }
-
-    /**
-     *  @param _handle handle for the symmetric signing key providing the MAC key
+    
+    /** @param _handle Handle for the symmetric signing key providing the MAC key
      *         Auth Index: 1
      *         Auth Role: USER
      *  @param _buffer MAC data
-     *  @param _inScheme algorithm to use for MAC
+     *  @param _inScheme Algorithm to use for MAC
      */
     public TPM2_MAC_REQUEST(TPM_HANDLE _handle, byte[] _buffer, TPM_ALG_ID _inScheme)
     {
@@ -45,14 +42,14 @@ public class TPM2_MAC_REQUEST extends TpmStructure
         buffer = _buffer;
         inScheme = _inScheme;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeSizedByteBuf(buffer);
         inScheme.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -61,7 +58,7 @@ public class TPM2_MAC_REQUEST extends TpmStructure
         buf.readArrayOfInts(buffer, 1, _bufferSize);
         inScheme = TPM_ALG_ID.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -69,24 +66,27 @@ public class TPM2_MAC_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_MAC_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_MAC_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_MAC_REQUEST ret = new TPM2_MAC_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_MAC_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_MAC_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_MAC_REQUEST ret = new TPM2_MAC_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -95,7 +95,7 @@ public class TPM2_MAC_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

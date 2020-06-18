@@ -7,13 +7,10 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command returns the next bytesRequested octets from the random
- *  number generator (RNG).
- */
+/** This command returns the next bytesRequested octets from the random number generator (RNG).  */
 public class GetRandomResponse extends TpmStructure
 {
-    /** the random octets */
+    /** The random octets  */
     public byte[] randomBytes;
     
     public GetRandomResponse() {}
@@ -23,7 +20,7 @@ public class GetRandomResponse extends TpmStructure
     {
         buf.writeSizedByteBuf(randomBytes);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -31,7 +28,7 @@ public class GetRandomResponse extends TpmStructure
         randomBytes = new byte[_randomBytesSize];
         buf.readArrayOfInts(randomBytes, 1, _randomBytesSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +36,27 @@ public class GetRandomResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static GetRandomResponse fromTpm (byte[] x) 
+    
+    public static GetRandomResponse fromBytes (byte[] byteBuf) 
     {
         GetRandomResponse ret = new GetRandomResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static GetRandomResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static GetRandomResponse fromTpm (InByteBuf buf) 
     {
         GetRandomResponse ret = new GetRandomResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +65,7 @@ public class GetRandomResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

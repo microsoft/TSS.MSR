@@ -7,21 +7,18 @@ import tss.*;
 
 //>>>
 
-/**
- *  If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET,
- *  then this command may be used to inhibit further writes of the NV Index.
+/** If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are
+ *  SET, then this command may be used to inhibit further writes of the NV Index.
  */
 public class TPM2_NV_WriteLock_REQUEST extends TpmStructure
 {
-    /**
-     *  handle indicating the source of the authorization value
+    /** Handle indicating the source of the authorization value
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
     
-    /**
-     *  the NV Index of the area to lock
+    /** The NV Index of the area to lock
      *  Auth Index: None
      */
     public TPM_HANDLE nvIndex;
@@ -31,12 +28,11 @@ public class TPM2_NV_WriteLock_REQUEST extends TpmStructure
         authHandle = new TPM_HANDLE();
         nvIndex = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _authHandle handle indicating the source of the authorization value
+    
+    /** @param _authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _nvIndex the NV Index of the area to lock
+     *  @param _nvIndex The NV Index of the area to lock
      *         Auth Index: None
      */
     public TPM2_NV_WriteLock_REQUEST(TPM_HANDLE _authHandle, TPM_HANDLE _nvIndex)
@@ -44,7 +40,7 @@ public class TPM2_NV_WriteLock_REQUEST extends TpmStructure
         authHandle = _authHandle;
         nvIndex = _nvIndex;
     }
-
+    
     @Override
     public String toString()
     {
@@ -53,7 +49,7 @@ public class TPM2_NV_WriteLock_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

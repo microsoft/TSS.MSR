@@ -7,21 +7,21 @@ import tss.*;
 
 //>>>
 
-/** Table 167 Definition of TPMT_KDF_SCHEME Structure */
+/** Table 167 Definition of TPMT_KDF_SCHEME Structure  */
 public class TPMT_KDF_SCHEME extends TpmStructure
 {
-    /** scheme selector */
+    /** Scheme selector  */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** scheme parameters */
+    /** Scheme parameters  */
     public TPMU_KDF_SCHEME details;
     
     public TPMT_KDF_SCHEME() {}
     
-    /**
-     *  @param _details scheme parameters
-     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-     *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+    /** @param _details Scheme parameters
+     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+     *         TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
+     *  TPMS_NULL_KDF_SCHEME])
      */
     public TPMT_KDF_SCHEME(TPMU_KDF_SCHEME _details) { details = _details; }
     
@@ -32,7 +32,7 @@ public class TPMT_KDF_SCHEME extends TpmStructure
         details.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)details).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -40,7 +40,7 @@ public class TPMT_KDF_SCHEME extends TpmStructure
         details = UnionFactory.create("TPMU_KDF_SCHEME", new TPM_ALG_ID(_scheme));
         details.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -48,24 +48,27 @@ public class TPMT_KDF_SCHEME extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMT_KDF_SCHEME fromTpm (byte[] x) 
+    
+    public static TPMT_KDF_SCHEME fromBytes (byte[] byteBuf) 
     {
         TPMT_KDF_SCHEME ret = new TPMT_KDF_SCHEME();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMT_KDF_SCHEME fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMT_KDF_SCHEME fromTpm (InByteBuf buf) 
     {
         TPMT_KDF_SCHEME ret = new TPMT_KDF_SCHEME();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -74,7 +77,7 @@ public class TPMT_KDF_SCHEME extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

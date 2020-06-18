@@ -7,34 +7,31 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command uses loaded keys to validate a signature on a message with the
- *  message digest passed to the TPM.
+/** This command uses loaded keys to validate a signature on a message with the message
+ *  digest passed to the TPM.
  */
 public class TPM2_VerifySignature_REQUEST extends TpmStructure
 {
-    /**
-     *  handle of public key that will be used in the validation
+    /** Handle of public key that will be used in the validation
      *  Auth Index: None
      */
     public TPM_HANDLE keyHandle;
     
-    /** digest of the signed message */
+    /** Digest of the signed message  */
     public byte[] digest;
     
-    /** selector of the algorithm used to construct the signature */
+    /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** signature to be tested */
+    /** Signature to be tested  */
     public TPMU_SIGNATURE signature;
     
     public TPM2_VerifySignature_REQUEST() { keyHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _keyHandle handle of public key that will be used in the validation
+    /** @param _keyHandle Handle of public key that will be used in the validation
      *         Auth Index: None
-     *  @param _digest digest of the signed message
-     *  @param _signature signature to be tested
+     *  @param _digest Digest of the signed message
+     *  @param _signature Signature to be tested
      *         (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -45,7 +42,7 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
         digest = _digest;
         signature = _signature;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -53,7 +50,7 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
         signature.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)signature).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -64,7 +61,7 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
         signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_signatureSigAlg));
         signature.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -72,24 +69,27 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_VerifySignature_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_VerifySignature_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_VerifySignature_REQUEST ret = new TPM2_VerifySignature_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_VerifySignature_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_VerifySignature_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_VerifySignature_REQUEST ret = new TPM2_VerifySignature_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -98,7 +98,7 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

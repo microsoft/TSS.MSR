@@ -7,44 +7,42 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure is used in TPM2_GetCapability() to return the policy
- *  associated with a permanent handle.
+/** This structure is used in TPM2_GetCapability() to return the policy associated with a
+ *  permanent handle.
  */
 public class TPMS_TAGGED_POLICY extends TpmStructure
 {
-    /** a permanent handle */
+    /** A permanent handle  */
     public TPM_HANDLE handle;
     
-    /** the policy algorithm and hash */
+    /** The policy algorithm and hash  */
     public TPMT_HA policyHash;
     
     public TPMS_TAGGED_POLICY() { handle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _handle a permanent handle
-     *  @param _policyHash the policy algorithm and hash
+    /** @param _handle A permanent handle
+     *  @param _policyHash The policy algorithm and hash
      */
     public TPMS_TAGGED_POLICY(TPM_HANDLE _handle, TPMT_HA _policyHash)
     {
         handle = _handle;
         policyHash = _policyHash;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         handle.toTpm(buf);
         policyHash.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
         policyHash = TPMT_HA.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -52,24 +50,27 @@ public class TPMS_TAGGED_POLICY extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_TAGGED_POLICY fromTpm (byte[] x) 
+    
+    public static TPMS_TAGGED_POLICY fromBytes (byte[] byteBuf) 
     {
         TPMS_TAGGED_POLICY ret = new TPMS_TAGGED_POLICY();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_TAGGED_POLICY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_TAGGED_POLICY fromTpm (InByteBuf buf) 
     {
         TPMS_TAGGED_POLICY ret = new TPMS_TAGGED_POLICY();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -78,7 +79,7 @@ public class TPMS_TAGGED_POLICY extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

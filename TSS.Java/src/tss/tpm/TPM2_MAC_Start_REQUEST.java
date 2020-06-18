@@ -7,24 +7,22 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
+/** This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
  *  structure, assign a handle to the sequence, and set the authValue of the sequence
  *  object to the value in auth.
  */
 public class TPM2_MAC_Start_REQUEST extends TpmStructure
 {
-    /**
-     *  handle of a MAC key
+    /** Handle of a MAC key
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE handle;
     
-    /** authorization value for subsequent use of the sequence */
+    /** Authorization value for subsequent use of the sequence  */
     public byte[] auth;
     
-    /** the algorithm to use for the MAC */
+    /** The algorithm to use for the MAC  */
     public TPM_ALG_ID inScheme;
     
     public TPM2_MAC_Start_REQUEST()
@@ -32,13 +30,12 @@ public class TPM2_MAC_Start_REQUEST extends TpmStructure
         handle = new TPM_HANDLE();
         inScheme = TPM_ALG_ID.NULL;
     }
-
-    /**
-     *  @param _handle handle of a MAC key
+    
+    /** @param _handle Handle of a MAC key
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _auth authorization value for subsequent use of the sequence
-     *  @param _inScheme the algorithm to use for the MAC
+     *  @param _auth Authorization value for subsequent use of the sequence
+     *  @param _inScheme The algorithm to use for the MAC
      */
     public TPM2_MAC_Start_REQUEST(TPM_HANDLE _handle, byte[] _auth, TPM_ALG_ID _inScheme)
     {
@@ -46,14 +43,14 @@ public class TPM2_MAC_Start_REQUEST extends TpmStructure
         auth = _auth;
         inScheme = _inScheme;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeSizedByteBuf(auth);
         inScheme.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -62,7 +59,7 @@ public class TPM2_MAC_Start_REQUEST extends TpmStructure
         buf.readArrayOfInts(auth, 1, _authSize);
         inScheme = TPM_ALG_ID.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -70,24 +67,27 @@ public class TPM2_MAC_Start_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_MAC_Start_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_MAC_Start_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_MAC_Start_REQUEST ret = new TPM2_MAC_Start_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_MAC_Start_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_MAC_Start_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_MAC_Start_REQUEST ret = new TPM2_MAC_Start_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -96,7 +96,7 @@ public class TPM2_MAC_Start_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

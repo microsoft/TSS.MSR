@@ -7,22 +7,20 @@ import tss.*;
 
 //>>>
 
-/** This list is returned by TPM2_IncrementalSelfTest(). */
+/** This list is returned by TPM2_IncrementalSelfTest().  */
 public class TPML_ALG extends TpmStructure
 {
-    /**
-     *  a list of algorithm IDs
-     *  The maximum only applies to an algorithm list in a command. The response size is limited only by
-     *  the size of the parameter buffer.
+    /** A list of algorithm IDs
+     *  The maximum only applies to an algorithm list in a command. The response size is
+     *  limited only by the size of the parameter buffer.
      */
     public TPM_ALG_ID[] algorithms;
     
     public TPML_ALG() {}
     
-    /**
-     *  @param _algorithms a list of algorithm IDs
-     *         The maximum only applies to an algorithm list in a command. The response size is limited only by
-     *         the size of the parameter buffer.
+    /** @param _algorithms A list of algorithm IDs
+     *         The maximum only applies to an algorithm list in a command. The response size is
+     *         limited only by the size of the parameter buffer.
      */
     public TPML_ALG(TPM_ALG_ID[] _algorithms) { algorithms = _algorithms; }
     
@@ -31,7 +29,7 @@ public class TPML_ALG extends TpmStructure
     {
         buf.writeObjArr(algorithms);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -39,7 +37,7 @@ public class TPML_ALG extends TpmStructure
         algorithms = new TPM_ALG_ID[_count];
         for (int j=0; j < _count; j++) algorithms[j] = TPM_ALG_ID.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -47,24 +45,27 @@ public class TPML_ALG extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPML_ALG fromTpm (byte[] x) 
+    
+    public static TPML_ALG fromBytes (byte[] byteBuf) 
     {
         TPML_ALG ret = new TPML_ALG();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPML_ALG fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPML_ALG fromTpm (InByteBuf buf) 
     {
         TPML_ALG ret = new TPML_ALG();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -73,7 +74,7 @@ public class TPML_ALG extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

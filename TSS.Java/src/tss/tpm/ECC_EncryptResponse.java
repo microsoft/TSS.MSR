@@ -7,16 +7,16 @@ import tss.*;
 
 //>>>
 
-/** This command performs ECC encryption as described in Part 1, Annex D. */
+/** This command performs ECC encryption as described in Part 1, Annex D.  */
 public class ECC_EncryptResponse extends TpmStructure
 {
-    /** the public ephemeral key used for ECDH */
+    /** The public ephemeral key used for ECDH  */
     public TPMS_ECC_POINT C1;
     
-    /** the data block produced by the XOR process */
+    /** The data block produced by the XOR process  */
     public byte[] C2;
     
-    /** the integrity value */
+    /** The integrity value  */
     public byte[] C3;
     
     public ECC_EncryptResponse() {}
@@ -30,7 +30,7 @@ public class ECC_EncryptResponse extends TpmStructure
         buf.writeSizedByteBuf(C2);
         buf.writeSizedByteBuf(C3);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -45,7 +45,7 @@ public class ECC_EncryptResponse extends TpmStructure
         C3 = new byte[_C3Size];
         buf.readArrayOfInts(C3, 1, _C3Size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -53,24 +53,27 @@ public class ECC_EncryptResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static ECC_EncryptResponse fromTpm (byte[] x) 
+    
+    public static ECC_EncryptResponse fromBytes (byte[] byteBuf) 
     {
         ECC_EncryptResponse ret = new ECC_EncryptResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static ECC_EncryptResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static ECC_EncryptResponse fromTpm (InByteBuf buf) 
     {
         ECC_EncryptResponse ret = new ECC_EncryptResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -79,7 +82,7 @@ public class ECC_EncryptResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

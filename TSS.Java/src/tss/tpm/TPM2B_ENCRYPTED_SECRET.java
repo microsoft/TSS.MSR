@@ -7,15 +7,15 @@ import tss.*;
 
 //>>>
 
-/** Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure */
+/** Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure  */
 public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
 {
-    /** secret */
+    /** Secret  */
     public byte[] secret;
     
     public TPM2B_ENCRYPTED_SECRET() {}
     
-    /** @param _secret secret */
+    /** @param _secret Secret  */
     public TPM2B_ENCRYPTED_SECRET(byte[] _secret) { secret = _secret; }
     
     @Override
@@ -23,7 +23,7 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
     {
         buf.writeSizedByteBuf(secret);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -31,7 +31,7 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
         secret = new byte[_size];
         buf.readArrayOfInts(secret, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +39,27 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_ENCRYPTED_SECRET fromTpm (byte[] x) 
+    
+    public static TPM2B_ENCRYPTED_SECRET fromBytes (byte[] byteBuf) 
     {
         TPM2B_ENCRYPTED_SECRET ret = new TPM2B_ENCRYPTED_SECRET();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_ENCRYPTED_SECRET fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_ENCRYPTED_SECRET fromTpm (InByteBuf buf) 
     {
         TPM2B_ENCRYPTED_SECRET ret = new TPM2B_ENCRYPTED_SECRET();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +68,7 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

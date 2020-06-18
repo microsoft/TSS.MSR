@@ -7,19 +7,18 @@ import tss.*;
 
 //>>>
 
-/** Contains the public and private part of a TPM key */
+/** Contains the public and private part of a TPM key  */
 public class TSS_KEY extends TpmStructure
 {
-    /** Public part of key */
+    /** Public part of key  */
     public TPMT_PUBLIC publicPart;
     
-    /** Private part is the encrypted sensitive part of key */
+    /** Private part is the encrypted sensitive part of key  */
     public byte[] privatePart;
     
     public TSS_KEY() {}
     
-    /**
-     *  @param _publicPart Public part of key
+    /** @param _publicPart Public part of key
      *  @param _privatePart Private part is the encrypted sensitive part of key
      */
     public TSS_KEY(TPMT_PUBLIC _publicPart, byte[] _privatePart)
@@ -27,14 +26,14 @@ public class TSS_KEY extends TpmStructure
         publicPart = _publicPart;
         privatePart = _privatePart;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         publicPart.toTpm(buf);
         buf.writeSizedByteBuf(privatePart);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -43,7 +42,7 @@ public class TSS_KEY extends TpmStructure
         privatePart = new byte[_privatePartSize];
         buf.readArrayOfInts(privatePart, 1, _privatePartSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -51,24 +50,27 @@ public class TSS_KEY extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TSS_KEY fromTpm (byte[] x) 
+    
+    public static TSS_KEY fromBytes (byte[] byteBuf) 
     {
         TSS_KEY ret = new TSS_KEY();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TSS_KEY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TSS_KEY fromTpm (InByteBuf buf) 
     {
         TSS_KEY ret = new TSS_KEY();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -77,7 +79,7 @@ public class TSS_KEY extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

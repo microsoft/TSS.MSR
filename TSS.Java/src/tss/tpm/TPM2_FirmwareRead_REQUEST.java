@@ -7,19 +7,17 @@ import tss.*;
 
 //>>>
 
-/** This command is used to read a copy of the current firmware installed in the TPM. */
+/** This command is used to read a copy of the current firmware installed in the TPM.  */
 public class TPM2_FirmwareRead_REQUEST extends TpmStructure
 {
-    /**
-     *  the number of previous calls to this command in this sequence
+    /** The number of previous calls to this command in this sequence
      *  set to 0 on the first call
      */
     public int sequenceNumber;
     
     public TPM2_FirmwareRead_REQUEST() {}
     
-    /**
-     *  @param _sequenceNumber the number of previous calls to this command in this sequence
+    /** @param _sequenceNumber The number of previous calls to this command in this sequence
      *         set to 0 on the first call
      */
     public TPM2_FirmwareRead_REQUEST(int _sequenceNumber) { sequenceNumber = _sequenceNumber; }
@@ -29,13 +27,13 @@ public class TPM2_FirmwareRead_REQUEST extends TpmStructure
     {
         buf.writeInt(sequenceNumber);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         sequenceNumber = buf.readInt();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -43,24 +41,27 @@ public class TPM2_FirmwareRead_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_FirmwareRead_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_FirmwareRead_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_FirmwareRead_REQUEST ret = new TPM2_FirmwareRead_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_FirmwareRead_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_FirmwareRead_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_FirmwareRead_REQUEST ret = new TPM2_FirmwareRead_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -69,7 +70,7 @@ public class TPM2_FirmwareRead_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

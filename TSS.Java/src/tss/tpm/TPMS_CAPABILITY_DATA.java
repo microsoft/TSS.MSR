@@ -7,19 +7,18 @@ import tss.*;
 
 //>>>
 
-/** This data area is returned in response to a TPM2_GetCapability(). */
+/** This data area is returned in response to a TPM2_GetCapability().  */
 public class TPMS_CAPABILITY_DATA extends TpmStructure
 {
-    /** the capability */
+    /** The capability  */
     public TPM_CAP capability() { return data.GetUnionSelector(); }
     
-    /** the capability data */
+    /** The capability data  */
     public TPMU_CAPABILITIES data;
     
     public TPMS_CAPABILITY_DATA() {}
     
-    /**
-     *  @param _data the capability data
+    /** @param _data The capability data
      *         (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
      *         TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
      *         TPML_TAGGED_POLICY, TPML_ACT_DATA])
@@ -33,7 +32,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         data.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)data).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -41,7 +40,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         data = UnionFactory.create("TPMU_CAPABILITIES", new TPM_CAP(_capability));
         data.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -49,24 +48,27 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_CAPABILITY_DATA fromTpm (byte[] x) 
+    
+    public static TPMS_CAPABILITY_DATA fromBytes (byte[] byteBuf) 
     {
         TPMS_CAPABILITY_DATA ret = new TPMS_CAPABILITY_DATA();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_CAPABILITY_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_CAPABILITY_DATA fromTpm (InByteBuf buf) 
     {
         TPMS_CAPABILITY_DATA ret = new TPMS_CAPABILITY_DATA();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -75,7 +77,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

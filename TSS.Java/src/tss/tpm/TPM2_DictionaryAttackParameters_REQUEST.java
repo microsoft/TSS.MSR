@@ -7,41 +7,39 @@ import tss.*;
 
 //>>>
 
-/** This command changes the lockout parameters. */
+/** This command changes the lockout parameters.  */
 public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_LOCKOUT
+    /** TPM_RH_LOCKOUT
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE lockHandle;
     
-    /** count of authorization failures before the lockout is imposed */
+    /** Count of authorization failures before the lockout is imposed  */
     public int newMaxTries;
     
-    /**
-     *  time in seconds before the authorization failure count is automatically decremented
+    /** Time in seconds before the authorization failure count is automatically decremented
      *  A value of zero indicates that DA protection is disabled.
      */
     public int newRecoveryTime;
     
-    /**
-     *  time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
+    /** Time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
      *  A value of zero indicates that a reboot is required.
      */
     public int lockoutRecovery;
     
     public TPM2_DictionaryAttackParameters_REQUEST() { lockHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _lockHandle TPM_RH_LOCKOUT
+    /** @param _lockHandle TPM_RH_LOCKOUT
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _newMaxTries count of authorization failures before the lockout is imposed
-     *  @param _newRecoveryTime time in seconds before the authorization failure count is automatically decremented
+     *  @param _newMaxTries Count of authorization failures before the lockout is imposed
+     *  @param _newRecoveryTime Time in seconds before the authorization failure count is
+     *         automatically decremented
      *         A value of zero indicates that DA protection is disabled.
-     *  @param _lockoutRecovery time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
+     *  @param _lockoutRecovery Time in seconds after a lockoutAuth failure before use of
+     *         lockoutAuth is allowed
      *         A value of zero indicates that a reboot is required.
      */
     public TPM2_DictionaryAttackParameters_REQUEST(TPM_HANDLE _lockHandle, int _newMaxTries, int _newRecoveryTime, int _lockoutRecovery)
@@ -51,7 +49,7 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
         newRecoveryTime = _newRecoveryTime;
         lockoutRecovery = _lockoutRecovery;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -59,7 +57,7 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
         buf.writeInt(newRecoveryTime);
         buf.writeInt(lockoutRecovery);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -67,7 +65,7 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
         newRecoveryTime = buf.readInt();
         lockoutRecovery = buf.readInt();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -75,24 +73,27 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_DictionaryAttackParameters_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_DictionaryAttackParameters_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_DictionaryAttackParameters_REQUEST ret = new TPM2_DictionaryAttackParameters_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_DictionaryAttackParameters_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_DictionaryAttackParameters_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_DictionaryAttackParameters_REQUEST ret = new TPM2_DictionaryAttackParameters_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -101,7 +102,7 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

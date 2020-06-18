@@ -7,37 +7,33 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command allows the TPM to serve in the role as a Duplication Authority. If proper
- *  authorization for use of the oldParent is provided, then an HMAC key and a symmetric key
- *  are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new
- *  protection seed value is generated according to the methods appropriate for newParent and
- *  the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is
- *  returned in outDuplicate and the symmetric key returned in outSymKey.
+/** This command allows the TPM to serve in the role as a Duplication Authority. If proper
+ *  authorization for use of the oldParent is provided, then an HMAC key and a symmetric
+ *  key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate.
+ *  A new protection seed value is generated according to the methods appropriate for
+ *  newParent and the blob is re-encrypted and a new integrity value is computed. The
+ *  re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
  */
 public class TPM2_Rewrap_REQUEST extends TpmStructure
 {
-    /**
-     *  parent of object
+    /** Parent of object
      *  Auth Index: 1
      *  Auth Role: User
      */
     public TPM_HANDLE oldParent;
     
-    /**
-     *  new parent of the object
+    /** New parent of the object
      *  Auth Index: None
      */
     public TPM_HANDLE newParent;
     
-    /** an object encrypted using symmetric key derived from inSymSeed */
+    /** An object encrypted using symmetric key derived from inSymSeed  */
     public TPM2B_PRIVATE inDuplicate;
     
-    /** the Name of the object being rewrapped */
+    /** The Name of the object being rewrapped  */
     public byte[] name;
     
-    /**
-     *  the seed for the symmetric key and HMAC key
+    /** The seed for the symmetric key and HMAC key
      *  needs oldParent private key to recover the seed and generate the symmetric key
      */
     public byte[] inSymSeed;
@@ -47,16 +43,15 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         oldParent = new TPM_HANDLE();
         newParent = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _oldParent parent of object
+    
+    /** @param _oldParent Parent of object
      *         Auth Index: 1
      *         Auth Role: User
-     *  @param _newParent new parent of the object
+     *  @param _newParent New parent of the object
      *         Auth Index: None
-     *  @param _inDuplicate an object encrypted using symmetric key derived from inSymSeed
-     *  @param _name the Name of the object being rewrapped
-     *  @param _inSymSeed the seed for the symmetric key and HMAC key
+     *  @param _inDuplicate An object encrypted using symmetric key derived from inSymSeed
+     *  @param _name The Name of the object being rewrapped
+     *  @param _inSymSeed The seed for the symmetric key and HMAC key
      *         needs oldParent private key to recover the seed and generate the symmetric key
      */
     public TPM2_Rewrap_REQUEST(TPM_HANDLE _oldParent, TPM_HANDLE _newParent, TPM2B_PRIVATE _inDuplicate, byte[] _name, byte[] _inSymSeed)
@@ -67,7 +62,7 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         name = _name;
         inSymSeed = _inSymSeed;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -75,7 +70,7 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(name);
         buf.writeSizedByteBuf(inSymSeed);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -87,7 +82,7 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         inSymSeed = new byte[_inSymSeedSize];
         buf.readArrayOfInts(inSymSeed, 1, _inSymSeedSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -95,24 +90,27 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_Rewrap_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_Rewrap_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_Rewrap_REQUEST ret = new TPM2_Rewrap_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_Rewrap_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_Rewrap_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_Rewrap_REQUEST ret = new TPM2_Rewrap_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -121,7 +119,7 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

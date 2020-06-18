@@ -7,15 +7,14 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command performs RSA encryption using the indicated padding scheme according to IETF
- *  RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to
- *  specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme
- *  shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
+/** This command performs RSA encryption using the indicated padding scheme according to
+ *  IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use
+ *  inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL,
+ *  then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
  */
 public class RSA_EncryptResponse extends TpmStructure
 {
-    /** encrypted output */
+    /** Encrypted output  */
     public byte[] outData;
     
     public RSA_EncryptResponse() {}
@@ -25,7 +24,7 @@ public class RSA_EncryptResponse extends TpmStructure
     {
         buf.writeSizedByteBuf(outData);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -33,7 +32,7 @@ public class RSA_EncryptResponse extends TpmStructure
         outData = new byte[_outDataSize];
         buf.readArrayOfInts(outData, 1, _outDataSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -41,24 +40,27 @@ public class RSA_EncryptResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static RSA_EncryptResponse fromTpm (byte[] x) 
+    
+    public static RSA_EncryptResponse fromBytes (byte[] byteBuf) 
     {
         RSA_EncryptResponse ret = new RSA_EncryptResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static RSA_EncryptResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static RSA_EncryptResponse fromTpm (InByteBuf buf) 
     {
         RSA_EncryptResponse ret = new RSA_EncryptResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -67,7 +69,7 @@ public class RSA_EncryptResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

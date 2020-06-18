@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/**
- *  Holds static factory method for instantiating TPM unions.
- *  Note: A wrapper class is used instead of simply static function solely for the sake of uniformity with languages like C# and Java.
+/** Holds static factory method for instantiating TPM unions.
+ *  Note: A wrapper class is used instead of simply static function solely for the sake of
+ *  uniformity with languages like C# and Java.
  */
 class UnionFactory
 {
-    /** Creates specific TPM union member based on the union type and selector (tag) value */
+    /** Creates specific TPM union member based on the union type and selector (tag) value  */
     @SuppressWarnings("unchecked")
     public static <U extends TpmUnion, S extends TpmEnum<S>>
     U create(String unionType, S selector) // S = TPM_ALG_ID | TPM_CAP | TPM_ST
@@ -152,7 +152,7 @@ class UnionFactory
             throw new RuntimeException("UnionFactory::Create(): Unknown union type " + unionType);
         throw new RuntimeException("Unknown selector value" + selector.toString() + " for union " + unionType);
     } // create()
-
+    
 }; // class UnionFactory
 
 

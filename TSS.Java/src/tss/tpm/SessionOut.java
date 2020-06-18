@@ -7,22 +7,21 @@ import tss.*;
 
 //>>>
 
-/** Structure representing a session block in a response buffer [TSS] */
+/** Structure representing a session block in a response buffer [TSS]  */
 public class SessionOut extends TpmStructure
 {
-    /** TPM nonce */
+    /** TPM nonce  */
     public byte[] nonceTpm;
     
-    /** Session attributes */
+    /** Session attributes  */
     public TPMA_SESSION attributes;
     
-    /** HMAC value */
+    /** HMAC value  */
     public byte[] auth;
     
     public SessionOut() {}
     
-    /**
-     *  @param _nonceTpm TPM nonce
+    /** @param _nonceTpm TPM nonce
      *  @param _attributes Session attributes
      *  @param _auth HMAC value
      */
@@ -32,7 +31,7 @@ public class SessionOut extends TpmStructure
         attributes = _attributes;
         auth = _auth;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -40,7 +39,7 @@ public class SessionOut extends TpmStructure
         attributes.toTpm(buf);
         buf.writeSizedByteBuf(auth);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -53,7 +52,7 @@ public class SessionOut extends TpmStructure
         auth = new byte[_authSize];
         buf.readArrayOfInts(auth, 1, _authSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -61,24 +60,27 @@ public class SessionOut extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static SessionOut fromTpm (byte[] x) 
+    
+    public static SessionOut fromBytes (byte[] byteBuf) 
     {
         SessionOut ret = new SessionOut();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static SessionOut fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static SessionOut fromTpm (InByteBuf buf) 
     {
         SessionOut ret = new SessionOut();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -87,7 +89,7 @@ public class SessionOut extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

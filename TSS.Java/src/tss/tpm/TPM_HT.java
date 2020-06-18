@@ -7,9 +7,8 @@ import java.util.*;
 
 //>>>
 
-/**
- *  The 32-bit handle space is divided into 256 regions of equal size with 224 values in each.
- *  Each of these ranges represents a handle type.
+/** The 32-bit handle space is divided into 256 regions of equal size with 224 values in
+ *  each. Each of these ranges represents a handle type.
  */
 public final class TPM_HT extends TpmEnum<TPM_HT>
 {
@@ -17,54 +16,50 @@ public final class TPM_HT extends TpmEnum<TPM_HT>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_HT. qualifier.
     public enum _N {
-        /**
-         *  PCR consecutive numbers, starting at 0, that reference the PCR registers
+        /** PCR consecutive numbers, starting at 0, that reference the PCR registers
          *  A platform-specific specification will set the minimum number of PCR and an
          *  implementation may have more.
          */
-        PCR,
+        PCR, 
         
-        /** NV Index assigned by the caller */
-        NV_INDEX,
+        /** NV Index assigned by the caller  */
+        NV_INDEX, 
         
-        /** HMAC Authorization Session assigned by the TPM when the session is created */
-        HMAC_SESSION,
+        /** HMAC Authorization Session assigned by the TPM when the session is created  */
+        HMAC_SESSION, 
         
-        /**
-         *  Loaded Authorization Session used only in the context of TPM2_GetCapability
+        /** Loaded Authorization Session used only in the context of TPM2_GetCapability
          *  This type references both loaded HMAC and loaded policy authorization sessions.
          */
-        LOADED_SESSION,
+        LOADED_SESSION, 
         
-        /** Policy Authorization Session assigned by the TPM when the session is created */
-        POLICY_SESSION,
+        /** Policy Authorization Session assigned by the TPM when the session is created  */
+        POLICY_SESSION, 
         
-        /**
-         *  Saved Authorization Session used only in the context of TPM2_GetCapability
+        /** Saved Authorization Session used only in the context of TPM2_GetCapability
          *  This type references saved authorization session contexts for which the TPM is
          *  maintaining tracking information.
          */
-        SAVED_SESSION,
+        SAVED_SESSION, 
         
-        /** Permanent Values assigned by this specification in Table 28 */
-        PERMANENT,
+        /** Permanent Values assigned by this specification in Table 28  */
+        PERMANENT, 
         
-        /**
-         *  Transient Objects assigned by the TPM when an object is loaded into transient-object
+        /** Transient Objects assigned by the TPM when an object is loaded into transient-object
          *  memory or when a persistent object is converted to a transient object
          */
-        TRANSIENT,
+        TRANSIENT, 
         
-        /** Persistent Objects assigned by the TPM when a loaded transient object is made persistent */
-        PERSISTENT,
+        /** Persistent Objects assigned by the TPM when a loaded transient object is made persistent  */
+        PERSISTENT, 
         
-        /** Attached Component handle for an Attached Component. */
+        /** Attached Component handle for an Attached Component.  */
         AC
     }
-
+    
     private static ValueMap<TPM_HT> _ValueMap = new ValueMap<TPM_HT>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_HT
         PCR = new TPM_HT(0x00, _N.PCR),
         NV_INDEX = new TPM_HT(0x01, _N.NV_INDEX),

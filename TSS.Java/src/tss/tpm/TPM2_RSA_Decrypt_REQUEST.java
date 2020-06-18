@@ -7,48 +7,44 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command performs RSA decryption using the indicated padding scheme according
- *  to IETF RFC 8017 ((PKCS#1).
+/** This command performs RSA decryption using the indicated padding scheme according to
+ *  IETF RFC 8017 ((PKCS#1).
  */
 public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
 {
-    /**
-     *  RSA key to use for decryption
+    /** RSA key to use for decryption
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE keyHandle;
     
-    /**
-     *  cipher text to be decrypted
+    /** Cipher text to be decrypted
      *  NOTE An encrypted RSA data block is the size of the public modulus.
      */
     public byte[] cipherText;
     
-    /** scheme selector */
+    /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL */
+    /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL  */
     public TPMU_ASYM_SCHEME inScheme;
     
-    /** label whose association with the message is to be verified */
+    /** Label whose association with the message is to be verified  */
     public byte[] label;
     
     public TPM2_RSA_Decrypt_REQUEST() { keyHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _keyHandle RSA key to use for decryption
+    /** @param _keyHandle RSA key to use for decryption
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _cipherText cipher text to be decrypted
+     *  @param _cipherText Cipher text to be decrypted
      *         NOTE An encrypted RSA data block is the size of the public modulus.
-     *  @param _inScheme the padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
+     *  @param _inScheme The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
      *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
-     *         TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     *  @param _label label whose association with the message is to be verified
+     *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+     *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *  @param _label Label whose association with the message is to be verified
      */
     public TPM2_RSA_Decrypt_REQUEST(TPM_HANDLE _keyHandle, byte[] _cipherText, TPMU_ASYM_SCHEME _inScheme, byte[] _label)
     {
@@ -57,7 +53,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         inScheme = _inScheme;
         label = _label;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -66,7 +62,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         ((TpmMarshaller)inScheme).toTpm(buf);
         buf.writeSizedByteBuf(label);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -80,7 +76,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         label = new byte[_labelSize];
         buf.readArrayOfInts(label, 1, _labelSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -88,24 +84,27 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_RSA_Decrypt_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_RSA_Decrypt_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_RSA_Decrypt_REQUEST ret = new TPM2_RSA_Decrypt_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_RSA_Decrypt_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_RSA_Decrypt_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_RSA_Decrypt_REQUEST ret = new TPM2_RSA_Decrypt_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -114,7 +113,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

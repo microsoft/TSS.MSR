@@ -7,15 +7,14 @@ import tss.*;
 
 //>>>
 
-/**
- *  Custom data structure representing an empty element (i.e. the one with 
+/** Custom data structure representing an empty element (i.e. the one with 
  *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SCHEME_KEYEDHASH
  */
 public class TPMS_NULL_SCHEME_KEYEDHASH extends TPMS_NULL_UNION
 {
     public TPMS_NULL_SCHEME_KEYEDHASH() {}
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.NULL; }
     
     @Override

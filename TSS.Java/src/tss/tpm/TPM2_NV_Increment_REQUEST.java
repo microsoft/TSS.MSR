@@ -7,21 +7,18 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
+/** This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
  *  attribute. The data value of the NV Index is incremented by one.
  */
 public class TPM2_NV_Increment_REQUEST extends TpmStructure
 {
-    /**
-     *  handle indicating the source of the authorization value
+    /** Handle indicating the source of the authorization value
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
     
-    /**
-     *  the NV Index to increment
+    /** The NV Index to increment
      *  Auth Index: None
      */
     public TPM_HANDLE nvIndex;
@@ -31,12 +28,11 @@ public class TPM2_NV_Increment_REQUEST extends TpmStructure
         authHandle = new TPM_HANDLE();
         nvIndex = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _authHandle handle indicating the source of the authorization value
+    
+    /** @param _authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _nvIndex the NV Index to increment
+     *  @param _nvIndex The NV Index to increment
      *         Auth Index: None
      */
     public TPM2_NV_Increment_REQUEST(TPM_HANDLE _authHandle, TPM_HANDLE _nvIndex)
@@ -44,7 +40,7 @@ public class TPM2_NV_Increment_REQUEST extends TpmStructure
         authHandle = _authHandle;
         nvIndex = _nvIndex;
     }
-
+    
     @Override
     public String toString()
     {
@@ -53,7 +49,7 @@ public class TPM2_NV_Increment_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

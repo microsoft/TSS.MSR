@@ -7,9 +7,8 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command saves a session context, object context, or sequence object
- *  context outside the TPM.
+/** This command saves a session context, object context, or sequence object context
+ *  outside the TPM.
  */
 public class ContextSaveResponse extends TpmStructure
 {
@@ -22,13 +21,13 @@ public class ContextSaveResponse extends TpmStructure
     {
         context.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         context = TPMS_CONTEXT.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -36,24 +35,27 @@ public class ContextSaveResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static ContextSaveResponse fromTpm (byte[] x) 
+    
+    public static ContextSaveResponse fromBytes (byte[] byteBuf) 
     {
         ContextSaveResponse ret = new ContextSaveResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static ContextSaveResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static ContextSaveResponse fromTpm (InByteBuf buf) 
     {
         ContextSaveResponse ret = new ContextSaveResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -62,7 +64,7 @@ public class ContextSaveResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

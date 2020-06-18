@@ -7,11 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This command returns the data in a loaded Sealed Data Object. */
+/** This command returns the data in a loaded Sealed Data Object.  */
 public class UnsealResponse extends TpmStructure
 {
-    /**
-     *  unsealed data
+    /** Unsealed data
      *  Size of outData is limited to be no more than 128 octets.
      */
     public byte[] outData;
@@ -23,7 +22,7 @@ public class UnsealResponse extends TpmStructure
     {
         buf.writeSizedByteBuf(outData);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -31,7 +30,7 @@ public class UnsealResponse extends TpmStructure
         outData = new byte[_outDataSize];
         buf.readArrayOfInts(outData, 1, _outDataSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +38,27 @@ public class UnsealResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static UnsealResponse fromTpm (byte[] x) 
+    
+    public static UnsealResponse fromBytes (byte[] byteBuf) 
     {
         UnsealResponse ret = new UnsealResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static UnsealResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static UnsealResponse fromTpm (InByteBuf buf) 
     {
         UnsealResponse ret = new UnsealResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +67,7 @@ public class UnsealResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,21 +7,18 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command includes a signed authorization in a policy. The command ties the policy to a
- *  signing key by including the Name of the signing key in the policyDigest
+/** This command includes a signed authorization in a policy. The command ties the policy
+ *  to a signing key by including the Name of the signing key in the policyDigest
  */
 public class PolicySignedResponse extends TpmStructure
 {
-    /**
-     *  implementation-specific time value, used to indicate to the TPM when the ticket expires
+    /** Implementation-specific time value, used to indicate to the TPM when the ticket expires
      *  NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
      */
     public byte[] timeout;
     
-    /**
-     *  produced if the command succeeds and expiration in the command was non-zero; this ticket
-     *  will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
+    /** Produced if the command succeeds and expiration in the command was non-zero; this
+     *  ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
      */
     public TPMT_TK_AUTH policyTicket;
     
@@ -33,7 +30,7 @@ public class PolicySignedResponse extends TpmStructure
         buf.writeSizedByteBuf(timeout);
         policyTicket.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -42,7 +39,7 @@ public class PolicySignedResponse extends TpmStructure
         buf.readArrayOfInts(timeout, 1, _timeoutSize);
         policyTicket = TPMT_TK_AUTH.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -50,24 +47,27 @@ public class PolicySignedResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static PolicySignedResponse fromTpm (byte[] x) 
+    
+    public static PolicySignedResponse fromBytes (byte[] byteBuf) 
     {
         PolicySignedResponse ret = new PolicySignedResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static PolicySignedResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static PolicySignedResponse fromTpm (InByteBuf buf) 
     {
         PolicySignedResponse ret = new PolicySignedResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -76,7 +76,7 @@ public class PolicySignedResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,33 +7,32 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to determine which commands require assertion of Physical Presence
- *  (PP) in addition to platformAuth/platformPolicy.
+/** This command is used to determine which commands require assertion of Physical
+ *  Presence (PP) in addition to platformAuth/platformPolicy.
  */
 public class TPM2_PP_Commands_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_PLATFORM+PP
+    /** TPM_RH_PLATFORM+PP
      *  Auth Index: 1
      *  Auth Role: USER + Physical Presence
      */
     public TPM_HANDLE auth;
     
-    /** list of commands to be added to those that will require that Physical Presence be asserted */
+    /** List of commands to be added to those that will require that Physical Presence be asserted  */
     public TPM_CC[] setList;
     
-    /** list of commands that will no longer require that Physical Presence be asserted */
+    /** List of commands that will no longer require that Physical Presence be asserted  */
     public TPM_CC[] clearList;
     
     public TPM2_PP_Commands_REQUEST() { auth = new TPM_HANDLE(); }
     
-    /**
-     *  @param _auth TPM_RH_PLATFORM+PP
+    /** @param _auth TPM_RH_PLATFORM+PP
      *         Auth Index: 1
      *         Auth Role: USER + Physical Presence
-     *  @param _setList list of commands to be added to those that will require that Physical Presence be asserted
-     *  @param _clearList list of commands that will no longer require that Physical Presence be asserted
+     *  @param _setList List of commands to be added to those that will require that Physical
+     *         Presence be asserted
+     *  @param _clearList List of commands that will no longer require that Physical Presence
+     *  be asserted
      */
     public TPM2_PP_Commands_REQUEST(TPM_HANDLE _auth, TPM_CC[] _setList, TPM_CC[] _clearList)
     {
@@ -41,14 +40,14 @@ public class TPM2_PP_Commands_REQUEST extends TpmStructure
         setList = _setList;
         clearList = _clearList;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeObjArr(setList);
         buf.writeObjArr(clearList);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -59,7 +58,7 @@ public class TPM2_PP_Commands_REQUEST extends TpmStructure
         clearList = new TPM_CC[_clearListCount];
         for (int j=0; j < _clearListCount; j++) clearList[j] = TPM_CC.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -67,24 +66,27 @@ public class TPM2_PP_Commands_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_PP_Commands_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_PP_Commands_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_PP_Commands_REQUEST ret = new TPM2_PP_Commands_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_PP_Commands_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_PP_Commands_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PP_Commands_REQUEST ret = new TPM2_PP_Commands_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -93,7 +95,7 @@ public class TPM2_PP_Commands_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

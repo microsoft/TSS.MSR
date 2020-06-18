@@ -7,24 +7,22 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command duplicates a loaded object so that it may be used in a different hierarchy.
- *  The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL.
- *  Only the public area of newParentHandle is required to be loaded.
+/** This command duplicates a loaded object so that it may be used in a different
+ *  hierarchy. The new parent key for the duplicate may be on the same or different TPM or
+ *  TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
  */
 public class DuplicateResponse extends TpmStructure
 {
-    /**
-     *  If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then this
-     *  will be the Empty Buffer; otherwise, it shall contain the TPM-generated, symmetric
-     *  encryption key for the inner wrapper.
+    /** If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then
+     *  this will be the Empty Buffer; otherwise, it shall contain the TPM-generated,
+     *  symmetric encryption key for the inner wrapper.
      */
     public byte[] encryptionKeyOut;
     
-    /** private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted */
+    /** Private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted  */
     public TPM2B_PRIVATE duplicate;
     
-    /** seed protected by the asymmetric algorithms of new parent (NP) */
+    /** Seed protected by the asymmetric algorithms of new parent (NP)  */
     public byte[] outSymSeed;
     
     public DuplicateResponse() {}
@@ -36,7 +34,7 @@ public class DuplicateResponse extends TpmStructure
         duplicate.toTpm(buf);
         buf.writeSizedByteBuf(outSymSeed);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -48,7 +46,7 @@ public class DuplicateResponse extends TpmStructure
         outSymSeed = new byte[_outSymSeedSize];
         buf.readArrayOfInts(outSymSeed, 1, _outSymSeedSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -56,24 +54,27 @@ public class DuplicateResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static DuplicateResponse fromTpm (byte[] x) 
+    
+    public static DuplicateResponse fromBytes (byte[] byteBuf) 
     {
         DuplicateResponse ret = new DuplicateResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static DuplicateResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static DuplicateResponse fromTpm (InByteBuf buf) 
     {
         DuplicateResponse ret = new DuplicateResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -82,7 +83,7 @@ public class DuplicateResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

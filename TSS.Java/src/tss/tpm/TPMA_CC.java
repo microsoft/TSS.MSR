@@ -7,10 +7,9 @@ import java.util.*;
 
 //>>>
 
-/**
- *  This structure defines the attributes of a command from a context management perspective.
- *  The fields of the structure indicate to the TPM Resource Manager (TRM) the number of
- *  resources required by a command and how the command affects the TPMs resources.
+/** This structure defines the attributes of a command from a context management
+ *  perspective. The fields of the structure indicate to the TPM Resource Manager (TRM)
+ *  the number of resources required by a command and how the command affects the TPMs resources.
  */
 public final class TPMA_CC extends TpmAttribute<TPMA_CC>
 {
@@ -18,7 +17,7 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPMA_CC. qualifier.
     public enum _N {
-        /** indicates the command being selected */
+        /** Indicates the command being selected  */
         commandIndex_BIT_0,
         
         commandIndex_BIT_1,
@@ -51,50 +50,46 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
         
         commandIndex_BIT_15,
         
-        /**
-         *  SET (1): indicates that the command may write to NV
+        /** SET (1): indicates that the command may write to NV
          *  CLEAR (0): indicates that the command does not write to NV
          */
         nv,
         
-        /**
-         *  SET (1): This command could flush any number of loaded contexts.
+        /** SET (1): This command could flush any number of loaded contexts.
          *  CLEAR (0): no additional changes other than indicated by the flushed attribute
          */
         extensive,
         
-        /**
-         *  SET (1): The context associated with any transient handle in the command will be flushed
-         *  when this command completes.
+        /** SET (1): The context associated with any transient handle in the command will be
+         *  flushed when this command completes.
          *  CLEAR (0): No context is flushed as a side effect of this command.
          */
         flushed,
         
-        /** indicates the number of the handles in the handle area for this command */
+        /** Indicates the number of the handles in the handle area for this command  */
         cHandles_BIT_0,
         
         cHandles_BIT_1,
         
         cHandles_BIT_2,
         
-        /** SET (1): indicates the presence of the handle area in the response */
+        /** SET (1): indicates the presence of the handle area in the response  */
         rHandle,
         
-        /**
-         *  SET (1): indicates that the command is vendor-specific
+        /** SET (1): indicates that the command is vendor-specific
          *  CLEAR (0): indicates that the command is defined in a version of this specification
          */
         V,
         
-        /** allocated for software; shall be zero */
+        /** Allocated for software; shall be zero  */
         Res_BIT_0,
         
         Res_BIT_1
     }
-
+    
     private static ValueMap<TPMA_CC> _ValueMap = new ValueMap<TPMA_CC>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPMA_CC
         commandIndex_BIT_0 = new TPMA_CC(0x1, _N.commandIndex_BIT_0),
         commandIndex_BIT_1 = new TPMA_CC(0x2, _N.commandIndex_BIT_1),

@@ -7,13 +7,12 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command performs an HMAC or a block cipher MAC on the supplied data
- *  using the indicated algorithm.
+/** This command performs an HMAC or a block cipher MAC on the supplied data using the
+ *  indicated algorithm.
  */
 public class MACResponse extends TpmStructure
 {
-    /** the returned MAC in a sized buffer */
+    /** The returned MAC in a sized buffer  */
     public byte[] outMAC;
     
     public MACResponse() {}
@@ -23,7 +22,7 @@ public class MACResponse extends TpmStructure
     {
         buf.writeSizedByteBuf(outMAC);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -31,7 +30,7 @@ public class MACResponse extends TpmStructure
         outMAC = new byte[_outMACSize];
         buf.readArrayOfInts(outMAC, 1, _outMACSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +38,27 @@ public class MACResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static MACResponse fromTpm (byte[] x) 
+    
+    public static MACResponse fromBytes (byte[] byteBuf) 
     {
         MACResponse ret = new MACResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static MACResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static MACResponse fromTpm (InByteBuf buf) 
     {
         MACResponse ret = new MACResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +67,7 @@ public class MACResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

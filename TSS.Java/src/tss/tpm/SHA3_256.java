@@ -7,23 +7,23 @@ import java.util.*;
 
 //>>>
 
-/** Table 18 Defines for SHA3_256 Hash Values */
+/** Table 18 Defines for SHA3_256 Hash Values  */
 public final class SHA3_256 extends TpmEnum<SHA3_256>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the SHA3_256. qualifier.
     public enum _N {
-        /** size of digest in octets */
-        DIGEST_SIZE,
+        /** Size of digest in octets  */
+        DIGEST_SIZE, 
         
-        /** size of hash block in octets */
+        /** Size of hash block in octets  */
         BLOCK_SIZE
     }
-
+    
     private static ValueMap<SHA3_256> _ValueMap = new ValueMap<SHA3_256>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final SHA3_256
         DIGEST_SIZE = new SHA3_256(32, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA3_256(136, _N.BLOCK_SIZE);

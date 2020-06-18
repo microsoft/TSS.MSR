@@ -1,5 +1,4 @@
 package tss;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,11 +10,12 @@ import com.sun.jna.win32.StdCallLibrary;
 import tss.tpm.TPM_RC;
 
 
-public class TpmDeviceTbs extends TpmDeviceBase
+public class TpmDeviceTbs extends TpmDevice
 {
-    int tbsHandle;
-    byte[] lastTpmResponse;
+    int tbsHandle = -1;
+    byte[] lastTpmResponse = null;
     
+
     public interface TBSLibrary extends StdCallLibrary 
     {
         TBSLibrary INSTANCE = Native.loadLibrary("TBS", TBSLibrary.class);
@@ -39,7 +39,11 @@ public class TpmDeviceTbs extends TpmDeviceBase
                                 PointerByReference outBuf, IntByReference outBufLen); 
     }
 
-    public TpmDeviceTbs()
+
+    public TpmDeviceTbs() {}
+
+    @Override
+    public boolean connect()
     {
         tbsHandle = -1;
         TBSLibrary.TBS_CONTEXT_PARAMS2 parms = new TBSLibrary.TBS_CONTEXT_PARAMS2();
@@ -50,12 +54,20 @@ public class TpmDeviceTbs extends TpmDeviceBase
         handleRef.setValue(333);
 
         int res = TBSLibrary.INSTANCE.Tbsi_Context_Create(parms, handleRef);
-        if(res!=0)
+        if (res != 0)
         {
-            throw new TpmException("Tbsi_Context_Create failed. Error code is:" + Integer.toHexString(res), new TPM_RC(res));
+            System.err.println("TSS.Java; Tbsi_Context_Create failed with error:" + new TPM_RC(res).toStringVerbose());
+            return false;
         }
         tbsHandle = handleRef.getValue();
-        lastTpmResponse = null;
+        return true;
+    }
+
+    @Override
+    public void close()
+     {
+        // todo: Auto-generated method stub
+        TBSLibrary.INSTANCE.Tbsip_Context_Close(tbsHandle);
     }
 
     @Override
@@ -90,16 +102,9 @@ public class TpmDeviceTbs extends TpmDeviceBase
     }
 
     @Override
-    boolean responseReady() 
+    public boolean responseReady() 
     {
         // TBS is blocking
         return true;
     }    
-    
-    @Override
-    public void close() throws IOException {
-        // todo: Auto-generated method stub
-        TBSLibrary.INSTANCE.Tbsip_Context_Close(tbsHandle);
-    }
-    
 }

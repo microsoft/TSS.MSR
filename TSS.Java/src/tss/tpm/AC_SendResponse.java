@@ -7,13 +7,12 @@ import tss.*;
 
 //>>>
 
-/**
- *  The purpose of this command is to send (copy) a loaded object from the TPM
- *  to an Attached Component.
+/** The purpose of this command is to send (copy) a loaded object from the TPM to an
+ *  Attached Component.
  */
 public class AC_SendResponse extends TpmStructure
 {
-    /** May include AC specific data or information about an error. */
+    /** May include AC specific data or information about an error.  */
     public TPMS_AC_OUTPUT acDataOut;
     
     public AC_SendResponse() {}
@@ -23,13 +22,13 @@ public class AC_SendResponse extends TpmStructure
     {
         acDataOut.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         acDataOut = TPMS_AC_OUTPUT.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -37,24 +36,27 @@ public class AC_SendResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static AC_SendResponse fromTpm (byte[] x) 
+    
+    public static AC_SendResponse fromBytes (byte[] byteBuf) 
     {
         AC_SendResponse ret = new AC_SendResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static AC_SendResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static AC_SendResponse fromTpm (InByteBuf buf) 
     {
         AC_SendResponse ret = new AC_SendResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -63,7 +65,7 @@ public class AC_SendResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

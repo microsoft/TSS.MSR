@@ -7,15 +7,15 @@ import tss.*;
 
 //>>>
 
-/** This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded(). */
+/** This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().  */
 public class TPM2B_TEMPLATE extends TpmStructure
 {
-    /** the public area */
+    /** The public area  */
     public byte[] buffer;
     
     public TPM2B_TEMPLATE() {}
     
-    /** @param _buffer the public area */
+    /** @param _buffer The public area  */
     public TPM2B_TEMPLATE(byte[] _buffer) { buffer = _buffer; }
     
     @Override
@@ -23,7 +23,7 @@ public class TPM2B_TEMPLATE extends TpmStructure
     {
         buf.writeSizedByteBuf(buffer);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -31,7 +31,7 @@ public class TPM2B_TEMPLATE extends TpmStructure
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +39,27 @@ public class TPM2B_TEMPLATE extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_TEMPLATE fromTpm (byte[] x) 
+    
+    public static TPM2B_TEMPLATE fromBytes (byte[] byteBuf) 
     {
         TPM2B_TEMPLATE ret = new TPM2B_TEMPLATE();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_TEMPLATE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_TEMPLATE fromTpm (InByteBuf buf) 
     {
         TPM2B_TEMPLATE ret = new TPM2B_TEMPLATE();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +68,7 @@ public class TPM2B_TEMPLATE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

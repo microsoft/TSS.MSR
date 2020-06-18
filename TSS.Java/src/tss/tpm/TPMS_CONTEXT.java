@@ -7,29 +7,26 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of the
- *  TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when the
- *  context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
+/** This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of
+ *  the TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when
+ *  the context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
  */
 public class TPMS_CONTEXT extends TpmStructure
 {
-    /**
-     *  the sequence number of the context
+    /** The sequence number of the context
      *  NOTE Transient object contexts and session contexts used different counters.
      */
     public long sequence;
     
-    /**
-     *  a handle indicating if the context is a session, object, or sequence object (see
-     *  Table 222 Context Handle Values
+    /** A handle indicating if the context is a session, object, or sequence object (see Table
+     *  222 Context Handle Values
      */
     public TPM_HANDLE savedHandle;
     
-    /** the hierarchy of the context */
+    /** The hierarchy of the context  */
     public TPM_HANDLE hierarchy;
     
-    /** the context data and integrity HMAC */
+    /** The context data and integrity HMAC  */
     public TPMS_CONTEXT_DATA contextBlob;
     
     public TPMS_CONTEXT()
@@ -37,14 +34,13 @@ public class TPMS_CONTEXT extends TpmStructure
         savedHandle = new TPM_HANDLE();
         hierarchy = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _sequence the sequence number of the context
+    
+    /** @param _sequence The sequence number of the context
      *         NOTE Transient object contexts and session contexts used different counters.
-     *  @param _savedHandle a handle indicating if the context is a session, object, or sequence object (see
-     *         Table 222 Context Handle Values
-     *  @param _hierarchy the hierarchy of the context
-     *  @param _contextBlob the context data and integrity HMAC
+     *  @param _savedHandle A handle indicating if the context is a session, object, or sequence
+     *         object (see Table 222 Context Handle Values
+     *  @param _hierarchy The hierarchy of the context
+     *  @param _contextBlob The context data and integrity HMAC
      */
     public TPMS_CONTEXT(long _sequence, TPM_HANDLE _savedHandle, TPM_HANDLE _hierarchy, TPMS_CONTEXT_DATA _contextBlob)
     {
@@ -53,7 +49,7 @@ public class TPMS_CONTEXT extends TpmStructure
         hierarchy = _hierarchy;
         contextBlob = _contextBlob;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -64,7 +60,7 @@ public class TPMS_CONTEXT extends TpmStructure
         if (contextBlob != null)
             contextBlob.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -76,7 +72,7 @@ public class TPMS_CONTEXT extends TpmStructure
         contextBlob = TPMS_CONTEXT_DATA.fromTpm(buf);
         buf.structSize.pop();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -84,24 +80,27 @@ public class TPMS_CONTEXT extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_CONTEXT fromTpm (byte[] x) 
+    
+    public static TPMS_CONTEXT fromBytes (byte[] byteBuf) 
     {
         TPMS_CONTEXT ret = new TPMS_CONTEXT();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_CONTEXT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_CONTEXT fromTpm (InByteBuf buf) 
     {
         TPMS_CONTEXT ret = new TPMS_CONTEXT();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -110,7 +109,7 @@ public class TPMS_CONTEXT extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

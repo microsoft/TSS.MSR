@@ -7,23 +7,20 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It
- *  uses the private ephemeral key and a loaded public key (QS) to compute the shared
+/** This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G).
+ *  It uses the private ephemeral key and a loaded public key (QS) to compute the shared
  *  secret value (P [hde]QS).
  */
 public class TPM2_ECDH_KeyGen_REQUEST extends TpmStructure
 {
-    /**
-     *  Handle of a loaded ECC key public area.
+    /** Handle of a loaded ECC key public area.
      *  Auth Index: None
      */
     public TPM_HANDLE keyHandle;
     
     public TPM2_ECDH_KeyGen_REQUEST() { keyHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _keyHandle Handle of a loaded ECC key public area.
+    /** @param _keyHandle Handle of a loaded ECC key public area.
      *         Auth Index: None
      */
     public TPM2_ECDH_KeyGen_REQUEST(TPM_HANDLE _keyHandle) { keyHandle = _keyHandle; }
@@ -36,7 +33,7 @@ public class TPM2_ECDH_KeyGen_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This command is used to read a copy of the current firmware installed in the TPM. */
+/** This command is used to read a copy of the current firmware installed in the TPM.  */
 public class FirmwareReadResponse extends TpmStructure
 {
-    /** field upgrade image data */
+    /** Field upgrade image data  */
     public byte[] fuData;
     
     public FirmwareReadResponse() {}
@@ -20,7 +20,7 @@ public class FirmwareReadResponse extends TpmStructure
     {
         buf.writeSizedByteBuf(fuData);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -28,7 +28,7 @@ public class FirmwareReadResponse extends TpmStructure
         fuData = new byte[_fuDataSize];
         buf.readArrayOfInts(fuData, 1, _fuDataSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -36,24 +36,27 @@ public class FirmwareReadResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static FirmwareReadResponse fromTpm (byte[] x) 
+    
+    public static FirmwareReadResponse fromBytes (byte[] byteBuf) 
     {
         FirmwareReadResponse ret = new FirmwareReadResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static FirmwareReadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static FirmwareReadResponse fromTpm (InByteBuf buf) 
     {
         FirmwareReadResponse ret = new FirmwareReadResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -62,7 +65,7 @@ public class FirmwareReadResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

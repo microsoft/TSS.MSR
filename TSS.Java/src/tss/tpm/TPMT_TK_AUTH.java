@@ -7,27 +7,25 @@ import tss.*;
 
 //>>>
 
-/**
- *  This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the
- *  authorization has an expiration time. If nonceTPM was provided in the policy
- *  command, the ticket is computed by
+/** This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the
+ *  authorization has an expiration time. If nonceTPM was provided in the policy command,
+ *  the ticket is computed by
  */
 public class TPMT_TK_AUTH extends TpmStructure
 {
-    /** ticket structure tag */
+    /** Ticket structure tag  */
     public TPM_ST tag;
     
-    /** the hierarchy of the object used to produce the ticket */
+    /** The hierarchy of the object used to produce the ticket  */
     public TPM_HANDLE hierarchy;
     
-    /** This shall be the HMAC produced using a proof value of hierarchy. */
+    /** This shall be the HMAC produced using a proof value of hierarchy.  */
     public byte[] digest;
     
     public TPMT_TK_AUTH() { hierarchy = new TPM_HANDLE(); }
     
-    /**
-     *  @param _tag ticket structure tag
-     *  @param _hierarchy the hierarchy of the object used to produce the ticket
+    /** @param _tag Ticket structure tag
+     *  @param _hierarchy The hierarchy of the object used to produce the ticket
      *  @param _digest This shall be the HMAC produced using a proof value of hierarchy.
      */
     public TPMT_TK_AUTH(TPM_ST _tag, TPM_HANDLE _hierarchy, byte[] _digest)
@@ -36,7 +34,7 @@ public class TPMT_TK_AUTH extends TpmStructure
         hierarchy = _hierarchy;
         digest = _digest;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -44,7 +42,7 @@ public class TPMT_TK_AUTH extends TpmStructure
         hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(digest);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -54,7 +52,7 @@ public class TPMT_TK_AUTH extends TpmStructure
         digest = new byte[_digestSize];
         buf.readArrayOfInts(digest, 1, _digestSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -62,24 +60,27 @@ public class TPMT_TK_AUTH extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMT_TK_AUTH fromTpm (byte[] x) 
+    
+    public static TPMT_TK_AUTH fromBytes (byte[] byteBuf) 
     {
         TPMT_TK_AUTH ret = new TPMT_TK_AUTH();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMT_TK_AUTH fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMT_TK_AUTH fromTpm (InByteBuf buf) 
     {
         TPMT_TK_AUTH ret = new TPMT_TK_AUTH();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -88,7 +89,7 @@ public class TPMT_TK_AUTH extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

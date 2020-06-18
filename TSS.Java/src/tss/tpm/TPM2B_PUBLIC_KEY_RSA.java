@@ -7,18 +7,18 @@ import tss.*;
 
 //>>>
 
-/** This sized buffer holds the largest RSA public key supported by the TPM. */
+/** This sized buffer holds the largest RSA public key supported by the TPM.  */
 public class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
 {
-    /** Value */
+    /** Value  */
     public byte[] buffer;
     
     public TPM2B_PUBLIC_KEY_RSA() {}
     
-    /** @param _buffer Value */
+    /** @param _buffer Value  */
     public TPM2B_PUBLIC_KEY_RSA(byte[] _buffer) { buffer = _buffer; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSA; }
     
     @Override
@@ -26,7 +26,7 @@ public class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
     {
         buf.writeSizedByteBuf(buffer);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -34,7 +34,7 @@ public class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -42,24 +42,27 @@ public class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_PUBLIC_KEY_RSA fromTpm (byte[] x) 
+    
+    public static TPM2B_PUBLIC_KEY_RSA fromBytes (byte[] byteBuf) 
     {
         TPM2B_PUBLIC_KEY_RSA ret = new TPM2B_PUBLIC_KEY_RSA();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_PUBLIC_KEY_RSA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_PUBLIC_KEY_RSA fromTpm (InByteBuf buf) 
     {
         TPM2B_PUBLIC_KEY_RSA ret = new TPM2B_PUBLIC_KEY_RSA();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -68,7 +71,7 @@ public class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

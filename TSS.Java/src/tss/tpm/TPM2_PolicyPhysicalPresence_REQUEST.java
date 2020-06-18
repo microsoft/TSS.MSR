@@ -7,22 +7,19 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command indicates that physical presence will need to be asserted at the time
- *  the authorization is performed.
+/** This command indicates that physical presence will need to be asserted at the time the
+ *  authorization is performed.
  */
 public class TPM2_PolicyPhysicalPresence_REQUEST extends TpmStructure
 {
-    /**
-     *  handle for the policy session being extended
+    /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
     
     public TPM2_PolicyPhysicalPresence_REQUEST() { policySession = new TPM_HANDLE(); }
     
-    /**
-     *  @param _policySession handle for the policy session being extended
+    /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
      */
     public TPM2_PolicyPhysicalPresence_REQUEST(TPM_HANDLE _policySession) { policySession = _policySession; }
@@ -35,7 +32,7 @@ public class TPM2_PolicyPhysicalPresence_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

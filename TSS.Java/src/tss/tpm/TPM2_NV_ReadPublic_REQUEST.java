@@ -7,22 +7,19 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to read the public area and Name of an NV Index. The public area of
- *  an Index is not privacy-sensitive and no authorization is required to read this data.
+/** This command is used to read the public area and Name of an NV Index. The public area
+ *  of an Index is not privacy-sensitive and no authorization is required to read this data.
  */
 public class TPM2_NV_ReadPublic_REQUEST extends TpmStructure
 {
-    /**
-     *  the NV Index
+    /** The NV Index
      *  Auth Index: None
      */
     public TPM_HANDLE nvIndex;
     
     public TPM2_NV_ReadPublic_REQUEST() { nvIndex = new TPM_HANDLE(); }
     
-    /**
-     *  @param _nvIndex the NV Index
+    /** @param _nvIndex The NV Index
      *         Auth Index: None
      */
     public TPM2_NV_ReadPublic_REQUEST(TPM_HANDLE _nvIndex) { nvIndex = _nvIndex; }
@@ -35,7 +32,7 @@ public class TPM2_NV_ReadPublic_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -36,7 +36,7 @@ public abstract class TpmBase implements Closeable
      * 
      * @param theDevice A transport connection to a TPM device
      */
-    public void _setDevice(TpmDeviceBase theDevice)
+    public void _setDevice(TpmDevice theDevice)
     {
         device = theDevice;
         lastResponseCode = TPM_RC.SUCCESS;
@@ -47,7 +47,7 @@ public abstract class TpmBase implements Closeable
      *  
      * @return The current TPM device
      */
-    public TpmDeviceBase _getDevice()
+    public TpmDevice _getDevice()
     {
         return device;
     }
@@ -425,7 +425,7 @@ public abstract class TpmBase implements Closeable
 
     
     
-    TpmDeviceBase device;
+    TpmDevice device;
     TpmCallbackInterface callbackObject;
     
     TPM_RC lastResponseCode;

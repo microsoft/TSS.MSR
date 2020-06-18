@@ -7,21 +7,20 @@ import tss.*;
 
 //>>>
 
-/**
- *  This list is used to report on a list of algorithm attributes. It is returned
- *  in a TPM2_GetCapability().
+/** This list is used to report on a list of algorithm attributes. It is returned in a
+ *  TPM2_GetCapability().
  */
 public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
-    /** list of properties */
+    /** List of properties  */
     public TPMS_ALG_PROPERTY[] algProperties;
     
     public TPML_ALG_PROPERTY() {}
     
-    /** @param _algProperties list of properties */
+    /** @param _algProperties List of properties  */
     public TPML_ALG_PROPERTY(TPMS_ALG_PROPERTY[] _algProperties) { algProperties = _algProperties; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.ALGS; }
     
     @Override
@@ -29,7 +28,7 @@ public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
     {
         buf.writeObjArr(algProperties);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -38,7 +37,7 @@ public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
         for (int j=0; j < _count; j++) algProperties[j] = new TPMS_ALG_PROPERTY();
         buf.readArrayOfTpmObjects(algProperties, _count);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -46,24 +45,27 @@ public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPML_ALG_PROPERTY fromTpm (byte[] x) 
+    
+    public static TPML_ALG_PROPERTY fromBytes (byte[] byteBuf) 
     {
         TPML_ALG_PROPERTY ret = new TPML_ALG_PROPERTY();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPML_ALG_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPML_ALG_PROPERTY fromTpm (InByteBuf buf) 
     {
         TPML_ALG_PROPERTY ret = new TPML_ALG_PROPERTY();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -72,7 +74,7 @@ public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,27 +7,27 @@ import java.util.*;
 
 //>>>
 
-/** These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values. */
+/** These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values.  */
 public final class PLATFORM extends TpmEnum<PLATFORM>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the PLATFORM. qualifier.
     public enum _N {
-        FAMILY,
+        FAMILY, 
         
-        LEVEL,
+        LEVEL, 
         
-        VERSION,
+        VERSION, 
         
-        YEAR,
+        YEAR, 
         
         DAY_OF_YEAR
     }
-
+    
     private static ValueMap<PLATFORM> _ValueMap = new ValueMap<PLATFORM>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final PLATFORM
         FAMILY = new PLATFORM(TPM_SPEC.FAMILY.toInt(), _N.FAMILY),
         LEVEL = new PLATFORM(TPM_SPEC.LEVEL.toInt(), _N.LEVEL),

@@ -7,14 +7,12 @@ import tss.*;
 
 //>>>
 
-/**
- *  This replaces the current platform primary seed (PPS) with a value from the RNG and sets
- *  platformPolicy to the default initialization value (the Empty Buffer).
+/** This replaces the current platform primary seed (PPS) with a value from the RNG and
+ *  sets platformPolicy to the default initialization value (the Empty Buffer).
  */
 public class TPM2_ChangePPS_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_PLATFORM+{PP}
+    /** TPM_RH_PLATFORM+{PP}
      *  Auth Index: 1
      *  Auth Role: USER
      */
@@ -22,8 +20,7 @@ public class TPM2_ChangePPS_REQUEST extends TpmStructure
     
     public TPM2_ChangePPS_REQUEST() { authHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _authHandle TPM_RH_PLATFORM+{PP}
+    /** @param _authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
      */
@@ -37,7 +34,7 @@ public class TPM2_ChangePPS_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

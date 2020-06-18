@@ -7,11 +7,10 @@ import tss.*;
 
 //>>>
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
+/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
 public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
 {
-    /**
-     *  the hash algorithm used in the signature process
+    /** The hash algorithm used in the signature process
      *  TPM_ALG_NULL is not allowed.
      */
     public TPM_ALG_ID hash;
@@ -22,8 +21,7 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
     
     public TPMS_SIGNATURE_ECC() { hash = TPM_ALG_ID.NULL; }
     
-    /**
-     *  @param _hash the hash algorithm used in the signature process
+    /** @param _hash The hash algorithm used in the signature process
      *         TPM_ALG_NULL is not allowed.
      *  @param _signatureR TBD
      *  @param _signatureS TBD
@@ -34,8 +32,8 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         signatureR = _signatureR;
         signatureS = _signatureS;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDSA; }
     
     @Override
@@ -45,7 +43,7 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         buf.writeSizedByteBuf(signatureR);
         buf.writeSizedByteBuf(signatureS);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -57,7 +55,7 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         signatureS = new byte[_signatureSSize];
         buf.readArrayOfInts(signatureS, 1, _signatureSSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -65,24 +63,27 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_SIGNATURE_ECC fromTpm (byte[] x) 
+    
+    public static TPMS_SIGNATURE_ECC fromBytes (byte[] byteBuf) 
     {
         TPMS_SIGNATURE_ECC ret = new TPMS_SIGNATURE_ECC();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_SIGNATURE_ECC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_SIGNATURE_ECC fromTpm (InByteBuf buf) 
     {
         TPMS_SIGNATURE_ECC ret = new TPMS_SIGNATURE_ECC();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -91,7 +92,7 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,19 +7,18 @@ import tss.*;
 
 //>>>
 
-/**
- *  The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter
+/** The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter
  *  encryption in those cases when different symmetric algorithms may be selected.
  */
 public class TPMT_SYM_DEF extends TpmStructure
 {
-    /** symmetric algorithm */
+    /** symmetric algorithm  */
     public TPM_ALG_ID algorithm;
     
-    /** key size in bits */
+    /** key size in bits  */
     public short keyBits;
     
-    /** encryption mode */
+    /** encryption mode  */
     public TPM_ALG_ID mode;
     
     public TPMT_SYM_DEF()
@@ -27,9 +26,8 @@ public class TPMT_SYM_DEF extends TpmStructure
         algorithm = TPM_ALG_ID.NULL;
         mode = TPM_ALG_ID.NULL;
     }
-
-    /**
-     *  @param _algorithm symmetric algorithm
+    
+    /** @param _algorithm symmetric algorithm
      *  @param _keyBits key size in bits
      *  @param _mode encryption mode
      */
@@ -39,19 +37,25 @@ public class TPMT_SYM_DEF extends TpmStructure
         keyBits = (short)_keyBits;
         mode = _mode;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
-        Helpers.nonDefaultMarshallOut(buf, this);
+        algorithm.toTpm(buf);
+        if (algorithm == TPM_ALG_ID.NULL) return;
+        buf.writeShort(keyBits);
+        mode.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
-        Helpers.nonDefaultMarshallIn(buf, this);
+        algorithm = TPM_ALG_ID.fromTpm(buf);
+        if (algorithm == TPM_ALG_ID.NULL) return;
+        keyBits = buf.readShort();
+        mode = TPM_ALG_ID.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -59,24 +63,27 @@ public class TPMT_SYM_DEF extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMT_SYM_DEF fromTpm (byte[] x) 
+    
+    public static TPMT_SYM_DEF fromBytes (byte[] byteBuf) 
     {
         TPMT_SYM_DEF ret = new TPMT_SYM_DEF();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMT_SYM_DEF fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMT_SYM_DEF fromTpm (InByteBuf buf) 
     {
         TPMT_SYM_DEF ret = new TPMT_SYM_DEF();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -85,7 +92,7 @@ public class TPMT_SYM_DEF extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,13 +7,12 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command performs RSA decryption using the indicated padding scheme according
- *  to IETF RFC 8017 ((PKCS#1).
+/** This command performs RSA decryption using the indicated padding scheme according to
+ *  IETF RFC 8017 ((PKCS#1).
  */
 public class RSA_DecryptResponse extends TpmStructure
 {
-    /** decrypted output */
+    /** Decrypted output  */
     public byte[] message;
     
     public RSA_DecryptResponse() {}
@@ -23,7 +22,7 @@ public class RSA_DecryptResponse extends TpmStructure
     {
         buf.writeSizedByteBuf(message);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -31,7 +30,7 @@ public class RSA_DecryptResponse extends TpmStructure
         message = new byte[_messageSize];
         buf.readArrayOfInts(message, 1, _messageSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +38,27 @@ public class RSA_DecryptResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static RSA_DecryptResponse fromTpm (byte[] x) 
+    
+    public static RSA_DecryptResponse fromBytes (byte[] byteBuf) 
     {
         RSA_DecryptResponse ret = new RSA_DecryptResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static RSA_DecryptResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static RSA_DecryptResponse fromTpm (InByteBuf buf) 
     {
         RSA_DecryptResponse ret = new RSA_DecryptResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +67,7 @@ public class RSA_DecryptResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

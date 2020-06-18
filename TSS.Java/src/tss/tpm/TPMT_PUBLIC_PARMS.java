@@ -7,22 +7,20 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure is used in TPM2_TestParms() to validate that a set of algorithm
+/** This structure is used in TPM2_TestParms() to validate that a set of algorithm
  *  parameters is supported by the TPM.
  */
 public class TPMT_PUBLIC_PARMS extends TpmStructure
 {
-    /** the algorithm to be tested */
+    /** The algorithm to be tested  */
     public TPM_ALG_ID type() { return parameters.GetUnionSelector(); }
     
-    /** the algorithm details */
+    /** The algorithm details  */
     public TPMU_PUBLIC_PARMS parameters;
     
     public TPMT_PUBLIC_PARMS() {}
     
-    /**
-     *  @param _parameters the algorithm details
+    /** @param _parameters The algorithm details
      *         (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
      *         TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
      */
@@ -35,7 +33,7 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
         parameters.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)parameters).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -43,7 +41,7 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
         parameters = UnionFactory.create("TPMU_PUBLIC_PARMS", new TPM_ALG_ID(_type));
         parameters.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -51,24 +49,27 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMT_PUBLIC_PARMS fromTpm (byte[] x) 
+    
+    public static TPMT_PUBLIC_PARMS fromBytes (byte[] byteBuf) 
     {
         TPMT_PUBLIC_PARMS ret = new TPMT_PUBLIC_PARMS();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMT_PUBLIC_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMT_PUBLIC_PARMS fromTpm (InByteBuf buf) 
     {
         TPMT_PUBLIC_PARMS ret = new TPMT_PUBLIC_PARMS();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -77,7 +78,7 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

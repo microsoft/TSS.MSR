@@ -7,19 +7,18 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure contains the sensitive creation data in a sized buffer. This structure is
- *  defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may be
- *  passed as a single parameter for parameter encryption purposes.
+/** This structure contains the sensitive creation data in a sized buffer. This structure
+ *  is defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may
+ *  be passed as a single parameter for parameter encryption purposes.
  */
 public class TPM2B_SENSITIVE_CREATE extends TpmStructure
 {
-    /** data to be sealed or a symmetric key value. */
+    /** Data to be sealed or a symmetric key value.  */
     public TPMS_SENSITIVE_CREATE sensitive;
     
     public TPM2B_SENSITIVE_CREATE() {}
     
-    /** @param _sensitive data to be sealed or a symmetric key value. */
+    /** @param _sensitive Data to be sealed or a symmetric key value.  */
     public TPM2B_SENSITIVE_CREATE(TPMS_SENSITIVE_CREATE _sensitive) { sensitive = _sensitive; }
     
     @Override
@@ -29,7 +28,7 @@ public class TPM2B_SENSITIVE_CREATE extends TpmStructure
         if (sensitive != null)
             sensitive.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -38,7 +37,7 @@ public class TPM2B_SENSITIVE_CREATE extends TpmStructure
         sensitive = TPMS_SENSITIVE_CREATE.fromTpm(buf);
         buf.structSize.pop();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -46,24 +45,27 @@ public class TPM2B_SENSITIVE_CREATE extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_SENSITIVE_CREATE fromTpm (byte[] x) 
+    
+    public static TPM2B_SENSITIVE_CREATE fromBytes (byte[] byteBuf) 
     {
         TPM2B_SENSITIVE_CREATE ret = new TPM2B_SENSITIVE_CREATE();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_SENSITIVE_CREATE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_SENSITIVE_CREATE fromTpm (InByteBuf buf) 
     {
         TPM2B_SENSITIVE_CREATE ret = new TPM2B_SENSITIVE_CREATE();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -72,7 +74,7 @@ public class TPM2B_SENSITIVE_CREATE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

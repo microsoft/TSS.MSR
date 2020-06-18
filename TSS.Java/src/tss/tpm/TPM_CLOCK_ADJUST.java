@@ -7,9 +7,9 @@ import java.util.*;
 
 //>>>
 
-/**
- *  A TPM_CLOCK_ADJUST value is used to change the rate at which the TPM internal oscillator
- *  is divided. A change to the divider will change the rate at which Clock and Time change.
+/** A TPM_CLOCK_ADJUST value is used to change the rate at which the TPM internal
+ *  oscillator is divided. A change to the divider will change the rate at which Clock and
+ *  Time change.
  */
 public final class TPM_CLOCK_ADJUST extends TpmEnum<TPM_CLOCK_ADJUST>
 {
@@ -17,31 +17,31 @@ public final class TPM_CLOCK_ADJUST extends TpmEnum<TPM_CLOCK_ADJUST>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_CLOCK_ADJUST. qualifier.
     public enum _N {
-        /** Slow the Clock update rate by one coarse adjustment step. */
-        COARSE_SLOWER,
+        /** Slow the Clock update rate by one coarse adjustment step.  */
+        COARSE_SLOWER, 
         
-        /** Slow the Clock update rate by one medium adjustment step. */
-        MEDIUM_SLOWER,
+        /** Slow the Clock update rate by one medium adjustment step.  */
+        MEDIUM_SLOWER, 
         
-        /** Slow the Clock update rate by one fine adjustment step. */
-        FINE_SLOWER,
+        /** Slow the Clock update rate by one fine adjustment step.  */
+        FINE_SLOWER, 
         
-        /** No change to the Clock update rate. */
-        NO_CHANGE,
+        /** No change to the Clock update rate.  */
+        NO_CHANGE, 
         
-        /** Speed the Clock update rate by one fine adjustment step. */
-        FINE_FASTER,
+        /** Speed the Clock update rate by one fine adjustment step.  */
+        FINE_FASTER, 
         
-        /** Speed the Clock update rate by one medium adjustment step. */
-        MEDIUM_FASTER,
+        /** Speed the Clock update rate by one medium adjustment step.  */
+        MEDIUM_FASTER, 
         
-        /** Speed the Clock update rate by one coarse adjustment step. */
+        /** Speed the Clock update rate by one coarse adjustment step.  */
         COARSE_FASTER
     }
-
+    
     private static ValueMap<TPM_CLOCK_ADJUST> _ValueMap = new ValueMap<TPM_CLOCK_ADJUST>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_CLOCK_ADJUST
         COARSE_SLOWER = new TPM_CLOCK_ADJUST(-3, _N.COARSE_SLOWER),
         MEDIUM_SLOWER = new TPM_CLOCK_ADJUST(-2, _N.MEDIUM_SLOWER),

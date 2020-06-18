@@ -7,23 +7,23 @@ import java.util.*;
 
 //>>>
 
-/** Table 15 Defines for SHA384 Hash Values */
+/** Table 15 Defines for SHA384 Hash Values  */
 public final class SHA384 extends TpmEnum<SHA384>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the SHA384. qualifier.
     public enum _N {
-        /** size of digest in octets */
-        DIGEST_SIZE,
+        /** Size of digest in octets  */
+        DIGEST_SIZE, 
         
-        /** size of hash block in octets */
+        /** Size of hash block in octets  */
         BLOCK_SIZE
     }
-
+    
     private static ValueMap<SHA384> _ValueMap = new ValueMap<SHA384>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final SHA384
         DIGEST_SIZE = new SHA384(48, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA384(128, _N.BLOCK_SIZE);

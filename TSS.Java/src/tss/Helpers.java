@@ -22,18 +22,21 @@ public class Helpers {
         ByteBuffer buf = ByteBuffer.wrap(bufx);
         return buf.putLong(x).array();
     }
+    
     public static byte[] hostToNet(int x)
     {
         byte[] bufx = new byte[4];
         ByteBuffer buf = ByteBuffer.wrap(bufx);
         return buf.putInt(x).array();
     }
+    
     public static byte[] hostToNet(short x)
     {
         byte[] bufx = new byte[2];
         ByteBuffer buf = ByteBuffer.wrap(bufx);
         return buf.putShort(x).array();
     }
+
     public static int netToHost(byte[] x) 
     {
         ByteBuffer b = ByteBuffer.wrap(x);
@@ -54,6 +57,7 @@ public class Helpers {
         sb.append("(" + x.length +" bytes)");
         return sb.toString();
     }
+
     public static byte[] fromHex(String _s)
     {
         // allow a bit of formatting to improve source readability
@@ -85,7 +89,7 @@ public class Helpers {
     
     static Random rand;
     
-    public static byte[] getRandom(int numBytes)
+    public static byte[] RandomBytes(int numBytes)
     {
         if (rand==null)
             rand = new Random();
@@ -107,50 +111,6 @@ public class Helpers {
     }
     
 
-    public static void nonDefaultMarshallOut(OutByteBuf buf, TpmStructure s)
-    {
-        if (s instanceof TPMT_SYM_DEF_OBJECT)
-        {
-            TPMT_SYM_DEF_OBJECT sdo = (TPMT_SYM_DEF_OBJECT) s;
-            sdo.algorithm.toTpm(buf);
-            if(sdo.algorithm == TPM_ALG_ID.NULL)return;
-            buf.writeShort(sdo.keyBits);
-            sdo.mode.toTpm(buf);
-        }
-        else if (s instanceof TPMT_SYM_DEF)
-        {
-            TPMT_SYM_DEF sd = (TPMT_SYM_DEF) s;
-            sd.algorithm.toTpm(buf);
-            if(sd.algorithm == TPM_ALG_ID.NULL)return;
-            buf.writeShort(sd.keyBits);
-            sd.mode.toTpm(buf);
-        }
-        else
-            throw new AssertionError("nonDefaultMarshallOut: unexpected TPM structure type");
-    }
-    
-    public static void nonDefaultMarshallIn(InByteBuf buf, TpmStructure s)
-    {
-        if (s instanceof TPMT_SYM_DEF_OBJECT)
-        {
-            TPMT_SYM_DEF_OBJECT sdo = (TPMT_SYM_DEF_OBJECT) s;
-            sdo.algorithm = TPM_ALG_ID.fromTpm(buf);
-            if(sdo.algorithm == TPM_ALG_ID.NULL)return;
-            sdo.keyBits = (short) buf.readInt(2);
-            sdo.mode = TPM_ALG_ID.fromTpm(buf);
-        }
-        else if (s instanceof TPMT_SYM_DEF)
-        {
-            TPMT_SYM_DEF sd = (TPMT_SYM_DEF) s;
-            sd.algorithm = TPM_ALG_ID.fromTpm(buf);
-            if(sd.algorithm == TPM_ALG_ID.NULL)return;
-            sd.keyBits = (short) buf.readInt(2);
-            sd.mode = TPM_ALG_ID.fromTpm(buf);
-        }
-        else
-            throw new AssertionError("should not be here");
-    }
-    
     public static byte[] concatenate(byte[][] a)
     {
         ByteArrayOutputStream os = new ByteArrayOutputStream();

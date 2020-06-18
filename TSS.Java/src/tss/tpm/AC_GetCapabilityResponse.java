@@ -7,16 +7,15 @@ import tss.*;
 
 //>>>
 
-/**
- *  The purpose of this command is to obtain information about an Attached Component
+/** The purpose of this command is to obtain information about an Attached Component
  *  referenced by an AC handle.
  */
 public class AC_GetCapabilityResponse extends TpmStructure
 {
-    /** flag to indicate whether there are more values */
+    /** Flag to indicate whether there are more values  */
     public byte moreData;
     
-    /** list of capabilities */
+    /** List of capabilities  */
     public TPMS_AC_OUTPUT[] capabilitiesData;
     
     public AC_GetCapabilityResponse() {}
@@ -27,7 +26,7 @@ public class AC_GetCapabilityResponse extends TpmStructure
         buf.writeByte(moreData);
         buf.writeObjArr(capabilitiesData);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -37,7 +36,7 @@ public class AC_GetCapabilityResponse extends TpmStructure
         for (int j=0; j < _capabilitiesDataCount; j++) capabilitiesData[j] = new TPMS_AC_OUTPUT();
         buf.readArrayOfTpmObjects(capabilitiesData, _capabilitiesDataCount);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -45,24 +44,27 @@ public class AC_GetCapabilityResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static AC_GetCapabilityResponse fromTpm (byte[] x) 
+    
+    public static AC_GetCapabilityResponse fromBytes (byte[] byteBuf) 
     {
         AC_GetCapabilityResponse ret = new AC_GetCapabilityResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static AC_GetCapabilityResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static AC_GetCapabilityResponse fromTpm (InByteBuf buf) 
     {
         AC_GetCapabilityResponse ret = new AC_GetCapabilityResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -71,7 +73,7 @@ public class AC_GetCapabilityResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

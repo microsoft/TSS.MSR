@@ -7,22 +7,19 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command saves a session context, object context, or sequence object
- *  context outside the TPM.
+/** This command saves a session context, object context, or sequence object context
+ *  outside the TPM.
  */
 public class TPM2_ContextSave_REQUEST extends TpmStructure
 {
-    /**
-     *  handle of the resource to save
+    /** Handle of the resource to save
      *  Auth Index: None
      */
     public TPM_HANDLE saveHandle;
     
     public TPM2_ContextSave_REQUEST() { saveHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _saveHandle handle of the resource to save
+    /** @param _saveHandle Handle of the resource to save
      *         Auth Index: None
      */
     public TPM2_ContextSave_REQUEST(TPM_HANDLE _saveHandle) { saveHandle = _saveHandle; }
@@ -35,7 +32,7 @@ public class TPM2_ContextSave_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

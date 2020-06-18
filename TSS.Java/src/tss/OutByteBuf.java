@@ -11,11 +11,13 @@ public class OutByteBuf
 
     void init(int capacity) { init(new byte[capacity]); }
 
+    /** Constructs output marshling buffer with the default capacity */
     public OutByteBuf() { init(4096); }
 
+    /** Constructs output marshling buffer with the given capacity */
     public OutByteBuf(int capacity) { init(capacity); }
 
-    public OutByteBuf(byte[] backingBuffer) { init(backingBuffer); }
+    //public OutByteBuf(byte[] backingBuffer) { init(backingBuffer); }
 
     public void clear() { buf.clear(); }
 
@@ -25,21 +27,25 @@ public class OutByteBuf
     
     public void curPos(int newPos) { buf.position(newPos); }
 
-    //public int size() { return buf.capacity() - buf.remaining(); }
+    /** @return  Size of the backing byte buffer.
+     *           Note that during marshaling this size normally exceeds the amount of actually
+     *           stored data until trim() is invoked. 
+     */
+    public int size() { return buf.capacity(); }
 
-    /** @return  Copy of the filled part of this marshaling buffer: from 0 to curPos() */
+    /** @return  Copy of the filled part of this marshaling buffer */
     public byte[] buffer()
     {
         return Arrays.copyOf(buf.array(), curPos());
     }
 
-    /** Shrinks the backing byte buffer to the size of its filled part
-     *  @return  this reference
+    /** Shrinks the backing byte buffer so that it ends at the current position
+     *  @return  reference to the backing byte array
      */
-    public OutByteBuf trim()
+    public byte[] trim()
     {
         init(buffer());
-        return this;
+        return this.buf.array();
     }
 
     public void writeSizedByteBuf(byte[] data, int sizeLen)

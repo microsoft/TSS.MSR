@@ -7,40 +7,35 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to allow a policy to be bound to a specific command
- *  and command parameters.
- */
+/** This command is used to allow a policy to be bound to a specific command and command parameters.  */
 public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
 {
-    /**
-     *  handle for the policy session being extended
+    /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
     
-    /** the cpHash added to the policy */
+    /** The cpHash added to the policy  */
     public byte[] cpHashA;
     
     public TPM2_PolicyCpHash_REQUEST() { policySession = new TPM_HANDLE(); }
     
-    /**
-     *  @param _policySession handle for the policy session being extended
+    /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param _cpHashA the cpHash added to the policy
+     *  @param _cpHashA The cpHash added to the policy
      */
     public TPM2_PolicyCpHash_REQUEST(TPM_HANDLE _policySession, byte[] _cpHashA)
     {
         policySession = _policySession;
         cpHashA = _cpHashA;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeSizedByteBuf(cpHashA);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -48,7 +43,7 @@ public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
         cpHashA = new byte[_cpHashASize];
         buf.readArrayOfInts(cpHashA, 1, _cpHashASize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -56,24 +51,27 @@ public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_PolicyCpHash_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_PolicyCpHash_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_PolicyCpHash_REQUEST ret = new TPM2_PolicyCpHash_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_PolicyCpHash_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_PolicyCpHash_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PolicyCpHash_REQUEST ret = new TPM2_PolicyCpHash_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -82,7 +80,7 @@ public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

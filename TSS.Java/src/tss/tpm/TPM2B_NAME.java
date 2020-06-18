@@ -7,15 +7,15 @@ import tss.*;
 
 //>>>
 
-/** This buffer holds a Name for any entity type. */
+/** This buffer holds a Name for any entity type.  */
 public class TPM2B_NAME extends TpmStructure
 {
-    /** the Name structure */
+    /** The Name structure  */
     public byte[] name;
     
     public TPM2B_NAME() {}
     
-    /** @param _name the Name structure */
+    /** @param _name The Name structure  */
     public TPM2B_NAME(byte[] _name) { name = _name; }
     
     @Override
@@ -23,7 +23,7 @@ public class TPM2B_NAME extends TpmStructure
     {
         buf.writeSizedByteBuf(name);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -31,7 +31,7 @@ public class TPM2B_NAME extends TpmStructure
         name = new byte[_size];
         buf.readArrayOfInts(name, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -39,24 +39,27 @@ public class TPM2B_NAME extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_NAME fromTpm (byte[] x) 
+    
+    public static TPM2B_NAME fromBytes (byte[] byteBuf) 
     {
         TPM2B_NAME ret = new TPM2B_NAME();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_NAME fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_NAME fromTpm (InByteBuf buf) 
     {
         TPM2B_NAME ret = new TPM2B_NAME();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -65,7 +68,7 @@ public class TPM2B_NAME extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

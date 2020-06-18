@@ -7,28 +7,27 @@ import tss.*;
 
 //>>>
 
-/** This is the attested data for TPM2_CertifyCreation(). */
+/** This is the attested data for TPM2_CertifyCreation().  */
 public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
 {
-    /** Name of the object */
+    /** Name of the object  */
     public byte[] objectName;
     
-    /** creationHash */
+    /** CreationHash  */
     public byte[] creationHash;
     
     public TPMS_CREATION_INFO() {}
     
-    /**
-     *  @param _objectName Name of the object
-     *  @param _creationHash creationHash
+    /** @param _objectName Name of the object
+     *  @param _creationHash CreationHash
      */
     public TPMS_CREATION_INFO(byte[] _objectName, byte[] _creationHash)
     {
         objectName = _objectName;
         creationHash = _creationHash;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_CREATION; }
     
     @Override
@@ -37,7 +36,7 @@ public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeSizedByteBuf(objectName);
         buf.writeSizedByteBuf(creationHash);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -48,7 +47,7 @@ public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
         creationHash = new byte[_creationHashSize];
         buf.readArrayOfInts(creationHash, 1, _creationHashSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -56,24 +55,27 @@ public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_CREATION_INFO fromTpm (byte[] x) 
+    
+    public static TPMS_CREATION_INFO fromBytes (byte[] byteBuf) 
     {
         TPMS_CREATION_INFO ret = new TPMS_CREATION_INFO();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_CREATION_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_CREATION_INFO fromTpm (InByteBuf buf) 
     {
         TPMS_CREATION_INFO ret = new TPMS_CREATION_INFO();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -82,7 +84,7 @@ public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -2,32 +2,38 @@ package tss;
 import java.io.IOException;
 import java.net.Socket;
 
-public class TpmDeviceTcp extends TpmDeviceBase 
+public class TpmDeviceTcp extends TpmDevice 
 {
     protected Socket CommandSocket = null;
     protected Socket SignalSocket = null;
+    String hostName;
+    int port;
     boolean linuxTrm;
-    boolean oldTrm;
+    boolean oldTrm = true;
     
     boolean responsePending;
     int currentLocality;
     
-    public TpmDeviceTcp(String hostName, int port)
-    {
-        this.linuxTrm = false;
-        connect(hostName, port);
-    }
-    
-    //public interface DummyTrmLibrary extends Library {}
-    
     public TpmDeviceTcp(String hostName, int port, boolean linuxTrm)
     {
-        this.linuxTrm = linuxTrm;
-        oldTrm = true;
-        connect(hostName, port);
+        init(hostName, port, linuxTrm);
+    }
+
+    public TpmDeviceTcp(String hostName, int port)
+    {
+        init(hostName, port, false);
     }
     
-    private void connect(String hostName, int port)
+
+    void init(String hostName, int port, boolean linuxTrm)
+    {
+        this.hostName = hostName;
+        this.port = port;
+        this.linuxTrm = linuxTrm;
+    }
+
+    @Override
+    public boolean connect()
     {
         try {
             CommandSocket = new Socket(hostName, port);
@@ -36,22 +42,22 @@ public class TpmDeviceTcp extends TpmDeviceBase
         } catch (Exception e) {
             if (CommandSocket != null)
                 try { CommandSocket.close(); } catch (IOException ioe) {}
-            throw new TpmException("Failed to connect to the TPM at " + hostName + ":" + 
-                                    Integer.toString(port) + "/" + Integer.toString(port+1), e);
+            System.err.println("Failed to connect to the TPM at " + hostName + ":" + 
+                               port + ": " +  e.getMessage());
+            return false;
         }
         
         if (linuxTrm)
         {
-            byte[] cmdGetRandom = new byte[]{
-                    (byte)0x80, 0x01,             // TPM_ST_NO_SESSIONS
+            byte[] cmdGetRandom = new byte[] {
+                    (byte)0x80, 0x01,       // TPM_ST_NO_SESSIONS
                     0, 0, 0, 0x0C,          // length
                     0, 0, 0x01, 0x7B,       // TPM_CC_GetRandom
                     0, 0x08                 // Command parameter - num random bytes to generate
             };
 
             byte[] resp = null;
-            try
-            {
+            try {
                 dispatchCommand(cmdGetRandom);
                 resp = getResponse();
             }
@@ -59,19 +65,46 @@ public class TpmDeviceTcp extends TpmDeviceBase
             if (resp == null || resp.length != 20)
             {
                 try { CommandSocket.close(); } catch (IOException ioe) {}
-                if (oldTrm)
-                {
+                CommandSocket = null;
+                if (oldTrm) {
                     oldTrm = false;
-                    //System.out.println("==>> Trying to connect using new protocol");
                     connect(hostName, port);
                 }
-                else
-                    throw new TpmException("Unknown user mode TRM protocol version");
+                else {
+                    System.err.println("Unknown user mode TRM protocol version");
+                    return false;
+                }
             }
             //System.out.println("==>> Connected to " + (oldTrm ? "OLD TRM" : "NEW TRM"));
         }
+        return true;
     }
-    
+
+    public void connect(String hostName, int port, boolean linuxTrm)
+    {
+        init(hostName, port, linuxTrm);
+    }
+
+    public void connect(String hostName, int port)
+    {
+        init(hostName, port, false);
+    }
+
+    @Override
+    public void close()
+    {
+        if (CommandSocket != null) {
+            writeInt(CommandSocket, TcpTpmCommands.SessionEnd.Val);
+            try { CommandSocket.close(); } catch (IOException ioe) {}
+            CommandSocket = null;
+        }
+        if (SignalSocket != null) {
+            writeInt(SignalSocket, TcpTpmCommands.SessionEnd.Val);
+            try { SignalSocket.close(); } catch (IOException ioe) {}
+            SignalSocket = null;
+        }
+    }
+
     @Override
     public void dispatchCommand(byte[] commandBuffer) 
     {
@@ -123,24 +156,16 @@ public class TpmDeviceTcp extends TpmDeviceBase
     }
     
     @Override
-    public void powerCycle() 
+    public void powerCtl(boolean on)
     {
-        powerOff();
-        powerOn();
+        sendCmdAndGetAck(SignalSocket, on ? TcpTpmCommands.SignalPowerOn : TcpTpmCommands.SignalPowerOff);
+        sendCmdAndGetAck(SignalSocket, on ? TcpTpmCommands.SignalNvOn : TcpTpmCommands.SignalNvOff);
     }
 
     @Override
-    public void powerOff() 
+    public void assertPhysicalPresence(boolean on)
     {
-        sendCmdAndGetAck(SignalSocket, TcpTpmCommands.SignalPowerOff);
-        sendCmdAndGetAck(SignalSocket, TcpTpmCommands.SignalNvOff);
-    }
-
-    @Override
-    public void powerOn() 
-    {
-        sendCmdAndGetAck(SignalSocket, TcpTpmCommands.SignalPowerOn);
-        sendCmdAndGetAck(SignalSocket, TcpTpmCommands.SignalNvOn);
+        sendCmdAndGetAck(SignalSocket, on ? TcpTpmCommands.SignalPPOn : TcpTpmCommands.SignalPPOff);
     }
 
     @Override
@@ -212,21 +237,6 @@ public class TpmDeviceTcp extends TpmDeviceBase
         byte[] t = readBuf(s, 4);
         int sz = Helpers.netToHost(t);
         return readBuf(s, sz);
-    }
-    
-    @Override
-    public void close() throws IOException
-    {
-        if (CommandSocket != null) {
-            writeInt(CommandSocket, TcpTpmCommands.SessionEnd.Val);
-            CommandSocket.close();
-            CommandSocket = null;
-        }
-        if (SignalSocket != null) {
-            writeInt(SignalSocket, TcpTpmCommands.SessionEnd.Val);
-            SignalSocket.close();
-            SignalSocket = null;
-        }
     }
     
     /**
@@ -303,8 +313,6 @@ public class TpmDeviceTcp extends TpmDeviceBase
         
         System.out.println("Got header" + Helpers.ToHex(data, 0, 10) + " bytes");
         System.out.println("Got data" + Helpers.ToHex(data, 10, 20) + " bytes");
-
-        
         return d;
     }
     */

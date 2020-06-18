@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This command is used to change the authorization secret for a TPM-resident object. */
+/** This command is used to change the authorization secret for a TPM-resident object.  */
 public class ObjectChangeAuthResponse extends TpmStructure
 {
-    /** private area containing the new authorization value */
+    /** Private area containing the new authorization value  */
     public TPM2B_PRIVATE outPrivate;
     
     public ObjectChangeAuthResponse() {}
@@ -20,13 +20,13 @@ public class ObjectChangeAuthResponse extends TpmStructure
     {
         outPrivate.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         outPrivate = TPM2B_PRIVATE.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -34,24 +34,27 @@ public class ObjectChangeAuthResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static ObjectChangeAuthResponse fromTpm (byte[] x) 
+    
+    public static ObjectChangeAuthResponse fromBytes (byte[] byteBuf) 
     {
         ObjectChangeAuthResponse ret = new ObjectChangeAuthResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static ObjectChangeAuthResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static ObjectChangeAuthResponse fromTpm (InByteBuf buf) 
     {
         ObjectChangeAuthResponse ret = new ObjectChangeAuthResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -60,7 +63,7 @@ public class ObjectChangeAuthResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

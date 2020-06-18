@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This command causes the TPM to perform a test of the selected algorithms. */
+/** This command causes the TPM to perform a test of the selected algorithms.  */
 public class IncrementalSelfTestResponse extends TpmStructure
 {
-    /** list of algorithms that need testing */
+    /** List of algorithms that need testing  */
     public TPM_ALG_ID[] toDoList;
     
     public IncrementalSelfTestResponse() {}
@@ -20,7 +20,7 @@ public class IncrementalSelfTestResponse extends TpmStructure
     {
         buf.writeObjArr(toDoList);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -28,7 +28,7 @@ public class IncrementalSelfTestResponse extends TpmStructure
         toDoList = new TPM_ALG_ID[_toDoListCount];
         for (int j=0; j < _toDoListCount; j++) toDoList[j] = TPM_ALG_ID.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -36,24 +36,27 @@ public class IncrementalSelfTestResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static IncrementalSelfTestResponse fromTpm (byte[] x) 
+    
+    public static IncrementalSelfTestResponse fromBytes (byte[] byteBuf) 
     {
         IncrementalSelfTestResponse ret = new IncrementalSelfTestResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static IncrementalSelfTestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static IncrementalSelfTestResponse fromTpm (InByteBuf buf) 
     {
         IncrementalSelfTestResponse ret = new IncrementalSelfTestResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -62,7 +65,7 @@ public class IncrementalSelfTestResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

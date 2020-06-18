@@ -7,32 +7,28 @@ import tss.*;
 
 //>>>
 
-/** This structure describes an NV Index. */
+/** This structure describes an NV Index.  */
 public class TPMS_NV_PUBLIC extends TpmStructure
 {
-    /** the handle of the data area */
+    /** The handle of the data area  */
     public TPM_HANDLE nvIndex;
     
-    /**
-     *  hash algorithm used to compute the name of the Index and used for the authPolicy. For an
-     *  extend index, the hash algorithm used for the extend.
+    /** Hash algorithm used to compute the name of the Index and used for the authPolicy. For
+     *  an extend index, the hash algorithm used for the extend.
      */
     public TPM_ALG_ID nameAlg;
     
-    /** the Index attributes */
+    /** The Index attributes  */
     public TPMA_NV attributes;
     
-    /**
-     *  optional access policy for the Index
+    /** Optional access policy for the Index
      *  The policy is computed using the nameAlg
      *  NOTE Shall be the Empty Policy if no authorization policy is present.
      */
     public byte[] authPolicy;
     
-    /**
-     *  the size of the data area
-     *  The maximum size is implementation-dependent. The minimum maximum size is
-     *  platform-specific.
+    /** The size of the data area
+     *  The maximum size is implementation-dependent. The minimum maximum size is platform-specific.
      */
     public short dataSize;
     
@@ -41,18 +37,17 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         nvIndex = new TPM_HANDLE();
         nameAlg = TPM_ALG_ID.NULL;
     }
-
-    /**
-     *  @param _nvIndex the handle of the data area
-     *  @param _nameAlg hash algorithm used to compute the name of the Index and used for the authPolicy. For an
-     *         extend index, the hash algorithm used for the extend.
-     *  @param _attributes the Index attributes
-     *  @param _authPolicy optional access policy for the Index
+    
+    /** @param _nvIndex The handle of the data area
+     *  @param _nameAlg Hash algorithm used to compute the name of the Index and used for the
+     *         authPolicy. For an extend index, the hash algorithm used for the extend.
+     *  @param _attributes The Index attributes
+     *  @param _authPolicy Optional access policy for the Index
      *         The policy is computed using the nameAlg
      *         NOTE Shall be the Empty Policy if no authorization policy is present.
-     *  @param _dataSize the size of the data area
+     *  @param _dataSize The size of the data area
      *         The maximum size is implementation-dependent. The minimum maximum size is
-     *         platform-specific.
+     *  platform-specific.
      */
     public TPMS_NV_PUBLIC(TPM_HANDLE _nvIndex, TPM_ALG_ID _nameAlg, TPMA_NV _attributes, byte[] _authPolicy, int _dataSize)
     {
@@ -62,7 +57,7 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         authPolicy = _authPolicy;
         dataSize = (short)_dataSize;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -72,7 +67,7 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         buf.writeSizedByteBuf(authPolicy);
         buf.writeShort(dataSize);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -85,7 +80,7 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         buf.readArrayOfInts(authPolicy, 1, _authPolicySize);
         dataSize = buf.readShort();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -93,24 +88,27 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_NV_PUBLIC fromTpm (byte[] x) 
+    
+    public static TPMS_NV_PUBLIC fromBytes (byte[] byteBuf) 
     {
         TPMS_NV_PUBLIC ret = new TPMS_NV_PUBLIC();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_NV_PUBLIC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_NV_PUBLIC fromTpm (InByteBuf buf) 
     {
         TPMS_NV_PUBLIC ret = new TPMS_NV_PUBLIC();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -119,7 +117,7 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

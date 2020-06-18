@@ -7,23 +7,23 @@ import java.util.*;
 
 //>>>
 
-/** Table 16 Defines for SHA512 Hash Values */
+/** Table 16 Defines for SHA512 Hash Values  */
 public final class SHA512 extends TpmEnum<SHA512>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the SHA512. qualifier.
     public enum _N {
-        /** size of digest in octets */
-        DIGEST_SIZE,
+        /** Size of digest in octets  */
+        DIGEST_SIZE, 
         
-        /** size of hash block in octets */
+        /** Size of hash block in octets  */
         BLOCK_SIZE
     }
-
+    
     private static ValueMap<SHA512> _ValueMap = new ValueMap<SHA512>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final SHA512
         DIGEST_SIZE = new SHA512(64, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA512(128, _N.BLOCK_SIZE);

@@ -7,13 +7,10 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command returns the parameters of an ECC curve identified by
- *  its TCG-assigned curveID.
- */
+/** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.  */
 public class ECC_ParametersResponse extends TpmStructure
 {
-    /** ECC parameters for the selected curve */
+    /** ECC parameters for the selected curve  */
     public TPMS_ALGORITHM_DETAIL_ECC parameters;
     
     public ECC_ParametersResponse() {}
@@ -23,13 +20,13 @@ public class ECC_ParametersResponse extends TpmStructure
     {
         parameters.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
         parameters = TPMS_ALGORITHM_DETAIL_ECC.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -37,24 +34,27 @@ public class ECC_ParametersResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static ECC_ParametersResponse fromTpm (byte[] x) 
+    
+    public static ECC_ParametersResponse fromBytes (byte[] byteBuf) 
     {
         ECC_ParametersResponse ret = new ECC_ParametersResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static ECC_ParametersResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static ECC_ParametersResponse fromTpm (InByteBuf buf) 
     {
         ECC_ParametersResponse ret = new ECC_ParametersResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -63,7 +63,7 @@ public class ECC_ParametersResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

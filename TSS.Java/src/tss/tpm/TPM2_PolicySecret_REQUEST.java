@@ -7,49 +7,42 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command includes a secret-based authorization to a policy. The caller proves
+/** This command includes a secret-based authorization to a policy. The caller proves
  *  knowledge of the secret value using an authorization session using the authValue
  *  associated with authHandle. A password session, an HMAC session, or a policy session
  *  containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
  */
 public class TPM2_PolicySecret_REQUEST extends TpmStructure
 {
-    /**
-     *  handle for an entity providing the authorization
+    /** Handle for an entity providing the authorization
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
     
-    /**
-     *  handle for the policy session being extended
+    /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
     
-    /**
-     *  the policy nonce for the session
+    /** The policy nonce for the session
      *  This can be the Empty Buffer.
      */
     public byte[] nonceTPM;
     
-    /**
-     *  digest of the command parameters to which this authorization is limited
-     *  This not the cpHash for this command but the cpHash for the command to which this policy
-     *  session will be applied. If it is not limited, the parameter will be the Empty Buffer.
+    /** Digest of the command parameters to which this authorization is limited
+     *  This not the cpHash for this command but the cpHash for the command to which this
+     *  policy session will be applied. If it is not limited, the parameter will be the Empty Buffer.
      */
     public byte[] cpHashA;
     
-    /**
-     *  a reference to a policy relating to the authorization may be the Empty Buffer
+    /** A reference to a policy relating to the authorization may be the Empty Buffer
      *  Size is limited to be no larger than the nonce size supported on the TPM.
      */
     public byte[] policyRef;
     
-    /**
-     *  time when authorization will expire, measured in seconds from the time that nonceTPM was
-     *  generated
+    /** Time when authorization will expire, measured in seconds from the time that nonceTPM
+     *  was generated
      *  If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
      */
     public int expiration;
@@ -59,22 +52,23 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
         authHandle = new TPM_HANDLE();
         policySession = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _authHandle handle for an entity providing the authorization
+    
+    /** @param _authHandle Handle for an entity providing the authorization
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _policySession handle for the policy session being extended
+     *  @param _policySession Handle for the policy session being extended
      *         Auth Index: None
-     *  @param _nonceTPM the policy nonce for the session
+     *  @param _nonceTPM The policy nonce for the session
      *         This can be the Empty Buffer.
-     *  @param _cpHashA digest of the command parameters to which this authorization is limited
-     *         This not the cpHash for this command but the cpHash for the command to which this policy
-     *         session will be applied. If it is not limited, the parameter will be the Empty Buffer.
-     *  @param _policyRef a reference to a policy relating to the authorization may be the Empty Buffer
+     *  @param _cpHashA Digest of the command parameters to which this authorization is limited
+     *         This not the cpHash for this command but the cpHash for the command to which this
+     *         policy session will be applied. If it is not limited, the parameter will be the
+     *         Empty Buffer.
+     *  @param _policyRef A reference to a policy relating to the authorization may be the
+     *  Empty Buffer
      *         Size is limited to be no larger than the nonce size supported on the TPM.
-     *  @param _expiration time when authorization will expire, measured in seconds from the time that nonceTPM was
-     *         generated
+     *  @param _expiration Time when authorization will expire, measured in seconds from the time
+     *         that nonceTPM was generated
      *         If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
      */
     public TPM2_PolicySecret_REQUEST(TPM_HANDLE _authHandle, TPM_HANDLE _policySession, byte[] _nonceTPM, byte[] _cpHashA, byte[] _policyRef, int _expiration)
@@ -86,7 +80,7 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
         policyRef = _policyRef;
         expiration = _expiration;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -95,7 +89,7 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(policyRef);
         buf.writeInt(expiration);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -110,7 +104,7 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
         buf.readArrayOfInts(policyRef, 1, _policyRefSize);
         expiration = buf.readInt();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -118,24 +112,27 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_PolicySecret_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_PolicySecret_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_PolicySecret_REQUEST ret = new TPM2_PolicySecret_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_PolicySecret_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_PolicySecret_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_PolicySecret_REQUEST ret = new TPM2_PolicySecret_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -144,7 +141,7 @@ public class TPM2_PolicySecret_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

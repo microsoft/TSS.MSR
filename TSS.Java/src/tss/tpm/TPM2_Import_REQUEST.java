@@ -7,68 +7,64 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command allows an object to be encrypted using the symmetric encryption values of a
- *  Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The
- *  imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
+/** This command allows an object to be encrypted using the symmetric encryption values of
+ *  a Storage Key. After encryption, the object may be loaded and used in the new
+ *  hierarchy. The imported object (duplicate) may be singly encrypted, multiply
+ *  encrypted, or unencrypted.
  */
 public class TPM2_Import_REQUEST extends TpmStructure
 {
-    /**
-     *  the handle of the new parent for the object
+    /** The handle of the new parent for the object
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE parentHandle;
     
-    /**
-     *  the optional symmetric encryption key used as the inner wrapper for duplicate
+    /** The optional symmetric encryption key used as the inner wrapper for duplicate
      *  If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer.
      */
     public byte[] encryptionKey;
     
-    /**
-     *  the public area of the object to be imported
-     *  This is provided so that the integrity value for duplicate and the object attributes can
-     *  be checked.
-     *  NOTE Even if the integrity value of the object is not checked on input, the object Name is
-     *  required to create the integrity value for the imported object.
+    /** The public area of the object to be imported
+     *  This is provided so that the integrity value for duplicate and the object attributes
+     *  can be checked.
+     *  NOTE Even if the integrity value of the object is not checked on input, the object
+     *  Name is required to create the integrity value for the imported object.
      */
     public TPMT_PUBLIC objectPublic;
     
-    /** the symmetrically encrypted duplicate object that may contain an inner symmetric wrapper */
+    /** The symmetrically encrypted duplicate object that may contain an inner symmetric wrapper  */
     public TPM2B_PRIVATE duplicate;
     
-    /**
-     *  the seed for the symmetric key and HMAC key
+    /** The seed for the symmetric key and HMAC key
      *  inSymSeed is encrypted/encoded using the algorithms of newParent.
      */
     public byte[] inSymSeed;
     
-    /**
-     *  definition for the symmetric algorithm to use for the inner wrapper
-     *  If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
-     *  shall be the Empty Buffer.
+    /** Definition for the symmetric algorithm to use for the inner wrapper
+     *  If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall
+     *  be the Empty Buffer.
      */
     public TPMT_SYM_DEF_OBJECT symmetricAlg;
     
     public TPM2_Import_REQUEST() { parentHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _parentHandle the handle of the new parent for the object
+    /** @param _parentHandle The handle of the new parent for the object
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _encryptionKey the optional symmetric encryption key used as the inner wrapper for duplicate
+     *  @param _encryptionKey The optional symmetric encryption key used as the inner wrapper
+     *  for duplicate
      *         If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer.
-     *  @param _objectPublic the public area of the object to be imported
-     *         This is provided so that the integrity value for duplicate and the object attributes can
-     *         be checked.
-     *         NOTE Even if the integrity value of the object is not checked on input, the object Name is
-     *         required to create the integrity value for the imported object.
-     *  @param _duplicate the symmetrically encrypted duplicate object that may contain an inner symmetric wrapper
-     *  @param _inSymSeed the seed for the symmetric key and HMAC key
+     *  @param _objectPublic The public area of the object to be imported
+     *         This is provided so that the integrity value for duplicate and the object
+     *         attributes can be checked.
+     *         NOTE Even if the integrity value of the object is not checked on input, the object
+     *         Name is required to create the integrity value for the imported object.
+     *  @param _duplicate The symmetrically encrypted duplicate object that may contain an inner
+     *         symmetric wrapper
+     *  @param _inSymSeed The seed for the symmetric key and HMAC key
      *         inSymSeed is encrypted/encoded using the algorithms of newParent.
-     *  @param _symmetricAlg definition for the symmetric algorithm to use for the inner wrapper
+     *  @param _symmetricAlg Definition for the symmetric algorithm to use for the inner wrapper
      *         If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
      *         shall be the Empty Buffer.
      */
@@ -81,7 +77,7 @@ public class TPM2_Import_REQUEST extends TpmStructure
         inSymSeed = _inSymSeed;
         symmetricAlg = _symmetricAlg;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -93,7 +89,7 @@ public class TPM2_Import_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(inSymSeed);
         symmetricAlg.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -110,7 +106,7 @@ public class TPM2_Import_REQUEST extends TpmStructure
         buf.readArrayOfInts(inSymSeed, 1, _inSymSeedSize);
         symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -118,24 +114,27 @@ public class TPM2_Import_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_Import_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_Import_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_Import_REQUEST ret = new TPM2_Import_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_Import_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_Import_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_Import_REQUEST ret = new TPM2_Import_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -144,7 +143,7 @@ public class TPM2_Import_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

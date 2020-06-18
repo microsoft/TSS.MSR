@@ -7,19 +7,18 @@ import tss.*;
 
 //>>>
 
-/** This structure is used for a hash signing object. */
+/** This structure is used for a hash signing object.  */
 public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
 {
-    /** selects the scheme */
+    /** Selects the scheme  */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** the scheme parameters */
+    /** The scheme parameters  */
     public TPMU_SCHEME_KEYEDHASH details;
     
     public TPMT_KEYEDHASH_SCHEME() {}
     
-    /**
-     *  @param _details the scheme parameters
+    /** @param _details The scheme parameters
      *         (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
      */
     public TPMT_KEYEDHASH_SCHEME(TPMU_SCHEME_KEYEDHASH _details) { details = _details; }
@@ -31,7 +30,7 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
         details.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)details).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -39,7 +38,7 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
         details = UnionFactory.create("TPMU_SCHEME_KEYEDHASH", new TPM_ALG_ID(_scheme));
         details.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -47,24 +46,27 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMT_KEYEDHASH_SCHEME fromTpm (byte[] x) 
+    
+    public static TPMT_KEYEDHASH_SCHEME fromBytes (byte[] byteBuf) 
     {
         TPMT_KEYEDHASH_SCHEME ret = new TPMT_KEYEDHASH_SCHEME();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMT_KEYEDHASH_SCHEME fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMT_KEYEDHASH_SCHEME fromTpm (InByteBuf buf) 
     {
         TPMT_KEYEDHASH_SCHEME ret = new TPMT_KEYEDHASH_SCHEME();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -73,7 +75,7 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

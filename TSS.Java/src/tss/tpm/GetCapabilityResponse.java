@@ -7,16 +7,16 @@ import tss.*;
 
 //>>>
 
-/** This command returns various information regarding the TPM and its current state. */
+/** This command returns various information regarding the TPM and its current state.  */
 public class GetCapabilityResponse extends TpmStructure
 {
-    /** flag to indicate if there are more values of this type */
+    /** Flag to indicate if there are more values of this type  */
     public byte moreData;
     
-    /** the capability */
+    /** The capability  */
     public TPM_CAP capabilityDataCapability() { return capabilityData.GetUnionSelector(); }
     
-    /** the capability data */
+    /** The capability data  */
     public TPMU_CAPABILITIES capabilityData;
     
     public GetCapabilityResponse() {}
@@ -28,7 +28,7 @@ public class GetCapabilityResponse extends TpmStructure
         capabilityData.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)capabilityData).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -37,7 +37,7 @@ public class GetCapabilityResponse extends TpmStructure
         capabilityData = UnionFactory.create("TPMU_CAPABILITIES", new TPM_CAP(_capabilityDataCapability));
         capabilityData.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -45,24 +45,27 @@ public class GetCapabilityResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static GetCapabilityResponse fromTpm (byte[] x) 
+    
+    public static GetCapabilityResponse fromBytes (byte[] byteBuf) 
     {
         GetCapabilityResponse ret = new GetCapabilityResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static GetCapabilityResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static GetCapabilityResponse fromTpm (InByteBuf buf) 
     {
         GetCapabilityResponse ret = new GetCapabilityResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -71,7 +74,7 @@ public class GetCapabilityResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

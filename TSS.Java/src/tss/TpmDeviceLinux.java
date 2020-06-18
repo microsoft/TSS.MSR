@@ -3,26 +3,44 @@ import java.io.*;
 import java.util.Arrays;
 
 
-public class TpmDeviceLinux extends TpmDeviceBase
+public class TpmDeviceLinux extends TpmDevice
 {
-    RandomAccessFile devTpm;
-    int respSize;
-    byte[] respBuf;
-    
-    
-    public TpmDeviceLinux()
+    RandomAccessFile devTpm = null;
+    int respSize = 0;
+    byte[] respBuf = null;
+
+
+    public TpmDeviceLinux() {}
+
+    @Override
+    public boolean connect()
     {
+        if (devTpm != null)
+            return true;
+
         String errorRM = openTpmDevice("/dev/tpmrm0");
         if (errorRM != null)
         {
             String errorTPM = openTpmDevice("/dev/tpm0");
             if (errorTPM != null)
-                throw new RuntimeException("TSS.Java fatal error: " + errorRM + " and " + errorTPM);
+            {
+                System.err.println("TSS.Java: " + errorRM + " and " + errorTPM);
+                return false;
+                //throw new RuntimeException("TSS.Java: " + errorRM + " and " + errorTPM);
+            }
             //System.out.println("Connected to system TPM");
         }
         //else System.out.println("Connected to kernel mode TRM");
         respSize = 0;
-        respBuf = new byte[8192];
+        respBuf = new byte[4096];
+        return true;
+    }
+
+    @Override
+    public void close()
+    {
+        if (devTpm != null)
+            try { devTpm.close(); } catch (IOException ioe) {}
     }
     
     private String openTpmDevice(String devName)
@@ -74,17 +92,9 @@ public class TpmDeviceLinux extends TpmDeviceBase
     }
 
     @Override
-    boolean responseReady() 
+    public boolean responseReady() 
     {
         // TBS is blocking
         return true;
     }    
-    
-    
-    @Override
-    public void close() throws IOException
-    {
-        if (devTpm != null)
-            devTpm.close();
-    }
 }

@@ -7,20 +7,19 @@ import tss.*;
 
 //>>>
 
-/**
- *  This is the format for each of the authorizations in the session area of the response. If
- *  the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the same
- *  number of authorizations as the command and the authorizations are in the same order.
+/** This is the format for each of the authorizations in the session area of the response.
+ *  If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the
+ *  same number of authorizations as the command and the authorizations are in the same order.
  */
 public class TPMS_AUTH_RESPONSE extends TpmStructure
 {
-    /** the session nonce, may be the Empty Buffer */
+    /** The session nonce, may be the Empty Buffer  */
     public byte[] nonce;
     
-    /** the session attributes */
+    /** The session attributes  */
     public TPMA_SESSION sessionAttributes;
     
-    /** either an HMAC or an EmptyAuth */
+    /** Either an HMAC or an EmptyAuth  */
     public byte[] hmac;
     
     public TPMS_AUTH_RESPONSE() {}
@@ -32,7 +31,7 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         sessionAttributes.toTpm(buf);
         buf.writeSizedByteBuf(hmac);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -45,7 +44,7 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         hmac = new byte[_hmacSize];
         buf.readArrayOfInts(hmac, 1, _hmacSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -53,24 +52,27 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_AUTH_RESPONSE fromTpm (byte[] x) 
+    
+    public static TPMS_AUTH_RESPONSE fromBytes (byte[] byteBuf) 
     {
         TPMS_AUTH_RESPONSE ret = new TPMS_AUTH_RESPONSE();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_AUTH_RESPONSE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_AUTH_RESPONSE fromTpm (InByteBuf buf) 
     {
         TPMS_AUTH_RESPONSE ret = new TPMS_AUTH_RESPONSE();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -79,7 +81,7 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

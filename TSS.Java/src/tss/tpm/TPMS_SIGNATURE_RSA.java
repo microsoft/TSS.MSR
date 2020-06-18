@@ -7,22 +7,20 @@ import tss.*;
 
 //>>>
 
-/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
+/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure  */
 public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
 {
-    /**
-     *  the hash algorithm used to digest the message
+    /** The hash algorithm used to digest the message
      *  TPM_ALG_NULL is not allowed.
      */
     public TPM_ALG_ID hash;
     
-    /** The signature is the size of a public key. */
+    /** The signature is the size of a public key.  */
     public byte[] sig;
     
     public TPMS_SIGNATURE_RSA() { hash = TPM_ALG_ID.NULL; }
     
-    /**
-     *  @param _hash the hash algorithm used to digest the message
+    /** @param _hash The hash algorithm used to digest the message
      *         TPM_ALG_NULL is not allowed.
      *  @param _sig The signature is the size of a public key.
      */
@@ -31,8 +29,8 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
         hash = _hash;
         sig = _sig;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSASSA; }
     
     @Override
@@ -41,7 +39,7 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
         hash.toTpm(buf);
         buf.writeSizedByteBuf(sig);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -50,7 +48,7 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
         sig = new byte[_sigSize];
         buf.readArrayOfInts(sig, 1, _sigSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -58,24 +56,27 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_SIGNATURE_RSA fromTpm (byte[] x) 
+    
+    public static TPMS_SIGNATURE_RSA fromBytes (byte[] byteBuf) 
     {
         TPMS_SIGNATURE_RSA ret = new TPMS_SIGNATURE_RSA();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_SIGNATURE_RSA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_SIGNATURE_RSA fromTpm (InByteBuf buf) 
     {
         TPMS_SIGNATURE_RSA ret = new TPMS_SIGNATURE_RSA();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -84,7 +85,7 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

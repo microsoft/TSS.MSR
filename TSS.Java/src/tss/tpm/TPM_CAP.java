@@ -7,9 +7,8 @@ import java.util.*;
 
 //>>>
 
-/**
- *  The TPM_CAP values are used in TPM2_GetCapability() to select the type of the value to be
- *  returned. The format of the response varies according to the type of the value.
+/** The TPM_CAP values are used in TPM2_GetCapability() to select the type of the value to
+ *  be returned. The format of the response varies according to the type of the value.
  */
 public final class TPM_CAP extends TpmEnum<TPM_CAP>
 {
@@ -17,50 +16,50 @@ public final class TPM_CAP extends TpmEnum<TPM_CAP>
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the TPM_CAP. qualifier.
     public enum _N {
-        FIRST,
+        FIRST, 
         
-        /** TPML_ALG_PROPERTY */
-        ALGS,
+        /** TPML_ALG_PROPERTY  */
+        ALGS, 
         
-        /** TPML_HANDLE */
-        HANDLES,
+        /** TPML_HANDLE  */
+        HANDLES, 
         
-        /** TPML_CCA */
-        COMMANDS,
+        /** TPML_CCA  */
+        COMMANDS, 
         
-        /** TPML_CC */
-        PP_COMMANDS,
+        /** TPML_CC  */
+        PP_COMMANDS, 
         
-        /** TPML_CC */
-        AUDIT_COMMANDS,
+        /** TPML_CC  */
+        AUDIT_COMMANDS, 
         
-        /** TPML_PCR_SELECTION */
-        PCRS,
+        /** TPML_PCR_SELECTION  */
+        PCRS, 
         
-        /** TPML_TAGGED_TPM_PROPERTY */
-        TPM_PROPERTIES,
+        /** TPML_TAGGED_TPM_PROPERTY  */
+        TPM_PROPERTIES, 
         
-        /** TPML_TAGGED_PCR_PROPERTY */
-        PCR_PROPERTIES,
+        /** TPML_TAGGED_PCR_PROPERTY  */
+        PCR_PROPERTIES, 
         
-        /** TPML_ECC_CURVE */
-        ECC_CURVES,
+        /** TPML_ECC_CURVE  */
+        ECC_CURVES, 
         
-        /** TPML_TAGGED_POLICY */
-        AUTH_POLICIES,
+        /** TPML_TAGGED_POLICY  */
+        AUTH_POLICIES, 
         
-        /** TPML_ACT_DATA */
-        ACT,
+        /** TPML_ACT_DATA  */
+        ACT, 
         
-        LAST,
+        LAST, 
         
-        /** manufacturer-specific values */
+        /** Manufacturer-specific values  */
         VENDOR_PROPERTY
     }
-
+    
     private static ValueMap<TPM_CAP> _ValueMap = new ValueMap<TPM_CAP>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_CAP
         FIRST = new TPM_CAP(0x00000000, _N.FIRST),
         ALGS = new TPM_CAP(0x00000000, _N.ALGS),

@@ -7,33 +7,30 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure describes the parameters that would appear in the public
- *  area of a KEYEDHASH object.
+/** This structure describes the parameters that would appear in the public area of a
+ *  KEYEDHASH object.
  */
 public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
-    /** selects the scheme */
+    /** Selects the scheme  */
     public TPM_ALG_ID schemeScheme() { return scheme != null ? scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /**
-     *  Indicates the signing method used for a keyedHash signing object. This field also
-     *  determines the size of the data field for a data object created with
-     *  TPM2_Create() or TPM2_CreatePrimary().
+    /** Indicates the signing method used for a keyedHash signing object. This field also
+     *  determines the size of the data field for a data object created with TPM2_Create() or
+     *  TPM2_CreatePrimary().
      */
     public TPMU_SCHEME_KEYEDHASH scheme;
     
     public TPMS_KEYEDHASH_PARMS() {}
     
-    /**
-     *  @param _scheme Indicates the signing method used for a keyedHash signing object. This field also
-     *         determines the size of the data field for a data object created with
+    /** @param _scheme Indicates the signing method used for a keyedHash signing object. This
+     *         field also determines the size of the data field for a data object created with
      *         TPM2_Create() or TPM2_CreatePrimary().
      *         (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
      */
     public TPMS_KEYEDHASH_PARMS(TPMU_SCHEME_KEYEDHASH _scheme) { scheme = _scheme; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KEYEDHASH; }
     
     @Override
@@ -43,7 +40,7 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
         scheme.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)scheme).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -51,7 +48,7 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
         scheme = UnionFactory.create("TPMU_SCHEME_KEYEDHASH", new TPM_ALG_ID(_schemeScheme));
         scheme.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -59,24 +56,27 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_KEYEDHASH_PARMS fromTpm (byte[] x) 
+    
+    public static TPMS_KEYEDHASH_PARMS fromBytes (byte[] byteBuf) 
     {
         TPMS_KEYEDHASH_PARMS ret = new TPMS_KEYEDHASH_PARMS();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_KEYEDHASH_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_KEYEDHASH_PARMS fromTpm (InByteBuf buf) 
     {
         TPMS_KEYEDHASH_PARMS ret = new TPMS_KEYEDHASH_PARMS();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -85,7 +85,7 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

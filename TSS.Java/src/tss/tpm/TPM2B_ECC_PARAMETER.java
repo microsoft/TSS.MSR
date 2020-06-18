@@ -7,18 +7,18 @@ import tss.*;
 
 //>>>
 
-/** This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM. */
+/** This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM.  */
 public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
-    /** the parameter data */
+    /** The parameter data  */
     public byte[] buffer;
     
     public TPM2B_ECC_PARAMETER() {}
     
-    /** @param _buffer the parameter data */
+    /** @param _buffer The parameter data  */
     public TPM2B_ECC_PARAMETER(byte[] _buffer) { buffer = _buffer; }
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
     
     @Override
@@ -26,7 +26,7 @@ public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_
     {
         buf.writeSizedByteBuf(buffer);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -34,7 +34,7 @@ public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -42,24 +42,27 @@ public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_ECC_PARAMETER fromTpm (byte[] x) 
+    
+    public static TPM2B_ECC_PARAMETER fromBytes (byte[] byteBuf) 
     {
         TPM2B_ECC_PARAMETER ret = new TPM2B_ECC_PARAMETER();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_ECC_PARAMETER fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_ECC_PARAMETER fromTpm (InByteBuf buf) 
     {
         TPM2B_ECC_PARAMETER ret = new TPM2B_ECC_PARAMETER();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -68,7 +71,7 @@ public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

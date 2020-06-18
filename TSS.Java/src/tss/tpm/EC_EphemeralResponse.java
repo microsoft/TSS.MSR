@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. */
+/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.  */
 public class EC_EphemeralResponse extends TpmStructure
 {
-    /** ephemeral public key Q [r]G */
+    /** Ephemeral public key Q [r]G  */
     public TPMS_ECC_POINT Q;
     
-    /** least-significant 16 bits of commitCount */
+    /** Least-significant 16 bits of commitCount  */
     public short counter;
     
     public EC_EphemeralResponse() {}
@@ -26,7 +26,7 @@ public class EC_EphemeralResponse extends TpmStructure
             Q.toTpm(buf);
         buf.writeShort(counter);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -36,7 +36,7 @@ public class EC_EphemeralResponse extends TpmStructure
         buf.structSize.pop();
         counter = buf.readShort();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -44,24 +44,27 @@ public class EC_EphemeralResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static EC_EphemeralResponse fromTpm (byte[] x) 
+    
+    public static EC_EphemeralResponse fromBytes (byte[] byteBuf) 
     {
         EC_EphemeralResponse ret = new EC_EphemeralResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static EC_EphemeralResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static EC_EphemeralResponse fromTpm (InByteBuf buf) 
     {
         EC_EphemeralResponse ret = new EC_EphemeralResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -70,7 +73,7 @@ public class EC_EphemeralResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

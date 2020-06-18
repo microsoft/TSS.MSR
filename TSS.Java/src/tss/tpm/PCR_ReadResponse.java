@@ -7,16 +7,16 @@ import tss.*;
 
 //>>>
 
-/** This command returns the values of all PCR specified in pcrSelectionIn. */
+/** This command returns the values of all PCR specified in pcrSelectionIn.  */
 public class PCR_ReadResponse extends TpmStructure
 {
-    /** the current value of the PCR update counter */
+    /** The current value of the PCR update counter  */
     public int pcrUpdateCounter;
     
-    /** the PCR in the returned list */
+    /** The PCR in the returned list  */
     public TPMS_PCR_SELECTION[] pcrSelectionOut;
     
-    /** the contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests */
+    /** The contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests  */
     public TPM2B_DIGEST[] pcrValues;
     
     public PCR_ReadResponse() {}
@@ -28,7 +28,7 @@ public class PCR_ReadResponse extends TpmStructure
         buf.writeObjArr(pcrSelectionOut);
         buf.writeObjArr(pcrValues);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -42,7 +42,7 @@ public class PCR_ReadResponse extends TpmStructure
         for (int j=0; j < _pcrValuesCount; j++) pcrValues[j] = new TPM2B_DIGEST();
         buf.readArrayOfTpmObjects(pcrValues, _pcrValuesCount);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -50,24 +50,27 @@ public class PCR_ReadResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static PCR_ReadResponse fromTpm (byte[] x) 
+    
+    public static PCR_ReadResponse fromBytes (byte[] byteBuf) 
     {
         PCR_ReadResponse ret = new PCR_ReadResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static PCR_ReadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static PCR_ReadResponse fromTpm (InByteBuf buf) 
     {
         PCR_ReadResponse ret = new PCR_ReadResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -76,7 +79,7 @@ public class PCR_ReadResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

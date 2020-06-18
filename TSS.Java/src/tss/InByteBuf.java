@@ -27,6 +27,7 @@ public class InByteBuf
     ByteBuffer b;
     public Stack<SizedStructInfo>    structSize;
     
+    /** Constructs input marshling buffer initialized with the given marshaled representation */
     public InByteBuf(byte[] buf)
     {
         b = ByteBuffer.wrap(buf);
@@ -75,6 +76,7 @@ public class InByteBuf
     {
         if(arrX instanceof byte[])
         {
+            // TODO: replace with System.arraycopy()
             byte[] arrB = (byte[]) arrX;
             for(int j=0;j<numElems;j++)
             {

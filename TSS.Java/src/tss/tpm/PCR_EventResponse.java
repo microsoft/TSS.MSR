@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command is used to cause an update to the indicated PCR. */
+/** This command is used to cause an update to the indicated PCR.  */
 public class PCR_EventResponse extends TpmStructure
 {
     public TPMT_HA[] digests;
@@ -19,7 +19,7 @@ public class PCR_EventResponse extends TpmStructure
     {
         buf.writeObjArr(digests);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -28,7 +28,7 @@ public class PCR_EventResponse extends TpmStructure
         for (int j=0; j < _digestsCount; j++) digests[j] = new TPMT_HA();
         buf.readArrayOfTpmObjects(digests, _digestsCount);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -36,24 +36,27 @@ public class PCR_EventResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static PCR_EventResponse fromTpm (byte[] x) 
+    
+    public static PCR_EventResponse fromBytes (byte[] byteBuf) 
     {
         PCR_EventResponse ret = new PCR_EventResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static PCR_EventResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static PCR_EventResponse fromTpm (InByteBuf buf) 
     {
         PCR_EventResponse ret = new PCR_EventResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -62,7 +65,7 @@ public class PCR_EventResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

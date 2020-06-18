@@ -7,19 +7,17 @@ import tss.*;
 
 //>>>
 
-/** This command allows access to the public area of a loaded object. */
+/** This command allows access to the public area of a loaded object.  */
 public class TPM2_ReadPublic_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM handle of an object
+    /** TPM handle of an object
      *  Auth Index: None
      */
     public TPM_HANDLE objectHandle;
     
     public TPM2_ReadPublic_REQUEST() { objectHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _objectHandle TPM handle of an object
+    /** @param _objectHandle TPM handle of an object
      *         Auth Index: None
      */
     public TPM2_ReadPublic_REQUEST(TPM_HANDLE _objectHandle) { objectHandle = _objectHandle; }
@@ -32,7 +30,7 @@ public class TPM2_ReadPublic_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

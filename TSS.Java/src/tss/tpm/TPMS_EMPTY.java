@@ -7,16 +7,15 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure is used as a placeholder. In some cases, a union will have a selector value
- *  with no data to unmarshal when that type is selected. Rather than leave the entry
- *  empty, TPMS_EMPTY may be selected.
+/** This structure is used as a placeholder. In some cases, a union will have a selector
+ *  value with no data to unmarshal when that type is selected. Rather than leave the
+ *  entry empty, TPMS_EMPTY may be selected.
  */
 public class TPMS_EMPTY extends TpmStructure implements TPMU_ASYM_SCHEME
 {
     public TPMS_EMPTY() {}
     
-    /** TpmUnion method */
+    /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSAES; }
     
     @Override

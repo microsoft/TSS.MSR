@@ -7,16 +7,16 @@ import tss.*;
 
 //>>>
 
-/** This command is used to quote PCR values. */
+/** This command is used to quote PCR values.  */
 public class QuoteResponse extends TpmStructure
 {
-    /** the quoted information */
+    /** The quoted information  */
     public TPMS_ATTEST quoted;
     
-    /** selector of the algorithm used to construct the signature */
+    /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** the signature over quoted */
+    /** The signature over quoted  */
     public TPMU_SIGNATURE signature;
     
     public QuoteResponse() {}
@@ -30,7 +30,7 @@ public class QuoteResponse extends TpmStructure
         signature.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)signature).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -42,7 +42,7 @@ public class QuoteResponse extends TpmStructure
         signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_signatureSigAlg));
         signature.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -50,24 +50,27 @@ public class QuoteResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static QuoteResponse fromTpm (byte[] x) 
+    
+    public static QuoteResponse fromBytes (byte[] byteBuf) 
     {
         QuoteResponse ret = new QuoteResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static QuoteResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static QuoteResponse fromTpm (InByteBuf buf) 
     {
         QuoteResponse ret = new QuoteResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -76,7 +79,7 @@ public class QuoteResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -7,23 +7,23 @@ import java.util.*;
 
 //>>>
 
-/** Table 14 Defines for SHA256 Hash Values */
+/** Table 14 Defines for SHA256 Hash Values  */
 public final class SHA256 extends TpmEnum<SHA256>
 {
     // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
     // However, their Java names are identical to those of the constants defined in this class further below,
     // so for any other usage just prepend them with the SHA256. qualifier.
     public enum _N {
-        /** size of digest */
-        DIGEST_SIZE,
+        /** Size of digest  */
+        DIGEST_SIZE, 
         
-        /** size of hash block */
+        /** Size of hash block  */
         BLOCK_SIZE
     }
-
+    
     private static ValueMap<SHA256> _ValueMap = new ValueMap<SHA256>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final SHA256
         DIGEST_SIZE = new SHA256(32, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA256(64, _N.BLOCK_SIZE);

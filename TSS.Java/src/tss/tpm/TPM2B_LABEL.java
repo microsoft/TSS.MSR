@@ -7,19 +7,20 @@ import tss.*;
 
 //>>>
 
-/**
- *  This buffer holds a label or context value. For interoperability and backwards
- *  compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and the
- *  largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
+/** This buffer holds a label or context value. For interoperability and backwards
+ *  compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and
+ *  the largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
  */
 public class TPM2B_LABEL extends TpmStructure
 {
-    /** symmetric data for a created object or the label and context for a derived object */
+    /** Symmetric data for a created object or the label and context for a derived object  */
     public byte[] buffer;
     
     public TPM2B_LABEL() {}
     
-    /** @param _buffer symmetric data for a created object or the label and context for a derived object */
+    /** @param _buffer Symmetric data for a created object or the label and context for a
+     *  derived object
+     */
     public TPM2B_LABEL(byte[] _buffer) { buffer = _buffer; }
     
     @Override
@@ -27,7 +28,7 @@ public class TPM2B_LABEL extends TpmStructure
     {
         buf.writeSizedByteBuf(buffer);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -35,7 +36,7 @@ public class TPM2B_LABEL extends TpmStructure
         buffer = new byte[_size];
         buf.readArrayOfInts(buffer, 1, _size);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -43,24 +44,27 @@ public class TPM2B_LABEL extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2B_LABEL fromTpm (byte[] x) 
+    
+    public static TPM2B_LABEL fromBytes (byte[] byteBuf) 
     {
         TPM2B_LABEL ret = new TPM2B_LABEL();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_LABEL fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2B_LABEL fromTpm (InByteBuf buf) 
     {
         TPM2B_LABEL ret = new TPM2B_LABEL();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -69,7 +73,7 @@ public class TPM2B_LABEL extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

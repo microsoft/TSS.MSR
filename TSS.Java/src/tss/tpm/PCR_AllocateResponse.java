@@ -7,22 +7,21 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to set the desired PCR allocation of PCR and algorithms. This command
- *  requires Platform Authorization.
+/** This command is used to set the desired PCR allocation of PCR and algorithms. This
+ *  command requires Platform Authorization.
  */
 public class PCR_AllocateResponse extends TpmStructure
 {
-    /** YES if the allocation succeeded */
+    /** YES if the allocation succeeded  */
     public byte allocationSuccess;
     
-    /** maximum number of PCR that may be in a bank */
+    /** Maximum number of PCR that may be in a bank  */
     public int maxPCR;
     
-    /** number of octets required to satisfy the request */
+    /** Number of octets required to satisfy the request  */
     public int sizeNeeded;
     
-    /** Number of octets available. Computed before the allocation. */
+    /** Number of octets available. Computed before the allocation.  */
     public int sizeAvailable;
     
     public PCR_AllocateResponse() {}
@@ -35,7 +34,7 @@ public class PCR_AllocateResponse extends TpmStructure
         buf.writeInt(sizeNeeded);
         buf.writeInt(sizeAvailable);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -44,7 +43,7 @@ public class PCR_AllocateResponse extends TpmStructure
         sizeNeeded = buf.readInt();
         sizeAvailable = buf.readInt();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -52,24 +51,27 @@ public class PCR_AllocateResponse extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static PCR_AllocateResponse fromTpm (byte[] x) 
+    
+    public static PCR_AllocateResponse fromBytes (byte[] byteBuf) 
     {
         PCR_AllocateResponse ret = new PCR_AllocateResponse();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static PCR_AllocateResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static PCR_AllocateResponse fromTpm (InByteBuf buf) 
     {
         PCR_AllocateResponse ret = new PCR_AllocateResponse();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -78,7 +80,7 @@ public class PCR_AllocateResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

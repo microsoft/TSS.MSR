@@ -7,32 +7,28 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command allows the TPM to perform the actions required of a Certificate Authority
+/** This command allows the TPM to perform the actions required of a Certificate Authority
  *  (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
  */
 public class TPM2_MakeCredential_REQUEST extends TpmStructure
 {
-    /**
-     *  loaded public area, used to encrypt the sensitive area containing the
-     *  credential key
+    /** Loaded public area, used to encrypt the sensitive area containing the credential key
      *  Auth Index: None
      */
     public TPM_HANDLE handle;
     
-    /** the credential information */
+    /** The credential information  */
     public byte[] credential;
     
-    /** Name of the object to which the credential applies */
+    /** Name of the object to which the credential applies  */
     public byte[] objectName;
     
     public TPM2_MakeCredential_REQUEST() { handle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _handle loaded public area, used to encrypt the sensitive area containing the
+    /** @param _handle Loaded public area, used to encrypt the sensitive area containing the
      *         credential key
      *         Auth Index: None
-     *  @param _credential the credential information
+     *  @param _credential The credential information
      *  @param _objectName Name of the object to which the credential applies
      */
     public TPM2_MakeCredential_REQUEST(TPM_HANDLE _handle, byte[] _credential, byte[] _objectName)
@@ -41,14 +37,14 @@ public class TPM2_MakeCredential_REQUEST extends TpmStructure
         credential = _credential;
         objectName = _objectName;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
         buf.writeSizedByteBuf(credential);
         buf.writeSizedByteBuf(objectName);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -59,7 +55,7 @@ public class TPM2_MakeCredential_REQUEST extends TpmStructure
         objectName = new byte[_objectNameSize];
         buf.readArrayOfInts(objectName, 1, _objectNameSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -67,24 +63,27 @@ public class TPM2_MakeCredential_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_MakeCredential_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_MakeCredential_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_MakeCredential_REQUEST ret = new TPM2_MakeCredential_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_MakeCredential_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_MakeCredential_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_MakeCredential_REQUEST ret = new TPM2_MakeCredential_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -93,7 +92,7 @@ public class TPM2_MakeCredential_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

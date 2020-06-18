@@ -7,33 +7,30 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command uses platformPolicy and a TPM Vendor Authorization Key to
- *  authorize a Field Upgrade Manifest.
+/** This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a
+ *  Field Upgrade Manifest.
  */
 public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_PLATFORM+{PP}
+    /** TPM_RH_PLATFORM+{PP}
      *  Auth Index:1
      *  Auth Role: ADMIN
      */
     public TPM_HANDLE authorization;
     
-    /**
-     *  handle of a public area that contains the TPM Vendor Authorization Key that will be used
-     *  to validate manifestSignature
+    /** Handle of a public area that contains the TPM Vendor Authorization Key that will be
+     *  used to validate manifestSignature
      *  Auth Index: None
      */
     public TPM_HANDLE keyHandle;
     
-    /** digest of the first block in the field upgrade sequence */
+    /** Digest of the first block in the field upgrade sequence  */
     public byte[] fuDigest;
     
-    /** selector of the algorithm used to construct the signature */
+    /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID manifestSignatureSigAlg() { return manifestSignature != null ? manifestSignature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** signature over fuDigest using the key associated with keyHandle (not optional) */
+    /** Signature over fuDigest using the key associated with keyHandle (not optional)  */
     public TPMU_SIGNATURE manifestSignature;
     
     public TPM2_FieldUpgradeStart_REQUEST()
@@ -41,16 +38,16 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         authorization = new TPM_HANDLE();
         keyHandle = new TPM_HANDLE();
     }
-
-    /**
-     *  @param _authorization TPM_RH_PLATFORM+{PP}
+    
+    /** @param _authorization TPM_RH_PLATFORM+{PP}
      *         Auth Index:1
      *         Auth Role: ADMIN
-     *  @param _keyHandle handle of a public area that contains the TPM Vendor Authorization Key that will be used
-     *         to validate manifestSignature
+     *  @param _keyHandle Handle of a public area that contains the TPM Vendor Authorization Key
+     *         that will be used to validate manifestSignature
      *         Auth Index: None
-     *  @param _fuDigest digest of the first block in the field upgrade sequence
-     *  @param _manifestSignature signature over fuDigest using the key associated with keyHandle (not optional)
+     *  @param _fuDigest Digest of the first block in the field upgrade sequence
+     *  @param _manifestSignature Signature over fuDigest using the key associated with keyHandle
+     *         (not optional)
      *         (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
      *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
@@ -62,7 +59,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         fuDigest = _fuDigest;
         manifestSignature = _manifestSignature;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -70,7 +67,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         manifestSignature.GetUnionSelector().toTpm(buf);
         ((TpmMarshaller)manifestSignature).toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -81,7 +78,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         manifestSignature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_manifestSignatureSigAlg));
         manifestSignature.initFromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -89,24 +86,27 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_FieldUpgradeStart_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_FieldUpgradeStart_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_FieldUpgradeStart_REQUEST ret = new TPM2_FieldUpgradeStart_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_FieldUpgradeStart_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_FieldUpgradeStart_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_FieldUpgradeStart_REQUEST ret = new TPM2_FieldUpgradeStart_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -115,7 +115,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

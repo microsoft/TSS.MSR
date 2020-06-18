@@ -193,7 +193,7 @@ public class DrsClient
 
             // Start a policy session to be used with ActivateCredential()
             StartAuthSessionResponse sasResp = tpm.StartAuthSession(TPM_HANDLE.NULL, TPM_HANDLE.NULL,
-                                                        Helpers.getRandom(20), new byte[0], TPM_SE.POLICY,
+                                                        Helpers.RandomBytes(20), new byte[0], TPM_SE.POLICY,
                                                         new TPMT_SYM_DEF(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL), TPM_ALG_ID.SHA256);
             
             // Apply the policy necessary to authorize an EK on Windows
@@ -268,7 +268,7 @@ public class DrsClient
             // (Note that this sample simply generates a random buffer in lieu of a valid token)
             //
             
-            byte[] deviceIdData = Helpers.getRandom(2550);
+            byte[] deviceIdData = Helpers.RandomBytes(2550);
 
             byte[] signature = SignData(tpm, idKeyPub.publicArea, deviceIdData);
 

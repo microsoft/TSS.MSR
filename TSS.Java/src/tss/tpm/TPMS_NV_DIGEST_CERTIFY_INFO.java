@@ -7,31 +7,29 @@ import tss.*;
 
 //>>>
 
-/**
- *  This structure contains the Name and hash of the contents of the selected NV Index that is
- *  certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
+/** This structure contains the Name and hash of the contents of the selected NV Index
+ *  that is certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
  */
 public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
-    /** Name of the NV Index */
+    /** Name of the NV Index  */
     public byte[] indexName;
     
-    /** hash of the contents of the index */
+    /** Hash of the contents of the index  */
     public byte[] nvDigest;
     
     public TPMS_NV_DIGEST_CERTIFY_INFO() {}
     
-    /**
-     *  @param _indexName Name of the NV Index
-     *  @param _nvDigest hash of the contents of the index
+    /** @param _indexName Name of the NV Index
+     *  @param _nvDigest Hash of the contents of the index
      */
     public TPMS_NV_DIGEST_CERTIFY_INFO(byte[] _indexName, byte[] _nvDigest)
     {
         indexName = _indexName;
         nvDigest = _nvDigest;
     }
-
-    /** TpmUnion method */
+    
+    /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_NV_DIGEST; }
     
     @Override
@@ -40,7 +38,7 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         buf.writeSizedByteBuf(indexName);
         buf.writeSizedByteBuf(nvDigest);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -51,7 +49,7 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         nvDigest = new byte[_nvDigestSize];
         buf.readArrayOfInts(nvDigest, 1, _nvDigestSize);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -59,24 +57,27 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPMS_NV_DIGEST_CERTIFY_INFO fromTpm (byte[] x) 
+    
+    public static TPMS_NV_DIGEST_CERTIFY_INFO fromBytes (byte[] byteBuf) 
     {
         TPMS_NV_DIGEST_CERTIFY_INFO ret = new TPMS_NV_DIGEST_CERTIFY_INFO();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_NV_DIGEST_CERTIFY_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPMS_NV_DIGEST_CERTIFY_INFO fromTpm (InByteBuf buf) 
     {
         TPMS_NV_DIGEST_CERTIFY_INFO ret = new TPMS_NV_DIGEST_CERTIFY_INFO();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -85,7 +86,7 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

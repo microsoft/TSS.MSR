@@ -7,27 +7,25 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command is used to load an object that is not a Protected Object into the TPM. The
- *  command allows loading of a public area or both a public and sensitive area.
+/** This command is used to load an object that is not a Protected Object into the TPM.
+ *  The command allows loading of a public area or both a public and sensitive area.
  */
 public class TPM2_LoadExternal_REQUEST extends TpmStructure
 {
-    /** the sensitive portion of the object (optional) */
+    /** The sensitive portion of the object (optional)  */
     public TPMT_SENSITIVE inPrivate;
     
-    /** the public portion of the object */
+    /** The public portion of the object  */
     public TPMT_PUBLIC inPublic;
     
-    /** hierarchy with which the object area is associated */
+    /** Hierarchy with which the object area is associated  */
     public TPM_HANDLE hierarchy;
     
     public TPM2_LoadExternal_REQUEST() { hierarchy = new TPM_HANDLE(); }
     
-    /**
-     *  @param _inPrivate the sensitive portion of the object (optional)
-     *  @param _inPublic the public portion of the object
-     *  @param _hierarchy hierarchy with which the object area is associated
+    /** @param _inPrivate The sensitive portion of the object (optional)
+     *  @param _inPublic The public portion of the object
+     *  @param _hierarchy Hierarchy with which the object area is associated
      */
     public TPM2_LoadExternal_REQUEST(TPMT_SENSITIVE _inPrivate, TPMT_PUBLIC _inPublic, TPM_HANDLE _hierarchy)
     {
@@ -35,7 +33,7 @@ public class TPM2_LoadExternal_REQUEST extends TpmStructure
         inPublic = _inPublic;
         hierarchy = _hierarchy;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -47,7 +45,7 @@ public class TPM2_LoadExternal_REQUEST extends TpmStructure
             inPublic.toTpm(buf);
         hierarchy.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -61,7 +59,7 @@ public class TPM2_LoadExternal_REQUEST extends TpmStructure
         buf.structSize.pop();
         hierarchy = TPM_HANDLE.fromTpm(buf);
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -69,24 +67,27 @@ public class TPM2_LoadExternal_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_LoadExternal_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_LoadExternal_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_LoadExternal_REQUEST ret = new TPM2_LoadExternal_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_LoadExternal_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_LoadExternal_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_LoadExternal_REQUEST ret = new TPM2_LoadExternal_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -95,7 +96,7 @@ public class TPM2_LoadExternal_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

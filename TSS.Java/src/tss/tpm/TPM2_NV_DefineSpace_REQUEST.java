@@ -7,34 +7,31 @@ import tss.*;
 
 //>>>
 
-/**
- *  This command defines the attributes of an NV Index and causes the TPM to reserve space to
- *  hold the data associated with the NV Index. If a definition already exists at the NV Index, the
- *  TPM will return TPM_RC_NV_DEFINED.
+/** This command defines the attributes of an NV Index and causes the TPM to reserve space
+ *  to hold the data associated with the NV Index. If a definition already exists at the
+ *  NV Index, the TPM will return TPM_RC_NV_DEFINED.
  */
 public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
 {
-    /**
-     *  TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *  Auth Index: 1
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
     
-    /** the authorization value */
+    /** The authorization value  */
     public byte[] auth;
     
-    /** the public parameters of the NV area */
+    /** The public parameters of the NV area  */
     public TPMS_NV_PUBLIC publicInfo;
     
     public TPM2_NV_DefineSpace_REQUEST() { authHandle = new TPM_HANDLE(); }
     
-    /**
-     *  @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /** @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
-     *  @param _auth the authorization value
-     *  @param _publicInfo the public parameters of the NV area
+     *  @param _auth The authorization value
+     *  @param _publicInfo The public parameters of the NV area
      */
     public TPM2_NV_DefineSpace_REQUEST(TPM_HANDLE _authHandle, byte[] _auth, TPMS_NV_PUBLIC _publicInfo)
     {
@@ -42,7 +39,7 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
         auth = _auth;
         publicInfo = _publicInfo;
     }
-
+    
     @Override
     public void toTpm(OutByteBuf buf) 
     {
@@ -51,7 +48,7 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
         if (publicInfo != null)
             publicInfo.toTpm(buf);
     }
-
+    
     @Override
     public void initFromTpm(InByteBuf buf)
     {
@@ -63,7 +60,7 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
         publicInfo = TPMS_NV_PUBLIC.fromTpm(buf);
         buf.structSize.pop();
     }
-
+    
     @Override
     public byte[] toTpm() 
     {
@@ -71,24 +68,27 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
         toTpm(buf);
         return buf.buffer();
     }
-
-    public static TPM2_NV_DefineSpace_REQUEST fromTpm (byte[] x) 
+    
+    public static TPM2_NV_DefineSpace_REQUEST fromBytes (byte[] byteBuf) 
     {
         TPM2_NV_DefineSpace_REQUEST ret = new TPM2_NV_DefineSpace_REQUEST();
-        InByteBuf buf = new InByteBuf(x);
+        InByteBuf buf = new InByteBuf(byteBuf);
         ret.initFromTpm(buf);
         if (buf.bytesRemaining()!=0)
             throw new AssertionError("bytes remaining in buffer after object was de-serialized");
         return ret;
     }
-
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_NV_DefineSpace_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
     public static TPM2_NV_DefineSpace_REQUEST fromTpm (InByteBuf buf) 
     {
         TPM2_NV_DefineSpace_REQUEST ret = new TPM2_NV_DefineSpace_REQUEST();
         ret.initFromTpm(buf);
         return ret;
     }
-
+    
     @Override
     public String toString()
     {
@@ -97,7 +97,7 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-
+    
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
