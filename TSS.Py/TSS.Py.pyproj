@@ -31,6 +31,10 @@
     <Compile Include="src\TpmDevice.py" />
     <Compile Include="src\TpmMarshaler.py" />
     <Compile Include="src\TpmTypes.py" />
+    <Compile Include="src\__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\TpmExtensions.py.snips" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

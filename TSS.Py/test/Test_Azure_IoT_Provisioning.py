@@ -139,7 +139,7 @@ def SignDeviceToken(idKeyHashAlg):
 
 
 class DrsActivationBlob:
-    def __init__(this,
+    def __init__(self,
         credBlobOrRawActBlob = None, # TPMS_ID_OBJECT
         encSecret = None, #TPM2B_ENCRYPTED_SECRET
         idKeyDupBlob = None, # TPM2B_PRIVATE
@@ -149,36 +149,36 @@ class DrsActivationBlob:
         ):
             if credBlobOrRawActBlob and not encSecret:
                 assert not idKeyDupBlob and not encWrapKey and not idKeyPub and not encUriData
-                this.fromTpm(credBlobOrRawActBlob)
+                self.fromTpm(credBlobOrRawActBlob)
                 return
-            this.credBlob = credBlobOrRawActBlob
-            this.encSecret = encSecret
-            this.idKeyDupBlob = idKeyDupBlob
-            this.encWrapKey = encWrapKey
-            this.idKeyPub = idKeyPub
-            this.encUriData = encUriData
+            self.credBlob = credBlobOrRawActBlob
+            self.encSecret = encSecret
+            self.idKeyDupBlob = idKeyDupBlob
+            self.encWrapKey = encWrapKey
+            self.idKeyPub = idKeyPub
+            self.encUriData = encUriData
 
-    def fromTpm(this, actBlob):
+    def fromTpm(self, actBlob):
         if isinstance(actBlob, bytes) or isinstance(actBlob, bytearray):
             buf = TpmBuffer(actBlob)
         else:
             assert isinstance(actBlob, TpmBuffer)
             buf = actBlob
-        this.credBlob = buf.sizedFromTpm(TPMS_ID_OBJECT, 2)
+        self.credBlob = buf.createSizedObj(TPMS_ID_OBJECT)
         print('credBlob end: {0}'.format(buf.curPos))
-        this.encSecret = buf.createFromTpm(TPM2B_ENCRYPTED_SECRET)
-        print("encSecret end: {0}; size = {1}".format(buf.curPos, len(this.encSecret.secret)))
-        this.idKeyDupBlob = buf.createFromTpm(TPM2B_PRIVATE)
-        print("idKeyDupBlob end: {0}; size = {1}".format(buf.curPos, len(this.idKeyDupBlob.buffer)))
-        this.encWrapKey = buf.createFromTpm(TPM2B_ENCRYPTED_SECRET)
-        print("encWrapKey end: {0}; size = {1}".format(buf.curPos, len(this.encWrapKey.secret)))
-        this.idKeyPub = buf.sizedFromTpm(TPMT_PUBLIC, 2)
+        self.encSecret = buf.createObj(TPM2B_ENCRYPTED_SECRET)
+        print("encSecret end: {0}; size = {1}".format(buf.curPos, len(self.encSecret.secret)))
+        self.idKeyDupBlob = buf.createObj(TPM2B_PRIVATE)
+        print("idKeyDupBlob end: {0}; size = {1}".format(buf.curPos, len(self.idKeyDupBlob.buffer)))
+        self.encWrapKey = buf.createObj(TPM2B_ENCRYPTED_SECRET)
+        print("encWrapKey end: {0}; size = {1}".format(buf.curPos, len(self.encWrapKey.secret)))
+        self.idKeyPub = buf.createSizedObj(TPMT_PUBLIC)
         print("idKeyPub end: {0}".format(buf.curPos))
-        this.encUriData = buf.createFromTpm(TPM2B_DATA)
+        self.encUriData = buf.createObj(TPM2B_DATA)
         print("encUriData end: {0}".format(buf.curPos))
         if (not buf.isOk()):
             raise(Exception("Failed to unmarshal Activation Blob"))
-        assert buf.curPos == buf.length, "Activation Blob sent by DRS has contains gratuitous data"
+        assert buf.curPos == buf.size, "Activation Blob sent by DRS has contains gratuitous data"
 # class DrsActivationBlob
 
 
@@ -262,12 +262,12 @@ idKeyTemplate = TPMT_PUBLIC(TPM_ALG_ID.SHA256,
             TPMA_OBJECT.sign | TPMA_OBJECT.userWithAuth | TPMA_OBJECT.noDA,
             None,   # Will be filled by getActivationBlob
             TPMS_KEYEDHASH_PARMS(TPMS_SCHEME_HMAC(TPM_ALG_ID.SHA256)),
-            TPM2B_DIGEST_Keyedhash())
+            TPM2B_DIGEST())
 
 
 def drsGetActivationBlob(tpm, ekPubBlob, srkPubBlob):
-    ekPub = TpmBuffer(ekPubBlob).createFromTpm(TPM2B_PUBLIC).publicArea
-    srkPub = TpmBuffer(srkPubBlob).createFromTpm(TPM2B_PUBLIC).publicArea
+    ekPub = TpmBuffer(ekPubBlob).createObj(TPM2B_PUBLIC).publicArea
+    srkPub = TpmBuffer(srkPubBlob).createObj(TPM2B_PUBLIC).publicArea
 
     # Start a policy session to be used with ActivateCredential()
     nonceCaller = crypto.randomBytes(20)
@@ -345,15 +345,15 @@ def drsGetActivationBlob(tpm, ekPubBlob, srkPubBlob):
     #
     actBlob = TpmBuffer(4096)
         
-    actBlob.sizedToTpm(cred.credentialBlob, 2)
-    actBlob.toTpm2B(cred.secret)
+    actBlob.writeSizedObj(cred.credentialBlob)
+    actBlob.writeSizedByteBuf(cred.secret)
     respDup.duplicate.toTpm(actBlob)
-    actBlob.toTpm2B(respDup.outSymSeed)
-    actBlob.sizedToTpm(idKey.outPublic, 2)
-    actBlob.toTpm2B(encryptedUri)
+    actBlob.writeSizedByteBuf(respDup.outSymSeed)
+    actBlob.writeSizedObj(idKey.outPublic)
+    actBlob.writeSizedByteBuf(encryptedUri)
     print('DRS >> Activation blob of {0} bytes generated'.format(actBlob.curPos))
         
-    return actBlob.trim().buffer
+    return actBlob.trim()
 
 # drsGetActivationBlob()
 
