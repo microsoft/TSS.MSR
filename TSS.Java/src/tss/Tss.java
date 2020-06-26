@@ -198,10 +198,10 @@ public class Tss
         {
             encryptedSensitive = Helpers.byteArrayToLenPrependedByteArray(_sensitivePart.toBytes());
             blob.EncryptionKey = nullVec;
-        } else 
+        }
+        else 
         {
-            if (innerWrapper.algorithm != TPM_ALG_ID.AES &&
-                    innerWrapper.mode != TPM_ALG_ID.CFB) 
+            if (innerWrapper.algorithm != TPM_ALG_ID.AES || innerWrapper.mode != TPM_ALG_ID.CFB) 
             {
                 throw new TpmException("innerWrapper KeyDef is not supported for import");
             }
@@ -209,7 +209,7 @@ public class Tss
             byte[] sens = Helpers.byteArrayToLenPrependedByteArray(_sensitivePart.toBytes());
             byte[]  toHash = Helpers.concatenate(sens, _publicPart.getName());
 
-            byte[] innerIntegrity = Helpers.byteArrayToLenPrependedByteArray(Crypto.hash(nameAlg, toHash));
+            byte[] innerIntegrity = Helpers.byteArrayToLenPrependedByteArray(Crypto.hash(_publicPart.nameAlg, toHash));
             byte[] innerData = Helpers.concatenate(innerIntegrity, sens);
 
             int aesKeyLen = innerWrapper.keyBits/8;
