@@ -16,44 +16,30 @@ public class ReadClockResponse extends TpmStructure
     
     public ReadClockResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        currentTime.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { currentTime.toTpm(buf); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        currentTime = TPMS_TIME_INFO.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { currentTime = TPMS_TIME_INFO.fromTpm(buf); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ReadClockResponse fromBytes (byte[] byteBuf) 
     {
-        ReadClockResponse ret = new ReadClockResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ReadClockResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ReadClockResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ReadClockResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ReadClockResponse fromTpm (TpmBuffer buf) 
     {
-        ReadClockResponse ret = new ReadClockResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ReadClockResponse.class);
     }
     
     @Override

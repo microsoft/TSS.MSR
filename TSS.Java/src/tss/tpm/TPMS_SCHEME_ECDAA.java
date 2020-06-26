@@ -14,7 +14,7 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
     public TPM_ALG_ID hashAlg;
     
     /** The counter value that is used between TPM2_Commit() and the sign operation  */
-    public short count;
+    public int count;
     
     public TPMS_SCHEME_ECDAA() { hashAlg = TPM_ALG_ID.NULL; }
     
@@ -30,46 +30,38 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDAA; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         hashAlg.toTpm(buf);
         buf.writeShort(count);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         hashAlg = TPM_ALG_ID.fromTpm(buf);
         count = buf.readShort();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_SCHEME_ECDAA fromBytes (byte[] byteBuf) 
     {
-        TPMS_SCHEME_ECDAA ret = new TPMS_SCHEME_ECDAA();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_SCHEME_ECDAA.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SCHEME_ECDAA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_SCHEME_ECDAA fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_SCHEME_ECDAA fromTpm (TpmBuffer buf) 
     {
-        TPMS_SCHEME_ECDAA ret = new TPMS_SCHEME_ECDAA();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_SCHEME_ECDAA.class);
     }
     
     @Override
@@ -85,7 +77,7 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
-        _p.add(d, "short", "count", count);
+        _p.add(d, "int", "count", count);
     }
 }
 

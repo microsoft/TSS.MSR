@@ -30,51 +30,40 @@ public class TPMT_TK_VERIFIED extends TpmStructure
         digest = _digest;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        TPM_ST.VERIFIED.toTpm(buf);
+        buf.writeShort(TPM_ST.VERIFIED);
         hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(digest);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _tag = buf.readShort() & 0xFFFF;
-        assert(_tag == TPM_ST.VERIFIED.toInt());
+        buf.readShort();
         hierarchy = TPM_HANDLE.fromTpm(buf);
-        int _digestSize = buf.readShort() & 0xFFFF;
-        digest = new byte[_digestSize];
-        buf.readArrayOfInts(digest, 1, _digestSize);
+        digest = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMT_TK_VERIFIED fromBytes (byte[] byteBuf) 
     {
-        TPMT_TK_VERIFIED ret = new TPMT_TK_VERIFIED();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMT_TK_VERIFIED.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_TK_VERIFIED fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMT_TK_VERIFIED fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMT_TK_VERIFIED fromTpm (TpmBuffer buf) 
     {
-        TPMT_TK_VERIFIED ret = new TPMT_TK_VERIFIED();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMT_TK_VERIFIED.class);
     }
     
     @Override

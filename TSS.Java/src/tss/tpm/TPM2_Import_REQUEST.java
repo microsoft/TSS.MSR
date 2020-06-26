@@ -78,61 +78,44 @@ public class TPM2_Import_REQUEST extends TpmStructure
         symmetricAlg = _symmetricAlg;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(encryptionKey);
-        buf.writeShort(objectPublic != null ? objectPublic.toTpm().length : 0);
-        if (objectPublic != null)
-            objectPublic.toTpm(buf);
+        buf.writeSizedObj(objectPublic);
         duplicate.toTpm(buf);
         buf.writeSizedByteBuf(inSymSeed);
         symmetricAlg.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _encryptionKeySize = buf.readShort() & 0xFFFF;
-        encryptionKey = new byte[_encryptionKeySize];
-        buf.readArrayOfInts(encryptionKey, 1, _encryptionKeySize);
-        int _objectPublicSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _objectPublicSize));
-        objectPublic = TPMT_PUBLIC.fromTpm(buf);
-        buf.structSize.pop();
+        encryptionKey = buf.readSizedByteBuf();
+        objectPublic = buf.createSizedObj(TPMT_PUBLIC.class);
         duplicate = TPM2B_PRIVATE.fromTpm(buf);
-        int _inSymSeedSize = buf.readShort() & 0xFFFF;
-        inSymSeed = new byte[_inSymSeedSize];
-        buf.readArrayOfInts(inSymSeed, 1, _inSymSeedSize);
+        inSymSeed = buf.readSizedByteBuf();
         symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_Import_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_Import_REQUEST ret = new TPM2_Import_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_Import_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Import_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_Import_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_Import_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_Import_REQUEST ret = new TPM2_Import_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_Import_REQUEST.class);
     }
     
     @Override

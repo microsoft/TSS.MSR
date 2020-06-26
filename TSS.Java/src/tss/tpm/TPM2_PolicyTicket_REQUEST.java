@@ -63,8 +63,9 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
         ticket = _ticket;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(timeout);
         buf.writeSizedByteBuf(cpHashA);
@@ -73,50 +74,33 @@ public class TPM2_PolicyTicket_REQUEST extends TpmStructure
         ticket.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _timeoutSize = buf.readShort() & 0xFFFF;
-        timeout = new byte[_timeoutSize];
-        buf.readArrayOfInts(timeout, 1, _timeoutSize);
-        int _cpHashASize = buf.readShort() & 0xFFFF;
-        cpHashA = new byte[_cpHashASize];
-        buf.readArrayOfInts(cpHashA, 1, _cpHashASize);
-        int _policyRefSize = buf.readShort() & 0xFFFF;
-        policyRef = new byte[_policyRefSize];
-        buf.readArrayOfInts(policyRef, 1, _policyRefSize);
-        int _authNameSize = buf.readShort() & 0xFFFF;
-        authName = new byte[_authNameSize];
-        buf.readArrayOfInts(authName, 1, _authNameSize);
+        timeout = buf.readSizedByteBuf();
+        cpHashA = buf.readSizedByteBuf();
+        policyRef = buf.readSizedByteBuf();
+        authName = buf.readSizedByteBuf();
         ticket = TPMT_TK_AUTH.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_PolicyTicket_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_PolicyTicket_REQUEST ret = new TPM2_PolicyTicket_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_PolicyTicket_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyTicket_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_PolicyTicket_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_PolicyTicket_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_PolicyTicket_REQUEST ret = new TPM2_PolicyTicket_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_PolicyTicket_REQUEST.class);
     }
     
     @Override

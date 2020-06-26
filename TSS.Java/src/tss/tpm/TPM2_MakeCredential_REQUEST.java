@@ -38,50 +38,38 @@ public class TPM2_MakeCredential_REQUEST extends TpmStructure
         objectName = _objectName;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(credential);
         buf.writeSizedByteBuf(objectName);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _credentialSize = buf.readShort() & 0xFFFF;
-        credential = new byte[_credentialSize];
-        buf.readArrayOfInts(credential, 1, _credentialSize);
-        int _objectNameSize = buf.readShort() & 0xFFFF;
-        objectName = new byte[_objectNameSize];
-        buf.readArrayOfInts(objectName, 1, _objectNameSize);
+        credential = buf.readSizedByteBuf();
+        objectName = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_MakeCredential_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_MakeCredential_REQUEST ret = new TPM2_MakeCredential_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_MakeCredential_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_MakeCredential_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_MakeCredential_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_MakeCredential_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_MakeCredential_REQUEST ret = new TPM2_MakeCredential_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_MakeCredential_REQUEST.class);
     }
     
     @Override

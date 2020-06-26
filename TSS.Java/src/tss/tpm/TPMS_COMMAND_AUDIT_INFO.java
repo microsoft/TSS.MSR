@@ -40,8 +40,9 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
     /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_COMMAND_AUDIT; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeInt64(auditCounter);
         digestAlg.toTpm(buf);
@@ -49,45 +50,32 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeSizedByteBuf(commandDigest);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         auditCounter = buf.readInt64();
         digestAlg = TPM_ALG_ID.fromTpm(buf);
-        int _auditDigestSize = buf.readShort() & 0xFFFF;
-        auditDigest = new byte[_auditDigestSize];
-        buf.readArrayOfInts(auditDigest, 1, _auditDigestSize);
-        int _commandDigestSize = buf.readShort() & 0xFFFF;
-        commandDigest = new byte[_commandDigestSize];
-        buf.readArrayOfInts(commandDigest, 1, _commandDigestSize);
+        auditDigest = buf.readSizedByteBuf();
+        commandDigest = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_COMMAND_AUDIT_INFO fromBytes (byte[] byteBuf) 
     {
-        TPMS_COMMAND_AUDIT_INFO ret = new TPMS_COMMAND_AUDIT_INFO();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_COMMAND_AUDIT_INFO.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_COMMAND_AUDIT_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_COMMAND_AUDIT_INFO fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_COMMAND_AUDIT_INFO fromTpm (TpmBuffer buf) 
     {
-        TPMS_COMMAND_AUDIT_INFO ret = new TPMS_COMMAND_AUDIT_INFO();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_COMMAND_AUDIT_INFO.class);
     }
     
     @Override

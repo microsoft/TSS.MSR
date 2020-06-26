@@ -60,51 +60,41 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         manifestSignature = _manifestSignature;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(fuDigest);
-        manifestSignature.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)manifestSignature).toTpm(buf);
+        buf.writeShort(manifestSignature.GetUnionSelector());
+        manifestSignature.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _fuDigestSize = buf.readShort() & 0xFFFF;
-        fuDigest = new byte[_fuDigestSize];
-        buf.readArrayOfInts(fuDigest, 1, _fuDigestSize);
-        int _manifestSignatureSigAlg = buf.readShort() & 0xFFFF;
-        manifestSignature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_manifestSignatureSigAlg));
+        fuDigest = buf.readSizedByteBuf();
+        TPM_ALG_ID manifestSignatureSigAlg = TPM_ALG_ID.fromTpm(buf);
+        manifestSignature = UnionFactory.create("TPMU_SIGNATURE", manifestSignatureSigAlg);
         manifestSignature.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_FieldUpgradeStart_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_FieldUpgradeStart_REQUEST ret = new TPM2_FieldUpgradeStart_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_FieldUpgradeStart_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_FieldUpgradeStart_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_FieldUpgradeStart_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_FieldUpgradeStart_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_FieldUpgradeStart_REQUEST ret = new TPM2_FieldUpgradeStart_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_FieldUpgradeStart_REQUEST.class);
     }
     
     @Override

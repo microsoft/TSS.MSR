@@ -29,51 +29,40 @@ public class TPMT_TK_CREATION extends TpmStructure
         digest = _digest;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        TPM_ST.CREATION.toTpm(buf);
+        buf.writeShort(TPM_ST.CREATION);
         hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(digest);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _tag = buf.readShort() & 0xFFFF;
-        assert(_tag == TPM_ST.CREATION.toInt());
+        buf.readShort();
         hierarchy = TPM_HANDLE.fromTpm(buf);
-        int _digestSize = buf.readShort() & 0xFFFF;
-        digest = new byte[_digestSize];
-        buf.readArrayOfInts(digest, 1, _digestSize);
+        digest = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMT_TK_CREATION fromBytes (byte[] byteBuf) 
     {
-        TPMT_TK_CREATION ret = new TPMT_TK_CREATION();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMT_TK_CREATION.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_TK_CREATION fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMT_TK_CREATION fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMT_TK_CREATION fromTpm (TpmBuffer buf) 
     {
-        TPMT_TK_CREATION ret = new TPMT_TK_CREATION();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMT_TK_CREATION.class);
     }
     
     @Override

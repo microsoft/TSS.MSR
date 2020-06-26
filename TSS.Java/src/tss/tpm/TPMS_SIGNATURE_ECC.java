@@ -36,52 +36,40 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDSA; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         hash.toTpm(buf);
         buf.writeSizedByteBuf(signatureR);
         buf.writeSizedByteBuf(signatureS);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         hash = TPM_ALG_ID.fromTpm(buf);
-        int _signatureRSize = buf.readShort() & 0xFFFF;
-        signatureR = new byte[_signatureRSize];
-        buf.readArrayOfInts(signatureR, 1, _signatureRSize);
-        int _signatureSSize = buf.readShort() & 0xFFFF;
-        signatureS = new byte[_signatureSSize];
-        buf.readArrayOfInts(signatureS, 1, _signatureSSize);
+        signatureR = buf.readSizedByteBuf();
+        signatureS = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_SIGNATURE_ECC fromBytes (byte[] byteBuf) 
     {
-        TPMS_SIGNATURE_ECC ret = new TPMS_SIGNATURE_ECC();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_SIGNATURE_ECC.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SIGNATURE_ECC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_SIGNATURE_ECC fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_SIGNATURE_ECC fromTpm (TpmBuffer buf) 
     {
-        TPMS_SIGNATURE_ECC ret = new TPMS_SIGNATURE_ECC();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_SIGNATURE_ECC.class);
     }
     
     @Override

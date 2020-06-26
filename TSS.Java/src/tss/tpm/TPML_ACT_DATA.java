@@ -23,47 +23,30 @@ public class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.ACT; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(actData);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(actData); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        actData = new TPMS_ACT_DATA[_count];
-        for (int j=0; j < _count; j++) actData[j] = new TPMS_ACT_DATA();
-        buf.readArrayOfTpmObjects(actData, _count);
-    }
+    public void initFromTpm(TpmBuffer buf) { actData = buf.readObjArr(TPMS_ACT_DATA.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_ACT_DATA fromBytes (byte[] byteBuf) 
     {
-        TPML_ACT_DATA ret = new TPML_ACT_DATA();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_ACT_DATA.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_ACT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_ACT_DATA fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_ACT_DATA fromTpm (TpmBuffer buf) 
     {
-        TPML_ACT_DATA ret = new TPML_ACT_DATA();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_ACT_DATA.class);
     }
     
     @Override

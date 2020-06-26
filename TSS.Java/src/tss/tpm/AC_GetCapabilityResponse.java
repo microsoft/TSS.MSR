@@ -20,49 +20,38 @@ public class AC_GetCapabilityResponse extends TpmStructure
     
     public AC_GetCapabilityResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeByte(moreData);
         buf.writeObjArr(capabilitiesData);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         moreData = buf.readByte();
-        int _capabilitiesDataCount = buf.readInt();
-        capabilitiesData = new TPMS_AC_OUTPUT[_capabilitiesDataCount];
-        for (int j=0; j < _capabilitiesDataCount; j++) capabilitiesData[j] = new TPMS_AC_OUTPUT();
-        buf.readArrayOfTpmObjects(capabilitiesData, _capabilitiesDataCount);
+        capabilitiesData = buf.readObjArr(TPMS_AC_OUTPUT.class);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static AC_GetCapabilityResponse fromBytes (byte[] byteBuf) 
     {
-        AC_GetCapabilityResponse ret = new AC_GetCapabilityResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(AC_GetCapabilityResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static AC_GetCapabilityResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static AC_GetCapabilityResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static AC_GetCapabilityResponse fromTpm (TpmBuffer buf) 
     {
-        AC_GetCapabilityResponse ret = new AC_GetCapabilityResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(AC_GetCapabilityResponse.class);
     }
     
     @Override

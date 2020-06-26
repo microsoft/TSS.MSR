@@ -48,6 +48,8 @@ public final class TPMA_MEMORY extends TpmAttribute<TPMA_MEMORY>
         sharedNV = new TPMA_MEMORY(0x2, _N.sharedNV),
         objectCopiedToRam = new TPMA_MEMORY(0x4, _N.objectCopiedToRam);
     
+    public TPMA_MEMORY () { super(0, _ValueMap); }
+    
     public TPMA_MEMORY (int value) { super(value, _ValueMap); }
     
     public TPMA_MEMORY (TPMA_MEMORY...attrs) { super(_ValueMap, attrs); }
@@ -56,7 +58,7 @@ public final class TPMA_MEMORY extends TpmAttribute<TPMA_MEMORY>
     
     public static TPMA_MEMORY fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_MEMORY.class); }
     
-    public static TPMA_MEMORY fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_MEMORY.class); }
+    public static TPMA_MEMORY fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_MEMORY.class); }
     
     public TPMA_MEMORY._N asEnum() { return (TPMA_MEMORY._N)NameAsEnum; }
     

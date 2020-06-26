@@ -50,52 +50,40 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends TpmStructure
         clearList = _clearList;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         auditAlg.toTpm(buf);
         buf.writeObjArr(setList);
         buf.writeObjArr(clearList);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         auditAlg = TPM_ALG_ID.fromTpm(buf);
-        int _setListCount = buf.readInt();
-        setList = new TPM_CC[_setListCount];
-        for (int j=0; j < _setListCount; j++) setList[j] = TPM_CC.fromTpm(buf);
-        int _clearListCount = buf.readInt();
-        clearList = new TPM_CC[_clearListCount];
-        for (int j=0; j < _clearListCount; j++) clearList[j] = TPM_CC.fromTpm(buf);
+        setList = buf.readObjArr(TPM_CC.class);
+        clearList = buf.readObjArr(TPM_CC.class);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_SetCommandCodeAuditStatus_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_SetCommandCodeAuditStatus_REQUEST ret = new TPM2_SetCommandCodeAuditStatus_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_SetCommandCodeAuditStatus_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_SetCommandCodeAuditStatus_REQUEST ret = new TPM2_SetCommandCodeAuditStatus_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_SetCommandCodeAuditStatus_REQUEST.class);
     }
     
     @Override

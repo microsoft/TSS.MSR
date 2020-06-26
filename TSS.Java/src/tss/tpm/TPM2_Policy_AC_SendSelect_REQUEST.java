@@ -50,8 +50,9 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
         includeObject = _includeObject;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(objectName);
         buf.writeSizedByteBuf(authHandleName);
@@ -59,47 +60,32 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends TpmStructure
         buf.writeByte(includeObject);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _objectNameSize = buf.readShort() & 0xFFFF;
-        objectName = new byte[_objectNameSize];
-        buf.readArrayOfInts(objectName, 1, _objectNameSize);
-        int _authHandleNameSize = buf.readShort() & 0xFFFF;
-        authHandleName = new byte[_authHandleNameSize];
-        buf.readArrayOfInts(authHandleName, 1, _authHandleNameSize);
-        int _acNameSize = buf.readShort() & 0xFFFF;
-        acName = new byte[_acNameSize];
-        buf.readArrayOfInts(acName, 1, _acNameSize);
+        objectName = buf.readSizedByteBuf();
+        authHandleName = buf.readSizedByteBuf();
+        acName = buf.readSizedByteBuf();
         includeObject = buf.readByte();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_Policy_AC_SendSelect_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_Policy_AC_SendSelect_REQUEST ret = new TPM2_Policy_AC_SendSelect_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_Policy_AC_SendSelect_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Policy_AC_SendSelect_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_Policy_AC_SendSelect_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_Policy_AC_SendSelect_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_Policy_AC_SendSelect_REQUEST ret = new TPM2_Policy_AC_SendSelect_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_Policy_AC_SendSelect_REQUEST.class);
     }
     
     @Override

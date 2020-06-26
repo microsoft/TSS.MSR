@@ -21,54 +21,41 @@ public class QuoteResponse extends TpmStructure
     
     public QuoteResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(quoted != null ? quoted.toTpm().length : 0);
-        if (quoted != null)
-            quoted.toTpm(buf);
-        signature.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)signature).toTpm(buf);
+        buf.writeSizedObj(quoted);
+        buf.writeShort(signature.GetUnionSelector());
+        signature.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _quotedSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _quotedSize));
-        quoted = TPMS_ATTEST.fromTpm(buf);
-        buf.structSize.pop();
-        int _signatureSigAlg = buf.readShort() & 0xFFFF;
-        signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_signatureSigAlg));
+        quoted = buf.createSizedObj(TPMS_ATTEST.class);
+        TPM_ALG_ID signatureSigAlg = TPM_ALG_ID.fromTpm(buf);
+        signature = UnionFactory.create("TPMU_SIGNATURE", signatureSigAlg);
         signature.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static QuoteResponse fromBytes (byte[] byteBuf) 
     {
-        QuoteResponse ret = new QuoteResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(QuoteResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static QuoteResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static QuoteResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static QuoteResponse fromTpm (TpmBuffer buf) 
     {
-        QuoteResponse ret = new QuoteResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(QuoteResponse.class);
     }
     
     @Override

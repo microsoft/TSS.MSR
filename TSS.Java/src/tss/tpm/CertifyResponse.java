@@ -26,54 +26,41 @@ public class CertifyResponse extends TpmStructure
     
     public CertifyResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(certifyInfo != null ? certifyInfo.toTpm().length : 0);
-        if (certifyInfo != null)
-            certifyInfo.toTpm(buf);
-        signature.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)signature).toTpm(buf);
+        buf.writeSizedObj(certifyInfo);
+        buf.writeShort(signature.GetUnionSelector());
+        signature.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _certifyInfoSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _certifyInfoSize));
-        certifyInfo = TPMS_ATTEST.fromTpm(buf);
-        buf.structSize.pop();
-        int _signatureSigAlg = buf.readShort() & 0xFFFF;
-        signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_signatureSigAlg));
+        certifyInfo = buf.createSizedObj(TPMS_ATTEST.class);
+        TPM_ALG_ID signatureSigAlg = TPM_ALG_ID.fromTpm(buf);
+        signature = UnionFactory.create("TPMU_SIGNATURE", signatureSigAlg);
         signature.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static CertifyResponse fromBytes (byte[] byteBuf) 
     {
-        CertifyResponse ret = new CertifyResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(CertifyResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static CertifyResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static CertifyResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static CertifyResponse fromTpm (TpmBuffer buf) 
     {
-        CertifyResponse ret = new CertifyResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(CertifyResponse.class);
     }
     
     @Override

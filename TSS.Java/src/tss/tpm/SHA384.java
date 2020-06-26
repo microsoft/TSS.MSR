@@ -28,13 +28,15 @@ public final class SHA384 extends TpmEnum<SHA384>
         DIGEST_SIZE = new SHA384(48, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA384(128, _N.BLOCK_SIZE);
     
+    public SHA384 () { super(0, _ValueMap); }
+    
     public SHA384 (int value) { super(value, _ValueMap); }
     
     public static SHA384 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SHA384.class); }
     
     public static SHA384 fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, SHA384.class); }
     
-    public static SHA384 fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, SHA384.class); }
+    public static SHA384 fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, SHA384.class); }
     
     public SHA384._N asEnum() { return (SHA384._N)NameAsEnum; }
     

@@ -20,49 +20,30 @@ public class TPM2B_DERIVE extends TpmStructure
      */
     public TPM2B_DERIVE(TPMS_DERIVE _buffer) { buffer = _buffer; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeShort(buffer != null ? buffer.toTpm().length : 0);
-        if (buffer != null)
-            buffer.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedObj(buffer); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _size = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
-        buffer = TPMS_DERIVE.fromTpm(buf);
-        buf.structSize.pop();
-    }
+    public void initFromTpm(TpmBuffer buf) { buffer = buf.createSizedObj(TPMS_DERIVE.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2B_DERIVE fromBytes (byte[] byteBuf) 
     {
-        TPM2B_DERIVE ret = new TPM2B_DERIVE();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2B_DERIVE.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_DERIVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2B_DERIVE fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2B_DERIVE fromTpm (TpmBuffer buf) 
     {
-        TPM2B_DERIVE ret = new TPM2B_DERIVE();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2B_DERIVE.class);
     }
     
     @Override

@@ -37,8 +37,9 @@ public class SessionIn extends TpmStructure
         auth = _auth;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         handle.toTpm(buf);
         buf.writeSizedByteBuf(nonceCaller);
@@ -46,46 +47,32 @@ public class SessionIn extends TpmStructure
         buf.writeSizedByteBuf(auth);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
-        int _nonceCallerSize = buf.readShort() & 0xFFFF;
-        nonceCaller = new byte[_nonceCallerSize];
-        buf.readArrayOfInts(nonceCaller, 1, _nonceCallerSize);
-        int _attributes = buf.readByte();
-        attributes = TPMA_SESSION.fromInt(_attributes);
-        int _authSize = buf.readShort() & 0xFFFF;
-        auth = new byte[_authSize];
-        buf.readArrayOfInts(auth, 1, _authSize);
+        nonceCaller = buf.readSizedByteBuf();
+        attributes = TPMA_SESSION.fromTpm(buf);
+        auth = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static SessionIn fromBytes (byte[] byteBuf) 
     {
-        SessionIn ret = new SessionIn();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(SessionIn.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static SessionIn fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static SessionIn fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static SessionIn fromTpm (TpmBuffer buf) 
     {
-        SessionIn ret = new SessionIn();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(SessionIn.class);
     }
     
     @Override

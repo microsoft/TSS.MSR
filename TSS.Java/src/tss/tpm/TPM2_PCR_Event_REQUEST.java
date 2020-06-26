@@ -32,46 +32,30 @@ public class TPM2_PCR_Event_REQUEST extends TpmStructure
         eventData = _eventData;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(eventData);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(eventData); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _eventDataSize = buf.readShort() & 0xFFFF;
-        eventData = new byte[_eventDataSize];
-        buf.readArrayOfInts(eventData, 1, _eventDataSize);
-    }
+    public void initFromTpm(TpmBuffer buf) { eventData = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_PCR_Event_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_PCR_Event_REQUEST ret = new TPM2_PCR_Event_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_PCR_Event_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PCR_Event_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_PCR_Event_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_PCR_Event_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_PCR_Event_REQUEST ret = new TPM2_PCR_Event_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_PCR_Event_REQUEST.class);
     }
     
     @Override

@@ -26,48 +26,40 @@ public class TPM2_TestParms_REQUEST extends TpmStructure
      */
     public TPM2_TestParms_REQUEST(TPMU_PUBLIC_PARMS _parameters) { parameters = _parameters; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         if (parameters == null) return;
-        parameters.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)parameters).toTpm(buf);
+        buf.writeShort(parameters.GetUnionSelector());
+        parameters.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _parametersType = buf.readShort() & 0xFFFF;
-        parameters = UnionFactory.create("TPMU_PUBLIC_PARMS", new TPM_ALG_ID(_parametersType));
+        TPM_ALG_ID parametersType = TPM_ALG_ID.fromTpm(buf);
+        parameters = UnionFactory.create("TPMU_PUBLIC_PARMS", parametersType);
         parameters.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_TestParms_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_TestParms_REQUEST ret = new TPM2_TestParms_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_TestParms_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_TestParms_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_TestParms_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_TestParms_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_TestParms_REQUEST ret = new TPM2_TestParms_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_TestParms_REQUEST.class);
     }
     
     @Override

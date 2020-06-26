@@ -64,6 +64,8 @@ public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
         encrypting = new TPMA_ALGORITHM(0x200, _N.encrypting),
         method = new TPMA_ALGORITHM(0x400, _N.method);
     
+    public TPMA_ALGORITHM () { super(0, _ValueMap); }
+    
     public TPMA_ALGORITHM (int value) { super(value, _ValueMap); }
     
     public TPMA_ALGORITHM (TPMA_ALGORITHM...attrs) { super(_ValueMap, attrs); }
@@ -72,7 +74,7 @@ public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
     
     public static TPMA_ALGORITHM fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_ALGORITHM.class); }
     
-    public static TPMA_ALGORITHM fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_ALGORITHM.class); }
+    public static TPMA_ALGORITHM fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_ALGORITHM.class); }
     
     public TPMA_ALGORITHM._N asEnum() { return (TPMA_ALGORITHM._N)NameAsEnum; }
     

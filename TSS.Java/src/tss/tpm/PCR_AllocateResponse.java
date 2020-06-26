@@ -26,8 +26,9 @@ public class PCR_AllocateResponse extends TpmStructure
     
     public PCR_AllocateResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeByte(allocationSuccess);
         buf.writeInt(maxPCR);
@@ -35,8 +36,9 @@ public class PCR_AllocateResponse extends TpmStructure
         buf.writeInt(sizeAvailable);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         allocationSuccess = buf.readByte();
         maxPCR = buf.readInt();
@@ -44,32 +46,22 @@ public class PCR_AllocateResponse extends TpmStructure
         sizeAvailable = buf.readInt();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static PCR_AllocateResponse fromBytes (byte[] byteBuf) 
     {
-        PCR_AllocateResponse ret = new PCR_AllocateResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(PCR_AllocateResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static PCR_AllocateResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static PCR_AllocateResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static PCR_AllocateResponse fromTpm (TpmBuffer buf) 
     {
-        PCR_AllocateResponse ret = new PCR_AllocateResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(PCR_AllocateResponse.class);
     }
     
     @Override

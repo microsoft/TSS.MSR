@@ -21,54 +21,41 @@ public class GetSessionAuditDigestResponse extends TpmStructure
     
     public GetSessionAuditDigestResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(auditInfo != null ? auditInfo.toTpm().length : 0);
-        if (auditInfo != null)
-            auditInfo.toTpm(buf);
-        signature.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)signature).toTpm(buf);
+        buf.writeSizedObj(auditInfo);
+        buf.writeShort(signature.GetUnionSelector());
+        signature.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _auditInfoSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _auditInfoSize));
-        auditInfo = TPMS_ATTEST.fromTpm(buf);
-        buf.structSize.pop();
-        int _signatureSigAlg = buf.readShort() & 0xFFFF;
-        signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_signatureSigAlg));
+        auditInfo = buf.createSizedObj(TPMS_ATTEST.class);
+        TPM_ALG_ID signatureSigAlg = TPM_ALG_ID.fromTpm(buf);
+        signature = UnionFactory.create("TPMU_SIGNATURE", signatureSigAlg);
         signature.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static GetSessionAuditDigestResponse fromBytes (byte[] byteBuf) 
     {
-        GetSessionAuditDigestResponse ret = new GetSessionAuditDigestResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(GetSessionAuditDigestResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static GetSessionAuditDigestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static GetSessionAuditDigestResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static GetSessionAuditDigestResponse fromTpm (TpmBuffer buf) 
     {
-        GetSessionAuditDigestResponse ret = new GetSessionAuditDigestResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(GetSessionAuditDigestResponse.class);
     }
     
     @Override

@@ -79,56 +79,48 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         symmetric.toTpm(buf);
-        scheme.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)scheme).toTpm(buf);
+        buf.writeShort(scheme.GetUnionSelector());
+        scheme.toTpm(buf);
         curveID.toTpm(buf);
-        kdf.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)kdf).toTpm(buf);
+        buf.writeShort(kdf.GetUnionSelector());
+        kdf.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         symmetric = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
-        int _schemeScheme = buf.readShort() & 0xFFFF;
-        scheme = UnionFactory.create("TPMU_ASYM_SCHEME", new TPM_ALG_ID(_schemeScheme));
+        TPM_ALG_ID schemeScheme = TPM_ALG_ID.fromTpm(buf);
+        scheme = UnionFactory.create("TPMU_ASYM_SCHEME", schemeScheme);
         scheme.initFromTpm(buf);
         curveID = TPM_ECC_CURVE.fromTpm(buf);
-        int _kdfScheme = buf.readShort() & 0xFFFF;
-        kdf = UnionFactory.create("TPMU_KDF_SCHEME", new TPM_ALG_ID(_kdfScheme));
+        TPM_ALG_ID kdfScheme = TPM_ALG_ID.fromTpm(buf);
+        kdf = UnionFactory.create("TPMU_KDF_SCHEME", kdfScheme);
         kdf.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_ECC_PARMS fromBytes (byte[] byteBuf) 
     {
-        TPMS_ECC_PARMS ret = new TPMS_ECC_PARMS();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_ECC_PARMS.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ECC_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_ECC_PARMS fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_ECC_PARMS fromTpm (TpmBuffer buf) 
     {
-        TPMS_ECC_PARMS ret = new TPMS_ECC_PARMS();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_ECC_PARMS.class);
     }
     
     @Override

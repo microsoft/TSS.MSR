@@ -21,47 +21,30 @@ public class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.COMMANDS; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(commandAttributes);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(commandAttributes); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        commandAttributes = new TPMA_CC[_count];
-        for (int j=0; j<_count; j++)
-            (commandAttributes[j] = new TPMA_CC(0)).initFromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { commandAttributes = buf.readObjArr(TPMA_CC.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_CCA fromBytes (byte[] byteBuf) 
     {
-        TPML_CCA ret = new TPML_CCA();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_CCA.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_CCA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_CCA fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_CCA fromTpm (TpmBuffer buf) 
     {
-        TPML_CCA ret = new TPML_CCA();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_CCA.class);
     }
     
     @Override

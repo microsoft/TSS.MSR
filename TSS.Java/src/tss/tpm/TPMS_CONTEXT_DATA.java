@@ -27,51 +27,38 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
         encrypted = _encrypted;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(integrity);
         buf.writeByteBuf(encrypted);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _integritySize = buf.readShort() & 0xFFFF;
-        integrity = new byte[_integritySize];
-        buf.readArrayOfInts(integrity, 1, _integritySize);
-        InByteBuf.SizedStructInfo si = buf.structSize.peek();
-        int _encryptedSize = si.Size - (buf.curPos() - si.StartPos);
-        encrypted = new byte[_encryptedSize];
-        buf.readArrayOfInts(encrypted, 1, _encryptedSize);
+        integrity = buf.readSizedByteBuf();
+        encrypted = buf.readByteBuf(buf.getCurStuctRemainingSize());
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_CONTEXT_DATA fromBytes (byte[] byteBuf) 
     {
-        TPMS_CONTEXT_DATA ret = new TPMS_CONTEXT_DATA();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_CONTEXT_DATA.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_CONTEXT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_CONTEXT_DATA fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_CONTEXT_DATA fromTpm (TpmBuffer buf) 
     {
-        TPMS_CONTEXT_DATA ret = new TPMS_CONTEXT_DATA();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_CONTEXT_DATA.class);
     }
     
     @Override

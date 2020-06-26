@@ -49,50 +49,40 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
         pcrNum = _pcrNum;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(authPolicy);
         hashAlg.toTpm(buf);
         pcrNum.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _authPolicySize = buf.readShort() & 0xFFFF;
-        authPolicy = new byte[_authPolicySize];
-        buf.readArrayOfInts(authPolicy, 1, _authPolicySize);
+        authPolicy = buf.readSizedByteBuf();
         hashAlg = TPM_ALG_ID.fromTpm(buf);
         pcrNum = TPM_HANDLE.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_PCR_SetAuthPolicy_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_PCR_SetAuthPolicy_REQUEST ret = new TPM2_PCR_SetAuthPolicy_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_PCR_SetAuthPolicy_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PCR_SetAuthPolicy_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_PCR_SetAuthPolicy_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_PCR_SetAuthPolicy_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_PCR_SetAuthPolicy_REQUEST ret = new TPM2_PCR_SetAuthPolicy_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_PCR_SetAuthPolicy_REQUEST.class);
     }
     
     @Override

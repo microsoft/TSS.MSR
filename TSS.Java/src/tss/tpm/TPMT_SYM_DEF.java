@@ -16,7 +16,7 @@ public class TPMT_SYM_DEF extends TpmStructure
     public TPM_ALG_ID algorithm;
     
     /** key size in bits  */
-    public short keyBits;
+    public int keyBits;
     
     /** encryption mode  */
     public TPM_ALG_ID mode;
@@ -38,8 +38,9 @@ public class TPMT_SYM_DEF extends TpmStructure
         mode = _mode;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         algorithm.toTpm(buf);
         if (algorithm == TPM_ALG_ID.NULL) return;
@@ -47,8 +48,9 @@ public class TPMT_SYM_DEF extends TpmStructure
         mode.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         algorithm = TPM_ALG_ID.fromTpm(buf);
         if (algorithm == TPM_ALG_ID.NULL) return;
@@ -56,32 +58,22 @@ public class TPMT_SYM_DEF extends TpmStructure
         mode = TPM_ALG_ID.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMT_SYM_DEF fromBytes (byte[] byteBuf) 
     {
-        TPMT_SYM_DEF ret = new TPMT_SYM_DEF();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMT_SYM_DEF.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_SYM_DEF fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMT_SYM_DEF fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMT_SYM_DEF fromTpm (TpmBuffer buf) 
     {
-        TPMT_SYM_DEF ret = new TPMT_SYM_DEF();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMT_SYM_DEF.class);
     }
     
     @Override
@@ -97,7 +89,7 @@ public class TPMT_SYM_DEF extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "algorithm", algorithm);
-        _p.add(d, "short", "keyBits", keyBits);
+        _p.add(d, "int", "keyBits", keyBits);
         _p.add(d, "TPM_ALG_ID", "mode", mode);
     }
     

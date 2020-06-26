@@ -276,44 +276,4 @@ public class TpmDeviceTcp extends TpmDevice
             Val = val;
         }
     } // enum TcpTpmCommands
-
-    /*
-    public static TpmDeviceTcp Test() throws Exception
-    {
-        TpmDeviceTcp d = new TpmDeviceTcp("localhost", 2321);
-        d.powerCycle();
-        byte[] startup = new byte[] 
-                {
-                (byte) 0x80,1,            // sessions tag
-                0,0,0,(byte) 0x0c,        // length (including header)
-                0,0,1, (byte) 0x44,        // Startup
-                0,0                        // SU_CLEAR
-                };
-                
-        d.dispatchCommand(startup);
-        byte[] zz = d.getResponse();
-        System.out.println("Got header" + Helpers.ToHex(zz) + " bytes");
-
-        byte[] getRandom = new byte[] 
-                {
-                (byte) 0x80,1,            // sessions tag
-                0,0,0,(byte) 0x0c,        // length (including header)
-                0,0,1, (byte) 0x7b,        // GetRandom
-                0,0x14                    // 20 bytes
-                };
-        
-        d.dispatchCommand(getRandom);
-        byte[] data = d.getResponse();
-        
-        InByteBuf respBuf = new InByteBuf(data);
-        // get the standard header
-        TPM_ST respTag = TPM_ST.fromInt(respBuf.readInt(2));
-        int respSize = respBuf.readInt(4);
-        TPM_RC responseCode = TPM_RC.fromInt(respBuf.readInt(4));
-        
-        System.out.println("Got header" + Helpers.ToHex(data, 0, 10) + " bytes");
-        System.out.println("Got data" + Helpers.ToHex(data, 10, 20) + " bytes");
-        return d;
-    }
-    */
 }

@@ -76,6 +76,8 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
         phEnableNV = new TPMA_STARTUP_CLEAR(0x8, _N.phEnableNV),
         orderly = new TPMA_STARTUP_CLEAR(0x80000000, _N.orderly);
     
+    public TPMA_STARTUP_CLEAR () { super(0, _ValueMap); }
+    
     public TPMA_STARTUP_CLEAR (int value) { super(value, _ValueMap); }
     
     public TPMA_STARTUP_CLEAR (TPMA_STARTUP_CLEAR...attrs) { super(_ValueMap, attrs); }
@@ -84,7 +86,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
     
     public static TPMA_STARTUP_CLEAR fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_STARTUP_CLEAR.class); }
     
-    public static TPMA_STARTUP_CLEAR fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_STARTUP_CLEAR.class); }
+    public static TPMA_STARTUP_CLEAR fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_STARTUP_CLEAR.class); }
     
     public TPMA_STARTUP_CLEAR._N asEnum() { return (TPMA_STARTUP_CLEAR._N)NameAsEnum; }
     

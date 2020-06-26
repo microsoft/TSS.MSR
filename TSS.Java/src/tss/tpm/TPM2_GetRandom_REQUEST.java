@@ -11,51 +11,37 @@ import tss.*;
 public class TPM2_GetRandom_REQUEST extends TpmStructure
 {
     /** Number of octets to return  */
-    public short bytesRequested;
+    public int bytesRequested;
     
     public TPM2_GetRandom_REQUEST() {}
     
     /** @param _bytesRequested Number of octets to return  */
     public TPM2_GetRandom_REQUEST(int _bytesRequested) { bytesRequested = (short)_bytesRequested; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeShort(bytesRequested);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeShort(bytesRequested); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        bytesRequested = buf.readShort();
-    }
+    public void initFromTpm(TpmBuffer buf) { bytesRequested = buf.readShort(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_GetRandom_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_GetRandom_REQUEST ret = new TPM2_GetRandom_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_GetRandom_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_GetRandom_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_GetRandom_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_GetRandom_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_GetRandom_REQUEST ret = new TPM2_GetRandom_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_GetRandom_REQUEST.class);
     }
     
     @Override
@@ -70,7 +56,7 @@ public class TPM2_GetRandom_REQUEST extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "short", "bytesRequested", bytesRequested);
+        _p.add(d, "int", "bytesRequested", bytesRequested);
     }
 }
 

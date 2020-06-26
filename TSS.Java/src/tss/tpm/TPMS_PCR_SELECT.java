@@ -18,46 +18,30 @@ public class TPMS_PCR_SELECT extends TpmStructure
     /** @param _pcrSelect The bit map of selected PCR  */
     public TPMS_PCR_SELECT(byte[] _pcrSelect) { pcrSelect = _pcrSelect; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(pcrSelect, 1);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(pcrSelect, 1); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _sizeofSelect = buf.readByte();
-        pcrSelect = new byte[_sizeofSelect];
-        buf.readArrayOfInts(pcrSelect, 1, _sizeofSelect);
-    }
+    public void initFromTpm(TpmBuffer buf) { pcrSelect = buf.readSizedByteBuf(1); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_PCR_SELECT fromBytes (byte[] byteBuf) 
     {
-        TPMS_PCR_SELECT ret = new TPMS_PCR_SELECT();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_PCR_SELECT.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_PCR_SELECT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_PCR_SELECT fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_PCR_SELECT fromTpm (TpmBuffer buf) 
     {
-        TPMS_PCR_SELECT ret = new TPMS_PCR_SELECT();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_PCR_SELECT.class);
     }
     
     @Override

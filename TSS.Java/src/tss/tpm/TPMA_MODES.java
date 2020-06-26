@@ -29,6 +29,8 @@ public final class TPMA_MODES extends TpmAttribute<TPMA_MODES>
     public static final TPMA_MODES
         FIPS_140_2 = new TPMA_MODES(0x1, _N.FIPS_140_2);
     
+    public TPMA_MODES () { super(0, _ValueMap); }
+    
     public TPMA_MODES (int value) { super(value, _ValueMap); }
     
     public TPMA_MODES (TPMA_MODES...attrs) { super(_ValueMap, attrs); }
@@ -37,7 +39,7 @@ public final class TPMA_MODES extends TpmAttribute<TPMA_MODES>
     
     public static TPMA_MODES fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_MODES.class); }
     
-    public static TPMA_MODES fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_MODES.class); }
+    public static TPMA_MODES fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_MODES.class); }
     
     public TPMA_MODES._N asEnum() { return (TPMA_MODES._N)NameAsEnum; }
     

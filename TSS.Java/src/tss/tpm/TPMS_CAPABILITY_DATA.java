@@ -25,48 +25,40 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
      */
     public TPMS_CAPABILITY_DATA(TPMU_CAPABILITIES _data) { data = _data; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         if (data == null) return;
-        data.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)data).toTpm(buf);
+        buf.writeInt(data.GetUnionSelector());
+        data.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _capability = buf.readInt();
-        data = UnionFactory.create("TPMU_CAPABILITIES", new TPM_CAP(_capability));
+        TPM_CAP capability = TPM_CAP.fromTpm(buf);
+        data = UnionFactory.create("TPMU_CAPABILITIES", capability);
         data.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_CAPABILITY_DATA fromBytes (byte[] byteBuf) 
     {
-        TPMS_CAPABILITY_DATA ret = new TPMS_CAPABILITY_DATA();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_CAPABILITY_DATA.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_CAPABILITY_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_CAPABILITY_DATA fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_CAPABILITY_DATA fromTpm (TpmBuffer buf) 
     {
-        TPMS_CAPABILITY_DATA ret = new TPMS_CAPABILITY_DATA();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_CAPABILITY_DATA.class);
     }
     
     @Override

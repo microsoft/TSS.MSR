@@ -18,47 +18,30 @@ public class TPML_AC_CAPABILITIES extends TpmStructure
     /** @param _acCapabilities A list of AC values  */
     public TPML_AC_CAPABILITIES(TPMS_AC_OUTPUT[] _acCapabilities) { acCapabilities = _acCapabilities; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(acCapabilities);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(acCapabilities); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        acCapabilities = new TPMS_AC_OUTPUT[_count];
-        for (int j=0; j < _count; j++) acCapabilities[j] = new TPMS_AC_OUTPUT();
-        buf.readArrayOfTpmObjects(acCapabilities, _count);
-    }
+    public void initFromTpm(TpmBuffer buf) { acCapabilities = buf.readObjArr(TPMS_AC_OUTPUT.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_AC_CAPABILITIES fromBytes (byte[] byteBuf) 
     {
-        TPML_AC_CAPABILITIES ret = new TPML_AC_CAPABILITIES();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_AC_CAPABILITIES.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_AC_CAPABILITIES fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_AC_CAPABILITIES fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_AC_CAPABILITIES fromTpm (TpmBuffer buf) 
     {
-        TPML_AC_CAPABILITIES ret = new TPML_AC_CAPABILITIES();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_AC_CAPABILITIES.class);
     }
     
     @Override

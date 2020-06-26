@@ -218,6 +218,8 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
         PLATFORMCREATE = new TPMA_NV(0x40000000, _N.PLATFORMCREATE),
         READ_STCLEAR = new TPMA_NV(0x80000000, _N.READ_STCLEAR);
     
+    public TPMA_NV () { super(0, _ValueMap); }
+    
     public TPMA_NV (int value) { super(value, _ValueMap); }
     
     public TPMA_NV (TPMA_NV...attrs) { super(_ValueMap, attrs); }
@@ -226,7 +228,7 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
     
     public static TPMA_NV fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_NV.class); }
     
-    public static TPMA_NV fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_NV.class); }
+    public static TPMA_NV fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_NV.class); }
     
     public TPMA_NV._N asEnum() { return (TPMA_NV._N)NameAsEnum; }
     

@@ -20,53 +20,38 @@ public class NV_ReadPublicResponse extends TpmStructure
     
     public NV_ReadPublicResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(nvPublic != null ? nvPublic.toTpm().length : 0);
-        if (nvPublic != null)
-            nvPublic.toTpm(buf);
+        buf.writeSizedObj(nvPublic);
         buf.writeSizedByteBuf(nvName);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _nvPublicSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _nvPublicSize));
-        nvPublic = TPMS_NV_PUBLIC.fromTpm(buf);
-        buf.structSize.pop();
-        int _nvNameSize = buf.readShort() & 0xFFFF;
-        nvName = new byte[_nvNameSize];
-        buf.readArrayOfInts(nvName, 1, _nvNameSize);
+        nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC.class);
+        nvName = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static NV_ReadPublicResponse fromBytes (byte[] byteBuf) 
     {
-        NV_ReadPublicResponse ret = new NV_ReadPublicResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(NV_ReadPublicResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static NV_ReadPublicResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static NV_ReadPublicResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static NV_ReadPublicResponse fromTpm (TpmBuffer buf) 
     {
-        NV_ReadPublicResponse ret = new NV_ReadPublicResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(NV_ReadPublicResponse.class);
     }
     
     @Override

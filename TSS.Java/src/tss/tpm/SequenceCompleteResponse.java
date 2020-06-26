@@ -23,48 +23,38 @@ public class SequenceCompleteResponse extends TpmStructure
     
     public SequenceCompleteResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(result);
         validation.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _resultSize = buf.readShort() & 0xFFFF;
-        result = new byte[_resultSize];
-        buf.readArrayOfInts(result, 1, _resultSize);
+        result = buf.readSizedByteBuf();
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static SequenceCompleteResponse fromBytes (byte[] byteBuf) 
     {
-        SequenceCompleteResponse ret = new SequenceCompleteResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(SequenceCompleteResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static SequenceCompleteResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static SequenceCompleteResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static SequenceCompleteResponse fromTpm (TpmBuffer buf) 
     {
-        SequenceCompleteResponse ret = new SequenceCompleteResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(SequenceCompleteResponse.class);
     }
     
     @Override

@@ -23,48 +23,40 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
      */
     public TPMT_KEYEDHASH_SCHEME(TPMU_SCHEME_KEYEDHASH _details) { details = _details; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         if (details == null) return;
-        details.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)details).toTpm(buf);
+        buf.writeShort(details.GetUnionSelector());
+        details.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _scheme = buf.readShort() & 0xFFFF;
-        details = UnionFactory.create("TPMU_SCHEME_KEYEDHASH", new TPM_ALG_ID(_scheme));
+        TPM_ALG_ID scheme = TPM_ALG_ID.fromTpm(buf);
+        details = UnionFactory.create("TPMU_SCHEME_KEYEDHASH", scheme);
         details.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMT_KEYEDHASH_SCHEME fromBytes (byte[] byteBuf) 
     {
-        TPMT_KEYEDHASH_SCHEME ret = new TPMT_KEYEDHASH_SCHEME();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMT_KEYEDHASH_SCHEME.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_KEYEDHASH_SCHEME fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMT_KEYEDHASH_SCHEME fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMT_KEYEDHASH_SCHEME fromTpm (TpmBuffer buf) 
     {
-        TPMT_KEYEDHASH_SCHEME ret = new TPMT_KEYEDHASH_SCHEME();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMT_KEYEDHASH_SCHEME.class);
     }
     
     @Override

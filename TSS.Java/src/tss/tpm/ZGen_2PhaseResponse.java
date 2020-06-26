@@ -22,56 +22,38 @@ public class ZGen_2PhaseResponse extends TpmStructure
     
     public ZGen_2PhaseResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(outZ1 != null ? outZ1.toTpm().length : 0);
-        if (outZ1 != null)
-            outZ1.toTpm(buf);
-        buf.writeShort(outZ2 != null ? outZ2.toTpm().length : 0);
-        if (outZ2 != null)
-            outZ2.toTpm(buf);
+        buf.writeSizedObj(outZ1);
+        buf.writeSizedObj(outZ2);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _outZ1Size = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _outZ1Size));
-        outZ1 = TPMS_ECC_POINT.fromTpm(buf);
-        buf.structSize.pop();
-        int _outZ2Size = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _outZ2Size));
-        outZ2 = TPMS_ECC_POINT.fromTpm(buf);
-        buf.structSize.pop();
+        outZ1 = buf.createSizedObj(TPMS_ECC_POINT.class);
+        outZ2 = buf.createSizedObj(TPMS_ECC_POINT.class);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ZGen_2PhaseResponse fromBytes (byte[] byteBuf) 
     {
-        ZGen_2PhaseResponse ret = new ZGen_2PhaseResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ZGen_2PhaseResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ZGen_2PhaseResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ZGen_2PhaseResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ZGen_2PhaseResponse fromTpm (TpmBuffer buf) 
     {
-        ZGen_2PhaseResponse ret = new ZGen_2PhaseResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ZGen_2PhaseResponse.class);
     }
     
     @Override

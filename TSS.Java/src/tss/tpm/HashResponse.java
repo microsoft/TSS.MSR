@@ -21,48 +21,38 @@ public class HashResponse extends TpmStructure
     
     public HashResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(outHash);
         validation.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _outHashSize = buf.readShort() & 0xFFFF;
-        outHash = new byte[_outHashSize];
-        buf.readArrayOfInts(outHash, 1, _outHashSize);
+        outHash = buf.readSizedByteBuf();
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static HashResponse fromBytes (byte[] byteBuf) 
     {
-        HashResponse ret = new HashResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(HashResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static HashResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static HashResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static HashResponse fromTpm (TpmBuffer buf) 
     {
-        HashResponse ret = new HashResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(HashResponse.class);
     }
     
     @Override

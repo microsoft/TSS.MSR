@@ -122,6 +122,8 @@ public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
         RhNv_BIT_6 = new TPM_NV_INDEX(0x40000000, _N.RhNv_BIT_6),
         RhNv_BIT_7 = new TPM_NV_INDEX(0x80000000, _N.RhNv_BIT_7);
     
+    public TPM_NV_INDEX () { super(0, _ValueMap); }
+    
     public TPM_NV_INDEX (int value) { super(value, _ValueMap); }
     
     public TPM_NV_INDEX (TPM_NV_INDEX...attrs) { super(_ValueMap, attrs); }
@@ -130,7 +132,7 @@ public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
     
     public static TPM_NV_INDEX fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_NV_INDEX.class); }
     
-    public static TPM_NV_INDEX fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_NV_INDEX.class); }
+    public static TPM_NV_INDEX fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_NV_INDEX.class); }
     
     public TPM_NV_INDEX._N asEnum() { return (TPM_NV_INDEX._N)NameAsEnum; }
     

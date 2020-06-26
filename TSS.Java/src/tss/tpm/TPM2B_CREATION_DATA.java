@@ -19,49 +19,30 @@ public class TPM2B_CREATION_DATA extends TpmStructure
     /** @param _creationData TBD  */
     public TPM2B_CREATION_DATA(TPMS_CREATION_DATA _creationData) { creationData = _creationData; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeShort(creationData != null ? creationData.toTpm().length : 0);
-        if (creationData != null)
-            creationData.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedObj(creationData); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _size = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
-        creationData = TPMS_CREATION_DATA.fromTpm(buf);
-        buf.structSize.pop();
-    }
+    public void initFromTpm(TpmBuffer buf) { creationData = buf.createSizedObj(TPMS_CREATION_DATA.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2B_CREATION_DATA fromBytes (byte[] byteBuf) 
     {
-        TPM2B_CREATION_DATA ret = new TPM2B_CREATION_DATA();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2B_CREATION_DATA.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_CREATION_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2B_CREATION_DATA fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2B_CREATION_DATA fromTpm (TpmBuffer buf) 
     {
-        TPM2B_CREATION_DATA ret = new TPM2B_CREATION_DATA();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2B_CREATION_DATA.class);
     }
     
     @Override

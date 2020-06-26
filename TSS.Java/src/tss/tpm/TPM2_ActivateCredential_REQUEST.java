@@ -53,53 +53,38 @@ public class TPM2_ActivateCredential_REQUEST extends TpmStructure
         secret = _secret;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(credentialBlob != null ? credentialBlob.toTpm().length : 0);
-        if (credentialBlob != null)
-            credentialBlob.toTpm(buf);
+        buf.writeSizedObj(credentialBlob);
         buf.writeSizedByteBuf(secret);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _credentialBlobSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _credentialBlobSize));
-        credentialBlob = TPMS_ID_OBJECT.fromTpm(buf);
-        buf.structSize.pop();
-        int _secretSize = buf.readShort() & 0xFFFF;
-        secret = new byte[_secretSize];
-        buf.readArrayOfInts(secret, 1, _secretSize);
+        credentialBlob = buf.createSizedObj(TPMS_ID_OBJECT.class);
+        secret = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_ActivateCredential_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_ActivateCredential_REQUEST ret = new TPM2_ActivateCredential_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_ActivateCredential_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ActivateCredential_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_ActivateCredential_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_ActivateCredential_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_ActivateCredential_REQUEST ret = new TPM2_ActivateCredential_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_ActivateCredential_REQUEST.class);
     }
     
     @Override

@@ -15,46 +15,30 @@ public class HMACResponse extends TpmStructure
     
     public HMACResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(outHMAC);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(outHMAC); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _outHMACSize = buf.readShort() & 0xFFFF;
-        outHMAC = new byte[_outHMACSize];
-        buf.readArrayOfInts(outHMAC, 1, _outHMACSize);
-    }
+    public void initFromTpm(TpmBuffer buf) { outHMAC = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static HMACResponse fromBytes (byte[] byteBuf) 
     {
-        HMACResponse ret = new HMACResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(HMACResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static HMACResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static HMACResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static HMACResponse fromTpm (TpmBuffer buf) 
     {
-        HMACResponse ret = new HMACResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(HMACResponse.class);
     }
     
     @Override

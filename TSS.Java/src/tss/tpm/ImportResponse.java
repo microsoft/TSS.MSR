@@ -19,44 +19,30 @@ public class ImportResponse extends TpmStructure
     
     public ImportResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        outPrivate.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { outPrivate.toTpm(buf); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        outPrivate = TPM2B_PRIVATE.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { outPrivate = TPM2B_PRIVATE.fromTpm(buf); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ImportResponse fromBytes (byte[] byteBuf) 
     {
-        ImportResponse ret = new ImportResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ImportResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ImportResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ImportResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ImportResponse fromTpm (TpmBuffer buf) 
     {
-        ImportResponse ret = new ImportResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ImportResponse.class);
     }
     
     @Override

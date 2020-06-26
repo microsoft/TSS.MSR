@@ -20,46 +20,30 @@ public class ActivateCredentialResponse extends TpmStructure
     
     public ActivateCredentialResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(certInfo);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(certInfo); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _certInfoSize = buf.readShort() & 0xFFFF;
-        certInfo = new byte[_certInfoSize];
-        buf.readArrayOfInts(certInfo, 1, _certInfoSize);
-    }
+    public void initFromTpm(TpmBuffer buf) { certInfo = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ActivateCredentialResponse fromBytes (byte[] byteBuf) 
     {
-        ActivateCredentialResponse ret = new ActivateCredentialResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ActivateCredentialResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ActivateCredentialResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ActivateCredentialResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ActivateCredentialResponse fromTpm (TpmBuffer buf) 
     {
-        ActivateCredentialResponse ret = new ActivateCredentialResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ActivateCredentialResponse.class);
     }
     
     @Override

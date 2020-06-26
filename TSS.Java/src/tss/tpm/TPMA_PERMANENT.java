@@ -61,6 +61,8 @@ public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
         inLockout = new TPMA_PERMANENT(0x200, _N.inLockout),
         tpmGeneratedEPS = new TPMA_PERMANENT(0x400, _N.tpmGeneratedEPS);
     
+    public TPMA_PERMANENT () { super(0, _ValueMap); }
+    
     public TPMA_PERMANENT (int value) { super(value, _ValueMap); }
     
     public TPMA_PERMANENT (TPMA_PERMANENT...attrs) { super(_ValueMap, attrs); }
@@ -69,7 +71,7 @@ public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
     
     public static TPMA_PERMANENT fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_PERMANENT.class); }
     
-    public static TPMA_PERMANENT fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_PERMANENT.class); }
+    public static TPMA_PERMANENT fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_PERMANENT.class); }
     
     public TPMA_PERMANENT._N asEnum() { return (TPMA_PERMANENT._N)NameAsEnum; }
     

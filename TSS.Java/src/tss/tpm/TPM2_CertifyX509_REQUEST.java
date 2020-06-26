@@ -68,55 +68,43 @@ public class TPM2_CertifyX509_REQUEST extends TpmStructure
         partialCertificate = _partialCertificate;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(reserved);
-        inScheme.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)inScheme).toTpm(buf);
+        buf.writeShort(inScheme.GetUnionSelector());
+        inScheme.toTpm(buf);
         buf.writeSizedByteBuf(partialCertificate);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _reservedSize = buf.readShort() & 0xFFFF;
-        reserved = new byte[_reservedSize];
-        buf.readArrayOfInts(reserved, 1, _reservedSize);
-        int _inSchemeScheme = buf.readShort() & 0xFFFF;
-        inScheme = UnionFactory.create("TPMU_SIG_SCHEME", new TPM_ALG_ID(_inSchemeScheme));
+        reserved = buf.readSizedByteBuf();
+        TPM_ALG_ID inSchemeScheme = TPM_ALG_ID.fromTpm(buf);
+        inScheme = UnionFactory.create("TPMU_SIG_SCHEME", inSchemeScheme);
         inScheme.initFromTpm(buf);
-        int _partialCertificateSize = buf.readShort() & 0xFFFF;
-        partialCertificate = new byte[_partialCertificateSize];
-        buf.readArrayOfInts(partialCertificate, 1, _partialCertificateSize);
+        partialCertificate = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_CertifyX509_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_CertifyX509_REQUEST ret = new TPM2_CertifyX509_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_CertifyX509_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_CertifyX509_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_CertifyX509_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_CertifyX509_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_CertifyX509_REQUEST ret = new TPM2_CertifyX509_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_CertifyX509_REQUEST.class);
     }
     
     @Override

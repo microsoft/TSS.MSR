@@ -84,8 +84,9 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
         authHash = _authHash;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(nonceCaller);
         buf.writeSizedByteBuf(encryptedSalt);
@@ -94,46 +95,33 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
         authHash.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _nonceCallerSize = buf.readShort() & 0xFFFF;
-        nonceCaller = new byte[_nonceCallerSize];
-        buf.readArrayOfInts(nonceCaller, 1, _nonceCallerSize);
-        int _encryptedSaltSize = buf.readShort() & 0xFFFF;
-        encryptedSalt = new byte[_encryptedSaltSize];
-        buf.readArrayOfInts(encryptedSalt, 1, _encryptedSaltSize);
+        nonceCaller = buf.readSizedByteBuf();
+        encryptedSalt = buf.readSizedByteBuf();
         sessionType = TPM_SE.fromTpm(buf);
         symmetric = TPMT_SYM_DEF.fromTpm(buf);
         authHash = TPM_ALG_ID.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_StartAuthSession_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_StartAuthSession_REQUEST ret = new TPM2_StartAuthSession_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_StartAuthSession_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_StartAuthSession_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_StartAuthSession_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_StartAuthSession_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_StartAuthSession_REQUEST ret = new TPM2_StartAuthSession_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_StartAuthSession_REQUEST.class);
     }
     
     @Override

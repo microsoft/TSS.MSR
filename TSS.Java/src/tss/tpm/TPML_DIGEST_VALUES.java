@@ -20,47 +20,30 @@ public class TPML_DIGEST_VALUES extends TpmStructure
     /** @param _digests A list of tagged digests  */
     public TPML_DIGEST_VALUES(TPMT_HA[] _digests) { digests = _digests; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(digests);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(digests); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        digests = new TPMT_HA[_count];
-        for (int j=0; j < _count; j++) digests[j] = new TPMT_HA();
-        buf.readArrayOfTpmObjects(digests, _count);
-    }
+    public void initFromTpm(TpmBuffer buf) { digests = buf.readObjArr(TPMT_HA.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_DIGEST_VALUES fromBytes (byte[] byteBuf) 
     {
-        TPML_DIGEST_VALUES ret = new TPML_DIGEST_VALUES();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_DIGEST_VALUES.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_DIGEST_VALUES fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_DIGEST_VALUES fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_DIGEST_VALUES fromTpm (TpmBuffer buf) 
     {
-        TPML_DIGEST_VALUES ret = new TPML_DIGEST_VALUES();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_DIGEST_VALUES.class);
     }
     
     @Override

@@ -24,53 +24,40 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
     
     public TPMS_AUTH_RESPONSE() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(nonce);
         sessionAttributes.toTpm(buf);
         buf.writeSizedByteBuf(hmac);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _nonceSize = buf.readShort() & 0xFFFF;
-        nonce = new byte[_nonceSize];
-        buf.readArrayOfInts(nonce, 1, _nonceSize);
-        int _sessionAttributes = buf.readByte();
-        sessionAttributes = TPMA_SESSION.fromInt(_sessionAttributes);
-        int _hmacSize = buf.readShort() & 0xFFFF;
-        hmac = new byte[_hmacSize];
-        buf.readArrayOfInts(hmac, 1, _hmacSize);
+        nonce = buf.readSizedByteBuf();
+        sessionAttributes = TPMA_SESSION.fromTpm(buf);
+        hmac = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_AUTH_RESPONSE fromBytes (byte[] byteBuf) 
     {
-        TPMS_AUTH_RESPONSE ret = new TPMS_AUTH_RESPONSE();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_AUTH_RESPONSE.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_AUTH_RESPONSE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_AUTH_RESPONSE fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_AUTH_RESPONSE fromTpm (TpmBuffer buf) 
     {
-        TPMS_AUTH_RESPONSE ret = new TPMS_AUTH_RESPONSE();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_AUTH_RESPONSE.class);
     }
     
     @Override

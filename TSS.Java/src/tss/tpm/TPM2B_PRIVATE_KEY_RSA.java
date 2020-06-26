@@ -20,46 +20,30 @@ public class TPM2B_PRIVATE_KEY_RSA extends TpmStructure implements TPMU_SENSITIV
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSA; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(buffer);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _size = buf.readShort() & 0xFFFF;
-        buffer = new byte[_size];
-        buf.readArrayOfInts(buffer, 1, _size);
-    }
+    public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2B_PRIVATE_KEY_RSA fromBytes (byte[] byteBuf) 
     {
-        TPM2B_PRIVATE_KEY_RSA ret = new TPM2B_PRIVATE_KEY_RSA();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2B_PRIVATE_KEY_RSA.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_PRIVATE_KEY_RSA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2B_PRIVATE_KEY_RSA fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2B_PRIVATE_KEY_RSA fromTpm (TpmBuffer buf) 
     {
-        TPM2B_PRIVATE_KEY_RSA ret = new TPM2B_PRIVATE_KEY_RSA();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2B_PRIVATE_KEY_RSA.class);
     }
     
     @Override

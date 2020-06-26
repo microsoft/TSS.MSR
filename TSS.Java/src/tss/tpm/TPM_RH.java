@@ -116,13 +116,15 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
     @Deprecated
     public static final TPM_RH RS_PW = new TPM_RH(PW.toInt(), _N.PW, true);
     
+    public TPM_RH () { super(0, _ValueMap); }
+    
     public TPM_RH (int value) { super(value, _ValueMap); }
     
     public static TPM_RH fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_RH.class); }
     
     public static TPM_RH fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_RH.class); }
     
-    public static TPM_RH fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_RH.class); }
+    public static TPM_RH fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_RH.class); }
     
     public TPM_RH._N asEnum() { return (TPM_RH._N)NameAsEnum; }
     

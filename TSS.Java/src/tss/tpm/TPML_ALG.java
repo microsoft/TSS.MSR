@@ -24,46 +24,30 @@ public class TPML_ALG extends TpmStructure
      */
     public TPML_ALG(TPM_ALG_ID[] _algorithms) { algorithms = _algorithms; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(algorithms);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(algorithms); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        algorithms = new TPM_ALG_ID[_count];
-        for (int j=0; j < _count; j++) algorithms[j] = TPM_ALG_ID.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { algorithms = buf.readObjArr(TPM_ALG_ID.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_ALG fromBytes (byte[] byteBuf) 
     {
-        TPML_ALG ret = new TPML_ALG();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_ALG.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_ALG fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_ALG fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_ALG fromTpm (TpmBuffer buf) 
     {
-        TPML_ALG ret = new TPML_ALG();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_ALG.class);
     }
     
     @Override

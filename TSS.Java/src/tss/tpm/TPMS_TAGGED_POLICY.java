@@ -29,46 +29,38 @@ public class TPMS_TAGGED_POLICY extends TpmStructure
         policyHash = _policyHash;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         handle.toTpm(buf);
         policyHash.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
         policyHash = TPMT_HA.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_TAGGED_POLICY fromBytes (byte[] byteBuf) 
     {
-        TPMS_TAGGED_POLICY ret = new TPMS_TAGGED_POLICY();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_TAGGED_POLICY.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_TAGGED_POLICY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_TAGGED_POLICY fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_TAGGED_POLICY fromTpm (TpmBuffer buf) 
     {
-        TPMS_TAGGED_POLICY ret = new TPMS_TAGGED_POLICY();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_TAGGED_POLICY.class);
     }
     
     @Override

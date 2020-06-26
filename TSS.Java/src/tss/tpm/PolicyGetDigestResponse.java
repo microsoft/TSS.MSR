@@ -17,46 +17,30 @@ public class PolicyGetDigestResponse extends TpmStructure
     
     public PolicyGetDigestResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(policyDigest);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(policyDigest); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _policyDigestSize = buf.readShort() & 0xFFFF;
-        policyDigest = new byte[_policyDigestSize];
-        buf.readArrayOfInts(policyDigest, 1, _policyDigestSize);
-    }
+    public void initFromTpm(TpmBuffer buf) { policyDigest = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static PolicyGetDigestResponse fromBytes (byte[] byteBuf) 
     {
-        PolicyGetDigestResponse ret = new PolicyGetDigestResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(PolicyGetDigestResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static PolicyGetDigestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static PolicyGetDigestResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static PolicyGetDigestResponse fromTpm (TpmBuffer buf) 
     {
-        PolicyGetDigestResponse ret = new PolicyGetDigestResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(PolicyGetDigestResponse.class);
     }
     
     @Override

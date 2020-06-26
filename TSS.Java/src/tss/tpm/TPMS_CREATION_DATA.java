@@ -75,8 +75,9 @@ public class TPMS_CREATION_DATA extends TpmStructure
         outsideInfo = _outsideInfo;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeObjArr(pcrSelect);
         buf.writeSizedByteBuf(pcrDigest);
@@ -87,56 +88,35 @@ public class TPMS_CREATION_DATA extends TpmStructure
         buf.writeSizedByteBuf(outsideInfo);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _pcrSelectCount = buf.readInt();
-        pcrSelect = new TPMS_PCR_SELECTION[_pcrSelectCount];
-        for (int j=0; j < _pcrSelectCount; j++) pcrSelect[j] = new TPMS_PCR_SELECTION();
-        buf.readArrayOfTpmObjects(pcrSelect, _pcrSelectCount);
-        int _pcrDigestSize = buf.readShort() & 0xFFFF;
-        pcrDigest = new byte[_pcrDigestSize];
-        buf.readArrayOfInts(pcrDigest, 1, _pcrDigestSize);
-        int _locality = buf.readByte();
-        locality = TPMA_LOCALITY.fromInt(_locality);
+        pcrSelect = buf.readObjArr(TPMS_PCR_SELECTION.class);
+        pcrDigest = buf.readSizedByteBuf();
+        locality = TPMA_LOCALITY.fromTpm(buf);
         parentNameAlg = TPM_ALG_ID.fromTpm(buf);
-        int _parentNameSize = buf.readShort() & 0xFFFF;
-        parentName = new byte[_parentNameSize];
-        buf.readArrayOfInts(parentName, 1, _parentNameSize);
-        int _parentQualifiedNameSize = buf.readShort() & 0xFFFF;
-        parentQualifiedName = new byte[_parentQualifiedNameSize];
-        buf.readArrayOfInts(parentQualifiedName, 1, _parentQualifiedNameSize);
-        int _outsideInfoSize = buf.readShort() & 0xFFFF;
-        outsideInfo = new byte[_outsideInfoSize];
-        buf.readArrayOfInts(outsideInfo, 1, _outsideInfoSize);
+        parentName = buf.readSizedByteBuf();
+        parentQualifiedName = buf.readSizedByteBuf();
+        outsideInfo = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_CREATION_DATA fromBytes (byte[] byteBuf) 
     {
-        TPMS_CREATION_DATA ret = new TPMS_CREATION_DATA();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_CREATION_DATA.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_CREATION_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_CREATION_DATA fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_CREATION_DATA fromTpm (TpmBuffer buf) 
     {
-        TPMS_CREATION_DATA ret = new TPMS_CREATION_DATA();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_CREATION_DATA.class);
     }
     
     @Override

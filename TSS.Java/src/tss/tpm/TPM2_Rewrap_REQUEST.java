@@ -63,52 +63,40 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         inSymSeed = _inSymSeed;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         inDuplicate.toTpm(buf);
         buf.writeSizedByteBuf(name);
         buf.writeSizedByteBuf(inSymSeed);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         inDuplicate = TPM2B_PRIVATE.fromTpm(buf);
-        int _nameSize = buf.readShort() & 0xFFFF;
-        name = new byte[_nameSize];
-        buf.readArrayOfInts(name, 1, _nameSize);
-        int _inSymSeedSize = buf.readShort() & 0xFFFF;
-        inSymSeed = new byte[_inSymSeedSize];
-        buf.readArrayOfInts(inSymSeed, 1, _inSymSeedSize);
+        name = buf.readSizedByteBuf();
+        inSymSeed = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_Rewrap_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_Rewrap_REQUEST ret = new TPM2_Rewrap_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_Rewrap_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Rewrap_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_Rewrap_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_Rewrap_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_Rewrap_REQUEST ret = new TPM2_Rewrap_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_Rewrap_REQUEST.class);
     }
     
     @Override

@@ -44,48 +44,38 @@ public class TPM2_MAC_Start_REQUEST extends TpmStructure
         inScheme = _inScheme;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(auth);
         inScheme.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _authSize = buf.readShort() & 0xFFFF;
-        auth = new byte[_authSize];
-        buf.readArrayOfInts(auth, 1, _authSize);
+        auth = buf.readSizedByteBuf();
         inScheme = TPM_ALG_ID.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_MAC_Start_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_MAC_Start_REQUEST ret = new TPM2_MAC_Start_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_MAC_Start_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_MAC_Start_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_MAC_Start_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_MAC_Start_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_MAC_Start_REQUEST ret = new TPM2_MAC_Start_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_MAC_Start_REQUEST.class);
     }
     
     @Override

@@ -56,8 +56,9 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
         inData = _inData;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeByte(decrypt);
         mode.toTpm(buf);
@@ -65,45 +66,32 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
         buf.writeSizedByteBuf(inData);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         decrypt = buf.readByte();
         mode = TPM_ALG_ID.fromTpm(buf);
-        int _ivInSize = buf.readShort() & 0xFFFF;
-        ivIn = new byte[_ivInSize];
-        buf.readArrayOfInts(ivIn, 1, _ivInSize);
-        int _inDataSize = buf.readShort() & 0xFFFF;
-        inData = new byte[_inDataSize];
-        buf.readArrayOfInts(inData, 1, _inDataSize);
+        ivIn = buf.readSizedByteBuf();
+        inData = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_EncryptDecrypt_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_EncryptDecrypt_REQUEST ret = new TPM2_EncryptDecrypt_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_EncryptDecrypt_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_EncryptDecrypt_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_EncryptDecrypt_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_EncryptDecrypt_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_EncryptDecrypt_REQUEST ret = new TPM2_EncryptDecrypt_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_EncryptDecrypt_REQUEST.class);
     }
     
     @Override

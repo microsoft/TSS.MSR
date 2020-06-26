@@ -45,56 +45,44 @@ public class TPMT_SENSITIVE extends TpmStructure
         sensitive = _sensitive;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         if (sensitive == null) return;
-        sensitive.GetUnionSelector().toTpm(buf);
+        buf.writeShort(sensitive.GetUnionSelector());
         buf.writeSizedByteBuf(authValue);
         buf.writeSizedByteBuf(seedValue);
-        ((TpmMarshaller)sensitive).toTpm(buf);
+        sensitive.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _sensitiveType = buf.readShort() & 0xFFFF;
-        int _authValueSize = buf.readShort() & 0xFFFF;
-        authValue = new byte[_authValueSize];
-        buf.readArrayOfInts(authValue, 1, _authValueSize);
-        int _seedValueSize = buf.readShort() & 0xFFFF;
-        seedValue = new byte[_seedValueSize];
-        buf.readArrayOfInts(seedValue, 1, _seedValueSize);
-        sensitive = UnionFactory.create("TPMU_SENSITIVE_COMPOSITE", new TPM_ALG_ID(_sensitiveType));
+        TPM_ALG_ID sensitiveType = TPM_ALG_ID.fromTpm(buf);
+        authValue = buf.readSizedByteBuf();
+        seedValue = buf.readSizedByteBuf();
+        sensitive = UnionFactory.create("TPMU_SENSITIVE_COMPOSITE", sensitiveType);
         sensitive.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMT_SENSITIVE fromBytes (byte[] byteBuf) 
     {
-        TPMT_SENSITIVE ret = new TPMT_SENSITIVE();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMT_SENSITIVE.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_SENSITIVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMT_SENSITIVE fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMT_SENSITIVE fromTpm (TpmBuffer buf) 
     {
-        TPMT_SENSITIVE ret = new TPMT_SENSITIVE();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMT_SENSITIVE.class);
     }
     
     @Override

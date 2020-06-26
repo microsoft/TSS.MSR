@@ -34,6 +34,8 @@ public final class TPMA_ACT extends TpmAttribute<TPMA_ACT>
         signaled = new TPMA_ACT(0x1, _N.signaled),
         preserveSignaled = new TPMA_ACT(0x2, _N.preserveSignaled);
     
+    public TPMA_ACT () { super(0, _ValueMap); }
+    
     public TPMA_ACT (int value) { super(value, _ValueMap); }
     
     public TPMA_ACT (TPMA_ACT...attrs) { super(_ValueMap, attrs); }
@@ -42,7 +44,7 @@ public final class TPMA_ACT extends TpmAttribute<TPMA_ACT>
     
     public static TPMA_ACT fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_ACT.class); }
     
-    public static TPMA_ACT fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_ACT.class); }
+    public static TPMA_ACT fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_ACT.class); }
     
     public TPMA_ACT._N asEnum() { return (TPMA_ACT._N)NameAsEnum; }
     

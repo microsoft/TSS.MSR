@@ -44,6 +44,8 @@ public class Samples
         cleanSlots(TPM_HT.TRANSIENT);
         cleanSlots(TPM_HT.LOADED_SESSION);
         
+        DrsClient.runProvisioningSequence(tpm);
+        
         random();
         hash();
         hmac();
@@ -88,7 +90,8 @@ public class Samples
         System.out.println("GetRandom (2): " + Helpers.toHex(r));
     }
 
-    void pcr1() {
+    void pcr1()
+    {
         PCR_ReadResponse pcrAtStart = tpm.PCR_Read(TPMS_PCR_SELECTION.CreateSelectionArray(TPM_ALG_ID.SHA1, 0));
         System.out.println("PCR 0 (SHA1) at start: \n" + pcrAtStart.toString());
 
@@ -278,7 +281,8 @@ public class Samples
         tpm.FlushContext(pubChildHandle);
     }
 
-    void getCapability() {
+    void getCapability()
+    {
         // For the first two examples we show how to get a batch of properties
         // at a time.
         // For simplicity, subsequent samples just get one at a time, avoiding
@@ -290,12 +294,12 @@ public class Samples
             GetCapabilityResponse caps = tpm.GetCapability(TPM_CAP.ALGS, startVal, 8);
             TPML_ALG_PROPERTY algs = (TPML_ALG_PROPERTY) (caps.capabilityData);
 
-            for (TPMS_ALG_PROPERTY p : algs.algProperties) {
+            for (TPMS_ALG_PROPERTY p : algs.algProperties)
+            {
                 write("  " + p.alg.toString() + " " + p.algProperties.toString());
             }
-            if (caps.moreData == 0) {
+            if (caps.moreData == 0)
                 break;
-            }
 
             startVal = algs.algProperties[algs.algProperties.length - 1].alg.toInt() + 1;
         } while (true);
@@ -310,8 +314,9 @@ public class Samples
             // the
             // TPMA_CC so we have to unpack and re-create
 
-            for (TPMA_CC c : comms.commandAttributes) {
-                TPMA_CC cc = c.maskAttr(new TPMA_CC(0xFFFF));
+            for (TPMA_CC c : comms.commandAttributes)
+            {
+                TPM_CC cc = TPM_CC.fromInt(c.toInt() & 0xFFFF);
 
                 if (cc == null)
                     break;
@@ -351,16 +356,17 @@ public class Samples
             }
             write(" " + res.toString());
         }
-        return;
     }
 
-    void hash() {
+    void hash()
+    {
         TPM_ALG_ID hashAlgs[] = new TPM_ALG_ID[] { TPM_ALG_ID.SHA1, TPM_ALG_ID.SHA256, TPM_ALG_ID.SHA384 };
 
         // first demonstrate non-sequence hashing (for short sequences)
         byte[] toHash = Helpers.RandomBytes(16);
         write("Simple hashing of " + Helpers.toHex(toHash));
-        for (TPM_ALG_ID h : hashAlgs) {
+        for (TPM_ALG_ID h : hashAlgs)
+        {
             HashResponse r = tpm.Hash(toHash, h, TPM_HANDLE.NULL);
             write("  " + h.toString() + " -- " + Helpers.toHex(r.outHash));
             // check the hash is good
@@ -371,29 +377,31 @@ public class Samples
 
         // now demonstrate sequences: useful if you have to hash more data than
         // can fit in the TPM input buffer
-        OutByteBuf buf = new OutByteBuf();
-        for (TPM_ALG_ID h : hashAlgs) {
+        TpmBuffer buf = new TpmBuffer();
+        for (TPM_ALG_ID h : hashAlgs)
+        {
             write("Sequence hashing: " + h.toString());
             buf.reset();
             TPM_HANDLE sequenceHandle = tpm.HashSequenceStart(nullVec, h);
             int numIter = 8;
-            for (int j = 0; j < numIter; j++) {
+            for (int j = 0; j < numIter; j++)
+            {
                 byte[] moreData = Helpers.RandomBytes(8);
                 buf.writeByteBuf(moreData);
-                if (j != numIter - 1) {
+                if (j != numIter - 1)
                     tpm.SequenceUpdate(sequenceHandle, moreData);
-                } else {
+                else
+                {
+                    byte[] data = buf.trim();
                     SequenceCompleteResponse resp = tpm.SequenceComplete(sequenceHandle, moreData, TPM_HANDLE.NULL);
-                    write("  " + h.toString() + " -- data to hash --" + Helpers.toHex(buf.buffer()));
+                    write("  " + h.toString() + " -- data to hash --" + Helpers.toHex(data));
                     write("   Hash value is: " + Helpers.toHex(resp.result));
-                    if (!Helpers.arraysAreEqual(resp.result, Crypto.hash(h, buf.buffer()))) {
+                    if (!Helpers.arraysAreEqual(resp.result, Crypto.hash(h, data)))
                         throw new RuntimeException("Hash is wrong!");
-                    }
                 }
             }
         }
-        return;
-    }
+    } // hash()
 
     void hmac() {
         // TPM HMAC needs a key loaded into the TPM.
@@ -1114,9 +1122,6 @@ public class Samples
         resettablePcrVal = tpm.PCR_Read(
                 new TPMS_PCR_SELECTION[] {new TPMS_PCR_SELECTION(TPM_ALG_ID.SHA1, locTwoResettablePcr)});
         System.out.println("Resettable PCR after reset" + resettablePcrVal.toString());
-
-        return;
-        
     }
     
     void counterTimer()
@@ -1145,10 +1150,7 @@ public class Samples
         return;
     }
     
-
     void write(String s) {
         System.out.println(s);
     }
-
-    
 }

@@ -88,61 +88,47 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
         auth = _auth;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(nonceTPM);
         buf.writeSizedByteBuf(cpHashA);
         buf.writeSizedByteBuf(policyRef);
         buf.writeInt(expiration);
-        auth.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)auth).toTpm(buf);
+        buf.writeShort(auth.GetUnionSelector());
+        auth.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _nonceTPMSize = buf.readShort() & 0xFFFF;
-        nonceTPM = new byte[_nonceTPMSize];
-        buf.readArrayOfInts(nonceTPM, 1, _nonceTPMSize);
-        int _cpHashASize = buf.readShort() & 0xFFFF;
-        cpHashA = new byte[_cpHashASize];
-        buf.readArrayOfInts(cpHashA, 1, _cpHashASize);
-        int _policyRefSize = buf.readShort() & 0xFFFF;
-        policyRef = new byte[_policyRefSize];
-        buf.readArrayOfInts(policyRef, 1, _policyRefSize);
+        nonceTPM = buf.readSizedByteBuf();
+        cpHashA = buf.readSizedByteBuf();
+        policyRef = buf.readSizedByteBuf();
         expiration = buf.readInt();
-        int _authSigAlg = buf.readShort() & 0xFFFF;
-        auth = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_authSigAlg));
+        TPM_ALG_ID authSigAlg = TPM_ALG_ID.fromTpm(buf);
+        auth = UnionFactory.create("TPMU_SIGNATURE", authSigAlg);
         auth.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_PolicySigned_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_PolicySigned_REQUEST ret = new TPM2_PolicySigned_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_PolicySigned_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicySigned_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_PolicySigned_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_PolicySigned_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_PolicySigned_REQUEST ret = new TPM2_PolicySigned_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_PolicySigned_REQUEST.class);
     }
     
     @Override

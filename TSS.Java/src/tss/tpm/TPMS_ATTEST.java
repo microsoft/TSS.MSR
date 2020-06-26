@@ -64,61 +64,49 @@ public class TPMS_ATTEST extends TpmStructure
         attested = _attested;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         magic.toTpm(buf);
-        attested.GetUnionSelector().toTpm(buf);
+        buf.writeShort(attested.GetUnionSelector());
         buf.writeSizedByteBuf(qualifiedSigner);
         buf.writeSizedByteBuf(extraData);
         clockInfo.toTpm(buf);
         buf.writeInt64(firmwareVersion);
-        ((TpmMarshaller)attested).toTpm(buf);
+        attested.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         magic = TPM_GENERATED.fromTpm(buf);
-        int _type = buf.readShort() & 0xFFFF;
-        int _qualifiedSignerSize = buf.readShort() & 0xFFFF;
-        qualifiedSigner = new byte[_qualifiedSignerSize];
-        buf.readArrayOfInts(qualifiedSigner, 1, _qualifiedSignerSize);
-        int _extraDataSize = buf.readShort() & 0xFFFF;
-        extraData = new byte[_extraDataSize];
-        buf.readArrayOfInts(extraData, 1, _extraDataSize);
+        TPM_ST type = TPM_ST.fromTpm(buf);
+        qualifiedSigner = buf.readSizedByteBuf();
+        extraData = buf.readSizedByteBuf();
         clockInfo = TPMS_CLOCK_INFO.fromTpm(buf);
         firmwareVersion = buf.readInt64();
-        attested = UnionFactory.create("TPMU_ATTEST", new TPM_ST(_type));
+        attested = UnionFactory.create("TPMU_ATTEST", type);
         attested.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_ATTEST fromBytes (byte[] byteBuf) 
     {
-        TPMS_ATTEST ret = new TPMS_ATTEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_ATTEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ATTEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_ATTEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_ATTEST fromTpm (TpmBuffer buf) 
     {
-        TPMS_ATTEST ret = new TPMS_ATTEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_ATTEST.class);
     }
     
     @Override

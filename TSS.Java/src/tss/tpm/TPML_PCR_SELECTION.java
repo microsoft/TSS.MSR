@@ -23,47 +23,30 @@ public class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIE
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.PCRS; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(pcrSelections);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(pcrSelections); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        pcrSelections = new TPMS_PCR_SELECTION[_count];
-        for (int j=0; j < _count; j++) pcrSelections[j] = new TPMS_PCR_SELECTION();
-        buf.readArrayOfTpmObjects(pcrSelections, _count);
-    }
+    public void initFromTpm(TpmBuffer buf) { pcrSelections = buf.readObjArr(TPMS_PCR_SELECTION.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_PCR_SELECTION fromBytes (byte[] byteBuf) 
     {
-        TPML_PCR_SELECTION ret = new TPML_PCR_SELECTION();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_PCR_SELECTION.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_PCR_SELECTION fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_PCR_SELECTION fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_PCR_SELECTION fromTpm (TpmBuffer buf) 
     {
-        TPML_PCR_SELECTION ret = new TPML_PCR_SELECTION();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_PCR_SELECTION.class);
     }
     
     @Override

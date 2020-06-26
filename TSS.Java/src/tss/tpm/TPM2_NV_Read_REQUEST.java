@@ -22,12 +22,12 @@ public class TPM2_NV_Read_REQUEST extends TpmStructure
     public TPM_HANDLE nvIndex;
     
     /** Number of octets to read  */
-    public short size;
+    public int size;
     
     /** Octet offset into the NV area
      *  This value shall be less than or equal to the size of the nvIndex data.
      */
-    public short offset;
+    public int offset;
     
     public TPM2_NV_Read_REQUEST()
     {
@@ -52,46 +52,38 @@ public class TPM2_NV_Read_REQUEST extends TpmStructure
         offset = (short)_offset;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeShort(size);
         buf.writeShort(offset);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         size = buf.readShort();
         offset = buf.readShort();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_NV_Read_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_NV_Read_REQUEST ret = new TPM2_NV_Read_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_NV_Read_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_NV_Read_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_NV_Read_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_NV_Read_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_NV_Read_REQUEST ret = new TPM2_NV_Read_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_NV_Read_REQUEST.class);
     }
     
     @Override
@@ -108,8 +100,8 @@ public class TPM2_NV_Read_REQUEST extends TpmStructure
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
-        _p.add(d, "short", "size", size);
-        _p.add(d, "short", "offset", offset);
+        _p.add(d, "int", "size", size);
+        _p.add(d, "int", "offset", offset);
     }
 }
 

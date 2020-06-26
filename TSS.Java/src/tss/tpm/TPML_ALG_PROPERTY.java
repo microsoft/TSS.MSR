@@ -23,47 +23,30 @@ public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.ALGS; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(algProperties);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(algProperties); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        algProperties = new TPMS_ALG_PROPERTY[_count];
-        for (int j=0; j < _count; j++) algProperties[j] = new TPMS_ALG_PROPERTY();
-        buf.readArrayOfTpmObjects(algProperties, _count);
-    }
+    public void initFromTpm(TpmBuffer buf) { algProperties = buf.readObjArr(TPMS_ALG_PROPERTY.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_ALG_PROPERTY fromBytes (byte[] byteBuf) 
     {
-        TPML_ALG_PROPERTY ret = new TPML_ALG_PROPERTY();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_ALG_PROPERTY.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_ALG_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_ALG_PROPERTY fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_ALG_PROPERTY fromTpm (TpmBuffer buf) 
     {
-        TPML_ALG_PROPERTY ret = new TPML_ALG_PROPERTY();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_ALG_PROPERTY.class);
     }
     
     @Override

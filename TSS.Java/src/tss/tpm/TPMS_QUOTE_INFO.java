@@ -30,51 +30,38 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
     /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_QUOTE; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeObjArr(pcrSelect);
         buf.writeSizedByteBuf(pcrDigest);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _pcrSelectCount = buf.readInt();
-        pcrSelect = new TPMS_PCR_SELECTION[_pcrSelectCount];
-        for (int j=0; j < _pcrSelectCount; j++) pcrSelect[j] = new TPMS_PCR_SELECTION();
-        buf.readArrayOfTpmObjects(pcrSelect, _pcrSelectCount);
-        int _pcrDigestSize = buf.readShort() & 0xFFFF;
-        pcrDigest = new byte[_pcrDigestSize];
-        buf.readArrayOfInts(pcrDigest, 1, _pcrDigestSize);
+        pcrSelect = buf.readObjArr(TPMS_PCR_SELECTION.class);
+        pcrDigest = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_QUOTE_INFO fromBytes (byte[] byteBuf) 
     {
-        TPMS_QUOTE_INFO ret = new TPMS_QUOTE_INFO();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_QUOTE_INFO.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_QUOTE_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_QUOTE_INFO fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_QUOTE_INFO fromTpm (TpmBuffer buf) 
     {
-        TPMS_QUOTE_INFO ret = new TPMS_QUOTE_INFO();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_QUOTE_INFO.class);
     }
     
     @Override

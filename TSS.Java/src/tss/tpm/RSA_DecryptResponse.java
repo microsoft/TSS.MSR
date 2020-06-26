@@ -17,46 +17,30 @@ public class RSA_DecryptResponse extends TpmStructure
     
     public RSA_DecryptResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(message);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(message); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _messageSize = buf.readShort() & 0xFFFF;
-        message = new byte[_messageSize];
-        buf.readArrayOfInts(message, 1, _messageSize);
-    }
+    public void initFromTpm(TpmBuffer buf) { message = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static RSA_DecryptResponse fromBytes (byte[] byteBuf) 
     {
-        RSA_DecryptResponse ret = new RSA_DecryptResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(RSA_DecryptResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static RSA_DecryptResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static RSA_DecryptResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static RSA_DecryptResponse fromTpm (TpmBuffer buf) 
     {
-        RSA_DecryptResponse ret = new RSA_DecryptResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(RSA_DecryptResponse.class);
     }
     
     @Override

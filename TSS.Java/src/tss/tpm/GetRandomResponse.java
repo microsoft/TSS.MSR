@@ -15,46 +15,30 @@ public class GetRandomResponse extends TpmStructure
     
     public GetRandomResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(randomBytes);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(randomBytes); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _randomBytesSize = buf.readShort() & 0xFFFF;
-        randomBytes = new byte[_randomBytesSize];
-        buf.readArrayOfInts(randomBytes, 1, _randomBytesSize);
-    }
+    public void initFromTpm(TpmBuffer buf) { randomBytes = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static GetRandomResponse fromBytes (byte[] byteBuf) 
     {
-        GetRandomResponse ret = new GetRandomResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(GetRandomResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static GetRandomResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static GetRandomResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static GetRandomResponse fromTpm (TpmBuffer buf) 
     {
-        GetRandomResponse ret = new GetRandomResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(GetRandomResponse.class);
     }
     
     @Override

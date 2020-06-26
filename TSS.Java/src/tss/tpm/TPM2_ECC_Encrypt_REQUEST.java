@@ -41,51 +41,41 @@ public class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
         inScheme = _inScheme;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(plainText);
-        inScheme.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)inScheme).toTpm(buf);
+        buf.writeShort(inScheme.GetUnionSelector());
+        inScheme.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _plainTextSize = buf.readShort() & 0xFFFF;
-        plainText = new byte[_plainTextSize];
-        buf.readArrayOfInts(plainText, 1, _plainTextSize);
-        int _inSchemeScheme = buf.readShort() & 0xFFFF;
-        inScheme = UnionFactory.create("TPMU_KDF_SCHEME", new TPM_ALG_ID(_inSchemeScheme));
+        plainText = buf.readSizedByteBuf();
+        TPM_ALG_ID inSchemeScheme = TPM_ALG_ID.fromTpm(buf);
+        inScheme = UnionFactory.create("TPMU_KDF_SCHEME", inSchemeScheme);
         inScheme.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_ECC_Encrypt_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_ECC_Encrypt_REQUEST ret = new TPM2_ECC_Encrypt_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_ECC_Encrypt_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ECC_Encrypt_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_ECC_Encrypt_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_ECC_Encrypt_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_ECC_Encrypt_REQUEST ret = new TPM2_ECC_Encrypt_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_ECC_Encrypt_REQUEST.class);
     }
     
     @Override

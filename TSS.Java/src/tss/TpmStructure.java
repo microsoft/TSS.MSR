@@ -13,15 +13,17 @@ public abstract class TpmStructure implements TpmMarshaller {
      */
     public void toStringInternal(TpmStructurePrinter _p, int d) {}
     
-    public void toTpm(OutByteBuf buf) {}
+    @Override
+    public void toTpm(TpmBuffer buf) {}
     
-    public void initFromTpm(InByteBuf buf) {}
+    @Override
+    public void initFromTpm(TpmBuffer buf) {}
     
-    public byte[] toTpm() 
+    public byte[] toBytes()
     {
-        OutByteBuf buf = new OutByteBuf();
+        TpmBuffer buf = new TpmBuffer();
         toTpm(buf);
-        return buf.buffer();
+        return buf.trim();
     }
 
     @Override
@@ -31,11 +33,10 @@ public abstract class TpmStructure implements TpmMarshaller {
             return true;
         else if (obj == null) 
             return false;
-        else if (obj instanceof TpmMarshaller) 
+        else if (obj instanceof TpmStructure) 
         {
-            TpmMarshaller b = (TpmMarshaller) obj;
-            byte[] thisObject = ((TpmMarshaller) this).toTpm();
-            byte[] thatObject = b.toTpm();
+            byte[] thisObject = this.toBytes();
+            byte[] thatObject = ((TpmStructure)obj).toBytes();
             return Helpers.arraysAreEqual(thisObject,  thatObject);
         }
         return false;
@@ -44,6 +45,6 @@ public abstract class TpmStructure implements TpmMarshaller {
     @Override
     public int hashCode()
     {
-        return toTpm().hashCode();
+        return toBytes().hashCode();
     }
 }

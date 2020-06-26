@@ -36,7 +36,7 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     public TPMU_ASYM_SCHEME scheme;
     
     /** Number of bits in the public modulus  */
-    public short keyBits;
+    public int keyBits;
     
     /** The public exponent
      *  A prime number greater than 2.
@@ -75,53 +75,45 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSA; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         symmetric.toTpm(buf);
-        scheme.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)scheme).toTpm(buf);
+        buf.writeShort(scheme.GetUnionSelector());
+        scheme.toTpm(buf);
         buf.writeShort(keyBits);
         buf.writeInt(exponent);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         symmetric = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
-        int _schemeScheme = buf.readShort() & 0xFFFF;
-        scheme = UnionFactory.create("TPMU_ASYM_SCHEME", new TPM_ALG_ID(_schemeScheme));
+        TPM_ALG_ID schemeScheme = TPM_ALG_ID.fromTpm(buf);
+        scheme = UnionFactory.create("TPMU_ASYM_SCHEME", schemeScheme);
         scheme.initFromTpm(buf);
         keyBits = buf.readShort();
         exponent = buf.readInt();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_RSA_PARMS fromBytes (byte[] byteBuf) 
     {
-        TPMS_RSA_PARMS ret = new TPMS_RSA_PARMS();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_RSA_PARMS.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_RSA_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_RSA_PARMS fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_RSA_PARMS fromTpm (TpmBuffer buf) 
     {
-        TPMS_RSA_PARMS ret = new TPMS_RSA_PARMS();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_RSA_PARMS.class);
     }
     
     @Override
@@ -138,7 +130,7 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
     {
         _p.add(d, "TPMT_SYM_DEF_OBJECT", "symmetric", symmetric);
         _p.add(d, "TPMU_ASYM_SCHEME", "scheme", scheme);
-        _p.add(d, "short", "keyBits", keyBits);
+        _p.add(d, "int", "keyBits", keyBits);
         _p.add(d, "int", "exponent", exponent);
     }
 }

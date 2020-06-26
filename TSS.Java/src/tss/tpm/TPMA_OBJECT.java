@@ -114,6 +114,8 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
         encrypt = new TPMA_OBJECT(0x40000, _N.encrypt),
         x509sign = new TPMA_OBJECT(0x80000, _N.x509sign);
     
+    public TPMA_OBJECT () { super(0, _ValueMap); }
+    
     public TPMA_OBJECT (int value) { super(value, _ValueMap); }
     
     public TPMA_OBJECT (TPMA_OBJECT...attrs) { super(_ValueMap, attrs); }
@@ -122,7 +124,7 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
     
     public static TPMA_OBJECT fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_OBJECT.class); }
     
-    public static TPMA_OBJECT fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_OBJECT.class); }
+    public static TPMA_OBJECT fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_OBJECT.class); }
     
     public TPMA_OBJECT._N asEnum() { return (TPMA_OBJECT._N)NameAsEnum; }
     

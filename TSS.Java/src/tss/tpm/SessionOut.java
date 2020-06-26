@@ -32,53 +32,40 @@ public class SessionOut extends TpmStructure
         auth = _auth;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(nonceTpm);
         attributes.toTpm(buf);
         buf.writeSizedByteBuf(auth);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _nonceTpmSize = buf.readShort() & 0xFFFF;
-        nonceTpm = new byte[_nonceTpmSize];
-        buf.readArrayOfInts(nonceTpm, 1, _nonceTpmSize);
-        int _attributes = buf.readByte();
-        attributes = TPMA_SESSION.fromInt(_attributes);
-        int _authSize = buf.readShort() & 0xFFFF;
-        auth = new byte[_authSize];
-        buf.readArrayOfInts(auth, 1, _authSize);
+        nonceTpm = buf.readSizedByteBuf();
+        attributes = TPMA_SESSION.fromTpm(buf);
+        auth = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static SessionOut fromBytes (byte[] byteBuf) 
     {
-        SessionOut ret = new SessionOut();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(SessionOut.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static SessionOut fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static SessionOut fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static SessionOut fromTpm (TpmBuffer buf) 
     {
-        SessionOut ret = new SessionOut();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(SessionOut.class);
     }
     
     @Override

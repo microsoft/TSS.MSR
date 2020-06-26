@@ -29,50 +29,38 @@ public class TPMS_SENSITIVE_CREATE extends TpmStructure
         data = _data;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(userAuth);
         buf.writeSizedByteBuf(data);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _userAuthSize = buf.readShort() & 0xFFFF;
-        userAuth = new byte[_userAuthSize];
-        buf.readArrayOfInts(userAuth, 1, _userAuthSize);
-        int _dataSize = buf.readShort() & 0xFFFF;
-        data = new byte[_dataSize];
-        buf.readArrayOfInts(data, 1, _dataSize);
+        userAuth = buf.readSizedByteBuf();
+        data = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_SENSITIVE_CREATE fromBytes (byte[] byteBuf) 
     {
-        TPMS_SENSITIVE_CREATE ret = new TPMS_SENSITIVE_CREATE();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_SENSITIVE_CREATE.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SENSITIVE_CREATE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_SENSITIVE_CREATE fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_SENSITIVE_CREATE fromTpm (TpmBuffer buf) 
     {
-        TPMS_SENSITIVE_CREATE ret = new TPMS_SENSITIVE_CREATE();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_SENSITIVE_CREATE.class);
     }
     
     @Override

@@ -32,55 +32,43 @@ public class CertifyX509Response extends TpmStructure
     
     public CertifyX509Response() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(addedToCertificate);
         buf.writeSizedByteBuf(tbsDigest);
-        signature.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)signature).toTpm(buf);
+        buf.writeShort(signature.GetUnionSelector());
+        signature.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _addedToCertificateSize = buf.readShort() & 0xFFFF;
-        addedToCertificate = new byte[_addedToCertificateSize];
-        buf.readArrayOfInts(addedToCertificate, 1, _addedToCertificateSize);
-        int _tbsDigestSize = buf.readShort() & 0xFFFF;
-        tbsDigest = new byte[_tbsDigestSize];
-        buf.readArrayOfInts(tbsDigest, 1, _tbsDigestSize);
-        int _signatureSigAlg = buf.readShort() & 0xFFFF;
-        signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_signatureSigAlg));
+        addedToCertificate = buf.readSizedByteBuf();
+        tbsDigest = buf.readSizedByteBuf();
+        TPM_ALG_ID signatureSigAlg = TPM_ALG_ID.fromTpm(buf);
+        signature = UnionFactory.create("TPMU_SIGNATURE", signatureSigAlg);
         signature.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static CertifyX509Response fromBytes (byte[] byteBuf) 
     {
-        CertifyX509Response ret = new CertifyX509Response();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(CertifyX509Response.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static CertifyX509Response fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static CertifyX509Response fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static CertifyX509Response fromTpm (TpmBuffer buf) 
     {
-        CertifyX509Response ret = new CertifyX509Response();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(CertifyX509Response.class);
     }
     
     @Override

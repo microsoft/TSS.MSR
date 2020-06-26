@@ -27,46 +27,38 @@ public class PcrValue extends TpmStructure
         value = _value;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeInt(index);
         value.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         index = buf.readInt();
         value = TPMT_HA.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static PcrValue fromBytes (byte[] byteBuf) 
     {
-        PcrValue ret = new PcrValue();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(PcrValue.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static PcrValue fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static PcrValue fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static PcrValue fromTpm (TpmBuffer buf) 
     {
-        PcrValue ret = new PcrValue();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(PcrValue.class);
     }
     
     @Override

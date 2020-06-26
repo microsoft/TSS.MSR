@@ -21,48 +21,38 @@ public class StartAuthSessionResponse extends TpmStructure
     
     public StartAuthSessionResponse() { handle = new TPM_HANDLE(); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         handle.toTpm(buf);
         buf.writeSizedByteBuf(nonceTPM);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
-        int _nonceTPMSize = buf.readShort() & 0xFFFF;
-        nonceTPM = new byte[_nonceTPMSize];
-        buf.readArrayOfInts(nonceTPM, 1, _nonceTPMSize);
+        nonceTPM = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static StartAuthSessionResponse fromBytes (byte[] byteBuf) 
     {
-        StartAuthSessionResponse ret = new StartAuthSessionResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(StartAuthSessionResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static StartAuthSessionResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static StartAuthSessionResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static StartAuthSessionResponse fromTpm (TpmBuffer buf) 
     {
-        StartAuthSessionResponse ret = new StartAuthSessionResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(StartAuthSessionResponse.class);
     }
     
     @Override

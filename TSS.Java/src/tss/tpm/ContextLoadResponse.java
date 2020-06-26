@@ -15,44 +15,30 @@ public class ContextLoadResponse extends TpmStructure
     
     public ContextLoadResponse() { handle = new TPM_HANDLE(); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        handle.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { handle.toTpm(buf); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        handle = TPM_HANDLE.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { handle = TPM_HANDLE.fromTpm(buf); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ContextLoadResponse fromBytes (byte[] byteBuf) 
     {
-        ContextLoadResponse ret = new ContextLoadResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ContextLoadResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ContextLoadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ContextLoadResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ContextLoadResponse fromTpm (TpmBuffer buf) 
     {
-        ContextLoadResponse ret = new ContextLoadResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ContextLoadResponse.class);
     }
     
     @Override

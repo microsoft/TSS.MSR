@@ -17,44 +17,30 @@ public class AC_SendResponse extends TpmStructure
     
     public AC_SendResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        acDataOut.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { acDataOut.toTpm(buf); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        acDataOut = TPMS_AC_OUTPUT.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { acDataOut = TPMS_AC_OUTPUT.fromTpm(buf); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static AC_SendResponse fromBytes (byte[] byteBuf) 
     {
-        AC_SendResponse ret = new AC_SendResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(AC_SendResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static AC_SendResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static AC_SendResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static AC_SendResponse fromTpm (TpmBuffer buf) 
     {
-        AC_SendResponse ret = new AC_SendResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(AC_SendResponse.class);
     }
     
     @Override

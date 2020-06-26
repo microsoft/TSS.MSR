@@ -49,8 +49,9 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
         checkTicket = _checkTicket;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(approvedPolicy);
         buf.writeSizedByteBuf(policyRef);
@@ -58,47 +59,32 @@ public class TPM2_PolicyAuthorize_REQUEST extends TpmStructure
         checkTicket.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _approvedPolicySize = buf.readShort() & 0xFFFF;
-        approvedPolicy = new byte[_approvedPolicySize];
-        buf.readArrayOfInts(approvedPolicy, 1, _approvedPolicySize);
-        int _policyRefSize = buf.readShort() & 0xFFFF;
-        policyRef = new byte[_policyRefSize];
-        buf.readArrayOfInts(policyRef, 1, _policyRefSize);
-        int _keySignSize = buf.readShort() & 0xFFFF;
-        keySign = new byte[_keySignSize];
-        buf.readArrayOfInts(keySign, 1, _keySignSize);
+        approvedPolicy = buf.readSizedByteBuf();
+        policyRef = buf.readSizedByteBuf();
+        keySign = buf.readSizedByteBuf();
         checkTicket = TPMT_TK_VERIFIED.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_PolicyAuthorize_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_PolicyAuthorize_REQUEST ret = new TPM2_PolicyAuthorize_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_PolicyAuthorize_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyAuthorize_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_PolicyAuthorize_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_PolicyAuthorize_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_PolicyAuthorize_REQUEST ret = new TPM2_PolicyAuthorize_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_PolicyAuthorize_REQUEST.class);
     }
     
     @Override

@@ -21,44 +21,30 @@ public class TPMS_SYMCIPHER_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.SYMCIPHER; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        sym.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { sym.toTpm(buf); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        sym = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { sym = TPMT_SYM_DEF_OBJECT.fromTpm(buf); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_SYMCIPHER_PARMS fromBytes (byte[] byteBuf) 
     {
-        TPMS_SYMCIPHER_PARMS ret = new TPMS_SYMCIPHER_PARMS();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_SYMCIPHER_PARMS.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SYMCIPHER_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_SYMCIPHER_PARMS fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_SYMCIPHER_PARMS fromTpm (TpmBuffer buf) 
     {
-        TPMS_SYMCIPHER_PARMS ret = new TPMS_SYMCIPHER_PARMS();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_SYMCIPHER_PARMS.class);
     }
     
     @Override

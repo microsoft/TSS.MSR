@@ -40,53 +40,38 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
         publicInfo = _publicInfo;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(auth);
-        buf.writeShort(publicInfo != null ? publicInfo.toTpm().length : 0);
-        if (publicInfo != null)
-            publicInfo.toTpm(buf);
+        buf.writeSizedObj(publicInfo);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _authSize = buf.readShort() & 0xFFFF;
-        auth = new byte[_authSize];
-        buf.readArrayOfInts(auth, 1, _authSize);
-        int _publicInfoSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _publicInfoSize));
-        publicInfo = TPMS_NV_PUBLIC.fromTpm(buf);
-        buf.structSize.pop();
+        auth = buf.readSizedByteBuf();
+        publicInfo = buf.createSizedObj(TPMS_NV_PUBLIC.class);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_NV_DefineSpace_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_NV_DefineSpace_REQUEST ret = new TPM2_NV_DefineSpace_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_NV_DefineSpace_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_NV_DefineSpace_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_NV_DefineSpace_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_NV_DefineSpace_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_NV_DefineSpace_REQUEST ret = new TPM2_NV_DefineSpace_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_NV_DefineSpace_REQUEST.class);
     }
     
     @Override

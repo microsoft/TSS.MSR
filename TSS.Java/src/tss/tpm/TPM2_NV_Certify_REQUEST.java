@@ -39,12 +39,12 @@ public class TPM2_NV_Certify_REQUEST extends TpmStructure
     public TPMU_SIG_SCHEME inScheme;
     
     /** Number of octets to certify  */
-    public short size;
+    public int size;
     
     /** Octet offset into the NV area
      *  This value shall be less than or equal to the size of the nvIndex data.
      */
-    public short offset;
+    public int offset;
     
     public TPM2_NV_Certify_REQUEST()
     {
@@ -81,55 +81,45 @@ public class TPM2_NV_Certify_REQUEST extends TpmStructure
         offset = (short)_offset;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(qualifyingData);
-        inScheme.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)inScheme).toTpm(buf);
+        buf.writeShort(inScheme.GetUnionSelector());
+        inScheme.toTpm(buf);
         buf.writeShort(size);
         buf.writeShort(offset);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _qualifyingDataSize = buf.readShort() & 0xFFFF;
-        qualifyingData = new byte[_qualifyingDataSize];
-        buf.readArrayOfInts(qualifyingData, 1, _qualifyingDataSize);
-        int _inSchemeScheme = buf.readShort() & 0xFFFF;
-        inScheme = UnionFactory.create("TPMU_SIG_SCHEME", new TPM_ALG_ID(_inSchemeScheme));
+        qualifyingData = buf.readSizedByteBuf();
+        TPM_ALG_ID inSchemeScheme = TPM_ALG_ID.fromTpm(buf);
+        inScheme = UnionFactory.create("TPMU_SIG_SCHEME", inSchemeScheme);
         inScheme.initFromTpm(buf);
         size = buf.readShort();
         offset = buf.readShort();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_NV_Certify_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_NV_Certify_REQUEST ret = new TPM2_NV_Certify_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_NV_Certify_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_NV_Certify_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_NV_Certify_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_NV_Certify_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_NV_Certify_REQUEST ret = new TPM2_NV_Certify_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_NV_Certify_REQUEST.class);
     }
     
     @Override
@@ -149,8 +139,8 @@ public class TPM2_NV_Certify_REQUEST extends TpmStructure
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
         _p.add(d, "byte", "qualifyingData", qualifyingData);
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
-        _p.add(d, "short", "size", size);
-        _p.add(d, "short", "offset", offset);
+        _p.add(d, "int", "size", size);
+        _p.add(d, "int", "offset", offset);
     }
 }
 

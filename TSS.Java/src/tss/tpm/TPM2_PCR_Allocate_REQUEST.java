@@ -34,47 +34,30 @@ public class TPM2_PCR_Allocate_REQUEST extends TpmStructure
         pcrAllocation = _pcrAllocation;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(pcrAllocation);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(pcrAllocation); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _pcrAllocationCount = buf.readInt();
-        pcrAllocation = new TPMS_PCR_SELECTION[_pcrAllocationCount];
-        for (int j=0; j < _pcrAllocationCount; j++) pcrAllocation[j] = new TPMS_PCR_SELECTION();
-        buf.readArrayOfTpmObjects(pcrAllocation, _pcrAllocationCount);
-    }
+    public void initFromTpm(TpmBuffer buf) { pcrAllocation = buf.readObjArr(TPMS_PCR_SELECTION.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_PCR_Allocate_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_PCR_Allocate_REQUEST ret = new TPM2_PCR_Allocate_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_PCR_Allocate_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PCR_Allocate_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_PCR_Allocate_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_PCR_Allocate_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_PCR_Allocate_REQUEST ret = new TPM2_PCR_Allocate_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_PCR_Allocate_REQUEST.class);
     }
     
     @Override

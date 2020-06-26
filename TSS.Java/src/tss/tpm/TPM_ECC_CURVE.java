@@ -54,13 +54,15 @@ public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
         SM2_P256 = new TPM_ECC_CURVE(0x0020, _N.SM2_P256),
         TEST_P192 = new TPM_ECC_CURVE(0x0021, _N.TEST_P192);
     
+    public TPM_ECC_CURVE () { super(0, _ValueMap); }
+    
     public TPM_ECC_CURVE (int value) { super(value, _ValueMap); }
     
     public static TPM_ECC_CURVE fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_ECC_CURVE.class); }
     
     public static TPM_ECC_CURVE fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_ECC_CURVE.class); }
     
-    public static TPM_ECC_CURVE fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_ECC_CURVE.class); }
+    public static TPM_ECC_CURVE fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_ECC_CURVE.class); }
     
     public TPM_ECC_CURVE._N asEnum() { return (TPM_ECC_CURVE._N)NameAsEnum; }
     

@@ -24,44 +24,30 @@ public class TPM2_Startup_REQUEST extends TpmStructure
     /** @param _startupType TPM_SU_CLEAR or TPM_SU_STATE  */
     public TPM2_Startup_REQUEST(TPM_SU _startupType) { startupType = _startupType; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        startupType.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { startupType.toTpm(buf); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        startupType = TPM_SU.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { startupType = TPM_SU.fromTpm(buf); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_Startup_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_Startup_REQUEST ret = new TPM2_Startup_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_Startup_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Startup_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_Startup_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_Startup_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_Startup_REQUEST ret = new TPM2_Startup_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_Startup_REQUEST.class);
     }
     
     @Override

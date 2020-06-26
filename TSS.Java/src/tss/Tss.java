@@ -118,7 +118,7 @@ public class Tss
         byte[] encSeed = Crypto.oaepEncrypt(ekParms, ekPubKey, seed, schemeAlg, "IDENTITY");
         act.Secret = encSeed;
 
-        byte[] lengthPrependedSecret = (new TPM2B_DIGEST(secret)).toTpm();
+        byte[] lengthPrependedSecret = (new TPM2B_DIGEST(secret)).toBytes();
         byte[] symKey = Crypto.KDFa(nameAlg, seed, "STORAGE", nameOfKeyToBeActivated, new byte[0], symmKeySize);
 
         CFBBlockCipher encryptCipher = new CFBBlockCipher(new AESEngine(), symmKeySize);
@@ -196,7 +196,7 @@ public class Tss
 
         if (innerWrapper.algorithm == TPM_ALG_ID.NULL) 
         {
-            encryptedSensitive = Helpers.byteArrayToLenPrependedByteArray(_sensitivePart.toTpm());
+            encryptedSensitive = Helpers.byteArrayToLenPrependedByteArray(_sensitivePart.toBytes());
             blob.EncryptionKey = nullVec;
         } else 
         {
@@ -206,7 +206,7 @@ public class Tss
                 throw new TpmException("innerWrapper KeyDef is not supported for import");
             }
 
-            byte[] sens = Helpers.byteArrayToLenPrependedByteArray(_sensitivePart.toTpm());
+            byte[] sens = Helpers.byteArrayToLenPrependedByteArray(_sensitivePart.toBytes());
             byte[]  toHash = Helpers.concatenate(sens, _publicPart.getName());
 
             byte[] innerIntegrity = Helpers.byteArrayToLenPrependedByteArray(Crypto.hash(nameAlg, toHash));
@@ -214,7 +214,7 @@ public class Tss
 
             int aesKeyLen = innerWrapper.keyBits/8;
             innerWrapperKey = Helpers.RandomBytes(aesKeyLen);
-            encryptedSensitive = Crypto.cfbEncrypt(true,TPM_ALG_ID.AES,innerWrapperKey,nullVec,innerData);
+            encryptedSensitive = Crypto.cfbEncrypt(true, TPM_ALG_ID.AES, innerWrapperKey, nullVec, innerData);
             blob.EncryptionKey = innerWrapperKey;
         }
 
@@ -232,7 +232,7 @@ public class Tss
         byte[] seed = Helpers.RandomBytes(newParentSymmKeyLen/8);
         byte[] encryptedSeed = targetParent.encrypt(seed, "DUPLICATE");
 
-        byte[] symmKey = Crypto.KDFa(targetParent.nameAlg,seed,"STORAGE",_publicPart.getName(),nullVec,newParentSymmKeyLen);
+        byte[] symmKey = Crypto.KDFa(nameAlg, seed, "STORAGE", _publicPart.getName(), nullVec, newParentSymmKeyLen);
 
         byte[] dupSensitive = Crypto.cfbEncrypt(true,TPM_ALG_ID.AES,symmKey,nullVec,encryptedSensitive);
 

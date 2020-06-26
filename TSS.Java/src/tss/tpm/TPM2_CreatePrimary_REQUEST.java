@@ -56,65 +56,42 @@ public class TPM2_CreatePrimary_REQUEST extends TpmStructure
         creationPCR = _creationPCR;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(inSensitive != null ? inSensitive.toTpm().length : 0);
-        if (inSensitive != null)
-            inSensitive.toTpm(buf);
-        buf.writeShort(inPublic != null ? inPublic.toTpm().length : 0);
-        if (inPublic != null)
-            inPublic.toTpm(buf);
+        buf.writeSizedObj(inSensitive);
+        buf.writeSizedObj(inPublic);
         buf.writeSizedByteBuf(outsideInfo);
         buf.writeObjArr(creationPCR);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _inSensitiveSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inSensitiveSize));
-        inSensitive = TPMS_SENSITIVE_CREATE.fromTpm(buf);
-        buf.structSize.pop();
-        int _inPublicSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inPublicSize));
-        inPublic = TPMT_PUBLIC.fromTpm(buf);
-        buf.structSize.pop();
-        int _outsideInfoSize = buf.readShort() & 0xFFFF;
-        outsideInfo = new byte[_outsideInfoSize];
-        buf.readArrayOfInts(outsideInfo, 1, _outsideInfoSize);
-        int _creationPCRCount = buf.readInt();
-        creationPCR = new TPMS_PCR_SELECTION[_creationPCRCount];
-        for (int j=0; j < _creationPCRCount; j++) creationPCR[j] = new TPMS_PCR_SELECTION();
-        buf.readArrayOfTpmObjects(creationPCR, _creationPCRCount);
+        inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE.class);
+        inPublic = buf.createSizedObj(TPMT_PUBLIC.class);
+        outsideInfo = buf.readSizedByteBuf();
+        creationPCR = buf.readObjArr(TPMS_PCR_SELECTION.class);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_CreatePrimary_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_CreatePrimary_REQUEST ret = new TPM2_CreatePrimary_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_CreatePrimary_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_CreatePrimary_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_CreatePrimary_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_CreatePrimary_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_CreatePrimary_REQUEST ret = new TPM2_CreatePrimary_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_CreatePrimary_REQUEST.class);
     }
     
     @Override

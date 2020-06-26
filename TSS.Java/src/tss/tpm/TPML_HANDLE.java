@@ -23,47 +23,30 @@ public class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.HANDLES; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(handle);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(handle); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        handle = new TPM_HANDLE[_count];
-        for (int j=0; j < _count; j++) handle[j] = new TPM_HANDLE();
-        buf.readArrayOfTpmObjects(handle, _count);
-    }
+    public void initFromTpm(TpmBuffer buf) { handle = buf.readObjArr(TPM_HANDLE.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_HANDLE fromBytes (byte[] byteBuf) 
     {
-        TPML_HANDLE ret = new TPML_HANDLE();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_HANDLE.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_HANDLE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_HANDLE fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_HANDLE fromTpm (TpmBuffer buf) 
     {
-        TPML_HANDLE ret = new TPML_HANDLE();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_HANDLE.class);
     }
     
     @Override

@@ -18,47 +18,30 @@ public class TPM2_PCR_Read_REQUEST extends TpmStructure
     /** @param _pcrSelectionIn The selection of PCR to read  */
     public TPM2_PCR_Read_REQUEST(TPMS_PCR_SELECTION[] _pcrSelectionIn) { pcrSelectionIn = _pcrSelectionIn; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(pcrSelectionIn);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(pcrSelectionIn); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _pcrSelectionInCount = buf.readInt();
-        pcrSelectionIn = new TPMS_PCR_SELECTION[_pcrSelectionInCount];
-        for (int j=0; j < _pcrSelectionInCount; j++) pcrSelectionIn[j] = new TPMS_PCR_SELECTION();
-        buf.readArrayOfTpmObjects(pcrSelectionIn, _pcrSelectionInCount);
-    }
+    public void initFromTpm(TpmBuffer buf) { pcrSelectionIn = buf.readObjArr(TPMS_PCR_SELECTION.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_PCR_Read_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_PCR_Read_REQUEST ret = new TPM2_PCR_Read_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_PCR_Read_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PCR_Read_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_PCR_Read_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_PCR_Read_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_PCR_Read_REQUEST ret = new TPM2_PCR_Read_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_PCR_Read_REQUEST.class);
     }
     
     @Override

@@ -30,7 +30,7 @@ public class TPMS_NV_PUBLIC extends TpmStructure
     /** The size of the data area
      *  The maximum size is implementation-dependent. The minimum maximum size is platform-specific.
      */
-    public short dataSize;
+    public int dataSize;
     
     public TPMS_NV_PUBLIC()
     {
@@ -58,8 +58,9 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         dataSize = (short)_dataSize;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         nvIndex.toTpm(buf);
         nameAlg.toTpm(buf);
@@ -68,45 +69,33 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         buf.writeShort(dataSize);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         nvIndex = TPM_HANDLE.fromTpm(buf);
         nameAlg = TPM_ALG_ID.fromTpm(buf);
-        int _attributes = buf.readInt();
-        attributes = TPMA_NV.fromInt(_attributes);
-        int _authPolicySize = buf.readShort() & 0xFFFF;
-        authPolicy = new byte[_authPolicySize];
-        buf.readArrayOfInts(authPolicy, 1, _authPolicySize);
+        attributes = TPMA_NV.fromTpm(buf);
+        authPolicy = buf.readSizedByteBuf();
         dataSize = buf.readShort();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_NV_PUBLIC fromBytes (byte[] byteBuf) 
     {
-        TPMS_NV_PUBLIC ret = new TPMS_NV_PUBLIC();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_NV_PUBLIC.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_NV_PUBLIC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_NV_PUBLIC fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_NV_PUBLIC fromTpm (TpmBuffer buf) 
     {
-        TPMS_NV_PUBLIC ret = new TPMS_NV_PUBLIC();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_NV_PUBLIC.class);
     }
     
     @Override
@@ -125,7 +114,7 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         _p.add(d, "TPM_ALG_ID", "nameAlg", nameAlg);
         _p.add(d, "TPMA_NV", "attributes", attributes);
         _p.add(d, "byte", "authPolicy", authPolicy);
-        _p.add(d, "short", "dataSize", dataSize);
+        _p.add(d, "int", "dataSize", dataSize);
     }
 }
 

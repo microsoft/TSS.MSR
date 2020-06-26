@@ -66,60 +66,49 @@ public class TPMT_PUBLIC extends TpmStructure
         unique = _unique;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         if (parameters == null) return;
-        parameters.GetUnionSelector().toTpm(buf);
+        buf.writeShort(parameters.GetUnionSelector());
         nameAlg.toTpm(buf);
         objectAttributes.toTpm(buf);
         buf.writeSizedByteBuf(authPolicy);
-        ((TpmMarshaller)parameters).toTpm(buf);
-        ((TpmMarshaller)unique).toTpm(buf);
+        parameters.toTpm(buf);
+        unique.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _type = buf.readShort() & 0xFFFF;
+        TPM_ALG_ID type = TPM_ALG_ID.fromTpm(buf);
         nameAlg = TPM_ALG_ID.fromTpm(buf);
-        int _objectAttributes = buf.readInt();
-        objectAttributes = TPMA_OBJECT.fromInt(_objectAttributes);
-        int _authPolicySize = buf.readShort() & 0xFFFF;
-        authPolicy = new byte[_authPolicySize];
-        buf.readArrayOfInts(authPolicy, 1, _authPolicySize);
-        parameters = UnionFactory.create("TPMU_PUBLIC_PARMS", new TPM_ALG_ID(_type));
+        objectAttributes = TPMA_OBJECT.fromTpm(buf);
+        authPolicy = buf.readSizedByteBuf();
+        parameters = UnionFactory.create("TPMU_PUBLIC_PARMS", type);
         parameters.initFromTpm(buf);
-        unique = UnionFactory.create("TPMU_PUBLIC_ID", new TPM_ALG_ID(_type));
+        unique = UnionFactory.create("TPMU_PUBLIC_ID", type);
         unique.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMT_PUBLIC fromBytes (byte[] byteBuf) 
     {
-        TPMT_PUBLIC ret = new TPMT_PUBLIC();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMT_PUBLIC.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_PUBLIC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMT_PUBLIC fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMT_PUBLIC fromTpm (TpmBuffer buf) 
     {
-        TPMT_PUBLIC ret = new TPMT_PUBLIC();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMT_PUBLIC.class);
     }
     
     @Override

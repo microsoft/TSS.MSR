@@ -20,47 +20,30 @@ public class EventSequenceCompleteResponse extends TpmStructure
     
     public EventSequenceCompleteResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(results);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(results); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _resultsCount = buf.readInt();
-        results = new TPMT_HA[_resultsCount];
-        for (int j=0; j < _resultsCount; j++) results[j] = new TPMT_HA();
-        buf.readArrayOfTpmObjects(results, _resultsCount);
-    }
+    public void initFromTpm(TpmBuffer buf) { results = buf.readObjArr(TPMT_HA.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static EventSequenceCompleteResponse fromBytes (byte[] byteBuf) 
     {
-        EventSequenceCompleteResponse ret = new EventSequenceCompleteResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(EventSequenceCompleteResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static EventSequenceCompleteResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static EventSequenceCompleteResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static EventSequenceCompleteResponse fromTpm (TpmBuffer buf) 
     {
-        EventSequenceCompleteResponse ret = new EventSequenceCompleteResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(EventSequenceCompleteResponse.class);
     }
     
     @Override

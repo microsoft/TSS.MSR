@@ -34,7 +34,7 @@ public final class NameUnionTagValues extends TpmEnum<NameUnionTagValues>
     
     public static NameUnionTagValues fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, NameUnionTagValues.class); }
     
-    public static NameUnionTagValues fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, NameUnionTagValues.class); }
+    public static NameUnionTagValues fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, NameUnionTagValues.class); }
     
     public NameUnionTagValues._N asEnum() { return (NameUnionTagValues._N)NameAsEnum; }
     

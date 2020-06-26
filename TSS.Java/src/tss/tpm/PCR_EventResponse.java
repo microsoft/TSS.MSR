@@ -14,47 +14,30 @@ public class PCR_EventResponse extends TpmStructure
     
     public PCR_EventResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(digests);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(digests); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _digestsCount = buf.readInt();
-        digests = new TPMT_HA[_digestsCount];
-        for (int j=0; j < _digestsCount; j++) digests[j] = new TPMT_HA();
-        buf.readArrayOfTpmObjects(digests, _digestsCount);
-    }
+    public void initFromTpm(TpmBuffer buf) { digests = buf.readObjArr(TPMT_HA.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static PCR_EventResponse fromBytes (byte[] byteBuf) 
     {
-        PCR_EventResponse ret = new PCR_EventResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(PCR_EventResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static PCR_EventResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static PCR_EventResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static PCR_EventResponse fromTpm (TpmBuffer buf) 
     {
-        PCR_EventResponse ret = new PCR_EventResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(PCR_EventResponse.class);
     }
     
     @Override

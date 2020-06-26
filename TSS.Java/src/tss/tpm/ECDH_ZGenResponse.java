@@ -19,49 +19,30 @@ public class ECDH_ZGenResponse extends TpmStructure
     
     public ECDH_ZGenResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeShort(outPoint != null ? outPoint.toTpm().length : 0);
-        if (outPoint != null)
-            outPoint.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedObj(outPoint); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _outPointSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _outPointSize));
-        outPoint = TPMS_ECC_POINT.fromTpm(buf);
-        buf.structSize.pop();
-    }
+    public void initFromTpm(TpmBuffer buf) { outPoint = buf.createSizedObj(TPMS_ECC_POINT.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ECDH_ZGenResponse fromBytes (byte[] byteBuf) 
     {
-        ECDH_ZGenResponse ret = new ECDH_ZGenResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ECDH_ZGenResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ECDH_ZGenResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ECDH_ZGenResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ECDH_ZGenResponse fromTpm (TpmBuffer buf) 
     {
-        ECDH_ZGenResponse ret = new ECDH_ZGenResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ECDH_ZGenResponse.class);
     }
     
     @Override

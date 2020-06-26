@@ -23,46 +23,30 @@ public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.ECC_CURVES; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(eccCurves);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(eccCurves); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        eccCurves = new TPM_ECC_CURVE[_count];
-        for (int j=0; j < _count; j++) eccCurves[j] = TPM_ECC_CURVE.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { eccCurves = buf.readObjArr(TPM_ECC_CURVE.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_ECC_CURVE fromBytes (byte[] byteBuf) 
     {
-        TPML_ECC_CURVE ret = new TPML_ECC_CURVE();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_ECC_CURVE.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_ECC_CURVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_ECC_CURVE fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_ECC_CURVE fromTpm (TpmBuffer buf) 
     {
-        TPML_ECC_CURVE ret = new TPML_ECC_CURVE();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_ECC_CURVE.class);
     }
     
     @Override

@@ -35,50 +35,40 @@ public class TPMT_TK_AUTH extends TpmStructure
         digest = _digest;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         tag.toTpm(buf);
         hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(digest);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         tag = TPM_ST.fromTpm(buf);
         hierarchy = TPM_HANDLE.fromTpm(buf);
-        int _digestSize = buf.readShort() & 0xFFFF;
-        digest = new byte[_digestSize];
-        buf.readArrayOfInts(digest, 1, _digestSize);
+        digest = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMT_TK_AUTH fromBytes (byte[] byteBuf) 
     {
-        TPMT_TK_AUTH ret = new TPMT_TK_AUTH();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMT_TK_AUTH.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_TK_AUTH fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMT_TK_AUTH fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMT_TK_AUTH fromTpm (TpmBuffer buf) 
     {
-        TPMT_TK_AUTH ret = new TPMT_TK_AUTH();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMT_TK_AUTH.class);
     }
     
     @Override

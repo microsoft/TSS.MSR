@@ -57,46 +57,30 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
         acDataIn = _acDataIn;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(acDataIn);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(acDataIn); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _acDataInSize = buf.readShort() & 0xFFFF;
-        acDataIn = new byte[_acDataInSize];
-        buf.readArrayOfInts(acDataIn, 1, _acDataInSize);
-    }
+    public void initFromTpm(TpmBuffer buf) { acDataIn = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_AC_Send_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_AC_Send_REQUEST ret = new TPM2_AC_Send_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_AC_Send_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_AC_Send_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_AC_Send_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_AC_Send_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_AC_Send_REQUEST ret = new TPM2_AC_Send_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_AC_Send_REQUEST.class);
     }
     
     @Override

@@ -43,51 +43,41 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
         signature = _signature;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(digest);
-        signature.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)signature).toTpm(buf);
+        buf.writeShort(signature.GetUnionSelector());
+        signature.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _digestSize = buf.readShort() & 0xFFFF;
-        digest = new byte[_digestSize];
-        buf.readArrayOfInts(digest, 1, _digestSize);
-        int _signatureSigAlg = buf.readShort() & 0xFFFF;
-        signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_signatureSigAlg));
+        digest = buf.readSizedByteBuf();
+        TPM_ALG_ID signatureSigAlg = TPM_ALG_ID.fromTpm(buf);
+        signature = UnionFactory.create("TPMU_SIGNATURE", signatureSigAlg);
         signature.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_VerifySignature_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_VerifySignature_REQUEST ret = new TPM2_VerifySignature_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_VerifySignature_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_VerifySignature_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_VerifySignature_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_VerifySignature_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_VerifySignature_REQUEST ret = new TPM2_VerifySignature_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_VerifySignature_REQUEST.class);
     }
     
     @Override

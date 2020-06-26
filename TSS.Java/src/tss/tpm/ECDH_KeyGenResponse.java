@@ -21,56 +21,38 @@ public class ECDH_KeyGenResponse extends TpmStructure
     
     public ECDH_KeyGenResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(zPoint != null ? zPoint.toTpm().length : 0);
-        if (zPoint != null)
-            zPoint.toTpm(buf);
-        buf.writeShort(pubPoint != null ? pubPoint.toTpm().length : 0);
-        if (pubPoint != null)
-            pubPoint.toTpm(buf);
+        buf.writeSizedObj(zPoint);
+        buf.writeSizedObj(pubPoint);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _zPointSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _zPointSize));
-        zPoint = TPMS_ECC_POINT.fromTpm(buf);
-        buf.structSize.pop();
-        int _pubPointSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _pubPointSize));
-        pubPoint = TPMS_ECC_POINT.fromTpm(buf);
-        buf.structSize.pop();
+        zPoint = buf.createSizedObj(TPMS_ECC_POINT.class);
+        pubPoint = buf.createSizedObj(TPMS_ECC_POINT.class);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ECDH_KeyGenResponse fromBytes (byte[] byteBuf) 
     {
-        ECDH_KeyGenResponse ret = new ECDH_KeyGenResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ECDH_KeyGenResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ECDH_KeyGenResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ECDH_KeyGenResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ECDH_KeyGenResponse fromTpm (TpmBuffer buf) 
     {
-        ECDH_KeyGenResponse ret = new ECDH_KeyGenResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ECDH_KeyGenResponse.class);
     }
     
     @Override

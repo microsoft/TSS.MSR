@@ -65,6 +65,8 @@ public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
         contentCommitment = new TPMA_X509_KEY_USAGE(0x40000000, _N.contentCommitment),
         digitalSignature = new TPMA_X509_KEY_USAGE(0x80000000, _N.digitalSignature);
     
+    public TPMA_X509_KEY_USAGE () { super(0, _ValueMap); }
+    
     public TPMA_X509_KEY_USAGE (int value) { super(value, _ValueMap); }
     
     public TPMA_X509_KEY_USAGE (TPMA_X509_KEY_USAGE...attrs) { super(_ValueMap, attrs); }
@@ -73,7 +75,7 @@ public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
     
     public static TPMA_X509_KEY_USAGE fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_X509_KEY_USAGE.class); }
     
-    public static TPMA_X509_KEY_USAGE fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_X509_KEY_USAGE.class); }
+    public static TPMA_X509_KEY_USAGE fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_X509_KEY_USAGE.class); }
     
     public TPMA_X509_KEY_USAGE._N asEnum() { return (TPMA_X509_KEY_USAGE._N)NameAsEnum; }
     

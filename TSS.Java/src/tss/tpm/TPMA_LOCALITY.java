@@ -48,6 +48,8 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
         Extended_BIT_1 = new TPMA_LOCALITY(0x40, _N.Extended_BIT_1),
         Extended_BIT_2 = new TPMA_LOCALITY(0x80, _N.Extended_BIT_2);
     
+    public TPMA_LOCALITY () { super(0, _ValueMap); }
+    
     public TPMA_LOCALITY (int value) { super(value, _ValueMap); }
     
     public TPMA_LOCALITY (TPMA_LOCALITY...attrs) { super(_ValueMap, attrs); }
@@ -56,7 +58,7 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
     
     public static TPMA_LOCALITY fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_LOCALITY.class); }
     
-    public static TPMA_LOCALITY fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_LOCALITY.class); }
+    public static TPMA_LOCALITY fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_LOCALITY.class); }
     
     public TPMA_LOCALITY._N asEnum() { return (TPMA_LOCALITY._N)NameAsEnum; }
     

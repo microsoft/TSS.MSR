@@ -50,55 +50,42 @@ public class TPMS_CONTEXT extends TpmStructure
         contextBlob = _contextBlob;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeInt64(sequence);
         savedHandle.toTpm(buf);
         hierarchy.toTpm(buf);
-        buf.writeShort(contextBlob != null ? contextBlob.toTpm().length : 0);
-        if (contextBlob != null)
-            contextBlob.toTpm(buf);
+        buf.writeSizedObj(contextBlob);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         sequence = buf.readInt64();
         savedHandle = TPM_HANDLE.fromTpm(buf);
         hierarchy = TPM_HANDLE.fromTpm(buf);
-        int _contextBlobSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _contextBlobSize));
-        contextBlob = TPMS_CONTEXT_DATA.fromTpm(buf);
-        buf.structSize.pop();
+        contextBlob = buf.createSizedObj(TPMS_CONTEXT_DATA.class);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_CONTEXT fromBytes (byte[] byteBuf) 
     {
-        TPMS_CONTEXT ret = new TPMS_CONTEXT();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_CONTEXT.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_CONTEXT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_CONTEXT fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_CONTEXT fromTpm (TpmBuffer buf) 
     {
-        TPMS_CONTEXT ret = new TPMS_CONTEXT();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_CONTEXT.class);
     }
     
     @Override

@@ -28,13 +28,15 @@ public final class SM3_256 extends TpmEnum<SM3_256>
         DIGEST_SIZE = new SM3_256(32, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SM3_256(64, _N.BLOCK_SIZE);
     
+    public SM3_256 () { super(0, _ValueMap); }
+    
     public SM3_256 (int value) { super(value, _ValueMap); }
     
     public static SM3_256 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SM3_256.class); }
     
     public static SM3_256 fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, SM3_256.class); }
     
-    public static SM3_256 fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, SM3_256.class); }
+    public static SM3_256 fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, SM3_256.class); }
     
     public SM3_256._N asEnum() { return (SM3_256._N)NameAsEnum; }
     

@@ -41,47 +41,38 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.HMAC; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         hashAlg.toTpm(buf);
         buf.writeByteBuf(digest);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         hashAlg = TPM_ALG_ID.fromTpm(buf);
-        digest = new byte[Crypto.digestSize(hashAlg)];
-        buf.readArrayOfInts(digest, 1, digest.length);
+        digest = buf.readByteBuf(Crypto.digestSize(hashAlg));
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMT_HA fromBytes (byte[] byteBuf) 
     {
-        TPMT_HA ret = new TPMT_HA();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMT_HA.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_HA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMT_HA fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMT_HA fromTpm (TpmBuffer buf) 
     {
-        TPMT_HA ret = new TPMT_HA();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMT_HA.class);
     }
     
     @Override

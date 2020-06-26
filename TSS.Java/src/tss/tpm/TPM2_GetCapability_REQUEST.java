@@ -32,48 +32,40 @@ public class TPM2_GetCapability_REQUEST extends TpmStructure
         propertyCount = _propertyCount;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         capability.toTpm(buf);
         buf.writeInt(property);
         buf.writeInt(propertyCount);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         capability = TPM_CAP.fromTpm(buf);
         property = buf.readInt();
         propertyCount = buf.readInt();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_GetCapability_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_GetCapability_REQUEST ret = new TPM2_GetCapability_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_GetCapability_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_GetCapability_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_GetCapability_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_GetCapability_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_GetCapability_REQUEST ret = new TPM2_GetCapability_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_GetCapability_REQUEST.class);
     }
     
     @Override

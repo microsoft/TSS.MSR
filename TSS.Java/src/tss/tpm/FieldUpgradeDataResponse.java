@@ -24,46 +24,38 @@ public class FieldUpgradeDataResponse extends TpmStructure
     
     public FieldUpgradeDataResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         nextDigest.toTpm(buf);
         firstDigest.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         nextDigest = TPMT_HA.fromTpm(buf);
         firstDigest = TPMT_HA.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static FieldUpgradeDataResponse fromBytes (byte[] byteBuf) 
     {
-        FieldUpgradeDataResponse ret = new FieldUpgradeDataResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(FieldUpgradeDataResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static FieldUpgradeDataResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static FieldUpgradeDataResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static FieldUpgradeDataResponse fromTpm (TpmBuffer buf) 
     {
-        FieldUpgradeDataResponse ret = new FieldUpgradeDataResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(FieldUpgradeDataResponse.class);
     }
     
     @Override

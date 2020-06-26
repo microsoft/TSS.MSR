@@ -18,49 +18,30 @@ public class TPM2B_NV_PUBLIC extends TpmStructure
     /** @param _nvPublic The public area  */
     public TPM2B_NV_PUBLIC(TPMS_NV_PUBLIC _nvPublic) { nvPublic = _nvPublic; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeShort(nvPublic != null ? nvPublic.toTpm().length : 0);
-        if (nvPublic != null)
-            nvPublic.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedObj(nvPublic); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _size = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
-        nvPublic = TPMS_NV_PUBLIC.fromTpm(buf);
-        buf.structSize.pop();
-    }
+    public void initFromTpm(TpmBuffer buf) { nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2B_NV_PUBLIC fromBytes (byte[] byteBuf) 
     {
-        TPM2B_NV_PUBLIC ret = new TPM2B_NV_PUBLIC();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2B_NV_PUBLIC.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_NV_PUBLIC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2B_NV_PUBLIC fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2B_NV_PUBLIC fromTpm (TpmBuffer buf) 
     {
-        TPM2B_NV_PUBLIC ret = new TPM2B_NV_PUBLIC();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2B_NV_PUBLIC.class);
     }
     
     @Override

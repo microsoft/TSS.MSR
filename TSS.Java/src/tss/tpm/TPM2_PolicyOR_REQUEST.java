@@ -34,47 +34,30 @@ public class TPM2_PolicyOR_REQUEST extends TpmStructure
         pHashList = _pHashList;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(pHashList);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(pHashList); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _pHashListCount = buf.readInt();
-        pHashList = new TPM2B_DIGEST[_pHashListCount];
-        for (int j=0; j < _pHashListCount; j++) pHashList[j] = new TPM2B_DIGEST();
-        buf.readArrayOfTpmObjects(pHashList, _pHashListCount);
-    }
+    public void initFromTpm(TpmBuffer buf) { pHashList = buf.readObjArr(TPM2B_DIGEST.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_PolicyOR_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_PolicyOR_REQUEST ret = new TPM2_PolicyOR_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_PolicyOR_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyOR_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_PolicyOR_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_PolicyOR_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_PolicyOR_REQUEST ret = new TPM2_PolicyOR_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_PolicyOR_REQUEST.class);
     }
     
     @Override

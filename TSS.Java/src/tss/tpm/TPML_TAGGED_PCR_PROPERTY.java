@@ -23,47 +23,30 @@ public class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPAB
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.PCR_PROPERTIES; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(pcrProperty);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(pcrProperty); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        pcrProperty = new TPMS_TAGGED_PCR_SELECT[_count];
-        for (int j=0; j < _count; j++) pcrProperty[j] = new TPMS_TAGGED_PCR_SELECT();
-        buf.readArrayOfTpmObjects(pcrProperty, _count);
-    }
+    public void initFromTpm(TpmBuffer buf) { pcrProperty = buf.readObjArr(TPMS_TAGGED_PCR_SELECT.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_TAGGED_PCR_PROPERTY fromBytes (byte[] byteBuf) 
     {
-        TPML_TAGGED_PCR_PROPERTY ret = new TPML_TAGGED_PCR_PROPERTY();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_TAGGED_PCR_PROPERTY.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_TAGGED_PCR_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_TAGGED_PCR_PROPERTY fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_TAGGED_PCR_PROPERTY fromTpm (TpmBuffer buf) 
     {
-        TPML_TAGGED_PCR_PROPERTY ret = new TPML_TAGGED_PCR_PROPERTY();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_TAGGED_PCR_PROPERTY.class);
     }
     
     @Override

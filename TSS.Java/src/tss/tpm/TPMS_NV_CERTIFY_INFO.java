@@ -16,7 +16,7 @@ public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     public byte[] indexName;
     
     /** The offset parameter of TPM2_NV_Certify()  */
-    public short offset;
+    public int offset;
     
     /** Contents of the NV Index  */
     public byte[] nvContents;
@@ -37,52 +37,40 @@ public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_NV; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(indexName);
         buf.writeShort(offset);
         buf.writeSizedByteBuf(nvContents);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _indexNameSize = buf.readShort() & 0xFFFF;
-        indexName = new byte[_indexNameSize];
-        buf.readArrayOfInts(indexName, 1, _indexNameSize);
+        indexName = buf.readSizedByteBuf();
         offset = buf.readShort();
-        int _nvContentsSize = buf.readShort() & 0xFFFF;
-        nvContents = new byte[_nvContentsSize];
-        buf.readArrayOfInts(nvContents, 1, _nvContentsSize);
+        nvContents = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_NV_CERTIFY_INFO fromBytes (byte[] byteBuf) 
     {
-        TPMS_NV_CERTIFY_INFO ret = new TPMS_NV_CERTIFY_INFO();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_NV_CERTIFY_INFO.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_NV_CERTIFY_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_NV_CERTIFY_INFO fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_NV_CERTIFY_INFO fromTpm (TpmBuffer buf) 
     {
-        TPMS_NV_CERTIFY_INFO ret = new TPMS_NV_CERTIFY_INFO();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_NV_CERTIFY_INFO.class);
     }
     
     @Override
@@ -98,7 +86,7 @@ public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "indexName", indexName);
-        _p.add(d, "short", "offset", offset);
+        _p.add(d, "int", "offset", offset);
         _p.add(d, "byte", "nvContents", nvContents);
     }
 }

@@ -53,62 +53,45 @@ public class TPM2_ECC_Decrypt_REQUEST extends TpmStructure
         inScheme = _inScheme;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(C1 != null ? C1.toTpm().length : 0);
-        if (C1 != null)
-            C1.toTpm(buf);
+        buf.writeSizedObj(C1);
         buf.writeSizedByteBuf(C2);
         buf.writeSizedByteBuf(C3);
-        inScheme.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)inScheme).toTpm(buf);
+        buf.writeShort(inScheme.GetUnionSelector());
+        inScheme.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _C1Size = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _C1Size));
-        C1 = TPMS_ECC_POINT.fromTpm(buf);
-        buf.structSize.pop();
-        int _C2Size = buf.readShort() & 0xFFFF;
-        C2 = new byte[_C2Size];
-        buf.readArrayOfInts(C2, 1, _C2Size);
-        int _C3Size = buf.readShort() & 0xFFFF;
-        C3 = new byte[_C3Size];
-        buf.readArrayOfInts(C3, 1, _C3Size);
-        int _inSchemeScheme = buf.readShort() & 0xFFFF;
-        inScheme = UnionFactory.create("TPMU_KDF_SCHEME", new TPM_ALG_ID(_inSchemeScheme));
+        C1 = buf.createSizedObj(TPMS_ECC_POINT.class);
+        C2 = buf.readSizedByteBuf();
+        C3 = buf.readSizedByteBuf();
+        TPM_ALG_ID inSchemeScheme = TPM_ALG_ID.fromTpm(buf);
+        inScheme = UnionFactory.create("TPMU_KDF_SCHEME", inSchemeScheme);
         inScheme.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_ECC_Decrypt_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_ECC_Decrypt_REQUEST ret = new TPM2_ECC_Decrypt_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_ECC_Decrypt_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ECC_Decrypt_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_ECC_Decrypt_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_ECC_Decrypt_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_ECC_Decrypt_REQUEST ret = new TPM2_ECC_Decrypt_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_ECC_Decrypt_REQUEST.class);
     }
     
     @Override

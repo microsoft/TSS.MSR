@@ -15,46 +15,30 @@ public class IncrementalSelfTestResponse extends TpmStructure
     
     public IncrementalSelfTestResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(toDoList);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(toDoList); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _toDoListCount = buf.readInt();
-        toDoList = new TPM_ALG_ID[_toDoListCount];
-        for (int j=0; j < _toDoListCount; j++) toDoList[j] = TPM_ALG_ID.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { toDoList = buf.readObjArr(TPM_ALG_ID.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static IncrementalSelfTestResponse fromBytes (byte[] byteBuf) 
     {
-        IncrementalSelfTestResponse ret = new IncrementalSelfTestResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(IncrementalSelfTestResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static IncrementalSelfTestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static IncrementalSelfTestResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static IncrementalSelfTestResponse fromTpm (TpmBuffer buf) 
     {
-        IncrementalSelfTestResponse ret = new IncrementalSelfTestResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(IncrementalSelfTestResponse.class);
     }
     
     @Override

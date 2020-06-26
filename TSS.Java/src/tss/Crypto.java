@@ -250,19 +250,19 @@ public class Crypto {
                 return false;
 
             // Calculate the PCR-value hash and check the quote is the same
-            OutByteBuf pcrBuf = new OutByteBuf();
+            TpmBuffer pcrBuf = new TpmBuffer();
             for (int j = 0; j < expectedPcrs.pcrValues.length; j++) 
             {
                 pcrBuf.writeByteBuf(expectedPcrs.pcrValues[j].buffer);
             }
 
             TPM_ALG_ID hashAlg = Crypto.getSigningHashAlg(pubKey);
-            byte[] pcrHash = Crypto.hash(hashAlg,  pcrBuf.buffer());
+            byte[] pcrHash = Crypto.hash(hashAlg,  pcrBuf.trim());
             if (!Helpers.arraysAreEqual(pcrHash, quoteInfo.pcrDigest ))
                 return false;
 
             // And finally check the signature
-            byte[] signedBlob = quote.quoted.toTpm();
+            byte[] signedBlob = quote.quoted.toBytes();
             return  Crypto.validateSignature(pubKey,  signedBlob,  quote.signature);
         }
 
@@ -397,11 +397,13 @@ public class Crypto {
      */
     public static TPM_ALG_ID getSigningHashAlg(TPMT_PUBLIC pub)
     {
-        if(pub.parameters instanceof TPMS_RSA_PARMS)
+        if (pub.parameters instanceof TPMS_RSA_PARMS)
         {
             TPMS_RSA_PARMS rsaParms = (TPMS_RSA_PARMS) pub.parameters;
-            if(rsaParms.scheme instanceof TPMS_SIG_SCHEME_RSASSA) return ((TPMS_SIG_SCHEME_RSASSA)rsaParms.scheme).hashAlg;
-            if(rsaParms.scheme instanceof TPMS_SIG_SCHEME_RSAPSS) return ((TPMS_SIG_SCHEME_RSAPSS)rsaParms.scheme).hashAlg;
+            if (rsaParms.scheme instanceof TPMS_SIG_SCHEME_RSASSA)
+                return ((TPMS_SIG_SCHEME_RSASSA)rsaParms.scheme).hashAlg;
+            if (rsaParms.scheme instanceof TPMS_SIG_SCHEME_RSAPSS)
+                return ((TPMS_SIG_SCHEME_RSAPSS)rsaParms.scheme).hashAlg;
             throw new RuntimeException("Unsupported scheme");
         }
         throw new RuntimeException("Unsupported algorithm");
@@ -415,21 +417,18 @@ public class Crypto {
             byte[] _iv,
             byte[] _x)
     {
-        if(_algId!=TPM_ALG_ID.AES)
-        {
+        if (_algId!=TPM_ALG_ID.AES)
             throw new TpmException("Only AES is supported");
-        }
-        int symKeySize = _key.length*8;
-        byte[] iv = (_iv==null)? new byte[0]: _iv;
+
+        int symKeySize = _key.length * 8;
+        byte[] iv = _iv == null ? new byte[0]: _iv;
         CFBBlockCipher encryptCipher = new CFBBlockCipher(new AESEngine(), symKeySize);
         KeyParameter key = new KeyParameter(_key);
         encryptCipher.init(_encrypt, new ParametersWithIV(key, iv));
         byte[] encData = new byte[_x.length];
         int numEncrypted = encryptCipher.processBytes(_x, 0,_x.length, encData, 0);
-        if(numEncrypted!= _x.length)
-        {
+        if (numEncrypted != _x.length)
             throw new RuntimeException("Error!");
-        }
         return encData;
     }
 

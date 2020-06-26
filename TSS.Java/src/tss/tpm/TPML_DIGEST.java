@@ -29,47 +29,30 @@ public class TPML_DIGEST extends TpmStructure
      */
     public TPML_DIGEST(TPM2B_DIGEST[] _digests) { digests = _digests; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(digests);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(digests); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        digests = new TPM2B_DIGEST[_count];
-        for (int j=0; j < _count; j++) digests[j] = new TPM2B_DIGEST();
-        buf.readArrayOfTpmObjects(digests, _count);
-    }
+    public void initFromTpm(TpmBuffer buf) { digests = buf.readObjArr(TPM2B_DIGEST.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_DIGEST fromBytes (byte[] byteBuf) 
     {
-        TPML_DIGEST ret = new TPML_DIGEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_DIGEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_DIGEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_DIGEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_DIGEST fromTpm (TpmBuffer buf) 
     {
-        TPML_DIGEST ret = new TPML_DIGEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_DIGEST.class);
     }
     
     @Override

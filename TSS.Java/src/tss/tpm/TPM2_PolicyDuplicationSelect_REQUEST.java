@@ -43,52 +43,40 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends TpmStructure
         includeObject = _includeObject;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(objectName);
         buf.writeSizedByteBuf(newParentName);
         buf.writeByte(includeObject);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _objectNameSize = buf.readShort() & 0xFFFF;
-        objectName = new byte[_objectNameSize];
-        buf.readArrayOfInts(objectName, 1, _objectNameSize);
-        int _newParentNameSize = buf.readShort() & 0xFFFF;
-        newParentName = new byte[_newParentNameSize];
-        buf.readArrayOfInts(newParentName, 1, _newParentNameSize);
+        objectName = buf.readSizedByteBuf();
+        newParentName = buf.readSizedByteBuf();
         includeObject = buf.readByte();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_PolicyDuplicationSelect_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_PolicyDuplicationSelect_REQUEST ret = new TPM2_PolicyDuplicationSelect_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_PolicyDuplicationSelect_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyDuplicationSelect_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_PolicyDuplicationSelect_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_PolicyDuplicationSelect_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_PolicyDuplicationSelect_REQUEST ret = new TPM2_PolicyDuplicationSelect_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_PolicyDuplicationSelect_REQUEST.class);
     }
     
     @Override

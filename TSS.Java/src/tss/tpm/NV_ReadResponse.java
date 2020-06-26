@@ -15,46 +15,30 @@ public class NV_ReadResponse extends TpmStructure
     
     public NV_ReadResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(data);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(data); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _dataSize = buf.readShort() & 0xFFFF;
-        data = new byte[_dataSize];
-        buf.readArrayOfInts(data, 1, _dataSize);
-    }
+    public void initFromTpm(TpmBuffer buf) { data = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static NV_ReadResponse fromBytes (byte[] byteBuf) 
     {
-        NV_ReadResponse ret = new NV_ReadResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(NV_ReadResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static NV_ReadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static NV_ReadResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static NV_ReadResponse fromTpm (TpmBuffer buf) 
     {
-        NV_ReadResponse ret = new NV_ReadResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(NV_ReadResponse.class);
     }
     
     @Override

@@ -95,6 +95,8 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
         encrypt = new TPMA_SESSION(0x40, _N.encrypt),
         audit = new TPMA_SESSION(0x80, _N.audit);
     
+    public TPMA_SESSION () { super(0, _ValueMap); }
+    
     public TPMA_SESSION (int value) { super(value, _ValueMap); }
     
     public TPMA_SESSION (TPMA_SESSION...attrs) { super(_ValueMap, attrs); }
@@ -103,7 +105,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
     
     public static TPMA_SESSION fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_SESSION.class); }
     
-    public static TPMA_SESSION fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_SESSION.class); }
+    public static TPMA_SESSION fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_SESSION.class); }
     
     public TPMA_SESSION._N asEnum() { return (TPMA_SESSION._N)NameAsEnum; }
     

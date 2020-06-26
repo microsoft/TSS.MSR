@@ -16,44 +16,30 @@ public class ContextSaveResponse extends TpmStructure
     
     public ContextSaveResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        context.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { context.toTpm(buf); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        context = TPMS_CONTEXT.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { context = TPMS_CONTEXT.fromTpm(buf); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ContextSaveResponse fromBytes (byte[] byteBuf) 
     {
-        ContextSaveResponse ret = new ContextSaveResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ContextSaveResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ContextSaveResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ContextSaveResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ContextSaveResponse fromTpm (TpmBuffer buf) 
     {
-        ContextSaveResponse ret = new ContextSaveResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ContextSaveResponse.class);
     }
     
     @Override

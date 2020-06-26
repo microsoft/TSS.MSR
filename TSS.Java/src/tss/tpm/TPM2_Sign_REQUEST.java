@@ -55,53 +55,43 @@ public class TPM2_Sign_REQUEST extends TpmStructure
         validation = _validation;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(digest);
-        inScheme.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)inScheme).toTpm(buf);
+        buf.writeShort(inScheme.GetUnionSelector());
+        inScheme.toTpm(buf);
         validation.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _digestSize = buf.readShort() & 0xFFFF;
-        digest = new byte[_digestSize];
-        buf.readArrayOfInts(digest, 1, _digestSize);
-        int _inSchemeScheme = buf.readShort() & 0xFFFF;
-        inScheme = UnionFactory.create("TPMU_SIG_SCHEME", new TPM_ALG_ID(_inSchemeScheme));
+        digest = buf.readSizedByteBuf();
+        TPM_ALG_ID inSchemeScheme = TPM_ALG_ID.fromTpm(buf);
+        inScheme = UnionFactory.create("TPMU_SIG_SCHEME", inSchemeScheme);
         inScheme.initFromTpm(buf);
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_Sign_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_Sign_REQUEST ret = new TPM2_Sign_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_Sign_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Sign_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_Sign_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_Sign_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_Sign_REQUEST ret = new TPM2_Sign_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_Sign_REQUEST.class);
     }
     
     @Override

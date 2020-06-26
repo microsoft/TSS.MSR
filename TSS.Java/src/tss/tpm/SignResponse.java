@@ -20,48 +20,40 @@ public class SignResponse extends TpmStructure
     
     public SignResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         if (signature == null) return;
-        signature.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)signature).toTpm(buf);
+        buf.writeShort(signature.GetUnionSelector());
+        signature.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _signatureSigAlg = buf.readShort() & 0xFFFF;
-        signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_signatureSigAlg));
+        TPM_ALG_ID signatureSigAlg = TPM_ALG_ID.fromTpm(buf);
+        signature = UnionFactory.create("TPMU_SIGNATURE", signatureSigAlg);
         signature.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static SignResponse fromBytes (byte[] byteBuf) 
     {
-        SignResponse ret = new SignResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(SignResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static SignResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static SignResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static SignResponse fromTpm (TpmBuffer buf) 
     {
-        SignResponse ret = new SignResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(SignResponse.class);
     }
     
     @Override

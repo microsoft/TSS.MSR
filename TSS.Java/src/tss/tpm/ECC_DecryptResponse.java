@@ -15,46 +15,30 @@ public class ECC_DecryptResponse extends TpmStructure
     
     public ECC_DecryptResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(plainText);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(plainText); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _plainTextSize = buf.readShort() & 0xFFFF;
-        plainText = new byte[_plainTextSize];
-        buf.readArrayOfInts(plainText, 1, _plainTextSize);
-    }
+    public void initFromTpm(TpmBuffer buf) { plainText = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ECC_DecryptResponse fromBytes (byte[] byteBuf) 
     {
-        ECC_DecryptResponse ret = new ECC_DecryptResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ECC_DecryptResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ECC_DecryptResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ECC_DecryptResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ECC_DecryptResponse fromTpm (TpmBuffer buf) 
     {
-        ECC_DecryptResponse ret = new ECC_DecryptResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ECC_DecryptResponse.class);
     }
     
     @Override

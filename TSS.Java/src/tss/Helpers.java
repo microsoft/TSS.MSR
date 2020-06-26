@@ -175,16 +175,16 @@ public class Helpers {
         if (a.length != b.length)
             return false;
 
-        OutByteBuf     bufA = new OutByteBuf(),
-                    bufB = new OutByteBuf();
+        TpmBuffer   bufA = new TpmBuffer(),
+                    bufB = new TpmBuffer();
         bufA.writeObjArr(a);
         bufB.writeObjArr(b);
-        return arraysAreEqual(bufA.buffer(), bufB.buffer());
+        return arraysAreEqual(bufA.trim(), bufB.trim());
     }
 
     public static byte[] byteArrayToLenPrependedByteArray(byte[] x)
     {
-        return (new TPM2B_DATA(x)).toTpm();
+        return (new TPM2B_DATA(x)).toBytes();
     }
     
     public static byte[] clone(byte[] in)

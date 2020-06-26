@@ -32,49 +32,40 @@ public class TPMS_ACT_DATA extends TpmStructure
         attributes = _attributes;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         handle.toTpm(buf);
         buf.writeInt(timeout);
         attributes.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
         timeout = buf.readInt();
-        int _attributes = buf.readInt();
-        attributes = TPMA_ACT.fromInt(_attributes);
+        attributes = TPMA_ACT.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_ACT_DATA fromBytes (byte[] byteBuf) 
     {
-        TPMS_ACT_DATA ret = new TPMS_ACT_DATA();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_ACT_DATA.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ACT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_ACT_DATA fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_ACT_DATA fromTpm (TpmBuffer buf) 
     {
-        TPMS_ACT_DATA ret = new TPMS_ACT_DATA();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_ACT_DATA.class);
     }
     
     @Override

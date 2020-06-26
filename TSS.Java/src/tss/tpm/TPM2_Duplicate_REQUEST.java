@@ -60,48 +60,38 @@ public class TPM2_Duplicate_REQUEST extends TpmStructure
         symmetricAlg = _symmetricAlg;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(encryptionKeyIn);
         symmetricAlg.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _encryptionKeyInSize = buf.readShort() & 0xFFFF;
-        encryptionKeyIn = new byte[_encryptionKeyInSize];
-        buf.readArrayOfInts(encryptionKeyIn, 1, _encryptionKeyInSize);
+        encryptionKeyIn = buf.readSizedByteBuf();
         symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_Duplicate_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_Duplicate_REQUEST ret = new TPM2_Duplicate_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_Duplicate_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Duplicate_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_Duplicate_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_Duplicate_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_Duplicate_REQUEST ret = new TPM2_Duplicate_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_Duplicate_REQUEST.class);
     }
     
     @Override

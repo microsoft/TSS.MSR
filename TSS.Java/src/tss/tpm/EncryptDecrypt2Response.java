@@ -20,50 +20,38 @@ public class EncryptDecrypt2Response extends TpmStructure
     
     public EncryptDecrypt2Response() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(outData);
         buf.writeSizedByteBuf(ivOut);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _outDataSize = buf.readShort() & 0xFFFF;
-        outData = new byte[_outDataSize];
-        buf.readArrayOfInts(outData, 1, _outDataSize);
-        int _ivOutSize = buf.readShort() & 0xFFFF;
-        ivOut = new byte[_ivOutSize];
-        buf.readArrayOfInts(ivOut, 1, _ivOutSize);
+        outData = buf.readSizedByteBuf();
+        ivOut = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static EncryptDecrypt2Response fromBytes (byte[] byteBuf) 
     {
-        EncryptDecrypt2Response ret = new EncryptDecrypt2Response();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(EncryptDecrypt2Response.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static EncryptDecrypt2Response fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static EncryptDecrypt2Response fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static EncryptDecrypt2Response fromTpm (TpmBuffer buf) 
     {
-        EncryptDecrypt2Response ret = new EncryptDecrypt2Response();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(EncryptDecrypt2Response.class);
     }
     
     @Override

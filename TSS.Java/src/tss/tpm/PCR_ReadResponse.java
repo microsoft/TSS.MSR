@@ -21,54 +21,40 @@ public class PCR_ReadResponse extends TpmStructure
     
     public PCR_ReadResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeInt(pcrUpdateCounter);
         buf.writeObjArr(pcrSelectionOut);
         buf.writeObjArr(pcrValues);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         pcrUpdateCounter = buf.readInt();
-        int _pcrSelectionOutCount = buf.readInt();
-        pcrSelectionOut = new TPMS_PCR_SELECTION[_pcrSelectionOutCount];
-        for (int j=0; j < _pcrSelectionOutCount; j++) pcrSelectionOut[j] = new TPMS_PCR_SELECTION();
-        buf.readArrayOfTpmObjects(pcrSelectionOut, _pcrSelectionOutCount);
-        int _pcrValuesCount = buf.readInt();
-        pcrValues = new TPM2B_DIGEST[_pcrValuesCount];
-        for (int j=0; j < _pcrValuesCount; j++) pcrValues[j] = new TPM2B_DIGEST();
-        buf.readArrayOfTpmObjects(pcrValues, _pcrValuesCount);
+        pcrSelectionOut = buf.readObjArr(TPMS_PCR_SELECTION.class);
+        pcrValues = buf.readObjArr(TPM2B_DIGEST.class);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static PCR_ReadResponse fromBytes (byte[] byteBuf) 
     {
-        PCR_ReadResponse ret = new PCR_ReadResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(PCR_ReadResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static PCR_ReadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static PCR_ReadResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static PCR_ReadResponse fromTpm (TpmBuffer buf) 
     {
-        PCR_ReadResponse ret = new PCR_ReadResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(PCR_ReadResponse.class);
     }
     
     @Override

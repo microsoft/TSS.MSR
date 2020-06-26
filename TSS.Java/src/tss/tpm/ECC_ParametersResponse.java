@@ -15,44 +15,30 @@ public class ECC_ParametersResponse extends TpmStructure
     
     public ECC_ParametersResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        parameters.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { parameters.toTpm(buf); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        parameters = TPMS_ALGORITHM_DETAIL_ECC.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { parameters = TPMS_ALGORITHM_DETAIL_ECC.fromTpm(buf); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ECC_ParametersResponse fromBytes (byte[] byteBuf) 
     {
-        ECC_ParametersResponse ret = new ECC_ParametersResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ECC_ParametersResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ECC_ParametersResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ECC_ParametersResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ECC_ParametersResponse fromTpm (TpmBuffer buf) 
     {
-        ECC_ParametersResponse ret = new ECC_ParametersResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ECC_ParametersResponse.class);
     }
     
     @Override

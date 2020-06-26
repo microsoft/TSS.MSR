@@ -21,49 +21,41 @@ public class GetCapabilityResponse extends TpmStructure
     
     public GetCapabilityResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeByte(moreData);
-        capabilityData.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)capabilityData).toTpm(buf);
+        buf.writeInt(capabilityData.GetUnionSelector());
+        capabilityData.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         moreData = buf.readByte();
-        int _capabilityDataCapability = buf.readInt();
-        capabilityData = UnionFactory.create("TPMU_CAPABILITIES", new TPM_CAP(_capabilityDataCapability));
+        TPM_CAP capabilityDataCapability = TPM_CAP.fromTpm(buf);
+        capabilityData = UnionFactory.create("TPMU_CAPABILITIES", capabilityDataCapability);
         capabilityData.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static GetCapabilityResponse fromBytes (byte[] byteBuf) 
     {
-        GetCapabilityResponse ret = new GetCapabilityResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(GetCapabilityResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static GetCapabilityResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static GetCapabilityResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static GetCapabilityResponse fromTpm (TpmBuffer buf) 
     {
-        GetCapabilityResponse ret = new GetCapabilityResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(GetCapabilityResponse.class);
     }
     
     @Override

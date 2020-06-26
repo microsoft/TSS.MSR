@@ -34,46 +34,38 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.XOR; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         hashAlg.toTpm(buf);
         kdf.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         hashAlg = TPM_ALG_ID.fromTpm(buf);
         kdf = TPM_ALG_ID.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_SCHEME_XOR fromBytes (byte[] byteBuf) 
     {
-        TPMS_SCHEME_XOR ret = new TPMS_SCHEME_XOR();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_SCHEME_XOR.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SCHEME_XOR fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_SCHEME_XOR fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_SCHEME_XOR fromTpm (TpmBuffer buf) 
     {
-        TPMS_SCHEME_XOR ret = new TPMS_SCHEME_XOR();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_SCHEME_XOR.class);
     }
     
     @Override

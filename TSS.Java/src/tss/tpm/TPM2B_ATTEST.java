@@ -20,49 +20,30 @@ public class TPM2B_ATTEST extends TpmStructure
     /** @param _attestationData The signed structure  */
     public TPM2B_ATTEST(TPMS_ATTEST _attestationData) { attestationData = _attestationData; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeShort(attestationData != null ? attestationData.toTpm().length : 0);
-        if (attestationData != null)
-            attestationData.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedObj(attestationData); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _size = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
-        attestationData = TPMS_ATTEST.fromTpm(buf);
-        buf.structSize.pop();
-    }
+    public void initFromTpm(TpmBuffer buf) { attestationData = buf.createSizedObj(TPMS_ATTEST.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2B_ATTEST fromBytes (byte[] byteBuf) 
     {
-        TPM2B_ATTEST ret = new TPM2B_ATTEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2B_ATTEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_ATTEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2B_ATTEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2B_ATTEST fromTpm (TpmBuffer buf) 
     {
-        TPM2B_ATTEST ret = new TPM2B_ATTEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2B_ATTEST.class);
     }
     
     @Override

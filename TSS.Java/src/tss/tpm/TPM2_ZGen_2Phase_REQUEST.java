@@ -31,7 +31,7 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
     public TPM_ALG_ID inScheme;
     
     /** Value returned by TPM2_EC_Ephemeral()  */
-    public short counter;
+    public int counter;
     
     public TPM2_ZGen_2Phase_REQUEST()
     {
@@ -57,60 +57,42 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
         counter = (short)_counter;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(inQsB != null ? inQsB.toTpm().length : 0);
-        if (inQsB != null)
-            inQsB.toTpm(buf);
-        buf.writeShort(inQeB != null ? inQeB.toTpm().length : 0);
-        if (inQeB != null)
-            inQeB.toTpm(buf);
+        buf.writeSizedObj(inQsB);
+        buf.writeSizedObj(inQeB);
         inScheme.toTpm(buf);
         buf.writeShort(counter);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _inQsBSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inQsBSize));
-        inQsB = TPMS_ECC_POINT.fromTpm(buf);
-        buf.structSize.pop();
-        int _inQeBSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inQeBSize));
-        inQeB = TPMS_ECC_POINT.fromTpm(buf);
-        buf.structSize.pop();
+        inQsB = buf.createSizedObj(TPMS_ECC_POINT.class);
+        inQeB = buf.createSizedObj(TPMS_ECC_POINT.class);
         inScheme = TPM_ALG_ID.fromTpm(buf);
         counter = buf.readShort();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_ZGen_2Phase_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_ZGen_2Phase_REQUEST ret = new TPM2_ZGen_2Phase_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_ZGen_2Phase_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ZGen_2Phase_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_ZGen_2Phase_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_ZGen_2Phase_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_ZGen_2Phase_REQUEST ret = new TPM2_ZGen_2Phase_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_ZGen_2Phase_REQUEST.class);
     }
     
     @Override
@@ -129,7 +111,7 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
         _p.add(d, "TPMS_ECC_POINT", "inQsB", inQsB);
         _p.add(d, "TPMS_ECC_POINT", "inQeB", inQeB);
         _p.add(d, "TPM_ALG_ID", "inScheme", inScheme);
-        _p.add(d, "short", "counter", counter);
+        _p.add(d, "int", "counter", counter);
     }
 }
 

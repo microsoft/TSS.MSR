@@ -116,13 +116,15 @@ public final class TPM_ST extends TpmEnum<TPM_ST>
         AUTH_SIGNED = new TPM_ST(0x8025, _N.AUTH_SIGNED),
         FU_MANIFEST = new TPM_ST(0x8029, _N.FU_MANIFEST);
     
+    public TPM_ST () { super(0, _ValueMap); }
+    
     public TPM_ST (int value) { super(value, _ValueMap); }
     
     public static TPM_ST fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_ST.class); }
     
     public static TPM_ST fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_ST.class); }
     
-    public static TPM_ST fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_ST.class); }
+    public static TPM_ST fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_ST.class); }
     
     public TPM_ST._N asEnum() { return (TPM_ST._N)NameAsEnum; }
     

@@ -31,46 +31,38 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
     /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_TIME; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         time.toTpm(buf);
         buf.writeInt64(firmwareVersion);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         time = TPMS_TIME_INFO.fromTpm(buf);
         firmwareVersion = buf.readInt64();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_TIME_ATTEST_INFO fromBytes (byte[] byteBuf) 
     {
-        TPMS_TIME_ATTEST_INFO ret = new TPMS_TIME_ATTEST_INFO();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_TIME_ATTEST_INFO.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_TIME_ATTEST_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_TIME_ATTEST_INFO fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_TIME_ATTEST_INFO fromTpm (TpmBuffer buf) 
     {
-        TPMS_TIME_ATTEST_INFO ret = new TPMS_TIME_ATTEST_INFO();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_TIME_ATTEST_INFO.class);
     }
     
     @Override

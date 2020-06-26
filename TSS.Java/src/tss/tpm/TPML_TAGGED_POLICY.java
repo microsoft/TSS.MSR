@@ -24,47 +24,30 @@ public class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIE
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.AUTH_POLICIES; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(policies);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(policies); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        policies = new TPMS_TAGGED_POLICY[_count];
-        for (int j=0; j < _count; j++) policies[j] = new TPMS_TAGGED_POLICY();
-        buf.readArrayOfTpmObjects(policies, _count);
-    }
+    public void initFromTpm(TpmBuffer buf) { policies = buf.readObjArr(TPMS_TAGGED_POLICY.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_TAGGED_POLICY fromBytes (byte[] byteBuf) 
     {
-        TPML_TAGGED_POLICY ret = new TPML_TAGGED_POLICY();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_TAGGED_POLICY.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_TAGGED_POLICY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_TAGGED_POLICY fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_TAGGED_POLICY fromTpm (TpmBuffer buf) 
     {
-        TPML_TAGGED_POLICY ret = new TPML_TAGGED_POLICY();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_TAGGED_POLICY.class);
     }
     
     @Override

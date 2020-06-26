@@ -21,7 +21,7 @@ public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
     public byte[] operandB;
     
     /** The octet offset in the TPMS_TIME_INFO structure for the start of operand A  */
-    public short offset;
+    public int offset;
     
     /** The comparison to make  */
     public TPM_EO operation;
@@ -43,50 +43,40 @@ public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
         operation = _operation;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(operandB);
         buf.writeShort(offset);
         operation.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _operandBSize = buf.readShort() & 0xFFFF;
-        operandB = new byte[_operandBSize];
-        buf.readArrayOfInts(operandB, 1, _operandBSize);
+        operandB = buf.readSizedByteBuf();
         offset = buf.readShort();
         operation = TPM_EO.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_PolicyCounterTimer_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_PolicyCounterTimer_REQUEST ret = new TPM2_PolicyCounterTimer_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_PolicyCounterTimer_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyCounterTimer_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_PolicyCounterTimer_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_PolicyCounterTimer_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_PolicyCounterTimer_REQUEST ret = new TPM2_PolicyCounterTimer_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_PolicyCounterTimer_REQUEST.class);
     }
     
     @Override
@@ -103,7 +93,7 @@ public class TPM2_PolicyCounterTimer_REQUEST extends TpmStructure
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
         _p.add(d, "byte", "operandB", operandB);
-        _p.add(d, "short", "offset", offset);
+        _p.add(d, "int", "offset", offset);
         _p.add(d, "TPM_EO", "operation", operation);
     }
 }

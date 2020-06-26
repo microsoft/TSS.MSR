@@ -15,44 +15,30 @@ public class ObjectChangeAuthResponse extends TpmStructure
     
     public ObjectChangeAuthResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        outPrivate.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { outPrivate.toTpm(buf); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        outPrivate = TPM2B_PRIVATE.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { outPrivate = TPM2B_PRIVATE.fromTpm(buf); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ObjectChangeAuthResponse fromBytes (byte[] byteBuf) 
     {
-        ObjectChangeAuthResponse ret = new ObjectChangeAuthResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ObjectChangeAuthResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ObjectChangeAuthResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ObjectChangeAuthResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ObjectChangeAuthResponse fromTpm (TpmBuffer buf) 
     {
-        ObjectChangeAuthResponse ret = new ObjectChangeAuthResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ObjectChangeAuthResponse.class);
     }
     
     @Override

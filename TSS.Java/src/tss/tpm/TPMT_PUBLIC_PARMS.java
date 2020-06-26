@@ -26,48 +26,40 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
      */
     public TPMT_PUBLIC_PARMS(TPMU_PUBLIC_PARMS _parameters) { parameters = _parameters; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         if (parameters == null) return;
-        parameters.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)parameters).toTpm(buf);
+        buf.writeShort(parameters.GetUnionSelector());
+        parameters.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _type = buf.readShort() & 0xFFFF;
-        parameters = UnionFactory.create("TPMU_PUBLIC_PARMS", new TPM_ALG_ID(_type));
+        TPM_ALG_ID type = TPM_ALG_ID.fromTpm(buf);
+        parameters = UnionFactory.create("TPMU_PUBLIC_PARMS", type);
         parameters.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMT_PUBLIC_PARMS fromBytes (byte[] byteBuf) 
     {
-        TPMT_PUBLIC_PARMS ret = new TPMT_PUBLIC_PARMS();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMT_PUBLIC_PARMS.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_PUBLIC_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMT_PUBLIC_PARMS fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMT_PUBLIC_PARMS fromTpm (TpmBuffer buf) 
     {
-        TPMT_PUBLIC_PARMS ret = new TPMT_PUBLIC_PARMS();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMT_PUBLIC_PARMS.class);
     }
     
     @Override

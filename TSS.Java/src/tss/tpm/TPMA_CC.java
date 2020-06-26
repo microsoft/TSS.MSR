@@ -118,6 +118,8 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
         Res_BIT_0 = new TPMA_CC(0x40000000, _N.Res_BIT_0, true),
         Res_BIT_1 = new TPMA_CC(0x80000000, _N.Res_BIT_1, true);
     
+    public TPMA_CC () { super(0, _ValueMap); }
+    
     public TPMA_CC (int value) { super(value, _ValueMap); }
     
     public TPMA_CC (TPMA_CC...attrs) { super(_ValueMap, attrs); }
@@ -126,7 +128,7 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
     
     public static TPMA_CC fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_CC.class); }
     
-    public static TPMA_CC fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_CC.class); }
+    public static TPMA_CC fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_CC.class); }
     
     public TPMA_CC._N asEnum() { return (TPMA_CC._N)NameAsEnum; }
     

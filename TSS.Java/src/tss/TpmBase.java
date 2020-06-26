@@ -203,12 +203,12 @@ public abstract class TpmBase implements Closeable
         return lastResponseCode;
     }
 
-    static void WriteSession (OutByteBuf buf, TPM_HANDLE sessHandle, byte[] nonceCaller,
+    static void WriteSession (TpmBuffer buf, TPM_HANDLE sessHandle, byte[] nonceCaller,
                                               TPMA_SESSION sessAttrs, byte[] authVal)
     {
-        buf.writeObj(sessHandle);
+        sessHandle.toTpm(buf);
         buf.writeSizedByteBuf(nonceCaller);
-        buf.writeObj(sessAttrs);
+        sessAttrs.toTpm(buf);
         buf.writeSizedByteBuf(authVal);
     }
 
@@ -231,7 +231,7 @@ public abstract class TpmBase implements Closeable
         boolean hasSessions = numAuthHandles != 0 || Sessions != null;
         int sessTag = hasSessions ? TPM_ST.SESSIONS.toInt() : TPM_ST.NO_SESSIONS.toInt();
         
-        OutByteBuf cmdBuf = new OutByteBuf();
+        TpmBuffer cmdBuf = new TpmBuffer();
         // Standard TPM command header {tag, length, commandCode}
         cmdBuf.writeShort(sessTag);
         cmdBuf.writeInt(0);        // to be filled in later
@@ -240,7 +240,7 @@ public abstract class TpmBase implements Closeable
         // Handles
         int numHandles = inHandles == null ? 0 : inHandles.length;
         for (int i=0; i < numHandles; i++)
-            cmdBuf.writeObj(inHandles[i]);
+            inHandles[i].toTpm(cmdBuf);
         
         //
         // Authorization sessions
@@ -282,14 +282,14 @@ public abstract class TpmBase implements Closeable
         }
         
         // Marshal command params (minus the handles) to the outBuf
-        cmdBuf.writeObj(inParms);
+        inParms.toTpm(cmdBuf);
         
         // And, finally, set the command buffer size
         cmdBuf.writeNumAtPos(cmdBuf.curPos(), 2);
         
-        byte[] req = cmdBuf.buffer();
+        byte[] req = cmdBuf.trim();
         int nvRateRecoveryCount = 4;    
-        InByteBuf respBuf = null;
+        TpmBuffer respBuf = null;
         TPM_ST respTag = TPM_ST.NULL; 
         int respSize = 0;
         int rawResponseCode = 0;
@@ -299,7 +299,7 @@ public abstract class TpmBase implements Closeable
             device.dispatchCommand(req);
             
             byte[] resp = device.getResponse();
-            respBuf = new InByteBuf(resp);
+            respBuf = new TpmBuffer(resp);
             
             // get the standard header
             respTag = TPM_ST.fromTpm(respBuf);
@@ -362,7 +362,7 @@ public abstract class TpmBase implements Closeable
         // first the handle, if there are any
         // note that the response structure is fragmented, so we need to reconstruct it
         // in respParmBuf if there are handles
-        OutByteBuf respParmBuf = new OutByteBuf();
+        TpmBuffer respParmBuf = new TpmBuffer();
         
         TPM_HANDLE outHandles[] = new TPM_HANDLE[numRespHandles];
         for (int j=0; j < numRespHandles; j++)
@@ -374,13 +374,13 @@ public abstract class TpmBase implements Closeable
         byte[] responseWithoutHandles = null;
         if (hasSessions)
         {
-            int restOfParmSize = respBuf.readInt(4);
-            responseWithoutHandles = respBuf.readByteArray(restOfParmSize);
+            int restOfParmSize = respBuf.readInt();
+            responseWithoutHandles = respBuf.readByteBuf(restOfParmSize);
             respParmBuf.writeByteBuf(responseWithoutHandles);
         }
         else
         {
-            responseWithoutHandles = respBuf.readByteArray(respSize - respBuf.curPos());
+            responseWithoutHandles = respBuf.readByteBuf(respSize - respBuf.curPos());
             respParmBuf.writeByteBuf(responseWithoutHandles);
         }
         
@@ -393,8 +393,8 @@ public abstract class TpmBase implements Closeable
         {
             // the handles may've been fragmented in the TPM response, but we 
             // put them back together
-            InByteBuf responseData = new InByteBuf(respParmBuf.buffer());
-            outParms.initFromTpm(responseData);
+            respParmBuf.curPos(0);
+            outParms.initFromTpm(respParmBuf);
         }
     } finally {
         AllowErrors = false;
@@ -402,7 +402,7 @@ public abstract class TpmBase implements Closeable
     }} // DispatchCommand()
     
     
-    void processResponseSessions(InByteBuf b)
+    void processResponseSessions(TpmBuffer b)
     {    
         return;
     }

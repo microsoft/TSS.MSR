@@ -20,49 +20,30 @@ public class TPM2B_SENSITIVE extends TpmStructure
     /** @param _sensitiveArea An unencrypted sensitive area  */
     public TPM2B_SENSITIVE(TPMT_SENSITIVE _sensitiveArea) { sensitiveArea = _sensitiveArea; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeShort(sensitiveArea != null ? sensitiveArea.toTpm().length : 0);
-        if (sensitiveArea != null)
-            sensitiveArea.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedObj(sensitiveArea); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _size = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _size));
-        sensitiveArea = TPMT_SENSITIVE.fromTpm(buf);
-        buf.structSize.pop();
-    }
+    public void initFromTpm(TpmBuffer buf) { sensitiveArea = buf.createSizedObj(TPMT_SENSITIVE.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2B_SENSITIVE fromBytes (byte[] byteBuf) 
     {
-        TPM2B_SENSITIVE ret = new TPM2B_SENSITIVE();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2B_SENSITIVE.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_SENSITIVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2B_SENSITIVE fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2B_SENSITIVE fromTpm (TpmBuffer buf) 
     {
-        TPM2B_SENSITIVE ret = new TPM2B_SENSITIVE();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2B_SENSITIVE.class);
     }
     
     @Override

@@ -30,46 +30,30 @@ public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
         cpHashA = _cpHashA;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(cpHashA);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(cpHashA); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _cpHashASize = buf.readShort() & 0xFFFF;
-        cpHashA = new byte[_cpHashASize];
-        buf.readArrayOfInts(cpHashA, 1, _cpHashASize);
-    }
+    public void initFromTpm(TpmBuffer buf) { cpHashA = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_PolicyCpHash_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_PolicyCpHash_REQUEST ret = new TPM2_PolicyCpHash_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_PolicyCpHash_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyCpHash_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_PolicyCpHash_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_PolicyCpHash_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_PolicyCpHash_REQUEST ret = new TPM2_PolicyCpHash_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_PolicyCpHash_REQUEST.class);
     }
     
     @Override

@@ -30,50 +30,38 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(x);
         buf.writeSizedByteBuf(y);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _xSize = buf.readShort() & 0xFFFF;
-        x = new byte[_xSize];
-        buf.readArrayOfInts(x, 1, _xSize);
-        int _ySize = buf.readShort() & 0xFFFF;
-        y = new byte[_ySize];
-        buf.readArrayOfInts(y, 1, _ySize);
+        x = buf.readSizedByteBuf();
+        y = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_ECC_POINT fromBytes (byte[] byteBuf) 
     {
-        TPMS_ECC_POINT ret = new TPMS_ECC_POINT();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_ECC_POINT.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ECC_POINT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_ECC_POINT fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_ECC_POINT fromTpm (TpmBuffer buf) 
     {
-        TPMS_ECC_POINT ret = new TPMS_ECC_POINT();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_ECC_POINT.class);
     }
     
     @Override

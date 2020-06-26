@@ -21,57 +21,40 @@ public class ReadPublicResponse extends TpmStructure
     
     public ReadPublicResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(outPublic != null ? outPublic.toTpm().length : 0);
-        if (outPublic != null)
-            outPublic.toTpm(buf);
+        buf.writeSizedObj(outPublic);
         buf.writeSizedByteBuf(name);
         buf.writeSizedByteBuf(qualifiedName);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _outPublicSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _outPublicSize));
-        outPublic = TPMT_PUBLIC.fromTpm(buf);
-        buf.structSize.pop();
-        int _nameSize = buf.readShort() & 0xFFFF;
-        name = new byte[_nameSize];
-        buf.readArrayOfInts(name, 1, _nameSize);
-        int _qualifiedNameSize = buf.readShort() & 0xFFFF;
-        qualifiedName = new byte[_qualifiedNameSize];
-        buf.readArrayOfInts(qualifiedName, 1, _qualifiedNameSize);
+        outPublic = buf.createSizedObj(TPMT_PUBLIC.class);
+        name = buf.readSizedByteBuf();
+        qualifiedName = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static ReadPublicResponse fromBytes (byte[] byteBuf) 
     {
-        ReadPublicResponse ret = new ReadPublicResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(ReadPublicResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ReadPublicResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static ReadPublicResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static ReadPublicResponse fromTpm (TpmBuffer buf) 
     {
-        ReadPublicResponse ret = new ReadPublicResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(ReadPublicResponse.class);
     }
     
     @Override

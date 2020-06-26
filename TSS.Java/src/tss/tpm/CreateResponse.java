@@ -36,64 +36,44 @@ public class CreateResponse extends TpmStructure
     
     public CreateResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         outPrivate.toTpm(buf);
-        buf.writeShort(outPublic != null ? outPublic.toTpm().length : 0);
-        if (outPublic != null)
-            outPublic.toTpm(buf);
-        buf.writeShort(creationData != null ? creationData.toTpm().length : 0);
-        if (creationData != null)
-            creationData.toTpm(buf);
+        buf.writeSizedObj(outPublic);
+        buf.writeSizedObj(creationData);
         buf.writeSizedByteBuf(creationHash);
         creationTicket.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         outPrivate = TPM2B_PRIVATE.fromTpm(buf);
-        int _outPublicSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _outPublicSize));
-        outPublic = TPMT_PUBLIC.fromTpm(buf);
-        buf.structSize.pop();
-        int _creationDataSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _creationDataSize));
-        creationData = TPMS_CREATION_DATA.fromTpm(buf);
-        buf.structSize.pop();
-        int _creationHashSize = buf.readShort() & 0xFFFF;
-        creationHash = new byte[_creationHashSize];
-        buf.readArrayOfInts(creationHash, 1, _creationHashSize);
+        outPublic = buf.createSizedObj(TPMT_PUBLIC.class);
+        creationData = buf.createSizedObj(TPMS_CREATION_DATA.class);
+        creationHash = buf.readSizedByteBuf();
         creationTicket = TPMT_TK_CREATION.fromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static CreateResponse fromBytes (byte[] byteBuf) 
     {
-        CreateResponse ret = new CreateResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(CreateResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static CreateResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static CreateResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static CreateResponse fromTpm (TpmBuffer buf) 
     {
-        CreateResponse ret = new CreateResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(CreateResponse.class);
     }
     
     @Override

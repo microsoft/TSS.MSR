@@ -16,7 +16,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
     public TPM_ECC_CURVE curveID;
     
     /** Size in bits of the key  */
-    public short keySize;
+    public int keySize;
     
     /** Scheme selector  */
     public TPM_ALG_ID kdfScheme() { return kdf != null ? kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
@@ -91,15 +91,16 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         h = _h;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         curveID.toTpm(buf);
         buf.writeShort(keySize);
-        kdf.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)kdf).toTpm(buf);
-        sign.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)sign).toTpm(buf);
+        buf.writeShort(kdf.GetUnionSelector());
+        kdf.toTpm(buf);
+        buf.writeShort(sign.GetUnionSelector());
+        sign.toTpm(buf);
         buf.writeSizedByteBuf(p);
         buf.writeSizedByteBuf(a);
         buf.writeSizedByteBuf(b);
@@ -109,66 +110,43 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         buf.writeSizedByteBuf(h);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         curveID = TPM_ECC_CURVE.fromTpm(buf);
         keySize = buf.readShort();
-        int _kdfScheme = buf.readShort() & 0xFFFF;
-        kdf = UnionFactory.create("TPMU_KDF_SCHEME", new TPM_ALG_ID(_kdfScheme));
+        TPM_ALG_ID kdfScheme = TPM_ALG_ID.fromTpm(buf);
+        kdf = UnionFactory.create("TPMU_KDF_SCHEME", kdfScheme);
         kdf.initFromTpm(buf);
-        int _signScheme = buf.readShort() & 0xFFFF;
-        sign = UnionFactory.create("TPMU_ASYM_SCHEME", new TPM_ALG_ID(_signScheme));
+        TPM_ALG_ID signScheme = TPM_ALG_ID.fromTpm(buf);
+        sign = UnionFactory.create("TPMU_ASYM_SCHEME", signScheme);
         sign.initFromTpm(buf);
-        int _pSize = buf.readShort() & 0xFFFF;
-        p = new byte[_pSize];
-        buf.readArrayOfInts(p, 1, _pSize);
-        int _aSize = buf.readShort() & 0xFFFF;
-        a = new byte[_aSize];
-        buf.readArrayOfInts(a, 1, _aSize);
-        int _bSize = buf.readShort() & 0xFFFF;
-        b = new byte[_bSize];
-        buf.readArrayOfInts(b, 1, _bSize);
-        int _gXSize = buf.readShort() & 0xFFFF;
-        gX = new byte[_gXSize];
-        buf.readArrayOfInts(gX, 1, _gXSize);
-        int _gYSize = buf.readShort() & 0xFFFF;
-        gY = new byte[_gYSize];
-        buf.readArrayOfInts(gY, 1, _gYSize);
-        int _nSize = buf.readShort() & 0xFFFF;
-        n = new byte[_nSize];
-        buf.readArrayOfInts(n, 1, _nSize);
-        int _hSize = buf.readShort() & 0xFFFF;
-        h = new byte[_hSize];
-        buf.readArrayOfInts(h, 1, _hSize);
+        p = buf.readSizedByteBuf();
+        a = buf.readSizedByteBuf();
+        b = buf.readSizedByteBuf();
+        gX = buf.readSizedByteBuf();
+        gY = buf.readSizedByteBuf();
+        n = buf.readSizedByteBuf();
+        h = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_ALGORITHM_DETAIL_ECC fromBytes (byte[] byteBuf) 
     {
-        TPMS_ALGORITHM_DETAIL_ECC ret = new TPMS_ALGORITHM_DETAIL_ECC();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_ALGORITHM_DETAIL_ECC.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ALGORITHM_DETAIL_ECC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_ALGORITHM_DETAIL_ECC fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_ALGORITHM_DETAIL_ECC fromTpm (TpmBuffer buf) 
     {
-        TPMS_ALGORITHM_DETAIL_ECC ret = new TPMS_ALGORITHM_DETAIL_ECC();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_ALGORITHM_DETAIL_ECC.class);
     }
     
     @Override
@@ -184,7 +162,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ECC_CURVE", "curveID", curveID);
-        _p.add(d, "short", "keySize", keySize);
+        _p.add(d, "int", "keySize", keySize);
         _p.add(d, "TPMU_KDF_SCHEME", "kdf", kdf);
         _p.add(d, "TPMU_ASYM_SCHEME", "sign", sign);
         _p.add(d, "byte", "p", p);

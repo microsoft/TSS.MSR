@@ -150,13 +150,15 @@ public final class TPM_HC extends TpmEnum<TPM_HC>
         AC_FIRST = new TPM_HC((HR_AC.toInt() + 0), _N.AC_FIRST),
         AC_LAST = new TPM_HC((HR_AC.toInt() + 0x0000FFFF), _N.AC_LAST);
     
+    public TPM_HC () { super(0, _ValueMap); }
+    
     public TPM_HC (int value) { super(value, _ValueMap); }
     
     public static TPM_HC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_HC.class); }
     
     public static TPM_HC fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_HC.class); }
     
-    public static TPM_HC fromTpm (InByteBuf buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_HC.class); }
+    public static TPM_HC fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_HC.class); }
     
     public TPM_HC._N asEnum() { return (TPM_HC._N)NameAsEnum; }
     

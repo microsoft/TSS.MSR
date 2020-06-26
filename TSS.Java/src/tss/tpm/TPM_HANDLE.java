@@ -18,44 +18,30 @@ public class TPM_HANDLE extends TpmStructure
     /** @param _handle Handle value  */
     public TPM_HANDLE(int _handle) { handle = _handle; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeInt(handle);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeInt(handle); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        handle = buf.readInt();
-    }
+    public void initFromTpm(TpmBuffer buf) { handle = buf.readInt(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM_HANDLE fromBytes (byte[] byteBuf) 
     {
-        TPM_HANDLE ret = new TPM_HANDLE();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM_HANDLE.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM_HANDLE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM_HANDLE fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM_HANDLE fromTpm (TpmBuffer buf) 
     {
-        TPM_HANDLE ret = new TPM_HANDLE();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM_HANDLE.class);
     }
     
     @Override

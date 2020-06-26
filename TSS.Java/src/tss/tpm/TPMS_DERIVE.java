@@ -31,50 +31,38 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ANY2; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(label);
         buf.writeSizedByteBuf(context);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _labelSize = buf.readShort() & 0xFFFF;
-        label = new byte[_labelSize];
-        buf.readArrayOfInts(label, 1, _labelSize);
-        int _contextSize = buf.readShort() & 0xFFFF;
-        context = new byte[_contextSize];
-        buf.readArrayOfInts(context, 1, _contextSize);
+        label = buf.readSizedByteBuf();
+        context = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_DERIVE fromBytes (byte[] byteBuf) 
     {
-        TPMS_DERIVE ret = new TPMS_DERIVE();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_DERIVE.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_DERIVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_DERIVE fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_DERIVE fromTpm (TpmBuffer buf) 
     {
-        TPMS_DERIVE ret = new TPMS_DERIVE();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_DERIVE.class);
     }
     
     @Override

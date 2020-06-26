@@ -90,9 +90,9 @@ public class DrsServer {
         // Build activation blob for the client device
         //
         
-        OutByteBuf actBlob = new OutByteBuf();
+        TpmBuffer actBlob = new TpmBuffer();
         
-        byte[] credBlob = cred.credentialBlob.toTpm();
+        byte[] credBlob = cred.credentialBlob.toBytes();
         actBlob.writeShort((short)credBlob.length);
         actBlob.writeByteBuf(credBlob);
 
@@ -104,7 +104,7 @@ public class DrsServer {
         actBlob.writeShort((short)dupResp.outSymSeed.length);
         actBlob.writeByteBuf(dupResp.outSymSeed);
         
-        byte[] idKeyPub = idKey.outPublic.toTpm();
+        byte[] idKeyPub = idKey.outPublic.toBytes();
         actBlob.writeShort((short)idKeyPub.length);
         actBlob.writeByteBuf(idKeyPub);
         

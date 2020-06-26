@@ -38,46 +38,38 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
         pinLimit = _pinLimit;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeInt(pinCount);
         buf.writeInt(pinLimit);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         pinCount = buf.readInt();
         pinLimit = buf.readInt();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_NV_PIN_COUNTER_PARAMETERS fromBytes (byte[] byteBuf) 
     {
-        TPMS_NV_PIN_COUNTER_PARAMETERS ret = new TPMS_NV_PIN_COUNTER_PARAMETERS();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_NV_PIN_COUNTER_PARAMETERS.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_NV_PIN_COUNTER_PARAMETERS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_NV_PIN_COUNTER_PARAMETERS fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_NV_PIN_COUNTER_PARAMETERS fromTpm (TpmBuffer buf) 
     {
-        TPMS_NV_PIN_COUNTER_PARAMETERS ret = new TPMS_NV_PIN_COUNTER_PARAMETERS();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_NV_PIN_COUNTER_PARAMETERS.class);
     }
     
     @Override

@@ -30,50 +30,38 @@ public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_CERTIFY; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(name);
         buf.writeSizedByteBuf(qualifiedName);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _nameSize = buf.readShort() & 0xFFFF;
-        name = new byte[_nameSize];
-        buf.readArrayOfInts(name, 1, _nameSize);
-        int _qualifiedNameSize = buf.readShort() & 0xFFFF;
-        qualifiedName = new byte[_qualifiedNameSize];
-        buf.readArrayOfInts(qualifiedName, 1, _qualifiedNameSize);
+        name = buf.readSizedByteBuf();
+        qualifiedName = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_CERTIFY_INFO fromBytes (byte[] byteBuf) 
     {
-        TPMS_CERTIFY_INFO ret = new TPMS_CERTIFY_INFO();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_CERTIFY_INFO.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_CERTIFY_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_CERTIFY_INFO fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_CERTIFY_INFO fromTpm (TpmBuffer buf) 
     {
-        TPMS_CERTIFY_INFO ret = new TPMS_CERTIFY_INFO();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_CERTIFY_INFO.class);
     }
     
     @Override

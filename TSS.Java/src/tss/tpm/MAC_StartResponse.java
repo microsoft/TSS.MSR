@@ -18,44 +18,30 @@ public class MAC_StartResponse extends TpmStructure
     
     public MAC_StartResponse() { handle = new TPM_HANDLE(); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        handle.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { handle.toTpm(buf); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        handle = TPM_HANDLE.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { handle = TPM_HANDLE.fromTpm(buf); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static MAC_StartResponse fromBytes (byte[] byteBuf) 
     {
-        MAC_StartResponse ret = new MAC_StartResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(MAC_StartResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static MAC_StartResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static MAC_StartResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static MAC_StartResponse fromTpm (TpmBuffer buf) 
     {
-        MAC_StartResponse ret = new MAC_StartResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(MAC_StartResponse.class);
     }
     
     @Override

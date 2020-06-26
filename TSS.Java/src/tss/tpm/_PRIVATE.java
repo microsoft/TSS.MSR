@@ -33,57 +33,40 @@ public class _PRIVATE extends TpmStructure
         sensitive = _sensitive;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(integrityOuter);
         buf.writeSizedByteBuf(integrityInner);
-        buf.writeShort(sensitive != null ? sensitive.toTpm().length : 0);
-        if (sensitive != null)
-            sensitive.toTpm(buf);
+        buf.writeSizedObj(sensitive);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _integrityOuterSize = buf.readShort() & 0xFFFF;
-        integrityOuter = new byte[_integrityOuterSize];
-        buf.readArrayOfInts(integrityOuter, 1, _integrityOuterSize);
-        int _integrityInnerSize = buf.readShort() & 0xFFFF;
-        integrityInner = new byte[_integrityInnerSize];
-        buf.readArrayOfInts(integrityInner, 1, _integrityInnerSize);
-        int _sensitiveSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _sensitiveSize));
-        sensitive = TPMT_SENSITIVE.fromTpm(buf);
-        buf.structSize.pop();
+        integrityOuter = buf.readSizedByteBuf();
+        integrityInner = buf.readSizedByteBuf();
+        sensitive = buf.createSizedObj(TPMT_SENSITIVE.class);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static _PRIVATE fromBytes (byte[] byteBuf) 
     {
-        _PRIVATE ret = new _PRIVATE();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(_PRIVATE.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static _PRIVATE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static _PRIVATE fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static _PRIVATE fromTpm (TpmBuffer buf) 
     {
-        _PRIVATE ret = new _PRIVATE();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(_PRIVATE.class);
     }
     
     @Override

@@ -14,55 +14,42 @@ public class EC_EphemeralResponse extends TpmStructure
     public TPMS_ECC_POINT Q;
     
     /** Least-significant 16 bits of commitCount  */
-    public short counter;
+    public int counter;
     
     public EC_EphemeralResponse() {}
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(Q != null ? Q.toTpm().length : 0);
-        if (Q != null)
-            Q.toTpm(buf);
+        buf.writeSizedObj(Q);
         buf.writeShort(counter);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _QSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _QSize));
-        Q = TPMS_ECC_POINT.fromTpm(buf);
-        buf.structSize.pop();
+        Q = buf.createSizedObj(TPMS_ECC_POINT.class);
         counter = buf.readShort();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static EC_EphemeralResponse fromBytes (byte[] byteBuf) 
     {
-        EC_EphemeralResponse ret = new EC_EphemeralResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(EC_EphemeralResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static EC_EphemeralResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static EC_EphemeralResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static EC_EphemeralResponse fromTpm (TpmBuffer buf) 
     {
-        EC_EphemeralResponse ret = new EC_EphemeralResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(EC_EphemeralResponse.class);
     }
     
     @Override
@@ -78,7 +65,7 @@ public class EC_EphemeralResponse extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ECC_POINT", "Q", Q);
-        _p.add(d, "short", "counter", counter);
+        _p.add(d, "int", "counter", counter);
     }
 }
 

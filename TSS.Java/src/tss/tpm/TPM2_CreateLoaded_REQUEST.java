@@ -44,53 +44,38 @@ public class TPM2_CreateLoaded_REQUEST extends TpmStructure
         inPublic = _inPublic;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
-        buf.writeShort(inSensitive != null ? inSensitive.toTpm().length : 0);
-        if (inSensitive != null)
-            inSensitive.toTpm(buf);
+        buf.writeSizedObj(inSensitive);
         buf.writeSizedByteBuf(inPublic);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _inSensitiveSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _inSensitiveSize));
-        inSensitive = TPMS_SENSITIVE_CREATE.fromTpm(buf);
-        buf.structSize.pop();
-        int _inPublicSize = buf.readShort() & 0xFFFF;
-        inPublic = new byte[_inPublicSize];
-        buf.readArrayOfInts(inPublic, 1, _inPublicSize);
+        inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE.class);
+        inPublic = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2_CreateLoaded_REQUEST fromBytes (byte[] byteBuf) 
     {
-        TPM2_CreateLoaded_REQUEST ret = new TPM2_CreateLoaded_REQUEST();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2_CreateLoaded_REQUEST.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_CreateLoaded_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2_CreateLoaded_REQUEST fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2_CreateLoaded_REQUEST fromTpm (TpmBuffer buf) 
     {
-        TPM2_CreateLoaded_REQUEST ret = new TPM2_CreateLoaded_REQUEST();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2_CreateLoaded_REQUEST.class);
     }
     
     @Override

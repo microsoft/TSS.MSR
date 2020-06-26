@@ -30,48 +30,40 @@ public class TPMT_SIGNATURE extends TpmStructure
      */
     public TPMT_SIGNATURE(TPMU_SIGNATURE _signature) { signature = _signature; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         if (signature == null) return;
-        signature.GetUnionSelector().toTpm(buf);
-        ((TpmMarshaller)signature).toTpm(buf);
+        buf.writeShort(signature.GetUnionSelector());
+        signature.toTpm(buf);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _sigAlg = buf.readShort() & 0xFFFF;
-        signature = UnionFactory.create("TPMU_SIGNATURE", new TPM_ALG_ID(_sigAlg));
+        TPM_ALG_ID sigAlg = TPM_ALG_ID.fromTpm(buf);
+        signature = UnionFactory.create("TPMU_SIGNATURE", sigAlg);
         signature.initFromTpm(buf);
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMT_SIGNATURE fromBytes (byte[] byteBuf) 
     {
-        TPMT_SIGNATURE ret = new TPMT_SIGNATURE();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMT_SIGNATURE.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_SIGNATURE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMT_SIGNATURE fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMT_SIGNATURE fromTpm (TpmBuffer buf) 
     {
-        TPMT_SIGNATURE ret = new TPMT_SIGNATURE();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMT_SIGNATURE.class);
     }
     
     @Override

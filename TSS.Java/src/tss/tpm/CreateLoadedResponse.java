@@ -29,57 +29,42 @@ public class CreateLoadedResponse extends TpmStructure
     
     public CreateLoadedResponse() { handle = new TPM_HANDLE(); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         handle.toTpm(buf);
         outPrivate.toTpm(buf);
-        buf.writeShort(outPublic != null ? outPublic.toTpm().length : 0);
-        if (outPublic != null)
-            outPublic.toTpm(buf);
+        buf.writeSizedObj(outPublic);
         buf.writeSizedByteBuf(name);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
         handle = TPM_HANDLE.fromTpm(buf);
         outPrivate = TPM2B_PRIVATE.fromTpm(buf);
-        int _outPublicSize = buf.readShort() & 0xFFFF;
-        buf.structSize.push(buf.new SizedStructInfo(buf.curPos(), _outPublicSize));
-        outPublic = TPMT_PUBLIC.fromTpm(buf);
-        buf.structSize.pop();
-        int _nameSize = buf.readShort() & 0xFFFF;
-        name = new byte[_nameSize];
-        buf.readArrayOfInts(name, 1, _nameSize);
+        outPublic = buf.createSizedObj(TPMT_PUBLIC.class);
+        name = buf.readSizedByteBuf();
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static CreateLoadedResponse fromBytes (byte[] byteBuf) 
     {
-        CreateLoadedResponse ret = new CreateLoadedResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(CreateLoadedResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static CreateLoadedResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static CreateLoadedResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static CreateLoadedResponse fromTpm (TpmBuffer buf) 
     {
-        CreateLoadedResponse ret = new CreateLoadedResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(CreateLoadedResponse.class);
     }
     
     @Override

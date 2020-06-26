@@ -23,47 +23,30 @@ public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.TPM_PROPERTIES; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeObjArr(tpmProperty);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeObjArr(tpmProperty); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _count = buf.readInt();
-        tpmProperty = new TPMS_TAGGED_PROPERTY[_count];
-        for (int j=0; j < _count; j++) tpmProperty[j] = new TPMS_TAGGED_PROPERTY();
-        buf.readArrayOfTpmObjects(tpmProperty, _count);
-    }
+    public void initFromTpm(TpmBuffer buf) { tpmProperty = buf.readObjArr(TPMS_TAGGED_PROPERTY.class); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPML_TAGGED_TPM_PROPERTY fromBytes (byte[] byteBuf) 
     {
-        TPML_TAGGED_TPM_PROPERTY ret = new TPML_TAGGED_TPM_PROPERTY();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPML_TAGGED_TPM_PROPERTY.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_TAGGED_TPM_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPML_TAGGED_TPM_PROPERTY fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPML_TAGGED_TPM_PROPERTY fromTpm (TpmBuffer buf) 
     {
-        TPML_TAGGED_TPM_PROPERTY ret = new TPML_TAGGED_TPM_PROPERTY();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPML_TAGGED_TPM_PROPERTY.class);
     }
     
     @Override

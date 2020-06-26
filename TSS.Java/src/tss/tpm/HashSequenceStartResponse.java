@@ -19,44 +19,30 @@ public class HashSequenceStartResponse extends TpmStructure
     
     public HashSequenceStartResponse() { handle = new TPM_HANDLE(); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        handle.toTpm(buf);
-    }
+    public void toTpm(TpmBuffer buf) { handle.toTpm(buf); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        handle = TPM_HANDLE.fromTpm(buf);
-    }
+    public void initFromTpm(TpmBuffer buf) { handle = TPM_HANDLE.fromTpm(buf); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static HashSequenceStartResponse fromBytes (byte[] byteBuf) 
     {
-        HashSequenceStartResponse ret = new HashSequenceStartResponse();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(HashSequenceStartResponse.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static HashSequenceStartResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static HashSequenceStartResponse fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static HashSequenceStartResponse fromTpm (TpmBuffer buf) 
     {
-        HashSequenceStartResponse ret = new HashSequenceStartResponse();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(HashSequenceStartResponse.class);
     }
     
     @Override

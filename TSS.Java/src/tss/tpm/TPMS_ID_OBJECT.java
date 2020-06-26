@@ -38,51 +38,38 @@ public class TPMS_ID_OBJECT extends TpmStructure
         encIdentity = _encIdentity;
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
+    public void toTpm(TpmBuffer buf)
     {
         buf.writeSizedByteBuf(integrityHMAC);
         buf.writeByteBuf(encIdentity);
     }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
+    public void initFromTpm(TpmBuffer buf)
     {
-        int _integrityHMACSize = buf.readShort() & 0xFFFF;
-        integrityHMAC = new byte[_integrityHMACSize];
-        buf.readArrayOfInts(integrityHMAC, 1, _integrityHMACSize);
-        InByteBuf.SizedStructInfo si = buf.structSize.peek();
-        int _encIdentitySize = si.Size - (buf.curPos() - si.StartPos);
-        encIdentity = new byte[_encIdentitySize];
-        buf.readArrayOfInts(encIdentity, 1, _encIdentitySize);
+        integrityHMAC = buf.readSizedByteBuf();
+        encIdentity = buf.readByteBuf(buf.getCurStuctRemainingSize());
     }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPMS_ID_OBJECT fromBytes (byte[] byteBuf) 
     {
-        TPMS_ID_OBJECT ret = new TPMS_ID_OBJECT();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPMS_ID_OBJECT.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ID_OBJECT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPMS_ID_OBJECT fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPMS_ID_OBJECT fromTpm (TpmBuffer buf) 
     {
-        TPMS_ID_OBJECT ret = new TPMS_ID_OBJECT();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPMS_ID_OBJECT.class);
     }
     
     @Override

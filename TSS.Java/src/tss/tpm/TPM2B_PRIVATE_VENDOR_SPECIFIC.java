@@ -26,46 +26,30 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ANY; }
     
+    /** TpmMarshaller method  */
     @Override
-    public void toTpm(OutByteBuf buf) 
-    {
-        buf.writeSizedByteBuf(buffer);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
     
+    /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(InByteBuf buf)
-    {
-        int _size = buf.readShort() & 0xFFFF;
-        buffer = new byte[_size];
-        buf.readArrayOfInts(buffer, 1, _size);
-    }
+    public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
     
-    @Override
-    public byte[] toTpm() 
-    {
-        OutByteBuf buf = new OutByteBuf();
-        toTpm(buf);
-        return buf.buffer();
-    }
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
     
+    /** Static marshaling helper  */
     public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromBytes (byte[] byteBuf) 
     {
-        TPM2B_PRIVATE_VENDOR_SPECIFIC ret = new TPM2B_PRIVATE_VENDOR_SPECIFIC();
-        InByteBuf buf = new InByteBuf(byteBuf);
-        ret.initFromTpm(buf);
-        if (buf.bytesRemaining()!=0)
-            throw new AssertionError("bytes remaining in buffer after object was de-serialized");
-        return ret;
+        return new TpmBuffer(byteBuf).createObj(TPM2B_PRIVATE_VENDOR_SPECIFIC.class);
     }
     
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
     
-    public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromTpm (InByteBuf buf) 
+    /** Static marshaling helper  */
+    public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromTpm (TpmBuffer buf) 
     {
-        TPM2B_PRIVATE_VENDOR_SPECIFIC ret = new TPM2B_PRIVATE_VENDOR_SPECIFIC();
-        ret.initFromTpm(buf);
-        return ret;
+        return buf.createObj(TPM2B_PRIVATE_VENDOR_SPECIFIC.class);
     }
     
     @Override
