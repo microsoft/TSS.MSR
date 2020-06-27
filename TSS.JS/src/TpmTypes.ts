@@ -4813,7 +4813,7 @@ export class TPMS_CAPABILITY_DATA extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.data) return;
+        if (this.data == null) return;
         buf.writeInt(this.data.GetUnionSelector());
         this.data.toTpm(buf);
     }
@@ -6225,7 +6225,7 @@ export class TPMT_KEYEDHASH_SCHEME extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.details) return;
+        if (this.details == null) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
@@ -6459,7 +6459,7 @@ export class TPMT_SIG_SCHEME extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.details) return;
+        if (this.details == null) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
@@ -6736,7 +6736,7 @@ export class TPMT_KDF_SCHEME extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.details) return;
+        if (this.details == null) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
@@ -6809,7 +6809,7 @@ export class TPMT_ASYM_SCHEME extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.details) return;
+        if (this.details == null) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
@@ -6855,7 +6855,7 @@ export class TPMT_RSA_SCHEME extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.details) return;
+        if (this.details == null) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
@@ -6901,7 +6901,7 @@ export class TPMT_RSA_DECRYPT extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.details) return;
+        if (this.details == null) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
@@ -7111,7 +7111,7 @@ export class TPMT_ECC_SCHEME extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.details) return;
+        if (this.details == null) return;
         buf.writeShort(this.details.GetUnionSelector());
         this.details.toTpm(buf);
     }
@@ -7567,7 +7567,7 @@ export class TPMT_SIGNATURE extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.signature) return;
+        if (this.signature == null) return;
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
@@ -7645,7 +7645,7 @@ export class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.scheme) return;
+        if (this.scheme == null) return;
         buf.writeShort(this.scheme.GetUnionSelector());
         this.scheme.toTpm(buf);
     }
@@ -7917,7 +7917,7 @@ export class TPMT_PUBLIC_PARMS extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.parameters) return;
+        if (this.parameters == null) return;
         buf.writeShort(this.parameters.GetUnionSelector());
         this.parameters.toTpm(buf);
     }
@@ -7985,7 +7985,7 @@ export class TPMT_PUBLIC extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.parameters) return;
+        if (this.parameters == null) return;
         buf.writeShort(this.parameters.GetUnionSelector());
         buf.writeShort(this.nameAlg);
         buf.writeInt(this.objectAttributes);
@@ -8157,7 +8157,7 @@ export class TPMT_SENSITIVE extends TpmStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.sensitive) return;
+        if (this.sensitive == null) return;
         buf.writeShort(this.sensitive.GetUnionSelector());
         buf.writeSizedByteBuf(this.authValue);
         buf.writeSizedByteBuf(this.seedValue);
@@ -13311,7 +13311,7 @@ export class SignResponse extends RespStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.signature) return;
+        if (this.signature == null) return;
         buf.writeShort(this.signature.GetUnionSelector());
         this.signature.toTpm(buf);
     }
@@ -16123,7 +16123,7 @@ export class TPM2_TestParms_REQUEST extends ReqStructure
     /** TpmMarshaller method  */
     toTpm(buf: TpmBuffer): void
     {
-        if (!this.parameters) return;
+        if (this.parameters == null) return;
         buf.writeShort(this.parameters.GetUnionSelector());
         this.parameters.toTpm(buf);
     }

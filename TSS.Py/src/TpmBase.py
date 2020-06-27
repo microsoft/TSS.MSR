@@ -132,18 +132,16 @@ class TpmBase(object):
             mask = TPM_RC.RC_WARN | TPM_RC.RC_VER1 | 0x7F
         return TPM_RC(rawResponse & mask)
 
-    def prepareCmdBuf(self,
+    def dispatchCommand(self,
         cmdCode,                # TPM_CC
-        handles,                # TPM_HANDLE[]
-        numAuthHandles          # Number
+        req,                    # ReqStructure derived class
     ):
-        self.__cmdCode = cmdCode
+        handles = req.getHandles()
+        numAuthHandles = req.numAuthHandles()
         cmdBuf = TpmBuffer()
 
-        if numAuthHandles > 0:
-            self.__cmdTag = TPM_ST.SESSIONS
-        else:
-            self.__cmdTag = TPM_ST.NO_SESSIONS
+        self.__cmdCode = cmdCode
+        self.__cmdTag = TPM_ST.SESSIONS if numAuthHandles > 0 else TPM_ST.NO_SESSIONS
 
         cmdBuf.writeShort(self.__cmdTag)
         cmdBuf.writeInt(0)  # to be filled in later
@@ -181,10 +179,10 @@ class TpmBase(object):
 
         self.__sessions = None
         self.__lastError = None
-        return cmdBuf
-    # prepareCmdBuf()
 
-    def dispatchCommand(self, cmdBuf):
+        # Marshal command parameters
+        req.toTpm(cmdBuf)
+
         # Fill in command buffer size in the command header
         cmdBuf.writeNumAtPos(cmdBuf.curPos, 2)
         cmdBuf.trim()

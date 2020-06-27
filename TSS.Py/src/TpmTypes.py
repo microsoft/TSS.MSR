@@ -9,12 +9,9 @@
  * Do not edit it directly.
 """
 
+from .TpmStructure import *
+from .TpmEnum import *
 
-from .TpmMarshaler import *
-
-""" Table 2 is the list of algorithms to which the TCG has assigned an
-algorithm identifier along with its numeric identifier.
-"""
 class TPM_ALG_ID(TpmEnum): # UINT16
     """ Table 2 is the list of algorithms to which the TCG has assigned an
     algorithm identifier along with its numeric identifier.
@@ -178,9 +175,6 @@ class TPM_ALG_ID(TpmEnum): # UINT16
     ANY2 = 0x7FFE
 # enum TPM_ALG_ID
 
-""" Table 4 is the list of identifiers for TCG-registered curve ID
-values for elliptic curve cryptography.
-"""
 class TPM_ECC_CURVE(TpmEnum): # UINT16
     """ Table 4 is the list of identifiers for TCG-registered curve ID
     values for elliptic curve cryptography.
@@ -209,7 +203,6 @@ class TPM_ECC_CURVE(TpmEnum): # UINT16
     TEST_P192 = 0x0021
 # enum TPM_ECC_CURVE
 
-""" Table 13 Defines for SHA1 Hash Values """
 class SHA1(TpmEnum): # UINT32
     """ Table 13 Defines for SHA1 Hash Values """
     
@@ -220,7 +213,6 @@ class SHA1(TpmEnum): # UINT32
     BLOCK_SIZE = 64
 # enum SHA1
 
-""" Table 14 Defines for SHA256 Hash Values """
 class SHA256(TpmEnum): # UINT32
     """ Table 14 Defines for SHA256 Hash Values """
     
@@ -231,7 +223,6 @@ class SHA256(TpmEnum): # UINT32
     BLOCK_SIZE = 64
 # enum SHA256
 
-""" Table 15 Defines for SHA384 Hash Values """
 class SHA384(TpmEnum): # UINT32
     """ Table 15 Defines for SHA384 Hash Values """
     
@@ -242,7 +233,6 @@ class SHA384(TpmEnum): # UINT32
     BLOCK_SIZE = 128
 # enum SHA384
 
-""" Table 16 Defines for SHA512 Hash Values """
 class SHA512(TpmEnum): # UINT32
     """ Table 16 Defines for SHA512 Hash Values """
     
@@ -253,7 +243,6 @@ class SHA512(TpmEnum): # UINT32
     BLOCK_SIZE = 128
 # enum SHA512
 
-""" Table 17 Defines for SM3_256 Hash Values """
 class SM3_256(TpmEnum): # UINT32
     """ Table 17 Defines for SM3_256 Hash Values """
     
@@ -264,7 +253,6 @@ class SM3_256(TpmEnum): # UINT32
     BLOCK_SIZE = 64
 # enum SM3_256
 
-""" Table 18 Defines for SHA3_256 Hash Values """
 class SHA3_256(TpmEnum): # UINT32
     """ Table 18 Defines for SHA3_256 Hash Values """
     
@@ -275,7 +263,6 @@ class SHA3_256(TpmEnum): # UINT32
     BLOCK_SIZE = 136
 # enum SHA3_256
 
-""" Table 19 Defines for SHA3_384 Hash Values """
 class SHA3_384(TpmEnum): # UINT32
     """ Table 19 Defines for SHA3_384 Hash Values """
     
@@ -286,7 +273,6 @@ class SHA3_384(TpmEnum): # UINT32
     BLOCK_SIZE = 104
 # enum SHA3_384
 
-""" Table 20 Defines for SHA3_512 Hash Values """
 class SHA3_512(TpmEnum): # UINT32
     """ Table 20 Defines for SHA3_512 Hash Values """
     
@@ -297,7 +283,6 @@ class SHA3_512(TpmEnum): # UINT32
     BLOCK_SIZE = 72
 # enum SHA3_512
 
-""" Table 4 Defines for Logic Values """
 class Logic(TpmEnum): # BYTE
     """ Table 4 Defines for Logic Values """
     
@@ -314,9 +299,6 @@ class Logic(TpmEnum): # BYTE
     CLEAR = 0
 # enum Logic
 
-""" These values are readable with TPM2_GetCapability() (see 6.13 for
-the format).
-"""
 class TPM_SPEC(TpmEnum): # UINT32
     """ These values are readable with TPM2_GetCapability() (see 6.13 for
     the format).
@@ -338,9 +320,6 @@ class TPM_SPEC(TpmEnum): # UINT32
     DAY_OF_YEAR = 360
 # enum TPM_SPEC
 
-""" This constant value differentiates TPM-generated structures from
-non-TPM structures.
-"""
 class TPM_GENERATED(TpmEnum): # UINT32
     """ This constant value differentiates TPM-generated structures from
     non-TPM structures.
@@ -637,7 +616,6 @@ class TPM_CC(TpmEnum): # UINT32
     Vendor_TCG_Test = CC_VEND+0x0000
 # enum TPM_CC
 
-""" Architecturally defined constants """
 class ImplementationConstants(TpmEnum): # UINT32
     """ Architecturally defined constants """
     
@@ -688,12 +666,6 @@ class ImplementationConstants(TpmEnum): # UINT32
     MAX_ACT_DATA = MAX_CAP_DATA / 0xC  # MAX_CAP_DATA / sizeof(TPMS_ACT_DATA)
 # enum ImplementationConstants
 
-""" In general, response codes defined in TPM 2.0 Part 2 will be
-unmarshaling errors and will have the F (format) bit SET. Codes that are
-unique to TPM 2.0 Part 3 will have the F bit CLEAR but the V (version)
-attribute will be SET to indicate that it is a TPM 2.0 response code.
-See Response Code Details in TPM 2.0 Part 1.
-"""
 class TPM_RC(TpmEnum): # UINT32
     """ In general, response codes defined in TPM 2.0 Part 2 will be
     unmarshaling errors and will have the F (format) bit SET. Codes that are
@@ -1252,10 +1224,6 @@ class TPM_RC(TpmEnum): # UINT32
     TBS_OWNER_AUTH_NOT_FOUND = 0x80284015
 # enum TPM_RC
 
-""" A TPM_CLOCK_ADJUST value is used to change the rate at which the TPM
-internal oscillator is divided. A change to the divider will change the
-rate at which Clock and Time change.
-"""
 class TPM_CLOCK_ADJUST(TpmEnum): # INT8
     """ A TPM_CLOCK_ADJUST value is used to change the rate at which the TPM
     internal oscillator is divided. A change to the divider will change the
@@ -1284,7 +1252,6 @@ class TPM_CLOCK_ADJUST(TpmEnum): # INT8
     COARSE_FASTER = 3
 # enum TPM_CLOCK_ADJUST
 
-""" Table 18 Definition of (UINT16) TPM_EO Constants [IN/OUT] """
 class TPM_EO(TpmEnum): # UINT16
     """ Table 18 Definition of (UINT16) TPM_EO Constants [IN/OUT] """
     
@@ -1325,15 +1292,6 @@ class TPM_EO(TpmEnum): # UINT16
     BITCLEAR = 0x000B
 # enum TPM_EO
 
-""" Structure tags are used to disambiguate structures. They are 16-bit
-values with the most significant bit SET so that they do not overlap
-TPM_ALG_ID values. A single exception is made for the value associated
-with TPM_ST_RSP_COMMAND (0x00C4), which has the same value as the
-TPM_TAG_RSP_COMMAND tag from earlier versions of this specification.
-This value is used when the TPM is compatible with a previous TPM
-specification and the TPM cannot determine which family of response code
-to return because the command tag is not valid.
-"""
 class TPM_ST(TpmEnum): # UINT16
     """ Structure tags are used to disambiguate structures. They are 16-bit
     values with the most significant bit SET so that they do not overlap
@@ -1418,9 +1376,6 @@ class TPM_ST(TpmEnum): # UINT16
     FU_MANIFEST = 0x8029
 # enum TPM_ST
 
-""" These values are used in TPM2_Startup() to indicate the shutdown and
-startup mode. The defined startup sequences are:
-"""
 class TPM_SU(TpmEnum): # UINT16
     """ These values are used in TPM2_Startup() to indicate the shutdown and
     startup mode. The defined startup sequences are:
@@ -1442,9 +1397,6 @@ class TPM_SU(TpmEnum): # UINT16
     STATE = 0x0001
 # enum TPM_SU
 
-""" This type is used in TPM2_StartAuthSession() to indicate the type of
-the session to be created.
-"""
 class TPM_SE(TpmEnum): # UINT8
     """ This type is used in TPM2_StartAuthSession() to indicate the type of
     the session to be created.
@@ -1462,10 +1414,6 @@ class TPM_SE(TpmEnum): # UINT8
     TRIAL = 0x03
 # enum TPM_SE
 
-""" The TPM_CAP values are used in TPM2_GetCapability() to select the
-type of the value to be returned. The format of the response varies
-according to the type of the value.
-"""
 class TPM_CAP(TpmEnum): # UINT32
     """ The TPM_CAP values are used in TPM2_GetCapability() to select the
     type of the value to be returned. The format of the response varies
@@ -1513,9 +1461,6 @@ class TPM_CAP(TpmEnum): # UINT32
     VENDOR_PROPERTY = 0x00000100
 # enum TPM_CAP
 
-""" The TPM_PT constants are used in TPM2_GetCapability(capability =
-TPM_CAP_TPM_PROPERTIES) to indicate the property being selected or returned.
-"""
 class TPM_PT(TpmEnum): # UINT32
     """ The TPM_PT constants are used in TPM2_GetCapability(capability =
     TPM_CAP_TPM_PROPERTIES) to indicate the property being selected or returned.
@@ -1877,12 +1822,6 @@ class TPM_PT(TpmEnum): # UINT32
     AUDIT_COUNTER_1 = PT_VAR + 20
 # enum TPM_PT
 
-""" The TPM_PT_PCR constants are used in TPM2_GetCapability() to
-indicate the property being selected or returned. The PCR properties can
-be read when capability == TPM_CAP_PCR_PROPERTIES. If there is no
-property that corresponds to the value of property, the next higher
-value is returned, if it exists.
-"""
 class TPM_PT_PCR(TpmEnum): # UINT32
     """ The TPM_PT_PCR constants are used in TPM2_GetCapability() to
     indicate the property being selected or returned. The PCR properties can
@@ -1993,9 +1932,6 @@ class TPM_PT_PCR(TpmEnum): # UINT32
     LAST = 0x00000014
 # enum TPM_PT_PCR
 
-""" The platform values in Table 25 are used for the
-TPM_PT_PS_FAMILY_INDICATOR.
-"""
 class TPM_PS(TpmEnum): # UINT32
     """ The platform values in Table 25 are used for the
     TPM_PT_PS_FAMILY_INDICATOR.
@@ -2050,9 +1986,6 @@ class TPM_PS(TpmEnum): # UINT32
     TC = 0x0000000F
 # enum TPM_PS
 
-""" The 32-bit handle space is divided into 256 regions of equal size
-with 224 values in each. Each of these ranges represents a handle type.
-"""
 class TPM_HT(TpmEnum): # UINT8
     """ The 32-bit handle space is divided into 256 regions of equal size
     with 224 values in each. Each of these ranges represents a handle type.
@@ -2104,9 +2037,6 @@ class TPM_HT(TpmEnum): # UINT8
     AC = 0x90
 # enum TPM_HT
 
-""" Table 28 lists the architecturally defined handles that cannot be
-changed. The handles include authorization handles, and special handles.
-"""
 class TPM_RH(TpmEnum): # TPM_HANDLE
     """ Table 28 lists the architecturally defined handles that cannot be
     changed. The handles include authorization handles, and special handles.
@@ -2195,9 +2125,6 @@ class TPM_RH(TpmEnum): # TPM_HANDLE
     LAST = 0x4000011F
 # enum TPM_RH
 
-""" This table lists the values of the TPM_NT field of a TPMA_NV. See
-Table 215 for usage.
-"""
 class TPM_NT(TpmEnum): # UINT32
     """ This table lists the values of the TPM_NT field of a TPMA_NV. See
     Table 215 for usage.
@@ -2235,9 +2162,6 @@ class TPM_NT(TpmEnum): # UINT32
     PIN_PASS = 0x9
 # enum TPM_NT
 
-""" These constants are used in TPM2_AC_GetCapability() to indicate the
-first tagged value returned from an attached component.
-"""
 class TPM_AT(TpmEnum): # UINT32
     """ These constants are used in TPM2_AC_GetCapability() to indicate the
     first tagged value returned from an attached component.
@@ -2258,7 +2182,6 @@ class TPM_AT(TpmEnum): # UINT32
     VEND = 0x80000000
 # enum TPM_AT
 
-""" These constants are the TCG-defined error values returned by an AC. """
 class TPM_AE(TpmEnum): # UINT32
     """ These constants are the TCG-defined error values returned by an AC. """
     
@@ -2268,9 +2191,6 @@ class TPM_AE(TpmEnum): # UINT32
     NONE = 0x00000000
 # enum TPM_AE
 
-""" These values are readable with TPM2_GetCapability(). They are the
-TPM_PT_PS_xxx values.
-"""
 class PLATFORM(TpmEnum): # UINT32
     """ These values are readable with TPM2_GetCapability(). They are the
     TPM_PT_PS_xxx values.
@@ -2287,9 +2207,6 @@ class PLATFORM(TpmEnum): # UINT32
     DAY_OF_YEAR = TPM_SPEC.DAY_OF_YEAR
 # enum PLATFORM
 
-""" This table contains a collection of values used in various parts of
-the reference code. The values shown are illustrative.
-"""
 class Implementation(TpmEnum): # UINT32
     """ This table contains a collection of values used in various parts of
     the reference code. The values shown are illustrative.
@@ -2463,9 +2380,6 @@ class Implementation(TpmEnum): # UINT32
     PRIVATE_VENDOR_SPECIFIC_BYTES = RSA_PRIVATE_SIZE
 # enum Implementation
 
-""" The definitions in Table 29 are used to define many of the interface
-data types.
-"""
 class TPM_HC(TpmEnum): # TPM_HANDLE
     """ The definitions in Table 29 are used to define many of the interface
     data types.
@@ -3387,84 +3301,86 @@ class TPMA_NV(TpmEnum): # UINT32
 
 from .Crypt import *
 
-""" TPM union interface """
 class TpmUnion(TpmMarshaller):
+    """ TPM union interface """
     @abc.abstractmethod
-    def GetUnionSelector(self): # returns TPM_ALG_ID | TPM_CAP | TPM_ST
-        pass
+    def GetUnionSelector(self): pass  # returns TPM_ALG_ID | TPM_CAP | TPM_ST
 
-
-""" Table 119 Definition of TPMU_CAPABILITIES Union [OUT] """
 class TPMU_CAPABILITIES(TpmUnion):
+    """ Table 119 Definition of TPMU_CAPABILITIES Union [OUT] """
     pass
 
-""" Table 132 Definition of TPMU_ATTEST Union [OUT] """
 class TPMU_ATTEST(TpmUnion):
+    """ Table 132 Definition of TPMU_ATTEST Union [OUT] """
     pass
 
-""" This union allows additional parameters to be added for a symmetric
-cipher. Currently, no additional parameters are required for any of the
-symmetric algorithms.
-"""
 class TPMU_SYM_DETAILS(TpmUnion):
+    """ This union allows additional parameters to be added for a symmetric
+    cipher. Currently, no additional parameters are required for any of the
+    symmetric algorithms.
+    """
     pass
 
-""" This structure allows a TPM2B_SENSITIVE_CREATE structure to carry
-either a TPM2B_SENSITVE_DATA or a TPM2B_DERIVE structure. The contents
-of the union are determined by context. When an object is being derived,
-the derivation values are present.
-"""
 class TPMU_SENSITIVE_CREATE(TpmUnion):
+    """ This structure allows a TPM2B_SENSITIVE_CREATE structure to carry
+    either a TPM2B_SENSITVE_DATA or a TPM2B_DERIVE structure. The contents
+    of the union are determined by context. When an object is being derived,
+    the derivation values are present.
+    """
     pass
 
-""" Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT] """
 class TPMU_SCHEME_KEYEDHASH(TpmUnion):
+    """ Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT] """
     pass
 
-""" This is the union of all of the signature schemes. """
 class TPMU_SIG_SCHEME(TpmUnion):
+    """ This is the union of all of the signature schemes. """
     pass
 
-""" Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT] """
 class TPMU_KDF_SCHEME(TpmUnion):
+    """ Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT] """
     pass
 
-""" This union of all asymmetric schemes is used in each of the
-asymmetric scheme structures. The actual scheme structure is defined by
-the interface type used for the selector (TPMI_ALG_ASYM_SCHEME).
-"""
 class TPMU_ASYM_SCHEME(TpmUnion):
+    """ This union of all asymmetric schemes is used in each of the
+    asymmetric scheme structures. The actual scheme structure is defined by
+    the interface type used for the selector (TPMI_ALG_ASYM_SCHEME).
+    """
     pass
 
-""" A TPMU_SIGNATURE_COMPOSITE is a union of the various signatures that
-are supported by a particular TPM implementation. The union allows
-substitution of any signature algorithm wherever a signature is required
-in a structure.
-"""
 class TPMU_SIGNATURE(TpmUnion):
+    """ A TPMU_SIGNATURE_COMPOSITE is a union of the various signatures that
+    are supported by a particular TPM implementation. The union allows
+    substitution of any signature algorithm wherever a signature is required
+    in a structure.
+    """
     pass
 
-""" This is the union of all values allowed in in the unique field of a
-TPMT_PUBLIC.
-"""
 class TPMU_PUBLIC_ID(TpmUnion):
+    """ This is the union of all values allowed in in the unique field of a
+    TPMT_PUBLIC.
+    """
     pass
 
-""" Table 199 defines the possible parameter definition structures that
-may be contained in the public portion of a key. If the Object can be a
-parent, the first field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7.
-"""
 class TPMU_PUBLIC_PARMS(TpmUnion):
+    """ Table 199 defines the possible parameter definition structures that
+    may be contained in the public portion of a key. If the Object can be a
+    parent, the first field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7.
+    """
     pass
 
-""" Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT] """
 class TPMU_SENSITIVE_COMPOSITE(TpmUnion):
+    """ Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT] """
     pass
 
-""" selector: TPM_ALG_ID | TPM_CAP | TPM_ST """
 class UnionFactory:
     @staticmethod
     def create(unionType, selector):
+        """ Args:
+            unionType (string): union type name
+            selector (TPM_ALG_ID|TPM_CAP|TPM_ST): enum value
+                specifying the union member to instantiate
+        """
         if unionType == 'TPMU_CAPABILITIES':
             if selector == TPM_CAP.ALGS: return TPML_ALG_PROPERTY()
             if selector == TPM_CAP.HANDLES: return TPML_HANDLE()
@@ -3584,14 +3500,14 @@ class TPM_HANDLE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM_HANDLE object initilized from its marshaled
+        """ Returns new TPM_HANDLE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM_HANDLE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM_HANDLE object initilized from its marshaled
+        """ Returns new TPM_HANDLE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM_HANDLE)
@@ -3679,14 +3595,14 @@ class TPMS_NULL_UNION (TpmStructure, TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TP
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_NULL_UNION object initilized from its marshaled
+        """ Returns new TPMS_NULL_UNION object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_UNION)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_NULL_UNION object initilized from its marshaled
+        """ Returns new TPMS_NULL_UNION object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_NULL_UNION)
@@ -3706,14 +3622,14 @@ class TPMS_EMPTY (TpmStructure, TPMU_ASYM_SCHEME):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_EMPTY object initilized from its marshaled
+        """ Returns new TPMS_EMPTY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_EMPTY)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_EMPTY object initilized from its marshaled
+        """ Returns new TPMS_EMPTY object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_EMPTY)
@@ -3743,14 +3659,14 @@ class TPMS_ALGORITHM_DESCRIPTION (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ALGORITHM_DESCRIPTION object initilized from its
+        """ Returns new TPMS_ALGORITHM_DESCRIPTION object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ALGORITHM_DESCRIPTION)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ALGORITHM_DESCRIPTION object initilized from its
+        """ Returns new TPMS_ALGORITHM_DESCRIPTION object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ALGORITHM_DESCRIPTION)
@@ -3791,14 +3707,14 @@ class TPMT_HA (TpmStructure, TPMU_SIGNATURE):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_HA object initilized from its marshaled
+        """ Returns new TPMT_HA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_HA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_HA object initilized from its marshaled
+        """ Returns new TPMT_HA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_HA)
@@ -3828,14 +3744,14 @@ class TPM2B_DIGEST (TpmStructure, TPMU_PUBLIC_ID):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_DIGEST object initilized from its marshaled
+        """ Returns new TPM2B_DIGEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_DIGEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_DIGEST object initilized from its marshaled
+        """ Returns new TPM2B_DIGEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_DIGEST)
@@ -3861,14 +3777,14 @@ class TPM2B_DATA (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_DATA object initilized from its marshaled
+        """ Returns new TPM2B_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_DATA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_DATA object initilized from its marshaled
+        """ Returns new TPM2B_DATA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_DATA)
@@ -3885,14 +3801,14 @@ class TPM2B_NONCE (TPM2B_DIGEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_NONCE object initilized from its marshaled
+        """ Returns new TPM2B_NONCE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_NONCE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_NONCE object initilized from its marshaled
+        """ Returns new TPM2B_NONCE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_NONCE)
@@ -3914,14 +3830,14 @@ class TPM2B_AUTH (TPM2B_DIGEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_AUTH object initilized from its marshaled
+        """ Returns new TPM2B_AUTH object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_AUTH)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_AUTH object initilized from its marshaled
+        """ Returns new TPM2B_AUTH object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_AUTH)
@@ -3942,14 +3858,14 @@ class TPM2B_OPERAND (TPM2B_DIGEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_OPERAND object initilized from its marshaled
+        """ Returns new TPM2B_OPERAND object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_OPERAND)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_OPERAND object initilized from its marshaled
+        """ Returns new TPM2B_OPERAND object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_OPERAND)
@@ -3974,14 +3890,14 @@ class TPM2B_EVENT (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_EVENT object initilized from its marshaled
+        """ Returns new TPM2B_EVENT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_EVENT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_EVENT object initilized from its marshaled
+        """ Returns new TPM2B_EVENT object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_EVENT)
@@ -4008,14 +3924,14 @@ class TPM2B_MAX_BUFFER (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_MAX_BUFFER object initilized from its marshaled
+        """ Returns new TPM2B_MAX_BUFFER object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_MAX_BUFFER)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_MAX_BUFFER object initilized from its marshaled
+        """ Returns new TPM2B_MAX_BUFFER object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_MAX_BUFFER)
@@ -4043,15 +3959,15 @@ class TPM2B_MAX_NV_BUFFER (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_MAX_NV_BUFFER object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new TPM2B_MAX_NV_BUFFER object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_MAX_NV_BUFFER)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_MAX_NV_BUFFER object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new TPM2B_MAX_NV_BUFFER object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_MAX_NV_BUFFER)
 # TPM2B_MAX_NV_BUFFER
@@ -4076,14 +3992,14 @@ class TPM2B_TIMEOUT (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_TIMEOUT object initilized from its marshaled
+        """ Returns new TPM2B_TIMEOUT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_TIMEOUT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_TIMEOUT object initilized from its marshaled
+        """ Returns new TPM2B_TIMEOUT object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_TIMEOUT)
@@ -4110,14 +4026,14 @@ class TPM2B_IV (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_IV object initilized from its marshaled
+        """ Returns new TPM2B_IV object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_IV)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_IV object initilized from its marshaled
+        """ Returns new TPM2B_IV object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_IV)
@@ -4142,14 +4058,14 @@ class TPM2B_NAME (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_NAME object initilized from its marshaled
+        """ Returns new TPM2B_NAME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_NAME)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_NAME object initilized from its marshaled
+        """ Returns new TPM2B_NAME object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_NAME)
@@ -4174,14 +4090,14 @@ class TPMS_PCR_SELECT (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_PCR_SELECT object initilized from its marshaled
+        """ Returns new TPMS_PCR_SELECT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_PCR_SELECT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_PCR_SELECT object initilized from its marshaled
+        """ Returns new TPMS_PCR_SELECT object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_PCR_SELECT)
@@ -4210,14 +4126,14 @@ class TPMS_PCR_SELECTION (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_PCR_SELECTION object initilized from its marshaled
+        """ Returns new TPMS_PCR_SELECTION object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_PCR_SELECTION)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_PCR_SELECTION object initilized from its marshaled
+        """ Returns new TPMS_PCR_SELECTION object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_PCR_SELECTION)
@@ -4251,14 +4167,14 @@ class TPMT_TK_CREATION (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_TK_CREATION object initilized from its marshaled
+        """ Returns new TPMT_TK_CREATION object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_TK_CREATION)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_TK_CREATION object initilized from its marshaled
+        """ Returns new TPMT_TK_CREATION object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_TK_CREATION)
@@ -4293,14 +4209,14 @@ class TPMT_TK_VERIFIED (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_TK_VERIFIED object initilized from its marshaled
+        """ Returns new TPMT_TK_VERIFIED object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_TK_VERIFIED)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_TK_VERIFIED object initilized from its marshaled
+        """ Returns new TPMT_TK_VERIFIED object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_TK_VERIFIED)
@@ -4337,14 +4253,14 @@ class TPMT_TK_AUTH (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_TK_AUTH object initilized from its marshaled
+        """ Returns new TPMT_TK_AUTH object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_TK_AUTH)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_TK_AUTH object initilized from its marshaled
+        """ Returns new TPMT_TK_AUTH object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_TK_AUTH)
@@ -4378,14 +4294,14 @@ class TPMT_TK_HASHCHECK (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_TK_HASHCHECK object initilized from its marshaled
+        """ Returns new TPMT_TK_HASHCHECK object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_TK_HASHCHECK)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_TK_HASHCHECK object initilized from its marshaled
+        """ Returns new TPMT_TK_HASHCHECK object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_TK_HASHCHECK)
@@ -4416,14 +4332,14 @@ class TPMS_ALG_PROPERTY (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ALG_PROPERTY object initilized from its marshaled
+        """ Returns new TPMS_ALG_PROPERTY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ALG_PROPERTY)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ALG_PROPERTY object initilized from its marshaled
+        """ Returns new TPMS_ALG_PROPERTY object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ALG_PROPERTY)
@@ -4453,14 +4369,14 @@ class TPMS_TAGGED_PROPERTY (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_TAGGED_PROPERTY object initilized from its
+        """ Returns new TPMS_TAGGED_PROPERTY object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TAGGED_PROPERTY)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_TAGGED_PROPERTY object initilized from its
+        """ Returns new TPMS_TAGGED_PROPERTY object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_TAGGED_PROPERTY)
@@ -4490,14 +4406,14 @@ class TPMS_TAGGED_PCR_SELECT (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_TAGGED_PCR_SELECT object initilized from its
+        """ Returns new TPMS_TAGGED_PCR_SELECT object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TAGGED_PCR_SELECT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_TAGGED_PCR_SELECT object initilized from its
+        """ Returns new TPMS_TAGGED_PCR_SELECT object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_TAGGED_PCR_SELECT)
@@ -4527,14 +4443,14 @@ class TPMS_TAGGED_POLICY (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_TAGGED_POLICY object initilized from its marshaled
+        """ Returns new TPMS_TAGGED_POLICY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TAGGED_POLICY)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_TAGGED_POLICY object initilized from its marshaled
+        """ Returns new TPMS_TAGGED_POLICY object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_TAGGED_POLICY)
@@ -4567,14 +4483,14 @@ class TPMS_ACT_DATA (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ACT_DATA object initilized from its marshaled
+        """ Returns new TPMS_ACT_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ACT_DATA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ACT_DATA object initilized from its marshaled
+        """ Returns new TPMS_ACT_DATA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ACT_DATA)
@@ -4606,14 +4522,14 @@ class TPML_CC (TpmStructure, TPMU_CAPABILITIES):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_CC object initilized from its marshaled
+        """ Returns new TPML_CC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_CC)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_CC object initilized from its marshaled
+        """ Returns new TPML_CC object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_CC)
@@ -4643,14 +4559,14 @@ class TPML_CCA (TpmStructure, TPMU_CAPABILITIES):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_CCA object initilized from its marshaled
+        """ Returns new TPML_CCA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_CCA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_CCA object initilized from its marshaled
+        """ Returns new TPML_CCA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_CCA)
@@ -4677,14 +4593,14 @@ class TPML_ALG (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_ALG object initilized from its marshaled
+        """ Returns new TPML_ALG object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_ALG)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_ALG object initilized from its marshaled
+        """ Returns new TPML_ALG object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_ALG)
@@ -4714,14 +4630,14 @@ class TPML_HANDLE (TpmStructure, TPMU_CAPABILITIES):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_HANDLE object initilized from its marshaled
+        """ Returns new TPML_HANDLE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_HANDLE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_HANDLE object initilized from its marshaled
+        """ Returns new TPML_HANDLE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_HANDLE)
@@ -4751,14 +4667,14 @@ class TPML_DIGEST (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_DIGEST object initilized from its marshaled
+        """ Returns new TPML_DIGEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_DIGEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_DIGEST object initilized from its marshaled
+        """ Returns new TPML_DIGEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_DIGEST)
@@ -4785,14 +4701,14 @@ class TPML_DIGEST_VALUES (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_DIGEST_VALUES object initilized from its marshaled
+        """ Returns new TPML_DIGEST_VALUES object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_DIGEST_VALUES)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_DIGEST_VALUES object initilized from its marshaled
+        """ Returns new TPML_DIGEST_VALUES object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_DIGEST_VALUES)
@@ -4822,14 +4738,14 @@ class TPML_PCR_SELECTION (TpmStructure, TPMU_CAPABILITIES):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_PCR_SELECTION object initilized from its marshaled
+        """ Returns new TPML_PCR_SELECTION object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_PCR_SELECTION)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_PCR_SELECTION object initilized from its marshaled
+        """ Returns new TPML_PCR_SELECTION object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_PCR_SELECTION)
@@ -4859,14 +4775,14 @@ class TPML_ALG_PROPERTY (TpmStructure, TPMU_CAPABILITIES):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_ALG_PROPERTY object initilized from its marshaled
+        """ Returns new TPML_ALG_PROPERTY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_ALG_PROPERTY)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_ALG_PROPERTY object initilized from its marshaled
+        """ Returns new TPML_ALG_PROPERTY object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_ALG_PROPERTY)
@@ -4896,14 +4812,14 @@ class TPML_TAGGED_TPM_PROPERTY (TpmStructure, TPMU_CAPABILITIES):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_TAGGED_TPM_PROPERTY object initilized from its
+        """ Returns new TPML_TAGGED_TPM_PROPERTY object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_TAGGED_TPM_PROPERTY)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_TAGGED_TPM_PROPERTY object initilized from its
+        """ Returns new TPML_TAGGED_TPM_PROPERTY object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_TAGGED_TPM_PROPERTY)
@@ -4933,14 +4849,14 @@ class TPML_TAGGED_PCR_PROPERTY (TpmStructure, TPMU_CAPABILITIES):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_TAGGED_PCR_PROPERTY object initilized from its
+        """ Returns new TPML_TAGGED_PCR_PROPERTY object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_TAGGED_PCR_PROPERTY)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_TAGGED_PCR_PROPERTY object initilized from its
+        """ Returns new TPML_TAGGED_PCR_PROPERTY object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_TAGGED_PCR_PROPERTY)
@@ -4970,14 +4886,14 @@ class TPML_ECC_CURVE (TpmStructure, TPMU_CAPABILITIES):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_ECC_CURVE object initilized from its marshaled
+        """ Returns new TPML_ECC_CURVE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_ECC_CURVE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_ECC_CURVE object initilized from its marshaled
+        """ Returns new TPML_ECC_CURVE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_ECC_CURVE)
@@ -5009,14 +4925,14 @@ class TPML_TAGGED_POLICY (TpmStructure, TPMU_CAPABILITIES):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_TAGGED_POLICY object initilized from its marshaled
+        """ Returns new TPML_TAGGED_POLICY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_TAGGED_POLICY)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_TAGGED_POLICY object initilized from its marshaled
+        """ Returns new TPML_TAGGED_POLICY object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_TAGGED_POLICY)
@@ -5047,14 +4963,14 @@ class TPML_ACT_DATA (TpmStructure, TPMU_CAPABILITIES):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_ACT_DATA object initilized from its marshaled
+        """ Returns new TPML_ACT_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_ACT_DATA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_ACT_DATA object initilized from its marshaled
+        """ Returns new TPML_ACT_DATA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_ACT_DATA)
@@ -5080,7 +4996,7 @@ class TPMS_CAPABILITY_DATA (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.data: return
+        if self.data == None: return
         buf.writeInt(self.data.GetUnionSelector())
         self.data.toTpm(buf)
     
@@ -5092,14 +5008,14 @@ class TPMS_CAPABILITY_DATA (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_CAPABILITY_DATA object initilized from its
+        """ Returns new TPMS_CAPABILITY_DATA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CAPABILITY_DATA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_CAPABILITY_DATA object initilized from its
+        """ Returns new TPMS_CAPABILITY_DATA object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_CAPABILITY_DATA)
@@ -5148,14 +5064,14 @@ class TPMS_CLOCK_INFO (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_CLOCK_INFO object initilized from its marshaled
+        """ Returns new TPMS_CLOCK_INFO object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CLOCK_INFO)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_CLOCK_INFO object initilized from its marshaled
+        """ Returns new TPMS_CLOCK_INFO object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_CLOCK_INFO)
@@ -5186,14 +5102,14 @@ class TPMS_TIME_INFO (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_TIME_INFO object initilized from its marshaled
+        """ Returns new TPMS_TIME_INFO object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TIME_INFO)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_TIME_INFO object initilized from its marshaled
+        """ Returns new TPMS_TIME_INFO object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_TIME_INFO)
@@ -5228,14 +5144,14 @@ class TPMS_TIME_ATTEST_INFO (TpmStructure, TPMU_ATTEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_TIME_ATTEST_INFO object initilized from its
+        """ Returns new TPMS_TIME_ATTEST_INFO object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TIME_ATTEST_INFO)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_TIME_ATTEST_INFO object initilized from its
+        """ Returns new TPMS_TIME_ATTEST_INFO object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_TIME_ATTEST_INFO)
@@ -5268,14 +5184,14 @@ class TPMS_CERTIFY_INFO (TpmStructure, TPMU_ATTEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_CERTIFY_INFO object initilized from its marshaled
+        """ Returns new TPMS_CERTIFY_INFO object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CERTIFY_INFO)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_CERTIFY_INFO object initilized from its marshaled
+        """ Returns new TPMS_CERTIFY_INFO object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_CERTIFY_INFO)
@@ -5310,14 +5226,14 @@ class TPMS_QUOTE_INFO (TpmStructure, TPMU_ATTEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_QUOTE_INFO object initilized from its marshaled
+        """ Returns new TPMS_QUOTE_INFO object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_QUOTE_INFO)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_QUOTE_INFO object initilized from its marshaled
+        """ Returns new TPMS_QUOTE_INFO object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_QUOTE_INFO)
@@ -5359,14 +5275,14 @@ class TPMS_COMMAND_AUDIT_INFO (TpmStructure, TPMU_ATTEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_COMMAND_AUDIT_INFO object initilized from its
+        """ Returns new TPMS_COMMAND_AUDIT_INFO object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_COMMAND_AUDIT_INFO)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_COMMAND_AUDIT_INFO object initilized from its
+        """ Returns new TPMS_COMMAND_AUDIT_INFO object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_COMMAND_AUDIT_INFO)
@@ -5402,14 +5318,14 @@ class TPMS_SESSION_AUDIT_INFO (TpmStructure, TPMU_ATTEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SESSION_AUDIT_INFO object initilized from its
+        """ Returns new TPMS_SESSION_AUDIT_INFO object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SESSION_AUDIT_INFO)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SESSION_AUDIT_INFO object initilized from its
+        """ Returns new TPMS_SESSION_AUDIT_INFO object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SESSION_AUDIT_INFO)
@@ -5442,14 +5358,14 @@ class TPMS_CREATION_INFO (TpmStructure, TPMU_ATTEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_CREATION_INFO object initilized from its marshaled
+        """ Returns new TPMS_CREATION_INFO object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CREATION_INFO)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_CREATION_INFO object initilized from its marshaled
+        """ Returns new TPMS_CREATION_INFO object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_CREATION_INFO)
@@ -5487,14 +5403,14 @@ class TPMS_NV_CERTIFY_INFO (TpmStructure, TPMU_ATTEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_NV_CERTIFY_INFO object initilized from its
+        """ Returns new TPMS_NV_CERTIFY_INFO object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NV_CERTIFY_INFO)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_NV_CERTIFY_INFO object initilized from its
+        """ Returns new TPMS_NV_CERTIFY_INFO object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_NV_CERTIFY_INFO)
@@ -5529,14 +5445,14 @@ class TPMS_NV_DIGEST_CERTIFY_INFO (TpmStructure, TPMU_ATTEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_NV_DIGEST_CERTIFY_INFO object initilized from its
+        """ Returns new TPMS_NV_DIGEST_CERTIFY_INFO object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NV_DIGEST_CERTIFY_INFO)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_NV_DIGEST_CERTIFY_INFO object initilized from its
+        """ Returns new TPMS_NV_DIGEST_CERTIFY_INFO object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_NV_DIGEST_CERTIFY_INFO)
@@ -5600,14 +5516,14 @@ class TPMS_ATTEST (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ATTEST object initilized from its marshaled
+        """ Returns new TPMS_ATTEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ATTEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ATTEST object initilized from its marshaled
+        """ Returns new TPMS_ATTEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ATTEST)
@@ -5634,14 +5550,14 @@ class TPM2B_ATTEST (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_ATTEST object initilized from its marshaled
+        """ Returns new TPM2B_ATTEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_ATTEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_ATTEST object initilized from its marshaled
+        """ Returns new TPM2B_ATTEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_ATTEST)
@@ -5679,14 +5595,14 @@ class TPMS_AUTH_COMMAND (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_AUTH_COMMAND object initilized from its marshaled
+        """ Returns new TPMS_AUTH_COMMAND object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_AUTH_COMMAND)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_AUTH_COMMAND object initilized from its marshaled
+        """ Returns new TPMS_AUTH_COMMAND object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_AUTH_COMMAND)
@@ -5722,14 +5638,14 @@ class TPMS_AUTH_RESPONSE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_AUTH_RESPONSE object initilized from its marshaled
+        """ Returns new TPMS_AUTH_RESPONSE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_AUTH_RESPONSE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_AUTH_RESPONSE object initilized from its marshaled
+        """ Returns new TPMS_AUTH_RESPONSE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_AUTH_RESPONSE)
@@ -5750,14 +5666,14 @@ class TPMS_TDES_SYM_DETAILS (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_TDES_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_TDES_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TDES_SYM_DETAILS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_TDES_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_TDES_SYM_DETAILS object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_TDES_SYM_DETAILS)
@@ -5778,14 +5694,14 @@ class TPMS_AES_SYM_DETAILS (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_AES_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_AES_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_AES_SYM_DETAILS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_AES_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_AES_SYM_DETAILS object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_AES_SYM_DETAILS)
@@ -5806,14 +5722,14 @@ class TPMS_SM4_SYM_DETAILS (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SM4_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_SM4_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SM4_SYM_DETAILS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SM4_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_SM4_SYM_DETAILS object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SM4_SYM_DETAILS)
@@ -5834,14 +5750,14 @@ class TPMS_CAMELLIA_SYM_DETAILS (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_CAMELLIA_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_CAMELLIA_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CAMELLIA_SYM_DETAILS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_CAMELLIA_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_CAMELLIA_SYM_DETAILS object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_CAMELLIA_SYM_DETAILS)
@@ -5862,14 +5778,14 @@ class TPMS_ANY_SYM_DETAILS (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ANY_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_ANY_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ANY_SYM_DETAILS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ANY_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_ANY_SYM_DETAILS object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ANY_SYM_DETAILS)
@@ -5890,14 +5806,14 @@ class TPMS_XOR_SYM_DETAILS (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_XOR_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_XOR_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_XOR_SYM_DETAILS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_XOR_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_XOR_SYM_DETAILS object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_XOR_SYM_DETAILS)
@@ -5918,14 +5834,14 @@ class TPMS_NULL_SYM_DETAILS (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_NULL_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_NULL_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_SYM_DETAILS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_NULL_SYM_DETAILS object initilized from its
+        """ Returns new TPMS_NULL_SYM_DETAILS object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_NULL_SYM_DETAILS)
@@ -5962,14 +5878,14 @@ class TPMT_SYM_DEF (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_SYM_DEF object initilized from its marshaled
+        """ Returns new TPMT_SYM_DEF object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_SYM_DEF)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_SYM_DEF object initilized from its marshaled
+        """ Returns new TPMT_SYM_DEF object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_SYM_DEF)
@@ -6007,15 +5923,15 @@ class TPMT_SYM_DEF_OBJECT (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_SYM_DEF_OBJECT object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new TPMT_SYM_DEF_OBJECT object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_SYM_DEF_OBJECT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_SYM_DEF_OBJECT object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new TPMT_SYM_DEF_OBJECT object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_SYM_DEF_OBJECT)
 # TPMT_SYM_DEF_OBJECT
@@ -6044,14 +5960,14 @@ class TPM2B_SYM_KEY (TpmStructure, TPMU_SENSITIVE_COMPOSITE):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_SYM_KEY object initilized from its marshaled
+        """ Returns new TPM2B_SYM_KEY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_SYM_KEY)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_SYM_KEY object initilized from its marshaled
+        """ Returns new TPM2B_SYM_KEY object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_SYM_KEY)
@@ -6080,14 +5996,14 @@ class TPMS_SYMCIPHER_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SYMCIPHER_PARMS object initilized from its
+        """ Returns new TPMS_SYMCIPHER_PARMS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SYMCIPHER_PARMS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SYMCIPHER_PARMS object initilized from its
+        """ Returns new TPMS_SYMCIPHER_PARMS object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SYMCIPHER_PARMS)
@@ -6116,14 +6032,14 @@ class TPM2B_LABEL (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_LABEL object initilized from its marshaled
+        """ Returns new TPM2B_LABEL object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_LABEL)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_LABEL object initilized from its marshaled
+        """ Returns new TPM2B_LABEL object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_LABEL)
@@ -6159,14 +6075,14 @@ class TPMS_DERIVE (TpmStructure, TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_DERIVE object initilized from its marshaled
+        """ Returns new TPMS_DERIVE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_DERIVE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_DERIVE object initilized from its marshaled
+        """ Returns new TPMS_DERIVE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_DERIVE)
@@ -6192,14 +6108,14 @@ class TPM2B_DERIVE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_DERIVE object initilized from its marshaled
+        """ Returns new TPM2B_DERIVE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_DERIVE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_DERIVE object initilized from its marshaled
+        """ Returns new TPM2B_DERIVE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_DERIVE)
@@ -6229,14 +6145,14 @@ class TPM2B_SENSITIVE_DATA (TpmStructure, TPMU_SENSITIVE_COMPOSITE):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_SENSITIVE_DATA object initilized from its
+        """ Returns new TPM2B_SENSITIVE_DATA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_SENSITIVE_DATA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_SENSITIVE_DATA object initilized from its
+        """ Returns new TPM2B_SENSITIVE_DATA object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_SENSITIVE_DATA)
@@ -6267,14 +6183,14 @@ class TPMS_SENSITIVE_CREATE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SENSITIVE_CREATE object initilized from its
+        """ Returns new TPMS_SENSITIVE_CREATE object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SENSITIVE_CREATE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SENSITIVE_CREATE object initilized from its
+        """ Returns new TPMS_SENSITIVE_CREATE object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SENSITIVE_CREATE)
@@ -6303,14 +6219,14 @@ class TPM2B_SENSITIVE_CREATE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_SENSITIVE_CREATE object initilized from its
+        """ Returns new TPM2B_SENSITIVE_CREATE object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_SENSITIVE_CREATE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_SENSITIVE_CREATE object initilized from its
+        """ Returns new TPM2B_SENSITIVE_CREATE object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_SENSITIVE_CREATE)
@@ -6340,14 +6256,14 @@ class TPMS_SCHEME_HASH (TpmStructure, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TP
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_HASH object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_HASH object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_HASH)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_HASH object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_HASH object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_HASH)
@@ -6381,14 +6297,14 @@ class TPMS_SCHEME_ECDAA (TpmStructure, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_ECDAA object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_ECDAA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_ECDAA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_ECDAA object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_ECDAA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_ECDAA)
@@ -6409,14 +6325,14 @@ class TPMS_SCHEME_HMAC (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_HMAC object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_HMAC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_HMAC)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_HMAC object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_HMAC object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_HMAC)
@@ -6449,14 +6365,14 @@ class TPMS_SCHEME_XOR (TpmStructure, TPMU_SCHEME_KEYEDHASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_XOR object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_XOR object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_XOR)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_XOR object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_XOR object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_XOR)
@@ -6477,14 +6393,14 @@ class TPMS_NULL_SCHEME_KEYEDHASH (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_NULL_SCHEME_KEYEDHASH object initilized from its
+        """ Returns new TPMS_NULL_SCHEME_KEYEDHASH object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_SCHEME_KEYEDHASH)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_NULL_SCHEME_KEYEDHASH object initilized from its
+        """ Returns new TPMS_NULL_SCHEME_KEYEDHASH object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_NULL_SCHEME_KEYEDHASH)
@@ -6508,7 +6424,7 @@ class TPMT_KEYEDHASH_SCHEME (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.details: return
+        if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
     
@@ -6520,14 +6436,14 @@ class TPMT_KEYEDHASH_SCHEME (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_KEYEDHASH_SCHEME object initilized from its
+        """ Returns new TPMT_KEYEDHASH_SCHEME object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_KEYEDHASH_SCHEME)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_KEYEDHASH_SCHEME object initilized from its
+        """ Returns new TPMT_KEYEDHASH_SCHEME object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_KEYEDHASH_SCHEME)
@@ -6549,14 +6465,14 @@ class TPMS_SIG_SCHEME_RSASSA (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIG_SCHEME_RSASSA object initilized from its
+        """ Returns new TPMS_SIG_SCHEME_RSASSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_RSASSA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIG_SCHEME_RSASSA object initilized from its
+        """ Returns new TPMS_SIG_SCHEME_RSASSA object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_RSASSA)
@@ -6578,14 +6494,14 @@ class TPMS_SIG_SCHEME_RSAPSS (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIG_SCHEME_RSAPSS object initilized from its
+        """ Returns new TPMS_SIG_SCHEME_RSAPSS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_RSAPSS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIG_SCHEME_RSAPSS object initilized from its
+        """ Returns new TPMS_SIG_SCHEME_RSAPSS object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_RSAPSS)
@@ -6609,14 +6525,14 @@ class TPMS_SIG_SCHEME_ECDSA (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIG_SCHEME_ECDSA object initilized from its
+        """ Returns new TPMS_SIG_SCHEME_ECDSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_ECDSA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIG_SCHEME_ECDSA object initilized from its
+        """ Returns new TPMS_SIG_SCHEME_ECDSA object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_ECDSA)
@@ -6640,15 +6556,15 @@ class TPMS_SIG_SCHEME_SM2 (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIG_SCHEME_SM2 object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new TPMS_SIG_SCHEME_SM2 object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_SM2)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIG_SCHEME_SM2 object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new TPMS_SIG_SCHEME_SM2 object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_SM2)
 # TPMS_SIG_SCHEME_SM2
@@ -6671,14 +6587,14 @@ class TPMS_SIG_SCHEME_ECSCHNORR (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIG_SCHEME_ECSCHNORR object initilized from its
+        """ Returns new TPMS_SIG_SCHEME_ECSCHNORR object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_ECSCHNORR)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIG_SCHEME_ECSCHNORR object initilized from its
+        """ Returns new TPMS_SIG_SCHEME_ECSCHNORR object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_ECSCHNORR)
@@ -6704,14 +6620,14 @@ class TPMS_SIG_SCHEME_ECDAA (TPMS_SCHEME_ECDAA):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIG_SCHEME_ECDAA object initilized from its
+        """ Returns new TPMS_SIG_SCHEME_ECDAA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_ECDAA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIG_SCHEME_ECDAA object initilized from its
+        """ Returns new TPMS_SIG_SCHEME_ECDAA object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIG_SCHEME_ECDAA)
@@ -6732,14 +6648,14 @@ class TPMS_NULL_SIG_SCHEME (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_NULL_SIG_SCHEME object initilized from its
+        """ Returns new TPMS_NULL_SIG_SCHEME object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_SIG_SCHEME)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_NULL_SIG_SCHEME object initilized from its
+        """ Returns new TPMS_NULL_SIG_SCHEME object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_NULL_SIG_SCHEME)
@@ -6765,7 +6681,7 @@ class TPMT_SIG_SCHEME (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.details: return
+        if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
     
@@ -6777,14 +6693,14 @@ class TPMT_SIG_SCHEME (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_SIG_SCHEME object initilized from its marshaled
+        """ Returns new TPMT_SIG_SCHEME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_SIG_SCHEME)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_SIG_SCHEME object initilized from its marshaled
+        """ Returns new TPMT_SIG_SCHEME object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_SIG_SCHEME)
@@ -6806,14 +6722,14 @@ class TPMS_ENC_SCHEME_OAEP (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ENC_SCHEME_OAEP object initilized from its
+        """ Returns new TPMS_ENC_SCHEME_OAEP object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ENC_SCHEME_OAEP)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ENC_SCHEME_OAEP object initilized from its
+        """ Returns new TPMS_ENC_SCHEME_OAEP object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ENC_SCHEME_OAEP)
@@ -6832,14 +6748,14 @@ class TPMS_ENC_SCHEME_RSAES (TPMS_EMPTY):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ENC_SCHEME_RSAES object initilized from its
+        """ Returns new TPMS_ENC_SCHEME_RSAES object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ENC_SCHEME_RSAES)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ENC_SCHEME_RSAES object initilized from its
+        """ Returns new TPMS_ENC_SCHEME_RSAES object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ENC_SCHEME_RSAES)
@@ -6861,14 +6777,14 @@ class TPMS_KEY_SCHEME_ECDH (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_KEY_SCHEME_ECDH object initilized from its
+        """ Returns new TPMS_KEY_SCHEME_ECDH object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KEY_SCHEME_ECDH)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_KEY_SCHEME_ECDH object initilized from its
+        """ Returns new TPMS_KEY_SCHEME_ECDH object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_KEY_SCHEME_ECDH)
@@ -6890,14 +6806,14 @@ class TPMS_KEY_SCHEME_ECMQV (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_KEY_SCHEME_ECMQV object initilized from its
+        """ Returns new TPMS_KEY_SCHEME_ECMQV object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KEY_SCHEME_ECMQV)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_KEY_SCHEME_ECMQV object initilized from its
+        """ Returns new TPMS_KEY_SCHEME_ECMQV object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_KEY_SCHEME_ECMQV)
@@ -6920,14 +6836,14 @@ class TPMS_KDF_SCHEME_MGF1 (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_KDF_SCHEME_MGF1 object initilized from its
+        """ Returns new TPMS_KDF_SCHEME_MGF1 object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KDF_SCHEME_MGF1)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_KDF_SCHEME_MGF1 object initilized from its
+        """ Returns new TPMS_KDF_SCHEME_MGF1 object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_KDF_SCHEME_MGF1)
@@ -6950,14 +6866,14 @@ class TPMS_KDF_SCHEME_KDF1_SP800_56A (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_56A object initilized from
+        """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_56A object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KDF_SCHEME_KDF1_SP800_56A)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_56A object initilized from
+        """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_56A object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_KDF_SCHEME_KDF1_SP800_56A)
@@ -6980,14 +6896,14 @@ class TPMS_KDF_SCHEME_KDF2 (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_KDF_SCHEME_KDF2 object initilized from its
+        """ Returns new TPMS_KDF_SCHEME_KDF2 object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KDF_SCHEME_KDF2)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_KDF_SCHEME_KDF2 object initilized from its
+        """ Returns new TPMS_KDF_SCHEME_KDF2 object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_KDF_SCHEME_KDF2)
@@ -7010,14 +6926,14 @@ class TPMS_KDF_SCHEME_KDF1_SP800_108 (TPMS_SCHEME_HASH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_108 object initilized from
+        """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_108 object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KDF_SCHEME_KDF1_SP800_108)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_108 object initilized from
+        """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_108 object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_KDF_SCHEME_KDF1_SP800_108)
@@ -7038,14 +6954,14 @@ class TPMS_NULL_KDF_SCHEME (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_NULL_KDF_SCHEME object initilized from its
+        """ Returns new TPMS_NULL_KDF_SCHEME object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_KDF_SCHEME)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_NULL_KDF_SCHEME object initilized from its
+        """ Returns new TPMS_NULL_KDF_SCHEME object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_NULL_KDF_SCHEME)
@@ -7070,7 +6986,7 @@ class TPMT_KDF_SCHEME (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.details: return
+        if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
     
@@ -7082,14 +6998,14 @@ class TPMT_KDF_SCHEME (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_KDF_SCHEME object initilized from its marshaled
+        """ Returns new TPMT_KDF_SCHEME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_KDF_SCHEME)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_KDF_SCHEME object initilized from its marshaled
+        """ Returns new TPMT_KDF_SCHEME object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_KDF_SCHEME)
@@ -7110,14 +7026,14 @@ class TPMS_NULL_ASYM_SCHEME (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_NULL_ASYM_SCHEME object initilized from its
+        """ Returns new TPMS_NULL_ASYM_SCHEME object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_ASYM_SCHEME)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_NULL_ASYM_SCHEME object initilized from its
+        """ Returns new TPMS_NULL_ASYM_SCHEME object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_NULL_ASYM_SCHEME)
@@ -7148,7 +7064,7 @@ class TPMT_ASYM_SCHEME (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.details: return
+        if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
     
@@ -7160,14 +7076,14 @@ class TPMT_ASYM_SCHEME (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_ASYM_SCHEME object initilized from its marshaled
+        """ Returns new TPMT_ASYM_SCHEME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_ASYM_SCHEME)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_ASYM_SCHEME object initilized from its marshaled
+        """ Returns new TPMT_ASYM_SCHEME object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_ASYM_SCHEME)
@@ -7195,7 +7111,7 @@ class TPMT_RSA_SCHEME (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.details: return
+        if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
     
@@ -7207,14 +7123,14 @@ class TPMT_RSA_SCHEME (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_RSA_SCHEME object initilized from its marshaled
+        """ Returns new TPMT_RSA_SCHEME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_RSA_SCHEME)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_RSA_SCHEME object initilized from its marshaled
+        """ Returns new TPMT_RSA_SCHEME object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_RSA_SCHEME)
@@ -7242,7 +7158,7 @@ class TPMT_RSA_DECRYPT (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.details: return
+        if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
     
@@ -7254,14 +7170,14 @@ class TPMT_RSA_DECRYPT (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_RSA_DECRYPT object initilized from its marshaled
+        """ Returns new TPMT_RSA_DECRYPT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_RSA_DECRYPT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_RSA_DECRYPT object initilized from its marshaled
+        """ Returns new TPMT_RSA_DECRYPT object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_RSA_DECRYPT)
@@ -7290,14 +7206,14 @@ class TPM2B_PUBLIC_KEY_RSA (TpmStructure, TPMU_PUBLIC_ID):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_PUBLIC_KEY_RSA object initilized from its
+        """ Returns new TPM2B_PUBLIC_KEY_RSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_PUBLIC_KEY_RSA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_PUBLIC_KEY_RSA object initilized from its
+        """ Returns new TPM2B_PUBLIC_KEY_RSA object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_PUBLIC_KEY_RSA)
@@ -7327,14 +7243,14 @@ class TPM2B_PRIVATE_KEY_RSA (TpmStructure, TPMU_SENSITIVE_COMPOSITE):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_PRIVATE_KEY_RSA object initilized from its
+        """ Returns new TPM2B_PRIVATE_KEY_RSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_PRIVATE_KEY_RSA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_PRIVATE_KEY_RSA object initilized from its
+        """ Returns new TPM2B_PRIVATE_KEY_RSA object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_PRIVATE_KEY_RSA)
@@ -7364,15 +7280,15 @@ class TPM2B_ECC_PARAMETER (TpmStructure, TPMU_SENSITIVE_COMPOSITE):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_ECC_PARAMETER object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new TPM2B_ECC_PARAMETER object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_ECC_PARAMETER)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_ECC_PARAMETER object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new TPM2B_ECC_PARAMETER object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_ECC_PARAMETER)
 # TPM2B_ECC_PARAMETER
@@ -7405,14 +7321,14 @@ class TPMS_ECC_POINT (TpmStructure, TPMU_PUBLIC_ID):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ECC_POINT object initilized from its marshaled
+        """ Returns new TPMS_ECC_POINT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ECC_POINT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ECC_POINT object initilized from its marshaled
+        """ Returns new TPMS_ECC_POINT object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ECC_POINT)
@@ -7438,14 +7354,14 @@ class TPM2B_ECC_POINT (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_ECC_POINT object initilized from its marshaled
+        """ Returns new TPM2B_ECC_POINT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_ECC_POINT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_ECC_POINT object initilized from its marshaled
+        """ Returns new TPM2B_ECC_POINT object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_ECC_POINT)
@@ -7473,7 +7389,7 @@ class TPMT_ECC_SCHEME (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.details: return
+        if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
     
@@ -7485,14 +7401,14 @@ class TPMT_ECC_SCHEME (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_ECC_SCHEME object initilized from its marshaled
+        """ Returns new TPMT_ECC_SCHEME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_ECC_SCHEME)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_ECC_SCHEME object initilized from its marshaled
+        """ Returns new TPMT_ECC_SCHEME object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_ECC_SCHEME)
@@ -7585,14 +7501,14 @@ class TPMS_ALGORITHM_DETAIL_ECC (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ALGORITHM_DETAIL_ECC object initilized from its
+        """ Returns new TPMS_ALGORITHM_DETAIL_ECC object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ALGORITHM_DETAIL_ECC)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ALGORITHM_DETAIL_ECC object initilized from its
+        """ Returns new TPMS_ALGORITHM_DETAIL_ECC object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ALGORITHM_DETAIL_ECC)
@@ -7626,14 +7542,14 @@ class TPMS_SIGNATURE_RSA (TpmStructure, TPMU_SIGNATURE):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIGNATURE_RSA object initilized from its marshaled
+        """ Returns new TPMS_SIGNATURE_RSA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_RSA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIGNATURE_RSA object initilized from its marshaled
+        """ Returns new TPMS_SIGNATURE_RSA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIGNATURE_RSA)
@@ -7656,14 +7572,14 @@ class TPMS_SIGNATURE_RSASSA (TPMS_SIGNATURE_RSA):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIGNATURE_RSASSA object initilized from its
+        """ Returns new TPMS_SIGNATURE_RSASSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_RSASSA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIGNATURE_RSASSA object initilized from its
+        """ Returns new TPMS_SIGNATURE_RSASSA object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIGNATURE_RSASSA)
@@ -7686,14 +7602,14 @@ class TPMS_SIGNATURE_RSAPSS (TPMS_SIGNATURE_RSA):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIGNATURE_RSAPSS object initilized from its
+        """ Returns new TPMS_SIGNATURE_RSAPSS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_RSAPSS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIGNATURE_RSAPSS object initilized from its
+        """ Returns new TPMS_SIGNATURE_RSAPSS object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIGNATURE_RSAPSS)
@@ -7731,14 +7647,14 @@ class TPMS_SIGNATURE_ECC (TpmStructure, TPMU_SIGNATURE):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIGNATURE_ECC object initilized from its marshaled
+        """ Returns new TPMS_SIGNATURE_ECC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_ECC)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIGNATURE_ECC object initilized from its marshaled
+        """ Returns new TPMS_SIGNATURE_ECC object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIGNATURE_ECC)
@@ -7762,14 +7678,14 @@ class TPMS_SIGNATURE_ECDSA (TPMS_SIGNATURE_ECC):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIGNATURE_ECDSA object initilized from its
+        """ Returns new TPMS_SIGNATURE_ECDSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_ECDSA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIGNATURE_ECDSA object initilized from its
+        """ Returns new TPMS_SIGNATURE_ECDSA object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIGNATURE_ECDSA)
@@ -7793,14 +7709,14 @@ class TPMS_SIGNATURE_ECDAA (TPMS_SIGNATURE_ECC):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIGNATURE_ECDAA object initilized from its
+        """ Returns new TPMS_SIGNATURE_ECDAA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_ECDAA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIGNATURE_ECDAA object initilized from its
+        """ Returns new TPMS_SIGNATURE_ECDAA object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIGNATURE_ECDAA)
@@ -7824,14 +7740,14 @@ class TPMS_SIGNATURE_SM2 (TPMS_SIGNATURE_ECC):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIGNATURE_SM2 object initilized from its marshaled
+        """ Returns new TPMS_SIGNATURE_SM2 object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_SM2)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIGNATURE_SM2 object initilized from its marshaled
+        """ Returns new TPMS_SIGNATURE_SM2 object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIGNATURE_SM2)
@@ -7855,14 +7771,14 @@ class TPMS_SIGNATURE_ECSCHNORR (TPMS_SIGNATURE_ECC):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SIGNATURE_ECSCHNORR object initilized from its
+        """ Returns new TPMS_SIGNATURE_ECSCHNORR object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_ECSCHNORR)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SIGNATURE_ECSCHNORR object initilized from its
+        """ Returns new TPMS_SIGNATURE_ECSCHNORR object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SIGNATURE_ECSCHNORR)
@@ -7883,15 +7799,15 @@ class TPMS_NULL_SIGNATURE (TPMS_NULL_UNION):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_NULL_SIGNATURE object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new TPMS_NULL_SIGNATURE object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_SIGNATURE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_NULL_SIGNATURE object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new TPMS_NULL_SIGNATURE object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_NULL_SIGNATURE)
 # TPMS_NULL_SIGNATURE
@@ -7921,7 +7837,7 @@ class TPMT_SIGNATURE (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.signature: return
+        if self.signature == None: return
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
     
@@ -7933,14 +7849,14 @@ class TPMT_SIGNATURE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_SIGNATURE object initilized from its marshaled
+        """ Returns new TPMT_SIGNATURE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_SIGNATURE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_SIGNATURE object initilized from its marshaled
+        """ Returns new TPMT_SIGNATURE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_SIGNATURE)
@@ -7965,14 +7881,14 @@ class TPM2B_ENCRYPTED_SECRET (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_ENCRYPTED_SECRET object initilized from its
+        """ Returns new TPM2B_ENCRYPTED_SECRET object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_ENCRYPTED_SECRET)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_ENCRYPTED_SECRET object initilized from its
+        """ Returns new TPM2B_ENCRYPTED_SECRET object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_ENCRYPTED_SECRET)
@@ -8004,7 +7920,7 @@ class TPMS_KEYEDHASH_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.scheme: return
+        if self.scheme == None: return
         buf.writeShort(self.scheme.GetUnionSelector())
         self.scheme.toTpm(buf)
     
@@ -8016,14 +7932,14 @@ class TPMS_KEYEDHASH_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_KEYEDHASH_PARMS object initilized from its
+        """ Returns new TPMS_KEYEDHASH_PARMS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KEYEDHASH_PARMS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_KEYEDHASH_PARMS object initilized from its
+        """ Returns new TPMS_KEYEDHASH_PARMS object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_KEYEDHASH_PARMS)
@@ -8079,14 +7995,14 @@ class TPMS_ASYM_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ASYM_PARMS object initilized from its marshaled
+        """ Returns new TPMS_ASYM_PARMS object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ASYM_PARMS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ASYM_PARMS object initilized from its marshaled
+        """ Returns new TPMS_ASYM_PARMS object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ASYM_PARMS)
@@ -8158,14 +8074,14 @@ class TPMS_RSA_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_RSA_PARMS object initilized from its marshaled
+        """ Returns new TPMS_RSA_PARMS object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_RSA_PARMS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_RSA_PARMS object initilized from its marshaled
+        """ Returns new TPMS_RSA_PARMS object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_RSA_PARMS)
@@ -8246,14 +8162,14 @@ class TPMS_ECC_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ECC_PARMS object initilized from its marshaled
+        """ Returns new TPMS_ECC_PARMS object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ECC_PARMS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ECC_PARMS object initilized from its marshaled
+        """ Returns new TPMS_ECC_PARMS object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ECC_PARMS)
@@ -8278,7 +8194,7 @@ class TPMT_PUBLIC_PARMS (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.parameters: return
+        if self.parameters == None: return
         buf.writeShort(self.parameters.GetUnionSelector())
         self.parameters.toTpm(buf)
     
@@ -8290,14 +8206,14 @@ class TPMT_PUBLIC_PARMS (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_PUBLIC_PARMS object initilized from its marshaled
+        """ Returns new TPMT_PUBLIC_PARMS object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_PUBLIC_PARMS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_PUBLIC_PARMS object initilized from its marshaled
+        """ Returns new TPMT_PUBLIC_PARMS object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_PUBLIC_PARMS)
@@ -8338,7 +8254,7 @@ class TPMT_PUBLIC (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.parameters: return
+        if self.parameters == None: return
         buf.writeShort(self.parameters.GetUnionSelector())
         buf.writeShort(self.nameAlg)
         buf.writeInt(self.objectAttributes)
@@ -8359,14 +8275,14 @@ class TPMT_PUBLIC (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_PUBLIC object initilized from its marshaled
+        """ Returns new TPMT_PUBLIC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_PUBLIC)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_PUBLIC object initilized from its marshaled
+        """ Returns new TPMT_PUBLIC object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_PUBLIC)
@@ -8402,14 +8318,14 @@ class TPM2B_PUBLIC (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_PUBLIC object initilized from its marshaled
+        """ Returns new TPM2B_PUBLIC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_PUBLIC)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_PUBLIC object initilized from its marshaled
+        """ Returns new TPM2B_PUBLIC object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_PUBLIC)
@@ -8434,14 +8350,14 @@ class TPM2B_TEMPLATE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_TEMPLATE object initilized from its marshaled
+        """ Returns new TPM2B_TEMPLATE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_TEMPLATE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_TEMPLATE object initilized from its marshaled
+        """ Returns new TPM2B_TEMPLATE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_TEMPLATE)
@@ -8476,15 +8392,15 @@ class TPM2B_PRIVATE_VENDOR_SPECIFIC (TpmStructure, TPMU_SENSITIVE_COMPOSITE):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_PRIVATE_VENDOR_SPECIFIC object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2B_PRIVATE_VENDOR_SPECIFIC object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_PRIVATE_VENDOR_SPECIFIC)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_PRIVATE_VENDOR_SPECIFIC object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new TPM2B_PRIVATE_VENDOR_SPECIFIC object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_PRIVATE_VENDOR_SPECIFIC)
 # TPM2B_PRIVATE_VENDOR_SPECIFIC
@@ -8517,7 +8433,7 @@ class TPMT_SENSITIVE (TpmStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.sensitive: return
+        if self.sensitive == None: return
         buf.writeShort(self.sensitive.GetUnionSelector())
         buf.writeSizedByteBuf(self.authValue)
         buf.writeSizedByteBuf(self.seedValue)
@@ -8533,14 +8449,14 @@ class TPMT_SENSITIVE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMT_SENSITIVE object initilized from its marshaled
+        """ Returns new TPMT_SENSITIVE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_SENSITIVE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMT_SENSITIVE object initilized from its marshaled
+        """ Returns new TPMT_SENSITIVE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_SENSITIVE)
@@ -8567,14 +8483,14 @@ class TPM2B_SENSITIVE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_SENSITIVE object initilized from its marshaled
+        """ Returns new TPM2B_SENSITIVE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_SENSITIVE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_SENSITIVE object initilized from its marshaled
+        """ Returns new TPM2B_SENSITIVE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_SENSITIVE)
@@ -8608,14 +8524,14 @@ class _PRIVATE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new _PRIVATE object initilized from its marshaled
+        """ Returns new _PRIVATE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(_PRIVATE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new _PRIVATE object initilized from its marshaled
+        """ Returns new _PRIVATE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(_PRIVATE)
@@ -8641,14 +8557,14 @@ class TPM2B_PRIVATE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_PRIVATE object initilized from its marshaled
+        """ Returns new TPM2B_PRIVATE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_PRIVATE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_PRIVATE object initilized from its marshaled
+        """ Returns new TPM2B_PRIVATE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_PRIVATE)
@@ -8684,14 +8600,14 @@ class TPMS_ID_OBJECT (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_ID_OBJECT object initilized from its marshaled
+        """ Returns new TPMS_ID_OBJECT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ID_OBJECT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_ID_OBJECT object initilized from its marshaled
+        """ Returns new TPMS_ID_OBJECT object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_ID_OBJECT)
@@ -8717,14 +8633,14 @@ class TPM2B_ID_OBJECT (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_ID_OBJECT object initilized from its marshaled
+        """ Returns new TPM2B_ID_OBJECT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_ID_OBJECT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_ID_OBJECT object initilized from its marshaled
+        """ Returns new TPM2B_ID_OBJECT object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_ID_OBJECT)
@@ -8760,14 +8676,14 @@ class TPMS_NV_PIN_COUNTER_PARAMETERS (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_NV_PIN_COUNTER_PARAMETERS object initilized from
+        """ Returns new TPMS_NV_PIN_COUNTER_PARAMETERS object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NV_PIN_COUNTER_PARAMETERS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_NV_PIN_COUNTER_PARAMETERS object initilized from
+        """ Returns new TPMS_NV_PIN_COUNTER_PARAMETERS object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_NV_PIN_COUNTER_PARAMETERS)
@@ -8814,14 +8730,14 @@ class TPMS_NV_PUBLIC (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_NV_PUBLIC object initilized from its marshaled
+        """ Returns new TPMS_NV_PUBLIC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NV_PUBLIC)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_NV_PUBLIC object initilized from its marshaled
+        """ Returns new TPMS_NV_PUBLIC object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_NV_PUBLIC)
@@ -8846,14 +8762,14 @@ class TPM2B_NV_PUBLIC (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_NV_PUBLIC object initilized from its marshaled
+        """ Returns new TPM2B_NV_PUBLIC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_NV_PUBLIC)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_NV_PUBLIC object initilized from its marshaled
+        """ Returns new TPM2B_NV_PUBLIC object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_NV_PUBLIC)
@@ -8879,14 +8795,14 @@ class TPM2B_CONTEXT_SENSITIVE (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_CONTEXT_SENSITIVE object initilized from its
+        """ Returns new TPM2B_CONTEXT_SENSITIVE object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_CONTEXT_SENSITIVE)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_CONTEXT_SENSITIVE object initilized from its
+        """ Returns new TPM2B_CONTEXT_SENSITIVE object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_CONTEXT_SENSITIVE)
@@ -8916,14 +8832,14 @@ class TPMS_CONTEXT_DATA (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_CONTEXT_DATA object initilized from its marshaled
+        """ Returns new TPMS_CONTEXT_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CONTEXT_DATA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_CONTEXT_DATA object initilized from its marshaled
+        """ Returns new TPMS_CONTEXT_DATA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_CONTEXT_DATA)
@@ -8948,14 +8864,14 @@ class TPM2B_CONTEXT_DATA (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_CONTEXT_DATA object initilized from its marshaled
+        """ Returns new TPM2B_CONTEXT_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_CONTEXT_DATA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_CONTEXT_DATA object initilized from its marshaled
+        """ Returns new TPM2B_CONTEXT_DATA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_CONTEXT_DATA)
@@ -8999,14 +8915,14 @@ class TPMS_CONTEXT (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_CONTEXT object initilized from its marshaled
+        """ Returns new TPMS_CONTEXT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CONTEXT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_CONTEXT object initilized from its marshaled
+        """ Returns new TPMS_CONTEXT object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_CONTEXT)
@@ -9071,14 +8987,14 @@ class TPMS_CREATION_DATA (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_CREATION_DATA object initilized from its marshaled
+        """ Returns new TPMS_CREATION_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CREATION_DATA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_CREATION_DATA object initilized from its marshaled
+        """ Returns new TPMS_CREATION_DATA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_CREATION_DATA)
@@ -9104,15 +9020,15 @@ class TPM2B_CREATION_DATA (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_CREATION_DATA object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new TPM2B_CREATION_DATA object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_CREATION_DATA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_CREATION_DATA object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new TPM2B_CREATION_DATA object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_CREATION_DATA)
 # TPM2B_CREATION_DATA
@@ -9141,14 +9057,14 @@ class TPMS_AC_OUTPUT (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_AC_OUTPUT object initilized from its marshaled
+        """ Returns new TPMS_AC_OUTPUT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_AC_OUTPUT)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_AC_OUTPUT object initilized from its marshaled
+        """ Returns new TPMS_AC_OUTPUT object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_AC_OUTPUT)
@@ -9173,14 +9089,14 @@ class TPML_AC_CAPABILITIES (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPML_AC_CAPABILITIES object initilized from its
+        """ Returns new TPML_AC_CAPABILITIES object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_AC_CAPABILITIES)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPML_AC_CAPABILITIES object initilized from its
+        """ Returns new TPML_AC_CAPABILITIES object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPML_AC_CAPABILITIES)
@@ -9211,14 +9127,14 @@ class TPM2_Startup_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Startup_REQUEST object initilized from its
+        """ Returns new TPM2_Startup_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Startup_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Startup_REQUEST object initilized from its
+        """ Returns new TPM2_Startup_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Startup_REQUEST)
@@ -9245,14 +9161,14 @@ class TPM2_Shutdown_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Shutdown_REQUEST object initilized from its
+        """ Returns new TPM2_Shutdown_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Shutdown_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Shutdown_REQUEST object initilized from its
+        """ Returns new TPM2_Shutdown_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Shutdown_REQUEST)
@@ -9281,14 +9197,14 @@ class TPM2_SelfTest_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_SelfTest_REQUEST object initilized from its
+        """ Returns new TPM2_SelfTest_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SelfTest_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_SelfTest_REQUEST object initilized from its
+        """ Returns new TPM2_SelfTest_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_SelfTest_REQUEST)
@@ -9313,14 +9229,14 @@ class TPM2_IncrementalSelfTest_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_IncrementalSelfTest_REQUEST object initilized from
+        """ Returns new TPM2_IncrementalSelfTest_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_IncrementalSelfTest_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_IncrementalSelfTest_REQUEST object initilized from
+        """ Returns new TPM2_IncrementalSelfTest_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_IncrementalSelfTest_REQUEST)
@@ -9347,14 +9263,14 @@ class IncrementalSelfTestResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new IncrementalSelfTestResponse object initilized from its
+        """ Returns new IncrementalSelfTestResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(IncrementalSelfTestResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new IncrementalSelfTestResponse object initilized from its
+        """ Returns new IncrementalSelfTestResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(IncrementalSelfTestResponse)
@@ -9371,14 +9287,14 @@ class TPM2_GetTestResult_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_GetTestResult_REQUEST object initilized from its
+        """ Returns new TPM2_GetTestResult_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetTestResult_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_GetTestResult_REQUEST object initilized from its
+        """ Returns new TPM2_GetTestResult_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_GetTestResult_REQUEST)
@@ -9409,14 +9325,14 @@ class GetTestResultResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new GetTestResultResponse object initilized from its
+        """ Returns new GetTestResultResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetTestResultResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new GetTestResultResponse object initilized from its
+        """ Returns new GetTestResultResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(GetTestResultResponse)
@@ -9476,15 +9392,15 @@ class TPM2_StartAuthSession_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_StartAuthSession_REQUEST object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_StartAuthSession_REQUEST object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_StartAuthSession_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_StartAuthSession_REQUEST object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new TPM2_StartAuthSession_REQUEST object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_StartAuthSession_REQUEST)
     
@@ -9522,14 +9438,14 @@ class StartAuthSessionResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new StartAuthSessionResponse object initilized from its
+        """ Returns new StartAuthSessionResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(StartAuthSessionResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new StartAuthSessionResponse object initilized from its
+        """ Returns new StartAuthSessionResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(StartAuthSessionResponse)
@@ -9560,14 +9476,14 @@ class TPM2_PolicyRestart_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyRestart_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyRestart_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyRestart_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyRestart_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyRestart_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyRestart_REQUEST)
@@ -9624,15 +9540,15 @@ class TPM2_Create_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Create_REQUEST object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new TPM2_Create_REQUEST object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Create_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Create_REQUEST object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new TPM2_Create_REQUEST object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Create_REQUEST)
     
@@ -9690,14 +9606,14 @@ class CreateResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new CreateResponse object initilized from its marshaled
+        """ Returns new CreateResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(CreateResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new CreateResponse object initilized from its marshaled
+        """ Returns new CreateResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CreateResponse)
@@ -9733,14 +9649,14 @@ class TPM2_Load_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Load_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_Load_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Load_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Load_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_Load_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Load_REQUEST)
@@ -9775,14 +9691,14 @@ class LoadResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new LoadResponse object initilized from its marshaled
+        """ Returns new LoadResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(LoadResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new LoadResponse object initilized from its marshaled
+        """ Returns new LoadResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(LoadResponse)
@@ -9825,14 +9741,14 @@ class TPM2_LoadExternal_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_LoadExternal_REQUEST object initilized from its
+        """ Returns new TPM2_LoadExternal_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_LoadExternal_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_LoadExternal_REQUEST object initilized from its
+        """ Returns new TPM2_LoadExternal_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_LoadExternal_REQUEST)
@@ -9863,14 +9779,14 @@ class LoadExternalResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new LoadExternalResponse object initilized from its
+        """ Returns new LoadExternalResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(LoadExternalResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new LoadExternalResponse object initilized from its
+        """ Returns new LoadExternalResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(LoadExternalResponse)
@@ -9896,14 +9812,14 @@ class TPM2_ReadPublic_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ReadPublic_REQUEST object initilized from its
+        """ Returns new TPM2_ReadPublic_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ReadPublic_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ReadPublic_REQUEST object initilized from its
+        """ Returns new TPM2_ReadPublic_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ReadPublic_REQUEST)
@@ -9942,14 +9858,14 @@ class ReadPublicResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ReadPublicResponse object initilized from its marshaled
+        """ Returns new ReadPublicResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(ReadPublicResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ReadPublicResponse object initilized from its marshaled
+        """ Returns new ReadPublicResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ReadPublicResponse)
@@ -9993,14 +9909,14 @@ class TPM2_ActivateCredential_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ActivateCredential_REQUEST object initilized from
+        """ Returns new TPM2_ActivateCredential_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ActivateCredential_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ActivateCredential_REQUEST object initilized from
+        """ Returns new TPM2_ActivateCredential_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ActivateCredential_REQUEST)
@@ -10037,14 +9953,14 @@ class ActivateCredentialResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ActivateCredentialResponse object initilized from its
+        """ Returns new ActivateCredentialResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ActivateCredentialResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ActivateCredentialResponse object initilized from its
+        """ Returns new ActivateCredentialResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ActivateCredentialResponse)
@@ -10081,14 +9997,14 @@ class TPM2_MakeCredential_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_MakeCredential_REQUEST object initilized from its
+        """ Returns new TPM2_MakeCredential_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_MakeCredential_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_MakeCredential_REQUEST object initilized from its
+        """ Returns new TPM2_MakeCredential_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_MakeCredential_REQUEST)
@@ -10128,14 +10044,14 @@ class MakeCredentialResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new MakeCredentialResponse object initilized from its
+        """ Returns new MakeCredentialResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(MakeCredentialResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new MakeCredentialResponse object initilized from its
+        """ Returns new MakeCredentialResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(MakeCredentialResponse)
@@ -10156,15 +10072,15 @@ class TPM2_Unseal_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Unseal_REQUEST object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new TPM2_Unseal_REQUEST object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Unseal_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Unseal_REQUEST object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new TPM2_Unseal_REQUEST object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Unseal_REQUEST)
     
@@ -10195,14 +10111,14 @@ class UnsealResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new UnsealResponse object initilized from its marshaled
+        """ Returns new UnsealResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(UnsealResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new UnsealResponse object initilized from its marshaled
+        """ Returns new UnsealResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(UnsealResponse)
@@ -10237,15 +10153,15 @@ class TPM2_ObjectChangeAuth_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ObjectChangeAuth_REQUEST object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_ObjectChangeAuth_REQUEST object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ObjectChangeAuth_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ObjectChangeAuth_REQUEST object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new TPM2_ObjectChangeAuth_REQUEST object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ObjectChangeAuth_REQUEST)
     
@@ -10279,14 +10195,14 @@ class ObjectChangeAuthResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ObjectChangeAuthResponse object initilized from its
+        """ Returns new ObjectChangeAuthResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ObjectChangeAuthResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ObjectChangeAuthResponse object initilized from its
+        """ Returns new ObjectChangeAuthResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ObjectChangeAuthResponse)
@@ -10328,14 +10244,14 @@ class TPM2_CreateLoaded_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_CreateLoaded_REQUEST object initilized from its
+        """ Returns new TPM2_CreateLoaded_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_CreateLoaded_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_CreateLoaded_REQUEST object initilized from its
+        """ Returns new TPM2_CreateLoaded_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_CreateLoaded_REQUEST)
@@ -10384,14 +10300,14 @@ class CreateLoadedResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new CreateLoadedResponse object initilized from its
+        """ Returns new CreateLoadedResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(CreateLoadedResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new CreateLoadedResponse object initilized from its
+        """ Returns new CreateLoadedResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CreateLoadedResponse)
@@ -10441,14 +10357,14 @@ class TPM2_Duplicate_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Duplicate_REQUEST object initilized from its
+        """ Returns new TPM2_Duplicate_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Duplicate_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Duplicate_REQUEST object initilized from its
+        """ Returns new TPM2_Duplicate_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Duplicate_REQUEST)
@@ -10497,14 +10413,14 @@ class DuplicateResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new DuplicateResponse object initilized from its marshaled
+        """ Returns new DuplicateResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(DuplicateResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new DuplicateResponse object initilized from its marshaled
+        """ Returns new DuplicateResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(DuplicateResponse)
@@ -10556,15 +10472,15 @@ class TPM2_Rewrap_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Rewrap_REQUEST object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new TPM2_Rewrap_REQUEST object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Rewrap_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Rewrap_REQUEST object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new TPM2_Rewrap_REQUEST object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Rewrap_REQUEST)
     
@@ -10607,14 +10523,14 @@ class RewrapResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new RewrapResponse object initilized from its marshaled
+        """ Returns new RewrapResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(RewrapResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new RewrapResponse object initilized from its marshaled
+        """ Returns new RewrapResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(RewrapResponse)
@@ -10675,15 +10591,15 @@ class TPM2_Import_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Import_REQUEST object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new TPM2_Import_REQUEST object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Import_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Import_REQUEST object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new TPM2_Import_REQUEST object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Import_REQUEST)
     
@@ -10719,14 +10635,14 @@ class ImportResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ImportResponse object initilized from its marshaled
+        """ Returns new ImportResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(ImportResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ImportResponse object initilized from its marshaled
+        """ Returns new ImportResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ImportResponse)
@@ -10787,14 +10703,14 @@ class TPM2_RSA_Encrypt_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_RSA_Encrypt_REQUEST object initilized from its
+        """ Returns new TPM2_RSA_Encrypt_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_RSA_Encrypt_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_RSA_Encrypt_REQUEST object initilized from its
+        """ Returns new TPM2_RSA_Encrypt_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_RSA_Encrypt_REQUEST)
@@ -10831,15 +10747,15 @@ class RSA_EncryptResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new RSA_EncryptResponse object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new RSA_EncryptResponse object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(RSA_EncryptResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new RSA_EncryptResponse object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new RSA_EncryptResponse object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(RSA_EncryptResponse)
     
@@ -10894,14 +10810,14 @@ class TPM2_RSA_Decrypt_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_RSA_Decrypt_REQUEST object initilized from its
+        """ Returns new TPM2_RSA_Decrypt_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_RSA_Decrypt_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_RSA_Decrypt_REQUEST object initilized from its
+        """ Returns new TPM2_RSA_Decrypt_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_RSA_Decrypt_REQUEST)
@@ -10935,15 +10851,15 @@ class RSA_DecryptResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new RSA_DecryptResponse object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new RSA_DecryptResponse object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(RSA_DecryptResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new RSA_DecryptResponse object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new RSA_DecryptResponse object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(RSA_DecryptResponse)
     
@@ -10964,14 +10880,14 @@ class TPM2_ECDH_KeyGen_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ECDH_KeyGen_REQUEST object initilized from its
+        """ Returns new TPM2_ECDH_KeyGen_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ECDH_KeyGen_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ECDH_KeyGen_REQUEST object initilized from its
+        """ Returns new TPM2_ECDH_KeyGen_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ECDH_KeyGen_REQUEST)
@@ -11008,15 +10924,15 @@ class ECDH_KeyGenResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ECDH_KeyGenResponse object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new ECDH_KeyGenResponse object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ECDH_KeyGenResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ECDH_KeyGenResponse object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new ECDH_KeyGenResponse object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ECDH_KeyGenResponse)
     
@@ -11050,14 +10966,14 @@ class TPM2_ECDH_ZGen_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ECDH_ZGen_REQUEST object initilized from its
+        """ Returns new TPM2_ECDH_ZGen_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ECDH_ZGen_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ECDH_ZGen_REQUEST object initilized from its
+        """ Returns new TPM2_ECDH_ZGen_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ECDH_ZGen_REQUEST)
@@ -11095,14 +11011,14 @@ class ECDH_ZGenResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ECDH_ZGenResponse object initilized from its marshaled
+        """ Returns new ECDH_ZGenResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(ECDH_ZGenResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ECDH_ZGenResponse object initilized from its marshaled
+        """ Returns new ECDH_ZGenResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ECDH_ZGenResponse)
@@ -11130,14 +11046,14 @@ class TPM2_ECC_Parameters_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ECC_Parameters_REQUEST object initilized from its
+        """ Returns new TPM2_ECC_Parameters_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ECC_Parameters_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ECC_Parameters_REQUEST object initilized from its
+        """ Returns new TPM2_ECC_Parameters_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ECC_Parameters_REQUEST)
@@ -11164,14 +11080,14 @@ class ECC_ParametersResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ECC_ParametersResponse object initilized from its
+        """ Returns new ECC_ParametersResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ECC_ParametersResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ECC_ParametersResponse object initilized from its
+        """ Returns new ECC_ParametersResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ECC_ParametersResponse)
@@ -11219,14 +11135,14 @@ class TPM2_ZGen_2Phase_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ZGen_2Phase_REQUEST object initilized from its
+        """ Returns new TPM2_ZGen_2Phase_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ZGen_2Phase_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ZGen_2Phase_REQUEST object initilized from its
+        """ Returns new TPM2_ZGen_2Phase_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ZGen_2Phase_REQUEST)
@@ -11269,15 +11185,15 @@ class ZGen_2PhaseResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ZGen_2PhaseResponse object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new ZGen_2PhaseResponse object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ZGen_2PhaseResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ZGen_2PhaseResponse object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new ZGen_2PhaseResponse object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ZGen_2PhaseResponse)
     
@@ -11323,14 +11239,14 @@ class TPM2_ECC_Encrypt_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ECC_Encrypt_REQUEST object initilized from its
+        """ Returns new TPM2_ECC_Encrypt_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ECC_Encrypt_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ECC_Encrypt_REQUEST object initilized from its
+        """ Returns new TPM2_ECC_Encrypt_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ECC_Encrypt_REQUEST)
@@ -11371,15 +11287,15 @@ class ECC_EncryptResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ECC_EncryptResponse object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new ECC_EncryptResponse object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ECC_EncryptResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ECC_EncryptResponse object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new ECC_EncryptResponse object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ECC_EncryptResponse)
     
@@ -11433,14 +11349,14 @@ class TPM2_ECC_Decrypt_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ECC_Decrypt_REQUEST object initilized from its
+        """ Returns new TPM2_ECC_Decrypt_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ECC_Decrypt_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ECC_Decrypt_REQUEST object initilized from its
+        """ Returns new TPM2_ECC_Decrypt_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ECC_Decrypt_REQUEST)
@@ -11473,15 +11389,15 @@ class ECC_DecryptResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ECC_DecryptResponse object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new ECC_DecryptResponse object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ECC_DecryptResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ECC_DecryptResponse object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new ECC_DecryptResponse object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ECC_DecryptResponse)
     
@@ -11526,14 +11442,14 @@ class TPM2_EncryptDecrypt_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_EncryptDecrypt_REQUEST object initilized from its
+        """ Returns new TPM2_EncryptDecrypt_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_EncryptDecrypt_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_EncryptDecrypt_REQUEST object initilized from its
+        """ Returns new TPM2_EncryptDecrypt_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_EncryptDecrypt_REQUEST)
@@ -11569,14 +11485,14 @@ class EncryptDecryptResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new EncryptDecryptResponse object initilized from its
+        """ Returns new EncryptDecryptResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(EncryptDecryptResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new EncryptDecryptResponse object initilized from its
+        """ Returns new EncryptDecryptResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(EncryptDecryptResponse)
@@ -11623,14 +11539,14 @@ class TPM2_EncryptDecrypt2_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_EncryptDecrypt2_REQUEST object initilized from its
+        """ Returns new TPM2_EncryptDecrypt2_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_EncryptDecrypt2_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_EncryptDecrypt2_REQUEST object initilized from its
+        """ Returns new TPM2_EncryptDecrypt2_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_EncryptDecrypt2_REQUEST)
@@ -11669,14 +11585,14 @@ class EncryptDecrypt2Response (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new EncryptDecrypt2Response object initilized from its
+        """ Returns new EncryptDecrypt2Response object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(EncryptDecrypt2Response)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new EncryptDecrypt2Response object initilized from its
+        """ Returns new EncryptDecrypt2Response object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(EncryptDecrypt2Response)
@@ -11714,14 +11630,14 @@ class TPM2_Hash_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Hash_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_Hash_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Hash_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Hash_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_Hash_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Hash_REQUEST)
@@ -11757,14 +11673,14 @@ class HashResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new HashResponse object initilized from its marshaled
+        """ Returns new HashResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(HashResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new HashResponse object initilized from its marshaled
+        """ Returns new HashResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(HashResponse)
@@ -11801,14 +11717,14 @@ class TPM2_HMAC_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_HMAC_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_HMAC_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_HMAC_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_HMAC_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_HMAC_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_HMAC_REQUEST)
@@ -11842,14 +11758,14 @@ class HMACResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new HMACResponse object initilized from its marshaled
+        """ Returns new HMACResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(HMACResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new HMACResponse object initilized from its marshaled
+        """ Returns new HMACResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(HMACResponse)
@@ -11886,14 +11802,14 @@ class TPM2_MAC_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_MAC_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_MAC_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_MAC_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_MAC_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_MAC_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_MAC_REQUEST)
@@ -11927,14 +11843,14 @@ class MACResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new MACResponse object initilized from its marshaled
+        """ Returns new MACResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(MACResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new MACResponse object initilized from its marshaled
+        """ Returns new MACResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(MACResponse)
@@ -11962,14 +11878,14 @@ class TPM2_GetRandom_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_GetRandom_REQUEST object initilized from its
+        """ Returns new TPM2_GetRandom_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetRandom_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_GetRandom_REQUEST object initilized from its
+        """ Returns new TPM2_GetRandom_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_GetRandom_REQUEST)
@@ -11995,14 +11911,14 @@ class GetRandomResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new GetRandomResponse object initilized from its marshaled
+        """ Returns new GetRandomResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetRandomResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new GetRandomResponse object initilized from its marshaled
+        """ Returns new GetRandomResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(GetRandomResponse)
@@ -12029,14 +11945,14 @@ class TPM2_StirRandom_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_StirRandom_REQUEST object initilized from its
+        """ Returns new TPM2_StirRandom_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_StirRandom_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_StirRandom_REQUEST object initilized from its
+        """ Returns new TPM2_StirRandom_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_StirRandom_REQUEST)
@@ -12073,14 +11989,14 @@ class TPM2_HMAC_Start_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_HMAC_Start_REQUEST object initilized from its
+        """ Returns new TPM2_HMAC_Start_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_HMAC_Start_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_HMAC_Start_REQUEST object initilized from its
+        """ Returns new TPM2_HMAC_Start_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_HMAC_Start_REQUEST)
@@ -12107,14 +12023,14 @@ class HMAC_StartResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new HMAC_StartResponse object initilized from its marshaled
+        """ Returns new HMAC_StartResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(HMAC_StartResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new HMAC_StartResponse object initilized from its marshaled
+        """ Returns new HMAC_StartResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(HMAC_StartResponse)
@@ -12155,14 +12071,14 @@ class TPM2_MAC_Start_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_MAC_Start_REQUEST object initilized from its
+        """ Returns new TPM2_MAC_Start_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_MAC_Start_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_MAC_Start_REQUEST object initilized from its
+        """ Returns new TPM2_MAC_Start_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_MAC_Start_REQUEST)
@@ -12189,14 +12105,14 @@ class MAC_StartResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new MAC_StartResponse object initilized from its marshaled
+        """ Returns new MAC_StartResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(MAC_StartResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new MAC_StartResponse object initilized from its marshaled
+        """ Returns new MAC_StartResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(MAC_StartResponse)
@@ -12236,14 +12152,14 @@ class TPM2_HashSequenceStart_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_HashSequenceStart_REQUEST object initilized from
+        """ Returns new TPM2_HashSequenceStart_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_HashSequenceStart_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_HashSequenceStart_REQUEST object initilized from
+        """ Returns new TPM2_HashSequenceStart_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_HashSequenceStart_REQUEST)
@@ -12266,14 +12182,14 @@ class HashSequenceStartResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new HashSequenceStartResponse object initilized from its
+        """ Returns new HashSequenceStartResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(HashSequenceStartResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new HashSequenceStartResponse object initilized from its
+        """ Returns new HashSequenceStartResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(HashSequenceStartResponse)
@@ -12309,14 +12225,14 @@ class TPM2_SequenceUpdate_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_SequenceUpdate_REQUEST object initilized from its
+        """ Returns new TPM2_SequenceUpdate_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SequenceUpdate_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_SequenceUpdate_REQUEST object initilized from its
+        """ Returns new TPM2_SequenceUpdate_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_SequenceUpdate_REQUEST)
@@ -12358,15 +12274,15 @@ class TPM2_SequenceComplete_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_SequenceComplete_REQUEST object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_SequenceComplete_REQUEST object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SequenceComplete_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_SequenceComplete_REQUEST object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new TPM2_SequenceComplete_REQUEST object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_SequenceComplete_REQUEST)
     
@@ -12406,14 +12322,14 @@ class SequenceCompleteResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new SequenceCompleteResponse object initilized from its
+        """ Returns new SequenceCompleteResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(SequenceCompleteResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new SequenceCompleteResponse object initilized from its
+        """ Returns new SequenceCompleteResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(SequenceCompleteResponse)
@@ -12453,14 +12369,14 @@ class TPM2_EventSequenceComplete_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_EventSequenceComplete_REQUEST object initilized
+        """ Returns new TPM2_EventSequenceComplete_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_EventSequenceComplete_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_EventSequenceComplete_REQUEST object initilized
+        """ Returns new TPM2_EventSequenceComplete_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_EventSequenceComplete_REQUEST)
@@ -12498,15 +12414,15 @@ class EventSequenceCompleteResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new EventSequenceCompleteResponse object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new EventSequenceCompleteResponse object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(EventSequenceCompleteResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new EventSequenceCompleteResponse object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new EventSequenceCompleteResponse object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(EventSequenceCompleteResponse)
     
@@ -12563,14 +12479,14 @@ class TPM2_Certify_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Certify_REQUEST object initilized from its
+        """ Returns new TPM2_Certify_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Certify_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Certify_REQUEST object initilized from its
+        """ Returns new TPM2_Certify_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Certify_REQUEST)
@@ -12625,14 +12541,14 @@ class CertifyResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new CertifyResponse object initilized from its marshaled
+        """ Returns new CertifyResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(CertifyResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new CertifyResponse object initilized from its marshaled
+        """ Returns new CertifyResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CertifyResponse)
@@ -12697,14 +12613,14 @@ class TPM2_CertifyCreation_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_CertifyCreation_REQUEST object initilized from its
+        """ Returns new TPM2_CertifyCreation_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_CertifyCreation_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_CertifyCreation_REQUEST object initilized from its
+        """ Returns new TPM2_CertifyCreation_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_CertifyCreation_REQUEST)
@@ -12756,14 +12672,14 @@ class CertifyCreationResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new CertifyCreationResponse object initilized from its
+        """ Returns new CertifyCreationResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(CertifyCreationResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new CertifyCreationResponse object initilized from its
+        """ Returns new CertifyCreationResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CertifyCreationResponse)
@@ -12815,14 +12731,14 @@ class TPM2_Quote_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Quote_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_Quote_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Quote_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Quote_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_Quote_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Quote_REQUEST)
@@ -12871,14 +12787,14 @@ class QuoteResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new QuoteResponse object initilized from its marshaled
+        """ Returns new QuoteResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(QuoteResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new QuoteResponse object initilized from its marshaled
+        """ Returns new QuoteResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(QuoteResponse)
@@ -12934,14 +12850,14 @@ class TPM2_GetSessionAuditDigest_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_GetSessionAuditDigest_REQUEST object initilized
+        """ Returns new TPM2_GetSessionAuditDigest_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetSessionAuditDigest_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_GetSessionAuditDigest_REQUEST object initilized
+        """ Returns new TPM2_GetSessionAuditDigest_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_GetSessionAuditDigest_REQUEST)
@@ -12990,15 +12906,15 @@ class GetSessionAuditDigestResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new GetSessionAuditDigestResponse object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new GetSessionAuditDigestResponse object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetSessionAuditDigestResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new GetSessionAuditDigestResponse object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new GetSessionAuditDigestResponse object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(GetSessionAuditDigestResponse)
     
@@ -13053,14 +12969,14 @@ class TPM2_GetCommandAuditDigest_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_GetCommandAuditDigest_REQUEST object initilized
+        """ Returns new TPM2_GetCommandAuditDigest_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetCommandAuditDigest_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_GetCommandAuditDigest_REQUEST object initilized
+        """ Returns new TPM2_GetCommandAuditDigest_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_GetCommandAuditDigest_REQUEST)
@@ -13112,15 +13028,15 @@ class GetCommandAuditDigestResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new GetCommandAuditDigestResponse object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new GetCommandAuditDigestResponse object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetCommandAuditDigestResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new GetCommandAuditDigestResponse object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new GetCommandAuditDigestResponse object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(GetCommandAuditDigestResponse)
     
@@ -13173,14 +13089,14 @@ class TPM2_GetTime_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_GetTime_REQUEST object initilized from its
+        """ Returns new TPM2_GetTime_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetTime_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_GetTime_REQUEST object initilized from its
+        """ Returns new TPM2_GetTime_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_GetTime_REQUEST)
@@ -13229,14 +13145,14 @@ class GetTimeResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new GetTimeResponse object initilized from its marshaled
+        """ Returns new GetTimeResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetTimeResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new GetTimeResponse object initilized from its marshaled
+        """ Returns new GetTimeResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(GetTimeResponse)
@@ -13299,14 +13215,14 @@ class TPM2_CertifyX509_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_CertifyX509_REQUEST object initilized from its
+        """ Returns new TPM2_CertifyX509_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_CertifyX509_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_CertifyX509_REQUEST object initilized from its
+        """ Returns new TPM2_CertifyX509_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_CertifyX509_REQUEST)
@@ -13367,15 +13283,15 @@ class CertifyX509Response (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new CertifyX509Response object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new CertifyX509Response object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(CertifyX509Response)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new CertifyX509Response object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new CertifyX509Response object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CertifyX509Response)
     
@@ -13418,15 +13334,15 @@ class TPM2_Commit_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Commit_REQUEST object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new TPM2_Commit_REQUEST object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Commit_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Commit_REQUEST object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new TPM2_Commit_REQUEST object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Commit_REQUEST)
     
@@ -13474,14 +13390,14 @@ class CommitResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new CommitResponse object initilized from its marshaled
+        """ Returns new CommitResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(CommitResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new CommitResponse object initilized from its marshaled
+        """ Returns new CommitResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CommitResponse)
@@ -13509,14 +13425,14 @@ class TPM2_EC_Ephemeral_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_EC_Ephemeral_REQUEST object initilized from its
+        """ Returns new TPM2_EC_Ephemeral_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_EC_Ephemeral_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_EC_Ephemeral_REQUEST object initilized from its
+        """ Returns new TPM2_EC_Ephemeral_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_EC_Ephemeral_REQUEST)
@@ -13546,14 +13462,14 @@ class EC_EphemeralResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new EC_EphemeralResponse object initilized from its
+        """ Returns new EC_EphemeralResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(EC_EphemeralResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new EC_EphemeralResponse object initilized from its
+        """ Returns new EC_EphemeralResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(EC_EphemeralResponse)
@@ -13601,14 +13517,14 @@ class TPM2_VerifySignature_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_VerifySignature_REQUEST object initilized from its
+        """ Returns new TPM2_VerifySignature_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_VerifySignature_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_VerifySignature_REQUEST object initilized from its
+        """ Returns new TPM2_VerifySignature_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_VerifySignature_REQUEST)
@@ -13642,14 +13558,14 @@ class VerifySignatureResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new VerifySignatureResponse object initilized from its
+        """ Returns new VerifySignatureResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(VerifySignatureResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new VerifySignatureResponse object initilized from its
+        """ Returns new VerifySignatureResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(VerifySignatureResponse)
@@ -13703,14 +13619,14 @@ class TPM2_Sign_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Sign_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_Sign_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Sign_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Sign_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_Sign_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Sign_REQUEST)
@@ -13745,7 +13661,7 @@ class SignResponse (RespStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.signature: return
+        if self.signature == None: return
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
     
@@ -13757,14 +13673,14 @@ class SignResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new SignResponse object initilized from its marshaled
+        """ Returns new SignResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(SignResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new SignResponse object initilized from its marshaled
+        """ Returns new SignResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(SignResponse)
@@ -13805,15 +13721,15 @@ class TPM2_SetCommandCodeAuditStatus_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_SetCommandCodeAuditStatus_REQUEST object initilized
-        from its marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_SetCommandCodeAuditStatus_REQUEST object
+        constructed from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SetCommandCodeAuditStatus_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_SetCommandCodeAuditStatus_REQUEST object initilized
-        from its marshaled representation in the given byte buffer
+        """ Returns new TPM2_SetCommandCodeAuditStatus_REQUEST object
+        constructed from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_SetCommandCodeAuditStatus_REQUEST)
     
@@ -13850,14 +13766,14 @@ class TPM2_PCR_Extend_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PCR_Extend_REQUEST object initilized from its
+        """ Returns new TPM2_PCR_Extend_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_Extend_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PCR_Extend_REQUEST object initilized from its
+        """ Returns new TPM2_PCR_Extend_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_Extend_REQUEST)
@@ -13894,14 +13810,14 @@ class TPM2_PCR_Event_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PCR_Event_REQUEST object initilized from its
+        """ Returns new TPM2_PCR_Event_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_Event_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PCR_Event_REQUEST object initilized from its
+        """ Returns new TPM2_PCR_Event_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_Event_REQUEST)
@@ -13934,14 +13850,14 @@ class PCR_EventResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new PCR_EventResponse object initilized from its marshaled
+        """ Returns new PCR_EventResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(PCR_EventResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new PCR_EventResponse object initilized from its marshaled
+        """ Returns new PCR_EventResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(PCR_EventResponse)
@@ -13968,14 +13884,14 @@ class TPM2_PCR_Read_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PCR_Read_REQUEST object initilized from its
+        """ Returns new TPM2_PCR_Read_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_Read_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PCR_Read_REQUEST object initilized from its
+        """ Returns new TPM2_PCR_Read_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_Read_REQUEST)
@@ -14011,14 +13927,14 @@ class PCR_ReadResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new PCR_ReadResponse object initilized from its marshaled
+        """ Returns new PCR_ReadResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(PCR_ReadResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new PCR_ReadResponse object initilized from its marshaled
+        """ Returns new PCR_ReadResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(PCR_ReadResponse)
@@ -14048,14 +13964,14 @@ class TPM2_PCR_Allocate_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PCR_Allocate_REQUEST object initilized from its
+        """ Returns new TPM2_PCR_Allocate_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_Allocate_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PCR_Allocate_REQUEST object initilized from its
+        """ Returns new TPM2_PCR_Allocate_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_Allocate_REQUEST)
@@ -14102,14 +14018,14 @@ class PCR_AllocateResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new PCR_AllocateResponse object initilized from its
+        """ Returns new PCR_AllocateResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(PCR_AllocateResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new PCR_AllocateResponse object initilized from its
+        """ Returns new PCR_AllocateResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(PCR_AllocateResponse)
@@ -14148,14 +14064,14 @@ class TPM2_PCR_SetAuthPolicy_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PCR_SetAuthPolicy_REQUEST object initilized from
+        """ Returns new TPM2_PCR_SetAuthPolicy_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_SetAuthPolicy_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PCR_SetAuthPolicy_REQUEST object initilized from
+        """ Returns new TPM2_PCR_SetAuthPolicy_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_SetAuthPolicy_REQUEST)
@@ -14193,15 +14109,15 @@ class TPM2_PCR_SetAuthValue_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PCR_SetAuthValue_REQUEST object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_PCR_SetAuthValue_REQUEST object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_SetAuthValue_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PCR_SetAuthValue_REQUEST object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new TPM2_PCR_SetAuthValue_REQUEST object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_SetAuthValue_REQUEST)
     
@@ -14230,14 +14146,14 @@ class TPM2_PCR_Reset_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PCR_Reset_REQUEST object initilized from its
+        """ Returns new TPM2_PCR_Reset_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_Reset_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PCR_Reset_REQUEST object initilized from its
+        """ Returns new TPM2_PCR_Reset_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_Reset_REQUEST)
@@ -14314,14 +14230,14 @@ class TPM2_PolicySigned_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicySigned_REQUEST object initilized from its
+        """ Returns new TPM2_PolicySigned_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicySigned_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicySigned_REQUEST object initilized from its
+        """ Returns new TPM2_PolicySigned_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicySigned_REQUEST)
@@ -14365,14 +14281,14 @@ class PolicySignedResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new PolicySignedResponse object initilized from its
+        """ Returns new PolicySignedResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(PolicySignedResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new PolicySignedResponse object initilized from its
+        """ Returns new PolicySignedResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(PolicySignedResponse)
@@ -14432,14 +14348,14 @@ class TPM2_PolicySecret_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicySecret_REQUEST object initilized from its
+        """ Returns new TPM2_PolicySecret_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicySecret_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicySecret_REQUEST object initilized from its
+        """ Returns new TPM2_PolicySecret_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicySecret_REQUEST)
@@ -14483,14 +14399,14 @@ class PolicySecretResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new PolicySecretResponse object initilized from its
+        """ Returns new PolicySecretResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(PolicySecretResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new PolicySecretResponse object initilized from its
+        """ Returns new PolicySecretResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(PolicySecretResponse)
@@ -14544,14 +14460,14 @@ class TPM2_PolicyTicket_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyTicket_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyTicket_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyTicket_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyTicket_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyTicket_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyTicket_REQUEST)
@@ -14591,14 +14507,14 @@ class TPM2_PolicyOR_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyOR_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyOR_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyOR_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyOR_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyOR_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyOR_REQUEST)
@@ -14642,14 +14558,14 @@ class TPM2_PolicyPCR_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyPCR_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyPCR_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyPCR_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyPCR_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyPCR_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyPCR_REQUEST)
@@ -14686,14 +14602,14 @@ class TPM2_PolicyLocality_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyLocality_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyLocality_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyLocality_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyLocality_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyLocality_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyLocality_REQUEST)
@@ -14747,14 +14663,14 @@ class TPM2_PolicyNV_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyNV_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyNV_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyNV_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyNV_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyNV_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyNV_REQUEST)
@@ -14800,14 +14716,14 @@ class TPM2_PolicyCounterTimer_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyCounterTimer_REQUEST object initilized from
+        """ Returns new TPM2_PolicyCounterTimer_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyCounterTimer_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyCounterTimer_REQUEST object initilized from
+        """ Returns new TPM2_PolicyCounterTimer_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyCounterTimer_REQUEST)
@@ -14844,14 +14760,14 @@ class TPM2_PolicyCommandCode_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyCommandCode_REQUEST object initilized from
+        """ Returns new TPM2_PolicyCommandCode_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyCommandCode_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyCommandCode_REQUEST object initilized from
+        """ Returns new TPM2_PolicyCommandCode_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyCommandCode_REQUEST)
@@ -14876,14 +14792,14 @@ class TPM2_PolicyPhysicalPresence_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyPhysicalPresence_REQUEST object initilized
+        """ Returns new TPM2_PolicyPhysicalPresence_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyPhysicalPresence_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyPhysicalPresence_REQUEST object initilized
+        """ Returns new TPM2_PolicyPhysicalPresence_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyPhysicalPresence_REQUEST)
@@ -14918,14 +14834,14 @@ class TPM2_PolicyCpHash_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyCpHash_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyCpHash_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyCpHash_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyCpHash_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyCpHash_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyCpHash_REQUEST)
@@ -14964,14 +14880,14 @@ class TPM2_PolicyNameHash_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyNameHash_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyNameHash_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyNameHash_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyNameHash_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyNameHash_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyNameHash_REQUEST)
@@ -15017,14 +14933,14 @@ class TPM2_PolicyDuplicationSelect_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyDuplicationSelect_REQUEST object initilized
+        """ Returns new TPM2_PolicyDuplicationSelect_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyDuplicationSelect_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyDuplicationSelect_REQUEST object initilized
+        """ Returns new TPM2_PolicyDuplicationSelect_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyDuplicationSelect_REQUEST)
@@ -15076,14 +14992,14 @@ class TPM2_PolicyAuthorize_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyAuthorize_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyAuthorize_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyAuthorize_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyAuthorize_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyAuthorize_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyAuthorize_REQUEST)
@@ -15110,14 +15026,14 @@ class TPM2_PolicyAuthValue_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyAuthValue_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyAuthValue_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyAuthValue_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyAuthValue_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyAuthValue_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyAuthValue_REQUEST)
@@ -15142,14 +15058,14 @@ class TPM2_PolicyPassword_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyPassword_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyPassword_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyPassword_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyPassword_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyPassword_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyPassword_REQUEST)
@@ -15175,14 +15091,14 @@ class TPM2_PolicyGetDigest_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyGetDigest_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyGetDigest_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyGetDigest_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyGetDigest_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyGetDigest_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyGetDigest_REQUEST)
@@ -15215,14 +15131,14 @@ class PolicyGetDigestResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new PolicyGetDigestResponse object initilized from its
+        """ Returns new PolicyGetDigestResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(PolicyGetDigestResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new PolicyGetDigestResponse object initilized from its
+        """ Returns new PolicyGetDigestResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(PolicyGetDigestResponse)
@@ -15255,14 +15171,14 @@ class TPM2_PolicyNvWritten_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyNvWritten_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyNvWritten_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyNvWritten_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyNvWritten_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyNvWritten_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyNvWritten_REQUEST)
@@ -15298,14 +15214,14 @@ class TPM2_PolicyTemplate_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyTemplate_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyTemplate_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyTemplate_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyTemplate_REQUEST object initilized from its
+        """ Returns new TPM2_PolicyTemplate_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyTemplate_REQUEST)
@@ -15343,14 +15259,14 @@ class TPM2_PolicyAuthorizeNV_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PolicyAuthorizeNV_REQUEST object initilized from
+        """ Returns new TPM2_PolicyAuthorizeNV_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyAuthorizeNV_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PolicyAuthorizeNV_REQUEST object initilized from
+        """ Returns new TPM2_PolicyAuthorizeNV_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyAuthorizeNV_REQUEST)
@@ -15406,14 +15322,14 @@ class TPM2_CreatePrimary_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_CreatePrimary_REQUEST object initilized from its
+        """ Returns new TPM2_CreatePrimary_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_CreatePrimary_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_CreatePrimary_REQUEST object initilized from its
+        """ Returns new TPM2_CreatePrimary_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_CreatePrimary_REQUEST)
@@ -15472,14 +15388,14 @@ class CreatePrimaryResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new CreatePrimaryResponse object initilized from its
+        """ Returns new CreatePrimaryResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(CreatePrimaryResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new CreatePrimaryResponse object initilized from its
+        """ Returns new CreatePrimaryResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CreatePrimaryResponse)
@@ -15526,15 +15442,15 @@ class TPM2_HierarchyControl_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_HierarchyControl_REQUEST object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_HierarchyControl_REQUEST object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_HierarchyControl_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_HierarchyControl_REQUEST object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new TPM2_HierarchyControl_REQUEST object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_HierarchyControl_REQUEST)
     
@@ -15581,15 +15497,15 @@ class TPM2_SetPrimaryPolicy_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_SetPrimaryPolicy_REQUEST object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_SetPrimaryPolicy_REQUEST object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SetPrimaryPolicy_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_SetPrimaryPolicy_REQUEST object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new TPM2_SetPrimaryPolicy_REQUEST object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_SetPrimaryPolicy_REQUEST)
     
@@ -15617,14 +15533,14 @@ class TPM2_ChangePPS_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ChangePPS_REQUEST object initilized from its
+        """ Returns new TPM2_ChangePPS_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ChangePPS_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ChangePPS_REQUEST object initilized from its
+        """ Returns new TPM2_ChangePPS_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ChangePPS_REQUEST)
@@ -15655,14 +15571,14 @@ class TPM2_ChangeEPS_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ChangeEPS_REQUEST object initilized from its
+        """ Returns new TPM2_ChangeEPS_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ChangeEPS_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ChangeEPS_REQUEST object initilized from its
+        """ Returns new TPM2_ChangeEPS_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ChangeEPS_REQUEST)
@@ -15687,14 +15603,14 @@ class TPM2_Clear_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Clear_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_Clear_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Clear_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Clear_REQUEST object initilized from its marshaled
+        """ Returns new TPM2_Clear_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Clear_REQUEST)
@@ -15730,14 +15646,14 @@ class TPM2_ClearControl_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ClearControl_REQUEST object initilized from its
+        """ Returns new TPM2_ClearControl_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ClearControl_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ClearControl_REQUEST object initilized from its
+        """ Returns new TPM2_ClearControl_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ClearControl_REQUEST)
@@ -15775,14 +15691,14 @@ class TPM2_HierarchyChangeAuth_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_HierarchyChangeAuth_REQUEST object initilized from
+        """ Returns new TPM2_HierarchyChangeAuth_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_HierarchyChangeAuth_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_HierarchyChangeAuth_REQUEST object initilized from
+        """ Returns new TPM2_HierarchyChangeAuth_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_HierarchyChangeAuth_REQUEST)
@@ -15811,15 +15727,15 @@ class TPM2_DictionaryAttackLockReset_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_DictionaryAttackLockReset_REQUEST object initilized
-        from its marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_DictionaryAttackLockReset_REQUEST object
+        constructed from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_DictionaryAttackLockReset_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_DictionaryAttackLockReset_REQUEST object initilized
-        from its marshaled representation in the given byte buffer
+        """ Returns new TPM2_DictionaryAttackLockReset_REQUEST object
+        constructed from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_DictionaryAttackLockReset_REQUEST)
     
@@ -15867,14 +15783,14 @@ class TPM2_DictionaryAttackParameters_REQUEST (ReqStructure):
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_DictionaryAttackParameters_REQUEST object
-        initilized from its marshaled representation in the given TpmBuffer buffer
+        constructed from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_DictionaryAttackParameters_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_DictionaryAttackParameters_REQUEST object
-        initilized from its marshaled representation in the given byte buffer
+        constructed from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_DictionaryAttackParameters_REQUEST)
     
@@ -15915,14 +15831,14 @@ class TPM2_PP_Commands_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_PP_Commands_REQUEST object initilized from its
+        """ Returns new TPM2_PP_Commands_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PP_Commands_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_PP_Commands_REQUEST object initilized from its
+        """ Returns new TPM2_PP_Commands_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PP_Commands_REQUEST)
@@ -15962,14 +15878,14 @@ class TPM2_SetAlgorithmSet_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_SetAlgorithmSet_REQUEST object initilized from its
+        """ Returns new TPM2_SetAlgorithmSet_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SetAlgorithmSet_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_SetAlgorithmSet_REQUEST object initilized from its
+        """ Returns new TPM2_SetAlgorithmSet_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_SetAlgorithmSet_REQUEST)
@@ -16027,14 +15943,14 @@ class TPM2_FieldUpgradeStart_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_FieldUpgradeStart_REQUEST object initilized from
+        """ Returns new TPM2_FieldUpgradeStart_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_FieldUpgradeStart_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_FieldUpgradeStart_REQUEST object initilized from
+        """ Returns new TPM2_FieldUpgradeStart_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_FieldUpgradeStart_REQUEST)
@@ -16072,15 +15988,15 @@ class TPM2_FieldUpgradeData_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_FieldUpgradeData_REQUEST object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_FieldUpgradeData_REQUEST object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_FieldUpgradeData_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_FieldUpgradeData_REQUEST object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new TPM2_FieldUpgradeData_REQUEST object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_FieldUpgradeData_REQUEST)
     
@@ -16116,14 +16032,14 @@ class FieldUpgradeDataResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new FieldUpgradeDataResponse object initilized from its
+        """ Returns new FieldUpgradeDataResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(FieldUpgradeDataResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new FieldUpgradeDataResponse object initilized from its
+        """ Returns new FieldUpgradeDataResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(FieldUpgradeDataResponse)
@@ -16151,14 +16067,14 @@ class TPM2_FirmwareRead_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_FirmwareRead_REQUEST object initilized from its
+        """ Returns new TPM2_FirmwareRead_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_FirmwareRead_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_FirmwareRead_REQUEST object initilized from its
+        """ Returns new TPM2_FirmwareRead_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_FirmwareRead_REQUEST)
@@ -16184,14 +16100,14 @@ class FirmwareReadResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new FirmwareReadResponse object initilized from its
+        """ Returns new FirmwareReadResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(FirmwareReadResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new FirmwareReadResponse object initilized from its
+        """ Returns new FirmwareReadResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(FirmwareReadResponse)
@@ -16212,14 +16128,14 @@ class TPM2_ContextSave_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ContextSave_REQUEST object initilized from its
+        """ Returns new TPM2_ContextSave_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ContextSave_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ContextSave_REQUEST object initilized from its
+        """ Returns new TPM2_ContextSave_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ContextSave_REQUEST)
@@ -16251,15 +16167,15 @@ class ContextSaveResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ContextSaveResponse object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new ContextSaveResponse object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ContextSaveResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ContextSaveResponse object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new ContextSaveResponse object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ContextSaveResponse)
 # ContextSaveResponse
@@ -16284,14 +16200,14 @@ class TPM2_ContextLoad_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ContextLoad_REQUEST object initilized from its
+        """ Returns new TPM2_ContextLoad_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ContextLoad_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ContextLoad_REQUEST object initilized from its
+        """ Returns new TPM2_ContextLoad_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ContextLoad_REQUEST)
@@ -16310,15 +16226,15 @@ class ContextLoadResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ContextLoadResponse object initilized from its marshaled
-        representation in the given TpmBuffer buffer
+        """ Returns new ContextLoadResponse object constructed from its
+        marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ContextLoadResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ContextLoadResponse object initilized from its marshaled
-        representation in the given byte buffer
+        """ Returns new ContextLoadResponse object constructed from its
+        marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ContextLoadResponse)
     
@@ -16350,14 +16266,14 @@ class TPM2_FlushContext_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_FlushContext_REQUEST object initilized from its
+        """ Returns new TPM2_FlushContext_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_FlushContext_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_FlushContext_REQUEST object initilized from its
+        """ Returns new TPM2_FlushContext_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_FlushContext_REQUEST)
@@ -16393,14 +16309,14 @@ class TPM2_EvictControl_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_EvictControl_REQUEST object initilized from its
+        """ Returns new TPM2_EvictControl_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_EvictControl_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_EvictControl_REQUEST object initilized from its
+        """ Returns new TPM2_EvictControl_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_EvictControl_REQUEST)
@@ -16421,14 +16337,14 @@ class TPM2_ReadClock_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ReadClock_REQUEST object initilized from its
+        """ Returns new TPM2_ReadClock_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ReadClock_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ReadClock_REQUEST object initilized from its
+        """ Returns new TPM2_ReadClock_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ReadClock_REQUEST)
@@ -16454,14 +16370,14 @@ class ReadClockResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new ReadClockResponse object initilized from its marshaled
+        """ Returns new ReadClockResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(ReadClockResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new ReadClockResponse object initilized from its marshaled
+        """ Returns new ReadClockResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ReadClockResponse)
@@ -16494,14 +16410,14 @@ class TPM2_ClockSet_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ClockSet_REQUEST object initilized from its
+        """ Returns new TPM2_ClockSet_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ClockSet_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ClockSet_REQUEST object initilized from its
+        """ Returns new TPM2_ClockSet_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ClockSet_REQUEST)
@@ -16537,14 +16453,14 @@ class TPM2_ClockRateAdjust_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ClockRateAdjust_REQUEST object initilized from its
+        """ Returns new TPM2_ClockRateAdjust_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ClockRateAdjust_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ClockRateAdjust_REQUEST object initilized from its
+        """ Returns new TPM2_ClockRateAdjust_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ClockRateAdjust_REQUEST)
@@ -16585,14 +16501,14 @@ class TPM2_GetCapability_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_GetCapability_REQUEST object initilized from its
+        """ Returns new TPM2_GetCapability_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetCapability_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_GetCapability_REQUEST object initilized from its
+        """ Returns new TPM2_GetCapability_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_GetCapability_REQUEST)
@@ -16634,14 +16550,14 @@ class GetCapabilityResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new GetCapabilityResponse object initilized from its
+        """ Returns new GetCapabilityResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetCapabilityResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new GetCapabilityResponse object initilized from its
+        """ Returns new GetCapabilityResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(GetCapabilityResponse)
@@ -16666,7 +16582,7 @@ class TPM2_TestParms_REQUEST (ReqStructure):
     
     def toTpm(self, buf):
         """ TpmMarshaller method """
-        if not self.parameters: return
+        if self.parameters == None: return
         buf.writeShort(self.parameters.GetUnionSelector())
         self.parameters.toTpm(buf)
     
@@ -16678,14 +16594,14 @@ class TPM2_TestParms_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_TestParms_REQUEST object initilized from its
+        """ Returns new TPM2_TestParms_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_TestParms_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_TestParms_REQUEST object initilized from its
+        """ Returns new TPM2_TestParms_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_TestParms_REQUEST)
@@ -16721,14 +16637,14 @@ class TPM2_NV_DefineSpace_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_DefineSpace_REQUEST object initilized from its
+        """ Returns new TPM2_NV_DefineSpace_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_DefineSpace_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_DefineSpace_REQUEST object initilized from its
+        """ Returns new TPM2_NV_DefineSpace_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_DefineSpace_REQUEST)
@@ -16758,15 +16674,15 @@ class TPM2_NV_UndefineSpace_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_UndefineSpace_REQUEST object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_NV_UndefineSpace_REQUEST object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_UndefineSpace_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_UndefineSpace_REQUEST object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new TPM2_NV_UndefineSpace_REQUEST object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_UndefineSpace_REQUEST)
     
@@ -16795,14 +16711,14 @@ class TPM2_NV_UndefineSpaceSpecial_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_UndefineSpaceSpecial_REQUEST object initilized
+        """ Returns new TPM2_NV_UndefineSpaceSpecial_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_UndefineSpaceSpecial_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_UndefineSpaceSpecial_REQUEST object initilized
+        """ Returns new TPM2_NV_UndefineSpaceSpecial_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_UndefineSpaceSpecial_REQUEST)
@@ -16828,14 +16744,14 @@ class TPM2_NV_ReadPublic_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_ReadPublic_REQUEST object initilized from its
+        """ Returns new TPM2_NV_ReadPublic_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_ReadPublic_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_ReadPublic_REQUEST object initilized from its
+        """ Returns new TPM2_NV_ReadPublic_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_ReadPublic_REQUEST)
@@ -16872,14 +16788,14 @@ class NV_ReadPublicResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new NV_ReadPublicResponse object initilized from its
+        """ Returns new NV_ReadPublicResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(NV_ReadPublicResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new NV_ReadPublicResponse object initilized from its
+        """ Returns new NV_ReadPublicResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(NV_ReadPublicResponse)
@@ -16919,14 +16835,14 @@ class TPM2_NV_Write_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_Write_REQUEST object initilized from its
+        """ Returns new TPM2_NV_Write_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_Write_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_Write_REQUEST object initilized from its
+        """ Returns new TPM2_NV_Write_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_Write_REQUEST)
@@ -16959,14 +16875,14 @@ class TPM2_NV_Increment_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_Increment_REQUEST object initilized from its
+        """ Returns new TPM2_NV_Increment_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_Increment_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_Increment_REQUEST object initilized from its
+        """ Returns new TPM2_NV_Increment_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_Increment_REQUEST)
@@ -17006,14 +16922,14 @@ class TPM2_NV_Extend_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_Extend_REQUEST object initilized from its
+        """ Returns new TPM2_NV_Extend_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_Extend_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_Extend_REQUEST object initilized from its
+        """ Returns new TPM2_NV_Extend_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_Extend_REQUEST)
@@ -17057,14 +16973,14 @@ class TPM2_NV_SetBits_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_SetBits_REQUEST object initilized from its
+        """ Returns new TPM2_NV_SetBits_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_SetBits_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_SetBits_REQUEST object initilized from its
+        """ Returns new TPM2_NV_SetBits_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_SetBits_REQUEST)
@@ -17095,14 +17011,14 @@ class TPM2_NV_WriteLock_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_WriteLock_REQUEST object initilized from its
+        """ Returns new TPM2_NV_WriteLock_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_WriteLock_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_WriteLock_REQUEST object initilized from its
+        """ Returns new TPM2_NV_WriteLock_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_WriteLock_REQUEST)
@@ -17128,14 +17044,14 @@ class TPM2_NV_GlobalWriteLock_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_GlobalWriteLock_REQUEST object initilized from
+        """ Returns new TPM2_NV_GlobalWriteLock_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_GlobalWriteLock_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_GlobalWriteLock_REQUEST object initilized from
+        """ Returns new TPM2_NV_GlobalWriteLock_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_GlobalWriteLock_REQUEST)
@@ -17181,14 +17097,14 @@ class TPM2_NV_Read_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_Read_REQUEST object initilized from its
+        """ Returns new TPM2_NV_Read_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_Read_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_Read_REQUEST object initilized from its
+        """ Returns new TPM2_NV_Read_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_Read_REQUEST)
@@ -17220,14 +17136,14 @@ class NV_ReadResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new NV_ReadResponse object initilized from its marshaled
+        """ Returns new NV_ReadResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(NV_ReadResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new NV_ReadResponse object initilized from its marshaled
+        """ Returns new NV_ReadResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(NV_ReadResponse)
@@ -17254,14 +17170,14 @@ class TPM2_NV_ReadLock_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_ReadLock_REQUEST object initilized from its
+        """ Returns new TPM2_NV_ReadLock_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_ReadLock_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_ReadLock_REQUEST object initilized from its
+        """ Returns new TPM2_NV_ReadLock_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_ReadLock_REQUEST)
@@ -17296,14 +17212,14 @@ class TPM2_NV_ChangeAuth_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_ChangeAuth_REQUEST object initilized from its
+        """ Returns new TPM2_NV_ChangeAuth_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_ChangeAuth_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_ChangeAuth_REQUEST object initilized from its
+        """ Returns new TPM2_NV_ChangeAuth_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_ChangeAuth_REQUEST)
@@ -17377,14 +17293,14 @@ class TPM2_NV_Certify_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_NV_Certify_REQUEST object initilized from its
+        """ Returns new TPM2_NV_Certify_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_Certify_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_NV_Certify_REQUEST object initilized from its
+        """ Returns new TPM2_NV_Certify_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_Certify_REQUEST)
@@ -17435,14 +17351,14 @@ class NV_CertifyResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new NV_CertifyResponse object initilized from its marshaled
+        """ Returns new NV_CertifyResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(NV_CertifyResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new NV_CertifyResponse object initilized from its marshaled
+        """ Returns new NV_CertifyResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(NV_CertifyResponse)
@@ -17477,15 +17393,15 @@ class TPM2_AC_GetCapability_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_AC_GetCapability_REQUEST object initilized from its
-        marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_AC_GetCapability_REQUEST object constructed from
+        its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_AC_GetCapability_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_AC_GetCapability_REQUEST object initilized from its
-        marshaled representation in the given byte buffer
+        """ Returns new TPM2_AC_GetCapability_REQUEST object constructed from
+        its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_AC_GetCapability_REQUEST)
     
@@ -17520,14 +17436,14 @@ class AC_GetCapabilityResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new AC_GetCapabilityResponse object initilized from its
+        """ Returns new AC_GetCapabilityResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(AC_GetCapabilityResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new AC_GetCapabilityResponse object initilized from its
+        """ Returns new AC_GetCapabilityResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(AC_GetCapabilityResponse)
@@ -17566,14 +17482,14 @@ class TPM2_AC_Send_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_AC_Send_REQUEST object initilized from its
+        """ Returns new TPM2_AC_Send_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_AC_Send_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_AC_Send_REQUEST object initilized from its
+        """ Returns new TPM2_AC_Send_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_AC_Send_REQUEST)
@@ -17608,14 +17524,14 @@ class AC_SendResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new AC_SendResponse object initilized from its marshaled
+        """ Returns new AC_SendResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(AC_SendResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new AC_SendResponse object initilized from its marshaled
+        """ Returns new AC_SendResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(AC_SendResponse)
@@ -17661,15 +17577,15 @@ class TPM2_Policy_AC_SendSelect_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Policy_AC_SendSelect_REQUEST object initilized from
-        its marshaled representation in the given TpmBuffer buffer
+        """ Returns new TPM2_Policy_AC_SendSelect_REQUEST object constructed
+        from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Policy_AC_SendSelect_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Policy_AC_SendSelect_REQUEST object initilized from
-        its marshaled representation in the given byte buffer
+        """ Returns new TPM2_Policy_AC_SendSelect_REQUEST object constructed
+        from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Policy_AC_SendSelect_REQUEST)
     
@@ -17706,14 +17622,14 @@ class TPM2_ACT_SetTimeout_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_ACT_SetTimeout_REQUEST object initilized from its
+        """ Returns new TPM2_ACT_SetTimeout_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ACT_SetTimeout_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_ACT_SetTimeout_REQUEST object initilized from its
+        """ Returns new TPM2_ACT_SetTimeout_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ACT_SetTimeout_REQUEST)
@@ -17744,14 +17660,14 @@ class TPM2_Vendor_TCG_Test_REQUEST (ReqStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2_Vendor_TCG_Test_REQUEST object initilized from its
+        """ Returns new TPM2_Vendor_TCG_Test_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Vendor_TCG_Test_REQUEST)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2_Vendor_TCG_Test_REQUEST object initilized from its
+        """ Returns new TPM2_Vendor_TCG_Test_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Vendor_TCG_Test_REQUEST)
@@ -17778,14 +17694,14 @@ class Vendor_TCG_TestResponse (RespStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new Vendor_TCG_TestResponse object initilized from its
+        """ Returns new Vendor_TCG_TestResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(Vendor_TCG_TestResponse)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new Vendor_TCG_TestResponse object initilized from its
+        """ Returns new Vendor_TCG_TestResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(Vendor_TCG_TestResponse)
@@ -17805,14 +17721,14 @@ class TPMS_SCHEME_RSASSA (TPMS_SIG_SCHEME_RSASSA):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_RSASSA object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_RSASSA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_RSASSA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_RSASSA object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_RSASSA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_RSASSA)
@@ -17830,14 +17746,14 @@ class TPMS_SCHEME_RSAPSS (TPMS_SIG_SCHEME_RSAPSS):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_RSAPSS object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_RSAPSS object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_RSAPSS)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_RSAPSS object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_RSAPSS object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_RSAPSS)
@@ -17857,14 +17773,14 @@ class TPMS_SCHEME_ECDSA (TPMS_SIG_SCHEME_ECDSA):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_ECDSA object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_ECDSA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_ECDSA)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_ECDSA object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_ECDSA object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_ECDSA)
@@ -17884,14 +17800,14 @@ class TPMS_SCHEME_SM2 (TPMS_SIG_SCHEME_SM2):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_SM2 object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_SM2 object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_SM2)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_SM2 object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_SM2 object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_SM2)
@@ -17911,14 +17827,14 @@ class TPMS_SCHEME_ECSCHNORR (TPMS_SIG_SCHEME_ECSCHNORR):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_ECSCHNORR object initilized from its
+        """ Returns new TPMS_SCHEME_ECSCHNORR object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_ECSCHNORR)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_ECSCHNORR object initilized from its
+        """ Returns new TPMS_SCHEME_ECSCHNORR object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_ECSCHNORR)
@@ -17936,14 +17852,14 @@ class TPMS_SCHEME_OAEP (TPMS_ENC_SCHEME_OAEP):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_OAEP object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_OAEP object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_OAEP)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_OAEP object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_OAEP object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_OAEP)
@@ -17958,14 +17874,14 @@ class TPMS_SCHEME_RSAES (TPMS_ENC_SCHEME_RSAES):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_RSAES object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_RSAES object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_RSAES)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_RSAES object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_RSAES object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_RSAES)
@@ -17983,14 +17899,14 @@ class TPMS_SCHEME_ECDH (TPMS_KEY_SCHEME_ECDH):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_ECDH object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_ECDH object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_ECDH)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_ECDH object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_ECDH object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_ECDH)
@@ -18008,14 +17924,14 @@ class TPMS_SCHEME_ECMQV (TPMS_KEY_SCHEME_ECMQV):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_ECMQV object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_ECMQV object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_ECMQV)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_ECMQV object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_ECMQV object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_ECMQV)
@@ -18034,14 +17950,14 @@ class TPMS_SCHEME_MGF1 (TPMS_KDF_SCHEME_MGF1):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_MGF1 object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_MGF1 object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_MGF1)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_MGF1 object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_MGF1 object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_MGF1)
@@ -18060,14 +17976,14 @@ class TPMS_SCHEME_KDF1_SP800_56A (TPMS_KDF_SCHEME_KDF1_SP800_56A):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_KDF1_SP800_56A object initilized from its
+        """ Returns new TPMS_SCHEME_KDF1_SP800_56A object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_KDF1_SP800_56A)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_KDF1_SP800_56A object initilized from its
+        """ Returns new TPMS_SCHEME_KDF1_SP800_56A object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_KDF1_SP800_56A)
@@ -18086,14 +18002,14 @@ class TPMS_SCHEME_KDF2 (TPMS_KDF_SCHEME_KDF2):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_KDF2 object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_KDF2 object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_KDF2)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_KDF2 object initilized from its marshaled
+        """ Returns new TPMS_SCHEME_KDF2 object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_KDF2)
@@ -18112,14 +18028,14 @@ class TPMS_SCHEME_KDF1_SP800_108 (TPMS_KDF_SCHEME_KDF1_SP800_108):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPMS_SCHEME_KDF1_SP800_108 object initilized from its
+        """ Returns new TPMS_SCHEME_KDF1_SP800_108 object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_KDF1_SP800_108)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPMS_SCHEME_KDF1_SP800_108 object initilized from its
+        """ Returns new TPMS_SCHEME_KDF1_SP800_108 object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMS_SCHEME_KDF1_SP800_108)
@@ -18154,14 +18070,14 @@ class TssObject (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TssObject object initilized from its marshaled
+        """ Returns new TssObject object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TssObject)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TssObject object initilized from its marshaled
+        """ Returns new TssObject object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TssObject)
@@ -18190,14 +18106,14 @@ class PcrValue (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new PcrValue object initilized from its marshaled
+        """ Returns new PcrValue object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(PcrValue)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new PcrValue object initilized from its marshaled
+        """ Returns new PcrValue object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(PcrValue)
@@ -18234,14 +18150,14 @@ class SessionIn (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new SessionIn object initilized from its marshaled
+        """ Returns new SessionIn object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(SessionIn)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new SessionIn object initilized from its marshaled
+        """ Returns new SessionIn object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(SessionIn)
@@ -18274,14 +18190,14 @@ class SessionOut (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new SessionOut object initilized from its marshaled
+        """ Returns new SessionOut object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(SessionOut)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new SessionOut object initilized from its marshaled
+        """ Returns new SessionOut object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(SessionOut)
@@ -18314,14 +18230,14 @@ class CommandHeader (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new CommandHeader object initilized from its marshaled
+        """ Returns new CommandHeader object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(CommandHeader)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new CommandHeader object initilized from its marshaled
+        """ Returns new CommandHeader object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CommandHeader)
@@ -18350,14 +18266,14 @@ class TSS_KEY (TpmStructure):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TSS_KEY object initilized from its marshaled
+        """ Returns new TSS_KEY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TSS_KEY)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TSS_KEY object initilized from its marshaled
+        """ Returns new TSS_KEY object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TSS_KEY)
@@ -18379,14 +18295,14 @@ class TPM2B_DIGEST_SYMCIPHER (TPM2B_DIGEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_DIGEST_SYMCIPHER object initilized from its
+        """ Returns new TPM2B_DIGEST_SYMCIPHER object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_DIGEST_SYMCIPHER)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_DIGEST_SYMCIPHER object initilized from its
+        """ Returns new TPM2B_DIGEST_SYMCIPHER object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_DIGEST_SYMCIPHER)
@@ -18407,14 +18323,14 @@ class TPM2B_DIGEST_KEYEDHASH (TPM2B_DIGEST):
     
     @staticmethod
     def fromTpm(buf):
-        """ Returns new TPM2B_DIGEST_KEYEDHASH object initilized from its
+        """ Returns new TPM2B_DIGEST_KEYEDHASH object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_DIGEST_KEYEDHASH)
     
     @staticmethod
     def fromBytes(buffer):
-        """ Returns new TPM2B_DIGEST_KEYEDHASH object initilized from its
+        """ Returns new TPM2B_DIGEST_KEYEDHASH object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2B_DIGEST_KEYEDHASH)

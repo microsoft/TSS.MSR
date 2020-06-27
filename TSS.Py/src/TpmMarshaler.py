@@ -1,14 +1,7 @@
+from .Helpers import *
 import abc
-import sys
-
-NewPython = sys.version_info[0] > 3 or (sys.version_info[0] == 3 and sys.version_info[1] > 3)
 
 if (NewPython):
-    from enum import IntFlag
-
-    class TpmEnum(IntFlag):
-        pass
-
     class TpmMarshaller(abc.ABC):
         'Base interface for all marshalable non-trivial TPM data types'
 
@@ -36,94 +29,6 @@ if (NewPython):
     # interface TpmMarshaller
 
 else:
-    class TpmEnum:
-        def __init__(self, val, name = None):
-            self.__value = val
-            self.__name = name if name else str(val)
-
-        def __init_subclass__(cls, **kwargs):
-            super().__init_subclass__(**kwargs)
-
-        def __int__(self):
-            return self.__value
-
-        def __repr__(self):
-            return str(self)
-
-        def __str__(self):
-            return str(self.__class__.__name__ + '.' + self.__name)
-
-        def __bool__(self):
-            return self.__value != 0
-
-        def __nonzero__(self):
-            return self.__value != 0
-
-        def __or__(self, other):
-            if not isinstance(other, (self.__class__, int)):
-                return NotImplemented
-            return self.__class__(self.__value | int(other))
-
-        def __and__(self, other):
-            if not isinstance(other, (self.__class__, int)):
-                return NotImplemented
-            return self.__class__(self.__value & int(other))
-
-        def __xor__(self, other):
-            if not isinstance(other, (self.__class__, int)):
-                return NotImplemented
-            return self.__class__(self.__value ^ int(other))
-
-        def __lshift__(self, other):
-            if not isinstance(other, (self.__class__, int)):
-                return NotImplemented
-            return self.__class__(self.__value << int(other))
-
-        def __rshift__(self, other):
-            if not isinstance(other, (self.__class__, int)):
-                return NotImplemented
-            return self.__class__(self.__value >> int(other))
-
-        def __eq__(self, other):
-            if not isinstance(other, (self.__class__, int)):
-                return NotImplemented
-            return self.__value == int(other)
-
-        def __ne__(self, other):
-            return not self.__eq__(other)
-
-        def __lt__(self, other):
-            if not isinstance(other, (self.__class__, int)):
-                return NotImplemented
-            return self.__value < int(other)
-
-        def __le__(self, other):
-            if not isinstance(other, (self.__class__, int)):
-                return NotImplemented
-            return self.__value <= int(other)
-
-        def __gt__(self, other):
-            return not self.__le__(other)
-
-        def __lt__(self, other):
-            return not self.__lt__(other)
-
-        __ror__ = __or__
-        __rand__ = __and__
-        __rxor__ = __xor__
-        __rlshift__ = __lshift__
-        __rrshift__ = __rshift__
-
-    def FixupEnumerators(E):
-        for e in dir(E):
-            try:
-                attr = getattr(E, e)
-                val = int(attr)
-            except:
-                attr = None
-            if (attr != None):
-                setattr(E, e, E(val, str(e)))
-
     class TpmMarshaller(object):
         'Base interface for all marshalable non-trivial TPM data types'
         __metaclass__ = abc.ABCMeta
@@ -154,155 +59,6 @@ class SizedStructInfo:
 # SizedStructInfo
 
 
-class TpmStructure(TpmMarshaller):
-    """ Base class for TPM data structures"""
-
-    def toTpm(self, buf):
-        """ TpmMarshaller method """
-        pass
-
-    def initFromTpm(self, buf):
-        """ TpmMarshaller method """
-        pass
-
-    def toBytes(self):
-        buf = TpmBuffer()
-        self.toTpm(buf)
-        return buf.trim()
-
-    def asTpm2B(self):
-        buf = TpmBuffer()
-        buf.writeSizedObj(self)
-        return buf.trim()
-# class TpmStructure
-
-class SessEncInfo:
-    """
-    Parameters of the field, to which session based encryption can be applied (i.e.
-    the first non-handle field marshaled in size-prefixed form)
-    """
-    def __init__(self, sizeLen = 0, valLen = 0):
-        """ Constructor
-        Args:
-            sizeLen: Length of the size prefix in bytes. The size prefix contains the number
-                     of elements in the sized filed (normally just bytes).
-            valLen: Length of an element of the sized area in bytes (in most cases 1) */
-        """
-        self.sizeLen = sizeLen
-        self.valLen = valLen
-# class SessEncInfo
-
-class CmdStructure(TpmStructure):
-    """ Base class for custom (not TPM 2.0 spec defined) auto-generated data structures
-        representing a TPM command or response parameters and handles, if any.
-
-        They differ from the spec-defined data structures inheriting directly from the
-        TpmStructure calss in that their handle fields are not marshaled by their toTpm()
-        and initFrom() methods, but rather are acceesed and manipulated via an interface
-        defined by this structs and its derivatives ReqStructure and RespStructure.
-    """
-
-    def numHandles(self):
-        return 0
-
-    def sessEncInfo(self):
-        """ Returns non-zero parameters of the encryptable command/response parameter if session
-            based encryption can be applied to this object (i.e. its first  non-handle field is
-            marshaled in size-prefixed form). Otherwise returns zero initialized struct.
-        """
-        return SessEncInfo()
-# class CmdStructure
-
-
-class ReqStructure(CmdStructure):
-    """ Base class for custom (not TPM 2.0 spec defined) auto-generated data structures
-        representing a TPM command parameters and handles, if any.
-    """
-
-    def getHandles(self):
-        """ Returns an array of this structure handle field values (TPM_HANDLE[]) """
-        return None
-
-    def numAuthHandles(self):
-        """ Returns an array of handles (TPM_HANDLE[]) contained in this data struct """
-        return 0
-
-    def TypeName (self):
-        """ ISerializable method """
-        return "ReqStructure"
-# class ReqStructure
-
-
-class RespStructure(CmdStructure):
-    """ Base class for custom (not TPM 2.0 spec defined) auto-generated data structures
-        representing a TPM response parameters and handles, if any.
-    """
-
-    def getHandle(self):
-        """ Returns this structure's handle field value (TPM_HANDLE) """
-        return None
-
-    def setHandle(self, h):
-        """ Sets this structure's handle field (TPM_HANDLE) if it is present """
-        pass
-
-    def TypeName (self):
-        """ ISerializable method """
-        return "ReqStructure"
-
-
-
-
-def bytesFromList(l):
-    if NewPython:
-        return bytes(l)
-    else:
-        return ''.join([chr(v) for v in l])
-
-def intToTpm(val, valLen):
-    v = int(val)
-    if NewPython:
-        return v.to_bytes(valLen, 'big')
-    else:
-        l = []
-        if valLen == 8:
-            l.append((v & 0xFF00000000000000) >> 56)
-            l.append((v & 0x00FF000000000000) >> 48)
-            l.append((v & 0x0000FF0000000000) >> 40)
-            l.append((v & 0x000000FF00000000) >> 32)
-            v = v & 0x00000000FFFFFFFF
-        if valLen >= 4:
-            l.append((v & 0xFF000000) >> 24)
-            l.append((v & 0x00FF0000) >> 16)
-        if valLen >= 2:
-            l.append((v & 0x0000FF00) >> 8)
-        l.append(v & 0x000000FF)
-        return bytesFromList(l)
-
-def intFromTpm(buf, pos, valLen):
-    if NewPython:
-        return int.from_bytes(buf[pos : pos + valLen], 'big')
-    else:
-        if isinstance(buf, bytearray):
-            buf = bytes(buf)
-        res = 0
-        if (valLen == 8):
-            res += ord(buf[pos]) << 56
-            res += ord(buf[pos + 1]) << 48
-            res += ord(buf[pos + 2]) << 40
-            res += ord(buf[pos + 3]) << 32
-            pos += 4
-        if (valLen >= 4):
-            res += ord(buf[pos]) << 24
-            res += ord(buf[pos + 1]) << 16
-            pos += 2
-        if (valLen >= 2):
-            res += ord(buf[pos]) << 8
-            pos += 1
-        res += ord(buf[pos])
-        return res
-
-
 class TpmBuffer:
     def __init__(self, lengthOrSrcBuf = 4096):
         if isinstance(lengthOrSrcBuf, TpmBuffer):
@@ -321,6 +77,7 @@ class TpmBuffer:
 
     @property
     def buffer(self):
+        """ Returns reference to the backing byte buffer """
         return self.__buf
 
     @property
@@ -333,20 +90,25 @@ class TpmBuffer:
 
     @property
     def curPos(self):
+        """ Returns current read/write position in the the backing byte buffer """
         return self.__pos
 
     @curPos.setter
     def curPos(self, newPos):
+        """ Sets current read/write position in the the backing byte buffer """
         self.__pos = newPos
         self.__outOfBounds = self.size < newPos
 
     def isOk(self):
+        """ Returns True unless a previous read/write operation caused
+        under/overflow correspondingly
+        """
         return not self.__outOfBounds
 
     def trim(self):
         """ Shrinks the backing byte buffer so that it ends at the current position
         Returns:
-            Reference to the (shrunk) backing byte buffer
+            Reference to the shrunk backing byte buffer
         """
         self.__buf = self.__buf[0 : self.curPos]
         return self.__buf
@@ -361,7 +123,6 @@ class TpmBuffer:
                 self.buffer[self.size : self.curPos + need] = bytearray(self.curPos + need - self.size)
             else:
                 self.__outOfBounds = True
-                self.curPos = self.size
                 return False
         return True
 
@@ -441,15 +202,16 @@ class TpmBuffer:
         return self.readNum(8)
 
 
-    def writeByteBuf(self, byteBuf):
+    def writeByteBuf(self, data):
         """ Marshalls the given byte buffer with no size prefix.
         Args:
             data:  Byte buffer to marshal
         """
-        bufLen = len(byteBuf)
-        self.__checkLen(bufLen)
-        newPos = self.curPos + bufLen
-        self.buffer[self.curPos : newPos] = byteBuf[:]
+        dataSize = len(data) if data else 0
+        if not dataSize or not self.__checkLen(dataSize):
+            return
+        newPos = self.curPos + dataSize
+        self.buffer[self.curPos : newPos] = data[:]
         self.curPos = newPos
 
     def readByteBuf(self, size):
@@ -469,25 +231,16 @@ class TpmBuffer:
             data:  Byte buffer to marshal
             sizeLen:  Length of the size prefix in bytes
         """
-        if (data == None or len(data) == 0):
-            self.writeNum(0, sizeLen)
-            return
-        dataLen = len(data)
-        self.__checkLen(dataLen + sizeLen, True)
-        self.writeNum(dataLen, sizeLen)
-        newPos = self.curPos + dataLen
-        self.buffer[self.curPos : newPos] = data[:]
-        self.curPos = newPos
+        dataSize = len(data) if data else 0
+        self.writeNum(dataSize, sizeLen)
+        self.writeByteBuf(data)
 
     def readSizedByteBuf(self, sizeLen = 2):
         """ Returns a byte buffer unmarshaled from its size-prefixed representation.
         Args:
             sizeLen:  Length of the size prefix in bytes
         """
-        len = self.readNum(sizeLen)
-        begin = self.curPos
-        self.curPos += len
-        return self.__buf[begin : self.curPos]
+        return self.readByteBuf(self.readNum(sizeLen))
 
     def createObj(self, Type):
         newObj = Type()
@@ -506,9 +259,11 @@ class TpmBuffer:
         # Account for the reserved size area
         self.curPos += lenSize
         obj.toTpm(self)
-        # Marshal the data structure size
+        # Calc marshaled object len
         objSize = self.curPos - (sizePos + lenSize)
-        self.buffer[sizePos : sizePos + lenSize] = intToTpm(objSize, lenSize)
+        # Marshal the data structure size
+        self.writeNumAtPos(objSize, sizePos, lenSize)
+        #self.buffer[sizePos : sizePos + lenSize] = intToTpm(objSize, lenSize)
 
     def createSizedObj(self, Type):
         size = self.readShort()  # Length of the object size is always 2 bytes

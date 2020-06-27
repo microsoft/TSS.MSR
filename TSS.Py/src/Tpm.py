@@ -9,7 +9,6 @@
  * Do not edit it directly.
 """
 
-
 from .TpmBase import *
 
 class Tpm(TpmBase):
@@ -25,10 +24,8 @@ class Tpm(TpmBase):
         Args:
             startupType (TPM_SU): TPM_SU_CLEAR or TPM_SU_STATE
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Startup, None, 0)
-        inStruct = TPM2_Startup_REQUEST(startupType)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Startup_REQUEST(startupType)
+        respBuf = self.dispatchCommand(TPM_CC.Startup, req)
         return self.processResponse(respBuf)
     # Startup()
     
@@ -40,10 +37,8 @@ class Tpm(TpmBase):
         Args:
             shutdownType (TPM_SU): TPM_SU_CLEAR or TPM_SU_STATE
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Shutdown, None, 0)
-        inStruct = TPM2_Shutdown_REQUEST(shutdownType)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Shutdown_REQUEST(shutdownType)
+        respBuf = self.dispatchCommand(TPM_CC.Shutdown, req)
         return self.processResponse(respBuf)
     # Shutdown()
     
@@ -57,10 +52,8 @@ class Tpm(TpmBase):
             fullTest (int): YES if full test to be performed
                 NO if only test of untested functions required
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.SelfTest, None, 0)
-        inStruct = TPM2_SelfTest_REQUEST(fullTest)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_SelfTest_REQUEST(fullTest)
+        respBuf = self.dispatchCommand(TPM_CC.SelfTest, req)
         return self.processResponse(respBuf)
     # SelfTest()
     
@@ -73,10 +66,8 @@ class Tpm(TpmBase):
         Returns:
             toDoList - List of algorithms that need testing
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.IncrementalSelfTest, None, 0)
-        inStruct = TPM2_IncrementalSelfTest_REQUEST(toTest)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_IncrementalSelfTest_REQUEST(toTest)
+        respBuf = self.dispatchCommand(TPM_CC.IncrementalSelfTest, req)
         res = self.processResponse(respBuf, IncrementalSelfTestResponse)
         return res.toDoList if res else None
     # IncrementalSelfTest()
@@ -90,10 +81,8 @@ class Tpm(TpmBase):
                       contains manufacturer-specific information
             testResult - TBD
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.GetTestResult, None, 0)
-        inStruct = TPM2_GetTestResult_REQUEST()
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_GetTestResult_REQUEST()
+        respBuf = self.dispatchCommand(TPM_CC.GetTestResult, req)
         return self.processResponse(respBuf, GetTestResultResponse)
     # GetTestResult()
     
@@ -127,10 +116,8 @@ class Tpm(TpmBase):
             nonceTPM - The initial nonce from the TPM, used in the computation
                        of the sessionKey
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.StartAuthSession, [tpmKey, bind], 0)
-        inStruct = TPM2_StartAuthSession_REQUEST(tpmKey, bind, nonceCaller, encryptedSalt, sessionType, symmetric, authHash)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_StartAuthSession_REQUEST(tpmKey, bind, nonceCaller, encryptedSalt, sessionType, symmetric, authHash)
+        respBuf = self.dispatchCommand(TPM_CC.StartAuthSession, req)
         return self.processResponse(respBuf, StartAuthSessionResponse)
     # StartAuthSession()
     
@@ -146,10 +133,8 @@ class Tpm(TpmBase):
         Args:
             sessionHandle (TPM_HANDLE): The handle for the policy session
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyRestart, [sessionHandle], 0)
-        inStruct = TPM2_PolicyRestart_REQUEST(sessionHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyRestart_REQUEST(sessionHandle)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyRestart, req)
         return self.processResponse(respBuf)
     # PolicyRestart()
     
@@ -183,10 +168,8 @@ class Tpm(TpmBase):
             creationTicket - Ticket used by TPM2_CertifyCreation() to validate
                              that the creation data was produced by the TPM
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Create, [parentHandle], 1)
-        inStruct = TPM2_Create_REQUEST(parentHandle, inSensitive, inPublic, outsideInfo, creationPCR)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Create_REQUEST(parentHandle, inSensitive, inPublic, outsideInfo, creationPCR)
+        respBuf = self.dispatchCommand(TPM_CC.Create, req)
         return self.processResponse(respBuf, CreateResponse)
     # Create()
     
@@ -206,10 +189,8 @@ class Tpm(TpmBase):
         Returns:
             handle - Handle of type TPM_HT_TRANSIENT for the loaded object
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Load, [parentHandle], 1)
-        inStruct = TPM2_Load_REQUEST(parentHandle, inPrivate, inPublic)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Load_REQUEST(parentHandle, inPrivate, inPublic)
+        respBuf = self.dispatchCommand(TPM_CC.Load, req)
         res = self.processResponse(respBuf, LoadResponse)
         return res.handle if res else None
     # Load()
@@ -227,10 +208,8 @@ class Tpm(TpmBase):
         Returns:
             handle - Handle of type TPM_HT_TRANSIENT for the loaded object
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.LoadExternal, None, 0)
-        inStruct = TPM2_LoadExternal_REQUEST(inPrivate, inPublic, hierarchy)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_LoadExternal_REQUEST(inPrivate, inPublic, hierarchy)
+        respBuf = self.dispatchCommand(TPM_CC.LoadExternal, req)
         res = self.processResponse(respBuf, LoadExternalResponse)
         return res.handle if res else None
     # LoadExternal()
@@ -247,10 +226,8 @@ class Tpm(TpmBase):
             name - Name of the object
             qualifiedName - The Qualified Name of the object
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ReadPublic, [objectHandle], 0)
-        inStruct = TPM2_ReadPublic_REQUEST(objectHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ReadPublic_REQUEST(objectHandle)
+        respBuf = self.dispatchCommand(TPM_CC.ReadPublic, req)
         return self.processResponse(respBuf, ReadPublicResponse)
     # ReadPublic()
     
@@ -277,10 +254,8 @@ class Tpm(TpmBase):
                        the data should be no larger than the size of the digest
                        of the nameAlg associated with keyHandle
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ActivateCredential, [activateHandle, keyHandle], 2)
-        inStruct = TPM2_ActivateCredential_REQUEST(activateHandle, keyHandle, credentialBlob, secret)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ActivateCredential_REQUEST(activateHandle, keyHandle, credentialBlob, secret)
+        respBuf = self.dispatchCommand(TPM_CC.ActivateCredential, req)
         res = self.processResponse(respBuf, ActivateCredentialResponse)
         return res.certInfo if res else None
     # ActivateCredential()
@@ -302,10 +277,8 @@ class Tpm(TpmBase):
             secret - Handle algorithm-dependent data that wraps the key that
                      encrypts credentialBlob
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.MakeCredential, [handle], 0)
-        inStruct = TPM2_MakeCredential_REQUEST(handle, credential, objectName)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_MakeCredential_REQUEST(handle, credential, objectName)
+        respBuf = self.dispatchCommand(TPM_CC.MakeCredential, req)
         return self.processResponse(respBuf, MakeCredentialResponse)
     # MakeCredential()
     
@@ -321,10 +294,8 @@ class Tpm(TpmBase):
             outData - Unsealed data
                       Size of outData is limited to be no more than 128 octets.
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Unseal, [itemHandle], 1)
-        inStruct = TPM2_Unseal_REQUEST(itemHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Unseal_REQUEST(itemHandle)
+        respBuf = self.dispatchCommand(TPM_CC.Unseal, req)
         res = self.processResponse(respBuf, UnsealResponse)
         return res.outData if res else None
     # Unseal()
@@ -344,10 +315,8 @@ class Tpm(TpmBase):
         Returns:
             outPrivate - Private area containing the new authorization value
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ObjectChangeAuth, [objectHandle, parentHandle], 1)
-        inStruct = TPM2_ObjectChangeAuth_REQUEST(objectHandle, parentHandle, newAuth)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ObjectChangeAuth_REQUEST(objectHandle, parentHandle, newAuth)
+        respBuf = self.dispatchCommand(TPM_CC.ObjectChangeAuth, req)
         res = self.processResponse(respBuf, ObjectChangeAuthResponse)
         return res.outPrivate if res else None
     # ObjectChangeAuth()
@@ -377,10 +346,8 @@ class Tpm(TpmBase):
             outPublic - The public portion of the created object
             name - The name of the created object
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.CreateLoaded, [parentHandle], 1)
-        inStruct = TPM2_CreateLoaded_REQUEST(parentHandle, inSensitive, inPublic)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_CreateLoaded_REQUEST(parentHandle, inSensitive, inPublic)
+        respBuf = self.dispatchCommand(TPM_CC.CreateLoaded, req)
         return self.processResponse(respBuf, CreateLoadedResponse)
     # CreateLoaded()
     
@@ -415,10 +382,8 @@ class Tpm(TpmBase):
             outSymSeed - Seed protected by the asymmetric algorithms of new
                          parent (NP)
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Duplicate, [objectHandle, newParentHandle], 1)
-        inStruct = TPM2_Duplicate_REQUEST(objectHandle, newParentHandle, encryptionKeyIn, symmetricAlg)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Duplicate_REQUEST(objectHandle, newParentHandle, encryptionKeyIn, symmetricAlg)
+        respBuf = self.dispatchCommand(TPM_CC.Duplicate, req)
         return self.processResponse(respBuf, DuplicateResponse)
     # Duplicate()
     
@@ -451,10 +416,8 @@ class Tpm(TpmBase):
             outSymSeed - Seed for a symmetric key protected by newParent
                          asymmetric key
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Rewrap, [oldParent, newParent], 1)
-        inStruct = TPM2_Rewrap_REQUEST(oldParent, newParent, inDuplicate, name, inSymSeed)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Rewrap_REQUEST(oldParent, newParent, inDuplicate, name, inSymSeed)
+        respBuf = self.dispatchCommand(TPM_CC.Rewrap, req)
         return self.processResponse(respBuf, RewrapResponse)
     # Rewrap()
     
@@ -491,10 +454,8 @@ class Tpm(TpmBase):
             outPrivate - The sensitive area encrypted with the symmetric key of
                          parentHandle
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Import, [parentHandle], 1)
-        inStruct = TPM2_Import_REQUEST(parentHandle, encryptionKey, objectPublic, duplicate, inSymSeed, symmetricAlg)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Import_REQUEST(parentHandle, encryptionKey, objectPublic, duplicate, inSymSeed, symmetricAlg)
+        respBuf = self.dispatchCommand(TPM_CC.Import, req)
         res = self.processResponse(respBuf, ImportResponse)
         return res.outPrivate if res else None
     # Import()
@@ -529,10 +490,8 @@ class Tpm(TpmBase):
         Returns:
             outData - Encrypted output
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.RSA_Encrypt, [keyHandle], 0)
-        inStruct = TPM2_RSA_Encrypt_REQUEST(keyHandle, message, inScheme, label)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_RSA_Encrypt_REQUEST(keyHandle, message, inScheme, label)
+        respBuf = self.dispatchCommand(TPM_CC.RSA_Encrypt, req)
         res = self.processResponse(respBuf, RSA_EncryptResponse)
         return res.outData if res else None
     # RSA_Encrypt()
@@ -560,10 +519,8 @@ class Tpm(TpmBase):
         Returns:
             message - Decrypted output
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.RSA_Decrypt, [keyHandle], 1)
-        inStruct = TPM2_RSA_Decrypt_REQUEST(keyHandle, cipherText, inScheme, label)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_RSA_Decrypt_REQUEST(keyHandle, cipherText, inScheme, label)
+        respBuf = self.dispatchCommand(TPM_CC.RSA_Decrypt, req)
         res = self.processResponse(respBuf, RSA_DecryptResponse)
         return res.message if res else None
     # RSA_Decrypt()
@@ -581,10 +538,8 @@ class Tpm(TpmBase):
             zPoint - Results of P h[de]Qs
             pubPoint - Generated ephemeral public point (Qe)
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ECDH_KeyGen, [keyHandle], 0)
-        inStruct = TPM2_ECDH_KeyGen_REQUEST(keyHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ECDH_KeyGen_REQUEST(keyHandle)
+        respBuf = self.dispatchCommand(TPM_CC.ECDH_KeyGen, req)
         return self.processResponse(respBuf, ECDH_KeyGenResponse)
     # ECDH_KeyGen()
     
@@ -605,10 +560,8 @@ class Tpm(TpmBase):
             outPoint - X and Y coordinates of the product of the multiplication
                        Z = (xZ , yZ) [hdS]QB
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ECDH_ZGen, [keyHandle], 1)
-        inStruct = TPM2_ECDH_ZGen_REQUEST(keyHandle, inPoint)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ECDH_ZGen_REQUEST(keyHandle, inPoint)
+        respBuf = self.dispatchCommand(TPM_CC.ECDH_ZGen, req)
         res = self.processResponse(respBuf, ECDH_ZGenResponse)
         return res.outPoint if res else None
     # ECDH_ZGen()
@@ -623,10 +576,8 @@ class Tpm(TpmBase):
         Returns:
             parameters - ECC parameters for the selected curve
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ECC_Parameters, None, 0)
-        inStruct = TPM2_ECC_Parameters_REQUEST(curveID)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ECC_Parameters_REQUEST(curveID)
+        respBuf = self.dispatchCommand(TPM_CC.ECC_Parameters, req)
         res = self.processResponse(respBuf, ECC_ParametersResponse)
         return res.parameters if res else None
     # ECC_Parameters()
@@ -654,10 +605,8 @@ class Tpm(TpmBase):
             outZ1 - X and Y coordinates of the computed value (scheme dependent)
             outZ2 - X and Y coordinates of the second computed value (scheme dependent)
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ZGen_2Phase, [keyA], 1)
-        inStruct = TPM2_ZGen_2Phase_REQUEST(keyA, inQsB, inQeB, inScheme, counter)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ZGen_2Phase_REQUEST(keyA, inQsB, inQeB, inScheme, counter)
+        respBuf = self.dispatchCommand(TPM_CC.ZGen_2Phase, req)
         return self.processResponse(respBuf, ZGen_2PhaseResponse)
     # ZGen_2Phase()
     
@@ -680,10 +629,8 @@ class Tpm(TpmBase):
             C2 - The data block produced by the XOR process
             C3 - The integrity value
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ECC_Encrypt, [keyHandle], 0)
-        inStruct = TPM2_ECC_Encrypt_REQUEST(keyHandle, plainText, inScheme)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ECC_Encrypt_REQUEST(keyHandle, plainText, inScheme)
+        respBuf = self.dispatchCommand(TPM_CC.ECC_Encrypt, req)
         return self.processResponse(respBuf, ECC_EncryptResponse)
     # ECC_Encrypt()
     
@@ -706,10 +653,8 @@ class Tpm(TpmBase):
         Returns:
             plainText - Decrypted output
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ECC_Decrypt, [keyHandle], 1)
-        inStruct = TPM2_ECC_Decrypt_REQUEST(keyHandle, C1, C2, C3, inScheme)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ECC_Decrypt_REQUEST(keyHandle, C1, C2, C3, inScheme)
+        respBuf = self.dispatchCommand(TPM_CC.ECC_Decrypt, req)
         res = self.processResponse(respBuf, ECC_DecryptResponse)
         return res.plainText if res else None
     # ECC_Decrypt()
@@ -733,10 +678,8 @@ class Tpm(TpmBase):
             outData - Encrypted or decrypted output
             ivOut - Chaining value to use for IV in next round
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.EncryptDecrypt, [keyHandle], 1)
-        inStruct = TPM2_EncryptDecrypt_REQUEST(keyHandle, decrypt, mode, ivIn, inData)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_EncryptDecrypt_REQUEST(keyHandle, decrypt, mode, ivIn, inData)
+        respBuf = self.dispatchCommand(TPM_CC.EncryptDecrypt, req)
         return self.processResponse(respBuf, EncryptDecryptResponse)
     # EncryptDecrypt()
     
@@ -760,10 +703,8 @@ class Tpm(TpmBase):
             outData - Encrypted or decrypted output
             ivOut - Chaining value to use for IV in next round
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.EncryptDecrypt2, [keyHandle], 1)
-        inStruct = TPM2_EncryptDecrypt2_REQUEST(keyHandle, inData, decrypt, mode, ivIn)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_EncryptDecrypt2_REQUEST(keyHandle, inData, decrypt, mode, ivIn)
+        respBuf = self.dispatchCommand(TPM_CC.EncryptDecrypt2, req)
         return self.processResponse(respBuf, EncryptDecrypt2Response)
     # EncryptDecrypt2()
     
@@ -785,10 +726,8 @@ class Tpm(TpmBase):
                          will be a NULL ticket if the digest may not be signed
                          with a restricted key
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Hash, None, 0)
-        inStruct = TPM2_Hash_REQUEST(data, hashAlg, hierarchy)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Hash_REQUEST(data, hashAlg, hierarchy)
+        respBuf = self.dispatchCommand(TPM_CC.Hash, req)
         return self.processResponse(respBuf, HashResponse)
     # Hash()
     
@@ -807,10 +746,8 @@ class Tpm(TpmBase):
         Returns:
             outHMAC - The returned HMAC in a sized buffer
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.HMAC, [handle], 1)
-        inStruct = TPM2_HMAC_REQUEST(handle, buffer, hashAlg)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_HMAC_REQUEST(handle, buffer, hashAlg)
+        respBuf = self.dispatchCommand(TPM_CC.HMAC, req)
         res = self.processResponse(respBuf, HMACResponse)
         return res.outHMAC if res else None
     # HMAC()
@@ -830,10 +767,8 @@ class Tpm(TpmBase):
         Returns:
             outMAC - The returned MAC in a sized buffer
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.MAC, [handle], 1)
-        inStruct = TPM2_MAC_REQUEST(handle, buffer, inScheme)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_MAC_REQUEST(handle, buffer, inScheme)
+        respBuf = self.dispatchCommand(TPM_CC.MAC, req)
         res = self.processResponse(respBuf, MACResponse)
         return res.outMAC if res else None
     # MAC()
@@ -848,10 +783,8 @@ class Tpm(TpmBase):
         Returns:
             randomBytes - The random octets
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.GetRandom, None, 0)
-        inStruct = TPM2_GetRandom_REQUEST(bytesRequested)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_GetRandom_REQUEST(bytesRequested)
+        respBuf = self.dispatchCommand(TPM_CC.GetRandom, req)
         res = self.processResponse(respBuf, GetRandomResponse)
         return res.randomBytes if res else None
     # GetRandom()
@@ -862,10 +795,8 @@ class Tpm(TpmBase):
         Args:
             inData (int): Additional information
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.StirRandom, None, 0)
-        inStruct = TPM2_StirRandom_REQUEST(inData)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_StirRandom_REQUEST(inData)
+        respBuf = self.dispatchCommand(TPM_CC.StirRandom, req)
         return self.processResponse(respBuf)
     # StirRandom()
     
@@ -884,10 +815,8 @@ class Tpm(TpmBase):
         Returns:
             handle - A handle to reference the sequence
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.HMAC_Start, [handle], 1)
-        inStruct = TPM2_HMAC_Start_REQUEST(handle, auth, hashAlg)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_HMAC_Start_REQUEST(handle, auth, hashAlg)
+        respBuf = self.dispatchCommand(TPM_CC.HMAC_Start, req)
         res = self.processResponse(respBuf, HMAC_StartResponse)
         return res.handle if res else None
     # HMAC_Start()
@@ -907,10 +836,8 @@ class Tpm(TpmBase):
         Returns:
             handle - A handle to reference the sequence
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.MAC_Start, [handle], 1)
-        inStruct = TPM2_MAC_Start_REQUEST(handle, auth, inScheme)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_MAC_Start_REQUEST(handle, auth, inScheme)
+        respBuf = self.dispatchCommand(TPM_CC.MAC_Start, req)
         res = self.processResponse(respBuf, MAC_StartResponse)
         return res.handle if res else None
     # MAC_Start()
@@ -930,10 +857,8 @@ class Tpm(TpmBase):
         Returns:
             handle - A handle to reference the sequence
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.HashSequenceStart, None, 0)
-        inStruct = TPM2_HashSequenceStart_REQUEST(auth, hashAlg)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_HashSequenceStart_REQUEST(auth, hashAlg)
+        respBuf = self.dispatchCommand(TPM_CC.HashSequenceStart, req)
         res = self.processResponse(respBuf, HashSequenceStartResponse)
         return res.handle if res else None
     # HashSequenceStart()
@@ -948,10 +873,8 @@ class Tpm(TpmBase):
                 Auth Role: USER
             buffer (int): Data to be added to hash
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.SequenceUpdate, [sequenceHandle], 1)
-        inStruct = TPM2_SequenceUpdate_REQUEST(sequenceHandle, buffer)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_SequenceUpdate_REQUEST(sequenceHandle, buffer)
+        respBuf = self.dispatchCommand(TPM_CC.SequenceUpdate, req)
         return self.processResponse(respBuf)
     # SequenceUpdate()
     
@@ -972,10 +895,8 @@ class Tpm(TpmBase):
                          compute outDigest did not start with TPM_GENERATED_VALUE
                          This is a NULL Ticket when the sequence is HMAC.
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.SequenceComplete, [sequenceHandle], 1)
-        inStruct = TPM2_SequenceComplete_REQUEST(sequenceHandle, buffer, hierarchy)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_SequenceComplete_REQUEST(sequenceHandle, buffer, hierarchy)
+        respBuf = self.dispatchCommand(TPM_CC.SequenceComplete, req)
         return self.processResponse(respBuf, SequenceCompleteResponse)
     # SequenceComplete()
     
@@ -999,10 +920,8 @@ class Tpm(TpmBase):
         Returns:
             results - List of digests computed for the PCR
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.EventSequenceComplete, [pcrHandle, sequenceHandle], 2)
-        inStruct = TPM2_EventSequenceComplete_REQUEST(pcrHandle, sequenceHandle, buffer)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_EventSequenceComplete_REQUEST(pcrHandle, sequenceHandle, buffer)
+        respBuf = self.dispatchCommand(TPM_CC.EventSequenceComplete, req)
         res = self.processResponse(respBuf, EventSequenceCompleteResponse)
         return res.results if res else None
     # EventSequenceComplete()
@@ -1036,10 +955,8 @@ class Tpm(TpmBase):
             signature - The asymmetric signature over certifyInfo using the key
                         referenced by signHandle
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Certify, [objectHandle, signHandle], 2)
-        inStruct = TPM2_Certify_REQUEST(objectHandle, signHandle, qualifyingData, inScheme)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Certify_REQUEST(objectHandle, signHandle, qualifyingData, inScheme)
+        respBuf = self.dispatchCommand(TPM_CC.Certify, req)
         return self.processResponse(respBuf, CertifyResponse)
     # Certify()
     
@@ -1072,10 +989,8 @@ class Tpm(TpmBase):
             certifyInfo - The structure that was signed
             signature - The signature over certifyInfo
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.CertifyCreation, [signHandle, objectHandle], 1)
-        inStruct = TPM2_CertifyCreation_REQUEST(signHandle, objectHandle, qualifyingData, creationHash, inScheme, creationTicket)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_CertifyCreation_REQUEST(signHandle, objectHandle, qualifyingData, creationHash, inScheme, creationTicket)
+        respBuf = self.dispatchCommand(TPM_CC.CertifyCreation, req)
         return self.processResponse(respBuf, CertifyCreationResponse)
     # CertifyCreation()
     
@@ -1099,10 +1014,8 @@ class Tpm(TpmBase):
             quoted - The quoted information
             signature - The signature over quoted
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Quote, [signHandle], 1)
-        inStruct = TPM2_Quote_REQUEST(signHandle, qualifyingData, inScheme, PCRselect)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Quote_REQUEST(signHandle, qualifyingData, inScheme, PCRselect)
+        respBuf = self.dispatchCommand(TPM_CC.Quote, req)
         return self.processResponse(respBuf, QuoteResponse)
     # Quote()
     
@@ -1131,10 +1044,8 @@ class Tpm(TpmBase):
             auditInfo - The audit information that was signed
             signature - The signature over auditInfo
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.GetSessionAuditDigest, [privacyAdminHandle, signHandle, sessionHandle], 2)
-        inStruct = TPM2_GetSessionAuditDigest_REQUEST(privacyAdminHandle, signHandle, sessionHandle, qualifyingData, inScheme)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_GetSessionAuditDigest_REQUEST(privacyAdminHandle, signHandle, sessionHandle, qualifyingData, inScheme)
+        respBuf = self.dispatchCommand(TPM_CC.GetSessionAuditDigest, req)
         return self.processResponse(respBuf, GetSessionAuditDigestResponse)
     # GetSessionAuditDigest()
     
@@ -1164,10 +1075,8 @@ class Tpm(TpmBase):
             auditInfo - The auditInfo that was signed
             signature - The signature over auditInfo
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.GetCommandAuditDigest, [privacyHandle, signHandle], 2)
-        inStruct = TPM2_GetCommandAuditDigest_REQUEST(privacyHandle, signHandle, qualifyingData, inScheme)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_GetCommandAuditDigest_REQUEST(privacyHandle, signHandle, qualifyingData, inScheme)
+        respBuf = self.dispatchCommand(TPM_CC.GetCommandAuditDigest, req)
         return self.processResponse(respBuf, GetCommandAuditDigestResponse)
     # GetCommandAuditDigest()
     
@@ -1195,10 +1104,8 @@ class Tpm(TpmBase):
             timeInfo - Standard TPM-generated attestation block
             signature - The signature over timeInfo
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.GetTime, [privacyAdminHandle, signHandle], 2)
-        inStruct = TPM2_GetTime_REQUEST(privacyAdminHandle, signHandle, qualifyingData, inScheme)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_GetTime_REQUEST(privacyAdminHandle, signHandle, qualifyingData, inScheme)
+        respBuf = self.dispatchCommand(TPM_CC.GetTime, req)
         return self.processResponse(respBuf, GetTimeResponse)
     # GetTime()
     
@@ -1235,10 +1142,8 @@ class Tpm(TpmBase):
             tbsDigest - The digest that was signed
             signature - The signature over tbsDigest
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.CertifyX509, [objectHandle, signHandle], 2)
-        inStruct = TPM2_CertifyX509_REQUEST(objectHandle, signHandle, reserved, inScheme, partialCertificate)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_CertifyX509_REQUEST(objectHandle, signHandle, reserved, inScheme, partialCertificate)
+        respBuf = self.dispatchCommand(TPM_CC.CertifyX509, req)
         return self.processResponse(respBuf, CertifyX509Response)
     # CertifyX509()
     
@@ -1264,10 +1169,8 @@ class Tpm(TpmBase):
             E - ECC point E [r]P1
             counter - Least-significant 16 bits of commitCount
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Commit, [signHandle], 1)
-        inStruct = TPM2_Commit_REQUEST(signHandle, P1, s2, y2)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Commit_REQUEST(signHandle, P1, s2, y2)
+        respBuf = self.dispatchCommand(TPM_CC.Commit, req)
         return self.processResponse(respBuf, CommitResponse)
     # Commit()
     
@@ -1282,10 +1185,8 @@ class Tpm(TpmBase):
             Q - Ephemeral public key Q [r]G
             counter - Least-significant 16 bits of commitCount
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.EC_Ephemeral, None, 0)
-        inStruct = TPM2_EC_Ephemeral_REQUEST(curveID)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_EC_Ephemeral_REQUEST(curveID)
+        respBuf = self.dispatchCommand(TPM_CC.EC_Ephemeral, req)
         return self.processResponse(respBuf, EC_EphemeralResponse)
     # EC_Ephemeral()
     
@@ -1311,10 +1212,8 @@ class Tpm(TpmBase):
                          that a digest was signed by a key with the Name of
                          keyName. The ticket is computed by
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.VerifySignature, [keyHandle], 0)
-        inStruct = TPM2_VerifySignature_REQUEST(keyHandle, digest, signature)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_VerifySignature_REQUEST(keyHandle, digest, signature)
+        respBuf = self.dispatchCommand(TPM_CC.VerifySignature, req)
         res = self.processResponse(respBuf, VerifySignatureResponse)
         return res.validation if res else None
     # VerifySignature()
@@ -1342,10 +1241,8 @@ class Tpm(TpmBase):
         Returns:
             signature - The signature
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Sign, [keyHandle], 1)
-        inStruct = TPM2_Sign_REQUEST(keyHandle, digest, inScheme, validation)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Sign_REQUEST(keyHandle, digest, inScheme, validation)
+        respBuf = self.dispatchCommand(TPM_CC.Sign, req)
         res = self.processResponse(respBuf, SignResponse)
         return res.signature if res else None
     # Sign()
@@ -1365,10 +1262,8 @@ class Tpm(TpmBase):
                 will be audited
             clearList (TPM_CC): List of commands that will no longer be audited
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.SetCommandCodeAuditStatus, [auth], 1)
-        inStruct = TPM2_SetCommandCodeAuditStatus_REQUEST(auth, auditAlg, setList, clearList)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_SetCommandCodeAuditStatus_REQUEST(auth, auditAlg, setList, clearList)
+        respBuf = self.dispatchCommand(TPM_CC.SetCommandCodeAuditStatus, req)
         return self.processResponse(respBuf)
     # SetCommandCodeAuditStatus()
     
@@ -1384,10 +1279,8 @@ class Tpm(TpmBase):
                 Auth Role: USER
             digests (TPMT_HA): List of tagged digest values to be extended
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PCR_Extend, [pcrHandle], 1)
-        inStruct = TPM2_PCR_Extend_REQUEST(pcrHandle, digests)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PCR_Extend_REQUEST(pcrHandle, digests)
+        respBuf = self.dispatchCommand(TPM_CC.PCR_Extend, req)
         return self.processResponse(respBuf)
     # PCR_Extend()
     
@@ -1406,10 +1299,8 @@ class Tpm(TpmBase):
                       the hashAlg parameter to indicate the algorithm used to
                       compute the digest and, by implication, the size of the digest.
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PCR_Event, [pcrHandle], 1)
-        inStruct = TPM2_PCR_Event_REQUEST(pcrHandle, eventData)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PCR_Event_REQUEST(pcrHandle, eventData)
+        respBuf = self.dispatchCommand(TPM_CC.PCR_Event, req)
         res = self.processResponse(respBuf, PCR_EventResponse)
         return res.digests if res else None
     # PCR_Event()
@@ -1426,10 +1317,8 @@ class Tpm(TpmBase):
             pcrValues - The contents of the PCR indicated in pcrSelectOut-˃
                         pcrSelection[] as tagged digests
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PCR_Read, None, 0)
-        inStruct = TPM2_PCR_Read_REQUEST(pcrSelectionIn)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PCR_Read_REQUEST(pcrSelectionIn)
+        respBuf = self.dispatchCommand(TPM_CC.PCR_Read, req)
         return self.processResponse(respBuf, PCR_ReadResponse)
     # PCR_Read()
     
@@ -1449,10 +1338,8 @@ class Tpm(TpmBase):
             sizeNeeded - Number of octets required to satisfy the request
             sizeAvailable - Number of octets available. Computed before the allocation.
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PCR_Allocate, [authHandle], 1)
-        inStruct = TPM2_PCR_Allocate_REQUEST(authHandle, pcrAllocation)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PCR_Allocate_REQUEST(authHandle, pcrAllocation)
+        respBuf = self.dispatchCommand(TPM_CC.PCR_Allocate, req)
         return self.processResponse(respBuf, PCR_AllocateResponse)
     # PCR_Allocate()
     
@@ -1469,10 +1356,8 @@ class Tpm(TpmBase):
             hashAlg (TPM_ALG_ID): The hash algorithm of the policy
             pcrNum (TPM_HANDLE): The PCR for which the policy is to be set
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PCR_SetAuthPolicy, [authHandle], 1)
-        inStruct = TPM2_PCR_SetAuthPolicy_REQUEST(authHandle, authPolicy, hashAlg, pcrNum)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PCR_SetAuthPolicy_REQUEST(authHandle, authPolicy, hashAlg, pcrNum)
+        respBuf = self.dispatchCommand(TPM_CC.PCR_SetAuthPolicy, req)
         return self.processResponse(respBuf)
     # PCR_SetAuthPolicy()
     
@@ -1486,10 +1371,8 @@ class Tpm(TpmBase):
                 Auth Role: USER
             auth (int): The desired authorization value
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PCR_SetAuthValue, [pcrHandle], 1)
-        inStruct = TPM2_PCR_SetAuthValue_REQUEST(pcrHandle, auth)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PCR_SetAuthValue_REQUEST(pcrHandle, auth)
+        respBuf = self.dispatchCommand(TPM_CC.PCR_SetAuthValue, req)
         return self.processResponse(respBuf)
     # PCR_SetAuthValue()
     
@@ -1504,10 +1387,8 @@ class Tpm(TpmBase):
                 Auth Index: 1
                 Auth Role: USER
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PCR_Reset, [pcrHandle], 1)
-        inStruct = TPM2_PCR_Reset_REQUEST(pcrHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PCR_Reset_REQUEST(pcrHandle)
+        respBuf = self.dispatchCommand(TPM_CC.PCR_Reset, req)
         return self.processResponse(respBuf)
     # PCR_Reset()
     
@@ -1550,10 +1431,8 @@ class Tpm(TpmBase):
                            the command was non-zero; this ticket will use the
                            TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicySigned, [authObject, policySession], 0)
-        inStruct = TPM2_PolicySigned_REQUEST(authObject, policySession, nonceTPM, cpHashA, policyRef, expiration, auth)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicySigned_REQUEST(authObject, policySession, nonceTPM, cpHashA, policyRef, expiration, auth)
+        respBuf = self.dispatchCommand(TPM_CC.PolicySigned, req)
         return self.processResponse(respBuf, PolicySignedResponse)
     # PolicySigned()
     
@@ -1592,10 +1471,8 @@ class Tpm(TpmBase):
                            the command was non-zero ( See 23.2.5). This ticket
                            will use the TPMT_ST_AUTH_SECRET structure tag
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicySecret, [authHandle, policySession], 1)
-        inStruct = TPM2_PolicySecret_REQUEST(authHandle, policySession, nonceTPM, cpHashA, policyRef, expiration)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicySecret_REQUEST(authHandle, policySession, nonceTPM, cpHashA, policyRef, expiration)
+        respBuf = self.dispatchCommand(TPM_CC.PolicySecret, req)
         return self.processResponse(respBuf, PolicySecretResponse)
     # PolicySecret()
     
@@ -1619,10 +1496,8 @@ class Tpm(TpmBase):
             ticket (TPMT_TK_AUTH): An authorization ticket returned by the TPM
                 in response to a TPM2_PolicySigned() or TPM2_PolicySecret()
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyTicket, [policySession], 0)
-        inStruct = TPM2_PolicyTicket_REQUEST(policySession, timeout, cpHashA, policyRef, authName, ticket)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyTicket_REQUEST(policySession, timeout, cpHashA, policyRef, authName, ticket)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyTicket, req)
         return self.processResponse(respBuf)
     # PolicyTicket()
     
@@ -1638,10 +1513,8 @@ class Tpm(TpmBase):
                 Auth Index: None
             pHashList (TPM2B_DIGEST): The list of hashes to check for a match
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyOR, [policySession], 0)
-        inStruct = TPM2_PolicyOR_REQUEST(policySession, pHashList)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyOR_REQUEST(policySession, pHashList)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyOR, req)
         return self.processResponse(respBuf)
     # PolicyOR()
     
@@ -1658,10 +1531,8 @@ class Tpm(TpmBase):
                 hash algorithm of the session; may be zero length
             pcrs (TPMS_PCR_SELECTION): The PCR to include in the check digest
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyPCR, [policySession], 0)
-        inStruct = TPM2_PolicyPCR_REQUEST(policySession, pcrDigest, pcrs)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyPCR_REQUEST(policySession, pcrDigest, pcrs)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyPCR, req)
         return self.processResponse(respBuf)
     # PolicyPCR()
     
@@ -1674,10 +1545,8 @@ class Tpm(TpmBase):
                 Auth Index: None
             locality (TPMA_LOCALITY): The allowed localities for the policy
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyLocality, [policySession], 0)
-        inStruct = TPM2_PolicyLocality_REQUEST(policySession, locality)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyLocality_REQUEST(policySession, locality)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyLocality, req)
         return self.processResponse(respBuf)
     # PolicyLocality()
     
@@ -1701,10 +1570,8 @@ class Tpm(TpmBase):
                 operand A
             operation (TPM_EO): The comparison to make
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyNV, [authHandle, nvIndex, policySession], 1)
-        inStruct = TPM2_PolicyNV_REQUEST(authHandle, nvIndex, policySession, operandB, offset, operation)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyNV_REQUEST(authHandle, nvIndex, policySession, operandB, offset, operation)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyNV, req)
         return self.processResponse(respBuf)
     # PolicyNV()
     
@@ -1720,10 +1587,8 @@ class Tpm(TpmBase):
                 the start of operand A
             operation (TPM_EO): The comparison to make
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyCounterTimer, [policySession], 0)
-        inStruct = TPM2_PolicyCounterTimer_REQUEST(policySession, operandB, offset, operation)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyCounterTimer_REQUEST(policySession, operandB, offset, operation)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyCounterTimer, req)
         return self.processResponse(respBuf)
     # PolicyCounterTimer()
     
@@ -1736,10 +1601,8 @@ class Tpm(TpmBase):
                 Auth Index: None
             code (TPM_CC): The allowed commandCode
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyCommandCode, [policySession], 0)
-        inStruct = TPM2_PolicyCommandCode_REQUEST(policySession, code)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyCommandCode_REQUEST(policySession, code)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyCommandCode, req)
         return self.processResponse(respBuf)
     # PolicyCommandCode()
     
@@ -1751,10 +1614,8 @@ class Tpm(TpmBase):
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyPhysicalPresence, [policySession], 0)
-        inStruct = TPM2_PolicyPhysicalPresence_REQUEST(policySession)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyPhysicalPresence_REQUEST(policySession)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyPhysicalPresence, req)
         return self.processResponse(respBuf)
     # PolicyPhysicalPresence()
     
@@ -1767,10 +1628,8 @@ class Tpm(TpmBase):
                 Auth Index: None
             cpHashA (int): The cpHash added to the policy
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyCpHash, [policySession], 0)
-        inStruct = TPM2_PolicyCpHash_REQUEST(policySession, cpHashA)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyCpHash_REQUEST(policySession, cpHashA)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyCpHash, req)
         return self.processResponse(respBuf)
     # PolicyCpHash()
     
@@ -1785,10 +1644,8 @@ class Tpm(TpmBase):
                 Auth Index: None
             nameHash (int): The digest to be added to the policy
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyNameHash, [policySession], 0)
-        inStruct = TPM2_PolicyNameHash_REQUEST(policySession, nameHash)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyNameHash_REQUEST(policySession, nameHash)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyNameHash, req)
         return self.processResponse(respBuf)
     # PolicyNameHash()
     
@@ -1804,10 +1661,8 @@ class Tpm(TpmBase):
             includeObject (int): If YES, the objectName will be included in the
                 value in policySessionpolicyDigest
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyDuplicationSelect, [policySession], 0)
-        inStruct = TPM2_PolicyDuplicationSelect_REQUEST(policySession, objectName, newParentName, includeObject)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyDuplicationSelect_REQUEST(policySession, objectName, newParentName, includeObject)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyDuplicationSelect, req)
         return self.processResponse(respBuf)
     # PolicyDuplicationSelect()
     
@@ -1826,10 +1681,8 @@ class Tpm(TpmBase):
             checkTicket (TPMT_TK_VERIFIED): Ticket validating that
                 approvedPolicy and policyRef were signed by keySign
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyAuthorize, [policySession], 0)
-        inStruct = TPM2_PolicyAuthorize_REQUEST(policySession, approvedPolicy, policyRef, keySign, checkTicket)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyAuthorize_REQUEST(policySession, approvedPolicy, policyRef, keySign, checkTicket)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyAuthorize, req)
         return self.processResponse(respBuf)
     # PolicyAuthorize()
     
@@ -1841,10 +1694,8 @@ class Tpm(TpmBase):
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyAuthValue, [policySession], 0)
-        inStruct = TPM2_PolicyAuthValue_REQUEST(policySession)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyAuthValue_REQUEST(policySession)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyAuthValue, req)
         return self.processResponse(respBuf)
     # PolicyAuthValue()
     
@@ -1856,10 +1707,8 @@ class Tpm(TpmBase):
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyPassword, [policySession], 0)
-        inStruct = TPM2_PolicyPassword_REQUEST(policySession)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyPassword_REQUEST(policySession)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyPassword, req)
         return self.processResponse(respBuf)
     # PolicyPassword()
     
@@ -1875,10 +1724,8 @@ class Tpm(TpmBase):
         Returns:
             policyDigest - The current value of the policySessionpolicyDigest
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyGetDigest, [policySession], 0)
-        inStruct = TPM2_PolicyGetDigest_REQUEST(policySession)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyGetDigest_REQUEST(policySession)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyGetDigest, req)
         res = self.processResponse(respBuf, PolicyGetDigestResponse)
         return res.policyDigest if res else None
     # PolicyGetDigest()
@@ -1894,10 +1741,8 @@ class Tpm(TpmBase):
             writtenSet (int): YES if NV Index is required to have been written
                 NO if NV Index is required not to have been written
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyNvWritten, [policySession], 0)
-        inStruct = TPM2_PolicyNvWritten_REQUEST(policySession, writtenSet)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyNvWritten_REQUEST(policySession, writtenSet)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyNvWritten, req)
         return self.processResponse(respBuf)
     # PolicyNvWritten()
     
@@ -1911,10 +1756,8 @@ class Tpm(TpmBase):
                 Auth Index: None
             templateHash (int): The digest to be added to the policy
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyTemplate, [policySession], 0)
-        inStruct = TPM2_PolicyTemplate_REQUEST(policySession, templateHash)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyTemplate_REQUEST(policySession, templateHash)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyTemplate, req)
         return self.processResponse(respBuf)
     # PolicyTemplate()
     
@@ -1935,10 +1778,8 @@ class Tpm(TpmBase):
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PolicyAuthorizeNV, [authHandle, nvIndex, policySession], 1)
-        inStruct = TPM2_PolicyAuthorizeNV_REQUEST(authHandle, nvIndex, policySession)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PolicyAuthorizeNV_REQUEST(authHandle, nvIndex, policySession)
+        respBuf = self.dispatchCommand(TPM_CC.PolicyAuthorizeNV, req)
         return self.processResponse(respBuf)
     # PolicyAuthorizeNV()
     
@@ -1972,10 +1813,8 @@ class Tpm(TpmBase):
                              that the creation data was produced by the TPM
             name - The name of the created object
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.CreatePrimary, [primaryHandle], 1)
-        inStruct = TPM2_CreatePrimary_REQUEST(primaryHandle, inSensitive, inPublic, outsideInfo, creationPCR)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_CreatePrimary_REQUEST(primaryHandle, inSensitive, inPublic, outsideInfo, creationPCR)
+        respBuf = self.dispatchCommand(TPM_CC.CreatePrimary, req)
         return self.processResponse(respBuf, CreatePrimaryResponse)
     # CreatePrimary()
     
@@ -1995,10 +1834,8 @@ class Tpm(TpmBase):
             state (int): YES if the enable should be SET, NO if the enable
                 should be CLEAR
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.HierarchyControl, [authHandle], 1)
-        inStruct = TPM2_HierarchyControl_REQUEST(authHandle, enable, state)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_HierarchyControl_REQUEST(authHandle, enable, state)
+        respBuf = self.dispatchCommand(TPM_CC.HierarchyControl, req)
         return self.processResponse(respBuf)
     # HierarchyControl()
     
@@ -2021,10 +1858,8 @@ class Tpm(TpmBase):
                 If the authPolicy is an Empty Buffer, then this field shall be
                 TPM_ALG_NULL.
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.SetPrimaryPolicy, [authHandle], 1)
-        inStruct = TPM2_SetPrimaryPolicy_REQUEST(authHandle, authPolicy, hashAlg)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_SetPrimaryPolicy_REQUEST(authHandle, authPolicy, hashAlg)
+        respBuf = self.dispatchCommand(TPM_CC.SetPrimaryPolicy, req)
         return self.processResponse(respBuf)
     # SetPrimaryPolicy()
     
@@ -2038,10 +1873,8 @@ class Tpm(TpmBase):
                 Auth Index: 1
                 Auth Role: USER
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ChangePPS, [authHandle], 1)
-        inStruct = TPM2_ChangePPS_REQUEST(authHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ChangePPS_REQUEST(authHandle)
+        respBuf = self.dispatchCommand(TPM_CC.ChangePPS, req)
         return self.processResponse(respBuf)
     # ChangePPS()
     
@@ -2059,10 +1892,8 @@ class Tpm(TpmBase):
                 Auth Handle: 1
                 Auth Role: USER
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ChangeEPS, [authHandle], 1)
-        inStruct = TPM2_ChangeEPS_REQUEST(authHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ChangeEPS_REQUEST(authHandle)
+        respBuf = self.dispatchCommand(TPM_CC.ChangeEPS, req)
         return self.processResponse(respBuf)
     # ChangeEPS()
     
@@ -2074,10 +1905,8 @@ class Tpm(TpmBase):
                 Auth Handle: 1
                 Auth Role: USER
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Clear, [authHandle], 1)
-        inStruct = TPM2_Clear_REQUEST(authHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Clear_REQUEST(authHandle)
+        respBuf = self.dispatchCommand(TPM_CC.Clear, req)
         return self.processResponse(respBuf)
     # Clear()
     
@@ -2091,10 +1920,8 @@ class Tpm(TpmBase):
             disable (int): YES if the disableOwnerClear flag is to be SET, NO if
                 the flag is to be CLEAR.
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ClearControl, [auth], 1)
-        inStruct = TPM2_ClearControl_REQUEST(auth, disable)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ClearControl_REQUEST(auth, disable)
+        respBuf = self.dispatchCommand(TPM_CC.ClearControl, req)
         return self.processResponse(respBuf)
     # ClearControl()
     
@@ -2110,10 +1937,8 @@ class Tpm(TpmBase):
                 Auth Role: USER
             newAuth (int): New authorization value
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.HierarchyChangeAuth, [authHandle], 1)
-        inStruct = TPM2_HierarchyChangeAuth_REQUEST(authHandle, newAuth)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_HierarchyChangeAuth_REQUEST(authHandle, newAuth)
+        respBuf = self.dispatchCommand(TPM_CC.HierarchyChangeAuth, req)
         return self.processResponse(respBuf)
     # HierarchyChangeAuth()
     
@@ -2127,10 +1952,8 @@ class Tpm(TpmBase):
                 Auth Index: 1
                 Auth Role: USER
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.DictionaryAttackLockReset, [lockHandle], 1)
-        inStruct = TPM2_DictionaryAttackLockReset_REQUEST(lockHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_DictionaryAttackLockReset_REQUEST(lockHandle)
+        respBuf = self.dispatchCommand(TPM_CC.DictionaryAttackLockReset, req)
         return self.processResponse(respBuf)
     # DictionaryAttackLockReset()
     
@@ -2150,10 +1973,8 @@ class Tpm(TpmBase):
                 before use of lockoutAuth is allowed
                 A value of zero indicates that a reboot is required.
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.DictionaryAttackParameters, [lockHandle], 1)
-        inStruct = TPM2_DictionaryAttackParameters_REQUEST(lockHandle, newMaxTries, newRecoveryTime, lockoutRecovery)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_DictionaryAttackParameters_REQUEST(lockHandle, newMaxTries, newRecoveryTime, lockoutRecovery)
+        respBuf = self.dispatchCommand(TPM_CC.DictionaryAttackParameters, req)
         return self.processResponse(respBuf)
     # DictionaryAttackParameters()
     
@@ -2170,10 +1991,8 @@ class Tpm(TpmBase):
             clearList (TPM_CC): List of commands that will no longer require
                 that Physical Presence be asserted
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.PP_Commands, [auth], 1)
-        inStruct = TPM2_PP_Commands_REQUEST(auth, setList, clearList)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_PP_Commands_REQUEST(auth, setList, clearList)
+        respBuf = self.dispatchCommand(TPM_CC.PP_Commands, req)
         return self.processResponse(respBuf)
     # PP_Commands()
     
@@ -2189,10 +2008,8 @@ class Tpm(TpmBase):
             algorithmSet (int): A TPM vendor-dependent value indicating the
                 algorithm set selection
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.SetAlgorithmSet, [authHandle], 1)
-        inStruct = TPM2_SetAlgorithmSet_REQUEST(authHandle, algorithmSet)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_SetAlgorithmSet_REQUEST(authHandle, algorithmSet)
+        respBuf = self.dispatchCommand(TPM_CC.SetAlgorithmSet, req)
         return self.processResponse(respBuf)
     # SetAlgorithmSet()
     
@@ -2216,10 +2033,8 @@ class Tpm(TpmBase):
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
                 TPMS_NULL_SIGNATURE])
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.FieldUpgradeStart, [authorization, keyHandle], 1)
-        inStruct = TPM2_FieldUpgradeStart_REQUEST(authorization, keyHandle, fuDigest, manifestSignature)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_FieldUpgradeStart_REQUEST(authorization, keyHandle, fuDigest, manifestSignature)
+        respBuf = self.dispatchCommand(TPM_CC.FieldUpgradeStart, req)
         return self.processResponse(respBuf)
     # FieldUpgradeStart()
     
@@ -2239,10 +2054,8 @@ class Tpm(TpmBase):
                          TPM_ALG_NULL if field update is complete
             firstDigest - Tagged digest of the first block of the sequence
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.FieldUpgradeData, None, 0)
-        inStruct = TPM2_FieldUpgradeData_REQUEST(fuData)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_FieldUpgradeData_REQUEST(fuData)
+        respBuf = self.dispatchCommand(TPM_CC.FieldUpgradeData, req)
         return self.processResponse(respBuf, FieldUpgradeDataResponse)
     # FieldUpgradeData()
     
@@ -2258,10 +2071,8 @@ class Tpm(TpmBase):
         Returns:
             fuData - Field upgrade image data
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.FirmwareRead, None, 0)
-        inStruct = TPM2_FirmwareRead_REQUEST(sequenceNumber)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_FirmwareRead_REQUEST(sequenceNumber)
+        respBuf = self.dispatchCommand(TPM_CC.FirmwareRead, req)
         res = self.processResponse(respBuf, FirmwareReadResponse)
         return res.fuData if res else None
     # FirmwareRead()
@@ -2281,10 +2092,8 @@ class Tpm(TpmBase):
                       values when the context was saved (TPM2_ContextSave()),
                       then the TPM shall not load the context.
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ContextSave, [saveHandle], 0)
-        inStruct = TPM2_ContextSave_REQUEST(saveHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ContextSave_REQUEST(saveHandle)
+        respBuf = self.dispatchCommand(TPM_CC.ContextSave, req)
         res = self.processResponse(respBuf, ContextSaveResponse)
         return res.context if res else None
     # ContextSave()
@@ -2300,10 +2109,8 @@ class Tpm(TpmBase):
             handle - The handle assigned to the resource after it has been
                      successfully loaded
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ContextLoad, None, 0)
-        inStruct = TPM2_ContextLoad_REQUEST(context)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ContextLoad_REQUEST(context)
+        respBuf = self.dispatchCommand(TPM_CC.ContextLoad, req)
         res = self.processResponse(respBuf, ContextLoadResponse)
         return res.handle if res else None
     # ContextLoad()
@@ -2316,10 +2123,8 @@ class Tpm(TpmBase):
             flushHandle (TPM_HANDLE): The handle of the item to flush
                 NOTE This is a use of a handle as a parameter.
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.FlushContext, None, 0)
-        inStruct = TPM2_FlushContext_REQUEST(flushHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_FlushContext_REQUEST(flushHandle)
+        respBuf = self.dispatchCommand(TPM_CC.FlushContext, req)
         return self.processResponse(respBuf)
     # FlushContext()
     
@@ -2338,10 +2143,8 @@ class Tpm(TpmBase):
                 if objectHandle is a persistent object handle, then it shall be
                 the same value as persistentHandle
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.EvictControl, [auth, objectHandle], 1)
-        inStruct = TPM2_EvictControl_REQUEST(auth, objectHandle, persistentHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_EvictControl_REQUEST(auth, objectHandle, persistentHandle)
+        respBuf = self.dispatchCommand(TPM_CC.EvictControl, req)
         return self.processResponse(respBuf)
     # EvictControl()
     
@@ -2353,10 +2156,8 @@ class Tpm(TpmBase):
             currentTime - This structure is used in, e.g., the TPM2_GetTime()
                           attestation and TPM2_ReadClock().
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ReadClock, None, 0)
-        inStruct = TPM2_ReadClock_REQUEST()
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ReadClock_REQUEST()
+        respBuf = self.dispatchCommand(TPM_CC.ReadClock, req)
         res = self.processResponse(respBuf, ReadClockResponse)
         return res.currentTime if res else None
     # ReadClock()
@@ -2374,10 +2175,8 @@ class Tpm(TpmBase):
                 Auth Role: USER
             newTime (int): New Clock setting in milliseconds
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ClockSet, [auth], 1)
-        inStruct = TPM2_ClockSet_REQUEST(auth, newTime)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ClockSet_REQUEST(auth, newTime)
+        respBuf = self.dispatchCommand(TPM_CC.ClockSet, req)
         return self.processResponse(respBuf)
     # ClockSet()
     
@@ -2391,10 +2190,8 @@ class Tpm(TpmBase):
                 Auth Role: USER
             rateAdjust (TPM_CLOCK_ADJUST): Adjustment to current Clock update rate
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ClockRateAdjust, [auth], 1)
-        inStruct = TPM2_ClockRateAdjust_REQUEST(auth, rateAdjust)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ClockRateAdjust_REQUEST(auth, rateAdjust)
+        respBuf = self.dispatchCommand(TPM_CC.ClockRateAdjust, req)
         return self.processResponse(respBuf)
     # ClockRateAdjust()
     
@@ -2412,10 +2209,8 @@ class Tpm(TpmBase):
             moreData - Flag to indicate if there are more values of this type
             capabilityData - The capability data
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.GetCapability, None, 0)
-        inStruct = TPM2_GetCapability_REQUEST(capability, property, propertyCount)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_GetCapability_REQUEST(capability, property, propertyCount)
+        respBuf = self.dispatchCommand(TPM_CC.GetCapability, req)
         return self.processResponse(respBuf, GetCapabilityResponse)
     # GetCapability()
     
@@ -2428,10 +2223,8 @@ class Tpm(TpmBase):
                 (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
                 TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.TestParms, None, 0)
-        inStruct = TPM2_TestParms_REQUEST(parameters)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_TestParms_REQUEST(parameters)
+        respBuf = self.dispatchCommand(TPM_CC.TestParms, req)
         return self.processResponse(respBuf)
     # TestParms()
     
@@ -2448,10 +2241,8 @@ class Tpm(TpmBase):
             auth (int): The authorization value
             publicInfo (TPMS_NV_PUBLIC): The public parameters of the NV area
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_DefineSpace, [authHandle], 1)
-        inStruct = TPM2_NV_DefineSpace_REQUEST(authHandle, auth, publicInfo)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_DefineSpace_REQUEST(authHandle, auth, publicInfo)
+        respBuf = self.dispatchCommand(TPM_CC.NV_DefineSpace, req)
         return self.processResponse(respBuf)
     # NV_DefineSpace()
     
@@ -2465,10 +2256,8 @@ class Tpm(TpmBase):
             nvIndex (TPM_HANDLE): The NV Index to remove from NV space
                 Auth Index: None
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_UndefineSpace, [authHandle, nvIndex], 1)
-        inStruct = TPM2_NV_UndefineSpace_REQUEST(authHandle, nvIndex)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_UndefineSpace_REQUEST(authHandle, nvIndex)
+        respBuf = self.dispatchCommand(TPM_CC.NV_UndefineSpace, req)
         return self.processResponse(respBuf)
     # NV_UndefineSpace()
     
@@ -2484,10 +2273,8 @@ class Tpm(TpmBase):
                 Auth Index: 2
                 Auth Role: USER
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_UndefineSpaceSpecial, [nvIndex, platform], 2)
-        inStruct = TPM2_NV_UndefineSpaceSpecial_REQUEST(nvIndex, platform)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_UndefineSpaceSpecial_REQUEST(nvIndex, platform)
+        respBuf = self.dispatchCommand(TPM_CC.NV_UndefineSpaceSpecial, req)
         return self.processResponse(respBuf)
     # NV_UndefineSpaceSpecial()
     
@@ -2504,10 +2291,8 @@ class Tpm(TpmBase):
             nvPublic - The public area of the NV Index
             nvName - The Name of the nvIndex
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_ReadPublic, [nvIndex], 0)
-        inStruct = TPM2_NV_ReadPublic_REQUEST(nvIndex)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_ReadPublic_REQUEST(nvIndex)
+        respBuf = self.dispatchCommand(TPM_CC.NV_ReadPublic, req)
         return self.processResponse(respBuf, NV_ReadPublicResponse)
     # NV_ReadPublic()
     
@@ -2525,10 +2310,8 @@ class Tpm(TpmBase):
             data (int): The data to write
             offset (int): The octet offset into the NV Area
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_Write, [authHandle, nvIndex], 1)
-        inStruct = TPM2_NV_Write_REQUEST(authHandle, nvIndex, data, offset)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_Write_REQUEST(authHandle, nvIndex, data, offset)
+        respBuf = self.dispatchCommand(TPM_CC.NV_Write, req)
         return self.processResponse(respBuf)
     # NV_Write()
     
@@ -2545,10 +2328,8 @@ class Tpm(TpmBase):
             nvIndex (TPM_HANDLE): The NV Index to increment
                 Auth Index: None
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_Increment, [authHandle, nvIndex], 1)
-        inStruct = TPM2_NV_Increment_REQUEST(authHandle, nvIndex)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_Increment_REQUEST(authHandle, nvIndex)
+        respBuf = self.dispatchCommand(TPM_CC.NV_Increment, req)
         return self.processResponse(respBuf)
     # NV_Increment()
     
@@ -2565,10 +2346,8 @@ class Tpm(TpmBase):
                 Auth Index: None
             data (int): The data to extend
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_Extend, [authHandle, nvIndex], 1)
-        inStruct = TPM2_NV_Extend_REQUEST(authHandle, nvIndex, data)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_Extend_REQUEST(authHandle, nvIndex, data)
+        respBuf = self.dispatchCommand(TPM_CC.NV_Extend, req)
         return self.processResponse(respBuf)
     # NV_Extend()
     
@@ -2587,10 +2366,8 @@ class Tpm(TpmBase):
                 Auth Index: None
             bits (int): The data to OR with the current contents
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_SetBits, [authHandle, nvIndex], 1)
-        inStruct = TPM2_NV_SetBits_REQUEST(authHandle, nvIndex, bits)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_SetBits_REQUEST(authHandle, nvIndex, bits)
+        respBuf = self.dispatchCommand(TPM_CC.NV_SetBits, req)
         return self.processResponse(respBuf)
     # NV_SetBits()
     
@@ -2607,10 +2384,8 @@ class Tpm(TpmBase):
             nvIndex (TPM_HANDLE): The NV Index of the area to lock
                 Auth Index: None
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_WriteLock, [authHandle, nvIndex], 1)
-        inStruct = TPM2_NV_WriteLock_REQUEST(authHandle, nvIndex)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_WriteLock_REQUEST(authHandle, nvIndex)
+        respBuf = self.dispatchCommand(TPM_CC.NV_WriteLock, req)
         return self.processResponse(respBuf)
     # NV_WriteLock()
     
@@ -2623,10 +2398,8 @@ class Tpm(TpmBase):
                 Auth Index: 1
                 Auth Role: USER
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_GlobalWriteLock, [authHandle], 1)
-        inStruct = TPM2_NV_GlobalWriteLock_REQUEST(authHandle)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_GlobalWriteLock_REQUEST(authHandle)
+        respBuf = self.dispatchCommand(TPM_CC.NV_GlobalWriteLock, req)
         return self.processResponse(respBuf)
     # NV_GlobalWriteLock()
     
@@ -2649,10 +2422,8 @@ class Tpm(TpmBase):
         Returns:
             data - The data read
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_Read, [authHandle, nvIndex], 1)
-        inStruct = TPM2_NV_Read_REQUEST(authHandle, nvIndex, size, offset)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_Read_REQUEST(authHandle, nvIndex, size, offset)
+        respBuf = self.dispatchCommand(TPM_CC.NV_Read, req)
         res = self.processResponse(respBuf, NV_ReadResponse)
         return res.data if res else None
     # NV_Read()
@@ -2670,10 +2441,8 @@ class Tpm(TpmBase):
             nvIndex (TPM_HANDLE): The NV Index to be locked
                 Auth Index: None
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_ReadLock, [authHandle, nvIndex], 1)
-        inStruct = TPM2_NV_ReadLock_REQUEST(authHandle, nvIndex)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_ReadLock_REQUEST(authHandle, nvIndex)
+        respBuf = self.dispatchCommand(TPM_CC.NV_ReadLock, req)
         return self.processResponse(respBuf)
     # NV_ReadLock()
     
@@ -2686,10 +2455,8 @@ class Tpm(TpmBase):
                 Auth Role: ADMIN
             newAuth (int): New authorization value
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_ChangeAuth, [nvIndex], 1)
-        inStruct = TPM2_NV_ChangeAuth_REQUEST(nvIndex, newAuth)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_ChangeAuth_REQUEST(nvIndex, newAuth)
+        respBuf = self.dispatchCommand(TPM_CC.NV_ChangeAuth, req)
         return self.processResponse(respBuf)
     # NV_ChangeAuth()
     
@@ -2725,10 +2492,8 @@ class Tpm(TpmBase):
             signature - The asymmetric signature over certifyInfo using the key
                         referenced by signHandle
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.NV_Certify, [signHandle, authHandle, nvIndex], 2)
-        inStruct = TPM2_NV_Certify_REQUEST(signHandle, authHandle, nvIndex, qualifyingData, inScheme, size, offset)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_NV_Certify_REQUEST(signHandle, authHandle, nvIndex, qualifyingData, inScheme, size, offset)
+        respBuf = self.dispatchCommand(TPM_CC.NV_Certify, req)
         return self.processResponse(respBuf, NV_CertifyResponse)
     # NV_Certify()
     
@@ -2746,10 +2511,8 @@ class Tpm(TpmBase):
             moreData - Flag to indicate whether there are more values
             capabilitiesData - List of capabilities
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.AC_GetCapability, [ac], 0)
-        inStruct = TPM2_AC_GetCapability_REQUEST(ac, capability, count)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_AC_GetCapability_REQUEST(ac, capability, count)
+        respBuf = self.dispatchCommand(TPM_CC.AC_GetCapability, req)
         return self.processResponse(respBuf, AC_GetCapabilityResponse)
     # AC_GetCapability()
     
@@ -2773,10 +2536,8 @@ class Tpm(TpmBase):
         Returns:
             acDataOut - May include AC specific data or information about an error.
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.AC_Send, [sendObject, authHandle, ac], 2)
-        inStruct = TPM2_AC_Send_REQUEST(sendObject, authHandle, ac, acDataIn)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_AC_Send_REQUEST(sendObject, authHandle, ac, acDataIn)
+        respBuf = self.dispatchCommand(TPM_CC.AC_Send, req)
         res = self.processResponse(respBuf, AC_SendResponse)
         return res.acDataOut if res else None
     # AC_Send()
@@ -2798,10 +2559,8 @@ class Tpm(TpmBase):
             includeObject (int): If SET, objectName will be included in the
                 value in policySessionpolicyDigest
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Policy_AC_SendSelect, [policySession], 0)
-        inStruct = TPM2_Policy_AC_SendSelect_REQUEST(policySession, objectName, authHandleName, acName, includeObject)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Policy_AC_SendSelect_REQUEST(policySession, objectName, authHandleName, acName, includeObject)
+        respBuf = self.dispatchCommand(TPM_CC.Policy_AC_SendSelect, req)
         return self.processResponse(respBuf)
     # Policy_AC_SendSelect()
     
@@ -2815,10 +2574,8 @@ class Tpm(TpmBase):
                 Auth Role: USER
             startTimeout (int): The start timeout value for the ACT in seconds
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.ACT_SetTimeout, [actHandle], 1)
-        inStruct = TPM2_ACT_SetTimeout_REQUEST(actHandle, startTimeout)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_ACT_SetTimeout_REQUEST(actHandle, startTimeout)
+        respBuf = self.dispatchCommand(TPM_CC.ACT_SetTimeout, req)
         return self.processResponse(respBuf)
     # ACT_SetTimeout()
     
@@ -2831,10 +2588,8 @@ class Tpm(TpmBase):
         Returns:
             outputData - Dummy data
         """
-        cmdBuf = self.prepareCmdBuf(TPM_CC.Vendor_TCG_Test, None, 0)
-        inStruct = TPM2_Vendor_TCG_Test_REQUEST(inputData)
-        inStruct.toTpm(cmdBuf)
-        respBuf = self.dispatchCommand(cmdBuf)
+        req = TPM2_Vendor_TCG_Test_REQUEST(inputData)
+        respBuf = self.dispatchCommand(TPM_CC.Vendor_TCG_Test, req)
         res = self.processResponse(respBuf, Vendor_TCG_TestResponse)
         return res.outputData if res else None
     # Vendor_TCG_Test()

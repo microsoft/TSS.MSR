@@ -56,7 +56,7 @@ export class TpmBuffer
         this.sizedStructSizes = new Array<SizedStructInfo>();
     }
 
-    /** @return  Reference to the underlying byte buffer */
+    /** @return  Reference to the backing byte buffer */
     get buffer(): Buffer { return this.buf; }
 
     /** @return  Size of the backing byte buffer.
@@ -65,20 +65,21 @@ export class TpmBuffer
      */
     get size(): number { return this.buf.length; }
 
+    /** @return  Current read/write position in the the backing byte buffer. */
     get curPos(): number { return this.pos; }
+
+    /** Sets the current read/write position in the the backing byte buffer. */
     set curPos(newPos: number)
     {
         this.pos = newPos;
-        this.outOfBounds = newPos <= this.size;
+        this.outOfBounds = this.size < newPos;
     }
 
-    public isOk(): boolean
-    {
-        return !this.outOfBounds;
-    }
+    /** @return  True unless a previous read/write operation caused under/overflow correspondingly. */
+    public isOk(): boolean { return !this.outOfBounds; }
 
     /** Shrinks the backing byte buffer so that it ends at the current position
-     *  @return  Reference to the (shrunk) backing byte buffer
+     *  @return  Reference to the shrunk backing byte buffer
      */
     public trim() : Buffer
     {
@@ -94,10 +95,9 @@ export class TpmBuffer
 
     protected checkLen(len: number): boolean
     {
-        if (this.buf.length < this.pos + len)
+        if (this.size < this.pos + len)
         {
             this.outOfBounds = true;
-            this.pos = this.buf.length;
             return false;
         }
         return true;
@@ -223,10 +223,11 @@ export class TpmBuffer
      */
     public writeByteBuf(data: Buffer) : void
     {
-        if (!this.checkLen(data.length))
+        let dataSize = data != null ? data.length : 0;
+        if (dataSize == 0 || !this.checkLen(dataSize))
             return;
         data.copy(this.buf, this.pos);
-        this.pos += data.length;
+        this.pos += dataSize;
     }
 
     /** Unmarshalls a byte buffer of the given size (no marshaled length prefix).
@@ -249,16 +250,8 @@ export class TpmBuffer
      */
     public writeSizedByteBuf(data: Buffer, sizeLen: number = 2) : void
     {
-        if (data == null || data.length == 0)
-        {
-            this.writeNum(0, sizeLen);
-        }
-        else if (this.checkLen(data.length + sizeLen))
-        {
-            this.writeNum(data.length, sizeLen);
-            data.copy(this.buf, this.pos);
-            this.pos += data.length;
-        }
+        this.writeNum(data != null ? data.length : 0, sizeLen);
+        this.writeByteBuf(data);
     }
 
     /** Unmarshals a byte buffer from its size-prefixed representation in the TPM wire format.
@@ -267,10 +260,7 @@ export class TpmBuffer
      */
     public readSizedByteBuf(sizeLen: number = 2) : Buffer
     {
-        let len : number = this.readNum(sizeLen);
-        let start: number = this.pos;
-        this.pos += len;
-        return this.buf.slice(start, this.pos);
+        return this.readByteBuf(this.readNum(sizeLen));
     }
 
     public createObj<T extends TpmMarshaller>(type: {new(): T}): T
@@ -295,12 +285,9 @@ export class TpmBuffer
         // Marshal the object
         obj.toTpm(this);
         // Calc marshaled object len
-        let objLen = this.pos - (sizePos + lenSize);
+        let objSize = this.pos - (sizePos + lenSize);
         // Marshal it in the appropriate position
-        //this.buf.writeUIntBE(objLen, sizePos, lenSize);
-        this.pos = sizePos;
-        this.writeShort(objLen);
-        this.pos += objLen;
+        this.writeNumAtPos(objSize, sizePos, lenSize);
     }
 
     public createSizedObj<T extends TpmMarshaller>(type: {new(): T}) : T
@@ -311,8 +298,7 @@ export class TpmBuffer
             return null;
 
         this.sizedStructSizes.push(new SizedStructInfo(this.pos, size));
-        let newObj = new type();
-        newObj.initFromTpm(this);
+        let newObj = this.createObj(type);
         this.sizedStructSizes.pop();
         return newObj;
     }

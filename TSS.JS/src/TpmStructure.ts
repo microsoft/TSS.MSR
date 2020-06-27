@@ -15,6 +15,7 @@ export class TpmStructure implements TpmMarshaller
     /** TpmMarshaller method */
     initFromTpm(buf: TpmBuffer) : void {}
 
+    /** Returns byte buffer with the object representation in the TPM wire format */
     toBytes(): Buffer
     {
         let buf = new TpmBuffer();
@@ -22,30 +23,24 @@ export class TpmStructure implements TpmMarshaller
         return buf.trim();
     }
 
+    /** Initializes object from its representation in the TPM wire format */
     initFromBytes(buffer: Buffer | Uint8Array | ArrayBuffer | any[]): void
     {
         this.initFromTpm(new TpmBuffer(buffer));
     }
 
+    /** Returns byte buffer with size prefixed object representation in the TPM wire format */
     asTpm2B(): Buffer
     {
         let buf = new TpmBuffer();
         buf.writeSizedObj(this);
         return buf.trim();
     }
-
-/*
-    public static createFrom<T extends TpmMarshaller>(type: {new(): T}, buffer: TpmBuffer | Buffer | Uint8Array | ArrayBuffer | any[]): T
-    {
-        let buf: TpmBuffer = buffer instanceof TpmBuffer ? buffer: new TpmBuffer(buffer);
-        return buf.createObj(type);
-    }
-*/
 }; // class TpmStructure
 
 
 /** Parameters of the field, to which session based encryption can be applied (i.e.
- * the first non-handle field marshaled in size-prefixed form) */
+ *  the first non-handle field marshaled in size-prefixed form) */
 export class SessEncInfo
 {
     constructor (

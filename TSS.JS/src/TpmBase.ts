@@ -9,7 +9,7 @@ import { TpmError, TpmDevice, TpmTcpDevice, TpmTbsDevice, TpmLinuxDevice } from 
 import { TpmBuffer, TpmMarshaller } from "./TpmMarshaller.js";
 import { Session } from "./Tss.js";
 import { Tpm } from "./Tpm.js";
-import { TpmStructure, RespStructure } from "./TpmStructure.js";
+import { ReqStructure, RespStructure } from "./TpmStructure.js";
 
 export { TpmError };
 
@@ -152,20 +152,43 @@ export class TpmBase
 		return <Tpm><Object>this;
 	}
 
-    protected prepareCmdBuf(
-        cmdCode: TPM_CC,
-        handles: TPM_HANDLE[],
-        numAuthHandles: number
-    ): TpmBuffer
+    private ResponseHandler: (resp: TpmBuffer) => void;
+    private CmdBuf: TpmBuffer;
+
+    private InterimResponseHandler (err: TpmError, respBuf: Buffer)
     {
+        this._lastError = err;
+        if (err)
+            setImmediate(this.ResponseHandler.bind(this), null);
+        else
+        {
+            let rc: TPM_RC = respBuf.readUInt32BE(6);
+            if (rc == TPM_RC.RETRY)
+                this.device.dispatchCommand(this.CmdBuf.buffer, this.InterimResponseHandler.bind(this));
+            else
+                setImmediate(this.ResponseHandler.bind(this), new TpmBuffer(respBuf));
+        }
+    }
+
+    protected dispatchCommand(
+        cmdCode: TPM_CC,
+        req: ReqStructure,
+        responseHandler: (resp: TpmBuffer) => void
+    ): void
+    {
+        let handles = req.getHandles();
+        let numAuthHandles = req.numAuthHandles();
         let cmdBuf = new TpmBuffer();
 
         this.cmdCode = cmdCode;
         this.sessTag = numAuthHandles > 0 ? TPM_ST.SESSIONS : TPM_ST.NO_SESSIONS;
+
+        // Create command buffer header
         cmdBuf.writeShort(this.sessTag);
         cmdBuf.writeInt(0); // to be filled in later
         cmdBuf.writeInt(cmdCode);
 
+        // Marshal handles, if any
         if (handles != null)
         {
             for (let h of handles)
@@ -177,9 +200,11 @@ export class TpmBase
             }
         }
 
-        // this.sessions != null && this.sessions.length > 0
+        // Marshal auth sessions, if any
         if (numAuthHandles > 0)
         {
+            // If the caller has not provided a session for a handle that requires authorization,
+            // a password session is automatically created.
             if (this.sessions == null)
                 this.sessions = new Array<Session>(numAuthHandles);
             else if (this.sessions.length < numAuthHandles)
@@ -203,36 +228,17 @@ export class TpmBase
             cmdBuf.writeNumAtPos(cmdBuf.curPos - authSizePos - 4, authSizePos);
         }
         this.sessions = null;
-        return cmdBuf;
-    } // prepareCmdBuf()
 
-    private ResponseHandler: (resp: TpmBuffer) => void;
-    private CmdBuf: TpmBuffer;
+        // Marshal command parameters
+        req.toTpm(cmdBuf);
 
-    private InterimResponseHandler (err: TpmError, respBuf: Buffer)
-    {
-        this._lastError = err;
-        if (err)
-            setImmediate(this.ResponseHandler.bind(this), null);
-        else
-        {
-            let rc: TPM_RC = respBuf.readUInt32BE(6);
-            if (rc == TPM_RC.RETRY)
-                this.device.dispatchCommand(this.CmdBuf.buffer, this.InterimResponseHandler.bind(this));
-            else
-                setImmediate(this.ResponseHandler.bind(this), new TpmBuffer(respBuf));
-        }
-    }
-
-    protected dispatchCommand(cmdBuf: TpmBuffer, responseHandler: (resp: TpmBuffer) => void)
-    {
         // Fill in command buffer size in the command header
         cmdBuf.writeNumAtPos(cmdBuf.curPos, 2);
         cmdBuf.trim();
         this.ResponseHandler = responseHandler;
         this.CmdBuf = cmdBuf;
         this.device.dispatchCommand(cmdBuf.buffer, this.InterimResponseHandler.bind(this));
-    }
+    } // dispatchCommand()
 
     protected generateErrorResponse(rc: TPM_RC): TpmBuffer
     {
