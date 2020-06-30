@@ -17,162 +17,162 @@ class TPM_ALG_ID(TpmEnum): # UINT16
     algorithm identifier along with its numeric identifier.
     """
     
-    """ Should not occur """
     ERROR = 0x0000
+    """ Should not occur """
     
-    """ An object type that contains an RSA key """
     FIRST = 0x0001
-    
     """ An object type that contains an RSA key """
-    RSA = 0x0001
     
+    RSA = 0x0001
+    """ An object type that contains an RSA key """
+    
+    TDES = 0x0003
     """ Block cipher with various key sizes (Triple Data Encryption
     Algorithm, commonly called Triple Data Encryption Standard)
     """
-    TDES = 0x0003
     
-    """ Hash algorithm producing a 160-bit digest """
     SHA = 0x0004
+    """ Hash algorithm producing a 160-bit digest """
     
-    """ Redefinition for documentation consistency """
     SHA1 = 0x0004
+    """ Redefinition for documentation consistency """
     
-    """ Hash Message Authentication Code (HMAC) algorithm """
     HMAC = 0x0005
+    """ Hash Message Authentication Code (HMAC) algorithm """
     
-    """ Block cipher with various key sizes """
     AES = 0x0006
+    """ Block cipher with various key sizes """
     
-    """ Hash-based mask-generation function """
     MGF1 = 0x0007
+    """ Hash-based mask-generation function """
     
+    KEYEDHASH = 0x0008
     """ An object type that may use XOR for encryption or an HMAC for
     signing and may also refer to a data object that is neither signing nor
     encrypting
     """
-    KEYEDHASH = 0x0008
     
-    """ Hash-based stream cipher """
     XOR = 0x000A
+    """ Hash-based stream cipher """
     
-    """ Hash algorithm producing a 256-bit digest """
     SHA256 = 0x000B
-    
-    """ Hash algorithm producing a 384-bit digest """
-    SHA384 = 0x000C
-    
-    """ Hash algorithm producing a 512-bit digest """
-    SHA512 = 0x000D
-    
-    """ Indication that no algorithm is selected """
-    NULL = 0x0010
-    
     """ Hash algorithm producing a 256-bit digest """
+    
+    SHA384 = 0x000C
+    """ Hash algorithm producing a 384-bit digest """
+    
+    SHA512 = 0x000D
+    """ Hash algorithm producing a 512-bit digest """
+    
+    NULL = 0x0010
+    """ Indication that no algorithm is selected """
+    
     SM3_256 = 0x0012
+    """ Hash algorithm producing a 256-bit digest """
     
-    """ Symmetric block cipher with 128 bit key """
     SM4 = 0x0013
+    """ Symmetric block cipher with 128 bit key """
     
-    """ A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5) """
     RSASSA = 0x0014
+    """ A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5) """
     
-    """ A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5) """
     RSAES = 0x0015
+    """ A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5) """
     
-    """ A signature algorithm defined in section 8.1 (RSASSA-PSS) """
     RSAPSS = 0x0016
+    """ A signature algorithm defined in section 8.1 (RSASSA-PSS) """
     
-    """ A padding algorithm defined in Section 7.1 (RSAES_OAEP) """
     OAEP = 0x0017
+    """ A padding algorithm defined in Section 7.1 (RSAES_OAEP) """
     
-    """ Signature algorithm using elliptic curve cryptography (ECC) """
     ECDSA = 0x0018
+    """ Signature algorithm using elliptic curve cryptography (ECC) """
     
+    ECDH = 0x0019
     """ Secret sharing using ECC Based on context, this can be either
     One-Pass Diffie-Hellman, C(1, 1, ECC CDH) defined in 6.2.2.2 or Full
     Unified Model C(2, 2, ECC CDH) defined in 6.1.1.2
     """
-    ECDH = 0x0019
     
-    """ Elliptic-curve based, anonymous signing scheme """
     ECDAA = 0x001A
+    """ Elliptic-curve based, anonymous signing scheme """
     
+    SM2 = 0x001B
     """ Depending on context, either an elliptic-curve-based signature
     algorithm, encryption algorithm, or key exchange protocol
     """
-    SM2 = 0x001B
     
-    """ Elliptic-curve based Schnorr signature """
     ECSCHNORR = 0x001C
+    """ Elliptic-curve based Schnorr signature """
     
-    """ Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4 """
     ECMQV = 0x001D
+    """ Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4 """
     
+    KDF1_SP800_56A = 0x0020
     """ Concatenation key derivation function (approved alternative 1)
     Section 5.8.1
     """
-    KDF1_SP800_56A = 0x0020
     
-    """ Key derivation function KDF2 Section 13.2 """
     KDF2 = 0x0021
+    """ Key derivation function KDF2 Section 13.2 """
     
-    """ A key derivation method SP800-108, Section 5.1 KDF in Counter Mode """
     KDF1_SP800_108 = 0x0022
+    """ A key derivation method SP800-108, Section 5.1 KDF in Counter Mode """
     
-    """ Prime field ECC """
     ECC = 0x0023
+    """ Prime field ECC """
     
-    """ The object type for a symmetric block cipher key """
     SYMCIPHER = 0x0025
+    """ The object type for a symmetric block cipher key """
     
-    """ Symmetric block cipher with various key sizes """
     CAMELLIA = 0x0026
+    """ Symmetric block cipher with various key sizes """
     
-    """ Hash algorithm producing a 256-bit digest """
     SHA3_256 = 0x0027
+    """ Hash algorithm producing a 256-bit digest """
     
-    """ Hash algorithm producing a 384-bit digest """
     SHA3_384 = 0x0028
+    """ Hash algorithm producing a 384-bit digest """
     
-    """ Hash algorithm producing a 512-bit digest """
     SHA3_512 = 0x0029
+    """ Hash algorithm producing a 512-bit digest """
     
     CMAC = 0x003F
     
+    CTR = 0x0040
     """ Counter mode if implemented, all symmetric block ciphers (S type)
     implemented shall be capable of using this mode.
     """
-    CTR = 0x0040
     
+    OFB = 0x0041
     """ Output Feedback mode if implemented, all symmetric block ciphers (S
     type) implemented shall be capable of using this mode.
     """
-    OFB = 0x0041
     
+    CBC = 0x0042
     """ Cipher Block Chaining mode if implemented, all symmetric block
     ciphers (S type) implemented shall be capable of using this mode.
     """
-    CBC = 0x0042
     
+    CFB = 0x0043
     """ Cipher Feedback mode if implemented, all symmetric block ciphers (S
     type) implemented shall be capable of using this mode.
     """
-    CFB = 0x0043
     
+    ECB = 0x0044
     """ Electronic Codebook mode if implemented, all implemented symmetric
     block ciphers (S type) shall be capable of using this mode.
     NOTE This mode is not recommended for uses unless the key is frequently
     rotated such as in video codecs
     """
-    ECB = 0x0044
     
     LAST = 0x0044
     
-    """ Phony alg ID to be used for the first union member with no selector """
     ANY = 0x7FFF
+    """ Phony alg ID to be used for the first union member with no selector """
     
-    """ Phony alg ID to be used for the second union member with no selector """
     ANY2 = 0x7FFE
+    """ Phony alg ID to be used for the second union member with no selector """
 # enum TPM_ALG_ID
 
 class TPM_ECC_CURVE(TpmEnum): # UINT16
@@ -192,11 +192,11 @@ class TPM_ECC_CURVE(TpmEnum): # UINT16
     
     NIST_P521 = 0x0005
     
-    """ Curve to support ECDAA """
     BN_P256 = 0x0010
-    
     """ Curve to support ECDAA """
+    
     BN_P638 = 0x0011
+    """ Curve to support ECDAA """
     
     SM2_P256 = 0x0020
     
@@ -206,81 +206,81 @@ class TPM_ECC_CURVE(TpmEnum): # UINT16
 class SHA1(TpmEnum): # UINT32
     """ Table 13 Defines for SHA1 Hash Values """
     
-    """ Size of digest in octets """
     DIGEST_SIZE = 20
+    """ Size of digest in octets """
     
-    """ Size of hash block in octets """
     BLOCK_SIZE = 64
+    """ Size of hash block in octets """
 # enum SHA1
 
 class SHA256(TpmEnum): # UINT32
     """ Table 14 Defines for SHA256 Hash Values """
     
-    """ Size of digest """
     DIGEST_SIZE = 32
+    """ Size of digest """
     
-    """ Size of hash block """
     BLOCK_SIZE = 64
+    """ Size of hash block """
 # enum SHA256
 
 class SHA384(TpmEnum): # UINT32
     """ Table 15 Defines for SHA384 Hash Values """
     
-    """ Size of digest in octets """
     DIGEST_SIZE = 48
+    """ Size of digest in octets """
     
-    """ Size of hash block in octets """
     BLOCK_SIZE = 128
+    """ Size of hash block in octets """
 # enum SHA384
 
 class SHA512(TpmEnum): # UINT32
     """ Table 16 Defines for SHA512 Hash Values """
     
-    """ Size of digest in octets """
     DIGEST_SIZE = 64
+    """ Size of digest in octets """
     
-    """ Size of hash block in octets """
     BLOCK_SIZE = 128
+    """ Size of hash block in octets """
 # enum SHA512
 
 class SM3_256(TpmEnum): # UINT32
     """ Table 17 Defines for SM3_256 Hash Values """
     
-    """ Size of digest in octets """
     DIGEST_SIZE = 32
+    """ Size of digest in octets """
     
-    """ Size of hash block in octets """
     BLOCK_SIZE = 64
+    """ Size of hash block in octets """
 # enum SM3_256
 
 class SHA3_256(TpmEnum): # UINT32
     """ Table 18 Defines for SHA3_256 Hash Values """
     
-    """ Size of digest in octets """
     DIGEST_SIZE = 32
+    """ Size of digest in octets """
     
-    """ Size of hash block in octets """
     BLOCK_SIZE = 136
+    """ Size of hash block in octets """
 # enum SHA3_256
 
 class SHA3_384(TpmEnum): # UINT32
     """ Table 19 Defines for SHA3_384 Hash Values """
     
-    """ Size of digest in octets """
     DIGEST_SIZE = 48
+    """ Size of digest in octets """
     
-    """ Size of hash block in octets """
     BLOCK_SIZE = 104
+    """ Size of hash block in octets """
 # enum SHA3_384
 
 class SHA3_512(TpmEnum): # UINT32
     """ Table 20 Defines for SHA3_512 Hash Values """
     
-    """ Size of digest in octets """
     DIGEST_SIZE = 64
+    """ Size of digest in octets """
     
-    """ Size of hash block in octets """
     BLOCK_SIZE = 72
+    """ Size of hash block in octets """
 # enum SHA3_512
 
 class Logic(TpmEnum): # BYTE
@@ -304,20 +304,20 @@ class TPM_SPEC(TpmEnum): # UINT32
     the format).
     """
     
-    """ ASCII 2.0 with null terminator """
     FAMILY = 0x322E3000
+    """ ASCII 2.0 with null terminator """
     
-    """ The level number for the specification """
     LEVEL = 0
+    """ The level number for the specification """
     
-    """ The version number of the spec (001.62 * 100) """
     VERSION = 162
+    """ The version number of the spec (001.62 * 100) """
     
-    """ The year of the version """
     YEAR = 2019
+    """ The year of the version """
     
-    """ The day of the year (December 26) """
     DAY_OF_YEAR = 360
+    """ The day of the year (December 26) """
 # enum TPM_SPEC
 
 class TPM_GENERATED(TpmEnum): # UINT32
@@ -325,13 +325,13 @@ class TPM_GENERATED(TpmEnum): # UINT32
     non-TPM structures.
     """
     
-    """ 0xFF TCG (FF 54 43 4716) """
     VALUE = 0xff544347
+    """ 0xFF TCG (FF 54 43 4716) """
 # enum TPM_GENERATED
 
 class TPM_CC(TpmEnum): # UINT32
-    """ Compile variable. May decrease based on implementation. """
     FIRST = 0x0000011F
+    """ Compile variable. May decrease based on implementation. """
     
     NV_UndefineSpaceSpecial = 0x0000011F
     
@@ -389,11 +389,11 @@ class TPM_CC(TpmEnum): # UINT32
     
     NV_ChangeAuth = 0x0000013B
     
-    """ PCR """
     PCR_Event = 0x0000013C
-    
     """ PCR """
+    
     PCR_Reset = 0x0000013D
+    """ PCR """
     
     SequenceComplete = 0x0000013E
     
@@ -417,8 +417,8 @@ class TPM_CC(TpmEnum): # UINT32
     
     Certify = 0x00000148
     
-    """ Policy """
     PolicyNV = 0x00000149
+    """ Policy """
     
     CertifyCreation = 0x0000014A
     
@@ -434,8 +434,8 @@ class TPM_CC(TpmEnum): # UINT32
     
     ObjectChangeAuth = 0x00000150
     
-    """ Policy """
     PolicySecret = 0x00000151
+    """ Policy """
     
     Rewrap = 0x00000152
     
@@ -443,11 +443,11 @@ class TPM_CC(TpmEnum): # UINT32
     
     ECDH_ZGen = 0x00000154
     
-    """ See NOTE 1 """
     HMAC = 0x00000155
-    
     """ See NOTE 1 """
+    
     MAC = 0x00000155
+    """ See NOTE 1 """
     
     Import = 0x00000156
     
@@ -457,11 +457,11 @@ class TPM_CC(TpmEnum): # UINT32
     
     RSA_Decrypt = 0x00000159
     
-    """ See NOTE 1 """
     HMAC_Start = 0x0000015B
-    
     """ See NOTE 1 """
+    
     MAC_Start = 0x0000015B
+    """ See NOTE 1 """
     
     SequenceUpdate = 0x0000015C
     
@@ -469,55 +469,55 @@ class TPM_CC(TpmEnum): # UINT32
     
     Unseal = 0x0000015E
     
-    """ Policy """
     PolicySigned = 0x00000160
+    """ Policy """
     
-    """ Context """
     ContextLoad = 0x00000161
-    
     """ Context """
+    
     ContextSave = 0x00000162
+    """ Context """
     
     ECDH_KeyGen = 0x00000163
     
     EncryptDecrypt = 0x00000164
     
-    """ Context """
     FlushContext = 0x00000165
+    """ Context """
     
     LoadExternal = 0x00000167
     
     MakeCredential = 0x00000168
     
-    """ NV """
     NV_ReadPublic = 0x00000169
+    """ NV """
     
-    """ Policy """
     PolicyAuthorize = 0x0000016A
-    
     """ Policy """
+    
     PolicyAuthValue = 0x0000016B
-    
     """ Policy """
+    
     PolicyCommandCode = 0x0000016C
-    
     """ Policy """
+    
     PolicyCounterTimer = 0x0000016D
-    
     """ Policy """
+    
     PolicyCpHash = 0x0000016E
-    
     """ Policy """
+    
     PolicyLocality = 0x0000016F
-    
     """ Policy """
+    
     PolicyNameHash = 0x00000170
-    
     """ Policy """
+    
     PolicyOR = 0x00000171
-    
     """ Policy """
+    
     PolicyTicket = 0x00000172
+    """ Policy """
     
     ReadPublic = 0x00000173
     
@@ -539,11 +539,11 @@ class TPM_CC(TpmEnum): # UINT32
     
     Hash = 0x0000017D
     
-    """ PCR """
     PCR_Read = 0x0000017E
+    """ PCR """
     
-    """ Policy """
     PolicyPCR = 0x0000017F
+    """ Policy """
     
     PolicyRestart = 0x00000180
     
@@ -559,36 +559,36 @@ class TPM_CC(TpmEnum): # UINT32
     
     HashSequenceStart = 0x00000186
     
-    """ Policy """
     PolicyPhysicalPresence = 0x00000187
-    
     """ Policy """
+    
     PolicyDuplicationSelect = 0x00000188
-    
     """ Policy """
+    
     PolicyGetDigest = 0x00000189
+    """ Policy """
     
     TestParms = 0x0000018A
     
     Commit = 0x0000018B
     
-    """ Policy """
     PolicyPassword = 0x0000018C
+    """ Policy """
     
     ZGen_2Phase = 0x0000018D
     
     EC_Ephemeral = 0x0000018E
     
-    """ Policy """
     PolicyNvWritten = 0x0000018F
-    
     """ Policy """
+    
     PolicyTemplate = 0x00000190
+    """ Policy """
     
     CreateLoaded = 0x00000191
     
-    """ Policy """
     PolicyAuthorizeNV = 0x00000192
+    """ Policy """
     
     EncryptDecrypt2 = 0x00000193
     
@@ -596,8 +596,8 @@ class TPM_CC(TpmEnum): # UINT32
     
     AC_Send = 0x00000195
     
-    """ Policy """
     Policy_AC_SendSelect = 0x00000196
+    """ Policy """
     
     CertifyX509 = 0x00000197
     
@@ -607,13 +607,13 @@ class TPM_CC(TpmEnum): # UINT32
     
     ECC_Decrypt = 0x0000019A
     
-    """ Compile variable. May increase based on implementation. """
     LAST = 0x0000019A
+    """ Compile variable. May increase based on implementation. """
     
     CC_VEND = 0x20000000
     
-    """ Used for testing of command dispatch """
     Vendor_TCG_Test = CC_VEND+0x0000
+    """ Used for testing of command dispatch """
 # enum TPM_CC
 
 class ImplementationConstants(TpmEnum): # UINT32
@@ -676,280 +676,281 @@ class TPM_RC(TpmEnum): # UINT32
     
     SUCCESS = 0x000
     
-    """ Defined for compatibility with TPM 1.2 """
     BAD_TAG = 0x01E
+    """ Defined for compatibility with TPM 1.2 """
     
-    """ Set for all format 0 response codes """
     RC_VER1 = 0x100
+    """ Set for all format 0 response codes """
     
-    """ TPM not initialized by TPM2_Startup or already initialized """
     INITIALIZE = RC_VER1 + 0x000
+    """ TPM not initialized by TPM2_Startup or already initialized """
     
+    FAILURE = RC_VER1 + 0x001
     """ Commands not being accepted because of a TPM failure
     NOTE This may be returned by TPM2_GetTestResult() as the testResult parameter.
     """
-    FAILURE = RC_VER1 + 0x001
     
-    """ Improper use of a sequence handle """
     SEQUENCE = RC_VER1 + 0x003
+    """ Improper use of a sequence handle """
     
-    """ Not currently used """
     PRIVATE = RC_VER1 + 0x00B
-    
     """ Not currently used """
+    
     HMAC = RC_VER1 + 0x019
+    """ Not currently used """
     
-    """ The command is disabled """
     DISABLED = RC_VER1 + 0x020
+    """ The command is disabled """
     
-    """ Command failed because audit sequence required exclusivity """
     EXCLUSIVE = RC_VER1 + 0x021
+    """ Command failed because audit sequence required exclusivity """
     
-    """ Authorization handle is not correct for command """
     AUTH_TYPE = RC_VER1 + 0x024
+    """ Authorization handle is not correct for command """
     
-    """ Command requires an authorization session for handle and it is not present. """
     AUTH_MISSING = RC_VER1 + 0x025
+    """ Command requires an authorization session for handle and it is not present. """
     
-    """ Policy failure in math operation or an invalid authPolicy value """
     POLICY = RC_VER1 + 0x026
+    """ Policy failure in math operation or an invalid authPolicy value """
     
-    """ PCR check fail """
     PCR = RC_VER1 + 0x027
+    """ PCR check fail """
     
-    """ PCR have changed since checked. """
     PCR_CHANGED = RC_VER1 + 0x028
+    """ PCR have changed since checked. """
     
+    UPGRADE = RC_VER1 + 0x02D
     """ For all commands other than TPM2_FieldUpgradeData(), this code
     indicates that the TPM is in field upgrade mode; for
     TPM2_FieldUpgradeData(), this code indicates that the TPM is not in
     field upgrade mode
     """
-    UPGRADE = RC_VER1 + 0x02D
     
-    """ Context ID counter is at maximum. """
     TOO_MANY_CONTEXTS = RC_VER1 + 0x02E
+    """ Context ID counter is at maximum. """
     
-    """ AuthValue or authPolicy is not available for selected entity. """
     AUTH_UNAVAILABLE = RC_VER1 + 0x02F
+    """ AuthValue or authPolicy is not available for selected entity. """
     
+    REBOOT = RC_VER1 + 0x030
     """ A _TPM_Init and Startup(CLEAR) is required before the TPM can resume
     operation.
     """
-    REBOOT = RC_VER1 + 0x030
     
+    UNBALANCED = RC_VER1 + 0x031
     """ The protection algorithms (hash and symmetric) are not reasonably
     balanced. The digest size of the hash must be larger than the key size
     of the symmetric algorithm.
     """
-    UNBALANCED = RC_VER1 + 0x031
     
+    COMMAND_SIZE = RC_VER1 + 0x042
     """ Command commandSize value is inconsistent with contents of the
     command buffer; either the size is not the same as the octets loaded by
     the hardware interface layer or the value is not large enough to hold a
     command header
     """
-    COMMAND_SIZE = RC_VER1 + 0x042
     
-    """ Command code not supported """
     COMMAND_CODE = RC_VER1 + 0x043
+    """ Command code not supported """
     
+    AUTHSIZE = RC_VER1 + 0x044
     """ The value of authorizationSize is out of range or the number of
     octets in the Authorization Area is greater than required
     """
-    AUTHSIZE = RC_VER1 + 0x044
     
+    AUTH_CONTEXT = RC_VER1 + 0x045
     """ Use of an authorization session with a context command or another
     command that cannot have an authorization session.
     """
-    AUTH_CONTEXT = RC_VER1 + 0x045
     
-    """ NV offset+size is out of range. """
     NV_RANGE = RC_VER1 + 0x046
+    """ NV offset+size is out of range. """
     
-    """ Requested allocation size is larger than allowed. """
     NV_SIZE = RC_VER1 + 0x047
+    """ Requested allocation size is larger than allowed. """
     
-    """ NV access locked. """
     NV_LOCKED = RC_VER1 + 0x048
+    """ NV access locked. """
     
+    NV_AUTHORIZATION = RC_VER1 + 0x049
     """ NV access authorization fails in command actions (this failure does
     not affect lockout.action)
     """
-    NV_AUTHORIZATION = RC_VER1 + 0x049
     
+    NV_UNINITIALIZED = RC_VER1 + 0x04A
     """ An NV Index is used before being initialized or the state saved by
     TPM2_Shutdown(STATE) could not be restored
     """
-    NV_UNINITIALIZED = RC_VER1 + 0x04A
     
-    """ Insufficient space for NV allocation """
     NV_SPACE = RC_VER1 + 0x04B
+    """ Insufficient space for NV allocation """
     
-    """ NV Index or persistent object already defined """
     NV_DEFINED = RC_VER1 + 0x04C
+    """ NV Index or persistent object already defined """
     
-    """ Context in TPM2_ContextLoad() is not valid """
     BAD_CONTEXT = RC_VER1 + 0x050
+    """ Context in TPM2_ContextLoad() is not valid """
     
-    """ CpHash value already set or not correct for use """
     CPHASH = RC_VER1 + 0x051
+    """ CpHash value already set or not correct for use """
     
-    """ Handle for parent is not a valid parent """
     PARENT = RC_VER1 + 0x052
+    """ Handle for parent is not a valid parent """
     
-    """ Some function needs testing. """
     NEEDS_TEST = RC_VER1 + 0x053
+    """ Some function needs testing. """
     
+    NO_RESULT = RC_VER1 + 0x054
     """ Returned when an internal function cannot process a request due to
     an unspecified problem. This code is usually related to invalid
     parameters that are not properly filtered by the input unmarshaling code.
     """
-    NO_RESULT = RC_VER1 + 0x054
     
+    SENSITIVE = RC_VER1 + 0x055
     """ The sensitive area did not unmarshal correctly after decryption this
     code is used in lieu of the other unmarshaling errors so that an
     attacker cannot determine where the unmarshaling error occurred
     """
-    SENSITIVE = RC_VER1 + 0x055
     
-    """ Largest version 1 code that is not a warning """
     RC_MAX_FM0 = RC_VER1 + 0x07F
+    """ Largest version 1 code that is not a warning """
     
+    RC_FMT1 = 0x080
     """ This bit is SET in all format 1 response codes
     The codes in this group may have a value added to them to indicate the
     handle, session, or parameter to which they apply.
     """
-    RC_FMT1 = 0x080
     
-    """ Asymmetric algorithm not supported or not correct """
     ASYMMETRIC = RC_FMT1 + 0x001
+    """ Asymmetric algorithm not supported or not correct """
     
-    """ Inconsistent attributes """
     ATTRIBUTES = RC_FMT1 + 0x002
+    """ Inconsistent attributes """
     
-    """ Hash algorithm not supported or not appropriate """
     HASH = RC_FMT1 + 0x003
+    """ Hash algorithm not supported or not appropriate """
     
-    """ Value is out of range or is not correct for the context """
     VALUE = RC_FMT1 + 0x004
+    """ Value is out of range or is not correct for the context """
     
-    """ Hierarchy is not enabled or is not correct for the use """
     HIERARCHY = RC_FMT1 + 0x005
+    """ Hierarchy is not enabled or is not correct for the use """
     
-    """ Key size is not supported """
     KEY_SIZE = RC_FMT1 + 0x007
+    """ Key size is not supported """
     
-    """ Mask generation function not supported """
     MGF = RC_FMT1 + 0x008
+    """ Mask generation function not supported """
     
-    """ Mode of operation not supported """
     MODE = RC_FMT1 + 0x009
+    """ Mode of operation not supported """
     
-    """ The type of the value is not appropriate for the use """
     TYPE = RC_FMT1 + 0x00A
+    """ The type of the value is not appropriate for the use """
     
-    """ The handle is not correct for the use """
     HANDLE = RC_FMT1 + 0x00B
+    """ The handle is not correct for the use """
     
-    """ Unsupported key derivation function or function not appropriate for use """
     KDF = RC_FMT1 + 0x00C
+    """ Unsupported key derivation function or function not appropriate for use """
     
-    """ Value was out of allowed range. """
     RANGE = RC_FMT1 + 0x00D
+    """ Value was out of allowed range. """
     
-    """ The authorization HMAC check failed and DA counter incremented """
     AUTH_FAIL = RC_FMT1 + 0x00E
+    """ The authorization HMAC check failed and DA counter incremented """
     
-    """ Invalid nonce size or nonce value mismatch """
     NONCE = RC_FMT1 + 0x00F
+    """ Invalid nonce size or nonce value mismatch """
     
-    """ Authorization requires assertion of PP """
     PP = RC_FMT1 + 0x010
+    """ Authorization requires assertion of PP """
     
-    """ Unsupported or incompatible scheme """
     SCHEME = RC_FMT1 + 0x012
+    """ Unsupported or incompatible scheme """
     
-    """ Structure is the wrong size """
     SIZE = RC_FMT1 + 0x015
+    """ Structure is the wrong size """
     
+    SYMMETRIC = RC_FMT1 + 0x016
     """ Unsupported symmetric algorithm or key size, or not appropriate for
     instance
     """
-    SYMMETRIC = RC_FMT1 + 0x016
     
-    """ Incorrect structure tag """
     TAG = RC_FMT1 + 0x017
+    """ Incorrect structure tag """
     
-    """ Union selector is incorrect """
     SELECTOR = RC_FMT1 + 0x018
+    """ Union selector is incorrect """
     
+    INSUFFICIENT = RC_FMT1 + 0x01A
     """ The TPM was unable to unmarshal a value because there were not
     enough octets in the input buffer
     """
-    INSUFFICIENT = RC_FMT1 + 0x01A
     
-    """ The signature is not valid """
     SIGNATURE = RC_FMT1 + 0x01B
+    """ The signature is not valid """
     
-    """ Key fields are not compatible with the selected use """
     KEY = RC_FMT1 + 0x01C
+    """ Key fields are not compatible with the selected use """
     
-    """ A policy check failed """
     POLICY_FAIL = RC_FMT1 + 0x01D
+    """ A policy check failed """
     
-    """ Integrity check failed """
     INTEGRITY = RC_FMT1 + 0x01F
+    """ Integrity check failed """
     
-    """ Invalid ticket """
     TICKET = RC_FMT1 + 0x020
+    """ Invalid ticket """
     
-    """ Reserved bits not set to zero as required """
     RESERVED_BITS = RC_FMT1 + 0x021
+    """ Reserved bits not set to zero as required """
     
-    """ Authorization failure without DA implications """
     BAD_AUTH = RC_FMT1 + 0x022
+    """ Authorization failure without DA implications """
     
-    """ The policy has expired """
     EXPIRED = RC_FMT1 + 0x023
+    """ The policy has expired """
     
+    POLICY_CC = RC_FMT1 + 0x024
     """ The commandCode in the policy is not the commandCode of the command
     or the command code in a policy command references a command that is not
     implemented
     """
-    POLICY_CC = RC_FMT1 + 0x024
     
+    BINDING = RC_FMT1 + 0x025
     """ Public and sensitive portions of an object are not cryptographically
     bound
     """
-    BINDING = RC_FMT1 + 0x025
     
-    """ Curve not supported """
     CURVE = RC_FMT1 + 0x026
+    """ Curve not supported """
     
-    """ Point is not on the required curve. """
     ECC_POINT = RC_FMT1 + 0x027
+    """ Point is not on the required curve. """
     
-    """ Set for warning response codes """
     RC_WARN = 0x900
+    """ Set for warning response codes """
     
-    """ Gap for context ID is too large """
     CONTEXT_GAP = RC_WARN + 0x001
+    """ Gap for context ID is too large """
     
-    """ Out of memory for object contexts """
     OBJECT_MEMORY = RC_WARN + 0x002
+    """ Out of memory for object contexts """
     
-    """ Out of memory for session contexts """
     SESSION_MEMORY = RC_WARN + 0x003
+    """ Out of memory for session contexts """
     
-    """ Out of shared object/session memory or need space for internal operations """
     MEMORY = RC_WARN + 0x004
+    """ Out of shared object/session memory or need space for internal operations """
     
+    SESSION_HANDLES = RC_WARN + 0x005
     """ Out of session handles a session must be flushed before a new
     session may be created
     """
-    SESSION_HANDLES = RC_WARN + 0x005
     
+    OBJECT_HANDLES = RC_WARN + 0x006
     """ Out of object handles the handle space for objects is depleted and a
     reboot is required
     NOTE 1 This cannot occur on the reference implementation.
@@ -957,271 +958,270 @@ class TPM_RC(TpmEnum): # UINT32
     that would deplete handle space. Platform specifications are encouraged
     to forbid it.
     """
-    OBJECT_HANDLES = RC_WARN + 0x006
     
-    """ Bad locality """
     LOCALITY = RC_WARN + 0x007
+    """ Bad locality """
     
+    YIELDED = RC_WARN + 0x008
     """ The TPM has suspended operation on the command; forward progress was
     made and the command may be retried
     See TPM 2.0 Part 1, Multi-tasking.
     NOTE This cannot occur on the reference implementation.
     """
-    YIELDED = RC_WARN + 0x008
     
-    """ The command was canceled """
     CANCELED = RC_WARN + 0x009
+    """ The command was canceled """
     
-    """ TPM is performing self-tests """
     TESTING = RC_WARN + 0x00A
+    """ TPM is performing self-tests """
     
+    REFERENCE_H0 = RC_WARN + 0x010
     """ The 1st handle in the handle area references a transient object or
     session that is not loaded
     """
-    REFERENCE_H0 = RC_WARN + 0x010
     
+    REFERENCE_H1 = RC_WARN + 0x011
     """ The 2nd handle in the handle area references a transient object or
     session that is not loaded
     """
-    REFERENCE_H1 = RC_WARN + 0x011
     
+    REFERENCE_H2 = RC_WARN + 0x012
     """ The 3rd handle in the handle area references a transient object or
     session that is not loaded
     """
-    REFERENCE_H2 = RC_WARN + 0x012
     
+    REFERENCE_H3 = RC_WARN + 0x013
     """ The 4th handle in the handle area references a transient object or
     session that is not loaded
     """
-    REFERENCE_H3 = RC_WARN + 0x013
     
+    REFERENCE_H4 = RC_WARN + 0x014
     """ The 5th handle in the handle area references a transient object or
     session that is not loaded
     """
-    REFERENCE_H4 = RC_WARN + 0x014
     
+    REFERENCE_H5 = RC_WARN + 0x015
     """ The 6th handle in the handle area references a transient object or
     session that is not loaded
     """
-    REFERENCE_H5 = RC_WARN + 0x015
     
+    REFERENCE_H6 = RC_WARN + 0x016
     """ The 7th handle in the handle area references a transient object or
     session that is not loaded
     """
-    REFERENCE_H6 = RC_WARN + 0x016
     
+    REFERENCE_S0 = RC_WARN + 0x018
     """ The 1st authorization session handle references a session that is
     not loaded
     """
-    REFERENCE_S0 = RC_WARN + 0x018
     
+    REFERENCE_S1 = RC_WARN + 0x019
     """ The 2nd authorization session handle references a session that is
     not loaded
     """
-    REFERENCE_S1 = RC_WARN + 0x019
     
+    REFERENCE_S2 = RC_WARN + 0x01A
     """ The 3rd authorization session handle references a session that is
     not loaded
     """
-    REFERENCE_S2 = RC_WARN + 0x01A
     
+    REFERENCE_S3 = RC_WARN + 0x01B
     """ The 4th authorization session handle references a session that is
     not loaded
     """
-    REFERENCE_S3 = RC_WARN + 0x01B
     
-    """ The 5th session handle references a session that is not loaded """
     REFERENCE_S4 = RC_WARN + 0x01C
+    """ The 5th session handle references a session that is not loaded """
     
-    """ The 6th session handle references a session that is not loaded """
     REFERENCE_S5 = RC_WARN + 0x01D
+    """ The 6th session handle references a session that is not loaded """
     
+    REFERENCE_S6 = RC_WARN + 0x01E
     """ The 7th authorization session handle references a session that is
     not loaded
     """
-    REFERENCE_S6 = RC_WARN + 0x01E
     
-    """ The TPM is rate-limiting accesses to prevent wearout of NV """
     NV_RATE = RC_WARN + 0x020
+    """ The TPM is rate-limiting accesses to prevent wearout of NV """
     
+    LOCKOUT = RC_WARN + 0x021
     """ Authorizations for objects subject to DA protection are not allowed
     at this time because the TPM is in DA lockout mode
     """
-    LOCKOUT = RC_WARN + 0x021
     
-    """ The TPM was not able to start the command """
     RETRY = RC_WARN + 0x022
+    """ The TPM was not able to start the command """
     
-    """ The command may require writing of NV and NV is not current accessible """
     NV_UNAVAILABLE = RC_WARN + 0x023
+    """ The command may require writing of NV and NV is not current accessible """
     
-    """ This value is reserved and shall not be returned by the TPM """
     NOT_USED = RC_WARN + 0x7F
+    """ This value is reserved and shall not be returned by the TPM """
     
-    """ Add to a parameter-related error """
     P = 0x040
+    """ Add to a parameter-related error """
     
-    """ Add to a session-related error """
     S = 0x800
+    """ Add to a session-related error """
     
-    """ Add to a parameter-, handle-, or session-related error """
     _1 = 0x100
-    
     """ Add to a parameter-, handle-, or session-related error """
+    
     _2 = 0x200
-    
     """ Add to a parameter-, handle-, or session-related error """
+    
     _3 = 0x300
-    
     """ Add to a parameter-, handle-, or session-related error """
+    
     _4 = 0x400
-    
     """ Add to a parameter-, handle-, or session-related error """
+    
     _5 = 0x500
-    
     """ Add to a parameter-, handle-, or session-related error """
+    
     _6 = 0x600
-    
     """ Add to a parameter-, handle-, or session-related error """
+    
     _7 = 0x700
+    """ Add to a parameter-, handle-, or session-related error """
     
-    """ Add to a parameter-related error """
     _8 = 0x800
-    
     """ Add to a parameter-related error """
+    
     _9 = 0x900
-    
     """ Add to a parameter-related error """
+    
     A = 0xA00
-    
     """ Add to a parameter-related error """
+    
     B = 0xB00
-    
     """ Add to a parameter-related error """
+    
     C = 0xC00
-    
     """ Add to a parameter-related error """
+    
     D = 0xD00
-    
     """ Add to a parameter-related error """
+    
     E = 0xE00
-    
     """ Add to a parameter-related error """
+    
     F = 0xF00
+    """ Add to a parameter-related error """
     
-    """ Number mask """
     N_MASK = 0xF00
+    """ Number mask """
     
-    """ Response buffer returned by the TPM is too short """
     TSS_TCP_BAD_HANDSHAKE_RESP = 0x40280001
-    
-    """ Too old TCP server version """
-    TSS_TCP_SERVER_TOO_OLD = 0x40280002
-    
-    """ Bad ack from the TCP end point """
-    TSS_TCP_BAD_ACK = 0x40280003
-    
-    """ Wrong length of the response buffer returned by the TPM """
-    TSS_TCP_BAD_RESP_LEN = 0x40280004
-    
-    """ TPM2_Startup returned unexpected response code """
-    TSS_TCP_UNEXPECTED_STARTUP_RESP = 0x40280005
-    
-    """ Invalid size tag in the TPM response TCP packet """
-    TSS_TCP_INVALID_SIZE_TAG = 0x40280006
-    
-    """ TPM over TCP device is not connected """
-    TSS_TCP_DISCONNECTED = 0x40280007
-    
-    """ General TPM command dispatch failure """
-    TSS_DISPATCH_FAILED = 0x40280010
-    
-    """ Sending data to TPM failed """
-    TSS_SEND_OP_FAILED = 0x40280011
-    
     """ Response buffer returned by the TPM is too short """
+    
+    TSS_TCP_SERVER_TOO_OLD = 0x40280002
+    """ Too old TCP server version """
+    
+    TSS_TCP_BAD_ACK = 0x40280003
+    """ Bad ack from the TCP end point """
+    
+    TSS_TCP_BAD_RESP_LEN = 0x40280004
+    """ Wrong length of the response buffer returned by the TPM """
+    
+    TSS_TCP_UNEXPECTED_STARTUP_RESP = 0x40280005
+    """ TPM2_Startup returned unexpected response code """
+    
+    TSS_TCP_INVALID_SIZE_TAG = 0x40280006
+    """ Invalid size tag in the TPM response TCP packet """
+    
+    TSS_TCP_DISCONNECTED = 0x40280007
+    """ TPM over TCP device is not connected """
+    
+    TSS_DISPATCH_FAILED = 0x40280010
+    """ General TPM command dispatch failure """
+    
+    TSS_SEND_OP_FAILED = 0x40280011
+    """ Sending data to TPM failed """
+    
     TSS_RESP_BUF_TOO_SHORT = 0x40280021
+    """ Response buffer returned by the TPM is too short """
     
-    """ Invalid tag in the response buffer returned by the TPM """
     TSS_RESP_BUF_INVALID_SESSION_TAG = 0x40280022
+    """ Invalid tag in the response buffer returned by the TPM """
     
-    """ Inconsistent TPM response parameters size """
     TSS_RESP_BUF_INVALID_SIZE = 0x40280023
+    """ Inconsistent TPM response parameters size """
     
-    """ Windows TBS error TPM_E_COMMAND_BLOCKED """
     TBS_COMMAND_BLOCKED = 0x80280400
+    """ Windows TBS error TPM_E_COMMAND_BLOCKED """
     
-    """ Windows TBS error TPM_E_INVALID_HANDLE """
     TBS_INVALID_HANDLE = 0x80280401
+    """ Windows TBS error TPM_E_INVALID_HANDLE """
     
-    """ Windows TBS error TPM_E_DUPLICATE_VHANDLE """
     TBS_DUPLICATE_V_HANDLE = 0x80280402
+    """ Windows TBS error TPM_E_DUPLICATE_VHANDLE """
     
-    """ Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED """
     TBS_EMBEDDED_COMMAND_BLOCKED = 0x80280403
+    """ Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED """
     
-    """ Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED """
     TBS_EMBEDDED_COMMAND_UNSUPPORTED = 0x80280404
+    """ Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED """
     
-    """ Windows TBS returned success but empty response buffer """
     TBS_UNKNOWN_ERROR = 0x80284000
+    """ Windows TBS returned success but empty response buffer """
     
-    """ Windows TBS error TBS_E_INTERNAL_ERROR """
     TBS_INTERNAL_ERROR = 0x80284001
+    """ Windows TBS error TBS_E_INTERNAL_ERROR """
     
-    """ Windows TBS error TBS_E_BAD_PARAMETER """
     TBS_BAD_PARAMETER = 0x80284002
+    """ Windows TBS error TBS_E_BAD_PARAMETER """
     
-    """ Windows TBS error TBS_E_INVALID_OUTPUT_POINTER """
     TBS_INVALID_OUTPUT_POINTER = 0x80284003
+    """ Windows TBS error TBS_E_INVALID_OUTPUT_POINTER """
     
-    """ Windows TBS error TBS_E_INVALID_CONTEXT """
     TBS_INVALID_CONTEXT = 0x80284004
+    """ Windows TBS error TBS_E_INVALID_CONTEXT """
     
-    """ Windows TBS error TBS_E_INSUFFICIENT_BUFFER """
     TBS_INSUFFICIENT_BUFFER = 0x80284005
+    """ Windows TBS error TBS_E_INSUFFICIENT_BUFFER """
     
-    """ Windows TBS error TBS_E_IOERROR """
     TBS_IO_ERROR = 0x80284006
+    """ Windows TBS error TBS_E_IOERROR """
     
-    """ Windows TBS error TBS_E_INVALID_CONTEXT_PARAM """
     TBS_INVALID_CONTEXT_PARAM = 0x80284007
+    """ Windows TBS error TBS_E_INVALID_CONTEXT_PARAM """
     
-    """ Windows TBS error TBS_E_SERVICE_NOT_RUNNING """
     TBS_SERVICE_NOT_RUNNING = 0x80284008
+    """ Windows TBS error TBS_E_SERVICE_NOT_RUNNING """
     
-    """ Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS """
     TBS_TOO_MANY_CONTEXTS = 0x80284009
+    """ Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS """
     
-    """ Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES """
     TBS_TOO_MANY_RESOURCES = 0x8028400A
+    """ Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES """
     
-    """ Windows TBS error TBS_E_SERVICE_START_PENDING """
     TBS_SERVICE_START_PENDING = 0x8028400B
+    """ Windows TBS error TBS_E_SERVICE_START_PENDING """
     
-    """ Windows TBS error TBS_E_PPI_NOT_SUPPORTED """
     TBS_PPI_NOT_SUPPORTED = 0x8028400C
+    """ Windows TBS error TBS_E_PPI_NOT_SUPPORTED """
     
-    """ Windows TBS error TBS_E_COMMAND_CANCELED """
     TBS_COMMAND_CANCELED = 0x8028400D
+    """ Windows TBS error TBS_E_COMMAND_CANCELED """
     
-    """ Windows TBS error TBS_E_BUFFER_TOO_LARGE """
     TBS_BUFFER_TOO_LARGE = 0x8028400E
+    """ Windows TBS error TBS_E_BUFFER_TOO_LARGE """
     
-    """ Windows TBS error TBS_E_TPM_NOT_FOUND """
     TBS_TPM_NOT_FOUND = 0x8028400F
+    """ Windows TBS error TBS_E_TPM_NOT_FOUND """
     
-    """ Windows TBS error TBS_E_SERVICE_DISABLED """
     TBS_SERVICE_DISABLED = 0x80284010
+    """ Windows TBS error TBS_E_SERVICE_DISABLED """
     
-    """ Windows TBS error TBS_E_ACCESS_DENIED """
     TBS_ACCESS_DENIED = 0x80284012
+    """ Windows TBS error TBS_E_ACCESS_DENIED """
     
-    """ Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED """
     TBS_PPI_FUNCTION_NOT_SUPPORTED = 0x80284014
+    """ Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED """
     
-    """ Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND """
     TBS_OWNER_AUTH_NOT_FOUND = 0x80284015
+    """ Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND """
 # enum TPM_RC
 
 class TPM_CLOCK_ADJUST(TpmEnum): # INT8
@@ -1230,66 +1230,66 @@ class TPM_CLOCK_ADJUST(TpmEnum): # INT8
     rate at which Clock and Time change.
     """
     
-    """ Slow the Clock update rate by one coarse adjustment step. """
     COARSE_SLOWER = -3
+    """ Slow the Clock update rate by one coarse adjustment step. """
     
-    """ Slow the Clock update rate by one medium adjustment step. """
     MEDIUM_SLOWER = -2
+    """ Slow the Clock update rate by one medium adjustment step. """
     
-    """ Slow the Clock update rate by one fine adjustment step. """
     FINE_SLOWER = -1
+    """ Slow the Clock update rate by one fine adjustment step. """
     
-    """ No change to the Clock update rate. """
     NO_CHANGE = 0
+    """ No change to the Clock update rate. """
     
-    """ Speed the Clock update rate by one fine adjustment step. """
     FINE_FASTER = 1
+    """ Speed the Clock update rate by one fine adjustment step. """
     
-    """ Speed the Clock update rate by one medium adjustment step. """
     MEDIUM_FASTER = 2
+    """ Speed the Clock update rate by one medium adjustment step. """
     
-    """ Speed the Clock update rate by one coarse adjustment step. """
     COARSE_FASTER = 3
+    """ Speed the Clock update rate by one coarse adjustment step. """
 # enum TPM_CLOCK_ADJUST
 
 class TPM_EO(TpmEnum): # UINT16
     """ Table 18 Definition of (UINT16) TPM_EO Constants [IN/OUT] """
     
-    """ A = B """
     EQ = 0x0000
+    """ A = B """
     
-    """ A B """
     NEQ = 0x0001
+    """ A B """
     
-    """ A ˃ B signed """
     SIGNED_GT = 0x0002
+    """ A ˃ B signed """
     
-    """ A ˃ B unsigned """
     UNSIGNED_GT = 0x0003
+    """ A ˃ B unsigned """
     
-    """ A ˂ B signed """
     SIGNED_LT = 0x0004
+    """ A ˂ B signed """
     
-    """ A ˂ B unsigned """
     UNSIGNED_LT = 0x0005
+    """ A ˂ B unsigned """
     
-    """ A B signed """
     SIGNED_GE = 0x0006
-    
-    """ A B unsigned """
-    UNSIGNED_GE = 0x0007
-    
     """ A B signed """
-    SIGNED_LE = 0x0008
     
+    UNSIGNED_GE = 0x0007
     """ A B unsigned """
+    
+    SIGNED_LE = 0x0008
+    """ A B signed """
+    
     UNSIGNED_LE = 0x0009
+    """ A B unsigned """
     
-    """ All bits SET in B are SET in A. ((A∧B)=B) """
     BITSET = 0x000A
+    """ All bits SET in B are SET in A. ((A∧B)=B) """
     
-    """ All bits SET in B are CLEAR in A. ((A∧B)=0) """
     BITCLEAR = 0x000B
+    """ All bits SET in B are CLEAR in A. ((A∧B)=0) """
 # enum TPM_EO
 
 class TPM_ST(TpmEnum): # UINT16
@@ -1303,6 +1303,7 @@ class TPM_ST(TpmEnum): # UINT16
     to return because the command tag is not valid.
     """
     
+    RSP_COMMAND = 0x00C4
     """ Tag value for a response; used when there is an error in the tag.
     This is also the value returned from a TPM 1.2 when an error occurs.
     This value is used in this specification because an error in the command
@@ -1314,66 +1315,65 @@ class TPM_ST(TpmEnum): # UINT16
     (0x01e). Some implementations my return the old value instead of the new
     value.
     """
-    RSP_COMMAND = 0x00C4
     
-    """ No structure type specified """
     NULL = 0X8000
+    """ No structure type specified """
     
+    NO_SESSIONS = 0x8001
     """ Tag value for a command/response for a command defined in this
     specification; indicating that the command/response has no attached
     sessions and no authorizationSize/parameterSize value is present
     If the responseCode from the TPM is not TPM_RC_SUCCESS, then the
     response tag shall have this value.
     """
-    NO_SESSIONS = 0x8001
     
+    SESSIONS = 0x8002
     """ Tag value for a command/response for a command defined in this
     specification; indicating that the command/response has one or more
     attached sessions and the authorizationSize/parameterSize field is present
     """
-    SESSIONS = 0x8002
     
-    """ Tag for an attestation structure """
     ATTEST_NV = 0x8014
-    
     """ Tag for an attestation structure """
+    
     ATTEST_COMMAND_AUDIT = 0x8015
-    
     """ Tag for an attestation structure """
+    
     ATTEST_SESSION_AUDIT = 0x8016
-    
     """ Tag for an attestation structure """
+    
     ATTEST_CERTIFY = 0x8017
-    
     """ Tag for an attestation structure """
+    
     ATTEST_QUOTE = 0x8018
-    
     """ Tag for an attestation structure """
+    
     ATTEST_TIME = 0x8019
-    
     """ Tag for an attestation structure """
+    
     ATTEST_CREATION = 0x801A
-    
     """ Tag for an attestation structure """
+    
     ATTEST_NV_DIGEST = 0x801C
+    """ Tag for an attestation structure """
     
-    """ Tag for a ticket type """
     CREATION = 0x8021
-    
     """ Tag for a ticket type """
+    
     VERIFIED = 0x8022
-    
     """ Tag for a ticket type """
+    
     AUTH_SECRET = 0x8023
-    
     """ Tag for a ticket type """
+    
     HASHCHECK = 0x8024
-    
     """ Tag for a ticket type """
-    AUTH_SIGNED = 0x8025
     
-    """ Tag for a structure describing a Field Upgrade Policy """
+    AUTH_SIGNED = 0x8025
+    """ Tag for a ticket type """
+    
     FU_MANIFEST = 0x8029
+    """ Tag for a structure describing a Field Upgrade Policy """
 # enum TPM_ST
 
 class TPM_SU(TpmEnum): # UINT16
@@ -1381,20 +1381,20 @@ class TPM_SU(TpmEnum): # UINT16
     startup mode. The defined startup sequences are:
     """
     
+    CLEAR = 0x0000
     """ On TPM2_Shutdown(), indicates that the TPM should prepare for loss
     of power and save state required for an orderly startup (TPM Reset).
     on TPM2_Startup(), indicates that the TPM should perform TPM Reset or
     TPM Restart
     """
-    CLEAR = 0x0000
     
+    STATE = 0x0001
     """ On TPM2_Shutdown(), indicates that the TPM should prepare for loss
     of power and save state required for an orderly startup (TPM Restart or
     TPM Resume)
     on TPM2_Startup(), indicates that the TPM should restore the state saved
     by TPM2_Shutdown(TPM_SU_STATE)
     """
-    STATE = 0x0001
 # enum TPM_SU
 
 class TPM_SE(TpmEnum): # UINT8
@@ -1406,12 +1406,12 @@ class TPM_SE(TpmEnum): # UINT8
     
     POLICY = 0x01
     
+    TRIAL = 0x03
     """ The policy session is being used to compute the policyHash and not
     for command authorization.
     This setting modifies some policy commands and prevents session from
     being used to authorize a command.
     """
-    TRIAL = 0x03
 # enum TPM_SE
 
 class TPM_CAP(TpmEnum): # UINT32
@@ -1422,43 +1422,43 @@ class TPM_CAP(TpmEnum): # UINT32
     
     FIRST = 0x00000000
     
-    """ TPML_ALG_PROPERTY """
     ALGS = 0x00000000
+    """ TPML_ALG_PROPERTY """
     
-    """ TPML_HANDLE """
     HANDLES = 0x00000001
+    """ TPML_HANDLE """
     
-    """ TPML_CCA """
     COMMANDS = 0x00000002
+    """ TPML_CCA """
     
-    """ TPML_CC """
     PP_COMMANDS = 0x00000003
-    
     """ TPML_CC """
+    
     AUDIT_COMMANDS = 0x00000004
+    """ TPML_CC """
     
-    """ TPML_PCR_SELECTION """
     PCRS = 0x00000005
+    """ TPML_PCR_SELECTION """
     
-    """ TPML_TAGGED_TPM_PROPERTY """
     TPM_PROPERTIES = 0x00000006
+    """ TPML_TAGGED_TPM_PROPERTY """
     
-    """ TPML_TAGGED_PCR_PROPERTY """
     PCR_PROPERTIES = 0x00000007
+    """ TPML_TAGGED_PCR_PROPERTY """
     
-    """ TPML_ECC_CURVE """
     ECC_CURVES = 0x00000008
+    """ TPML_ECC_CURVE """
     
-    """ TPML_TAGGED_POLICY """
     AUTH_POLICIES = 0x00000009
+    """ TPML_TAGGED_POLICY """
     
-    """ TPML_ACT_DATA """
     ACT = 0x0000000A
+    """ TPML_ACT_DATA """
     
     LAST = 0x0000000A
     
-    """ Manufacturer-specific values """
     VENDOR_PROPERTY = 0x00000100
+    """ Manufacturer-specific values """
 # enum TPM_CAP
 
 class TPM_PT(TpmEnum): # UINT32
@@ -1466,135 +1466,136 @@ class TPM_PT(TpmEnum): # UINT32
     TPM_CAP_TPM_PROPERTIES) to indicate the property being selected or returned.
     """
     
-    """ Indicates no property type """
     NONE = 0x00000000
+    """ Indicates no property type """
     
+    PT_GROUP = 0x00000100
     """ The number of properties in each group.
     NOTE The first group with any properties is group 1 (PT_GROUP * 1).
     Group 0 is reserved.
     """
-    PT_GROUP = 0x00000100
     
+    PT_FIXED = PT_GROUP * 1
     """ The group of fixed properties returned as TPMS_TAGGED_PROPERTY
     The values in this group are only changed due to a firmware change in
     the TPM.
     """
-    PT_FIXED = PT_GROUP * 1
     
+    FAMILY_INDICATOR = PT_FIXED + 0
     """ A 4-octet character string containing the TPM Family value
     (TPM_SPEC_FAMILY)
     """
-    FAMILY_INDICATOR = PT_FIXED + 0
     
+    LEVEL = PT_FIXED + 1
     """ The level of the specification
     NOTE 1 For this specification, the level is zero.
     NOTE 2 The level is on the title page of the specification.
     """
-    LEVEL = PT_FIXED + 1
     
+    REVISION = PT_FIXED + 2
     """ The specification Revision times 100
     EXAMPLE Revision 01.01 would have a value of 101.
     NOTE The Revision value is on the title page of the specification.
     """
-    REVISION = PT_FIXED + 2
     
+    DAY_OF_YEAR = PT_FIXED + 3
     """ The specification day of year using TCG calendar
     EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
     NOTE The specification date is on the title page of the specification or
     errata (see 6.1).
     """
-    DAY_OF_YEAR = PT_FIXED + 3
     
+    YEAR = PT_FIXED + 4
     """ The specification year using the CE
     EXAMPLE The year 2010 has a value of 000007DA16.
     NOTE The specification date is on the title page of the specification or
     errata (see 6.1).
     """
-    YEAR = PT_FIXED + 4
     
-    """ The vendor ID unique to each TPM manufacturer """
     MANUFACTURER = PT_FIXED + 5
+    """ The vendor ID unique to each TPM manufacturer """
     
+    VENDOR_STRING_1 = PT_FIXED + 6
     """ The first four characters of the vendor ID string
     NOTE When the vendor string is fewer than 16 octets, the additional
     property values do not have to be present. A vendor string of 4 octets
     can be represented in one 32-bit value and no null terminating character
     is required.
     """
-    VENDOR_STRING_1 = PT_FIXED + 6
     
-    """ The second four characters of the vendor ID string """
     VENDOR_STRING_2 = PT_FIXED + 7
+    """ The second four characters of the vendor ID string """
     
-    """ The third four characters of the vendor ID string """
     VENDOR_STRING_3 = PT_FIXED + 8
+    """ The third four characters of the vendor ID string """
     
-    """ The fourth four characters of the vendor ID sting """
     VENDOR_STRING_4 = PT_FIXED + 9
+    """ The fourth four characters of the vendor ID sting """
     
-    """ Vendor-defined value indicating the TPM model """
     VENDOR_TPM_TYPE = PT_FIXED + 10
+    """ Vendor-defined value indicating the TPM model """
     
+    FIRMWARE_VERSION_1 = PT_FIXED + 11
     """ The most-significant 32 bits of a TPM vendor-specific value
     indicating the version number of the firmware. See 10.12.2 and 10.12.12.
     """
-    FIRMWARE_VERSION_1 = PT_FIXED + 11
     
+    FIRMWARE_VERSION_2 = PT_FIXED + 12
     """ The least-significant 32 bits of a TPM vendor-specific value
     indicating the version number of the firmware. See 10.12.2 and 10.12.12.
     """
-    FIRMWARE_VERSION_2 = PT_FIXED + 12
     
-    """ The maximum size of a parameter (typically, a TPM2B_MAX_BUFFER) """
     INPUT_BUFFER = PT_FIXED + 13
+    """ The maximum size of a parameter (typically, a TPM2B_MAX_BUFFER) """
     
+    HR_TRANSIENT_MIN = PT_FIXED + 14
     """ The minimum number of transient objects that can be held in TPM RAM
     NOTE This minimum shall be no less than the minimum value required by
     the platform-specific specification to which the TPM is built.
     """
-    HR_TRANSIENT_MIN = PT_FIXED + 14
     
+    HR_PERSISTENT_MIN = PT_FIXED + 15
     """ The minimum number of persistent objects that can be held in TPM NV memory
     NOTE This minimum shall be no less than the minimum value required by
     the platform-specific specification to which the TPM is built.
     """
-    HR_PERSISTENT_MIN = PT_FIXED + 15
     
+    HR_LOADED_MIN = PT_FIXED + 16
     """ The minimum number of authorization sessions that can be held in TPM
     RAM
     NOTE This minimum shall be no less than the minimum value required by
     the platform-specific specification to which the TPM is built.
     """
-    HR_LOADED_MIN = PT_FIXED + 16
     
+    ACTIVE_SESSIONS_MAX = PT_FIXED + 17
     """ The number of authorization sessions that may be active at a time
     A session is active when it has a context associated with its handle.
     The context may either be in TPM RAM or be context saved.
     NOTE This value shall be no less than the minimum value required by the
     platform-specific specification to which the TPM is built.
     """
-    ACTIVE_SESSIONS_MAX = PT_FIXED + 17
     
+    PCR_COUNT = PT_FIXED + 18
     """ The number of PCR implemented
     NOTE This number is determined by the defined attributes, not the number
     of PCR that are populated.
     """
-    PCR_COUNT = PT_FIXED + 18
     
+    PCR_SELECT_MIN = PT_FIXED + 19
     """ The minimum number of octets in a TPMS_PCR_SELECT.sizeOfSelect
     NOTE This value is not determined by the number of PCR implemented but
     by the number of PCR required by the platform-specific specification
     with which the TPM is compliant or by the implementer if not adhering to
     a platform-specific specification.
     """
-    PCR_SELECT_MIN = PT_FIXED + 19
     
+    CONTEXT_GAP_MAX = PT_FIXED + 20
     """ The maximum allowed difference (unsigned) between the contextID
     values of two saved session contexts
     This value shall be 2n-1, where n is at least 16.
     """
-    CONTEXT_GAP_MAX = PT_FIXED + 20
     
+    NV_COUNTERS_MAX = PT_FIXED + 22
     """ The maximum number of NV Indexes that are allowed to have the
     TPM_NT_COUNTER attribute
     NOTE 1 It is allowed for this value to be larger than the number of NV
@@ -1604,30 +1605,30 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE 2 The value zero indicates that there is no fixed maximum. The
     number of counter indexes is determined by the available NV memory pool.
     """
-    NV_COUNTERS_MAX = PT_FIXED + 22
     
-    """ The maximum size of an NV Index data area """
     NV_INDEX_MAX = PT_FIXED + 23
+    """ The maximum size of an NV Index data area """
     
-    """ A TPMA_MEMORY indicating the memory management method for the TPM """
     MEMORY = PT_FIXED + 24
+    """ A TPMA_MEMORY indicating the memory management method for the TPM """
     
+    CLOCK_UPDATE = PT_FIXED + 25
     """ Interval, in milliseconds, between updates to the copy of
     TPMS_CLOCK_INFO.clock in NV
     """
-    CLOCK_UPDATE = PT_FIXED + 25
     
+    CONTEXT_HASH = PT_FIXED + 26
     """ The algorithm used for the integrity HMAC on saved contexts and for
     hashing the fuData of TPM2_FirmwareRead()
     """
-    CONTEXT_HASH = PT_FIXED + 26
     
-    """ TPM_ALG_ID, the algorithm used for encryption of saved contexts """
     CONTEXT_SYM = PT_FIXED + 27
+    """ TPM_ALG_ID, the algorithm used for encryption of saved contexts """
     
-    """ TPM_KEY_BITS, the size of the key used for encryption of saved contexts """
     CONTEXT_SYM_SIZE = PT_FIXED + 28
+    """ TPM_KEY_BITS, the size of the key used for encryption of saved contexts """
     
+    ORDERLY_COUNT = PT_FIXED + 29
     """ The modulus - 1 of the count for NV update of an orderly counter
     The returned value is MAX_ORDERLY_COUNT.
     This will have a value of 2N 1 where 1 N 32
@@ -1636,94 +1637,94 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE 2 When the low-order bits of a counter equal this value, an NV
     write occurs on the next increment.
     """
-    ORDERLY_COUNT = PT_FIXED + 29
     
-    """ The maximum value for commandSize in a command """
     MAX_COMMAND_SIZE = PT_FIXED + 30
+    """ The maximum value for commandSize in a command """
     
-    """ The maximum value for responseSize in a response """
     MAX_RESPONSE_SIZE = PT_FIXED + 31
+    """ The maximum value for responseSize in a response """
     
-    """ The maximum size of a digest that can be produced by the TPM """
     MAX_DIGEST = PT_FIXED + 32
+    """ The maximum size of a digest that can be produced by the TPM """
     
+    MAX_OBJECT_CONTEXT = PT_FIXED + 33
     """ The maximum size of an object context that will be returned by
     TPM2_ContextSave
     """
-    MAX_OBJECT_CONTEXT = PT_FIXED + 33
     
+    MAX_SESSION_CONTEXT = PT_FIXED + 34
     """ The maximum size of a session context that will be returned by
     TPM2_ContextSave
     """
-    MAX_SESSION_CONTEXT = PT_FIXED + 34
     
+    PS_FAMILY_INDICATOR = PT_FIXED + 35
     """ Platform-specific family (a TPM_PS value)(see Table 25)
     NOTE The platform-specific values for the TPM_PT_PS parameters are in
     the relevant platform-specific specification. In the reference
     implementation, all of these values are 0.
     """
-    PS_FAMILY_INDICATOR = PT_FIXED + 35
     
-    """ The level of the platform-specific specification """
     PS_LEVEL = PT_FIXED + 36
+    """ The level of the platform-specific specification """
     
-    """ A platform specific value """
     PS_REVISION = PT_FIXED + 37
+    """ A platform specific value """
     
+    PS_DAY_OF_YEAR = PT_FIXED + 38
     """ The platform-specific TPM specification day of year using TCG calendar
     EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
     """
-    PS_DAY_OF_YEAR = PT_FIXED + 38
     
+    PS_YEAR = PT_FIXED + 39
     """ The platform-specific TPM specification year using the CE
     EXAMPLE The year 2010 has a value of 000007DA16.
     """
-    PS_YEAR = PT_FIXED + 39
     
-    """ The number of split signing operations supported by the TPM """
     SPLIT_MAX = PT_FIXED + 40
+    """ The number of split signing operations supported by the TPM """
     
-    """ Total number of commands implemented in the TPM """
     TOTAL_COMMANDS = PT_FIXED + 41
+    """ Total number of commands implemented in the TPM """
     
-    """ Number of commands from the TPM library that are implemented """
     LIBRARY_COMMANDS = PT_FIXED + 42
+    """ Number of commands from the TPM library that are implemented """
     
-    """ Number of vendor commands that are implemented """
     VENDOR_COMMANDS = PT_FIXED + 43
+    """ Number of vendor commands that are implemented """
     
+    NV_BUFFER_MAX = PT_FIXED + 44
     """ The maximum data size in one NV write, NV read, NV extend, or NV
     certify command
     """
-    NV_BUFFER_MAX = PT_FIXED + 44
     
-    """ A TPMA_MODES value, indicating that the TPM is designed for these modes. """
     MODES = PT_FIXED + 45
+    """ A TPMA_MODES value, indicating that the TPM is designed for these modes. """
     
+    MAX_CAP_BUFFER = PT_FIXED + 46
     """ The maximum size of a TPMS_CAPABILITY_DATA structure returned in
     TPM2_GetCapability().
     """
-    MAX_CAP_BUFFER = PT_FIXED + 46
     
+    PT_VAR = PT_GROUP * 2
     """ The group of variable properties returned as TPMS_TAGGED_PROPERTY
     The properties in this group change because of a Protected Capability
     other than a firmware update. The values are not necessarily persistent
     across all power transitions.
     """
-    PT_VAR = PT_GROUP * 2
     
-    """ TPMA_PERMANENT """
     PERMANENT = PT_VAR + 0
+    """ TPMA_PERMANENT """
     
-    """ TPMA_STARTUP_CLEAR """
     STARTUP_CLEAR = PT_VAR + 1
+    """ TPMA_STARTUP_CLEAR """
     
-    """ The number of NV Indexes currently defined """
     HR_NV_INDEX = PT_VAR + 2
+    """ The number of NV Indexes currently defined """
     
-    """ The number of authorization sessions currently loaded into TPM RAM """
     HR_LOADED = PT_VAR + 3
+    """ The number of authorization sessions currently loaded into TPM RAM """
     
+    HR_LOADED_AVAIL = PT_VAR + 4
     """ The number of additional authorization sessions, of any type, that
     could be loaded into TPM RAM
     This value is an estimate. If this value is at least 1, then at least
@@ -1732,14 +1733,14 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE A valid implementation may return 1 even if more than one
     authorization session would fit into RAM.
     """
-    HR_LOADED_AVAIL = PT_VAR + 4
     
+    HR_ACTIVE = PT_VAR + 5
     """ The number of active authorization sessions currently being tracked
     by the TPM
     This is the sum of the loaded and saved sessions.
     """
-    HR_ACTIVE = PT_VAR + 5
     
+    HR_ACTIVE_AVAIL = PT_VAR + 6
     """ The number of additional authorization sessions, of any type, that
     could be created
     This value is an estimate. If this value is at least 1, then at least
@@ -1748,8 +1749,8 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE A valid implementation may return 1 even if more than one
     authorization session could be created.
     """
-    HR_ACTIVE_AVAIL = PT_VAR + 6
     
+    HR_TRANSIENT_AVAIL = PT_VAR + 7
     """ Estimate of the number of additional transient objects that could be
     loaded into TPM RAM
     This value is an estimate. If this value is at least 1, then at least
@@ -1758,11 +1759,11 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE A valid implementation may return 1 even if more than one transient
     object would fit into RAM.
     """
-    HR_TRANSIENT_AVAIL = PT_VAR + 7
     
-    """ The number of persistent objects currently loaded into TPM NV memory """
     HR_PERSISTENT = PT_VAR + 8
+    """ The number of persistent objects currently loaded into TPM NV memory """
     
+    HR_PERSISTENT_AVAIL = PT_VAR + 9
     """ The number of additional persistent objects that could be loaded
     into NV memory
     This value is an estimate. If this value is at least 1, then at least
@@ -1771,11 +1772,11 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE A valid implementation may return 1 even if more than one
     persistent object would fit into NV memory.
     """
-    HR_PERSISTENT_AVAIL = PT_VAR + 9
     
-    """ The number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute """
     NV_COUNTERS = PT_VAR + 10
+    """ The number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute """
     
+    NV_COUNTERS_AVAIL = PT_VAR + 11
     """ The number of additional NV Indexes that can be defined with their
     TPM_NT of TPM_NV_COUNTER and the TPMA_NV_ORDERLY attribute SET
     This value is an estimate. If this value is at least 1, then at least
@@ -1785,41 +1786,40 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE A valid implementation may return 1 even if more than one NV
     counter could be defined.
     """
-    NV_COUNTERS_AVAIL = PT_VAR + 11
     
-    """ Code that limits the algorithms that may be used with the TPM """
     ALGORITHM_SET = PT_VAR + 12
+    """ Code that limits the algorithms that may be used with the TPM """
     
-    """ The number of loaded ECC curves """
     LOADED_CURVES = PT_VAR + 13
+    """ The number of loaded ECC curves """
     
-    """ The current value of the lockout counter (failedTries) """
     LOCKOUT_COUNTER = PT_VAR + 14
+    """ The current value of the lockout counter (failedTries) """
     
-    """ The number of authorization failures before DA lockout is invoked """
     MAX_AUTH_FAIL = PT_VAR + 15
+    """ The number of authorization failures before DA lockout is invoked """
     
+    LOCKOUT_INTERVAL = PT_VAR + 16
     """ The number of seconds before the value reported by
     TPM_PT_LOCKOUT_COUNTER is decremented
     """
-    LOCKOUT_INTERVAL = PT_VAR + 16
     
+    LOCKOUT_RECOVERY = PT_VAR + 17
     """ The number of seconds after a lockoutAuth failure before use of
     lockoutAuth may be attempted again
     """
-    LOCKOUT_RECOVERY = PT_VAR + 17
     
+    NV_WRITE_RECOVERY = PT_VAR + 18
     """ Number of milliseconds before the TPM will accept another command
     that will modify NV
     This value is an approximation and may go up or down over time.
     """
-    NV_WRITE_RECOVERY = PT_VAR + 18
     
-    """ The high-order 32 bits of the command audit counter """
     AUDIT_COUNTER_0 = PT_VAR + 19
+    """ The high-order 32 bits of the command audit counter """
     
-    """ The low-order 32 bits of the command audit counter """
     AUDIT_COUNTER_1 = PT_VAR + 20
+    """ The low-order 32 bits of the command audit counter """
 # enum TPM_PT
 
 class TPM_PT_PCR(TpmEnum): # UINT32
@@ -1830,98 +1830,99 @@ class TPM_PT_PCR(TpmEnum): # UINT32
     value is returned, if it exists.
     """
     
-    """ Bottom of the range of TPM_PT_PCR properties """
     FIRST = 0x00000000
+    """ Bottom of the range of TPM_PT_PCR properties """
     
+    SAVE = 0x00000000
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and
     restored by TPM_SU_STATE
     """
-    SAVE = 0x00000000
     
+    EXTEND_L0 = 0x00000001
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be
     extended from locality 0
     This property is only present if a locality other than 0 is implemented.
     """
-    EXTEND_L0 = 0x00000001
     
+    RESET_L0 = 0x00000002
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset
     by TPM2_PCR_Reset() from locality 0
     """
-    RESET_L0 = 0x00000002
     
+    EXTEND_L1 = 0x00000003
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be
     extended from locality 1
     This property is only present if locality 1 is implemented.
     """
-    EXTEND_L1 = 0x00000003
     
+    RESET_L1 = 0x00000004
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset
     by TPM2_PCR_Reset() from locality 1
     This property is only present if locality 1 is implemented.
     """
-    RESET_L1 = 0x00000004
     
+    EXTEND_L2 = 0x00000005
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be
     extended from locality 2
     This property is only present if localities 1 and 2 are implemented.
     """
-    EXTEND_L2 = 0x00000005
     
+    RESET_L2 = 0x00000006
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset
     by TPM2_PCR_Reset() from locality 2
     This property is only present if localities 1 and 2 are implemented.
     """
-    RESET_L2 = 0x00000006
     
+    EXTEND_L3 = 0x00000007
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be
     extended from locality 3
     This property is only present if localities 1, 2, and 3 are implemented.
     """
-    EXTEND_L3 = 0x00000007
     
+    RESET_L3 = 0x00000008
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset
     by TPM2_PCR_Reset() from locality 3
     This property is only present if localities 1, 2, and 3 are implemented.
     """
-    RESET_L3 = 0x00000008
     
+    EXTEND_L4 = 0x00000009
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be
     extended from locality 4
     This property is only present if localities 1, 2, 3, and 4 are implemented.
     """
-    EXTEND_L4 = 0x00000009
     
+    RESET_L4 = 0x0000000A
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset
     by TPM2_PCR_Reset() from locality 4
     This property is only present if localities 1, 2, 3, and 4 are implemented.
     """
-    RESET_L4 = 0x0000000A
     
+    NO_INCREMENT = 0x00000011
     """ A SET bit in the TPMS_PCR_SELECT indicates that modifications to
     this PCR (reset or Extend) will not increment the pcrUpdateCounter
     """
-    NO_INCREMENT = 0x00000011
     
+    DRTM_RESET = 0x00000012
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR is reset by
     a D-RTM event
     These PCR are reset to -1 on TPM2_Startup() and reset to 0 on a
     _TPM_Hash_End event following a _TPM_Hash_Start event.
     """
-    DRTM_RESET = 0x00000012
     
+    POLICY = 0x00000013
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR is
     controlled by policy
     This property is only present if the TPM supports policy control of a PCR.
     """
-    POLICY = 0x00000013
     
+    AUTH = 0x00000014
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR is
     controlled by an authorization value
     This property is only present if the TPM supports authorization control
     of a PCR.
     """
-    AUTH = 0x00000014
     
+    LAST = 0x00000014
     """ Top of the range of TPM_PT_PCR properties of the implementation
     If the TPM receives a request for a PCR property with a value larger
     than this, the TPM will return a zero length list and set the moreData
@@ -1929,7 +1930,6 @@ class TPM_PT_PCR(TpmEnum): # UINT32
     NOTE This is an implementation-specific value. The value shown reflects
     the reference code implementation.
     """
-    LAST = 0x00000014
 # enum TPM_PT_PCR
 
 class TPM_PS(TpmEnum): # UINT32
@@ -1937,53 +1937,53 @@ class TPM_PS(TpmEnum): # UINT32
     TPM_PT_PS_FAMILY_INDICATOR.
     """
     
-    """ Not platform specific """
     MAIN = 0x00000000
+    """ Not platform specific """
     
-    """ PC Client """
     PC = 0x00000001
+    """ PC Client """
     
-    """ PDA (includes all mobile devices that are not specifically cell phones) """
     PDA = 0x00000002
+    """ PDA (includes all mobile devices that are not specifically cell phones) """
     
-    """ Cell Phone """
     CELL_PHONE = 0x00000003
+    """ Cell Phone """
     
-    """ Server WG """
     SERVER = 0x00000004
+    """ Server WG """
     
-    """ Peripheral WG """
     PERIPHERAL = 0x00000005
+    """ Peripheral WG """
     
-    """ TSS WG (deprecated) """
     TSS = 0x00000006
+    """ TSS WG (deprecated) """
     
-    """ Storage WG """
     STORAGE = 0x00000007
+    """ Storage WG """
     
-    """ Authentication WG """
     AUTHENTICATION = 0x00000008
+    """ Authentication WG """
     
-    """ Embedded WG """
     EMBEDDED = 0x00000009
+    """ Embedded WG """
     
-    """ Hardcopy WG """
     HARDCOPY = 0x0000000A
+    """ Hardcopy WG """
     
-    """ Infrastructure WG (deprecated) """
     INFRASTRUCTURE = 0x0000000B
+    """ Infrastructure WG (deprecated) """
     
-    """ Virtualization WG """
     VIRTUALIZATION = 0x0000000C
+    """ Virtualization WG """
     
-    """ Trusted Network Connect WG (deprecated) """
     TNC = 0x0000000D
+    """ Trusted Network Connect WG (deprecated) """
     
-    """ Multi-tenant WG (deprecated) """
     MULTI_TENANT = 0x0000000E
+    """ Multi-tenant WG (deprecated) """
     
-    """ Technical Committee (deprecated) """
     TC = 0x0000000F
+    """ Technical Committee (deprecated) """
 # enum TPM_PS
 
 class TPM_HT(TpmEnum): # UINT8
@@ -1991,50 +1991,50 @@ class TPM_HT(TpmEnum): # UINT8
     with 224 values in each. Each of these ranges represents a handle type.
     """
     
+    PCR = 0x00
     """ PCR consecutive numbers, starting at 0, that reference the PCR registers
     A platform-specific specification will set the minimum number of PCR and
     an implementation may have more.
     """
-    PCR = 0x00
     
-    """ NV Index assigned by the caller """
     NV_INDEX = 0x01
+    """ NV Index assigned by the caller """
     
-    """ HMAC Authorization Session assigned by the TPM when the session is created """
     HMAC_SESSION = 0x02
+    """ HMAC Authorization Session assigned by the TPM when the session is created """
     
+    LOADED_SESSION = 0x02
     """ Loaded Authorization Session used only in the context of TPM2_GetCapability
     This type references both loaded HMAC and loaded policy authorization sessions.
     """
-    LOADED_SESSION = 0x02
     
+    POLICY_SESSION = 0x03
     """ Policy Authorization Session assigned by the TPM when the session is
     created
     """
-    POLICY_SESSION = 0x03
     
+    SAVED_SESSION = 0x03
     """ Saved Authorization Session used only in the context of TPM2_GetCapability
     This type references saved authorization session contexts for which the
     TPM is maintaining tracking information.
     """
-    SAVED_SESSION = 0x03
     
-    """ Permanent Values assigned by this specification in Table 28 """
     PERMANENT = 0x40
+    """ Permanent Values assigned by this specification in Table 28 """
     
+    TRANSIENT = 0x80
     """ Transient Objects assigned by the TPM when an object is loaded into
     transient-object memory or when a persistent object is converted to a
     transient object
     """
-    TRANSIENT = 0x80
     
+    PERSISTENT = 0x81
     """ Persistent Objects assigned by the TPM when a loaded transient
     object is made persistent
     """
-    PERSISTENT = 0x81
     
-    """ Attached Component handle for an Attached Component. """
     AC = 0x90
+    """ Attached Component handle for an Attached Component. """
 # enum TPM_HT
 
 class TPM_RH(TpmEnum): # TPM_HANDLE
@@ -2044,85 +2044,84 @@ class TPM_RH(TpmEnum): # TPM_HANDLE
     
     FIRST = 0x40000000
     
-    """ Not used1 """
     SRK = 0x40000000
+    """ Not used1 """
     
+    OWNER = 0x40000001
     """ Handle references the Storage Primary Seed (SPS), the ownerAuth, and
     the ownerPolicy
     """
-    OWNER = 0x40000001
     
-    """ Not used1 """
     REVOKE = 0x40000002
-    
     """ Not used1 """
+    
     TRANSPORT = 0x40000003
-    
     """ Not used1 """
+    
     OPERATOR = 0x40000004
-    
     """ Not used1 """
+    
     ADMIN = 0x40000005
-    
     """ Not used1 """
-    EK = 0x40000006
     
+    EK = 0x40000006
+    """ Not used1 """
+    
+    NULL = 0x40000007
     """ A handle associated with the null hierarchy, an EmptyAuth authValue,
     and an Empty Policy authPolicy.
     """
-    NULL = 0x40000007
     
+    UNASSIGNED = 0x40000008
     """ Value reserved to the TPM to indicate a handle location that has not
     been initialized or assigned
     """
-    UNASSIGNED = 0x40000008
     
-    """ Authorization value used to indicate a password authorization session """
     PW = 0x40000009
-    
+    """ Authorization value used to indicate a password authorization session """
     """ Deprecated: use PW instead """
     RS_PW = 0x40000009
     
+    LOCKOUT = 0x4000000A
     """ References the authorization associated with the dictionary attack
     lockout reset
     """
-    LOCKOUT = 0x4000000A
     
+    ENDORSEMENT = 0x4000000B
     """ References the Endorsement Primary Seed (EPS), endorsementAuth, and
     endorsementPolicy
     """
-    ENDORSEMENT = 0x4000000B
     
+    PLATFORM = 0x4000000C
     """ References the Platform Primary Seed (PPS), platformAuth, and
     platformPolicy
     """
-    PLATFORM = 0x4000000C
     
-    """ For phEnableNV """
     PLATFORM_NV = 0x4000000D
+    """ For phEnableNV """
     
+    AUTH_00 = 0x40000010
     """ Start of a range of authorization values that are vendor-specific. A
     TPM may support any of the values in this range as are needed for
     vendor-specific purposes.
     Disabled if ehEnable is CLEAR.
     NOTE Any includes none.
     """
-    AUTH_00 = 0x40000010
     
-    """ End of the range of vendor-specific authorization values. """
     AUTH_FF = 0x4000010F
+    """ End of the range of vendor-specific authorization values. """
     
-    """ Start of the range of authenticated timers """
     ACT_0 = 0x40000110
+    """ Start of the range of authenticated timers """
     
-    """ End of the range of authenticated timers """
     ACT_F = 0x4000011F
+    """ End of the range of authenticated timers """
     
+    LAST = 0x4000011F
     """ The top of the reserved handle area
     This is set to allow TPM2_GetCapability() to know where to stop. It may
     vary as implementations add to the permanent handle area.
     """
-    LAST = 0x4000011F
 # enum TPM_RH
 
 class TPM_NT(TpmEnum): # UINT32
@@ -2130,36 +2129,36 @@ class TPM_NT(TpmEnum): # UINT32
     Table 215 for usage.
     """
     
+    ORDINARY = 0x0
     """ Ordinary contains data that is opaque to the TPM that can only be
     modified using TPM2_NV_Write().
     """
-    ORDINARY = 0x0
     
+    COUNTER = 0x1
     """ Counter contains an 8-octet value that is to be used as a counter
     and can only be modified with TPM2_NV_Increment()
     """
-    COUNTER = 0x1
     
+    BITS = 0x2
     """ Bit Field contains an 8-octet value to be used as a bit field and
     can only be modified with TPM2_NV_SetBits().
     """
-    BITS = 0x2
     
+    EXTEND = 0x4
     """ Extend contains a digest-sized value used like a PCR. The Index can
     only be modified using TPM2_NV_Extend(). The extend will use the nameAlg
     of the Index.
     """
-    EXTEND = 0x4
     
+    PIN_FAIL = 0x8
     """ PIN Fail - contains pinCount that increments on a PIN authorization
     failure and a pinLimit
     """
-    PIN_FAIL = 0x8
     
+    PIN_PASS = 0x9
     """ PIN Pass - contains pinCount that increments on a PIN authorization
     success and a pinLimit
     """
-    PIN_PASS = 0x9
 # enum TPM_NT
 
 class TPM_AT(TpmEnum): # UINT32
@@ -2167,28 +2166,28 @@ class TPM_AT(TpmEnum): # UINT32
     first tagged value returned from an attached component.
     """
     
+    ANY = 0x00000000
     """ In a command, a non-specific request for AC information; in a
     response, indicates that outputData is not meaningful
     """
-    ANY = 0x00000000
     
-    """ Indicates a TCG defined, device-specific error """
     ERROR = 0x00000001
+    """ Indicates a TCG defined, device-specific error """
     
-    """ Indicates the most significant 32 bits of a pairing value for the AC """
     PV1 = 0x00000002
+    """ Indicates the most significant 32 bits of a pairing value for the AC """
     
-    """ Value added to a TPM_AT to indicate a vendor-specific tag value """
     VEND = 0x80000000
+    """ Value added to a TPM_AT to indicate a vendor-specific tag value """
 # enum TPM_AT
 
 class TPM_AE(TpmEnum): # UINT32
     """ These constants are the TCG-defined error values returned by an AC. """
     
+    NONE = 0x00000000
     """ In a command, a non-specific request for AC information; in a
     response, indicates that outputData is not meaningful
     """
-    NONE = 0x00000000
 # enum TPM_AE
 
 class PLATFORM(TpmEnum): # UINT32
@@ -2212,161 +2211,161 @@ class Implementation(TpmEnum): # UINT32
     the reference code. The values shown are illustrative.
     """
     
-    """ Temporary define """
     FIELD_UPGRADE_IMPLEMENTED = Logic.NO
+    """ Temporary define """
     
-    """ Selection of the library that provides the basic hashing functions. """
     HASH_LIB = ImplementationConstants.Ossl
+    """ Selection of the library that provides the basic hashing functions. """
     
+    SYM_LIB = ImplementationConstants.Ossl
     """ Selection of the library that provides the low-level symmetric
     cryptography. Choices are determined by the vendor (See LibSupport.h for
     implications).
     """
-    SYM_LIB = ImplementationConstants.Ossl
     
+    MATH_LIB = ImplementationConstants.Ossl
     """ Selection of the library that provides the big number math including
     ECC. Choices are determined by the vendor (See LibSupport.h for implications).
     """
-    MATH_LIB = ImplementationConstants.Ossl
     
-    """ The number of PCR in the TPM """
     IMPLEMENTATION_PCR = 24
+    """ The number of PCR in the TPM """
     
     PCR_SELECT_MAX = ((IMPLEMENTATION_PCR+7)/8)
     
-    """ The number of PCR required by the relevant platform specification """
     PLATFORM_PCR = 24
+    """ The number of PCR required by the relevant platform specification """
     
     PCR_SELECT_MIN = ((PLATFORM_PCR + 7) / 8)
     
+    DRTM_PCR = 17
     """ The D-RTM PCR
     NOTE This value is not defined when the TPM does not implement D-RTM
     """
-    DRTM_PCR = 17
     
+    HCRTM_PCR = 0
     """ The PCR that will receive the H-CRTM value at TPM2_Startup. This
     value should not be changed.
     """
-    HCRTM_PCR = 0
     
+    NUM_LOCALITIES = 5
     """ The number of localities supported by the TPM
     This is expected to be either 5 for a PC, or 1 for just about everything
     else.
     """
-    NUM_LOCALITIES = 5
     
+    MAX_HANDLE_NUM = 3
     """ The maximum number of handles in the handle area
     This should be produced by the Part 3 parser but is here for now.
     """
-    MAX_HANDLE_NUM = 3
     
+    MAX_ACTIVE_SESSIONS = 64
     """ The number of simultaneously active sessions that are supported by
     the TPM implementation
     """
-    MAX_ACTIVE_SESSIONS = 64
     
-    """ The number of sessions that the TPM may have in memory """
     MAX_LOADED_SESSIONS = 3
+    """ The number of sessions that the TPM may have in memory """
     
-    """ This is the current maximum value """
     MAX_SESSION_NUM = 3
+    """ This is the current maximum value """
     
+    MAX_LOADED_OBJECTS = 3
     """ The number of simultaneously loaded objects that are supported by
     the TPM; this number does not include the objects that may be placed in
     NV memory by TPM2_EvictControl().
     """
-    MAX_LOADED_OBJECTS = 3
     
-    """ The minimum number of evict objects supported by the TPM """
     MIN_EVICT_OBJECTS = 2
+    """ The minimum number of evict objects supported by the TPM """
     
-    """ Number of PCR groups that have individual policies """
     NUM_POLICY_PCR_GROUP = 1
+    """ Number of PCR groups that have individual policies """
     
-    """ Number of PCR groups that have individual authorization values """
     NUM_AUTHVALUE_PCR_GROUP = 1
+    """ Number of PCR groups that have individual authorization values """
     
     MAX_CONTEXT_SIZE = 1264
     
     MAX_DIGEST_BUFFER = 1024
     
-    """ Maximum data size allowed in an NV Index """
     MAX_NV_INDEX_SIZE = 2048
+    """ Maximum data size allowed in an NV Index """
     
-    """ Maximum data size in one NV read or write command """
     MAX_NV_BUFFER_SIZE = 1024
+    """ Maximum data size in one NV read or write command """
     
-    """ Maximum size of a capability buffer """
     MAX_CAP_BUFFER = 1024
+    """ Maximum size of a capability buffer """
     
-    """ Size of NV memory in octets """
     NV_MEMORY_SIZE = 16384
+    """ Size of NV memory in octets """
     
+    MIN_COUNTER_INDICES = 8
     """ The TPM will not allocate a non-counter index if it would prevent
     allocation of this number of indices.
     """
-    MIN_COUNTER_INDICES = 8
     
     NUM_STATIC_PCR = 16
     
-    """ Number of algorithms that can be in a list """
     MAX_ALG_LIST_SIZE = 64
+    """ Number of algorithms that can be in a list """
     
-    """ Size of the Primary Seed in octets """
     PRIMARY_SEED_SIZE = 32
+    """ Size of the Primary Seed in octets """
     
+    CONTEXT_ENCRYPT_ALGORITHM = TPM_ALG_ID.AES
     """ Context encryption algorithm
     Just use the root so that the macros in GpMacros.h will work correctly.
     """
-    CONTEXT_ENCRYPT_ALGORITHM = TPM_ALG_ID.AES
     
+    NV_CLOCK_UPDATE_INTERVAL = 12
     """ The update interval expressed as a power of 2 seconds
     A value of 12 is 4,096 seconds (~68 minutes).
     """
-    NV_CLOCK_UPDATE_INTERVAL = 12
     
-    """ Number of PCR groups that allow policy/auth """
     NUM_POLICY_PCR = 1
+    """ Number of PCR groups that allow policy/auth """
     
-    """ Maximum size of a command """
     MAX_COMMAND_SIZE = 4096
+    """ Maximum size of a command """
     
-    """ Maximum size of a response """
     MAX_RESPONSE_SIZE = 4096
+    """ Maximum size of a response """
     
-    """ Number between 1 and 32 inclusive """
     ORDERLY_BITS = 8
+    """ Number between 1 and 32 inclusive """
     
+    MAX_SYM_DATA = 128
     """ The maximum number of octets that may be in a sealed blob; 128 is
     the minimum allowed value
     """
-    MAX_SYM_DATA = 128
     
     MAX_RNG_ENTROPY_SIZE = 64
     
+    RAM_INDEX_SPACE = 512
     """ Number of bytes used for the RAM index space. If this is not large
     enough, it might not be possible to allocate orderly indices.
     """
-    RAM_INDEX_SPACE = 512
     
-    """ 216 + 1 """
     RSA_DEFAULT_PUBLIC_EXPONENT = 0x00010001
+    """ 216 + 1 """
     
-    """ Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented """
     ENABLE_PCR_NO_INCREMENT = Logic.YES
+    """ Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented """
     
     CRT_FORMAT_RSA = Logic.YES
     
     VENDOR_COMMAND_COUNT = 0
     
-    """ Maximum size of the vendor-specific buffer """
     MAX_VENDOR_BUFFER_SIZE = 1024
+    """ Maximum size of the vendor-specific buffer """
     
+    MAX_DERIVATION_BITS = 8192
     """ L value for a derivation. This is the
     maximum number of bits allowed from an instantiation of a KDF-DRBG. This
     is size is OK because RSA keys are never derived keys
     """
-    MAX_DERIVATION_BITS = 8192
     
     RSA_MAX_PRIME = (ImplementationConstants.MAX_RSA_KEY_BYTES/2)
     
@@ -2374,10 +2373,10 @@ class Implementation(TpmEnum): # UINT32
     
     SIZE_OF_X509_SERIAL_NUMBER = 20
     
+    PRIVATE_VENDOR_SPECIFIC_BYTES = RSA_PRIVATE_SIZE
     """ This is a vendor-specific value so it is in this vendor-speific
     table. When this is used, RSA_PRIVATE_SIZE will have been defined
     """
-    PRIVATE_VENDOR_SPECIFIC_BYTES = RSA_PRIVATE_SIZE
 # enum Implementation
 
 class TPM_HC(TpmEnum): # TPM_HANDLE
@@ -2385,11 +2384,11 @@ class TPM_HC(TpmEnum): # TPM_HANDLE
     data types.
     """
     
-    """ To mask off the HR """
     HR_HANDLE_MASK = 0x00FFFFFF
+    """ To mask off the HR """
     
-    """ To mask off the variable part """
     HR_RANGE_MASK = 0xFF000000
+    """ To mask off the variable part """
     
     HR_SHIFT = 24
     
@@ -2407,121 +2406,120 @@ class TPM_HC(TpmEnum): # TPM_HANDLE
     
     HR_PERMANENT = (TPM_HT.PERMANENT << HR_SHIFT)
     
-    """ First PCR """
     PCR_FIRST = (HR_PCR + 0)
+    """ First PCR """
     
-    """ Last PCR """
     PCR_LAST = (PCR_FIRST + Implementation.IMPLEMENTATION_PCR-1)
+    """ Last PCR """
     
-    """ First HMAC session """
     HMAC_SESSION_FIRST = (HR_HMAC_SESSION + 0)
+    """ First HMAC session """
     
-    """ Last HMAC session """
     HMAC_SESSION_LAST = (HMAC_SESSION_FIRST+Implementation.MAX_ACTIVE_SESSIONS-1)
+    """ Last HMAC session """
     
-    """ Used in GetCapability """
     LOADED_SESSION_FIRST = HMAC_SESSION_FIRST
-    
     """ Used in GetCapability """
+    
     LOADED_SESSION_LAST = HMAC_SESSION_LAST
+    """ Used in GetCapability """
     
-    """ First policy session """
     POLICY_SESSION_FIRST = (HR_POLICY_SESSION + 0)
+    """ First policy session """
     
-    """ Last policy session """
     POLICY_SESSION_LAST = (POLICY_SESSION_FIRST + Implementation.MAX_ACTIVE_SESSIONS-1)
+    """ Last policy session """
     
-    """ First transient object """
     TRANSIENT_FIRST = (HR_TRANSIENT + 0)
+    """ First transient object """
     
-    """ Used in GetCapability """
     ACTIVE_SESSION_FIRST = POLICY_SESSION_FIRST
-    
     """ Used in GetCapability """
+    
     ACTIVE_SESSION_LAST = POLICY_SESSION_LAST
+    """ Used in GetCapability """
     
-    """ Last transient object """
     TRANSIENT_LAST = (TRANSIENT_FIRST+Implementation.MAX_LOADED_OBJECTS-1)
+    """ Last transient object """
     
-    """ First persistent object """
     PERSISTENT_FIRST = (HR_PERSISTENT + 0)
+    """ First persistent object """
     
-    """ Last persistent object """
     PERSISTENT_LAST = (PERSISTENT_FIRST + 0x00FFFFFF)
+    """ Last persistent object """
     
-    """ First platform persistent object """
     PLATFORM_PERSISTENT = (PERSISTENT_FIRST + 0x00800000)
+    """ First platform persistent object """
     
-    """ First allowed NV Index """
     NV_INDEX_FIRST = (HR_NV_INDEX + 0)
+    """ First allowed NV Index """
     
-    """ Last allowed NV Index """
     NV_INDEX_LAST = (NV_INDEX_FIRST + 0x00FFFFFF)
+    """ Last allowed NV Index """
     
     PERMANENT_FIRST = TPM_RH.FIRST
     
     PERMANENT_LAST = TPM_RH.LAST
     
-    """ AC aliased NV Index """
     HR_NV_AC = ((TPM_HT.NV_INDEX << HR_SHIFT) + 0xD00000)
+    """ AC aliased NV Index """
     
-    """ First NV Index aliased to Attached Component """
     NV_AC_FIRST = (HR_NV_AC + 0)
+    """ First NV Index aliased to Attached Component """
     
-    """ Last NV Index aliased to Attached Component """
     NV_AC_LAST = (HR_NV_AC + 0x0000FFFF)
+    """ Last NV Index aliased to Attached Component """
     
-    """ AC Handle """
     HR_AC = (TPM_HT.AC << HR_SHIFT)
+    """ AC Handle """
     
-    """ First Attached Component """
     AC_FIRST = (HR_AC + 0)
+    """ First Attached Component """
     
-    """ Last Attached Component """
     AC_LAST = (HR_AC + 0x0000FFFF)
+    """ Last Attached Component """
 # enum TPM_HC
 
 class TPMA_ALGORITHM(TpmEnum): # UINT32
     """ This structure defines the attributes of an algorithm. """
     
+    asymmetric = 0x1
     """ SET (1): an asymmetric algorithm with public and private portions
     CLEAR (0): not an asymmetric algorithm
     """
-    asymmetric = 0x1
     
+    symmetric = 0x2
     """ SET (1): a symmetric block cipher
     CLEAR (0): not a symmetric block cipher
     """
-    symmetric = 0x2
     
+    hash = 0x4
     """ SET (1): a hash algorithm
     CLEAR (0): not a hash algorithm
     """
-    hash = 0x4
     
+    object = 0x8
     """ SET (1): an algorithm that may be used as an object type
     CLEAR (0): an algorithm that is not used as an object type
     """
-    object = 0x8
     
+    signing = 0x100
     """ SET (1): a signing algorithm. The setting of asymmetric, symmetric,
     and hash will indicate the type of signing algorithm.
     CLEAR (0): not a signing algorithm
     """
-    signing = 0x100
     
+    encrypting = 0x200
     """ SET (1): an encryption/decryption algorithm. The setting of
     asymmetric, symmetric, and hash will indicate the type of
     encryption/decryption algorithm.
     CLEAR (0): not an encryption/decryption algorithm
     """
-    encrypting = 0x200
     
+    method = 0x400
     """ SET (1): a method such as a key derivative function (KDF)
     CLEAR (0): not a method
     """
-    method = 0x400
-    
 # bitfield TPMA_ALGORITHM
 
 class TPMA_OBJECT(TpmEnum): # UINT32
@@ -2529,6 +2527,7 @@ class TPMA_OBJECT(TpmEnum): # UINT32
     types, and its relationship to other objects.
     """
     
+    fixedTPM = 0x2
     """ SET (1): The hierarchy of the object, as indicated by its Qualified
     Name, may not change.
     CLEAR (0): The hierarchy of the object may change as a result of this
@@ -2536,84 +2535,82 @@ class TPMA_OBJECT(TpmEnum): # UINT32
     NOTE fixedTPM does not indicate that key material resides on a single
     TPM (see sensitiveDataOrigin).
     """
-    fixedTPM = 0x2
     
+    stClear = 0x4
     """ SET (1): Previously saved contexts of this object may not be loaded
     after Startup(CLEAR).
     CLEAR (0): Saved contexts of this object may be used after a
     Shutdown(STATE) and subsequent Startup().
     """
-    stClear = 0x4
     
+    fixedParent = 0x10
     """ SET (1): The parent of the object may not change.
     CLEAR (0): The parent of the object may change as the result of a
     TPM2_Duplicate() of the object.
     """
-    fixedParent = 0x10
     
+    sensitiveDataOrigin = 0x20
     """ SET (1): Indicates that, when the object was created with
     TPM2_Create() or TPM2_CreatePrimary(), the TPM generated all of the
     sensitive data other than the authValue.
     CLEAR (0): A portion of the sensitive data, other than the authValue,
     was provided by the caller.
     """
-    sensitiveDataOrigin = 0x20
     
+    userWithAuth = 0x40
     """ SET (1): Approval of USER role actions with this object may be with
     an HMAC session or with a password using the authValue of the object or
     a policy session.
     CLEAR (0): Approval of USER role actions with this object may only be
     done with a policy session.
     """
-    userWithAuth = 0x40
     
+    adminWithPolicy = 0x80
     """ SET (1): Approval of ADMIN role actions with this object may only be
     done with a policy session.
     CLEAR (0): Approval of ADMIN role actions with this object may be with
     an HMAC session or with a password using the authValue of the object or
     a policy session.
     """
-    adminWithPolicy = 0x80
     
+    noDA = 0x400
     """ SET (1): The object is not subject to dictionary attack protections.
     CLEAR (0): The object is subject to dictionary attack protections.
     """
-    noDA = 0x400
     
+    encryptedDuplication = 0x800
     """ SET (1): If the object is duplicated, then symmetricAlg shall not be
     TPM_ALG_NULL and newParentHandle shall not be TPM_RH_NULL.
     CLEAR (0): The object may be duplicated without an inner wrapper on the
     private portion of the object and the new parent may be TPM_RH_NULL.
     """
-    encryptedDuplication = 0x800
     
+    restricted = 0x10000
     """ SET (1): Key usage is restricted to manipulate structures of known
     format; the parent of this key shall have restricted SET.
     CLEAR (0): Key usage is not restricted to use on special formats.
     """
-    restricted = 0x10000
     
+    decrypt = 0x20000
     """ SET (1): The private portion of the key may be used to decrypt.
     CLEAR (0): The private portion of the key may not be used to decrypt.
     """
-    decrypt = 0x20000
     
+    sign = 0x40000
     """ SET (1): For a symmetric cipher object, the private portion of the
     key may be used to encrypt. For other objects, the private portion of
     the key may be used to sign.
     CLEAR (0): The private portion of the key may not be used to sign or encrypt.
     """
-    sign = 0x40000
     
-    """ Alias to the sign value. """
     encrypt = 0x40000
+    """ Alias to the sign value. """
     
+    x509sign = 0x80000
     """ SET (1): An asymmetric key that may not be used to sign with TPM2_Sign()
     CLEAR (0): A key that may be used with TPM2_Sign() if sign is SET
     NOTE: This attribute only has significance if sign is SET.
     """
-    x509sign = 0x80000
-    
 # bitfield TPMA_OBJECT
 
 class TPMA_SESSION(TpmEnum): # UINT8
@@ -2622,6 +2619,7 @@ class TPMA_SESSION(TpmEnum): # UINT8
     its use in parameter encryption.
     """
     
+    continueSession = 0x1
     """ SET (1): In a command, this setting indicates that the session is to
     remain active after successful completion of the command. In a response,
     it indicates that the session is still active. If SET in the command,
@@ -2640,8 +2638,8 @@ class TPMA_SESSION(TpmEnum): # UINT8
     the same session.
     This attribute has no effect if the command does not complete successfully.
     """
-    continueSession = 0x1
     
+    auditExclusive = 0x2
     """ SET (1): In a command, this setting indicates that the command
     should only be executed if the session is exclusive at the start of the
     command. In a response, it indicates that the session is exclusive. This
@@ -2650,8 +2648,8 @@ class TPMA_SESSION(TpmEnum): # UINT8
     exclusive at the start of the command. In a response, indicates that the
     session is not exclusive.
     """
-    auditExclusive = 0x2
     
+    auditReset = 0x4
     """ SET (1): In a command, this setting indicates that the audit digest
     of the session should be initialized and the exclusive status of the
     session SET. This setting is only allowed if the audit attribute is SET
@@ -2660,8 +2658,8 @@ class TPMA_SESSION(TpmEnum): # UINT8
     initialized.
     This bit is always CLEAR in a response.
     """
-    auditReset = 0x4
     
+    decrypt = 0x20
     """ SET (1): In a command, this setting indicates that the first
     parameter in the command is symmetrically encrypted using the parameter
     encryption scheme described in TPM 2.0 Part 1. The TPM will decrypt the
@@ -2676,8 +2674,8 @@ class TPMA_SESSION(TpmEnum): # UINT8
     parameter and not for authorization.
     This attribute may be SET in combination with any other session attributes.
     """
-    decrypt = 0x20
     
+    encrypt = 0x40
     """ SET (1): In a command, this setting indicates that the TPM should
     use this session to encrypt the first parameter in the response. In a
     response, it indicates that the attribute was set in the command and
@@ -2691,8 +2689,8 @@ class TPMA_SESSION(TpmEnum): # UINT8
     command handle. Such a session is provided for purposes of encrypting a
     parameter and not for authorization.
     """
-    encrypt = 0x40
     
+    audit = 0x80
     """ SET (1): In a command or response, this setting indicates that the
     session is for audit and that auditExclusive and auditReset have
     meaning. This session may also be used for authorization, encryption, or
@@ -2700,8 +2698,6 @@ class TPMA_SESSION(TpmEnum): # UINT8
     CLEAR (0): Session is not used for audit.
     If SET in the command, then this attribute will be SET in the response.
     """
-    audit = 0x80
-    
 # bitfield TPMA_SESSION
 
 class TPMA_LOCALITY(TpmEnum): # UINT8
@@ -2720,13 +2716,12 @@ class TPMA_LOCALITY(TpmEnum): # UINT8
     
     LOC_FOUR = 0x10
     
-    """ If any of these bits is set, an extended locality is indicated """
     Extended_BIT_0 = 0x20
+    """ If any of these bits is set, an extended locality is indicated """
     
     Extended_BIT_1 = 0x40
     
     Extended_BIT_2 = 0x80
-    
 # bitfield TPMA_LOCALITY
 
 class TPMA_PERMANENT(TpmEnum): # UINT32
@@ -2738,40 +2733,39 @@ class TPMA_PERMANENT(TpmEnum): # UINT32
     TPM_PT_PERMANENT).
     """
     
+    ownerAuthSet = 0x1
     """ SET (1): TPM2_HierarchyChangeAuth() with ownerAuth has been executed
     since the last TPM2_Clear().
     CLEAR (0): ownerAuth has not been changed since TPM2_Clear().
     """
-    ownerAuthSet = 0x1
     
+    endorsementAuthSet = 0x2
     """ SET (1): TPM2_HierarchyChangeAuth() with endorsementAuth has been
     executed since the last TPM2_Clear().
     CLEAR (0): endorsementAuth has not been changed since TPM2_Clear().
     """
-    endorsementAuthSet = 0x2
     
+    lockoutAuthSet = 0x4
     """ SET (1): TPM2_HierarchyChangeAuth() with lockoutAuth has been
     executed since the last TPM2_Clear().
     CLEAR (0): lockoutAuth has not been changed since TPM2_Clear().
     """
-    lockoutAuthSet = 0x4
     
+    disableClear = 0x100
     """ SET (1): TPM2_Clear() is disabled.
     CLEAR (0): TPM2_Clear() is enabled.
     NOTE See TPM2_ClearControl in TPM 2.0 Part 3 for details on changing
     this attribute.
     """
-    disableClear = 0x100
     
-    """ SET (1): The TPM is in lockout, when failedTries is equal to maxTries. """
     inLockout = 0x200
+    """ SET (1): The TPM is in lockout, when failedTries is equal to maxTries. """
     
+    tpmGeneratedEPS = 0x400
     """ SET (1): The EPS was created by the TPM.
     CLEAR (0): The EPS was created outside of the TPM using a
     manufacturer-specific process.
     """
-    tpmGeneratedEPS = 0x400
-    
 # bitfield TPMA_PERMANENT
 
 class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
@@ -2779,6 +2773,7 @@ class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
     TPM_CAP_TPM_PROPERTIES, property = TPM_PT_STARTUP_CLEAR).
     """
     
+    phEnable = 0x1
     """ SET (1): The platform hierarchy is enabled and platformAuth or
     platformPolicy may be used for authorization.
     CLEAR (0): platformAuth and platformPolicy may not be used for
@@ -2787,8 +2782,8 @@ class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
     NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing
     this attribute.
     """
-    phEnable = 0x1
     
+    shEnable = 0x2
     """ SET (1): The Storage hierarchy is enabled and ownerAuth or
     ownerPolicy may be used for authorization. NV indices defined using
     owner authorization are accessible.
@@ -2798,8 +2793,8 @@ class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
     NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing
     this attribute.
     """
-    shEnable = 0x2
     
+    ehEnable = 0x4
     """ SET (1): The EPS hierarchy is enabled and Endorsement Authorization
     may be used to authorize commands.
     CLEAR (0): Endorsement Authorization may not be used for authorizations,
@@ -2808,8 +2803,8 @@ class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
     NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing
     this attribute.
     """
-    ehEnable = 0x4
     
+    phEnableNV = 0x8
     """ SET (1): NV indices that have TPMA_NV_PLATFORMCREATE SET may be read
     or written. The platform can create define and undefine indices.
     CLEAR (0): NV indices that have TPMA_NV_PLATFORMCREATE SET may not be
@@ -2828,8 +2823,8 @@ class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
     code if the index is disabled. Otherwise, the TPM would leak the
     existence of an index even when disabled.
     """
-    phEnableNV = 0x8
     
+    orderly = 0x80000000
     """ SET (1): The TPM received a TPM2_Shutdown() and a matching TPM2_Startup().
     CLEAR (0): TPM2_Startup(TPM_SU_CLEAR) was not preceded by a
     TPM2_Shutdown() of any type.
@@ -2838,8 +2833,6 @@ class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
     return an error if TPM2_Startup(TPM_SU_STATE) was not preceded by
     TPM2_Shutdown(TPM_SU_STATE).
     """
-    orderly = 0x80000000
-    
 # bitfield TPMA_STARTUP_CLEAR
 
 class TPMA_MEMORY(TpmEnum): # UINT32
@@ -2850,28 +2843,27 @@ class TPMA_MEMORY(TpmEnum): # UINT32
     TPM_PT_MEMORY).
     """
     
+    sharedRAM = 0x1
     """ SET (1): indicates that the RAM memory used for authorization
     session contexts is shared with the memory used for transient objects
     CLEAR (0): indicates that the memory used for authorization sessions is
     not shared with memory used for transient objects
     """
-    sharedRAM = 0x1
     
+    sharedNV = 0x2
     """ SET (1): indicates that the NV memory used for persistent objects is
     shared with the NV memory used for NV Index values
     CLEAR (0): indicates that the persistent objects and NV Index values are
     allocated from separate sections of NV
     """
-    sharedNV = 0x2
     
+    objectCopiedToRam = 0x4
     """ SET (1): indicates that the TPM copies persistent objects to a
     transient-object slot in RAM when the persistent object is referenced in
     a command. The TRM is required to make sure that an object slot is available.
     CLEAR (0): indicates that the TPM does not use transient-object slots
     when persistent objects are referenced
     """
-    objectCopiedToRam = 0x4
-    
 # bitfield TPMA_MEMORY
 
 class TPMA_CC(TpmEnum): # TPM_CC
@@ -2881,8 +2873,8 @@ class TPMA_CC(TpmEnum): # TPM_CC
     how the command affects the TPMs resources.
     """
     
-    """ Indicates the command being selected """
     commandIndex_BIT_0 = 0x1
+    """ Indicates the command being selected """
     
     commandIndex_BIT_1 = 0x2
     
@@ -2914,43 +2906,42 @@ class TPMA_CC(TpmEnum): # TPM_CC
     
     commandIndex_BIT_15 = 0x8000
     
+    nv = 0x400000
     """ SET (1): indicates that the command may write to NV
     CLEAR (0): indicates that the command does not write to NV
     """
-    nv = 0x400000
     
+    extensive = 0x800000
     """ SET (1): This command could flush any number of loaded contexts.
     CLEAR (0): no additional changes other than indicated by the flushed attribute
     """
-    extensive = 0x800000
     
+    flushed = 0x1000000
     """ SET (1): The context associated with any transient handle in the
     command will be flushed when this command completes.
     CLEAR (0): No context is flushed as a side effect of this command.
     """
-    flushed = 0x1000000
     
-    """ Indicates the number of the handles in the handle area for this command """
     cHandles_BIT_0 = 0x2000000
+    """ Indicates the number of the handles in the handle area for this command """
     
     cHandles_BIT_1 = 0x4000000
     
     cHandles_BIT_2 = 0x8000000
     
-    """ SET (1): indicates the presence of the handle area in the response """
     rHandle = 0x10000000
+    """ SET (1): indicates the presence of the handle area in the response """
     
+    V = 0x20000000
     """ SET (1): indicates that the command is vendor-specific
     CLEAR (0): indicates that the command is defined in a version of this
     specification
     """
-    V = 0x20000000
     
-    """ Allocated for software; shall be zero """
     Res_BIT_0 = 0x40000000
+    """ Allocated for software; shall be zero """
     
     Res_BIT_1 = 0x80000000
-    
 # bitfield TPMA_CC
 
 class TPMA_MODES(TpmEnum): # UINT32
@@ -2960,11 +2951,10 @@ class TPMA_MODES(TpmEnum): # UINT32
     TPM_PT_MODES).
     """
     
+    FIPS_140_2 = 0x1
     """ SET (1): indicates that the TPM is designed to comply with all of
     the FIPS 140-2 requirements at Level 1 or higher.
     """
-    FIPS_140_2 = 0x1
-    
 # bitfield TPMA_MODES
 
 class TPMA_X509_KEY_USAGE(TpmEnum): # UINT32
@@ -2975,38 +2965,37 @@ class TPMA_X509_KEY_USAGE(TpmEnum): # UINT32
     validate that the key to be certified meets the requirements of Key Usage.
     """
     
-    """ Attributes.Decrypt SET """
     decipherOnly = 0x800000
-    
     """ Attributes.Decrypt SET """
+    
     encipherOnly = 0x1000000
+    """ Attributes.Decrypt SET """
     
-    """ Attributes.sign SET """
     cRLSign = 0x2000000
-    
     """ Attributes.sign SET """
+    
     keyCertSign = 0x4000000
+    """ Attributes.sign SET """
     
-    """ Attributes.Decrypt SET """
     keyAgreement = 0x8000000
-    
     """ Attributes.Decrypt SET """
-    dataEncipherment = 0x10000000
     
+    dataEncipherment = 0x10000000
+    """ Attributes.Decrypt SET """
+    
+    keyEncipherment = 0x20000000
     """ Asymmetric key with decrypt and restricted SET key has the
     attributes of a parent key
     """
-    keyEncipherment = 0x20000000
     
-    """ FixedTPM SET in Subject Key (objectHandle) """
     nonrepudiation = 0x40000000
+    """ FixedTPM SET in Subject Key (objectHandle) """
     
-    """ Alias to the nonrepudiation value. """
     contentCommitment = 0x40000000
+    """ Alias to the nonrepudiation value. """
     
-    """ Sign SET in Subject Key (objectHandle) """
     digitalSignature = 0x80000000
-    
+    """ Sign SET in Subject Key (objectHandle) """
 # bitfield TPMA_X509_KEY_USAGE
 
 class TPMA_ACT(TpmEnum): # UINT32
@@ -3017,14 +3006,13 @@ class TPMA_ACT(TpmEnum): # UINT32
     signaled value may be preserved over a power cycle of a TPM.
     """
     
+    signaled = 0x1
     """ SET (1): The ACT has signaled
     CLEAR (0): The ACT has not signaled
     """
-    signaled = 0x1
     
-    """ Preserves the state of signaled, depending on the power cycle """
     preserveSignaled = 0x2
-    
+    """ Preserves the state of signaled, depending on the power cycle """
 # bitfield TPMA_ACT
 
 class TPM_NV_INDEX(TpmEnum): # UINT32
@@ -3035,8 +3023,8 @@ class TPM_NV_INDEX(TpmEnum): # UINT32
     authorization computations
     """
     
-    """ The Index of the NV location """
     index_BIT_0 = 0x1
+    """ The Index of the NV location """
     
     index_BIT_1 = 0x2
     
@@ -3084,8 +3072,8 @@ class TPM_NV_INDEX(TpmEnum): # UINT32
     
     index_BIT_23 = 0x800000
     
-    """ Constant value of TPM_HT_NV_INDEX indicating the NV Index range """
     RhNv_BIT_0 = 0x1000000
+    """ Constant value of TPM_HT_NV_INDEX indicating the NV Index range """
     
     RhNv_BIT_1 = 0x2000000
     
@@ -3100,7 +3088,6 @@ class TPM_NV_INDEX(TpmEnum): # UINT32
     RhNv_BIT_6 = 0x40000000
     
     RhNv_BIT_7 = 0x80000000
-    
 # bitfield TPM_NV_INDEX
 
 class TPMA_NV(TpmEnum): # UINT32
@@ -3108,26 +3095,27 @@ class TPMA_NV(TpmEnum): # UINT32
     permissions to manipulate an NV Index.
     """
     
+    PPWRITE = 0x1
     """ SET (1): The Index data can be written if Platform Authorization is
     provided.
     CLEAR (0): Writing of the Index data cannot be authorized with Platform
     Authorization.
     """
-    PPWRITE = 0x1
     
+    OWNERWRITE = 0x2
     """ SET (1): The Index data can be written if Owner Authorization is provided.
     CLEAR (0): Writing of the Index data cannot be authorized with Owner
     Authorization.
     """
-    OWNERWRITE = 0x2
     
+    AUTHWRITE = 0x4
     """ SET (1): Authorizations to change the Index contents that require
     USER role may be provided with an HMAC session or password.
     CLEAR (0): Authorizations to change the Index contents that require USER
     role may not be provided with an HMAC session or password.
     """
-    AUTHWRITE = 0x4
     
+    POLICYWRITE = 0x8
     """ SET (1): Authorizations to change the Index contents that require
     USER role may be provided with a policy session.
     CLEAR (0): Authorizations to change the Index contents that require USER
@@ -3135,43 +3123,42 @@ class TPMA_NV(TpmEnum): # UINT32
     NOTE TPM2_NV_ChangeAuth() always requires that authorization be provided
     in a policy session.
     """
-    POLICYWRITE = 0x8
     
+    ORDINARY = 0x0
     """ Ordinary contains data that is opaque to the TPM that can only be
     modified using TPM2_NV_Write().
     """
-    ORDINARY = 0x0
     
+    COUNTER = 0x10
     """ Counter contains an 8-octet value that is to be used as a counter
     and can only be modified with TPM2_NV_Increment()
     """
-    COUNTER = 0x10
     
+    BITS = 0x20
     """ Bit Field contains an 8-octet value to be used as a bit field and
     can only be modified with TPM2_NV_SetBits().
     """
-    BITS = 0x20
     
+    EXTEND = 0x40
     """ Extend contains a digest-sized value used like a PCR. The Index can
     only be modified using TPM2_NV_Extend(). The extend will use the nameAlg
     of the Index.
     """
-    EXTEND = 0x40
     
+    PIN_FAIL = 0x80
     """ PIN Fail - contains pinCount that increments on a PIN authorization
     failure and a pinLimit
     """
-    PIN_FAIL = 0x80
     
+    PIN_PASS = 0x90
     """ PIN Pass - contains pinCount that increments on a PIN authorization
     success and a pinLimit
     """
-    PIN_PASS = 0x90
     
+    TpmNt_BIT_0 = 0x10
     """ The type of the index.
     NOTE A TPM is not required to support all TPM_NT values
     """
-    TpmNt_BIT_0 = 0x10
     
     TpmNt_BIT_1 = 0x20
     
@@ -3179,6 +3166,7 @@ class TPMA_NV(TpmEnum): # UINT32
     
     TpmNt_BIT_3 = 0x80
     
+    POLICY_DELETE = 0x400
     """ SET (1): Index may not be deleted unless the authPolicy is satisfied
     using TPM2_NV_UndefineSpaceSpecial().
     CLEAR (0): Index may be deleted with proper platform or owner
@@ -3186,66 +3174,66 @@ class TPMA_NV(TpmEnum): # UINT32
     NOTE An Index with this attribute and a policy that cannot be satisfied
     (e.g., an Empty Policy) cannot be deleted.
     """
-    POLICY_DELETE = 0x400
     
+    WRITELOCKED = 0x800
     """ SET (1): Index cannot be written.
     CLEAR (0): Index can be written.
     """
-    WRITELOCKED = 0x800
     
+    WRITEALL = 0x1000
     """ SET (1): A partial write of the Index data is not allowed. The write
     size shall match the defined space size.
     CLEAR (0): Partial writes are allowed. This setting is required if the
     .dataSize of the Index is larger than NV_MAX_BUFFER_SIZE for the
     implementation.
     """
-    WRITEALL = 0x1000
     
+    WRITEDEFINE = 0x2000
     """ SET (1): TPM2_NV_WriteLock() may be used to prevent further writes
     to this location.
     CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if
     TPMA_NV_WRITE_STCLEAR is also CLEAR.
     """
-    WRITEDEFINE = 0x2000
     
+    WRITE_STCLEAR = 0x4000
     """ SET (1): TPM2_NV_WriteLock() may be used to prevent further writes
     to this location until the next TPM Reset or TPM Restart.
     CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if
     TPMA_NV_WRITEDEFINE is also CLEAR.
     """
-    WRITE_STCLEAR = 0x4000
     
+    GLOBALLOCK = 0x8000
     """ SET (1): If TPM2_NV_GlobalWriteLock() is successful,
     TPMA_NV_WRITELOCKED is set.
     CLEAR (0): TPM2_NV_GlobalWriteLock() has no effect on the writing of the
     data at this Index.
     """
-    GLOBALLOCK = 0x8000
     
+    PPREAD = 0x10000
     """ SET (1): The Index data can be read if Platform Authorization is provided.
     CLEAR (0): Reading of the Index data cannot be authorized with Platform
     Authorization.
     """
-    PPREAD = 0x10000
     
+    OWNERREAD = 0x20000
     """ SET (1): The Index data can be read if Owner Authorization is provided.
     CLEAR (0): Reading of the Index data cannot be authorized with Owner
     Authorization.
     """
-    OWNERREAD = 0x20000
     
+    AUTHREAD = 0x40000
     """ SET (1): The Index data may be read if the authValue is provided.
     CLEAR (0): Reading of the Index data cannot be authorized with the Index
     authValue.
     """
-    AUTHREAD = 0x40000
     
+    POLICYREAD = 0x80000
     """ SET (1): The Index data may be read if the authPolicy is satisfied.
     CLEAR (0): Reading of the Index data cannot be authorized with the Index
     authPolicy.
     """
-    POLICYREAD = 0x80000
     
+    NO_DA = 0x2000000
     """ SET (1): Authorization failures of the Index do not affect the DA
     logic and authorization of the Index is not blocked when the TPM is in
     Lockout mode.
@@ -3253,34 +3241,34 @@ class TPMA_NV(TpmEnum): # UINT32
     authorization failure counter and authorizations of this Index are not
     allowed when the TPM is in Lockout mode.
     """
-    NO_DA = 0x2000000
     
+    ORDERLY = 0x4000000
     """ SET (1): NV Index state is only required to be saved when the TPM
     performs an orderly shutdown (TPM2_Shutdown()).
     CLEAR (0): NV Index state is required to be persistent after the command
     to update the Index completes successfully (that is, the NV update is
     synchronous with the update command).
     """
-    ORDERLY = 0x4000000
     
+    CLEAR_STCLEAR = 0x8000000
     """ SET (1): TPMA_NV_WRITTEN for the Index is CLEAR by TPM Reset or TPM
     Restart.
     CLEAR (0): TPMA_NV_WRITTEN is not changed by TPM Restart.
     NOTE This attribute may only be SET if TPM_NT is not TPM_NT_COUNTER.
     """
-    CLEAR_STCLEAR = 0x8000000
     
+    READLOCKED = 0x10000000
     """ SET (1): Reads of the Index are blocked until the next TPM Reset or
     TPM Restart.
     CLEAR (0): Reads of the Index are allowed if proper authorization is provided.
     """
-    READLOCKED = 0x10000000
     
+    WRITTEN = 0x20000000
     """ SET (1): Index has been written.
     CLEAR (0): Index has not been written.
     """
-    WRITTEN = 0x20000000
     
+    PLATFORMCREATE = 0x40000000
     """ SET (1): This Index may be undefined with Platform Authorization but
     not with Owner Authorization.
     CLEAR (0): This Index may be undefined using Owner Authorization but not
@@ -3289,14 +3277,12 @@ class TPMA_NV(TpmEnum): # UINT32
     defined using Platform Authorization and will validate that this
     attribute is CLEAR when the Index is defined using Owner Authorization.
     """
-    PLATFORMCREATE = 0x40000000
     
+    READ_STCLEAR = 0x80000000
     """ SET (1): TPM2_NV_ReadLock() may be used to SET TPMA_NV_READLOCKED
     for this Index.
     CLEAR (0): TPM2_NV_ReadLock() has no effect on this Index.
     """
-    READ_STCLEAR = 0x80000000
-    
 # bitfield TPMA_NV
 
 from .Crypt import *

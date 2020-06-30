@@ -63,13 +63,13 @@ public:
     bool Deserialize(SerializationType serializationFormat, string inBuf);
 
 
-    /** ISerializable method */
+    /// <summary> ISerializable method </summary>
     virtual void Serialize(ISerializer& buf) const {}
 
-    /** ISerializable method */
+    /// <summary> ISerializable method </summary>
     virtual void Deserialize(ISerializer& buf) {}
 
-    /** ISerializable method */
+    /// <summary> ISerializable method </summary>
     virtual const char* TypeName () const { return "TpmStructure"; }
 
 
@@ -89,9 +89,8 @@ public:
         return buf.trim();
     }
 
-    /// <summary> Inits this object from its TPM binary representation in the given byte buffer </summary>
+    /// <summary> Initializes this object from a TPM binary representation in the given byte buffer </summary>
     /// <seealso cref="initFromTpm"/>
-    /// <returns> The TPM binary representation of this object. </returns>
     void initFromBytes(const ByteVec& buffer)
     {
         TpmBuffer buf(buffer);
@@ -99,7 +98,6 @@ public:
         _ASSERT(buf.curPos() == buffer.size());
     }
 
-    /// <summary> Marshaling helper </summary>
     /// <returns> 2B size-prefixed TPM binary representation of this object. </returns>
     ByteVec asTpm2B() const
     {
@@ -127,60 +125,74 @@ protected:
 }; // class TpmStructure
 
 
-class TPM_HANDLE;
-
-
-/// <summary> Parameters of the field, to which session based encryption can be applied (i.e.
-/// the first non-handle field marshaled in size-prefixed form) </summary>
+/// <summary> Parameters of the TPM command request data structure field, to which session
+/// based encryption can be applied (i.e. the first non-handle field marshaled in size-prefixed
+/// form, if any) </summary>
 struct SessEncInfo
 {
     /// <summary> Length of the size prefix in bytes. The size prefix contains the number of
-    // elements in the sized area filed (normally just bytes). </summary>
+    /// elements in the sized area filed (normally just bytes). </summary>
     uint16_t sizeLen;
     /// <summary> Length of an element of the sized area in bytes (in most cases 1) </summary>
     uint16_t valLen;
 };
 
 
+/// <summary> Base class for custom (not TPM 2.0 spec defined) auto-generated classes
+/// representing a TPM command or response parameters and handles, if any. </summary>
+///
+/// <remarks> These data structures differ from the spec-defined ones derived directly from
+/// the TpmStructure class in that their handle fields are not marshaled by their toTpm() and
+/// initFrom() methods, but rather are acceesed and manipulated via an interface defined by
+/// this structs and its derivatives ReqStructure and RespStructure. </remarks>
 class _DLLEXP_ CmdStructure : public TpmStructure
 {
 public:
+    /// <returns> Number of TPM handles contained (as fields) in this data structure </returns>
     virtual uint16_t numHandles() const { return 0; }
 
-    /// <summary> If session based encryption can be applied to this object (i.e. its first 
-    /// non-handle field is marshaled in size-prefixed form), returns non-zero parameters of
-    /// the encryptable command/response parameter. Otherwise returns zero initialized struct. </summary>
+    /// <returns> Non-zero size info of the encryptable command/response parameter if session
+    /// based encryption can be applied to this object (i.e. its first non-handle field is
+    /// marshaled in size-prefixed form). Otherwise returns zero initialized struct. </returns>
     virtual SessEncInfo sessEncInfo() const { return {0, 0}; }
 };
 
 
+/// <summary> Base class for custom (not TPM 2.0 spec defined) auto-generated data structures
+/// representing a TPM command parameters and handles, if any. </summary>
 class _DLLEXP_ ReqStructure : public CmdStructure
 {
 public:
+    /// <returns> A vector of TPM handles contained in this request data structure </returns>
     virtual vector<TPM_HANDLE> getHandles() const;
 
+    /// <returns> Number of authorization TPM handles contained in this data structure </returns>
     virtual uint16_t numAuthHandles() const { return 0; }
 
-    /** ISerializable method */
+    /// <summary> ISerializable method </summary>
     virtual const char* TypeName () const { return "ReqStructure"; }
 };
 
-
+/// <summary> Base class for custom (not TPM 2.0 spec defined) auto-generated data structures
+/// representing a TPM response parameters and handles, if any. </summary>
 class _DLLEXP_ RespStructure : public CmdStructure
 {
 public:
+    /// <returns> this structure's handle field value </returns>
     virtual TPM_HANDLE getHandle() const;
+
+    /// <summary> Sets this structure's handle field (TPM_HANDLE) if it is present </summary>
     virtual void setHandle(const TPM_HANDLE&) {}
 
-    /** ISerializable method */
+    /// <summary> ISerializable method </summary>
     virtual const char* TypeName () const { return "RespStructure"; }
 };
 
 
-/// <summary> Base class for all TPM enums and bitfields.
-/// Note that this class was introduced to replace original 'enum class' based
-/// imlementation that required pervasive explicit casts to underlying integral types.
-/// </summary>
+/// <summary> Base class for all TPM enums and bitfields. </summary>
+///
+/// <remarks> Note that this class was introduced to replace original 'enum class' based
+/// imlementation that required pervasive explicit casts to underlying integral types. </remarks>
 template<typename U>
 struct TpmEnum {
     using ValueType = U;
