@@ -24,6 +24,24 @@ public class TPM2_Clear_REQUEST extends TpmStructure
      */
     public TPM2_Clear_REQUEST(TPM_HANDLE _authHandle) { authHandle = _authHandle; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPM2_Clear_REQUEST fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPM2_Clear_REQUEST.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_Clear_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPM2_Clear_REQUEST fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPM2_Clear_REQUEST.class);
+    }
+    
     @Override
     public String toString()
     {

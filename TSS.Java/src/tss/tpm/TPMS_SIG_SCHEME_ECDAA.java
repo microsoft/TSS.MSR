@@ -26,6 +26,24 @@ public class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDAA; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SIG_SCHEME_ECDAA fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPMS_SIG_SCHEME_ECDAA.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_SIG_SCHEME_ECDAA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SIG_SCHEME_ECDAA fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPMS_SIG_SCHEME_ECDAA.class);
+    }
+    
     @Override
     public String toString()
     {

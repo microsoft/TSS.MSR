@@ -19,6 +19,24 @@ public class TPM2B_OPERAND extends TPM2B_DIGEST
     /** @param _buffer The buffer area that can be no larger than a digest  */
     public TPM2B_OPERAND(byte[] _buffer) { super(_buffer); }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPM2B_OPERAND fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPM2B_OPERAND.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_OPERAND fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPM2B_OPERAND fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPM2B_OPERAND.class);
+    }
+    
     @Override
     public String toString()
     {

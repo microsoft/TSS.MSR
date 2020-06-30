@@ -18,6 +18,24 @@ public class TPMS_SIG_SCHEME_RSASSA extends TPMS_SCHEME_HASH
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSASSA; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SIG_SCHEME_RSASSA fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPMS_SIG_SCHEME_RSASSA.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_SIG_SCHEME_RSASSA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SIG_SCHEME_RSASSA fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPMS_SIG_SCHEME_RSASSA.class);
+    }
+    
     @Override
     public String toString()
     {

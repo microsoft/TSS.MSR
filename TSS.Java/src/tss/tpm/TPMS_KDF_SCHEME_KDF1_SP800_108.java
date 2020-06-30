@@ -21,6 +21,24 @@ public class TPMS_KDF_SCHEME_KDF1_SP800_108 extends TPMS_SCHEME_HASH
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KDF1_SP800_108; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_KDF_SCHEME_KDF1_SP800_108 fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPMS_KDF_SCHEME_KDF1_SP800_108.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_KDF_SCHEME_KDF1_SP800_108 fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_KDF_SCHEME_KDF1_SP800_108 fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPMS_KDF_SCHEME_KDF1_SP800_108.class);
+    }
+    
     @Override
     public String toString()
     {

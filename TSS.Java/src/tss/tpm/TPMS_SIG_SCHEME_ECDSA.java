@@ -21,6 +21,24 @@ public class TPMS_SIG_SCHEME_ECDSA extends TPMS_SCHEME_HASH
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDSA; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SIG_SCHEME_ECDSA fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPMS_SIG_SCHEME_ECDSA.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_SIG_SCHEME_ECDSA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SIG_SCHEME_ECDSA fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPMS_SIG_SCHEME_ECDSA.class);
+    }
+    
     @Override
     public String toString()
     {

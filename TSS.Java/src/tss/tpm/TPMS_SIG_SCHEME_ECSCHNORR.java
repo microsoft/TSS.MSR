@@ -21,6 +21,24 @@ public class TPMS_SIG_SCHEME_ECSCHNORR extends TPMS_SCHEME_HASH
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECSCHNORR; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SIG_SCHEME_ECSCHNORR fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPMS_SIG_SCHEME_ECSCHNORR.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_SIG_SCHEME_ECSCHNORR fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SIG_SCHEME_ECSCHNORR fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPMS_SIG_SCHEME_ECSCHNORR.class);
+    }
+    
     @Override
     public String toString()
     {

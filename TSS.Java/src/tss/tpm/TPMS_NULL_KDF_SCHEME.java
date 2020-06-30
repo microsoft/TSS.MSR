@@ -17,6 +17,24 @@ public class TPMS_NULL_KDF_SCHEME extends TPMS_NULL_UNION
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.NULL; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_NULL_KDF_SCHEME fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPMS_NULL_KDF_SCHEME.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_NULL_KDF_SCHEME fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_NULL_KDF_SCHEME fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPMS_NULL_KDF_SCHEME.class);
+    }
+    
     @Override
     public String toString()
     {

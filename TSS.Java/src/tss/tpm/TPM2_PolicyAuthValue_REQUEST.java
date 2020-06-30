@@ -22,6 +22,24 @@ public class TPM2_PolicyAuthValue_REQUEST extends TpmStructure
      */
     public TPM2_PolicyAuthValue_REQUEST(TPM_HANDLE _policySession) { policySession = _policySession; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPM2_PolicyAuthValue_REQUEST fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPM2_PolicyAuthValue_REQUEST.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2_PolicyAuthValue_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPM2_PolicyAuthValue_REQUEST fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPM2_PolicyAuthValue_REQUEST.class);
+    }
+    
     @Override
     public String toString()
     {

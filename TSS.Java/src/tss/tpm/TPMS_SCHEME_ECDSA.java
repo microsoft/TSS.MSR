@@ -18,6 +18,24 @@ public class TPMS_SCHEME_ECDSA extends TPMS_SIG_SCHEME_ECDSA
     /** @param _hashAlg The hash algorithm used to digest the message  */
     public TPMS_SCHEME_ECDSA(TPM_ALG_ID _hashAlg) { super(_hashAlg); }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SCHEME_ECDSA fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPMS_SCHEME_ECDSA.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_SCHEME_ECDSA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SCHEME_ECDSA fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPMS_SCHEME_ECDSA.class);
+    }
+    
     @Override
     public String toString()
     {

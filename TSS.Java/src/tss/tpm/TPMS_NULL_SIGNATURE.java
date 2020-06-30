@@ -17,6 +17,24 @@ public class TPMS_NULL_SIGNATURE extends TPMS_NULL_UNION
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.NULL; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_NULL_SIGNATURE fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPMS_NULL_SIGNATURE.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_NULL_SIGNATURE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_NULL_SIGNATURE fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPMS_NULL_SIGNATURE.class);
+    }
+    
     @Override
     public String toString()
     {

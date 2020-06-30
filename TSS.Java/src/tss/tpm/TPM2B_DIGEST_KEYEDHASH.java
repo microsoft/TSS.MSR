@@ -18,6 +18,24 @@ public class TPM2B_DIGEST_KEYEDHASH extends TPM2B_DIGEST
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KEYEDHASH; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPM2B_DIGEST_KEYEDHASH fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPM2B_DIGEST_KEYEDHASH.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_DIGEST_KEYEDHASH fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPM2B_DIGEST_KEYEDHASH fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPM2B_DIGEST_KEYEDHASH.class);
+    }
+    
     @Override
     public String toString()
     {

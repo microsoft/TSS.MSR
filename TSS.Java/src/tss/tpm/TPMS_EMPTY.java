@@ -18,6 +18,24 @@ public class TPMS_EMPTY extends TpmStructure implements TPMU_ASYM_SCHEME
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSAES; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_EMPTY fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPMS_EMPTY.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_EMPTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_EMPTY fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPMS_EMPTY.class);
+    }
+    
     @Override
     public String toString()
     {

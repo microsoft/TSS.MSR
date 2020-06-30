@@ -25,6 +25,24 @@ public class TPMS_SIGNATURE_ECSCHNORR extends TPMS_SIGNATURE_ECC
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECSCHNORR; }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SIGNATURE_ECSCHNORR fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPMS_SIGNATURE_ECSCHNORR.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPMS_SIGNATURE_ECSCHNORR fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPMS_SIGNATURE_ECSCHNORR fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPMS_SIGNATURE_ECSCHNORR.class);
+    }
+    
     @Override
     public String toString()
     {

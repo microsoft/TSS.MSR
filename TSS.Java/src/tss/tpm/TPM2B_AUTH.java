@@ -20,6 +20,24 @@ public class TPM2B_AUTH extends TPM2B_DIGEST
     /** @param _buffer The buffer area that can be no larger than a digest  */
     public TPM2B_AUTH(byte[] _buffer) { super(_buffer); }
     
+    /** @deprecated Use {@link #toBytes()} instead  */
+    public byte[] toTpm () { return toBytes(); }
+    
+    /** Static marshaling helper  */
+    public static TPM2B_AUTH fromBytes (byte[] byteBuf) 
+    {
+        return new TpmBuffer(byteBuf).createObj(TPM2B_AUTH.class);
+    }
+    
+    /** @deprecated Use {@link #fromBytes()} instead  */
+    public static TPM2B_AUTH fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
+    
+    /** Static marshaling helper  */
+    public static TPM2B_AUTH fromTpm (TpmBuffer buf) 
+    {
+        return buf.createObj(TPM2B_AUTH.class);
+    }
+    
     @Override
     public String toString()
     {
