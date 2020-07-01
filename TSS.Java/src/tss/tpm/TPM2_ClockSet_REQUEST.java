@@ -12,7 +12,7 @@ import tss.*;
  *  FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If
  *  either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
  */
-public class TPM2_ClockSet_REQUEST extends TpmStructure
+public class TPM2_ClockSet_REQUEST extends ReqStructure
 {
     /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *  Auth Handle: 1
@@ -70,13 +70,19 @@ public class TPM2_ClockSet_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "auth", auth);
         _p.add(d, "long", "newTime", newTime);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {auth}; }
 }
 
 //<<<

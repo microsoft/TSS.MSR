@@ -12,7 +12,7 @@ import tss.*;
  *  hierarchy. The imported object (duplicate) may be singly encrypted, multiply
  *  encrypted, or unencrypted.
  */
-public class ImportResponse extends TpmStructure
+public class ImportResponse extends RespStructure
 {
     /** The sensitive area encrypted with the symmetric key of parentHandle  */
     public TPM2B_PRIVATE outPrivate;
@@ -53,7 +53,7 @@ public class ImportResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

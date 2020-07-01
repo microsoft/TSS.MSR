@@ -12,7 +12,7 @@ import tss.*;
  *  and returns the public point of that ephemeral key along with a numeric value that
  *  allows the TPM to regenerate the associated private key.
  */
-public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
+public class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
 {
     /** Handle of an unrestricted decryption key ECC
      *  The private key referenced by this handle is used as dS,A
@@ -103,7 +103,7 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -113,6 +113,15 @@ public class TPM2_ZGen_2Phase_REQUEST extends TpmStructure
         _p.add(d, "TPM_ALG_ID", "inScheme", inScheme);
         _p.add(d, "int", "counter", counter);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {keyA}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

@@ -10,7 +10,7 @@ import tss.*;
 /** This command performs RSA decryption using the indicated padding scheme according to
  *  IETF RFC 8017 ((PKCS#1).
  */
-public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
+public class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
 {
     /** RSA key to use for decryption
      *  Auth Index: 1
@@ -101,7 +101,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -110,6 +110,15 @@ public class TPM2_RSA_Decrypt_REQUEST extends TpmStructure
         _p.add(d, "TPMU_ASYM_SCHEME", "inScheme", inScheme);
         _p.add(d, "byte", "label", label);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {keyHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

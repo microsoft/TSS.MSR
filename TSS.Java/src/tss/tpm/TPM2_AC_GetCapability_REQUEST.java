@@ -10,7 +10,7 @@ import tss.*;
 /** The purpose of this command is to obtain information about an Attached Component
  *  referenced by an AC handle.
  */
-public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
+public class TPM2_AC_GetCapability_REQUEST extends ReqStructure
 {
     /** Handle indicating the Attached Component
      *  Auth Index: None
@@ -79,7 +79,7 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -87,6 +87,12 @@ public class TPM2_AC_GetCapability_REQUEST extends TpmStructure
         _p.add(d, "TPM_AT", "capability", capability);
         _p.add(d, "int", "count", count);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {ac}; }
 }
 
 //<<<

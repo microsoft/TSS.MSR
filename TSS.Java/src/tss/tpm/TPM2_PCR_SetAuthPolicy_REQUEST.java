@@ -10,7 +10,7 @@ import tss.*;
 /** This command is used to associate a policy with a PCR or group of PCR. The policy
  *  determines the conditions under which a PCR may be extended or reset.
  */
-public class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
+public class TPM2_PCR_SetAuthPolicy_REQUEST extends ReqStructure
 {
     /** TPM_RH_PLATFORM+{PP}
      *  Auth Index: 1
@@ -93,7 +93,7 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -102,6 +102,15 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends TpmStructure
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
         _p.add(d, "TPM_HANDLE", "pcrNum", pcrNum);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

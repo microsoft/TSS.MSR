@@ -55,7 +55,7 @@ public class TPM2B_SENSITIVE_CREATE extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

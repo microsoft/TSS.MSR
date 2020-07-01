@@ -12,7 +12,7 @@ import tss.*;
  *  inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL,
  *  then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
  */
-public class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
+public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
 {
     /** Reference to public portion of RSA key to use for encryption
      *  Auth Index: None
@@ -111,7 +111,7 @@ public class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -120,6 +120,15 @@ public class TPM2_RSA_Encrypt_REQUEST extends TpmStructure
         _p.add(d, "TPMU_ASYM_SCHEME", "inScheme", inScheme);
         _p.add(d, "byte", "label", label);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {keyHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

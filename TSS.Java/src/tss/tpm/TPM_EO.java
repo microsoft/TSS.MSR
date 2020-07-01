@@ -67,25 +67,16 @@ public final class TPM_EO extends TpmEnum<TPM_EO>
         UNSIGNED_LE = new TPM_EO(0x0009, _N.UNSIGNED_LE),
         BITSET = new TPM_EO(0x000A, _N.BITSET),
         BITCLEAR = new TPM_EO(0x000B, _N.BITCLEAR);
-    
     public TPM_EO () { super(0, _ValueMap); }
-    
     public TPM_EO (int value) { super(value, _ValueMap); }
-    
     public static TPM_EO fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_EO.class); }
-    
     public static TPM_EO fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_EO.class); }
-    
     public static TPM_EO fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_EO.class); }
-    
     public TPM_EO._N asEnum() { return (TPM_EO._N)NameAsEnum; }
-    
     public static Collection<TPM_EO> values() { return _ValueMap.values(); }
-    
     private TPM_EO (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_EO (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 2; }
 }

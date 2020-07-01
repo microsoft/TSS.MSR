@@ -72,7 +72,7 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command performs ECC encryption as described in Part 1, Annex D.  */
-public class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
+public class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
 {
     /** Reference to public portion of ECC key to use for encryption
      *  Auth Index: None
@@ -86,7 +86,7 @@ public class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -94,6 +94,15 @@ public class TPM2_ECC_Encrypt_REQUEST extends TpmStructure
         _p.add(d, "byte", "plainText", plainText);
         _p.add(d, "TPMU_KDF_SCHEME", "inScheme", inScheme);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {keyHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

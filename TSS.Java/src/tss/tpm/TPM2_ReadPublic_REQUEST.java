@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command allows access to the public area of a loaded object.  */
-public class TPM2_ReadPublic_REQUEST extends TpmStructure
+public class TPM2_ReadPublic_REQUEST extends ReqStructure
 {
     /** TPM handle of an object
      *  Auth Index: None
@@ -48,12 +48,18 @@ public class TPM2_ReadPublic_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "objectHandle", objectHandle);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {objectHandle}; }
 }
 
 //<<<

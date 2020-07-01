@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.  */
-public class ECC_ParametersResponse extends TpmStructure
+public class ECC_ParametersResponse extends RespStructure
 {
     /** ECC parameters for the selected curve  */
     public TPMS_ALGORITHM_DETAIL_ECC parameters;
@@ -49,7 +49,7 @@ public class ECC_ParametersResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

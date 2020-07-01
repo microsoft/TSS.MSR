@@ -10,7 +10,7 @@ import tss.*;
 /** This command is used to load an object that is not a Protected Object into the TPM.
  *  The command allows loading of a public area or both a public and sensitive area.
  */
-public class LoadExternalResponse extends TpmStructure
+public class LoadExternalResponse extends RespStructure
 {
     /** Handle of type TPM_HT_TRANSIENT for the loaded object  */
     public TPM_HANDLE handle;
@@ -22,19 +22,11 @@ public class LoadExternalResponse extends TpmStructure
     
     /** TpmMarshaller method  */
     @Override
-    public void toTpm(TpmBuffer buf)
-    {
-        handle.toTpm(buf);
-        buf.writeSizedByteBuf(name);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(name); }
     
     /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(TpmBuffer buf)
-    {
-        handle = TPM_HANDLE.fromTpm(buf);
-        name = buf.readSizedByteBuf();
-    }
+    public void initFromTpm(TpmBuffer buf) { name = buf.readSizedByteBuf(); }
     
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
@@ -62,13 +54,22 @@ public class LoadExternalResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
         _p.add(d, "byte", "name", name);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public TPM_HANDLE getHandle() { return handle; }
+    public void setHandle(TPM_HANDLE h) { handle = h; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

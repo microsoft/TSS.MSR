@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command is used to reload a context that has been saved by TPM2_ContextSave().  */
-public class TPM2_ContextLoad_REQUEST extends TpmStructure
+public class TPM2_ContextLoad_REQUEST extends ReqStructure
 {
     /** The context blob  */
     public TPMS_CONTEXT context;
@@ -52,7 +52,7 @@ public class TPM2_ContextLoad_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

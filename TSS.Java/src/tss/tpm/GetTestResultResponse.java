@@ -10,7 +10,7 @@ import tss.*;
 /** This command returns manufacturer-specific information regarding the results of a
  *  self-test and an indication of the test status.
  */
-public class GetTestResultResponse extends TpmStructure
+public class GetTestResultResponse extends RespStructure
 {
     /** Test result data
      *  contains manufacturer-specific information
@@ -63,13 +63,16 @@ public class GetTestResultResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "outData", outData);
         _p.add(d, "TPM_RC", "testResult", testResult);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

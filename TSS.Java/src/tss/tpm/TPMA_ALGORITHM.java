@@ -10,9 +10,11 @@ import java.util.*;
 /** This structure defines the attributes of an algorithm.  */
 public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPMA_ALGORITHM. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using this.asEnum() method in the switch condition. However, their Java names
+     *  are identical to those of the constants defined in this class further below,
+     *  so for any other usage just prepend them with the 'TPMA_ALGORITHM.' qualifier.
+     */
     public enum _N {
         /** SET (1): an asymmetric algorithm with public and private portions
          *  CLEAR (0): not an asymmetric algorithm
@@ -54,7 +56,7 @@ public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
     
     private static ValueMap<TPMA_ALGORITHM> _ValueMap = new ValueMap<TPMA_ALGORITHM>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_ALGORITHM
         asymmetric = new TPMA_ALGORITHM(0x1, _N.asymmetric),
         symmetric = new TPMA_ALGORITHM(0x2, _N.symmetric),
@@ -65,29 +67,18 @@ public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
         method = new TPMA_ALGORITHM(0x400, _N.method);
     
     public TPMA_ALGORITHM () { super(0, _ValueMap); }
-    
     public TPMA_ALGORITHM (int value) { super(value, _ValueMap); }
-    
     public TPMA_ALGORITHM (TPMA_ALGORITHM...attrs) { super(_ValueMap, attrs); }
-    
     public static TPMA_ALGORITHM fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPMA_ALGORITHM.class); }
-    
     public static TPMA_ALGORITHM fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_ALGORITHM.class); }
-    
     public static TPMA_ALGORITHM fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_ALGORITHM.class); }
-    
     public TPMA_ALGORITHM._N asEnum() { return (TPMA_ALGORITHM._N)NameAsEnum; }
-    
     public static Collection<TPMA_ALGORITHM> values() { return _ValueMap.values(); }
-    
     public boolean hasAttr (TPMA_ALGORITHM attr) { return super.hasAttr(attr); }
-    
     public TPMA_ALGORITHM maskAttr (TPMA_ALGORITHM attr) { return super.maskAttr(attr, _ValueMap, TPMA_ALGORITHM.class); }
-    
     private TPMA_ALGORITHM (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPMA_ALGORITHM (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

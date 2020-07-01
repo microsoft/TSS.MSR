@@ -13,9 +13,11 @@ import java.util.*;
  */
 public final class TPMA_CC extends TpmAttribute<TPMA_CC>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPMA_CC. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using this.asEnum() method in the switch condition. However, their Java names
+     *  are identical to those of the constants defined in this class further below,
+     *  so for any other usage just prepend them with the 'TPMA_CC.' qualifier.
+     */
     public enum _N {
         /** Indicates the command being selected  */
         commandIndex_BIT_0,
@@ -89,7 +91,7 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
     
     private static ValueMap<TPMA_CC> _ValueMap = new ValueMap<TPMA_CC>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_CC
         commandIndex_BIT_0 = new TPMA_CC(0x1, _N.commandIndex_BIT_0),
         commandIndex_BIT_1 = new TPMA_CC(0x2, _N.commandIndex_BIT_1),
@@ -119,29 +121,18 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
         Res_BIT_1 = new TPMA_CC(0x80000000, _N.Res_BIT_1, true);
     
     public TPMA_CC () { super(0, _ValueMap); }
-    
     public TPMA_CC (int value) { super(value, _ValueMap); }
-    
     public TPMA_CC (TPMA_CC...attrs) { super(_ValueMap, attrs); }
-    
     public static TPMA_CC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPMA_CC.class); }
-    
     public static TPMA_CC fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_CC.class); }
-    
     public static TPMA_CC fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_CC.class); }
-    
     public TPMA_CC._N asEnum() { return (TPMA_CC._N)NameAsEnum; }
-    
     public static Collection<TPMA_CC> values() { return _ValueMap.values(); }
-    
     public boolean hasAttr (TPMA_CC attr) { return super.hasAttr(attr); }
-    
     public TPMA_CC maskAttr (TPMA_CC attr) { return super.maskAttr(attr, _ValueMap, TPMA_CC.class); }
-    
     private TPMA_CC (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPMA_CC (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

@@ -15,9 +15,11 @@ import java.util.*;
  */
 public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPMA_X509_KEY_USAGE. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using this.asEnum() method in the switch condition. However, their Java names
+     *  are identical to those of the constants defined in this class further below,
+     *  so for any other usage just prepend them with the 'TPMA_X509_KEY_USAGE.' qualifier.
+     */
     public enum _N {
         /** Attributes.Decrypt SET  */
         decipherOnly,
@@ -52,7 +54,7 @@ public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
     
     private static ValueMap<TPMA_X509_KEY_USAGE> _ValueMap = new ValueMap<TPMA_X509_KEY_USAGE>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_X509_KEY_USAGE
         decipherOnly = new TPMA_X509_KEY_USAGE(0x800000, _N.decipherOnly),
         encipherOnly = new TPMA_X509_KEY_USAGE(0x1000000, _N.encipherOnly),
@@ -66,29 +68,18 @@ public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
         digitalSignature = new TPMA_X509_KEY_USAGE(0x80000000, _N.digitalSignature);
     
     public TPMA_X509_KEY_USAGE () { super(0, _ValueMap); }
-    
     public TPMA_X509_KEY_USAGE (int value) { super(value, _ValueMap); }
-    
     public TPMA_X509_KEY_USAGE (TPMA_X509_KEY_USAGE...attrs) { super(_ValueMap, attrs); }
-    
     public static TPMA_X509_KEY_USAGE fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPMA_X509_KEY_USAGE.class); }
-    
     public static TPMA_X509_KEY_USAGE fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_X509_KEY_USAGE.class); }
-    
     public static TPMA_X509_KEY_USAGE fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_X509_KEY_USAGE.class); }
-    
     public TPMA_X509_KEY_USAGE._N asEnum() { return (TPMA_X509_KEY_USAGE._N)NameAsEnum; }
-    
     public static Collection<TPMA_X509_KEY_USAGE> values() { return _ValueMap.values(); }
-    
     public boolean hasAttr (TPMA_X509_KEY_USAGE attr) { return super.hasAttr(attr); }
-    
     public TPMA_X509_KEY_USAGE maskAttr (TPMA_X509_KEY_USAGE attr) { return super.maskAttr(attr, _ValueMap, TPMA_X509_KEY_USAGE.class); }
-    
     private TPMA_X509_KEY_USAGE (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPMA_X509_KEY_USAGE (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

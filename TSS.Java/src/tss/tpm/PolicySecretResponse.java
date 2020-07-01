@@ -12,7 +12,7 @@ import tss.*;
  *  associated with authHandle. A password session, an HMAC session, or a policy session
  *  containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
  */
-public class PolicySecretResponse extends TpmStructure
+public class PolicySecretResponse extends RespStructure
 {
     /** Implementation-specific time value used to indicate to the TPM when the ticket expires  */
     public byte[] timeout;
@@ -66,13 +66,16 @@ public class PolicySecretResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "timeout", timeout);
         _p.add(d, "TPMT_TK_AUTH", "policyTicket", policyTicket);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

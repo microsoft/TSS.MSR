@@ -10,7 +10,7 @@ import tss.*;
 /** The purpose of this command is to certify the contents of an NV Index or portion of an
  *  NV Index.
  */
-public class TPM2_NV_Certify_REQUEST extends TpmStructure
+public class TPM2_NV_Certify_REQUEST extends ReqStructure
 {
     /** Handle of the key used to sign the attestation structure
      *  Auth Index: 1
@@ -130,7 +130,7 @@ public class TPM2_NV_Certify_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -142,6 +142,15 @@ public class TPM2_NV_Certify_REQUEST extends TpmStructure
         _p.add(d, "int", "size", size);
         _p.add(d, "int", "offset", offset);
     }
+
+    @Override
+    public int numHandles() { return 3; }
+    
+    public int numAuthHandles() { return 2; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {signHandle, authHandle, nvIndex}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

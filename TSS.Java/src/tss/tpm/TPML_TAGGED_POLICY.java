@@ -58,7 +58,7 @@ public class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIE
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

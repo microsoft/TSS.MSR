@@ -10,7 +10,7 @@ import tss.*;
 /** This command uses loaded keys to validate a signature on a message with the message
  *  digest passed to the TPM.
  */
-public class TPM2_VerifySignature_REQUEST extends TpmStructure
+public class TPM2_VerifySignature_REQUEST extends ReqStructure
 {
     /** Handle of public key that will be used in the validation
      *  Auth Index: None
@@ -88,7 +88,7 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -96,6 +96,15 @@ public class TPM2_VerifySignature_REQUEST extends TpmStructure
         _p.add(d, "byte", "digest", digest);
         _p.add(d, "TPMU_SIGNATURE", "signature", signature);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {keyHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

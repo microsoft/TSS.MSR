@@ -10,7 +10,7 @@ import tss.*;
 /** NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This
  *  should be reflected in platform-specific specifications.
  */
-public class EncryptDecryptResponse extends TpmStructure
+public class EncryptDecryptResponse extends RespStructure
 {
     /** Encrypted or decrypted output  */
     public byte[] outData;
@@ -62,13 +62,16 @@ public class EncryptDecryptResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "outData", outData);
         _p.add(d, "byte", "ivOut", ivOut);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

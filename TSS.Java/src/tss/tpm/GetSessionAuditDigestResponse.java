@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command returns a digital signature of the audit session digest.  */
-public class GetSessionAuditDigestResponse extends TpmStructure
+public class GetSessionAuditDigestResponse extends RespStructure
 {
     /** The audit information that was signed  */
     public TPMS_ATTEST auditInfo;
@@ -66,13 +66,16 @@ public class GetSessionAuditDigestResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ATTEST", "auditInfo", auditInfo);
         _p.add(d, "TPMU_SIGNATURE", "signature", signature);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

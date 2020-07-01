@@ -10,7 +10,7 @@ import tss.*;
 /** This command extends a value to an area in NV memory that was previously defined by
  *  TPM2_NV_DefineSpace.
  */
-public class TPM2_NV_Extend_REQUEST extends TpmStructure
+public class TPM2_NV_Extend_REQUEST extends ReqStructure
 {
     /** Handle indicating the source of the authorization value
      *  Auth Index: 1
@@ -80,7 +80,7 @@ public class TPM2_NV_Extend_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -88,6 +88,15 @@ public class TPM2_NV_Extend_REQUEST extends TpmStructure
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
         _p.add(d, "byte", "data", data);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle, nvIndex}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

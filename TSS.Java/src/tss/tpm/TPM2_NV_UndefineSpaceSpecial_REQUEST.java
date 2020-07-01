@@ -10,7 +10,7 @@ import tss.*;
 /** This command allows removal of a platform-created NV Index that has
  *  TPMA_NV_POLICY_DELETE SET.
  */
-public class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
+public class TPM2_NV_UndefineSpaceSpecial_REQUEST extends ReqStructure
 {
     /** Index to be deleted
      *  Auth Index: 1
@@ -69,13 +69,19 @@ public class TPM2_NV_UndefineSpaceSpecial_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
         _p.add(d, "TPM_HANDLE", "platform", platform);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 2; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {nvIndex, platform}; }
 }
 
 //<<<

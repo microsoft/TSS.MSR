@@ -27,25 +27,16 @@ public final class SHA1 extends TpmEnum<SHA1>
     public static final SHA1
         DIGEST_SIZE = new SHA1(20, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA1(64, _N.BLOCK_SIZE);
-    
     public SHA1 () { super(0, _ValueMap); }
-    
     public SHA1 (int value) { super(value, _ValueMap); }
-    
     public static SHA1 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SHA1.class); }
-    
     public static SHA1 fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, SHA1.class); }
-    
     public static SHA1 fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, SHA1.class); }
-    
     public SHA1._N asEnum() { return (SHA1._N)NameAsEnum; }
-    
     public static Collection<SHA1> values() { return _ValueMap.values(); }
-    
     private SHA1 (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private SHA1 (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

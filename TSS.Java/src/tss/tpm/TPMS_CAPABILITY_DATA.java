@@ -69,7 +69,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

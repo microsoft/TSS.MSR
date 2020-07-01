@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command is used to change the authorization secret for a TPM-resident object.  */
-public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
+public class TPM2_ObjectChangeAuth_REQUEST extends ReqStructure
 {
     /** Handle of the object
      *  Auth Index: 1
@@ -78,7 +78,7 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -86,6 +86,15 @@ public class TPM2_ObjectChangeAuth_REQUEST extends TpmStructure
         _p.add(d, "TPM_HANDLE", "parentHandle", parentHandle);
         _p.add(d, "byte", "newAuth", newAuth);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {objectHandle, parentHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

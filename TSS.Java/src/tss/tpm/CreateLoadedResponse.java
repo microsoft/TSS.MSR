@@ -13,7 +13,7 @@ import tss.*;
  *  created; if parentHandle references a Storage Parent, then an Ordinary Object is
  *  created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
  */
-public class CreateLoadedResponse extends TpmStructure
+public class CreateLoadedResponse extends RespStructure
 {
     /** Handle of type TPM_HT_TRANSIENT for created object  */
     public TPM_HANDLE handle;
@@ -33,7 +33,6 @@ public class CreateLoadedResponse extends TpmStructure
     @Override
     public void toTpm(TpmBuffer buf)
     {
-        handle.toTpm(buf);
         outPrivate.toTpm(buf);
         buf.writeSizedObj(outPublic);
         buf.writeSizedByteBuf(name);
@@ -43,7 +42,6 @@ public class CreateLoadedResponse extends TpmStructure
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
-        handle = TPM_HANDLE.fromTpm(buf);
         outPrivate = TPM2B_PRIVATE.fromTpm(buf);
         outPublic = buf.createSizedObj(TPMT_PUBLIC.class);
         name = buf.readSizedByteBuf();
@@ -75,7 +73,7 @@ public class CreateLoadedResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -84,6 +82,12 @@ public class CreateLoadedResponse extends TpmStructure
         _p.add(d, "TPMT_PUBLIC", "outPublic", outPublic);
         _p.add(d, "byte", "name", name);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public TPM_HANDLE getHandle() { return handle; }
+    public void setHandle(TPM_HANDLE h) { handle = h; }
 }
 
 //<<<

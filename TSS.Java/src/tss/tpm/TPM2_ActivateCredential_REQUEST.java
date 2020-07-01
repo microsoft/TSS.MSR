@@ -10,7 +10,7 @@ import tss.*;
 /** This command enables the association of a credential with an object in a way that
  *  ensures that the TPM has validated the parameters of the credentialed object.
  */
-public class TPM2_ActivateCredential_REQUEST extends TpmStructure
+public class TPM2_ActivateCredential_REQUEST extends ReqStructure
 {
     /** Handle of the object associated with certificate in credentialBlob
      *  Auth Index: 1
@@ -95,7 +95,7 @@ public class TPM2_ActivateCredential_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -104,6 +104,15 @@ public class TPM2_ActivateCredential_REQUEST extends TpmStructure
         _p.add(d, "TPMS_ID_OBJECT", "credentialBlob", credentialBlob);
         _p.add(d, "byte", "secret", secret);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 2; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {activateHandle, keyHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

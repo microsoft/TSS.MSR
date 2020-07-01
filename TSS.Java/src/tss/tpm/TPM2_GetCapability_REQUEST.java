@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command returns various information regarding the TPM and its current state.  */
-public class TPM2_GetCapability_REQUEST extends TpmStructure
+public class TPM2_GetCapability_REQUEST extends ReqStructure
 {
     /** Group selection; determines the format of the response  */
     public TPM_CAP capability;
@@ -76,7 +76,7 @@ public class TPM2_GetCapability_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

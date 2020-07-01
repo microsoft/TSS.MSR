@@ -10,7 +10,7 @@ import tss.*;
 /** The purpose of this command is to obtain information about an Attached Component
  *  referenced by an AC handle.
  */
-public class AC_GetCapabilityResponse extends TpmStructure
+public class AC_GetCapabilityResponse extends RespStructure
 {
     /** Flag to indicate whether there are more values  */
     public byte moreData;
@@ -62,7 +62,7 @@ public class AC_GetCapabilityResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

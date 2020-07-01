@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This is a placeholder to allow testing of the dispatch code.  */
-public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
+public class TPM2_Vendor_TCG_Test_REQUEST extends ReqStructure
 {
     /** Dummy data  */
     public byte[] inputData;
@@ -52,12 +52,15 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "inputData", inputData);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

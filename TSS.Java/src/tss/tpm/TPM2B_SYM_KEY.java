@@ -55,7 +55,7 @@ public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOS
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

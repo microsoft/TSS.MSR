@@ -13,7 +13,7 @@ import tss.*;
  *  created; if parentHandle references a Storage Parent, then an Ordinary Object is
  *  created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
  */
-public class TPM2_CreateLoaded_REQUEST extends TpmStructure
+public class TPM2_CreateLoaded_REQUEST extends ReqStructure
 {
     /** Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT,
      *  TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
@@ -86,7 +86,7 @@ public class TPM2_CreateLoaded_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -94,6 +94,15 @@ public class TPM2_CreateLoaded_REQUEST extends TpmStructure
         _p.add(d, "TPMS_SENSITIVE_CREATE", "inSensitive", inSensitive);
         _p.add(d, "byte", "inPublic", inPublic);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {parentHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

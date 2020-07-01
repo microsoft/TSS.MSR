@@ -11,7 +11,7 @@ import tss.*;
  *  authorization failures. If this command is properly authorized, the lockout counter is
  *  set to zero.
  */
-public class TPM2_DictionaryAttackLockReset_REQUEST extends TpmStructure
+public class TPM2_DictionaryAttackLockReset_REQUEST extends ReqStructure
 {
     /** TPM_RH_LOCKOUT
      *  Auth Index: 1
@@ -53,12 +53,18 @@ public class TPM2_DictionaryAttackLockReset_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "lockHandle", lockHandle);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {lockHandle}; }
 }
 
 //<<<

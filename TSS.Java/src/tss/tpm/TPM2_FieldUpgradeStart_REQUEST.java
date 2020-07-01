@@ -10,7 +10,7 @@ import tss.*;
 /** This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a
  *  Field Upgrade Manifest.
  */
-public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
+public class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
 {
     /** TPM_RH_PLATFORM+{PP}
      *  Auth Index:1
@@ -105,7 +105,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -114,6 +114,15 @@ public class TPM2_FieldUpgradeStart_REQUEST extends TpmStructure
         _p.add(d, "byte", "fuDigest", fuDigest);
         _p.add(d, "TPMU_SIGNATURE", "manifestSignature", manifestSignature);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authorization, keyHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

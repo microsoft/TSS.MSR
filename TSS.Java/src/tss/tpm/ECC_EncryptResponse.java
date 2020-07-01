@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command performs ECC encryption as described in Part 1, Annex D.  */
-public class ECC_EncryptResponse extends TpmStructure
+public class ECC_EncryptResponse extends RespStructure
 {
     /** The public ephemeral key used for ECDH  */
     public TPMS_ECC_POINT C1;
@@ -65,7 +65,7 @@ public class ECC_EncryptResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -73,6 +73,9 @@ public class ECC_EncryptResponse extends TpmStructure
         _p.add(d, "byte", "C2", C2);
         _p.add(d, "byte", "C3", C3);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

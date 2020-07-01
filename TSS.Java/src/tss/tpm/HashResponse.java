@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command performs a hash operation on a data buffer and returns the results.  */
-public class HashResponse extends TpmStructure
+public class HashResponse extends RespStructure
 {
     /** Results  */
     public byte[] outHash;
@@ -63,13 +63,16 @@ public class HashResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "outHash", outHash);
         _p.add(d, "TPMT_TK_HASHCHECK", "validation", validation);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

@@ -23,25 +23,16 @@ public final class TPM_GENERATED extends TpmEnum<TPM_GENERATED>
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_GENERATED
         VALUE = new TPM_GENERATED(0xff544347, _N.VALUE);
-    
     public TPM_GENERATED () { super(0, _ValueMap); }
-    
     public TPM_GENERATED (int value) { super(value, _ValueMap); }
-    
     public static TPM_GENERATED fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_GENERATED.class); }
-    
     public static TPM_GENERATED fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_GENERATED.class); }
-    
     public static TPM_GENERATED fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_GENERATED.class); }
-    
     public TPM_GENERATED._N asEnum() { return (TPM_GENERATED._N)NameAsEnum; }
-    
     public static Collection<TPM_GENERATED> values() { return _ValueMap.values(); }
-    
     private TPM_GENERATED (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_GENERATED (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

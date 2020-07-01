@@ -73,7 +73,7 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

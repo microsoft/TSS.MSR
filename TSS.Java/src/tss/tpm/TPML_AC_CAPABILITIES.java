@@ -52,7 +52,7 @@ public class TPML_AC_CAPABILITIES extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

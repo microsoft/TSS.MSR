@@ -37,25 +37,16 @@ public final class Logic extends TpmEnum<Logic>
         NO = new Logic(0, _N.NO),
         SET = new Logic(1, _N.SET),
         CLEAR = new Logic(0, _N.CLEAR);
-    
     public Logic () { super(0, _ValueMap); }
-    
     public Logic (int value) { super(value, _ValueMap); }
-    
     public static Logic fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, Logic.class); }
-    
     public static Logic fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, Logic.class); }
-    
     public static Logic fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, Logic.class); }
-    
     public Logic._N asEnum() { return (Logic._N)NameAsEnum; }
-    
     public static Collection<Logic> values() { return _ValueMap.values(); }
-    
     private Logic (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private Logic (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 1; }
 }

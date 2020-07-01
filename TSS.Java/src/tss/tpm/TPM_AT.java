@@ -39,25 +39,16 @@ public final class TPM_AT extends TpmEnum<TPM_AT>
         ERROR = new TPM_AT(0x00000001, _N.ERROR),
         PV1 = new TPM_AT(0x00000002, _N.PV1),
         VEND = new TPM_AT(0x80000000, _N.VEND);
-    
     public TPM_AT () { super(0, _ValueMap); }
-    
     public TPM_AT (int value) { super(value, _ValueMap); }
-    
     public static TPM_AT fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_AT.class); }
-    
     public static TPM_AT fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_AT.class); }
-    
     public static TPM_AT fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_AT.class); }
-    
     public TPM_AT._N asEnum() { return (TPM_AT._N)NameAsEnum; }
-    
     public static Collection<TPM_AT> values() { return _ValueMap.values(); }
-    
     private TPM_AT (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_AT (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

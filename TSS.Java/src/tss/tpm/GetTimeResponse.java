@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command returns the current values of Time and Clock.  */
-public class GetTimeResponse extends TpmStructure
+public class GetTimeResponse extends RespStructure
 {
     /** Standard TPM-generated attestation block  */
     public TPMS_ATTEST timeInfo;
@@ -66,13 +66,16 @@ public class GetTimeResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ATTEST", "timeInfo", timeInfo);
         _p.add(d, "TPMU_SIGNATURE", "signature", signature);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

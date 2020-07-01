@@ -11,7 +11,7 @@ import tss.*;
  *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be
  *  loaded, the TPM2_LoadExternal command is used.
  */
-public class TPM2_Load_REQUEST extends TpmStructure
+public class TPM2_Load_REQUEST extends ReqStructure
 {
     /** TPM handle of parent key; shall not be a reserved handle
      *  Auth Index: 1
@@ -82,7 +82,7 @@ public class TPM2_Load_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -90,6 +90,12 @@ public class TPM2_Load_REQUEST extends TpmStructure
         _p.add(d, "TPM2B_PRIVATE", "inPrivate", inPrivate);
         _p.add(d, "TPMT_PUBLIC", "inPublic", inPublic);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {parentHandle}; }
 }
 
 //<<<

@@ -13,7 +13,7 @@ import tss.*;
  *  parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with
  *  pcrHandle, it is extended with the associated digest value from the list.
  */
-public class TPM2_EventSequenceComplete_REQUEST extends TpmStructure
+public class TPM2_EventSequenceComplete_REQUEST extends ReqStructure
 {
     /** PCR to be extended with the Event data
      *  Auth Index: 1
@@ -85,7 +85,7 @@ public class TPM2_EventSequenceComplete_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -93,6 +93,15 @@ public class TPM2_EventSequenceComplete_REQUEST extends TpmStructure
         _p.add(d, "TPM_HANDLE", "sequenceHandle", sequenceHandle);
         _p.add(d, "byte", "buffer", buffer);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 2; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {pcrHandle, sequenceHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

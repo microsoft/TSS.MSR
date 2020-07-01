@@ -12,7 +12,7 @@ import tss.*;
  *  may not be withdrawn. With this command, the approved policy is kept in an NV Index
  *  location so that the policy may be changed as needed to render the old policy unusable.
  */
-public class TPM2_PolicyAuthorizeNV_REQUEST extends TpmStructure
+public class TPM2_PolicyAuthorizeNV_REQUEST extends ReqStructure
 {
     /** Handle indicating the source of the authorization value
      *  Auth Index: 1
@@ -78,7 +78,7 @@ public class TPM2_PolicyAuthorizeNV_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -86,6 +86,12 @@ public class TPM2_PolicyAuthorizeNV_REQUEST extends TpmStructure
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
     }
+
+    @Override
+    public int numHandles() { return 3; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle, nvIndex, policySession}; }
 }
 
 //<<<

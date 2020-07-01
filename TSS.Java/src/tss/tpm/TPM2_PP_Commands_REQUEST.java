@@ -10,7 +10,7 @@ import tss.*;
 /** This command is used to determine which commands require assertion of Physical
  *  Presence (PP) in addition to platformAuth/platformPolicy.
  */
-public class TPM2_PP_Commands_REQUEST extends TpmStructure
+public class TPM2_PP_Commands_REQUEST extends ReqStructure
 {
     /** TPM_RH_PLATFORM+PP
      *  Auth Index: 1
@@ -83,7 +83,7 @@ public class TPM2_PP_Commands_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -91,6 +91,15 @@ public class TPM2_PP_Commands_REQUEST extends TpmStructure
         _p.add(d, "TPM_CC", "setList", setList);
         _p.add(d, "TPM_CC", "clearList", clearList);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {auth}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(4, 4); }
 }
 
 //<<<

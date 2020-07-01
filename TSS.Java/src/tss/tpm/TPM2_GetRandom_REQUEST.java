@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command returns the next bytesRequested octets from the random number generator (RNG).  */
-public class TPM2_GetRandom_REQUEST extends TpmStructure
+public class TPM2_GetRandom_REQUEST extends ReqStructure
 {
     /** Number of octets to return  */
     public int bytesRequested;
@@ -52,7 +52,7 @@ public class TPM2_GetRandom_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

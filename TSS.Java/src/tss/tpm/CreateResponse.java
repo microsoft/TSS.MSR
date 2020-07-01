@@ -15,7 +15,7 @@ import tss.*;
  *  it may be used. The only difference between the inPublic TPMT_PUBLIC template and the
  *  outPublic TPMT_PUBLIC object is in the unique field.
  */
-public class CreateResponse extends TpmStructure
+public class CreateResponse extends RespStructure
 {
     /** The private portion of the object  */
     public TPM2B_PRIVATE outPrivate;
@@ -84,7 +84,7 @@ public class CreateResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -11,7 +11,7 @@ import tss.*;
  *  provided, then this command may be used to set the PCR in all banks to zero. The
  *  attributes of the PCR may restrict the locality that can perform the reset operation.
  */
-public class TPM2_PCR_Reset_REQUEST extends TpmStructure
+public class TPM2_PCR_Reset_REQUEST extends ReqStructure
 {
     /** The PCR to reset
      *  Auth Index: 1
@@ -53,12 +53,18 @@ public class TPM2_PCR_Reset_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "pcrHandle", pcrHandle);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {pcrHandle}; }
 }
 
 //<<<

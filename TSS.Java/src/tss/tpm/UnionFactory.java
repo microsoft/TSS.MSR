@@ -150,7 +150,7 @@ class UnionFactory
             }
         else
             throw new RuntimeException("UnionFactory::Create(): Unknown union type " + unionType);
-        throw new RuntimeException("Unknown selector value" + selector.toString() + " for union " + unionType);
+        throw new RuntimeException("Unknown selector value " + selector.toString() + " for union " + unionType);
     } // create()
     
 }; // class UnionFactory

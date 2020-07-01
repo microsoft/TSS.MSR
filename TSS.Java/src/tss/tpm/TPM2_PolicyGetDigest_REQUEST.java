@@ -10,7 +10,7 @@ import tss.*;
 /** This command returns the current policyDigest of the session. This command allows the
  *  TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
  */
-public class TPM2_PolicyGetDigest_REQUEST extends TpmStructure
+public class TPM2_PolicyGetDigest_REQUEST extends ReqStructure
 {
     /** Handle for the policy session
      *  Auth Index: None
@@ -50,12 +50,18 @@ public class TPM2_PolicyGetDigest_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {policySession}; }
 }
 
 //<<<

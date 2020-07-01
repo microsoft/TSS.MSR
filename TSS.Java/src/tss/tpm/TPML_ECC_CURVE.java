@@ -57,7 +57,7 @@ public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

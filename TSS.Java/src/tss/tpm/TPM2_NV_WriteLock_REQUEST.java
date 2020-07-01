@@ -10,7 +10,7 @@ import tss.*;
 /** If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are
  *  SET, then this command may be used to inhibit further writes of the NV Index.
  */
-public class TPM2_NV_WriteLock_REQUEST extends TpmStructure
+public class TPM2_NV_WriteLock_REQUEST extends ReqStructure
 {
     /** Handle indicating the source of the authorization value
      *  Auth Index: 1
@@ -67,13 +67,19 @@ public class TPM2_NV_WriteLock_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle, nvIndex}; }
 }
 
 //<<<

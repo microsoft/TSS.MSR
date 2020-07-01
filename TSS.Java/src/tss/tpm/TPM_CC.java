@@ -428,25 +428,16 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         LAST = new TPM_CC(0x0000019A, _N.LAST),
         CC_VEND = new TPM_CC(0x20000000, _N.CC_VEND),
         Vendor_TCG_Test = new TPM_CC(CC_VEND.toInt()+0x0000, _N.Vendor_TCG_Test);
-    
     public TPM_CC () { super(0, _ValueMap); }
-    
     public TPM_CC (int value) { super(value, _ValueMap); }
-    
     public static TPM_CC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_CC.class); }
-    
     public static TPM_CC fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_CC.class); }
-    
     public static TPM_CC fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_CC.class); }
-    
     public TPM_CC._N asEnum() { return (TPM_CC._N)NameAsEnum; }
-    
     public static Collection<TPM_CC> values() { return _ValueMap.values(); }
-    
     private TPM_CC (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_CC (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

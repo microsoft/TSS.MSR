@@ -14,7 +14,7 @@ import tss.*;
  *  newParent and the blob is re-encrypted and a new integrity value is computed. The
  *  re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
  */
-public class RewrapResponse extends TpmStructure
+public class RewrapResponse extends RespStructure
 {
     /** An object encrypted using symmetric key derived from outSymSeed  */
     public TPM2B_PRIVATE outDuplicate;
@@ -66,7 +66,7 @@ public class RewrapResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

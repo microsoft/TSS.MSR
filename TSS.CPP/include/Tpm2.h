@@ -315,7 +315,7 @@ protected:
     ByteVec objectInAuth;
 
     //
-    // Other state
+    // State persistent across commands
     //
     TpmDevice  *device;
     TPM_RC      LastResponseCode = TPM_RC::SUCCESS;

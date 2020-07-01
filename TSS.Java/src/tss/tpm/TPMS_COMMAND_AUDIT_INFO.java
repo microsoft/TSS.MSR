@@ -86,7 +86,7 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command is used to read a copy of the current firmware installed in the TPM.  */
-public class FirmwareReadResponse extends TpmStructure
+public class FirmwareReadResponse extends RespStructure
 {
     /** Field upgrade image data  */
     public byte[] fuData;
@@ -49,12 +49,15 @@ public class FirmwareReadResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "fuData", fuData);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

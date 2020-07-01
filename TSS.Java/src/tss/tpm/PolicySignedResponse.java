@@ -10,7 +10,7 @@ import tss.*;
 /** This command includes a signed authorization in a policy. The command ties the policy
  *  to a signing key by including the Name of the signing key in the policyDigest
  */
-public class PolicySignedResponse extends TpmStructure
+public class PolicySignedResponse extends RespStructure
 {
     /** Implementation-specific time value, used to indicate to the TPM when the ticket expires
      *  NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
@@ -66,13 +66,16 @@ public class PolicySignedResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "timeout", timeout);
         _p.add(d, "TPMT_TK_AUTH", "policyTicket", policyTicket);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

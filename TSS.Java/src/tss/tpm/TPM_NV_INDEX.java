@@ -14,9 +14,11 @@ import java.util.*;
  */
 public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_NV_INDEX. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using this.asEnum() method in the switch condition. However, their Java names
+     *  are identical to those of the constants defined in this class further below,
+     *  so for any other usage just prepend them with the 'TPM_NV_INDEX.' qualifier.
+     */
     public enum _N {
         /** The Index of the NV location  */
         index_BIT_0,
@@ -87,7 +89,7 @@ public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
     
     private static ValueMap<TPM_NV_INDEX> _ValueMap = new ValueMap<TPM_NV_INDEX>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPM_NV_INDEX
         index_BIT_0 = new TPM_NV_INDEX(0x1, _N.index_BIT_0),
         index_BIT_1 = new TPM_NV_INDEX(0x2, _N.index_BIT_1),
@@ -123,29 +125,18 @@ public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
         RhNv_BIT_7 = new TPM_NV_INDEX(0x80000000, _N.RhNv_BIT_7);
     
     public TPM_NV_INDEX () { super(0, _ValueMap); }
-    
     public TPM_NV_INDEX (int value) { super(value, _ValueMap); }
-    
     public TPM_NV_INDEX (TPM_NV_INDEX...attrs) { super(_ValueMap, attrs); }
-    
     public static TPM_NV_INDEX fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_NV_INDEX.class); }
-    
     public static TPM_NV_INDEX fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_NV_INDEX.class); }
-    
     public static TPM_NV_INDEX fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_NV_INDEX.class); }
-    
     public TPM_NV_INDEX._N asEnum() { return (TPM_NV_INDEX._N)NameAsEnum; }
-    
     public static Collection<TPM_NV_INDEX> values() { return _ValueMap.values(); }
-    
     public boolean hasAttr (TPM_NV_INDEX attr) { return super.hasAttr(attr); }
-    
     public TPM_NV_INDEX maskAttr (TPM_NV_INDEX attr) { return super.maskAttr(attr, _ValueMap, TPM_NV_INDEX.class); }
-    
     private TPM_NV_INDEX (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_NV_INDEX (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

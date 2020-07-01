@@ -57,7 +57,7 @@ public class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPAB
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -14,7 +14,7 @@ import tss.*;
  *  X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key
  *  Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
  */
-public class CertifyX509Response extends TpmStructure
+public class CertifyX509Response extends RespStructure
 {
     /** A DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate
      *  to make it a complete RFC5280 TBSCertificate.
@@ -79,7 +79,7 @@ public class CertifyX509Response extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -87,6 +87,9 @@ public class CertifyX509Response extends TpmStructure
         _p.add(d, "byte", "tbsDigest", tbsDigest);
         _p.add(d, "TPMU_SIGNATURE", "signature", signature);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

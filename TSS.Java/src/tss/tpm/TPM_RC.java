@@ -707,25 +707,16 @@ public final class TPM_RC extends TpmEnum<TPM_RC>
         TBS_ACCESS_DENIED = new TPM_RC(0x80284012, _N.TBS_ACCESS_DENIED),
         TBS_PPI_FUNCTION_NOT_SUPPORTED = new TPM_RC(0x80284014, _N.TBS_PPI_FUNCTION_NOT_SUPPORTED),
         TBS_OWNER_AUTH_NOT_FOUND = new TPM_RC(0x80284015, _N.TBS_OWNER_AUTH_NOT_FOUND);
-    
     public TPM_RC () { super(0, _ValueMap); }
-    
     public TPM_RC (int value) { super(value, _ValueMap); }
-    
     public static TPM_RC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_RC.class); }
-    
     public static TPM_RC fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_RC.class); }
-    
     public static TPM_RC fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_RC.class); }
-    
     public TPM_RC._N asEnum() { return (TPM_RC._N)NameAsEnum; }
-    
     public static Collection<TPM_RC> values() { return _ValueMap.values(); }
-    
     private TPM_RC (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_RC (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

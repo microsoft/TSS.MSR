@@ -115,25 +115,16 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
     /** @deprecated Use {@link #PW} instead  */
     @Deprecated
     public static final TPM_RH RS_PW = new TPM_RH(PW.toInt(), _N.PW, true);
-    
     public TPM_RH () { super(0, _ValueMap); }
-    
     public TPM_RH (int value) { super(value, _ValueMap); }
-    
     public static TPM_RH fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_RH.class); }
-    
     public static TPM_RH fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_RH.class); }
-    
     public static TPM_RH fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_RH.class); }
-    
     public TPM_RH._N asEnum() { return (TPM_RH._N)NameAsEnum; }
-    
     public static Collection<TPM_RH> values() { return _ValueMap.values(); }
-    
     private TPM_RH (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_RH (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

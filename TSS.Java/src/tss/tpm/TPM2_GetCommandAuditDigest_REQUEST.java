@@ -11,7 +11,7 @@ import tss.*;
  *  commands being audited, and the audit hash algorithm. These values are placed in an
  *  attestation structure and signed with the key referenced by signHandle.
  */
-public class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
+public class TPM2_GetCommandAuditDigest_REQUEST extends ReqStructure
 {
     /** Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
      *  Auth Index: 1
@@ -105,7 +105,7 @@ public class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -114,6 +114,15 @@ public class TPM2_GetCommandAuditDigest_REQUEST extends TpmStructure
         _p.add(d, "byte", "qualifyingData", qualifyingData);
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 2; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {privacyHandle, signHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

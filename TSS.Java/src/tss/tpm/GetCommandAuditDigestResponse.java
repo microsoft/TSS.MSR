@@ -11,7 +11,7 @@ import tss.*;
  *  commands being audited, and the audit hash algorithm. These values are placed in an
  *  attestation structure and signed with the key referenced by signHandle.
  */
-public class GetCommandAuditDigestResponse extends TpmStructure
+public class GetCommandAuditDigestResponse extends RespStructure
 {
     /** The auditInfo that was signed  */
     public TPMS_ATTEST auditInfo;
@@ -69,13 +69,16 @@ public class GetCommandAuditDigestResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ATTEST", "auditInfo", auditInfo);
         _p.add(d, "TPMU_SIGNATURE", "signature", signature);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

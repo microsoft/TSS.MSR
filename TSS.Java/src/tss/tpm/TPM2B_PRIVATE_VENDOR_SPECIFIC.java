@@ -60,7 +60,7 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

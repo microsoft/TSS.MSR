@@ -14,7 +14,7 @@ import tss.*;
  *  newParent and the blob is re-encrypted and a new integrity value is computed. The
  *  re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
  */
-public class TPM2_Rewrap_REQUEST extends TpmStructure
+public class TPM2_Rewrap_REQUEST extends ReqStructure
 {
     /** Parent of object
      *  Auth Index: 1
@@ -107,7 +107,7 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -117,6 +117,12 @@ public class TPM2_Rewrap_REQUEST extends TpmStructure
         _p.add(d, "byte", "name", name);
         _p.add(d, "byte", "inSymSeed", inSymSeed);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {oldParent, newParent}; }
 }
 
 //<<<

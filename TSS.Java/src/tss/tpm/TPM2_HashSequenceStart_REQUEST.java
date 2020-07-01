@@ -12,7 +12,7 @@ import tss.*;
  *  started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
  *  shall return TPM_RC_HASH.
  */
-public class TPM2_HashSequenceStart_REQUEST extends TpmStructure
+public class TPM2_HashSequenceStart_REQUEST extends ReqStructure
 {
     /** Authorization value for subsequent use of the sequence  */
     public byte[] auth;
@@ -76,13 +76,16 @@ public class TPM2_HashSequenceStart_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "auth", auth);
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

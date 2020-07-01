@@ -83,25 +83,16 @@ public final class TPM_PS extends TpmEnum<TPM_PS>
         TNC = new TPM_PS(0x0000000D, _N.TNC),
         MULTI_TENANT = new TPM_PS(0x0000000E, _N.MULTI_TENANT),
         TC = new TPM_PS(0x0000000F, _N.TC);
-    
     public TPM_PS () { super(0, _ValueMap); }
-    
     public TPM_PS (int value) { super(value, _ValueMap); }
-    
     public static TPM_PS fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_PS.class); }
-    
     public static TPM_PS fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_PS.class); }
-    
     public static TPM_PS fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_PS.class); }
-    
     public TPM_PS._N asEnum() { return (TPM_PS._N)NameAsEnum; }
-    
     public static Collection<TPM_PS> values() { return _ValueMap.values(); }
-    
     private TPM_PS (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_PS (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

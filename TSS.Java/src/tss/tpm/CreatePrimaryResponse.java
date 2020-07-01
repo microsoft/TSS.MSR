@@ -13,7 +13,7 @@ import tss.*;
  *  consistency with the other object parameters. The command will create and load a
  *  Primary Object. The sensitive area is not returned.
  */
-public class CreatePrimaryResponse extends TpmStructure
+public class CreatePrimaryResponse extends RespStructure
 {
     /** Handle of type TPM_HT_TRANSIENT for created Primary Object  */
     public TPM_HANDLE handle;
@@ -41,7 +41,6 @@ public class CreatePrimaryResponse extends TpmStructure
     @Override
     public void toTpm(TpmBuffer buf)
     {
-        handle.toTpm(buf);
         buf.writeSizedObj(outPublic);
         buf.writeSizedObj(creationData);
         buf.writeSizedByteBuf(creationHash);
@@ -53,7 +52,6 @@ public class CreatePrimaryResponse extends TpmStructure
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
-        handle = TPM_HANDLE.fromTpm(buf);
         outPublic = buf.createSizedObj(TPMT_PUBLIC.class);
         creationData = buf.createSizedObj(TPMS_CREATION_DATA.class);
         creationHash = buf.readSizedByteBuf();
@@ -87,7 +85,7 @@ public class CreatePrimaryResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -98,6 +96,15 @@ public class CreatePrimaryResponse extends TpmStructure
         _p.add(d, "TPMT_TK_CREATION", "creationTicket", creationTicket);
         _p.add(d, "byte", "name", name);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public TPM_HANDLE getHandle() { return handle; }
+    public void setHandle(TPM_HANDLE h) { handle = h; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

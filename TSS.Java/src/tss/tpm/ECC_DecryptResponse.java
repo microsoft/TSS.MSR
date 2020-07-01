@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command performs ECC decryption.  */
-public class ECC_DecryptResponse extends TpmStructure
+public class ECC_DecryptResponse extends RespStructure
 {
     /** Decrypted output  */
     public byte[] plainText;
@@ -49,12 +49,15 @@ public class ECC_DecryptResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "plainText", plainText);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

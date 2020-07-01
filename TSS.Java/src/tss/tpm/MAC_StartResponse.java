@@ -11,20 +11,12 @@ import tss.*;
  *  structure, assign a handle to the sequence, and set the authValue of the sequence
  *  object to the value in auth.
  */
-public class MAC_StartResponse extends TpmStructure
+public class MAC_StartResponse extends RespStructure
 {
     /** A handle to reference the sequence  */
     public TPM_HANDLE handle;
     
     public MAC_StartResponse() { handle = new TPM_HANDLE(); }
-    
-    /** TpmMarshaller method  */
-    @Override
-    public void toTpm(TpmBuffer buf) { handle.toTpm(buf); }
-    
-    /** TpmMarshaller method  */
-    @Override
-    public void initFromTpm(TpmBuffer buf) { handle = TPM_HANDLE.fromTpm(buf); }
     
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
@@ -52,12 +44,18 @@ public class MAC_StartResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public TPM_HANDLE getHandle() { return handle; }
+    public void setHandle(TPM_HANDLE h) { handle = h; }
 }
 
 //<<<

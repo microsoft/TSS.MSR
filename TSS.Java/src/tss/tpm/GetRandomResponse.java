@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command returns the next bytesRequested octets from the random number generator (RNG).  */
-public class GetRandomResponse extends TpmStructure
+public class GetRandomResponse extends RespStructure
 {
     /** The random octets  */
     public byte[] randomBytes;
@@ -49,12 +49,15 @@ public class GetRandomResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "randomBytes", randomBytes);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

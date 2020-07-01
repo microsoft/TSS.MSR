@@ -12,9 +12,11 @@ import java.util.*;
  */
 public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPMA_STARTUP_CLEAR. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using this.asEnum() method in the switch condition. However, their Java names
+     *  are identical to those of the constants defined in this class further below,
+     *  so for any other usage just prepend them with the 'TPMA_STARTUP_CLEAR.' qualifier.
+     */
     public enum _N {
         /** SET (1): The platform hierarchy is enabled and platformAuth or platformPolicy may be
          *  used for authorization.
@@ -68,7 +70,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
     
     private static ValueMap<TPMA_STARTUP_CLEAR> _ValueMap = new ValueMap<TPMA_STARTUP_CLEAR>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_STARTUP_CLEAR
         phEnable = new TPMA_STARTUP_CLEAR(0x1, _N.phEnable),
         shEnable = new TPMA_STARTUP_CLEAR(0x2, _N.shEnable),
@@ -77,29 +79,18 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
         orderly = new TPMA_STARTUP_CLEAR(0x80000000, _N.orderly);
     
     public TPMA_STARTUP_CLEAR () { super(0, _ValueMap); }
-    
     public TPMA_STARTUP_CLEAR (int value) { super(value, _ValueMap); }
-    
     public TPMA_STARTUP_CLEAR (TPMA_STARTUP_CLEAR...attrs) { super(_ValueMap, attrs); }
-    
     public static TPMA_STARTUP_CLEAR fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPMA_STARTUP_CLEAR.class); }
-    
     public static TPMA_STARTUP_CLEAR fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_STARTUP_CLEAR.class); }
-    
     public static TPMA_STARTUP_CLEAR fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_STARTUP_CLEAR.class); }
-    
     public TPMA_STARTUP_CLEAR._N asEnum() { return (TPMA_STARTUP_CLEAR._N)NameAsEnum; }
-    
     public static Collection<TPMA_STARTUP_CLEAR> values() { return _ValueMap.values(); }
-    
     public boolean hasAttr (TPMA_STARTUP_CLEAR attr) { return super.hasAttr(attr); }
-    
     public TPMA_STARTUP_CLEAR maskAttr (TPMA_STARTUP_CLEAR attr) { return super.maskAttr(attr, _ValueMap, TPMA_STARTUP_CLEAR.class); }
-    
     private TPMA_STARTUP_CLEAR (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPMA_STARTUP_CLEAR (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

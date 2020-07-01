@@ -14,7 +14,7 @@ import tss.*;
  *  received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall
  *  return TPM_RC_INITIALIZE.
  */
-public class TPM2_Startup_REQUEST extends TpmStructure
+public class TPM2_Startup_REQUEST extends ReqStructure
 {
     /** TPM_SU_CLEAR or TPM_SU_STATE  */
     public TPM_SU startupType;
@@ -58,7 +58,7 @@ public class TPM2_Startup_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

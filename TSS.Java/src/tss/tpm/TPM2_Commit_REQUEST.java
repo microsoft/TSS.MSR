@@ -12,7 +12,7 @@ import tss.*;
  *  signing values. The signHandle parameter shall refer to an ECC key and the signing
  *  scheme must be anonymous (TPM_RC_SCHEME).
  */
-public class TPM2_Commit_REQUEST extends TpmStructure
+public class TPM2_Commit_REQUEST extends ReqStructure
 {
     /** Handle of the key that will be used in the signing operation
      *  Auth Index: 1
@@ -90,7 +90,7 @@ public class TPM2_Commit_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -99,6 +99,15 @@ public class TPM2_Commit_REQUEST extends TpmStructure
         _p.add(d, "byte", "s2", s2);
         _p.add(d, "byte", "y2", y2);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {signHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

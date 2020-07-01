@@ -10,7 +10,7 @@ import tss.*;
 /** This command performs an HMAC or a block cipher MAC on the supplied data using the
  *  indicated algorithm.
  */
-public class MACResponse extends TpmStructure
+public class MACResponse extends RespStructure
 {
     /** The returned MAC in a sized buffer  */
     public byte[] outMAC;
@@ -51,12 +51,15 @@ public class MACResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "outMAC", outMAC);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

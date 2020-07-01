@@ -3,7 +3,7 @@ package tss;
 
 // import tss.tpm.*;
 
-public abstract class TpmStructure implements TpmMarshaller {
+public class TpmStructure implements TpmMarshaller {
     
     /**
      * Serialize this object to the structure printer
@@ -13,16 +13,37 @@ public abstract class TpmStructure implements TpmMarshaller {
      */
     public void toStringInternal(TpmStructurePrinter _p, int d) {}
     
+    /** ISerializable method */
+    String typeName () { return "TpmStructure"; }
+
     @Override
     public void toTpm(TpmBuffer buf) {}
     
     @Override
     public void initFromTpm(TpmBuffer buf) {}
     
+    /** @return TPM binary representation of this object. */
     public byte[] toBytes()
     {
         TpmBuffer buf = new TpmBuffer();
         toTpm(buf);
+        return buf.trim();
+    }
+
+    /** Initializes this object from a TPM binary representation in the given byte buffer
+     * @return The TPM binary representation of this object. */
+    void initFromBytes(final byte[] buffer)
+    {
+        TpmBuffer buf = new TpmBuffer(buffer);
+        initFromTpm(buf);
+        assert(buf.curPos() == buffer.length);
+    }
+
+    /** @return 2B size-prefixed TPM binary representation of this object. */
+    byte[] asTpm2B()
+    {
+        TpmBuffer buf = new TpmBuffer();
+        buf.writeSizedObj(this);
         return buf.trim();
     }
 

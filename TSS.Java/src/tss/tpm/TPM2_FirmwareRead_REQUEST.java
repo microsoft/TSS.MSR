@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command is used to read a copy of the current firmware installed in the TPM.  */
-public class TPM2_FirmwareRead_REQUEST extends TpmStructure
+public class TPM2_FirmwareRead_REQUEST extends ReqStructure
 {
     /** The number of previous calls to this command in this sequence
      *  set to 0 on the first call
@@ -56,7 +56,7 @@ public class TPM2_FirmwareRead_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

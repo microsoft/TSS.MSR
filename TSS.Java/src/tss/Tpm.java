@@ -32,8 +32,8 @@ public class Tpm extends TpmBase
      */
     public void Startup(TPM_SU startupType)
     {
-        TPM2_Startup_REQUEST inStruct = new TPM2_Startup_REQUEST(startupType);
-        DispatchCommand(TPM_CC.Startup, null, 0, 0, inStruct, null);
+        TPM2_Startup_REQUEST req = new TPM2_Startup_REQUEST(startupType);
+        DispatchCommand(TPM_CC.Startup, req, null);
         return;
     }
     
@@ -44,8 +44,8 @@ public class Tpm extends TpmBase
      */
     public void Shutdown(TPM_SU shutdownType)
     {
-        TPM2_Shutdown_REQUEST inStruct = new TPM2_Shutdown_REQUEST(shutdownType);
-        DispatchCommand(TPM_CC.Shutdown, null, 0, 0, inStruct, null);
+        TPM2_Shutdown_REQUEST req = new TPM2_Shutdown_REQUEST(shutdownType);
+        DispatchCommand(TPM_CC.Shutdown, req, null);
         return;
     }
     
@@ -58,8 +58,8 @@ public class Tpm extends TpmBase
      */
     public void SelfTest(byte fullTest)
     {
-        TPM2_SelfTest_REQUEST inStruct = new TPM2_SelfTest_REQUEST(fullTest);
-        DispatchCommand(TPM_CC.SelfTest, null, 0, 0, inStruct, null);
+        TPM2_SelfTest_REQUEST req = new TPM2_SelfTest_REQUEST(fullTest);
+        DispatchCommand(TPM_CC.SelfTest, req, null);
         return;
     }
     
@@ -70,10 +70,10 @@ public class Tpm extends TpmBase
      */
     public TPM_ALG_ID[] IncrementalSelfTest(TPM_ALG_ID[] toTest)
     {
-        TPM2_IncrementalSelfTest_REQUEST inStruct = new TPM2_IncrementalSelfTest_REQUEST(toTest);
-        IncrementalSelfTestResponse outStruct = new IncrementalSelfTestResponse();
-        DispatchCommand(TPM_CC.IncrementalSelfTest, null, 0, 0, inStruct, outStruct);
-        return outStruct.toDoList;
+        TPM2_IncrementalSelfTest_REQUEST req = new TPM2_IncrementalSelfTest_REQUEST(toTest);
+        IncrementalSelfTestResponse resp = new IncrementalSelfTestResponse();
+        DispatchCommand(TPM_CC.IncrementalSelfTest, req, resp);
+        return resp.toDoList;
     }
     
     /** This command returns manufacturer-specific information regarding the results of a
@@ -85,10 +85,10 @@ public class Tpm extends TpmBase
      */
     public GetTestResultResponse GetTestResult()
     {
-        TPM2_GetTestResult_REQUEST inStruct = new TPM2_GetTestResult_REQUEST();
-        GetTestResultResponse outStruct = new GetTestResultResponse();
-        DispatchCommand(TPM_CC.GetTestResult, null, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_GetTestResult_REQUEST req = new TPM2_GetTestResult_REQUEST();
+        GetTestResultResponse resp = new GetTestResultResponse();
+        DispatchCommand(TPM_CC.GetTestResult, req, resp);
+        return resp;
     }
     
     /** This command is used to start an authorization session using alternative methods of
@@ -117,10 +117,10 @@ public class Tpm extends TpmBase
      */
     public StartAuthSessionResponse StartAuthSession(TPM_HANDLE tpmKey, TPM_HANDLE bind, byte[] nonceCaller, byte[] encryptedSalt, TPM_SE sessionType, TPMT_SYM_DEF symmetric, TPM_ALG_ID authHash)
     {
-        TPM2_StartAuthSession_REQUEST inStruct = new TPM2_StartAuthSession_REQUEST(tpmKey, bind, nonceCaller, encryptedSalt, sessionType, symmetric, authHash);
-        StartAuthSessionResponse outStruct = new StartAuthSessionResponse();
-        DispatchCommand(TPM_CC.StartAuthSession, new TPM_HANDLE[] {tpmKey, bind}, 0, 1, inStruct, outStruct);
-        return outStruct;
+        TPM2_StartAuthSession_REQUEST req = new TPM2_StartAuthSession_REQUEST(tpmKey, bind, nonceCaller, encryptedSalt, sessionType, symmetric, authHash);
+        StartAuthSessionResponse resp = new StartAuthSessionResponse();
+        DispatchCommand(TPM_CC.StartAuthSession, req, resp);
+        return resp;
     }
     
     /** This command allows a policy authorization session to be returned to its initial
@@ -134,8 +134,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyRestart(TPM_HANDLE sessionHandle)
     {
-        TPM2_PolicyRestart_REQUEST inStruct = new TPM2_PolicyRestart_REQUEST(sessionHandle);
-        DispatchCommand(TPM_CC.PolicyRestart, new TPM_HANDLE[] {sessionHandle}, 0, 0, inStruct, null);
+        TPM2_PolicyRestart_REQUEST req = new TPM2_PolicyRestart_REQUEST(sessionHandle);
+        DispatchCommand(TPM_CC.PolicyRestart, req, null);
         return;
     }
     
@@ -165,10 +165,10 @@ public class Tpm extends TpmBase
      */
     public CreateResponse Create(TPM_HANDLE parentHandle, TPMS_SENSITIVE_CREATE inSensitive, TPMT_PUBLIC inPublic, byte[] outsideInfo, TPMS_PCR_SELECTION[] creationPCR)
     {
-        TPM2_Create_REQUEST inStruct = new TPM2_Create_REQUEST(parentHandle, inSensitive, inPublic, outsideInfo, creationPCR);
-        CreateResponse outStruct = new CreateResponse();
-        DispatchCommand(TPM_CC.Create, new TPM_HANDLE[] {parentHandle}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_Create_REQUEST req = new TPM2_Create_REQUEST(parentHandle, inSensitive, inPublic, outsideInfo, creationPCR);
+        CreateResponse resp = new CreateResponse();
+        DispatchCommand(TPM_CC.Create, req, resp);
+        return resp;
     }
     
     /** This command is used to load objects into the TPM. This command is used when both a
@@ -184,10 +184,10 @@ public class Tpm extends TpmBase
      */
     public TPM_HANDLE Load(TPM_HANDLE parentHandle, TPM2B_PRIVATE inPrivate, TPMT_PUBLIC inPublic)
     {
-        TPM2_Load_REQUEST inStruct = new TPM2_Load_REQUEST(parentHandle, inPrivate, inPublic);
-        LoadResponse outStruct = new LoadResponse();
-        DispatchCommand(TPM_CC.Load, new TPM_HANDLE[] {parentHandle}, 1, 1, inStruct, outStruct);
-        return outStruct.handle;
+        TPM2_Load_REQUEST req = new TPM2_Load_REQUEST(parentHandle, inPrivate, inPublic);
+        LoadResponse resp = new LoadResponse();
+        DispatchCommand(TPM_CC.Load, req, resp);
+        return resp.handle;
     }
     
     /** This command is used to load an object that is not a Protected Object into the TPM.
@@ -200,10 +200,10 @@ public class Tpm extends TpmBase
      */
     public TPM_HANDLE LoadExternal(TPMT_SENSITIVE inPrivate, TPMT_PUBLIC inPublic, TPM_HANDLE hierarchy)
     {
-        TPM2_LoadExternal_REQUEST inStruct = new TPM2_LoadExternal_REQUEST(inPrivate, inPublic, hierarchy);
-        LoadExternalResponse outStruct = new LoadExternalResponse();
-        DispatchCommand(TPM_CC.LoadExternal, null, 0, 1, inStruct, outStruct);
-        return outStruct.handle;
+        TPM2_LoadExternal_REQUEST req = new TPM2_LoadExternal_REQUEST(inPrivate, inPublic, hierarchy);
+        LoadExternalResponse resp = new LoadExternalResponse();
+        DispatchCommand(TPM_CC.LoadExternal, req, resp);
+        return resp.handle;
     }
     
     /** This command allows access to the public area of a loaded object.
@@ -216,10 +216,10 @@ public class Tpm extends TpmBase
      */
     public ReadPublicResponse ReadPublic(TPM_HANDLE objectHandle)
     {
-        TPM2_ReadPublic_REQUEST inStruct = new TPM2_ReadPublic_REQUEST(objectHandle);
-        ReadPublicResponse outStruct = new ReadPublicResponse();
-        DispatchCommand(TPM_CC.ReadPublic, new TPM_HANDLE[] {objectHandle}, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_ReadPublic_REQUEST req = new TPM2_ReadPublic_REQUEST(objectHandle);
+        ReadPublicResponse resp = new ReadPublicResponse();
+        DispatchCommand(TPM_CC.ReadPublic, req, resp);
+        return resp;
     }
     
     /** This command enables the association of a credential with an object in a way that
@@ -239,10 +239,10 @@ public class Tpm extends TpmBase
      */
     public byte[] ActivateCredential(TPM_HANDLE activateHandle, TPM_HANDLE keyHandle, TPMS_ID_OBJECT credentialBlob, byte[] secret)
     {
-        TPM2_ActivateCredential_REQUEST inStruct = new TPM2_ActivateCredential_REQUEST(activateHandle, keyHandle, credentialBlob, secret);
-        ActivateCredentialResponse outStruct = new ActivateCredentialResponse();
-        DispatchCommand(TPM_CC.ActivateCredential, new TPM_HANDLE[] {activateHandle, keyHandle}, 2, 0, inStruct, outStruct);
-        return outStruct.certInfo;
+        TPM2_ActivateCredential_REQUEST req = new TPM2_ActivateCredential_REQUEST(activateHandle, keyHandle, credentialBlob, secret);
+        ActivateCredentialResponse resp = new ActivateCredentialResponse();
+        DispatchCommand(TPM_CC.ActivateCredential, req, resp);
+        return resp.certInfo;
     }
     
     /** This command allows the TPM to perform the actions required of a Certificate Authority
@@ -258,10 +258,10 @@ public class Tpm extends TpmBase
      */
     public MakeCredentialResponse MakeCredential(TPM_HANDLE handle, byte[] credential, byte[] objectName)
     {
-        TPM2_MakeCredential_REQUEST inStruct = new TPM2_MakeCredential_REQUEST(handle, credential, objectName);
-        MakeCredentialResponse outStruct = new MakeCredentialResponse();
-        DispatchCommand(TPM_CC.MakeCredential, new TPM_HANDLE[] {handle}, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_MakeCredential_REQUEST req = new TPM2_MakeCredential_REQUEST(handle, credential, objectName);
+        MakeCredentialResponse resp = new MakeCredentialResponse();
+        DispatchCommand(TPM_CC.MakeCredential, req, resp);
+        return resp;
     }
     
     /** This command returns the data in a loaded Sealed Data Object.
@@ -274,10 +274,10 @@ public class Tpm extends TpmBase
      */
     public byte[] Unseal(TPM_HANDLE itemHandle)
     {
-        TPM2_Unseal_REQUEST inStruct = new TPM2_Unseal_REQUEST(itemHandle);
-        UnsealResponse outStruct = new UnsealResponse();
-        DispatchCommand(TPM_CC.Unseal, new TPM_HANDLE[] {itemHandle}, 1, 0, inStruct, outStruct);
-        return outStruct.outData;
+        TPM2_Unseal_REQUEST req = new TPM2_Unseal_REQUEST(itemHandle);
+        UnsealResponse resp = new UnsealResponse();
+        DispatchCommand(TPM_CC.Unseal, req, resp);
+        return resp.outData;
     }
     
     /** This command is used to change the authorization secret for a TPM-resident object.
@@ -292,10 +292,10 @@ public class Tpm extends TpmBase
      */
     public TPM2B_PRIVATE ObjectChangeAuth(TPM_HANDLE objectHandle, TPM_HANDLE parentHandle, byte[] newAuth)
     {
-        TPM2_ObjectChangeAuth_REQUEST inStruct = new TPM2_ObjectChangeAuth_REQUEST(objectHandle, parentHandle, newAuth);
-        ObjectChangeAuthResponse outStruct = new ObjectChangeAuthResponse();
-        DispatchCommand(TPM_CC.ObjectChangeAuth, new TPM_HANDLE[] {objectHandle, parentHandle}, 1, 0, inStruct, outStruct);
-        return outStruct.outPrivate;
+        TPM2_ObjectChangeAuth_REQUEST req = new TPM2_ObjectChangeAuth_REQUEST(objectHandle, parentHandle, newAuth);
+        ObjectChangeAuthResponse resp = new ObjectChangeAuthResponse();
+        DispatchCommand(TPM_CC.ObjectChangeAuth, req, resp);
+        return resp.outPrivate;
     }
     
     /** This command creates an object and loads it in the TPM. This command allows creation
@@ -317,10 +317,10 @@ public class Tpm extends TpmBase
      */
     public CreateLoadedResponse CreateLoaded(TPM_HANDLE parentHandle, TPMS_SENSITIVE_CREATE inSensitive, byte[] inPublic)
     {
-        TPM2_CreateLoaded_REQUEST inStruct = new TPM2_CreateLoaded_REQUEST(parentHandle, inSensitive, inPublic);
-        CreateLoadedResponse outStruct = new CreateLoadedResponse();
-        DispatchCommand(TPM_CC.CreateLoaded, new TPM_HANDLE[] {parentHandle}, 1, 1, inStruct, outStruct);
-        return outStruct;
+        TPM2_CreateLoaded_REQUEST req = new TPM2_CreateLoaded_REQUEST(parentHandle, inSensitive, inPublic);
+        CreateLoadedResponse resp = new CreateLoadedResponse();
+        DispatchCommand(TPM_CC.CreateLoaded, req, resp);
+        return resp;
     }
     
     /** This command duplicates a loaded object so that it may be used in a different
@@ -349,10 +349,10 @@ public class Tpm extends TpmBase
      */
     public DuplicateResponse Duplicate(TPM_HANDLE objectHandle, TPM_HANDLE newParentHandle, byte[] encryptionKeyIn, TPMT_SYM_DEF_OBJECT symmetricAlg)
     {
-        TPM2_Duplicate_REQUEST inStruct = new TPM2_Duplicate_REQUEST(objectHandle, newParentHandle, encryptionKeyIn, symmetricAlg);
-        DuplicateResponse outStruct = new DuplicateResponse();
-        DispatchCommand(TPM_CC.Duplicate, new TPM_HANDLE[] {objectHandle, newParentHandle}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_Duplicate_REQUEST req = new TPM2_Duplicate_REQUEST(objectHandle, newParentHandle, encryptionKeyIn, symmetricAlg);
+        DuplicateResponse resp = new DuplicateResponse();
+        DispatchCommand(TPM_CC.Duplicate, req, resp);
+        return resp;
     }
     
     /** This command allows the TPM to serve in the role as a Duplication Authority. If proper
@@ -376,10 +376,10 @@ public class Tpm extends TpmBase
      */
     public RewrapResponse Rewrap(TPM_HANDLE oldParent, TPM_HANDLE newParent, TPM2B_PRIVATE inDuplicate, byte[] name, byte[] inSymSeed)
     {
-        TPM2_Rewrap_REQUEST inStruct = new TPM2_Rewrap_REQUEST(oldParent, newParent, inDuplicate, name, inSymSeed);
-        RewrapResponse outStruct = new RewrapResponse();
-        DispatchCommand(TPM_CC.Rewrap, new TPM_HANDLE[] {oldParent, newParent}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_Rewrap_REQUEST req = new TPM2_Rewrap_REQUEST(oldParent, newParent, inDuplicate, name, inSymSeed);
+        RewrapResponse resp = new RewrapResponse();
+        DispatchCommand(TPM_CC.Rewrap, req, resp);
+        return resp;
     }
     
     /** This command allows an object to be encrypted using the symmetric encryption values of
@@ -409,10 +409,10 @@ public class Tpm extends TpmBase
      */
     public TPM2B_PRIVATE Import(TPM_HANDLE parentHandle, byte[] encryptionKey, TPMT_PUBLIC objectPublic, TPM2B_PRIVATE duplicate, byte[] inSymSeed, TPMT_SYM_DEF_OBJECT symmetricAlg)
     {
-        TPM2_Import_REQUEST inStruct = new TPM2_Import_REQUEST(parentHandle, encryptionKey, objectPublic, duplicate, inSymSeed, symmetricAlg);
-        ImportResponse outStruct = new ImportResponse();
-        DispatchCommand(TPM_CC.Import, new TPM_HANDLE[] {parentHandle}, 1, 0, inStruct, outStruct);
-        return outStruct.outPrivate;
+        TPM2_Import_REQUEST req = new TPM2_Import_REQUEST(parentHandle, encryptionKey, objectPublic, duplicate, inSymSeed, symmetricAlg);
+        ImportResponse resp = new ImportResponse();
+        DispatchCommand(TPM_CC.Import, req, resp);
+        return resp.outPrivate;
     }
     
     /** This command performs RSA encryption using the indicated padding scheme according to
@@ -439,10 +439,10 @@ public class Tpm extends TpmBase
      */
     public byte[] RSA_Encrypt(TPM_HANDLE keyHandle, byte[] message, TPMU_ASYM_SCHEME inScheme, byte[] label)
     {
-        TPM2_RSA_Encrypt_REQUEST inStruct = new TPM2_RSA_Encrypt_REQUEST(keyHandle, message, inScheme, label);
-        RSA_EncryptResponse outStruct = new RSA_EncryptResponse();
-        DispatchCommand(TPM_CC.RSA_Encrypt, new TPM_HANDLE[] {keyHandle}, 0, 0, inStruct, outStruct);
-        return outStruct.outData;
+        TPM2_RSA_Encrypt_REQUEST req = new TPM2_RSA_Encrypt_REQUEST(keyHandle, message, inScheme, label);
+        RSA_EncryptResponse resp = new RSA_EncryptResponse();
+        DispatchCommand(TPM_CC.RSA_Encrypt, req, resp);
+        return resp.outData;
     }
     
     /** This command performs RSA decryption using the indicated padding scheme according to
@@ -463,10 +463,10 @@ public class Tpm extends TpmBase
      */
     public byte[] RSA_Decrypt(TPM_HANDLE keyHandle, byte[] cipherText, TPMU_ASYM_SCHEME inScheme, byte[] label)
     {
-        TPM2_RSA_Decrypt_REQUEST inStruct = new TPM2_RSA_Decrypt_REQUEST(keyHandle, cipherText, inScheme, label);
-        RSA_DecryptResponse outStruct = new RSA_DecryptResponse();
-        DispatchCommand(TPM_CC.RSA_Decrypt, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
-        return outStruct.message;
+        TPM2_RSA_Decrypt_REQUEST req = new TPM2_RSA_Decrypt_REQUEST(keyHandle, cipherText, inScheme, label);
+        RSA_DecryptResponse resp = new RSA_DecryptResponse();
+        DispatchCommand(TPM_CC.RSA_Decrypt, req, resp);
+        return resp.message;
     }
     
     /** This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G).
@@ -480,10 +480,10 @@ public class Tpm extends TpmBase
      */
     public ECDH_KeyGenResponse ECDH_KeyGen(TPM_HANDLE keyHandle)
     {
-        TPM2_ECDH_KeyGen_REQUEST inStruct = new TPM2_ECDH_KeyGen_REQUEST(keyHandle);
-        ECDH_KeyGenResponse outStruct = new ECDH_KeyGenResponse();
-        DispatchCommand(TPM_CC.ECDH_KeyGen, new TPM_HANDLE[] {keyHandle}, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_ECDH_KeyGen_REQUEST req = new TPM2_ECDH_KeyGen_REQUEST(keyHandle);
+        ECDH_KeyGenResponse resp = new ECDH_KeyGenResponse();
+        DispatchCommand(TPM_CC.ECDH_KeyGen, req, resp);
+        return resp;
     }
     
     /** This command uses the TPM to recover the Z value from a public point (QB) and a
@@ -500,10 +500,10 @@ public class Tpm extends TpmBase
      */
     public TPMS_ECC_POINT ECDH_ZGen(TPM_HANDLE keyHandle, TPMS_ECC_POINT inPoint)
     {
-        TPM2_ECDH_ZGen_REQUEST inStruct = new TPM2_ECDH_ZGen_REQUEST(keyHandle, inPoint);
-        ECDH_ZGenResponse outStruct = new ECDH_ZGenResponse();
-        DispatchCommand(TPM_CC.ECDH_ZGen, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
-        return outStruct.outPoint;
+        TPM2_ECDH_ZGen_REQUEST req = new TPM2_ECDH_ZGen_REQUEST(keyHandle, inPoint);
+        ECDH_ZGenResponse resp = new ECDH_ZGenResponse();
+        DispatchCommand(TPM_CC.ECDH_ZGen, req, resp);
+        return resp.outPoint;
     }
     
     /** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.
@@ -513,10 +513,10 @@ public class Tpm extends TpmBase
      */
     public TPMS_ALGORITHM_DETAIL_ECC ECC_Parameters(TPM_ECC_CURVE curveID)
     {
-        TPM2_ECC_Parameters_REQUEST inStruct = new TPM2_ECC_Parameters_REQUEST(curveID);
-        ECC_ParametersResponse outStruct = new ECC_ParametersResponse();
-        DispatchCommand(TPM_CC.ECC_Parameters, null, 0, 0, inStruct, outStruct);
-        return outStruct.parameters;
+        TPM2_ECC_Parameters_REQUEST req = new TPM2_ECC_Parameters_REQUEST(curveID);
+        ECC_ParametersResponse resp = new ECC_ParametersResponse();
+        DispatchCommand(TPM_CC.ECC_Parameters, req, resp);
+        return resp.parameters;
     }
     
     /** This command supports two-phase key exchange protocols. The command is used in
@@ -537,10 +537,10 @@ public class Tpm extends TpmBase
      */
     public ZGen_2PhaseResponse ZGen_2Phase(TPM_HANDLE keyA, TPMS_ECC_POINT inQsB, TPMS_ECC_POINT inQeB, TPM_ALG_ID inScheme, int counter)
     {
-        TPM2_ZGen_2Phase_REQUEST inStruct = new TPM2_ZGen_2Phase_REQUEST(keyA, inQsB, inQeB, inScheme, counter);
-        ZGen_2PhaseResponse outStruct = new ZGen_2PhaseResponse();
-        DispatchCommand(TPM_CC.ZGen_2Phase, new TPM_HANDLE[] {keyA}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_ZGen_2Phase_REQUEST req = new TPM2_ZGen_2Phase_REQUEST(keyA, inQsB, inQeB, inScheme, counter);
+        ZGen_2PhaseResponse resp = new ZGen_2PhaseResponse();
+        DispatchCommand(TPM_CC.ZGen_2Phase, req, resp);
+        return resp;
     }
     
     /** This command performs ECC encryption as described in Part 1, Annex D.
@@ -558,10 +558,10 @@ public class Tpm extends TpmBase
      */
     public ECC_EncryptResponse ECC_Encrypt(TPM_HANDLE keyHandle, byte[] plainText, TPMU_KDF_SCHEME inScheme)
     {
-        TPM2_ECC_Encrypt_REQUEST inStruct = new TPM2_ECC_Encrypt_REQUEST(keyHandle, plainText, inScheme);
-        ECC_EncryptResponse outStruct = new ECC_EncryptResponse();
-        DispatchCommand(TPM_CC.ECC_Encrypt, new TPM_HANDLE[] {keyHandle}, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_ECC_Encrypt_REQUEST req = new TPM2_ECC_Encrypt_REQUEST(keyHandle, plainText, inScheme);
+        ECC_EncryptResponse resp = new ECC_EncryptResponse();
+        DispatchCommand(TPM_CC.ECC_Encrypt, req, resp);
+        return resp;
     }
     
     /** This command performs ECC decryption.
@@ -580,10 +580,10 @@ public class Tpm extends TpmBase
      */
     public byte[] ECC_Decrypt(TPM_HANDLE keyHandle, TPMS_ECC_POINT C1, byte[] C2, byte[] C3, TPMU_KDF_SCHEME inScheme)
     {
-        TPM2_ECC_Decrypt_REQUEST inStruct = new TPM2_ECC_Decrypt_REQUEST(keyHandle, C1, C2, C3, inScheme);
-        ECC_DecryptResponse outStruct = new ECC_DecryptResponse();
-        DispatchCommand(TPM_CC.ECC_Decrypt, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
-        return outStruct.plainText;
+        TPM2_ECC_Decrypt_REQUEST req = new TPM2_ECC_Decrypt_REQUEST(keyHandle, C1, C2, C3, inScheme);
+        ECC_DecryptResponse resp = new ECC_DecryptResponse();
+        DispatchCommand(TPM_CC.ECC_Decrypt, req, resp);
+        return resp.plainText;
     }
     
     /** NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This
@@ -602,10 +602,10 @@ public class Tpm extends TpmBase
      */
     public EncryptDecryptResponse EncryptDecrypt(TPM_HANDLE keyHandle, byte decrypt, TPM_ALG_ID mode, byte[] ivIn, byte[] inData)
     {
-        TPM2_EncryptDecrypt_REQUEST inStruct = new TPM2_EncryptDecrypt_REQUEST(keyHandle, decrypt, mode, ivIn, inData);
-        EncryptDecryptResponse outStruct = new EncryptDecryptResponse();
-        DispatchCommand(TPM_CC.EncryptDecrypt, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_EncryptDecrypt_REQUEST req = new TPM2_EncryptDecrypt_REQUEST(keyHandle, decrypt, mode, ivIn, inData);
+        EncryptDecryptResponse resp = new EncryptDecryptResponse();
+        DispatchCommand(TPM_CC.EncryptDecrypt, req, resp);
+        return resp;
     }
     
     /** This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter
@@ -624,10 +624,10 @@ public class Tpm extends TpmBase
      */
     public EncryptDecrypt2Response EncryptDecrypt2(TPM_HANDLE keyHandle, byte[] inData, byte decrypt, TPM_ALG_ID mode, byte[] ivIn)
     {
-        TPM2_EncryptDecrypt2_REQUEST inStruct = new TPM2_EncryptDecrypt2_REQUEST(keyHandle, inData, decrypt, mode, ivIn);
-        EncryptDecrypt2Response outStruct = new EncryptDecrypt2Response();
-        DispatchCommand(TPM_CC.EncryptDecrypt2, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_EncryptDecrypt2_REQUEST req = new TPM2_EncryptDecrypt2_REQUEST(keyHandle, inData, decrypt, mode, ivIn);
+        EncryptDecrypt2Response resp = new EncryptDecrypt2Response();
+        DispatchCommand(TPM_CC.EncryptDecrypt2, req, resp);
+        return resp;
     }
     
     /** This command performs a hash operation on a data buffer and returns the results.
@@ -643,10 +643,10 @@ public class Tpm extends TpmBase
      */
     public HashResponse Hash(byte[] data, TPM_ALG_ID hashAlg, TPM_HANDLE hierarchy)
     {
-        TPM2_Hash_REQUEST inStruct = new TPM2_Hash_REQUEST(data, hashAlg, hierarchy);
-        HashResponse outStruct = new HashResponse();
-        DispatchCommand(TPM_CC.Hash, null, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_Hash_REQUEST req = new TPM2_Hash_REQUEST(data, hashAlg, hierarchy);
+        HashResponse resp = new HashResponse();
+        DispatchCommand(TPM_CC.Hash, req, resp);
+        return resp;
     }
     
     /** This command performs an HMAC on the supplied data using the indicated hash algorithm.
@@ -660,10 +660,10 @@ public class Tpm extends TpmBase
      */
     public byte[] HMAC(TPM_HANDLE handle, byte[] buffer, TPM_ALG_ID hashAlg)
     {
-        TPM2_HMAC_REQUEST inStruct = new TPM2_HMAC_REQUEST(handle, buffer, hashAlg);
-        HMACResponse outStruct = new HMACResponse();
-        DispatchCommand(TPM_CC.HMAC, new TPM_HANDLE[] {handle}, 1, 0, inStruct, outStruct);
-        return outStruct.outHMAC;
+        TPM2_HMAC_REQUEST req = new TPM2_HMAC_REQUEST(handle, buffer, hashAlg);
+        HMACResponse resp = new HMACResponse();
+        DispatchCommand(TPM_CC.HMAC, req, resp);
+        return resp.outHMAC;
     }
     
     /** This command performs an HMAC or a block cipher MAC on the supplied data using the
@@ -678,10 +678,10 @@ public class Tpm extends TpmBase
      */
     public byte[] MAC(TPM_HANDLE handle, byte[] buffer, TPM_ALG_ID inScheme)
     {
-        TPM2_MAC_REQUEST inStruct = new TPM2_MAC_REQUEST(handle, buffer, inScheme);
-        MACResponse outStruct = new MACResponse();
-        DispatchCommand(TPM_CC.MAC, new TPM_HANDLE[] {handle}, 1, 0, inStruct, outStruct);
-        return outStruct.outMAC;
+        TPM2_MAC_REQUEST req = new TPM2_MAC_REQUEST(handle, buffer, inScheme);
+        MACResponse resp = new MACResponse();
+        DispatchCommand(TPM_CC.MAC, req, resp);
+        return resp.outMAC;
     }
     
     /** This command returns the next bytesRequested octets from the random number generator (RNG).
@@ -691,10 +691,10 @@ public class Tpm extends TpmBase
      */
     public byte[] GetRandom(int bytesRequested)
     {
-        TPM2_GetRandom_REQUEST inStruct = new TPM2_GetRandom_REQUEST(bytesRequested);
-        GetRandomResponse outStruct = new GetRandomResponse();
-        DispatchCommand(TPM_CC.GetRandom, null, 0, 0, inStruct, outStruct);
-        return outStruct.randomBytes;
+        TPM2_GetRandom_REQUEST req = new TPM2_GetRandom_REQUEST(bytesRequested);
+        GetRandomResponse resp = new GetRandomResponse();
+        DispatchCommand(TPM_CC.GetRandom, req, resp);
+        return resp.randomBytes;
     }
     
     /** This command is used to add "additional information" to the RNG state.
@@ -703,8 +703,8 @@ public class Tpm extends TpmBase
      */
     public void StirRandom(byte[] inData)
     {
-        TPM2_StirRandom_REQUEST inStruct = new TPM2_StirRandom_REQUEST(inData);
-        DispatchCommand(TPM_CC.StirRandom, null, 0, 0, inStruct, null);
+        TPM2_StirRandom_REQUEST req = new TPM2_StirRandom_REQUEST(inData);
+        DispatchCommand(TPM_CC.StirRandom, req, null);
         return;
     }
     
@@ -721,10 +721,10 @@ public class Tpm extends TpmBase
      */
     public TPM_HANDLE HMAC_Start(TPM_HANDLE handle, byte[] auth, TPM_ALG_ID hashAlg)
     {
-        TPM2_HMAC_Start_REQUEST inStruct = new TPM2_HMAC_Start_REQUEST(handle, auth, hashAlg);
-        HMAC_StartResponse outStruct = new HMAC_StartResponse();
-        DispatchCommand(TPM_CC.HMAC_Start, new TPM_HANDLE[] {handle}, 1, 1, inStruct, outStruct);
-        return outStruct.handle;
+        TPM2_HMAC_Start_REQUEST req = new TPM2_HMAC_Start_REQUEST(handle, auth, hashAlg);
+        HMAC_StartResponse resp = new HMAC_StartResponse();
+        DispatchCommand(TPM_CC.HMAC_Start, req, resp);
+        return resp.handle;
     }
     
     /** This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
@@ -740,10 +740,10 @@ public class Tpm extends TpmBase
      */
     public TPM_HANDLE MAC_Start(TPM_HANDLE handle, byte[] auth, TPM_ALG_ID inScheme)
     {
-        TPM2_MAC_Start_REQUEST inStruct = new TPM2_MAC_Start_REQUEST(handle, auth, inScheme);
-        MAC_StartResponse outStruct = new MAC_StartResponse();
-        DispatchCommand(TPM_CC.MAC_Start, new TPM_HANDLE[] {handle}, 1, 1, inStruct, outStruct);
-        return outStruct.handle;
+        TPM2_MAC_Start_REQUEST req = new TPM2_MAC_Start_REQUEST(handle, auth, inScheme);
+        MAC_StartResponse resp = new MAC_StartResponse();
+        DispatchCommand(TPM_CC.MAC_Start, req, resp);
+        return resp.handle;
     }
     
     /** This command starts a hash or an Event Sequence. If hashAlg is an implemented hash,
@@ -758,10 +758,10 @@ public class Tpm extends TpmBase
      */
     public TPM_HANDLE HashSequenceStart(byte[] auth, TPM_ALG_ID hashAlg)
     {
-        TPM2_HashSequenceStart_REQUEST inStruct = new TPM2_HashSequenceStart_REQUEST(auth, hashAlg);
-        HashSequenceStartResponse outStruct = new HashSequenceStartResponse();
-        DispatchCommand(TPM_CC.HashSequenceStart, null, 0, 1, inStruct, outStruct);
-        return outStruct.handle;
+        TPM2_HashSequenceStart_REQUEST req = new TPM2_HashSequenceStart_REQUEST(auth, hashAlg);
+        HashSequenceStartResponse resp = new HashSequenceStartResponse();
+        DispatchCommand(TPM_CC.HashSequenceStart, req, resp);
+        return resp.handle;
     }
     
     /** This command is used to add data to a hash or HMAC sequence. The amount of data in
@@ -774,8 +774,8 @@ public class Tpm extends TpmBase
      */
     public void SequenceUpdate(TPM_HANDLE sequenceHandle, byte[] buffer)
     {
-        TPM2_SequenceUpdate_REQUEST inStruct = new TPM2_SequenceUpdate_REQUEST(sequenceHandle, buffer);
-        DispatchCommand(TPM_CC.SequenceUpdate, new TPM_HANDLE[] {sequenceHandle}, 1, 0, inStruct, null);
+        TPM2_SequenceUpdate_REQUEST req = new TPM2_SequenceUpdate_REQUEST(sequenceHandle, buffer);
+        DispatchCommand(TPM_CC.SequenceUpdate, req, null);
         return;
     }
     
@@ -794,10 +794,10 @@ public class Tpm extends TpmBase
      */
     public SequenceCompleteResponse SequenceComplete(TPM_HANDLE sequenceHandle, byte[] buffer, TPM_HANDLE hierarchy)
     {
-        TPM2_SequenceComplete_REQUEST inStruct = new TPM2_SequenceComplete_REQUEST(sequenceHandle, buffer, hierarchy);
-        SequenceCompleteResponse outStruct = new SequenceCompleteResponse();
-        DispatchCommand(TPM_CC.SequenceComplete, new TPM_HANDLE[] {sequenceHandle}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_SequenceComplete_REQUEST req = new TPM2_SequenceComplete_REQUEST(sequenceHandle, buffer, hierarchy);
+        SequenceCompleteResponse resp = new SequenceCompleteResponse();
+        DispatchCommand(TPM_CC.SequenceComplete, req, resp);
+        return resp;
     }
     
     /** This command adds the last part of data, if any, to an Event Sequence and returns the
@@ -817,10 +817,10 @@ public class Tpm extends TpmBase
      */
     public TPMT_HA[] EventSequenceComplete(TPM_HANDLE pcrHandle, TPM_HANDLE sequenceHandle, byte[] buffer)
     {
-        TPM2_EventSequenceComplete_REQUEST inStruct = new TPM2_EventSequenceComplete_REQUEST(pcrHandle, sequenceHandle, buffer);
-        EventSequenceCompleteResponse outStruct = new EventSequenceCompleteResponse();
-        DispatchCommand(TPM_CC.EventSequenceComplete, new TPM_HANDLE[] {pcrHandle, sequenceHandle}, 2, 0, inStruct, outStruct);
-        return outStruct.results;
+        TPM2_EventSequenceComplete_REQUEST req = new TPM2_EventSequenceComplete_REQUEST(pcrHandle, sequenceHandle, buffer);
+        EventSequenceCompleteResponse resp = new EventSequenceCompleteResponse();
+        DispatchCommand(TPM_CC.EventSequenceComplete, req, resp);
+        return resp.results;
     }
     
     /** The purpose of this command is to prove that an object with a specific Name is loaded
@@ -846,10 +846,10 @@ public class Tpm extends TpmBase
      */
     public CertifyResponse Certify(TPM_HANDLE objectHandle, TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
-        TPM2_Certify_REQUEST inStruct = new TPM2_Certify_REQUEST(objectHandle, signHandle, qualifyingData, inScheme);
-        CertifyResponse outStruct = new CertifyResponse();
-        DispatchCommand(TPM_CC.Certify, new TPM_HANDLE[] {objectHandle, signHandle}, 2, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_Certify_REQUEST req = new TPM2_Certify_REQUEST(objectHandle, signHandle, qualifyingData, inScheme);
+        CertifyResponse resp = new CertifyResponse();
+        DispatchCommand(TPM_CC.Certify, req, resp);
+        return resp;
     }
     
     /** This command is used to prove the association between an object and its creation data.
@@ -874,10 +874,10 @@ public class Tpm extends TpmBase
      */
     public CertifyCreationResponse CertifyCreation(TPM_HANDLE signHandle, TPM_HANDLE objectHandle, byte[] qualifyingData, byte[] creationHash, TPMU_SIG_SCHEME inScheme, TPMT_TK_CREATION creationTicket)
     {
-        TPM2_CertifyCreation_REQUEST inStruct = new TPM2_CertifyCreation_REQUEST(signHandle, objectHandle, qualifyingData, creationHash, inScheme, creationTicket);
-        CertifyCreationResponse outStruct = new CertifyCreationResponse();
-        DispatchCommand(TPM_CC.CertifyCreation, new TPM_HANDLE[] {signHandle, objectHandle}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_CertifyCreation_REQUEST req = new TPM2_CertifyCreation_REQUEST(signHandle, objectHandle, qualifyingData, creationHash, inScheme, creationTicket);
+        CertifyCreationResponse resp = new CertifyCreationResponse();
+        DispatchCommand(TPM_CC.CertifyCreation, req, resp);
+        return resp;
     }
     
     /** This command is used to quote PCR values.
@@ -896,10 +896,10 @@ public class Tpm extends TpmBase
      */
     public QuoteResponse Quote(TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme, TPMS_PCR_SELECTION[] PCRselect)
     {
-        TPM2_Quote_REQUEST inStruct = new TPM2_Quote_REQUEST(signHandle, qualifyingData, inScheme, PCRselect);
-        QuoteResponse outStruct = new QuoteResponse();
-        DispatchCommand(TPM_CC.Quote, new TPM_HANDLE[] {signHandle}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_Quote_REQUEST req = new TPM2_Quote_REQUEST(signHandle, qualifyingData, inScheme, PCRselect);
+        QuoteResponse resp = new QuoteResponse();
+        DispatchCommand(TPM_CC.Quote, req, resp);
+        return resp;
     }
     
     /** This command returns a digital signature of the audit session digest.
@@ -922,10 +922,10 @@ public class Tpm extends TpmBase
      */
     public GetSessionAuditDigestResponse GetSessionAuditDigest(TPM_HANDLE privacyAdminHandle, TPM_HANDLE signHandle, TPM_HANDLE sessionHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
-        TPM2_GetSessionAuditDigest_REQUEST inStruct = new TPM2_GetSessionAuditDigest_REQUEST(privacyAdminHandle, signHandle, sessionHandle, qualifyingData, inScheme);
-        GetSessionAuditDigestResponse outStruct = new GetSessionAuditDigestResponse();
-        DispatchCommand(TPM_CC.GetSessionAuditDigest, new TPM_HANDLE[] {privacyAdminHandle, signHandle, sessionHandle}, 2, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_GetSessionAuditDigest_REQUEST req = new TPM2_GetSessionAuditDigest_REQUEST(privacyAdminHandle, signHandle, sessionHandle, qualifyingData, inScheme);
+        GetSessionAuditDigestResponse resp = new GetSessionAuditDigestResponse();
+        DispatchCommand(TPM_CC.GetSessionAuditDigest, req, resp);
+        return resp;
     }
     
     /** This command returns the current value of the command audit digest, a digest of the
@@ -948,10 +948,10 @@ public class Tpm extends TpmBase
      */
     public GetCommandAuditDigestResponse GetCommandAuditDigest(TPM_HANDLE privacyHandle, TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
-        TPM2_GetCommandAuditDigest_REQUEST inStruct = new TPM2_GetCommandAuditDigest_REQUEST(privacyHandle, signHandle, qualifyingData, inScheme);
-        GetCommandAuditDigestResponse outStruct = new GetCommandAuditDigestResponse();
-        DispatchCommand(TPM_CC.GetCommandAuditDigest, new TPM_HANDLE[] {privacyHandle, signHandle}, 2, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_GetCommandAuditDigest_REQUEST req = new TPM2_GetCommandAuditDigest_REQUEST(privacyHandle, signHandle, qualifyingData, inScheme);
+        GetCommandAuditDigestResponse resp = new GetCommandAuditDigestResponse();
+        DispatchCommand(TPM_CC.GetCommandAuditDigest, req, resp);
+        return resp;
     }
     
     /** This command returns the current values of Time and Clock.
@@ -972,10 +972,10 @@ public class Tpm extends TpmBase
      */
     public GetTimeResponse GetTime(TPM_HANDLE privacyAdminHandle, TPM_HANDLE signHandle, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme)
     {
-        TPM2_GetTime_REQUEST inStruct = new TPM2_GetTime_REQUEST(privacyAdminHandle, signHandle, qualifyingData, inScheme);
-        GetTimeResponse outStruct = new GetTimeResponse();
-        DispatchCommand(TPM_CC.GetTime, new TPM_HANDLE[] {privacyAdminHandle, signHandle}, 2, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_GetTime_REQUEST req = new TPM2_GetTime_REQUEST(privacyAdminHandle, signHandle, qualifyingData, inScheme);
+        GetTimeResponse resp = new GetTimeResponse();
+        DispatchCommand(TPM_CC.GetTime, req, resp);
+        return resp;
     }
     
     /** The purpose of this command is to generate an X.509 certificate that proves an object
@@ -1005,10 +1005,10 @@ public class Tpm extends TpmBase
      */
     public CertifyX509Response CertifyX509(TPM_HANDLE objectHandle, TPM_HANDLE signHandle, byte[] reserved, TPMU_SIG_SCHEME inScheme, byte[] partialCertificate)
     {
-        TPM2_CertifyX509_REQUEST inStruct = new TPM2_CertifyX509_REQUEST(objectHandle, signHandle, reserved, inScheme, partialCertificate);
-        CertifyX509Response outStruct = new CertifyX509Response();
-        DispatchCommand(TPM_CC.CertifyX509, new TPM_HANDLE[] {objectHandle, signHandle}, 2, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_CertifyX509_REQUEST req = new TPM2_CertifyX509_REQUEST(objectHandle, signHandle, reserved, inScheme, partialCertificate);
+        CertifyX509Response resp = new CertifyX509Response();
+        DispatchCommand(TPM_CC.CertifyX509, req, resp);
+        return resp;
     }
     
     /** TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM
@@ -1029,10 +1029,10 @@ public class Tpm extends TpmBase
      */
     public CommitResponse Commit(TPM_HANDLE signHandle, TPMS_ECC_POINT P1, byte[] s2, byte[] y2)
     {
-        TPM2_Commit_REQUEST inStruct = new TPM2_Commit_REQUEST(signHandle, P1, s2, y2);
-        CommitResponse outStruct = new CommitResponse();
-        DispatchCommand(TPM_CC.Commit, new TPM_HANDLE[] {signHandle}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_Commit_REQUEST req = new TPM2_Commit_REQUEST(signHandle, P1, s2, y2);
+        CommitResponse resp = new CommitResponse();
+        DispatchCommand(TPM_CC.Commit, req, resp);
+        return resp;
     }
     
     /** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
@@ -1043,10 +1043,10 @@ public class Tpm extends TpmBase
      */
     public EC_EphemeralResponse EC_Ephemeral(TPM_ECC_CURVE curveID)
     {
-        TPM2_EC_Ephemeral_REQUEST inStruct = new TPM2_EC_Ephemeral_REQUEST(curveID);
-        EC_EphemeralResponse outStruct = new EC_EphemeralResponse();
-        DispatchCommand(TPM_CC.EC_Ephemeral, null, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_EC_Ephemeral_REQUEST req = new TPM2_EC_Ephemeral_REQUEST(curveID);
+        EC_EphemeralResponse resp = new EC_EphemeralResponse();
+        DispatchCommand(TPM_CC.EC_Ephemeral, req, resp);
+        return resp;
     }
     
     /** This command uses loaded keys to validate a signature on a message with the message
@@ -1066,10 +1066,10 @@ public class Tpm extends TpmBase
      */
     public TPMT_TK_VERIFIED VerifySignature(TPM_HANDLE keyHandle, byte[] digest, TPMU_SIGNATURE signature)
     {
-        TPM2_VerifySignature_REQUEST inStruct = new TPM2_VerifySignature_REQUEST(keyHandle, digest, signature);
-        VerifySignatureResponse outStruct = new VerifySignatureResponse();
-        DispatchCommand(TPM_CC.VerifySignature, new TPM_HANDLE[] {keyHandle}, 0, 0, inStruct, outStruct);
-        return outStruct.validation;
+        TPM2_VerifySignature_REQUEST req = new TPM2_VerifySignature_REQUEST(keyHandle, digest, signature);
+        VerifySignatureResponse resp = new VerifySignatureResponse();
+        DispatchCommand(TPM_CC.VerifySignature, req, resp);
+        return resp.validation;
     }
     
     /** This command causes the TPM to sign an externally provided hash with the specified
@@ -1090,10 +1090,10 @@ public class Tpm extends TpmBase
      */
     public TPMU_SIGNATURE Sign(TPM_HANDLE keyHandle, byte[] digest, TPMU_SIG_SCHEME inScheme, TPMT_TK_HASHCHECK validation)
     {
-        TPM2_Sign_REQUEST inStruct = new TPM2_Sign_REQUEST(keyHandle, digest, inScheme, validation);
-        SignResponse outStruct = new SignResponse();
-        DispatchCommand(TPM_CC.Sign, new TPM_HANDLE[] {keyHandle}, 1, 0, inStruct, outStruct);
-        return outStruct.signature;
+        TPM2_Sign_REQUEST req = new TPM2_Sign_REQUEST(keyHandle, digest, inScheme, validation);
+        SignResponse resp = new SignResponse();
+        DispatchCommand(TPM_CC.Sign, req, resp);
+        return resp.signature;
     }
     
     /** This command may be used by the Privacy Administrator or platform to change the audit
@@ -1111,8 +1111,8 @@ public class Tpm extends TpmBase
      */
     public void SetCommandCodeAuditStatus(TPM_HANDLE auth, TPM_ALG_ID auditAlg, TPM_CC[] setList, TPM_CC[] clearList)
     {
-        TPM2_SetCommandCodeAuditStatus_REQUEST inStruct = new TPM2_SetCommandCodeAuditStatus_REQUEST(auth, auditAlg, setList, clearList);
-        DispatchCommand(TPM_CC.SetCommandCodeAuditStatus, new TPM_HANDLE[] {auth}, 1, 0, inStruct, null);
+        TPM2_SetCommandCodeAuditStatus_REQUEST req = new TPM2_SetCommandCodeAuditStatus_REQUEST(auth, auditAlg, setList, clearList);
+        DispatchCommand(TPM_CC.SetCommandCodeAuditStatus, req, null);
         return;
     }
     
@@ -1128,8 +1128,8 @@ public class Tpm extends TpmBase
      */
     public void PCR_Extend(TPM_HANDLE pcrHandle, TPMT_HA[] digests)
     {
-        TPM2_PCR_Extend_REQUEST inStruct = new TPM2_PCR_Extend_REQUEST(pcrHandle, digests);
-        DispatchCommand(TPM_CC.PCR_Extend, new TPM_HANDLE[] {pcrHandle}, 1, 0, inStruct, null);
+        TPM2_PCR_Extend_REQUEST req = new TPM2_PCR_Extend_REQUEST(pcrHandle, digests);
+        DispatchCommand(TPM_CC.PCR_Extend, req, null);
         return;
     }
     
@@ -1146,10 +1146,10 @@ public class Tpm extends TpmBase
      */
     public TPMT_HA[] PCR_Event(TPM_HANDLE pcrHandle, byte[] eventData)
     {
-        TPM2_PCR_Event_REQUEST inStruct = new TPM2_PCR_Event_REQUEST(pcrHandle, eventData);
-        PCR_EventResponse outStruct = new PCR_EventResponse();
-        DispatchCommand(TPM_CC.PCR_Event, new TPM_HANDLE[] {pcrHandle}, 1, 0, inStruct, outStruct);
-        return outStruct.digests;
+        TPM2_PCR_Event_REQUEST req = new TPM2_PCR_Event_REQUEST(pcrHandle, eventData);
+        PCR_EventResponse resp = new PCR_EventResponse();
+        DispatchCommand(TPM_CC.PCR_Event, req, resp);
+        return resp.digests;
     }
     
     /** This command returns the values of all PCR specified in pcrSelectionIn.
@@ -1163,10 +1163,10 @@ public class Tpm extends TpmBase
      */
     public PCR_ReadResponse PCR_Read(TPMS_PCR_SELECTION[] pcrSelectionIn)
     {
-        TPM2_PCR_Read_REQUEST inStruct = new TPM2_PCR_Read_REQUEST(pcrSelectionIn);
-        PCR_ReadResponse outStruct = new PCR_ReadResponse();
-        DispatchCommand(TPM_CC.PCR_Read, null, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_PCR_Read_REQUEST req = new TPM2_PCR_Read_REQUEST(pcrSelectionIn);
+        PCR_ReadResponse resp = new PCR_ReadResponse();
+        DispatchCommand(TPM_CC.PCR_Read, req, resp);
+        return resp;
     }
     
     /** This command is used to set the desired PCR allocation of PCR and algorithms. This
@@ -1183,10 +1183,10 @@ public class Tpm extends TpmBase
      */
     public PCR_AllocateResponse PCR_Allocate(TPM_HANDLE authHandle, TPMS_PCR_SELECTION[] pcrAllocation)
     {
-        TPM2_PCR_Allocate_REQUEST inStruct = new TPM2_PCR_Allocate_REQUEST(authHandle, pcrAllocation);
-        PCR_AllocateResponse outStruct = new PCR_AllocateResponse();
-        DispatchCommand(TPM_CC.PCR_Allocate, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_PCR_Allocate_REQUEST req = new TPM2_PCR_Allocate_REQUEST(authHandle, pcrAllocation);
+        PCR_AllocateResponse resp = new PCR_AllocateResponse();
+        DispatchCommand(TPM_CC.PCR_Allocate, req, resp);
+        return resp;
     }
     
     /** This command is used to associate a policy with a PCR or group of PCR. The policy
@@ -1201,8 +1201,8 @@ public class Tpm extends TpmBase
      */
     public void PCR_SetAuthPolicy(TPM_HANDLE authHandle, byte[] authPolicy, TPM_ALG_ID hashAlg, TPM_HANDLE pcrNum)
     {
-        TPM2_PCR_SetAuthPolicy_REQUEST inStruct = new TPM2_PCR_SetAuthPolicy_REQUEST(authHandle, authPolicy, hashAlg, pcrNum);
-        DispatchCommand(TPM_CC.PCR_SetAuthPolicy, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
+        TPM2_PCR_SetAuthPolicy_REQUEST req = new TPM2_PCR_SetAuthPolicy_REQUEST(authHandle, authPolicy, hashAlg, pcrNum);
+        DispatchCommand(TPM_CC.PCR_SetAuthPolicy, req, null);
         return;
     }
     
@@ -1215,8 +1215,8 @@ public class Tpm extends TpmBase
      */
     public void PCR_SetAuthValue(TPM_HANDLE pcrHandle, byte[] auth)
     {
-        TPM2_PCR_SetAuthValue_REQUEST inStruct = new TPM2_PCR_SetAuthValue_REQUEST(pcrHandle, auth);
-        DispatchCommand(TPM_CC.PCR_SetAuthValue, new TPM_HANDLE[] {pcrHandle}, 1, 0, inStruct, null);
+        TPM2_PCR_SetAuthValue_REQUEST req = new TPM2_PCR_SetAuthValue_REQUEST(pcrHandle, auth);
+        DispatchCommand(TPM_CC.PCR_SetAuthValue, req, null);
         return;
     }
     
@@ -1230,8 +1230,8 @@ public class Tpm extends TpmBase
      */
     public void PCR_Reset(TPM_HANDLE pcrHandle)
     {
-        TPM2_PCR_Reset_REQUEST inStruct = new TPM2_PCR_Reset_REQUEST(pcrHandle);
-        DispatchCommand(TPM_CC.PCR_Reset, new TPM_HANDLE[] {pcrHandle}, 1, 0, inStruct, null);
+        TPM2_PCR_Reset_REQUEST req = new TPM2_PCR_Reset_REQUEST(pcrHandle);
+        DispatchCommand(TPM_CC.PCR_Reset, req, null);
         return;
     }
     
@@ -1268,10 +1268,10 @@ public class Tpm extends TpmBase
      */
     public PolicySignedResponse PolicySigned(TPM_HANDLE authObject, TPM_HANDLE policySession, byte[] nonceTPM, byte[] cpHashA, byte[] policyRef, int expiration, TPMU_SIGNATURE auth)
     {
-        TPM2_PolicySigned_REQUEST inStruct = new TPM2_PolicySigned_REQUEST(authObject, policySession, nonceTPM, cpHashA, policyRef, expiration, auth);
-        PolicySignedResponse outStruct = new PolicySignedResponse();
-        DispatchCommand(TPM_CC.PolicySigned, new TPM_HANDLE[] {authObject, policySession}, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_PolicySigned_REQUEST req = new TPM2_PolicySigned_REQUEST(authObject, policySession, nonceTPM, cpHashA, policyRef, expiration, auth);
+        PolicySignedResponse resp = new PolicySignedResponse();
+        DispatchCommand(TPM_CC.PolicySigned, req, resp);
+        return resp;
     }
     
     /** This command includes a secret-based authorization to a policy. The caller proves
@@ -1304,10 +1304,10 @@ public class Tpm extends TpmBase
      */
     public PolicySecretResponse PolicySecret(TPM_HANDLE authHandle, TPM_HANDLE policySession, byte[] nonceTPM, byte[] cpHashA, byte[] policyRef, int expiration)
     {
-        TPM2_PolicySecret_REQUEST inStruct = new TPM2_PolicySecret_REQUEST(authHandle, policySession, nonceTPM, cpHashA, policyRef, expiration);
-        PolicySecretResponse outStruct = new PolicySecretResponse();
-        DispatchCommand(TPM_CC.PolicySecret, new TPM_HANDLE[] {authHandle, policySession}, 1, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_PolicySecret_REQUEST req = new TPM2_PolicySecret_REQUEST(authHandle, policySession, nonceTPM, cpHashA, policyRef, expiration);
+        PolicySecretResponse resp = new PolicySecretResponse();
+        DispatchCommand(TPM_CC.PolicySecret, req, resp);
+        return resp;
     }
     
     /** This command is similar to TPM2_PolicySigned() except that it takes a ticket instead
@@ -1328,8 +1328,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyTicket(TPM_HANDLE policySession, byte[] timeout, byte[] cpHashA, byte[] policyRef, byte[] authName, TPMT_TK_AUTH ticket)
     {
-        TPM2_PolicyTicket_REQUEST inStruct = new TPM2_PolicyTicket_REQUEST(policySession, timeout, cpHashA, policyRef, authName, ticket);
-        DispatchCommand(TPM_CC.PolicyTicket, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyTicket_REQUEST req = new TPM2_PolicyTicket_REQUEST(policySession, timeout, cpHashA, policyRef, authName, ticket);
+        DispatchCommand(TPM_CC.PolicyTicket, req, null);
         return;
     }
     
@@ -1344,8 +1344,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyOR(TPM_HANDLE policySession, TPM2B_DIGEST[] pHashList)
     {
-        TPM2_PolicyOR_REQUEST inStruct = new TPM2_PolicyOR_REQUEST(policySession, pHashList);
-        DispatchCommand(TPM_CC.PolicyOR, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyOR_REQUEST req = new TPM2_PolicyOR_REQUEST(policySession, pHashList);
+        DispatchCommand(TPM_CC.PolicyOR, req, null);
         return;
     }
     
@@ -1363,8 +1363,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyPCR(TPM_HANDLE policySession, byte[] pcrDigest, TPMS_PCR_SELECTION[] pcrs)
     {
-        TPM2_PolicyPCR_REQUEST inStruct = new TPM2_PolicyPCR_REQUEST(policySession, pcrDigest, pcrs);
-        DispatchCommand(TPM_CC.PolicyPCR, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyPCR_REQUEST req = new TPM2_PolicyPCR_REQUEST(policySession, pcrDigest, pcrs);
+        DispatchCommand(TPM_CC.PolicyPCR, req, null);
         return;
     }
     
@@ -1376,8 +1376,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyLocality(TPM_HANDLE policySession, TPMA_LOCALITY locality)
     {
-        TPM2_PolicyLocality_REQUEST inStruct = new TPM2_PolicyLocality_REQUEST(policySession, locality);
-        DispatchCommand(TPM_CC.PolicyLocality, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyLocality_REQUEST req = new TPM2_PolicyLocality_REQUEST(policySession, locality);
+        DispatchCommand(TPM_CC.PolicyLocality, req, null);
         return;
     }
     
@@ -1398,8 +1398,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyNV(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, TPM_HANDLE policySession, byte[] operandB, int offset, TPM_EO operation)
     {
-        TPM2_PolicyNV_REQUEST inStruct = new TPM2_PolicyNV_REQUEST(authHandle, nvIndex, policySession, operandB, offset, operation);
-        DispatchCommand(TPM_CC.PolicyNV, new TPM_HANDLE[] {authHandle, nvIndex, policySession}, 1, 0, inStruct, null);
+        TPM2_PolicyNV_REQUEST req = new TPM2_PolicyNV_REQUEST(authHandle, nvIndex, policySession, operandB, offset, operation);
+        DispatchCommand(TPM_CC.PolicyNV, req, null);
         return;
     }
     
@@ -1415,8 +1415,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyCounterTimer(TPM_HANDLE policySession, byte[] operandB, int offset, TPM_EO operation)
     {
-        TPM2_PolicyCounterTimer_REQUEST inStruct = new TPM2_PolicyCounterTimer_REQUEST(policySession, operandB, offset, operation);
-        DispatchCommand(TPM_CC.PolicyCounterTimer, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyCounterTimer_REQUEST req = new TPM2_PolicyCounterTimer_REQUEST(policySession, operandB, offset, operation);
+        DispatchCommand(TPM_CC.PolicyCounterTimer, req, null);
         return;
     }
     
@@ -1428,8 +1428,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyCommandCode(TPM_HANDLE policySession, TPM_CC code)
     {
-        TPM2_PolicyCommandCode_REQUEST inStruct = new TPM2_PolicyCommandCode_REQUEST(policySession, code);
-        DispatchCommand(TPM_CC.PolicyCommandCode, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyCommandCode_REQUEST req = new TPM2_PolicyCommandCode_REQUEST(policySession, code);
+        DispatchCommand(TPM_CC.PolicyCommandCode, req, null);
         return;
     }
     
@@ -1441,8 +1441,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyPhysicalPresence(TPM_HANDLE policySession)
     {
-        TPM2_PolicyPhysicalPresence_REQUEST inStruct = new TPM2_PolicyPhysicalPresence_REQUEST(policySession);
-        DispatchCommand(TPM_CC.PolicyPhysicalPresence, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyPhysicalPresence_REQUEST req = new TPM2_PolicyPhysicalPresence_REQUEST(policySession);
+        DispatchCommand(TPM_CC.PolicyPhysicalPresence, req, null);
         return;
     }
     
@@ -1454,8 +1454,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyCpHash(TPM_HANDLE policySession, byte[] cpHashA)
     {
-        TPM2_PolicyCpHash_REQUEST inStruct = new TPM2_PolicyCpHash_REQUEST(policySession, cpHashA);
-        DispatchCommand(TPM_CC.PolicyCpHash, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyCpHash_REQUEST req = new TPM2_PolicyCpHash_REQUEST(policySession, cpHashA);
+        DispatchCommand(TPM_CC.PolicyCpHash, req, null);
         return;
     }
     
@@ -1469,8 +1469,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyNameHash(TPM_HANDLE policySession, byte[] nameHash)
     {
-        TPM2_PolicyNameHash_REQUEST inStruct = new TPM2_PolicyNameHash_REQUEST(policySession, nameHash);
-        DispatchCommand(TPM_CC.PolicyNameHash, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyNameHash_REQUEST req = new TPM2_PolicyNameHash_REQUEST(policySession, nameHash);
+        DispatchCommand(TPM_CC.PolicyNameHash, req, null);
         return;
     }
     
@@ -1486,8 +1486,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyDuplicationSelect(TPM_HANDLE policySession, byte[] objectName, byte[] newParentName, byte includeObject)
     {
-        TPM2_PolicyDuplicationSelect_REQUEST inStruct = new TPM2_PolicyDuplicationSelect_REQUEST(policySession, objectName, newParentName, includeObject);
-        DispatchCommand(TPM_CC.PolicyDuplicationSelect, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyDuplicationSelect_REQUEST req = new TPM2_PolicyDuplicationSelect_REQUEST(policySession, objectName, newParentName, includeObject);
+        DispatchCommand(TPM_CC.PolicyDuplicationSelect, req, null);
         return;
     }
     
@@ -1504,8 +1504,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyAuthorize(TPM_HANDLE policySession, byte[] approvedPolicy, byte[] policyRef, byte[] keySign, TPMT_TK_VERIFIED checkTicket)
     {
-        TPM2_PolicyAuthorize_REQUEST inStruct = new TPM2_PolicyAuthorize_REQUEST(policySession, approvedPolicy, policyRef, keySign, checkTicket);
-        DispatchCommand(TPM_CC.PolicyAuthorize, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyAuthorize_REQUEST req = new TPM2_PolicyAuthorize_REQUEST(policySession, approvedPolicy, policyRef, keySign, checkTicket);
+        DispatchCommand(TPM_CC.PolicyAuthorize, req, null);
         return;
     }
     
@@ -1516,8 +1516,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyAuthValue(TPM_HANDLE policySession)
     {
-        TPM2_PolicyAuthValue_REQUEST inStruct = new TPM2_PolicyAuthValue_REQUEST(policySession);
-        DispatchCommand(TPM_CC.PolicyAuthValue, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyAuthValue_REQUEST req = new TPM2_PolicyAuthValue_REQUEST(policySession);
+        DispatchCommand(TPM_CC.PolicyAuthValue, req, null);
         return;
     }
     
@@ -1528,8 +1528,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyPassword(TPM_HANDLE policySession)
     {
-        TPM2_PolicyPassword_REQUEST inStruct = new TPM2_PolicyPassword_REQUEST(policySession);
-        DispatchCommand(TPM_CC.PolicyPassword, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyPassword_REQUEST req = new TPM2_PolicyPassword_REQUEST(policySession);
+        DispatchCommand(TPM_CC.PolicyPassword, req, null);
         return;
     }
     
@@ -1542,10 +1542,10 @@ public class Tpm extends TpmBase
      */
     public byte[] PolicyGetDigest(TPM_HANDLE policySession)
     {
-        TPM2_PolicyGetDigest_REQUEST inStruct = new TPM2_PolicyGetDigest_REQUEST(policySession);
-        PolicyGetDigestResponse outStruct = new PolicyGetDigestResponse();
-        DispatchCommand(TPM_CC.PolicyGetDigest, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, outStruct);
-        return outStruct.policyDigest;
+        TPM2_PolicyGetDigest_REQUEST req = new TPM2_PolicyGetDigest_REQUEST(policySession);
+        PolicyGetDigestResponse resp = new PolicyGetDigestResponse();
+        DispatchCommand(TPM_CC.PolicyGetDigest, req, resp);
+        return resp.policyDigest;
     }
     
     /** This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
@@ -1559,8 +1559,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyNvWritten(TPM_HANDLE policySession, byte writtenSet)
     {
-        TPM2_PolicyNvWritten_REQUEST inStruct = new TPM2_PolicyNvWritten_REQUEST(policySession, writtenSet);
-        DispatchCommand(TPM_CC.PolicyNvWritten, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyNvWritten_REQUEST req = new TPM2_PolicyNvWritten_REQUEST(policySession, writtenSet);
+        DispatchCommand(TPM_CC.PolicyNvWritten, req, null);
         return;
     }
     
@@ -1574,8 +1574,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyTemplate(TPM_HANDLE policySession, byte[] templateHash)
     {
-        TPM2_PolicyTemplate_REQUEST inStruct = new TPM2_PolicyTemplate_REQUEST(policySession, templateHash);
-        DispatchCommand(TPM_CC.PolicyTemplate, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_PolicyTemplate_REQUEST req = new TPM2_PolicyTemplate_REQUEST(policySession, templateHash);
+        DispatchCommand(TPM_CC.PolicyTemplate, req, null);
         return;
     }
     
@@ -1594,8 +1594,8 @@ public class Tpm extends TpmBase
      */
     public void PolicyAuthorizeNV(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, TPM_HANDLE policySession)
     {
-        TPM2_PolicyAuthorizeNV_REQUEST inStruct = new TPM2_PolicyAuthorizeNV_REQUEST(authHandle, nvIndex, policySession);
-        DispatchCommand(TPM_CC.PolicyAuthorizeNV, new TPM_HANDLE[] {authHandle, nvIndex, policySession}, 1, 0, inStruct, null);
+        TPM2_PolicyAuthorizeNV_REQUEST req = new TPM2_PolicyAuthorizeNV_REQUEST(authHandle, nvIndex, policySession);
+        DispatchCommand(TPM_CC.PolicyAuthorizeNV, req, null);
         return;
     }
     
@@ -1624,10 +1624,10 @@ public class Tpm extends TpmBase
      */
     public CreatePrimaryResponse CreatePrimary(TPM_HANDLE primaryHandle, TPMS_SENSITIVE_CREATE inSensitive, TPMT_PUBLIC inPublic, byte[] outsideInfo, TPMS_PCR_SELECTION[] creationPCR)
     {
-        TPM2_CreatePrimary_REQUEST inStruct = new TPM2_CreatePrimary_REQUEST(primaryHandle, inSensitive, inPublic, outsideInfo, creationPCR);
-        CreatePrimaryResponse outStruct = new CreatePrimaryResponse();
-        DispatchCommand(TPM_CC.CreatePrimary, new TPM_HANDLE[] {primaryHandle}, 1, 1, inStruct, outStruct);
-        return outStruct;
+        TPM2_CreatePrimary_REQUEST req = new TPM2_CreatePrimary_REQUEST(primaryHandle, inSensitive, inPublic, outsideInfo, creationPCR);
+        CreatePrimaryResponse resp = new CreatePrimaryResponse();
+        DispatchCommand(TPM_CC.CreatePrimary, req, resp);
+        return resp;
     }
     
     /** This command enables and disables use of a hierarchy and its associated NV storage.
@@ -1643,8 +1643,8 @@ public class Tpm extends TpmBase
      */
     public void HierarchyControl(TPM_HANDLE authHandle, TPM_HANDLE enable, byte state)
     {
-        TPM2_HierarchyControl_REQUEST inStruct = new TPM2_HierarchyControl_REQUEST(authHandle, enable, state);
-        DispatchCommand(TPM_CC.HierarchyControl, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
+        TPM2_HierarchyControl_REQUEST req = new TPM2_HierarchyControl_REQUEST(authHandle, enable, state);
+        DispatchCommand(TPM_CC.HierarchyControl, req, null);
         return;
     }
     
@@ -1665,8 +1665,8 @@ public class Tpm extends TpmBase
      */
     public void SetPrimaryPolicy(TPM_HANDLE authHandle, byte[] authPolicy, TPM_ALG_ID hashAlg)
     {
-        TPM2_SetPrimaryPolicy_REQUEST inStruct = new TPM2_SetPrimaryPolicy_REQUEST(authHandle, authPolicy, hashAlg);
-        DispatchCommand(TPM_CC.SetPrimaryPolicy, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
+        TPM2_SetPrimaryPolicy_REQUEST req = new TPM2_SetPrimaryPolicy_REQUEST(authHandle, authPolicy, hashAlg);
+        DispatchCommand(TPM_CC.SetPrimaryPolicy, req, null);
         return;
     }
     
@@ -1679,8 +1679,8 @@ public class Tpm extends TpmBase
      */
     public void ChangePPS(TPM_HANDLE authHandle)
     {
-        TPM2_ChangePPS_REQUEST inStruct = new TPM2_ChangePPS_REQUEST(authHandle);
-        DispatchCommand(TPM_CC.ChangePPS, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
+        TPM2_ChangePPS_REQUEST req = new TPM2_ChangePPS_REQUEST(authHandle);
+        DispatchCommand(TPM_CC.ChangePPS, req, null);
         return;
     }
     
@@ -1697,8 +1697,8 @@ public class Tpm extends TpmBase
      */
     public void ChangeEPS(TPM_HANDLE authHandle)
     {
-        TPM2_ChangeEPS_REQUEST inStruct = new TPM2_ChangeEPS_REQUEST(authHandle);
-        DispatchCommand(TPM_CC.ChangeEPS, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
+        TPM2_ChangeEPS_REQUEST req = new TPM2_ChangeEPS_REQUEST(authHandle);
+        DispatchCommand(TPM_CC.ChangeEPS, req, null);
         return;
     }
     
@@ -1710,8 +1710,8 @@ public class Tpm extends TpmBase
      */
     public void Clear(TPM_HANDLE authHandle)
     {
-        TPM2_Clear_REQUEST inStruct = new TPM2_Clear_REQUEST(authHandle);
-        DispatchCommand(TPM_CC.Clear, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
+        TPM2_Clear_REQUEST req = new TPM2_Clear_REQUEST(authHandle);
+        DispatchCommand(TPM_CC.Clear, req, null);
         return;
     }
     
@@ -1725,8 +1725,8 @@ public class Tpm extends TpmBase
      */
     public void ClearControl(TPM_HANDLE auth, byte disable)
     {
-        TPM2_ClearControl_REQUEST inStruct = new TPM2_ClearControl_REQUEST(auth, disable);
-        DispatchCommand(TPM_CC.ClearControl, new TPM_HANDLE[] {auth}, 1, 0, inStruct, null);
+        TPM2_ClearControl_REQUEST req = new TPM2_ClearControl_REQUEST(auth, disable);
+        DispatchCommand(TPM_CC.ClearControl, req, null);
         return;
     }
     
@@ -1740,8 +1740,8 @@ public class Tpm extends TpmBase
      */
     public void HierarchyChangeAuth(TPM_HANDLE authHandle, byte[] newAuth)
     {
-        TPM2_HierarchyChangeAuth_REQUEST inStruct = new TPM2_HierarchyChangeAuth_REQUEST(authHandle, newAuth);
-        DispatchCommand(TPM_CC.HierarchyChangeAuth, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
+        TPM2_HierarchyChangeAuth_REQUEST req = new TPM2_HierarchyChangeAuth_REQUEST(authHandle, newAuth);
+        DispatchCommand(TPM_CC.HierarchyChangeAuth, req, null);
         return;
     }
     
@@ -1755,8 +1755,8 @@ public class Tpm extends TpmBase
      */
     public void DictionaryAttackLockReset(TPM_HANDLE lockHandle)
     {
-        TPM2_DictionaryAttackLockReset_REQUEST inStruct = new TPM2_DictionaryAttackLockReset_REQUEST(lockHandle);
-        DispatchCommand(TPM_CC.DictionaryAttackLockReset, new TPM_HANDLE[] {lockHandle}, 1, 0, inStruct, null);
+        TPM2_DictionaryAttackLockReset_REQUEST req = new TPM2_DictionaryAttackLockReset_REQUEST(lockHandle);
+        DispatchCommand(TPM_CC.DictionaryAttackLockReset, req, null);
         return;
     }
     
@@ -1775,8 +1775,8 @@ public class Tpm extends TpmBase
      */
     public void DictionaryAttackParameters(TPM_HANDLE lockHandle, int newMaxTries, int newRecoveryTime, int lockoutRecovery)
     {
-        TPM2_DictionaryAttackParameters_REQUEST inStruct = new TPM2_DictionaryAttackParameters_REQUEST(lockHandle, newMaxTries, newRecoveryTime, lockoutRecovery);
-        DispatchCommand(TPM_CC.DictionaryAttackParameters, new TPM_HANDLE[] {lockHandle}, 1, 0, inStruct, null);
+        TPM2_DictionaryAttackParameters_REQUEST req = new TPM2_DictionaryAttackParameters_REQUEST(lockHandle, newMaxTries, newRecoveryTime, lockoutRecovery);
+        DispatchCommand(TPM_CC.DictionaryAttackParameters, req, null);
         return;
     }
     
@@ -1793,8 +1793,8 @@ public class Tpm extends TpmBase
      */
     public void PP_Commands(TPM_HANDLE auth, TPM_CC[] setList, TPM_CC[] clearList)
     {
-        TPM2_PP_Commands_REQUEST inStruct = new TPM2_PP_Commands_REQUEST(auth, setList, clearList);
-        DispatchCommand(TPM_CC.PP_Commands, new TPM_HANDLE[] {auth}, 1, 0, inStruct, null);
+        TPM2_PP_Commands_REQUEST req = new TPM2_PP_Commands_REQUEST(auth, setList, clearList);
+        DispatchCommand(TPM_CC.PP_Commands, req, null);
         return;
     }
     
@@ -1808,8 +1808,8 @@ public class Tpm extends TpmBase
      */
     public void SetAlgorithmSet(TPM_HANDLE authHandle, int algorithmSet)
     {
-        TPM2_SetAlgorithmSet_REQUEST inStruct = new TPM2_SetAlgorithmSet_REQUEST(authHandle, algorithmSet);
-        DispatchCommand(TPM_CC.SetAlgorithmSet, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
+        TPM2_SetAlgorithmSet_REQUEST req = new TPM2_SetAlgorithmSet_REQUEST(authHandle, algorithmSet);
+        DispatchCommand(TPM_CC.SetAlgorithmSet, req, null);
         return;
     }
     
@@ -1831,8 +1831,8 @@ public class Tpm extends TpmBase
      */
     public void FieldUpgradeStart(TPM_HANDLE authorization, TPM_HANDLE keyHandle, byte[] fuDigest, TPMU_SIGNATURE manifestSignature)
     {
-        TPM2_FieldUpgradeStart_REQUEST inStruct = new TPM2_FieldUpgradeStart_REQUEST(authorization, keyHandle, fuDigest, manifestSignature);
-        DispatchCommand(TPM_CC.FieldUpgradeStart, new TPM_HANDLE[] {authorization, keyHandle}, 1, 0, inStruct, null);
+        TPM2_FieldUpgradeStart_REQUEST req = new TPM2_FieldUpgradeStart_REQUEST(authorization, keyHandle, fuDigest, manifestSignature);
+        DispatchCommand(TPM_CC.FieldUpgradeStart, req, null);
         return;
     }
     
@@ -1848,10 +1848,10 @@ public class Tpm extends TpmBase
      */
     public FieldUpgradeDataResponse FieldUpgradeData(byte[] fuData)
     {
-        TPM2_FieldUpgradeData_REQUEST inStruct = new TPM2_FieldUpgradeData_REQUEST(fuData);
-        FieldUpgradeDataResponse outStruct = new FieldUpgradeDataResponse();
-        DispatchCommand(TPM_CC.FieldUpgradeData, null, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_FieldUpgradeData_REQUEST req = new TPM2_FieldUpgradeData_REQUEST(fuData);
+        FieldUpgradeDataResponse resp = new FieldUpgradeDataResponse();
+        DispatchCommand(TPM_CC.FieldUpgradeData, req, resp);
+        return resp;
     }
     
     /** This command is used to read a copy of the current firmware installed in the TPM.
@@ -1862,10 +1862,10 @@ public class Tpm extends TpmBase
      */
     public byte[] FirmwareRead(int sequenceNumber)
     {
-        TPM2_FirmwareRead_REQUEST inStruct = new TPM2_FirmwareRead_REQUEST(sequenceNumber);
-        FirmwareReadResponse outStruct = new FirmwareReadResponse();
-        DispatchCommand(TPM_CC.FirmwareRead, null, 0, 0, inStruct, outStruct);
-        return outStruct.fuData;
+        TPM2_FirmwareRead_REQUEST req = new TPM2_FirmwareRead_REQUEST(sequenceNumber);
+        FirmwareReadResponse resp = new FirmwareReadResponse();
+        DispatchCommand(TPM_CC.FirmwareRead, req, resp);
+        return resp.fuData;
     }
     
     /** This command saves a session context, object context, or sequence object context
@@ -1881,10 +1881,10 @@ public class Tpm extends TpmBase
      */
     public TPMS_CONTEXT ContextSave(TPM_HANDLE saveHandle)
     {
-        TPM2_ContextSave_REQUEST inStruct = new TPM2_ContextSave_REQUEST(saveHandle);
-        ContextSaveResponse outStruct = new ContextSaveResponse();
-        DispatchCommand(TPM_CC.ContextSave, new TPM_HANDLE[] {saveHandle}, 0, 0, inStruct, outStruct);
-        return outStruct.context;
+        TPM2_ContextSave_REQUEST req = new TPM2_ContextSave_REQUEST(saveHandle);
+        ContextSaveResponse resp = new ContextSaveResponse();
+        DispatchCommand(TPM_CC.ContextSave, req, resp);
+        return resp.context;
     }
     
     /** This command is used to reload a context that has been saved by TPM2_ContextSave().
@@ -1894,10 +1894,10 @@ public class Tpm extends TpmBase
      */
     public TPM_HANDLE ContextLoad(TPMS_CONTEXT context)
     {
-        TPM2_ContextLoad_REQUEST inStruct = new TPM2_ContextLoad_REQUEST(context);
-        ContextLoadResponse outStruct = new ContextLoadResponse();
-        DispatchCommand(TPM_CC.ContextLoad, null, 0, 1, inStruct, outStruct);
-        return outStruct.handle;
+        TPM2_ContextLoad_REQUEST req = new TPM2_ContextLoad_REQUEST(context);
+        ContextLoadResponse resp = new ContextLoadResponse();
+        DispatchCommand(TPM_CC.ContextLoad, req, resp);
+        return resp.handle;
     }
     
     /** This command causes all context associated with a loaded object, sequence object, or
@@ -1908,8 +1908,8 @@ public class Tpm extends TpmBase
      */
     public void FlushContext(TPM_HANDLE flushHandle)
     {
-        TPM2_FlushContext_REQUEST inStruct = new TPM2_FlushContext_REQUEST(flushHandle);
-        DispatchCommand(TPM_CC.FlushContext, null, 0, 0, inStruct, null);
+        TPM2_FlushContext_REQUEST req = new TPM2_FlushContext_REQUEST(flushHandle);
+        DispatchCommand(TPM_CC.FlushContext, req, null);
         return;
     }
     
@@ -1928,8 +1928,8 @@ public class Tpm extends TpmBase
      */
     public void EvictControl(TPM_HANDLE auth, TPM_HANDLE objectHandle, TPM_HANDLE persistentHandle)
     {
-        TPM2_EvictControl_REQUEST inStruct = new TPM2_EvictControl_REQUEST(auth, objectHandle, persistentHandle);
-        DispatchCommand(TPM_CC.EvictControl, new TPM_HANDLE[] {auth, objectHandle}, 1, 0, inStruct, null);
+        TPM2_EvictControl_REQUEST req = new TPM2_EvictControl_REQUEST(auth, objectHandle, persistentHandle);
+        DispatchCommand(TPM_CC.EvictControl, req, null);
         return;
     }
     
@@ -1941,10 +1941,10 @@ public class Tpm extends TpmBase
      */
     public TPMS_TIME_INFO ReadClock()
     {
-        TPM2_ReadClock_REQUEST inStruct = new TPM2_ReadClock_REQUEST();
-        ReadClockResponse outStruct = new ReadClockResponse();
-        DispatchCommand(TPM_CC.ReadClock, null, 0, 0, inStruct, outStruct);
-        return outStruct.currentTime;
+        TPM2_ReadClock_REQUEST req = new TPM2_ReadClock_REQUEST();
+        ReadClockResponse resp = new ReadClockResponse();
+        DispatchCommand(TPM_CC.ReadClock, req, resp);
+        return resp.currentTime;
     }
     
     /** This command is used to advance the value of the TPMs Clock. The command will fail if
@@ -1959,8 +1959,8 @@ public class Tpm extends TpmBase
      */
     public void ClockSet(TPM_HANDLE auth, long newTime)
     {
-        TPM2_ClockSet_REQUEST inStruct = new TPM2_ClockSet_REQUEST(auth, newTime);
-        DispatchCommand(TPM_CC.ClockSet, new TPM_HANDLE[] {auth}, 1, 0, inStruct, null);
+        TPM2_ClockSet_REQUEST req = new TPM2_ClockSet_REQUEST(auth, newTime);
+        DispatchCommand(TPM_CC.ClockSet, req, null);
         return;
     }
     
@@ -1974,8 +1974,8 @@ public class Tpm extends TpmBase
      */
     public void ClockRateAdjust(TPM_HANDLE auth, TPM_CLOCK_ADJUST rateAdjust)
     {
-        TPM2_ClockRateAdjust_REQUEST inStruct = new TPM2_ClockRateAdjust_REQUEST(auth, rateAdjust);
-        DispatchCommand(TPM_CC.ClockRateAdjust, new TPM_HANDLE[] {auth}, 1, 0, inStruct, null);
+        TPM2_ClockRateAdjust_REQUEST req = new TPM2_ClockRateAdjust_REQUEST(auth, rateAdjust);
+        DispatchCommand(TPM_CC.ClockRateAdjust, req, null);
         return;
     }
     
@@ -1989,10 +1989,10 @@ public class Tpm extends TpmBase
      */
     public GetCapabilityResponse GetCapability(TPM_CAP capability, int property, int propertyCount)
     {
-        TPM2_GetCapability_REQUEST inStruct = new TPM2_GetCapability_REQUEST(capability, property, propertyCount);
-        GetCapabilityResponse outStruct = new GetCapabilityResponse();
-        DispatchCommand(TPM_CC.GetCapability, null, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_GetCapability_REQUEST req = new TPM2_GetCapability_REQUEST(capability, property, propertyCount);
+        GetCapabilityResponse resp = new GetCapabilityResponse();
+        DispatchCommand(TPM_CC.GetCapability, req, resp);
+        return resp;
     }
     
     /** This command is used to check to see if specific combinations of algorithm parameters
@@ -2004,8 +2004,8 @@ public class Tpm extends TpmBase
      */
     public void TestParms(TPMU_PUBLIC_PARMS parameters)
     {
-        TPM2_TestParms_REQUEST inStruct = new TPM2_TestParms_REQUEST(parameters);
-        DispatchCommand(TPM_CC.TestParms, null, 0, 0, inStruct, null);
+        TPM2_TestParms_REQUEST req = new TPM2_TestParms_REQUEST(parameters);
+        DispatchCommand(TPM_CC.TestParms, req, null);
         return;
     }
     
@@ -2021,8 +2021,8 @@ public class Tpm extends TpmBase
      */
     public void NV_DefineSpace(TPM_HANDLE authHandle, byte[] auth, TPMS_NV_PUBLIC publicInfo)
     {
-        TPM2_NV_DefineSpace_REQUEST inStruct = new TPM2_NV_DefineSpace_REQUEST(authHandle, auth, publicInfo);
-        DispatchCommand(TPM_CC.NV_DefineSpace, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
+        TPM2_NV_DefineSpace_REQUEST req = new TPM2_NV_DefineSpace_REQUEST(authHandle, auth, publicInfo);
+        DispatchCommand(TPM_CC.NV_DefineSpace, req, null);
         return;
     }
     
@@ -2036,8 +2036,8 @@ public class Tpm extends TpmBase
      */
     public void NV_UndefineSpace(TPM_HANDLE authHandle, TPM_HANDLE nvIndex)
     {
-        TPM2_NV_UndefineSpace_REQUEST inStruct = new TPM2_NV_UndefineSpace_REQUEST(authHandle, nvIndex);
-        DispatchCommand(TPM_CC.NV_UndefineSpace, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
+        TPM2_NV_UndefineSpace_REQUEST req = new TPM2_NV_UndefineSpace_REQUEST(authHandle, nvIndex);
+        DispatchCommand(TPM_CC.NV_UndefineSpace, req, null);
         return;
     }
     
@@ -2053,8 +2053,8 @@ public class Tpm extends TpmBase
      */
     public void NV_UndefineSpaceSpecial(TPM_HANDLE nvIndex, TPM_HANDLE platform)
     {
-        TPM2_NV_UndefineSpaceSpecial_REQUEST inStruct = new TPM2_NV_UndefineSpaceSpecial_REQUEST(nvIndex, platform);
-        DispatchCommand(TPM_CC.NV_UndefineSpaceSpecial, new TPM_HANDLE[] {nvIndex, platform}, 2, 0, inStruct, null);
+        TPM2_NV_UndefineSpaceSpecial_REQUEST req = new TPM2_NV_UndefineSpaceSpecial_REQUEST(nvIndex, platform);
+        DispatchCommand(TPM_CC.NV_UndefineSpaceSpecial, req, null);
         return;
     }
     
@@ -2068,10 +2068,10 @@ public class Tpm extends TpmBase
      */
     public NV_ReadPublicResponse NV_ReadPublic(TPM_HANDLE nvIndex)
     {
-        TPM2_NV_ReadPublic_REQUEST inStruct = new TPM2_NV_ReadPublic_REQUEST(nvIndex);
-        NV_ReadPublicResponse outStruct = new NV_ReadPublicResponse();
-        DispatchCommand(TPM_CC.NV_ReadPublic, new TPM_HANDLE[] {nvIndex}, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_NV_ReadPublic_REQUEST req = new TPM2_NV_ReadPublic_REQUEST(nvIndex);
+        NV_ReadPublicResponse resp = new NV_ReadPublicResponse();
+        DispatchCommand(TPM_CC.NV_ReadPublic, req, resp);
+        return resp;
     }
     
     /** This command writes a value to an area in NV memory that was previously defined by
@@ -2087,8 +2087,8 @@ public class Tpm extends TpmBase
      */
     public void NV_Write(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, byte[] data, int offset)
     {
-        TPM2_NV_Write_REQUEST inStruct = new TPM2_NV_Write_REQUEST(authHandle, nvIndex, data, offset);
-        DispatchCommand(TPM_CC.NV_Write, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
+        TPM2_NV_Write_REQUEST req = new TPM2_NV_Write_REQUEST(authHandle, nvIndex, data, offset);
+        DispatchCommand(TPM_CC.NV_Write, req, null);
         return;
     }
     
@@ -2103,8 +2103,8 @@ public class Tpm extends TpmBase
      */
     public void NV_Increment(TPM_HANDLE authHandle, TPM_HANDLE nvIndex)
     {
-        TPM2_NV_Increment_REQUEST inStruct = new TPM2_NV_Increment_REQUEST(authHandle, nvIndex);
-        DispatchCommand(TPM_CC.NV_Increment, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
+        TPM2_NV_Increment_REQUEST req = new TPM2_NV_Increment_REQUEST(authHandle, nvIndex);
+        DispatchCommand(TPM_CC.NV_Increment, req, null);
         return;
     }
     
@@ -2120,8 +2120,8 @@ public class Tpm extends TpmBase
      */
     public void NV_Extend(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, byte[] data)
     {
-        TPM2_NV_Extend_REQUEST inStruct = new TPM2_NV_Extend_REQUEST(authHandle, nvIndex, data);
-        DispatchCommand(TPM_CC.NV_Extend, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
+        TPM2_NV_Extend_REQUEST req = new TPM2_NV_Extend_REQUEST(authHandle, nvIndex, data);
+        DispatchCommand(TPM_CC.NV_Extend, req, null);
         return;
     }
     
@@ -2138,8 +2138,8 @@ public class Tpm extends TpmBase
      */
     public void NV_SetBits(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, long bits)
     {
-        TPM2_NV_SetBits_REQUEST inStruct = new TPM2_NV_SetBits_REQUEST(authHandle, nvIndex, bits);
-        DispatchCommand(TPM_CC.NV_SetBits, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
+        TPM2_NV_SetBits_REQUEST req = new TPM2_NV_SetBits_REQUEST(authHandle, nvIndex, bits);
+        DispatchCommand(TPM_CC.NV_SetBits, req, null);
         return;
     }
     
@@ -2154,8 +2154,8 @@ public class Tpm extends TpmBase
      */
     public void NV_WriteLock(TPM_HANDLE authHandle, TPM_HANDLE nvIndex)
     {
-        TPM2_NV_WriteLock_REQUEST inStruct = new TPM2_NV_WriteLock_REQUEST(authHandle, nvIndex);
-        DispatchCommand(TPM_CC.NV_WriteLock, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
+        TPM2_NV_WriteLock_REQUEST req = new TPM2_NV_WriteLock_REQUEST(authHandle, nvIndex);
+        DispatchCommand(TPM_CC.NV_WriteLock, req, null);
         return;
     }
     
@@ -2168,8 +2168,8 @@ public class Tpm extends TpmBase
      */
     public void NV_GlobalWriteLock(TPM_HANDLE authHandle)
     {
-        TPM2_NV_GlobalWriteLock_REQUEST inStruct = new TPM2_NV_GlobalWriteLock_REQUEST(authHandle);
-        DispatchCommand(TPM_CC.NV_GlobalWriteLock, new TPM_HANDLE[] {authHandle}, 1, 0, inStruct, null);
+        TPM2_NV_GlobalWriteLock_REQUEST req = new TPM2_NV_GlobalWriteLock_REQUEST(authHandle);
+        DispatchCommand(TPM_CC.NV_GlobalWriteLock, req, null);
         return;
     }
     
@@ -2187,10 +2187,10 @@ public class Tpm extends TpmBase
      */
     public byte[] NV_Read(TPM_HANDLE authHandle, TPM_HANDLE nvIndex, int size, int offset)
     {
-        TPM2_NV_Read_REQUEST inStruct = new TPM2_NV_Read_REQUEST(authHandle, nvIndex, size, offset);
-        NV_ReadResponse outStruct = new NV_ReadResponse();
-        DispatchCommand(TPM_CC.NV_Read, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, outStruct);
-        return outStruct.data;
+        TPM2_NV_Read_REQUEST req = new TPM2_NV_Read_REQUEST(authHandle, nvIndex, size, offset);
+        NV_ReadResponse resp = new NV_ReadResponse();
+        DispatchCommand(TPM_CC.NV_Read, req, resp);
+        return resp.data;
     }
     
     /** If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
@@ -2204,8 +2204,8 @@ public class Tpm extends TpmBase
      */
     public void NV_ReadLock(TPM_HANDLE authHandle, TPM_HANDLE nvIndex)
     {
-        TPM2_NV_ReadLock_REQUEST inStruct = new TPM2_NV_ReadLock_REQUEST(authHandle, nvIndex);
-        DispatchCommand(TPM_CC.NV_ReadLock, new TPM_HANDLE[] {authHandle, nvIndex}, 1, 0, inStruct, null);
+        TPM2_NV_ReadLock_REQUEST req = new TPM2_NV_ReadLock_REQUEST(authHandle, nvIndex);
+        DispatchCommand(TPM_CC.NV_ReadLock, req, null);
         return;
     }
     
@@ -2218,8 +2218,8 @@ public class Tpm extends TpmBase
      */
     public void NV_ChangeAuth(TPM_HANDLE nvIndex, byte[] newAuth)
     {
-        TPM2_NV_ChangeAuth_REQUEST inStruct = new TPM2_NV_ChangeAuth_REQUEST(nvIndex, newAuth);
-        DispatchCommand(TPM_CC.NV_ChangeAuth, new TPM_HANDLE[] {nvIndex}, 1, 0, inStruct, null);
+        TPM2_NV_ChangeAuth_REQUEST req = new TPM2_NV_ChangeAuth_REQUEST(nvIndex, newAuth);
+        DispatchCommand(TPM_CC.NV_ChangeAuth, req, null);
         return;
     }
     
@@ -2248,10 +2248,10 @@ public class Tpm extends TpmBase
      */
     public NV_CertifyResponse NV_Certify(TPM_HANDLE signHandle, TPM_HANDLE authHandle, TPM_HANDLE nvIndex, byte[] qualifyingData, TPMU_SIG_SCHEME inScheme, int size, int offset)
     {
-        TPM2_NV_Certify_REQUEST inStruct = new TPM2_NV_Certify_REQUEST(signHandle, authHandle, nvIndex, qualifyingData, inScheme, size, offset);
-        NV_CertifyResponse outStruct = new NV_CertifyResponse();
-        DispatchCommand(TPM_CC.NV_Certify, new TPM_HANDLE[] {signHandle, authHandle, nvIndex}, 2, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_NV_Certify_REQUEST req = new TPM2_NV_Certify_REQUEST(signHandle, authHandle, nvIndex, qualifyingData, inScheme, size, offset);
+        NV_CertifyResponse resp = new NV_CertifyResponse();
+        DispatchCommand(TPM_CC.NV_Certify, req, resp);
+        return resp;
     }
     
     /** The purpose of this command is to obtain information about an Attached Component
@@ -2266,10 +2266,10 @@ public class Tpm extends TpmBase
      */
     public AC_GetCapabilityResponse AC_GetCapability(TPM_HANDLE ac, TPM_AT capability, int count)
     {
-        TPM2_AC_GetCapability_REQUEST inStruct = new TPM2_AC_GetCapability_REQUEST(ac, capability, count);
-        AC_GetCapabilityResponse outStruct = new AC_GetCapabilityResponse();
-        DispatchCommand(TPM_CC.AC_GetCapability, new TPM_HANDLE[] {ac}, 0, 0, inStruct, outStruct);
-        return outStruct;
+        TPM2_AC_GetCapability_REQUEST req = new TPM2_AC_GetCapability_REQUEST(ac, capability, count);
+        AC_GetCapabilityResponse resp = new AC_GetCapabilityResponse();
+        DispatchCommand(TPM_CC.AC_GetCapability, req, resp);
+        return resp;
     }
     
     /** The purpose of this command is to send (copy) a loaded object from the TPM to an
@@ -2288,10 +2288,10 @@ public class Tpm extends TpmBase
      */
     public TPMS_AC_OUTPUT AC_Send(TPM_HANDLE sendObject, TPM_HANDLE authHandle, TPM_HANDLE ac, byte[] acDataIn)
     {
-        TPM2_AC_Send_REQUEST inStruct = new TPM2_AC_Send_REQUEST(sendObject, authHandle, ac, acDataIn);
-        AC_SendResponse outStruct = new AC_SendResponse();
-        DispatchCommand(TPM_CC.AC_Send, new TPM_HANDLE[] {sendObject, authHandle, ac}, 2, 0, inStruct, outStruct);
-        return outStruct.acDataOut;
+        TPM2_AC_Send_REQUEST req = new TPM2_AC_Send_REQUEST(sendObject, authHandle, ac, acDataIn);
+        AC_SendResponse resp = new AC_SendResponse();
+        DispatchCommand(TPM_CC.AC_Send, req, resp);
+        return resp.acDataOut;
     }
     
     /** This command allows qualification of the sending (copying) of an Object to an Attached
@@ -2309,8 +2309,8 @@ public class Tpm extends TpmBase
      */
     public void Policy_AC_SendSelect(TPM_HANDLE policySession, byte[] objectName, byte[] authHandleName, byte[] acName, byte includeObject)
     {
-        TPM2_Policy_AC_SendSelect_REQUEST inStruct = new TPM2_Policy_AC_SendSelect_REQUEST(policySession, objectName, authHandleName, acName, includeObject);
-        DispatchCommand(TPM_CC.Policy_AC_SendSelect, new TPM_HANDLE[] {policySession}, 0, 0, inStruct, null);
+        TPM2_Policy_AC_SendSelect_REQUEST req = new TPM2_Policy_AC_SendSelect_REQUEST(policySession, objectName, authHandleName, acName, includeObject);
+        DispatchCommand(TPM_CC.Policy_AC_SendSelect, req, null);
         return;
     }
     
@@ -2324,8 +2324,8 @@ public class Tpm extends TpmBase
      */
     public void ACT_SetTimeout(TPM_HANDLE actHandle, int startTimeout)
     {
-        TPM2_ACT_SetTimeout_REQUEST inStruct = new TPM2_ACT_SetTimeout_REQUEST(actHandle, startTimeout);
-        DispatchCommand(TPM_CC.ACT_SetTimeout, new TPM_HANDLE[] {actHandle}, 1, 0, inStruct, null);
+        TPM2_ACT_SetTimeout_REQUEST req = new TPM2_ACT_SetTimeout_REQUEST(actHandle, startTimeout);
+        DispatchCommand(TPM_CC.ACT_SetTimeout, req, null);
         return;
     }
     
@@ -2336,10 +2336,10 @@ public class Tpm extends TpmBase
      */
     public byte[] Vendor_TCG_Test(byte[] inputData)
     {
-        TPM2_Vendor_TCG_Test_REQUEST inStruct = new TPM2_Vendor_TCG_Test_REQUEST(inputData);
-        Vendor_TCG_TestResponse outStruct = new Vendor_TCG_TestResponse();
-        DispatchCommand(TPM_CC.Vendor_TCG_Test, null, 0, 0, inStruct, outStruct);
-        return outStruct.outputData;
+        TPM2_Vendor_TCG_Test_REQUEST req = new TPM2_Vendor_TCG_Test_REQUEST(inputData);
+        Vendor_TCG_TestResponse resp = new Vendor_TCG_TestResponse();
+        DispatchCommand(TPM_CC.Vendor_TCG_Test, req, resp);
+        return resp.outputData;
     }
     
 }

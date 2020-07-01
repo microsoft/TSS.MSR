@@ -10,7 +10,7 @@ import tss.*;
 /** If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
  *  further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
  */
-public class TPM2_NV_ReadLock_REQUEST extends TpmStructure
+public class TPM2_NV_ReadLock_REQUEST extends ReqStructure
 {
     /** The handle indicating the source of the authorization value
      *  Auth Index: 1
@@ -67,13 +67,19 @@ public class TPM2_NV_ReadLock_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle, nvIndex}; }
 }
 
 //<<<

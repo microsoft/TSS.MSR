@@ -12,7 +12,7 @@ import tss.*;
  *  successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
  *  TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
  */
-public class TPM2_FieldUpgradeData_REQUEST extends TpmStructure
+public class TPM2_FieldUpgradeData_REQUEST extends ReqStructure
 {
     /** Field upgrade image data  */
     public byte[] fuData;
@@ -56,12 +56,15 @@ public class TPM2_FieldUpgradeData_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "fuData", fuData);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

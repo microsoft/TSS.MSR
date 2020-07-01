@@ -10,7 +10,7 @@ import tss.*;
 /** This command adjusts the rate of advance of Clock and Time to provide a better
  *  approximation to real time.
  */
-public class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
+public class TPM2_ClockRateAdjust_REQUEST extends ReqStructure
 {
     /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *  Auth Handle: 1
@@ -68,13 +68,19 @@ public class TPM2_ClockRateAdjust_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "auth", auth);
         _p.add(d, "TPM_CLOCK_ADJUST", "rateAdjust", rateAdjust);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {auth}; }
 }
 
 //<<<

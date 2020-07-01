@@ -12,7 +12,7 @@ import tss.*;
  *  PCR are in one state and a different set of authorizations when the PCR are in a
  *  different state.
  */
-public class TPM2_PolicyPCR_REQUEST extends TpmStructure
+public class TPM2_PolicyPCR_REQUEST extends ReqStructure
 {
     /** Handle for the policy session being extended
      *  Auth Index: None
@@ -84,7 +84,7 @@ public class TPM2_PolicyPCR_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -92,6 +92,15 @@ public class TPM2_PolicyPCR_REQUEST extends TpmStructure
         _p.add(d, "byte", "pcrDigest", pcrDigest);
         _p.add(d, "TPMS_PCR_SELECTION", "pcrs", pcrs);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {policySession}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

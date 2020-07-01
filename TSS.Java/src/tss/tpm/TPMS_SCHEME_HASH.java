@@ -57,7 +57,7 @@ public class TPMS_SCHEME_HASH extends TpmStructure implements TPMU_SCHEME_KEYEDH
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

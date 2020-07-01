@@ -11,7 +11,7 @@ import tss.*;
  *  establishing the session key (sessionKey). The session key is then used to derive
  *  values used for authorization and for encrypting parameters.
  */
-public class StartAuthSessionResponse extends TpmStructure
+public class StartAuthSessionResponse extends RespStructure
 {
     /** Handle for the newly created session  */
     public TPM_HANDLE handle;
@@ -23,19 +23,11 @@ public class StartAuthSessionResponse extends TpmStructure
     
     /** TpmMarshaller method  */
     @Override
-    public void toTpm(TpmBuffer buf)
-    {
-        handle.toTpm(buf);
-        buf.writeSizedByteBuf(nonceTPM);
-    }
+    public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(nonceTPM); }
     
     /** TpmMarshaller method  */
     @Override
-    public void initFromTpm(TpmBuffer buf)
-    {
-        handle = TPM_HANDLE.fromTpm(buf);
-        nonceTPM = buf.readSizedByteBuf();
-    }
+    public void initFromTpm(TpmBuffer buf) { nonceTPM = buf.readSizedByteBuf(); }
     
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
@@ -63,13 +55,22 @@ public class StartAuthSessionResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
         _p.add(d, "byte", "nonceTPM", nonceTPM);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public TPM_HANDLE getHandle() { return handle; }
+    public void setHandle(TPM_HANDLE h) { handle = h; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

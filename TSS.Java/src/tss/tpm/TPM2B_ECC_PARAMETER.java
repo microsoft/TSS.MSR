@@ -55,7 +55,7 @@ public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

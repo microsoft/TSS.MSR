@@ -10,7 +10,7 @@ import tss.*;
 /** This command is used to add data to a hash or HMAC sequence. The amount of data in
  *  buffer may be any size up to the limits of the TPM.
  */
-public class TPM2_SequenceUpdate_REQUEST extends TpmStructure
+public class TPM2_SequenceUpdate_REQUEST extends ReqStructure
 {
     /** Handle for the sequence object
      *  Auth Index: 1
@@ -68,13 +68,22 @@ public class TPM2_SequenceUpdate_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "sequenceHandle", sequenceHandle);
         _p.add(d, "byte", "buffer", buffer);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {sequenceHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

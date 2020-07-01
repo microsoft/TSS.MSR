@@ -10,7 +10,7 @@ import tss.*;
 /** This command saves a session context, object context, or sequence object context
  *  outside the TPM.
  */
-public class ContextSaveResponse extends TpmStructure
+public class ContextSaveResponse extends RespStructure
 {
     public TPMS_CONTEXT context;
     
@@ -50,7 +50,7 @@ public class ContextSaveResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -10,7 +10,7 @@ import tss.*;
 /** NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This
  *  should be reflected in platform-specific specifications.
  */
-public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
+public class TPM2_EncryptDecrypt_REQUEST extends ReqStructure
 {
     /** The symmetric key used for the operation
      *  Auth Index: 1
@@ -102,7 +102,7 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -112,6 +112,12 @@ public class TPM2_EncryptDecrypt_REQUEST extends TpmStructure
         _p.add(d, "byte", "ivIn", ivIn);
         _p.add(d, "byte", "inData", inData);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {keyHandle}; }
 }
 
 //<<<

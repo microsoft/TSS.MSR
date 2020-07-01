@@ -11,7 +11,7 @@ import tss.*;
  *  establishing the session key (sessionKey). The session key is then used to derive
  *  values used for authorization and for encrypting parameters.
  */
-public class TPM2_StartAuthSession_REQUEST extends TpmStructure
+public class TPM2_StartAuthSession_REQUEST extends ReqStructure
 {
     /** Handle of a loaded decrypt key used to encrypt salt
      *  may be TPM_RH_NULL
@@ -132,7 +132,7 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -144,6 +144,15 @@ public class TPM2_StartAuthSession_REQUEST extends TpmStructure
         _p.add(d, "TPMT_SYM_DEF", "symmetric", symmetric);
         _p.add(d, "TPM_ALG_ID", "authHash", authHash);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {tpmKey, bind}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

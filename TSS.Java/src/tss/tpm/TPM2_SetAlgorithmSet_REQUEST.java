@@ -10,7 +10,7 @@ import tss.*;
 /** This command allows the platform to change the set of algorithms that are used by the
  *  TPM. The algorithmSet setting is a vendor-dependent value.
  */
-public class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
+public class TPM2_SetAlgorithmSet_REQUEST extends ReqStructure
 {
     /** TPM_RH_PLATFORM
      *  Auth Index: 1
@@ -68,13 +68,19 @@ public class TPM2_SetAlgorithmSet_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "int", "algorithmSet", algorithmSet);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle}; }
 }
 
 //<<<

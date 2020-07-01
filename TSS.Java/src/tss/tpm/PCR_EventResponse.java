@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command is used to cause an update to the indicated PCR.  */
-public class PCR_EventResponse extends TpmStructure
+public class PCR_EventResponse extends RespStructure
 {
     public TPMT_HA[] digests;
     
@@ -48,12 +48,15 @@ public class PCR_EventResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMT_HA", "digests", digests);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(4, 66); }
 }
 
 //<<<

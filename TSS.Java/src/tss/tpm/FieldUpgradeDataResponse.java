@@ -12,7 +12,7 @@ import tss.*;
  *  successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
  *  TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
  */
-public class FieldUpgradeDataResponse extends TpmStructure
+public class FieldUpgradeDataResponse extends RespStructure
 {
     /** Tagged digest of the next block
      *  TPM_ALG_NULL if field update is complete
@@ -66,7 +66,7 @@ public class FieldUpgradeDataResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

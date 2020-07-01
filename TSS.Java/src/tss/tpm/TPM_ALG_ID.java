@@ -219,25 +219,16 @@ public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
         LAST = new TPM_ALG_ID(0x0044, _N.LAST, true),
         ANY = new TPM_ALG_ID(0x7FFF, _N.ANY),
         ANY2 = new TPM_ALG_ID(0x7FFE, _N.ANY2);
-    
     public TPM_ALG_ID () { super(0, _ValueMap); }
-    
     public TPM_ALG_ID (int value) { super(value, _ValueMap); }
-    
     public static TPM_ALG_ID fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_ALG_ID.class); }
-    
     public static TPM_ALG_ID fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_ALG_ID.class); }
-    
     public static TPM_ALG_ID fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_ALG_ID.class); }
-    
     public TPM_ALG_ID._N asEnum() { return (TPM_ALG_ID._N)NameAsEnum; }
-    
     public static Collection<TPM_ALG_ID> values() { return _ValueMap.values(); }
-    
     private TPM_ALG_ID (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_ALG_ID (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 2; }
 }

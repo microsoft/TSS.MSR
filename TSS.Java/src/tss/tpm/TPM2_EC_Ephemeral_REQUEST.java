@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.  */
-public class TPM2_EC_Ephemeral_REQUEST extends TpmStructure
+public class TPM2_EC_Ephemeral_REQUEST extends ReqStructure
 {
     /** The curve for the computed ephemeral point  */
     public TPM_ECC_CURVE curveID;
@@ -52,7 +52,7 @@ public class TPM2_EC_Ephemeral_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

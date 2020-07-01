@@ -10,7 +10,7 @@ import tss.*;
 /** This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
  *  attribute. The data value of the NV Index is incremented by one.
  */
-public class TPM2_NV_Increment_REQUEST extends TpmStructure
+public class TPM2_NV_Increment_REQUEST extends ReqStructure
 {
     /** Handle indicating the source of the authorization value
      *  Auth Index: 1
@@ -67,13 +67,19 @@ public class TPM2_NV_Increment_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle, nvIndex}; }
 }
 
 //<<<

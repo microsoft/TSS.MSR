@@ -10,7 +10,7 @@ import tss.*;
 /** This command enables the association of a credential with an object in a way that
  *  ensures that the TPM has validated the parameters of the credentialed object.
  */
-public class ActivateCredentialResponse extends TpmStructure
+public class ActivateCredentialResponse extends RespStructure
 {
     /** The decrypted certificate information
      *  the data should be no larger than the size of the digest of the nameAlg associated
@@ -54,12 +54,15 @@ public class ActivateCredentialResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "certInfo", certInfo);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

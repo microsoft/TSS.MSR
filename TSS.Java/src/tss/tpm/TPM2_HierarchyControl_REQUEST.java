@@ -11,7 +11,7 @@ import tss.*;
  *  The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
  *  proper authorization is provided.
  */
-public class TPM2_HierarchyControl_REQUEST extends TpmStructure
+public class TPM2_HierarchyControl_REQUEST extends ReqStructure
 {
     /** TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *  Auth Index: 1
@@ -89,7 +89,7 @@ public class TPM2_HierarchyControl_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -97,6 +97,12 @@ public class TPM2_HierarchyControl_REQUEST extends TpmStructure
         _p.add(d, "TPM_HANDLE", "enable", enable);
         _p.add(d, "byte", "state", state);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle}; }
 }
 
 //<<<

@@ -12,7 +12,7 @@ import tss.*;
  *  validates the association between a loaded public area and the provided hash of the
  *  creation data (creationHash).
  */
-public class CertifyCreationResponse extends TpmStructure
+public class CertifyCreationResponse extends RespStructure
 {
     /** The structure that was signed  */
     public TPMS_ATTEST certifyInfo;
@@ -70,13 +70,16 @@ public class CertifyCreationResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ATTEST", "certifyInfo", certifyInfo);
         _p.add(d, "TPMU_SIGNATURE", "signature", signature);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

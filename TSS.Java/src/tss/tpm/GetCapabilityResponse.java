@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command returns various information regarding the TPM and its current state.  */
-public class GetCapabilityResponse extends TpmStructure
+public class GetCapabilityResponse extends RespStructure
 {
     /** Flag to indicate if there are more values of this type  */
     public byte moreData;
@@ -66,7 +66,7 @@ public class GetCapabilityResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

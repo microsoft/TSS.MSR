@@ -10,7 +10,7 @@ import tss.*;
 /** This command allows the TPM to perform the actions required of a Certificate Authority
  *  (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
  */
-public class MakeCredentialResponse extends TpmStructure
+public class MakeCredentialResponse extends RespStructure
 {
     /** The credential  */
     public TPMS_ID_OBJECT credentialBlob;
@@ -62,13 +62,16 @@ public class MakeCredentialResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ID_OBJECT", "credentialBlob", credentialBlob);
         _p.add(d, "byte", "secret", secret);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

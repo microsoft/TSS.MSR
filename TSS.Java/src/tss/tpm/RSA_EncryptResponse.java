@@ -12,7 +12,7 @@ import tss.*;
  *  inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL,
  *  then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
  */
-public class RSA_EncryptResponse extends TpmStructure
+public class RSA_EncryptResponse extends RespStructure
 {
     /** Encrypted output  */
     public byte[] outData;
@@ -53,12 +53,15 @@ public class RSA_EncryptResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "outData", outData);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

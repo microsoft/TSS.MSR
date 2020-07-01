@@ -11,7 +11,7 @@ import tss.*;
  *  deferred assertion. Values are stored in the policy session context and checked when
  *  the policy is used for authorization.
  */
-public class TPM2_PolicyNvWritten_REQUEST extends TpmStructure
+public class TPM2_PolicyNvWritten_REQUEST extends ReqStructure
 {
     /** Handle for the policy session being extended
      *  Auth Index: None
@@ -70,13 +70,19 @@ public class TPM2_PolicyNvWritten_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
         _p.add(d, "byte", "writtenSet", writtenSet);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {policySession}; }
 }
 
 //<<<

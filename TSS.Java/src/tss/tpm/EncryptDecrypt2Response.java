@@ -10,7 +10,7 @@ import tss.*;
 /** This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter
  *  is the first parameter. This permits inData to be parameter encrypted.
  */
-public class EncryptDecrypt2Response extends TpmStructure
+public class EncryptDecrypt2Response extends RespStructure
 {
     /** Encrypted or decrypted output  */
     public byte[] outData;
@@ -62,13 +62,16 @@ public class EncryptDecrypt2Response extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "outData", outData);
         _p.add(d, "byte", "ivOut", ivOut);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

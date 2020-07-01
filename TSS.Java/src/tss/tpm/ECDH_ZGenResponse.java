@@ -12,7 +12,7 @@ import tss.*;
  *  the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)
  *  [hds]QB; where h is the cofactor of the curve).
  */
-public class ECDH_ZGenResponse extends TpmStructure
+public class ECDH_ZGenResponse extends RespStructure
 {
     /** X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB  */
     public TPMS_ECC_POINT outPoint;
@@ -53,12 +53,15 @@ public class ECDH_ZGenResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ECC_POINT", "outPoint", outPoint);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

@@ -10,7 +10,7 @@ import tss.*;
 /** The purpose of this command is to send (copy) a loaded object from the TPM to an
  *  Attached Component.
  */
-public class TPM2_AC_Send_REQUEST extends TpmStructure
+public class TPM2_AC_Send_REQUEST extends ReqStructure
 {
     /** Handle of the object being sent to ac
      *  Auth Index: 1
@@ -91,7 +91,7 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -100,6 +100,15 @@ public class TPM2_AC_Send_REQUEST extends TpmStructure
         _p.add(d, "TPM_HANDLE", "ac", ac);
         _p.add(d, "byte", "acDataIn", acDataIn);
     }
+
+    @Override
+    public int numHandles() { return 3; }
+    
+    public int numAuthHandles() { return 2; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {sendObject, authHandle, ac}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

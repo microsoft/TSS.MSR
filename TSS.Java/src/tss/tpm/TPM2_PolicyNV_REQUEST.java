@@ -11,7 +11,7 @@ import tss.*;
  *  an NV Index. It is an immediate assertion. The NV index is validated during the
  *  TPM2_PolicyNV() command, not when the session is used for authorization.
  */
-public class TPM2_PolicyNV_REQUEST extends TpmStructure
+public class TPM2_PolicyNV_REQUEST extends ReqStructure
 {
     /** Handle indicating the source of the authorization value
      *  Auth Index: 1
@@ -110,7 +110,7 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -121,6 +121,15 @@ public class TPM2_PolicyNV_REQUEST extends TpmStructure
         _p.add(d, "int", "offset", offset);
         _p.add(d, "TPM_EO", "operation", operation);
     }
+
+    @Override
+    public int numHandles() { return 3; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle, nvIndex, policySession}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

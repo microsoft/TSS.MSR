@@ -10,7 +10,7 @@ import tss.*;
 /** This command is used to read the public area and Name of an NV Index. The public area
  *  of an Index is not privacy-sensitive and no authorization is required to read this data.
  */
-public class NV_ReadPublicResponse extends TpmStructure
+public class NV_ReadPublicResponse extends RespStructure
 {
     /** The public area of the NV Index  */
     public TPMS_NV_PUBLIC nvPublic;
@@ -62,13 +62,16 @@ public class NV_ReadPublicResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_NV_PUBLIC", "nvPublic", nvPublic);
         _p.add(d, "byte", "nvName", nvName);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

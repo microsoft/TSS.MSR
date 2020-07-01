@@ -10,7 +10,7 @@ import tss.*;
 /** This command causes all context associated with a loaded object, sequence object, or
  *  session to be removed from TPM memory.
  */
-public class TPM2_FlushContext_REQUEST extends TpmStructure
+public class TPM2_FlushContext_REQUEST extends ReqStructure
 {
     /** The handle of the item to flush
      *  NOTE This is a use of a handle as a parameter.
@@ -58,7 +58,7 @@ public class TPM2_FlushContext_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

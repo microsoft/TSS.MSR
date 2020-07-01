@@ -149,25 +149,16 @@ public final class TPM_HC extends TpmEnum<TPM_HC>
         HR_AC = new TPM_HC((TPM_HT.AC.toInt() << HR_SHIFT.toInt()), _N.HR_AC),
         AC_FIRST = new TPM_HC((HR_AC.toInt() + 0), _N.AC_FIRST),
         AC_LAST = new TPM_HC((HR_AC.toInt() + 0x0000FFFF), _N.AC_LAST);
-    
     public TPM_HC () { super(0, _ValueMap); }
-    
     public TPM_HC (int value) { super(value, _ValueMap); }
-    
     public static TPM_HC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_HC.class); }
-    
     public static TPM_HC fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_HC.class); }
-    
     public static TPM_HC fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_HC.class); }
-    
     public TPM_HC._N asEnum() { return (TPM_HC._N)NameAsEnum; }
-    
     public static Collection<TPM_HC> values() { return _ValueMap.values(); }
-    
     private TPM_HC (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_HC (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

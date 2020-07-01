@@ -84,7 +84,7 @@ public class TPMT_SYM_DEF extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -94,6 +94,7 @@ public class TPMT_SYM_DEF extends TpmStructure
     }
     
     /** @deprecated Use default constructor instead */
+
     @Deprecated
     public static TPMT_SYM_DEF nullObject()
     {

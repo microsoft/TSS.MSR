@@ -12,7 +12,7 @@ import tss.*;
  *  validates the association between a loaded public area and the provided hash of the
  *  creation data (creationHash).
  */
-public class TPM2_CertifyCreation_REQUEST extends TpmStructure
+public class TPM2_CertifyCreation_REQUEST extends ReqStructure
 {
     /** Handle of the key that will sign the attestation block
      *  Auth Index: 1
@@ -118,7 +118,7 @@ public class TPM2_CertifyCreation_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -129,6 +129,15 @@ public class TPM2_CertifyCreation_REQUEST extends TpmStructure
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
         _p.add(d, "TPMT_TK_CREATION", "creationTicket", creationTicket);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {signHandle, objectHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

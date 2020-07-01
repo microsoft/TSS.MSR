@@ -76,7 +76,7 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

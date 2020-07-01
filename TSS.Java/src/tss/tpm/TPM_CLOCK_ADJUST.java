@@ -50,25 +50,16 @@ public final class TPM_CLOCK_ADJUST extends TpmEnum<TPM_CLOCK_ADJUST>
         FINE_FASTER = new TPM_CLOCK_ADJUST(1, _N.FINE_FASTER),
         MEDIUM_FASTER = new TPM_CLOCK_ADJUST(2, _N.MEDIUM_FASTER),
         COARSE_FASTER = new TPM_CLOCK_ADJUST(3, _N.COARSE_FASTER);
-    
     public TPM_CLOCK_ADJUST () { super(0, _ValueMap); }
-    
     public TPM_CLOCK_ADJUST (int value) { super(value, _ValueMap); }
-    
     public static TPM_CLOCK_ADJUST fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_CLOCK_ADJUST.class); }
-    
     public static TPM_CLOCK_ADJUST fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_CLOCK_ADJUST.class); }
-    
     public static TPM_CLOCK_ADJUST fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_CLOCK_ADJUST.class); }
-    
     public TPM_CLOCK_ADJUST._N asEnum() { return (TPM_CLOCK_ADJUST._N)NameAsEnum; }
-    
     public static Collection<TPM_CLOCK_ADJUST> values() { return _ValueMap.values(); }
-    
     private TPM_CLOCK_ADJUST (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_CLOCK_ADJUST (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 1; }
 }

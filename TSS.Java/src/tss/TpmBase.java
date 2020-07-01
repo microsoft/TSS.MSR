@@ -218,20 +218,19 @@ public abstract class TpmBase implements Closeable
      * @param inHandles Input handles
      * @param numAuthHandles Number of handles that need authorization
      * @param numRespHandles count
-     * @param inParms The input parameter structure
-     * @param outParms The output parameter structure
+     * @param req The input parameter structure
+     * @param resp The output parameter structure
      */
-    protected void DispatchCommand(TPM_CC cmdCode,
-            TPM_HANDLE[] inHandles,
-            int numAuthHandles,
-            int numRespHandles,
-            TpmStructure inParms, 
-            TpmStructure outParms)
+    protected void DispatchCommand(TPM_CC cmdCode, ReqStructure req, RespStructure resp)
     { try {
+        TPM_HANDLE[] inHandles = req.getHandles();
+        int numAuthHandles = req.numAuthHandles();
+
         boolean hasSessions = numAuthHandles != 0 || Sessions != null;
         int sessTag = hasSessions ? TPM_ST.SESSIONS.toInt() : TPM_ST.NO_SESSIONS.toInt();
         
         TpmBuffer cmdBuf = new TpmBuffer();
+
         // Standard TPM command header {tag, length, commandCode}
         cmdBuf.writeShort(sessTag);
         cmdBuf.writeInt(0);        // to be filled in later
@@ -241,6 +240,13 @@ public abstract class TpmBase implements Closeable
         int numHandles = inHandles == null ? 0 : inHandles.length;
         for (int i=0; i < numHandles; i++)
             inHandles[i].toTpm(cmdBuf);
+        
+        // Marshal command params (without handles) to paramBuf
+        TpmBuffer paramBuf = new TpmBuffer();
+        req.toTpm(paramBuf);
+        paramBuf.trim();
+
+        byte[] cpHashData = null;
         
         //
         // Authorization sessions
@@ -281,13 +287,31 @@ public abstract class TpmBase implements Closeable
             cmdBuf.writeNumAtPos(cmdBuf.curPos() - authSizePos - 4, authSizePos);
         }
         
-        // Marshal command params (minus the handles) to the outBuf
-        inParms.toTpm(cmdBuf);
+        // Write marshaled command params to the command buffer
+        cmdBuf.writeByteBuf(paramBuf.buffer());
         
-        // And, finally, set the command buffer size
+        // Finally, set the command buffer size
         cmdBuf.writeNumAtPos(cmdBuf.curPos(), 2);
         
-        byte[] req = cmdBuf.trim();
+
+        if (CpHash != null || AuditCommand)
+        {
+            if (cpHashData == null)
+                cpHashData = GetCpHashData(cmdCode, paramBuf.buffer());
+            if (CpHash != null)
+            {
+                CpHash.digest = Crypto.hash(CpHash.hashAlg, cpHashData);
+                clearInvocationState();
+                Sessions = null;
+                CpHash = null;
+                return;
+            }
+            AuditCpHash.digest = Crypto.hash(CommandAuditHash.hashAlg, cpHashData);
+        }
+
+
+
+        byte[] rawCmdBuf = cmdBuf.trim();
         int nvRateRecoveryCount = 4;    
         TpmBuffer respBuf = null;
         TPM_ST respTag = TPM_ST.NULL; 
@@ -296,29 +320,33 @@ public abstract class TpmBase implements Closeable
 
         while (true)
         {
-            device.dispatchCommand(req);
+            device.dispatchCommand(rawCmdBuf);
             
-            byte[] resp = device.getResponse();
-            respBuf = new TpmBuffer(resp);
+            byte[] rawRespBuf = device.getResponse();
+            respBuf = new TpmBuffer(rawRespBuf);
             
             // get the standard header
             respTag = TPM_ST.fromTpm(respBuf);
             respSize = respBuf.readInt();
             rawResponseCode = respBuf.readInt();
     
+            int actRespSize = respBuf.size();
+            if (respSize != actRespSize)
+            {
+                throw new TpmException(String.format(
+                            "Inconsistent TPM response buffer: %d B reported, %d B received", respSize, actRespSize));
+            }
+
             lastResponseCode = TpmHelpers.fromRawResponse(rawResponseCode);
-            if(callbackObject!=null)
-            {
-                callbackObject.commandCompleteCallback(cmdCode, lastResponseCode, req, resp);
-            }
+            if (callbackObject != null)
+                callbackObject.commandCompleteCallback(cmdCode, lastResponseCode, rawCmdBuf, rawRespBuf);
+
             if (lastResponseCode == TPM_RC.RETRY)
-            {
                 continue;
-            }
+
             if (lastResponseCode != TPM_RC.NV_RATE || ++nvRateRecoveryCount > 4)
-            {
                 break;
-            }
+
             // todo: Enable TPM property retrieval and sleep below, and remove the following break
             break;
             //System.out.println(">>>> NV_RATE: Retrying... Attempt " + nvRateRecoveryCount.toString());
@@ -354,60 +382,102 @@ public abstract class TpmBase implements Closeable
             throw new TpmException("Error" + expected + " expected, " +
                                    "but the TPM command " + cmdCode + " succeeded"); 
         }
-        
-        // This should be fine, but just to check
+
+        // Keep a copy of this before we clean out invocation state
+        boolean auditCommand = AuditCommand;
+
+        clearInvocationState();
+
+        // A check for the session tag consistency across the command invocation
+        // only makes sense when the command succeeds.
         if (respTag.toInt() != sessTag)
             throw new TpmException("Unexpected response tag " + respTag);
 
-        // first the handle, if there are any
-        // note that the response structure is fragmented, so we need to reconstruct it
-        // in respParmBuf if there are handles
-        TpmBuffer respParmBuf = new TpmBuffer();
-        
-        TPM_HANDLE outHandles[] = new TPM_HANDLE[numRespHandles];
-        for (int j=0; j < numRespHandles; j++)
+        if (resp == null)
+            resp = new RespStructure();  // use a placeholder to avoid null checks
+
+        if (resp.numHandles() > 0)
         {
-            outHandles[j] = TPM_HANDLE.fromTpm(respBuf);
-            outHandles[j].toTpm(respParmBuf);
+            assert(resp.numHandles() == 1);
+            resp.setHandle(TPM_HANDLE.fromTpm(respBuf));
         }
-        
-        byte[] responseWithoutHandles = null;
-        if (hasSessions)
+
+        boolean rpReady = false;
+        int     respParamsPos = 0,
+                respParamsSize = 0;
+
+        // If there are no sessions then response parameters take up the remaining part
+        // of the response buffer. Otherwise the response parameters area is preceded with
+        // its size, and followed by the session area.
+        if (respTag == TPM_ST.SESSIONS)
         {
-            int restOfParmSize = respBuf.readInt();
-            responseWithoutHandles = respBuf.readByteBuf(restOfParmSize);
-            respParmBuf.writeByteBuf(responseWithoutHandles);
+            respParamsSize = respBuf.readInt();
+            respParamsPos = respBuf.curPos();
+            rpReady = processRespSessions(respBuf, cmdCode, respParamsPos, respParamsSize);
         }
         else
         {
-            responseWithoutHandles = respBuf.readByteBuf(respSize - respBuf.curPos());
-            respParmBuf.writeByteBuf(responseWithoutHandles);
+            respParamsPos = respBuf.curPos();
+            respParamsSize = respBuf.size() - respParamsPos;
         }
-        
-        if(hasSessions)
+
+        if (auditCommand)
         {
-            processResponseSessions(respBuf);
+            byte[] rpHash = getRpHash(CommandAuditHash.hashAlg, respBuf,
+                                      cmdCode, respParamsPos, respParamsSize, rpReady);
+            CommandAuditHash.extend(Helpers.concatenate(AuditCpHash.digest, rpHash));
         }
-        
-        if(outParms!=null)
-        {
-            // the handles may've been fragmented in the TPM response, but we 
-            // put them back together
-            respParmBuf.curPos(0);
-            outParms.initFromTpm(respParmBuf);
-        }
+
+        // Now we can decrypt (if necessary) the first response parameter
+        doParmEncryption(resp, respBuf, respParamsPos, false);
+
+        // ... and unmarshall the whole response parameters area
+        respBuf.curPos(respParamsPos);
+        resp.initFromTpm(respBuf);
+        if (respBuf.curPos() != respParamsPos + respParamsSize)
+            throw new TpmException("Bad response parameters area");
+
+        // If there is a returned handle get a pointer to it. It is always the 
+        // first element in the structure.
+        updateRespHandle(cmdCode, resp);
+
+        Sessions = null;
+
     } finally {
-        AllowErrors = false;
-        ExpectedResponses = null;
+        clearInvocationState();
     }} // DispatchCommand()
     
-    
-    void processResponseSessions(TpmBuffer b)
+    void clearInvocationState()
+    {
+        AllowErrors = false;
+        ExpectedResponses = null;
+        AuditCommand = false;
+    }
+
+    byte[] GetCpHashData(TPM_CC cmdCode, byte[] cmdParams)
+    {
+        return null;
+    }
+
+    byte[] getRpHash(TPM_ALG_ID hashAlg, TpmBuffer respBuf, TPM_CC cmdCode,
+                     int respParamsPos, int respParamsSize, boolean rpReady)
+    {
+        return null;
+    }
+
+    void doParmEncryption(CmdStructure cmd, TpmBuffer paramBuf, int startPos, boolean request)
+    {
+    }
+
+    boolean processRespSessions(TpmBuffer b, TPM_CC cmdCode, int respParamsPos, int respParamsSize)
     {    
-        return;
+        return false;
     }
     
-    
+    void updateRespHandle(TPM_CC cc, RespStructure resp)
+    {
+    }
+
     /**
      * Clients can register for callbacks, e.g. after each TPM command is executed.
      * @param callback Reference to a TpmCallbackInterface implementation
@@ -423,28 +493,37 @@ public abstract class TpmBase implements Closeable
         device = null;
     }
 
-    
-    
+
+
+    //
+    // State persistent across commands
+    //
+
     TpmDevice device;
     TpmCallbackInterface callbackObject;
     
     TPM_RC lastResponseCode;
     
-    /**
-     * Suppresses exceptions in response to the next command failure
-     */
-    boolean AllowErrors;
+    TPMT_HA     CommandAuditHash;
+    TPMT_HA     AuditCpHash;
+
+    //
+    // Per-invocation state
+    //
+
+    /** Suppress exceptions in response to the next command failure */
+    boolean     AllowErrors = false;
+    boolean     AuditCommand = false;
     
-    /**
-     * List of expected errors for the next command invocation.
-     * If it contains TPM_RC.SUCCESS value, it is always the first item of the list.
+    /** List of allowed response codes for the next command invocation.
+     * 
+     *  If it contains TPM_RC.SUCCESS value, it is always the first item of the list.
      */
-    TPM_RC[] ExpectedResponses;
-    
+    TPM_RC[]    ExpectedResponses;
 
     TPM_HANDLE[] Sessions;
     //TPM_RC ErrorToExpect;
 
-    
-    
+    TPMT_HA     CpHash = null;
+
 }

@@ -8,20 +8,12 @@ import tss.*;
 //>>>
 
 /** This command is used to reload a context that has been saved by TPM2_ContextSave().  */
-public class ContextLoadResponse extends TpmStructure
+public class ContextLoadResponse extends RespStructure
 {
     /** The handle assigned to the resource after it has been successfully loaded  */
     public TPM_HANDLE handle;
     
     public ContextLoadResponse() { handle = new TPM_HANDLE(); }
-    
-    /** TpmMarshaller method  */
-    @Override
-    public void toTpm(TpmBuffer buf) { handle.toTpm(buf); }
-    
-    /** TpmMarshaller method  */
-    @Override
-    public void initFromTpm(TpmBuffer buf) { handle = TPM_HANDLE.fromTpm(buf); }
     
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
@@ -49,12 +41,18 @@ public class ContextLoadResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public TPM_HANDLE getHandle() { return handle; }
+    public void setHandle(TPM_HANDLE h) { handle = h; }
 }
 
 //<<<

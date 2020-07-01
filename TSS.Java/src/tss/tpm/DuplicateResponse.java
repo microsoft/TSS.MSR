@@ -11,7 +11,7 @@ import tss.*;
  *  hierarchy. The new parent key for the duplicate may be on the same or different TPM or
  *  TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
  */
-public class DuplicateResponse extends TpmStructure
+public class DuplicateResponse extends RespStructure
 {
     /** If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then
      *  this will be the Empty Buffer; otherwise, it shall contain the TPM-generated,
@@ -71,7 +71,7 @@ public class DuplicateResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -79,6 +79,9 @@ public class DuplicateResponse extends TpmStructure
         _p.add(d, "TPM2B_PRIVATE", "duplicate", duplicate);
         _p.add(d, "byte", "outSymSeed", outSymSeed);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

@@ -80,7 +80,7 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command indicates that the authorization will be limited to a specific locality.  */
-public class TPM2_PolicyLocality_REQUEST extends TpmStructure
+public class TPM2_PolicyLocality_REQUEST extends ReqStructure
 {
     /** Handle for the policy session being extended
      *  Auth Index: None
@@ -64,13 +64,19 @@ public class TPM2_PolicyLocality_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
         _p.add(d, "TPMA_LOCALITY", "locality", locality);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {policySession}; }
 }
 
 //<<<

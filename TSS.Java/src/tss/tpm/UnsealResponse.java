@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command returns the data in a loaded Sealed Data Object.  */
-public class UnsealResponse extends TpmStructure
+public class UnsealResponse extends RespStructure
 {
     /** Unsealed data
      *  Size of outData is limited to be no more than 128 octets.
@@ -51,12 +51,15 @@ public class UnsealResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "outData", outData);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

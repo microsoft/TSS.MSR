@@ -12,9 +12,11 @@ import java.util.*;
  */
 public final class TPMA_NV extends TpmAttribute<TPMA_NV>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPMA_NV. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using this.asEnum() method in the switch condition. However, their Java names
+     *  are identical to those of the constants defined in this class further below,
+     *  so for any other usage just prepend them with the 'TPMA_NV.' qualifier.
+     */
     public enum _N {
         /** SET (1): The Index data can be written if Platform Authorization is provided.
          *  CLEAR (0): Writing of the Index data cannot be authorized with Platform Authorization.
@@ -184,7 +186,7 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
     
     private static ValueMap<TPMA_NV> _ValueMap = new ValueMap<TPMA_NV>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_NV
         PPWRITE = new TPMA_NV(0x1, _N.PPWRITE),
         OWNERWRITE = new TPMA_NV(0x2, _N.OWNERWRITE),
@@ -219,29 +221,18 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
         READ_STCLEAR = new TPMA_NV(0x80000000, _N.READ_STCLEAR);
     
     public TPMA_NV () { super(0, _ValueMap); }
-    
     public TPMA_NV (int value) { super(value, _ValueMap); }
-    
     public TPMA_NV (TPMA_NV...attrs) { super(_ValueMap, attrs); }
-    
     public static TPMA_NV fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPMA_NV.class); }
-    
     public static TPMA_NV fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_NV.class); }
-    
     public static TPMA_NV fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_NV.class); }
-    
     public TPMA_NV._N asEnum() { return (TPMA_NV._N)NameAsEnum; }
-    
     public static Collection<TPMA_NV> values() { return _ValueMap.values(); }
-    
     public boolean hasAttr (TPMA_NV attr) { return super.hasAttr(attr); }
-    
     public TPMA_NV maskAttr (TPMA_NV attr) { return super.maskAttr(attr, _ValueMap, TPMA_NV.class); }
-    
     private TPMA_NV (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPMA_NV (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

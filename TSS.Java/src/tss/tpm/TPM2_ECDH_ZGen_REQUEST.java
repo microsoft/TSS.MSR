@@ -12,7 +12,7 @@ import tss.*;
  *  the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)
  *  [hds]QB; where h is the cofactor of the curve).
  */
-public class TPM2_ECDH_ZGen_REQUEST extends TpmStructure
+public class TPM2_ECDH_ZGen_REQUEST extends ReqStructure
 {
     /** Handle of a loaded ECC key
      *  Auth Index: 1
@@ -70,13 +70,22 @@ public class TPM2_ECDH_ZGen_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "keyHandle", keyHandle);
         _p.add(d, "TPMS_ECC_POINT", "inPoint", inPoint);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {keyHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

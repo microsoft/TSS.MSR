@@ -10,7 +10,7 @@ import tss.*;
 /** This command allows the authorization secret for a hierarchy or lockout to be changed
  *  using the current authorization value as the command authorization.
  */
-public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
+public class TPM2_HierarchyChangeAuth_REQUEST extends ReqStructure
 {
     /** TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *  Auth Index: 1
@@ -68,13 +68,22 @@ public class TPM2_HierarchyChangeAuth_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "byte", "newAuth", newAuth);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

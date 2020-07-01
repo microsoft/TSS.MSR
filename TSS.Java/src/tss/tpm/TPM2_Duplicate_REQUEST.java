@@ -11,7 +11,7 @@ import tss.*;
  *  hierarchy. The new parent key for the duplicate may be on the same or different TPM or
  *  TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
  */
-public class TPM2_Duplicate_REQUEST extends TpmStructure
+public class TPM2_Duplicate_REQUEST extends ReqStructure
 {
     /** Loaded object to duplicate
      *  Auth Index: 1
@@ -102,7 +102,7 @@ public class TPM2_Duplicate_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -111,6 +111,15 @@ public class TPM2_Duplicate_REQUEST extends TpmStructure
         _p.add(d, "byte", "encryptionKeyIn", encryptionKeyIn);
         _p.add(d, "TPMT_SYM_DEF_OBJECT", "symmetricAlg", symmetricAlg);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {objectHandle, newParentHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

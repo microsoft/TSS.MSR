@@ -10,7 +10,7 @@ import tss.*;
 /** This command performs RSA decryption using the indicated padding scheme according to
  *  IETF RFC 8017 ((PKCS#1).
  */
-public class RSA_DecryptResponse extends TpmStructure
+public class RSA_DecryptResponse extends RespStructure
 {
     /** Decrypted output  */
     public byte[] message;
@@ -51,12 +51,15 @@ public class RSA_DecryptResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "message", message);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

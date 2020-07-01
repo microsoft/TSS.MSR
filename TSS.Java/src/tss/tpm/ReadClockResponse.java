@@ -10,7 +10,7 @@ import tss.*;
 /** This command reads the current TPMS_TIME_INFO structure that contains the current
  *  setting of Time, Clock, resetCount, and restartCount.
  */
-public class ReadClockResponse extends TpmStructure
+public class ReadClockResponse extends RespStructure
 {
     public TPMS_TIME_INFO currentTime;
     
@@ -50,7 +50,7 @@ public class ReadClockResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

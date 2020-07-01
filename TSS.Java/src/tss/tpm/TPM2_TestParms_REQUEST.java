@@ -10,7 +10,7 @@ import tss.*;
 /** This command is used to check to see if specific combinations of algorithm parameters
  *  are supported.
  */
-public class TPM2_TestParms_REQUEST extends TpmStructure
+public class TPM2_TestParms_REQUEST extends ReqStructure
 {
     /** The algorithm to be tested  */
     public TPM_ALG_ID parametersType() { return parameters.GetUnionSelector(); }
@@ -70,7 +70,7 @@ public class TPM2_TestParms_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

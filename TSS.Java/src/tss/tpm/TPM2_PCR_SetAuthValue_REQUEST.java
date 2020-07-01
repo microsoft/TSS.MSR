@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command changes the authValue of a PCR or group of PCR.  */
-public class TPM2_PCR_SetAuthValue_REQUEST extends TpmStructure
+public class TPM2_PCR_SetAuthValue_REQUEST extends ReqStructure
 {
     /** Handle for a PCR that may have an authorization value set
      *  Auth Index: 1
@@ -66,13 +66,22 @@ public class TPM2_PCR_SetAuthValue_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "pcrHandle", pcrHandle);
         _p.add(d, "byte", "auth", auth);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {pcrHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

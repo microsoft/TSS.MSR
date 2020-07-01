@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command is used to change the authorization secret for a TPM-resident object.  */
-public class ObjectChangeAuthResponse extends TpmStructure
+public class ObjectChangeAuthResponse extends RespStructure
 {
     /** Private area containing the new authorization value  */
     public TPM2B_PRIVATE outPrivate;
@@ -49,7 +49,7 @@ public class ObjectChangeAuthResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

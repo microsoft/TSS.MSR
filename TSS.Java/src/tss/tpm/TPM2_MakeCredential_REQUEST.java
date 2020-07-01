@@ -10,7 +10,7 @@ import tss.*;
 /** This command allows the TPM to perform the actions required of a Certificate Authority
  *  (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
  */
-public class TPM2_MakeCredential_REQUEST extends TpmStructure
+public class TPM2_MakeCredential_REQUEST extends ReqStructure
 {
     /** Loaded public area, used to encrypt the sensitive area containing the credential key
      *  Auth Index: None
@@ -80,7 +80,7 @@ public class TPM2_MakeCredential_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -88,6 +88,15 @@ public class TPM2_MakeCredential_REQUEST extends TpmStructure
         _p.add(d, "byte", "credential", credential);
         _p.add(d, "byte", "objectName", objectName);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {handle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

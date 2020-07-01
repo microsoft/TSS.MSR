@@ -10,7 +10,7 @@ import tss.*;
 /** This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter
  *  is the first parameter. This permits inData to be parameter encrypted.
  */
-public class TPM2_EncryptDecrypt2_REQUEST extends TpmStructure
+public class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
 {
     /** The symmetric key used for the operation
      *  Auth Index: 1
@@ -102,7 +102,7 @@ public class TPM2_EncryptDecrypt2_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -112,6 +112,15 @@ public class TPM2_EncryptDecrypt2_REQUEST extends TpmStructure
         _p.add(d, "TPM_ALG_ID", "mode", mode);
         _p.add(d, "byte", "ivIn", ivIn);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {keyHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

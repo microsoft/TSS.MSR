@@ -14,9 +14,11 @@ import java.util.*;
  */
 public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPMA_PERMANENT. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using this.asEnum() method in the switch condition. However, their Java names
+     *  are identical to those of the constants defined in this class further below,
+     *  so for any other usage just prepend them with the 'TPMA_PERMANENT.' qualifier.
+     */
     public enum _N {
         /** SET (1): TPM2_HierarchyChangeAuth() with ownerAuth has been executed since the last TPM2_Clear().
          *  CLEAR (0): ownerAuth has not been changed since TPM2_Clear().
@@ -52,7 +54,7 @@ public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
     
     private static ValueMap<TPMA_PERMANENT> _ValueMap = new ValueMap<TPMA_PERMANENT>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_PERMANENT
         ownerAuthSet = new TPMA_PERMANENT(0x1, _N.ownerAuthSet),
         endorsementAuthSet = new TPMA_PERMANENT(0x2, _N.endorsementAuthSet),
@@ -62,29 +64,18 @@ public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
         tpmGeneratedEPS = new TPMA_PERMANENT(0x400, _N.tpmGeneratedEPS);
     
     public TPMA_PERMANENT () { super(0, _ValueMap); }
-    
     public TPMA_PERMANENT (int value) { super(value, _ValueMap); }
-    
     public TPMA_PERMANENT (TPMA_PERMANENT...attrs) { super(_ValueMap, attrs); }
-    
     public static TPMA_PERMANENT fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPMA_PERMANENT.class); }
-    
     public static TPMA_PERMANENT fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_PERMANENT.class); }
-    
     public static TPMA_PERMANENT fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_PERMANENT.class); }
-    
     public TPMA_PERMANENT._N asEnum() { return (TPMA_PERMANENT._N)NameAsEnum; }
-    
     public static Collection<TPMA_PERMANENT> values() { return _ValueMap.values(); }
-    
     public boolean hasAttr (TPMA_PERMANENT attr) { return super.hasAttr(attr); }
-    
     public TPMA_PERMANENT maskAttr (TPMA_PERMANENT attr) { return super.maskAttr(attr, _ValueMap, TPMA_PERMANENT.class); }
-    
     private TPMA_PERMANENT (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPMA_PERMANENT (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

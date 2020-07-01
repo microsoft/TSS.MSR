@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command is used to quote PCR values.  */
-public class QuoteResponse extends TpmStructure
+public class QuoteResponse extends RespStructure
 {
     /** The quoted information  */
     public TPMS_ATTEST quoted;
@@ -66,13 +66,16 @@ public class QuoteResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ATTEST", "quoted", quoted);
         _p.add(d, "TPMU_SIGNATURE", "signature", signature);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

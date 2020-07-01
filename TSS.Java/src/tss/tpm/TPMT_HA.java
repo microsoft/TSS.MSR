@@ -83,7 +83,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command is used to add "additional information" to the RNG state.  */
-public class TPM2_StirRandom_REQUEST extends TpmStructure
+public class TPM2_StirRandom_REQUEST extends ReqStructure
 {
     /** Additional information  */
     public byte[] inData;
@@ -52,12 +52,15 @@ public class TPM2_StirRandom_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "inData", inData);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().  */
-public class NV_ReadResponse extends TpmStructure
+public class NV_ReadResponse extends RespStructure
 {
     /** The data read  */
     public byte[] data;
@@ -49,12 +49,15 @@ public class NV_ReadResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "data", data);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

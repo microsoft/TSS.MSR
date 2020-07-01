@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command changes the lockout parameters.  */
-public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
+public class TPM2_DictionaryAttackParameters_REQUEST extends ReqStructure
 {
     /** TPM_RH_LOCKOUT
      *  Auth Index: 1
@@ -94,7 +94,7 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -103,6 +103,12 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends TpmStructure
         _p.add(d, "int", "newRecoveryTime", newRecoveryTime);
         _p.add(d, "int", "lockoutRecovery", lockoutRecovery);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {lockHandle}; }
 }
 
 //<<<

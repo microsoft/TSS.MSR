@@ -74,7 +74,7 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

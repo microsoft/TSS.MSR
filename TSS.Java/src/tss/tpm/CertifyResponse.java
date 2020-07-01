@@ -13,7 +13,7 @@ import tss.*;
  *  If a relying party has a public area that has the same Name as a Name certified with
  *  this command, then the values in that public area are correct.
  */
-public class CertifyResponse extends TpmStructure
+public class CertifyResponse extends RespStructure
 {
     /** The structure that was signed  */
     public TPMS_ATTEST certifyInfo;
@@ -71,13 +71,16 @@ public class CertifyResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ATTEST", "certifyInfo", certifyInfo);
         _p.add(d, "TPMU_SIGNATURE", "signature", signature);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

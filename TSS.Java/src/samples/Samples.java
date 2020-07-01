@@ -38,8 +38,6 @@ public class Samples
     
     public void doAll(String[] args) 
     {
-        DrsClient.runProvisioningSequence(tpm);
-        
         // Remove dangling TPM handles in case the previous run was prematurely terminated
         cleanSlots(TPM_HT.TRANSIENT);
         cleanSlots(TPM_HT.LOADED_SESSION);

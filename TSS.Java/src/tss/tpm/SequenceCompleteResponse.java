@@ -10,7 +10,7 @@ import tss.*;
 /** This command adds the last part of data, if any, to a hash/HMAC sequence and returns
  *  the result.
  */
-public class SequenceCompleteResponse extends TpmStructure
+public class SequenceCompleteResponse extends RespStructure
 {
     /** The returned HMAC or digest in a sized buffer  */
     public byte[] result;
@@ -65,13 +65,16 @@ public class SequenceCompleteResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "result", result);
         _p.add(d, "TPMT_TK_HASHCHECK", "validation", validation);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

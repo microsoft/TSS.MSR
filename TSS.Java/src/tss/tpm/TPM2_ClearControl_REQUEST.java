@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** TPM2_ClearControl() disables and enables the execution of TPM2_Clear().  */
-public class TPM2_ClearControl_REQUEST extends TpmStructure
+public class TPM2_ClearControl_REQUEST extends ReqStructure
 {
     /** TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
      *  Auth Handle: 1
@@ -67,13 +67,19 @@ public class TPM2_ClearControl_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "auth", auth);
         _p.add(d, "byte", "disable", disable);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {auth}; }
 }
 
 //<<<

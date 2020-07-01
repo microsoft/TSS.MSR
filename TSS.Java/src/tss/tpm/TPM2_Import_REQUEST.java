@@ -12,7 +12,7 @@ import tss.*;
  *  hierarchy. The imported object (duplicate) may be singly encrypted, multiply
  *  encrypted, or unencrypted.
  */
-public class TPM2_Import_REQUEST extends TpmStructure
+public class TPM2_Import_REQUEST extends ReqStructure
 {
     /** The handle of the new parent for the object
      *  Auth Index: 1
@@ -126,7 +126,7 @@ public class TPM2_Import_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -137,6 +137,15 @@ public class TPM2_Import_REQUEST extends TpmStructure
         _p.add(d, "byte", "inSymSeed", inSymSeed);
         _p.add(d, "TPMT_SYM_DEF_OBJECT", "symmetricAlg", symmetricAlg);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {parentHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

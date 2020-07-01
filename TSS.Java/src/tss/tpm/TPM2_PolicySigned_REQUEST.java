@@ -10,7 +10,7 @@ import tss.*;
 /** This command includes a signed authorization in a policy. The command ties the policy
  *  to a signing key by including the Name of the signing key in the policyDigest
  */
-public class TPM2_PolicySigned_REQUEST extends TpmStructure
+public class TPM2_PolicySigned_REQUEST extends ReqStructure
 {
     /** Handle for a key that will validate the signature
      *  Auth Index: None
@@ -139,7 +139,7 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -151,6 +151,15 @@ public class TPM2_PolicySigned_REQUEST extends TpmStructure
         _p.add(d, "int", "expiration", expiration);
         _p.add(d, "TPMU_SIGNATURE", "auth", auth);
     }
+
+    @Override
+    public int numHandles() { return 2; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authObject, policySession}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

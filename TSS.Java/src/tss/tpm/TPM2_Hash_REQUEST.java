@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command performs a hash operation on a data buffer and returns the results.  */
-public class TPM2_Hash_REQUEST extends TpmStructure
+public class TPM2_Hash_REQUEST extends ReqStructure
 {
     /** Data to be hashed  */
     public byte[] data;
@@ -80,7 +80,7 @@ public class TPM2_Hash_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -88,6 +88,9 @@ public class TPM2_Hash_REQUEST extends TpmStructure
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

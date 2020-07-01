@@ -10,7 +10,7 @@ import tss.*;
 /** This command is used to load an object that is not a Protected Object into the TPM.
  *  The command allows loading of a public area or both a public and sensitive area.
  */
-public class TPM2_LoadExternal_REQUEST extends TpmStructure
+public class TPM2_LoadExternal_REQUEST extends ReqStructure
 {
     /** The sensitive portion of the object (optional)  */
     public TPMT_SENSITIVE inPrivate;
@@ -78,7 +78,7 @@ public class TPM2_LoadExternal_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -86,6 +86,9 @@ public class TPM2_LoadExternal_REQUEST extends TpmStructure
         _p.add(d, "TPMT_PUBLIC", "inPublic", inPublic);
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

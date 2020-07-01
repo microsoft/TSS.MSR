@@ -10,7 +10,7 @@ import tss.*;
 /** This command returns manufacturer-specific information regarding the results of a
  *  self-test and an indication of the test status.
  */
-public class TPM2_GetTestResult_REQUEST extends TpmStructure
+public class TPM2_GetTestResult_REQUEST extends ReqStructure
 {
     public TPM2_GetTestResult_REQUEST() {}
     

@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command is used to allow a policy to be bound to a specific command and command parameters.  */
-public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
+public class TPM2_PolicyCpHash_REQUEST extends ReqStructure
 {
     /** Handle for the policy session being extended
      *  Auth Index: None
@@ -64,13 +64,22 @@ public class TPM2_PolicyCpHash_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
         _p.add(d, "byte", "cpHashA", cpHashA);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {policySession}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

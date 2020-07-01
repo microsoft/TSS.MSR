@@ -12,9 +12,11 @@ import java.util.*;
  */
 public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPMA_OBJECT. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using this.asEnum() method in the switch condition. However, their Java names
+     *  are identical to those of the constants defined in this class further below,
+     *  so for any other usage just prepend them with the 'TPMA_OBJECT.' qualifier.
+     */
     public enum _N {
         /** SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change.
          *  CLEAR (0): The hierarchy of the object may change as a result of this object or an
@@ -98,7 +100,7 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
     
     private static ValueMap<TPMA_OBJECT> _ValueMap = new ValueMap<TPMA_OBJECT>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_OBJECT
         fixedTPM = new TPMA_OBJECT(0x2, _N.fixedTPM),
         stClear = new TPMA_OBJECT(0x4, _N.stClear),
@@ -115,29 +117,18 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
         x509sign = new TPMA_OBJECT(0x80000, _N.x509sign);
     
     public TPMA_OBJECT () { super(0, _ValueMap); }
-    
     public TPMA_OBJECT (int value) { super(value, _ValueMap); }
-    
     public TPMA_OBJECT (TPMA_OBJECT...attrs) { super(_ValueMap, attrs); }
-    
     public static TPMA_OBJECT fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPMA_OBJECT.class); }
-    
     public static TPMA_OBJECT fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_OBJECT.class); }
-    
     public static TPMA_OBJECT fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_OBJECT.class); }
-    
     public TPMA_OBJECT._N asEnum() { return (TPMA_OBJECT._N)NameAsEnum; }
-    
     public static Collection<TPMA_OBJECT> values() { return _ValueMap.values(); }
-    
     public boolean hasAttr (TPMA_OBJECT attr) { return super.hasAttr(attr); }
-    
     public TPMA_OBJECT maskAttr (TPMA_OBJECT attr) { return super.maskAttr(attr, _ValueMap, TPMA_OBJECT.class); }
-    
     private TPMA_OBJECT (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPMA_OBJECT (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

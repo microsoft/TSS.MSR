@@ -10,7 +10,7 @@ import tss.*;
 /** This command is used to set the desired PCR allocation of PCR and algorithms. This
  *  command requires Platform Authorization.
  */
-public class PCR_AllocateResponse extends TpmStructure
+public class PCR_AllocateResponse extends RespStructure
 {
     /** YES if the allocation succeeded  */
     public byte allocationSuccess;
@@ -72,7 +72,7 @@ public class PCR_AllocateResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

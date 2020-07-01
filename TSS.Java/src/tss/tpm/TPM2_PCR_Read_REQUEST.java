@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command returns the values of all PCR specified in pcrSelectionIn.  */
-public class TPM2_PCR_Read_REQUEST extends TpmStructure
+public class TPM2_PCR_Read_REQUEST extends ReqStructure
 {
     /** The selection of PCR to read  */
     public TPMS_PCR_SELECTION[] pcrSelectionIn;
@@ -52,12 +52,15 @@ public class TPM2_PCR_Read_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_PCR_SELECTION", "pcrSelectionIn", pcrSelectionIn);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(4, 3); }
 }
 
 //<<<

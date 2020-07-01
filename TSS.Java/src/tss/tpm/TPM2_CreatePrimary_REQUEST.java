@@ -13,7 +13,7 @@ import tss.*;
  *  consistency with the other object parameters. The command will create and load a
  *  Primary Object. The sensitive area is not returned.
  */
-public class TPM2_CreatePrimary_REQUEST extends TpmStructure
+public class TPM2_CreatePrimary_REQUEST extends ReqStructure
 {
     /** TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
      *  Auth Index: 1
@@ -102,7 +102,7 @@ public class TPM2_CreatePrimary_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -112,6 +112,15 @@ public class TPM2_CreatePrimary_REQUEST extends TpmStructure
         _p.add(d, "byte", "outsideInfo", outsideInfo);
         _p.add(d, "TPMS_PCR_SELECTION", "creationPCR", creationPCR);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {primaryHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

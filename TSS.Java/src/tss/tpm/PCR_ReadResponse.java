@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command returns the values of all PCR specified in pcrSelectionIn.  */
-public class PCR_ReadResponse extends TpmStructure
+public class PCR_ReadResponse extends RespStructure
 {
     /** The current value of the PCR update counter  */
     public int pcrUpdateCounter;
@@ -65,7 +65,7 @@ public class PCR_ReadResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

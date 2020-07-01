@@ -10,7 +10,7 @@ import tss.*;
 /** This command returns the current policyDigest of the session. This command allows the
  *  TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
  */
-public class PolicyGetDigestResponse extends TpmStructure
+public class PolicyGetDigestResponse extends RespStructure
 {
     /** The current value of the policySessionpolicyDigest  */
     public byte[] policyDigest;
@@ -51,12 +51,15 @@ public class PolicyGetDigestResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "policyDigest", policyDigest);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

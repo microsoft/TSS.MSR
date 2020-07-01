@@ -12,7 +12,7 @@ import tss.*;
  *  signing values. The signHandle parameter shall refer to an ECC key and the signing
  *  scheme must be anonymous (TPM_RC_SCHEME).
  */
-public class CommitResponse extends TpmStructure
+public class CommitResponse extends RespStructure
 {
     /** ECC point K [ds](x2, y2)  */
     public TPMS_ECC_POINT K;
@@ -74,7 +74,7 @@ public class CommitResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -83,6 +83,9 @@ public class CommitResponse extends TpmStructure
         _p.add(d, "TPMS_ECC_POINT", "E", E);
         _p.add(d, "int", "counter", counter);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

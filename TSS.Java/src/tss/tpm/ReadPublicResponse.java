@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command allows access to the public area of a loaded object.  */
-public class ReadPublicResponse extends TpmStructure
+public class ReadPublicResponse extends RespStructure
 {
     /** Structure containing the public area of an object  */
     public TPMT_PUBLIC outPublic;
@@ -65,7 +65,7 @@ public class ReadPublicResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -73,6 +73,9 @@ public class ReadPublicResponse extends TpmStructure
         _p.add(d, "byte", "name", name);
         _p.add(d, "byte", "qualifiedName", qualifiedName);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

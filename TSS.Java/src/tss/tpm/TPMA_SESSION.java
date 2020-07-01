@@ -12,9 +12,11 @@ import java.util.*;
  */
 public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPMA_SESSION. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using this.asEnum() method in the switch condition. However, their Java names
+     *  are identical to those of the constants defined in this class further below,
+     *  so for any other usage just prepend them with the 'TPMA_SESSION.' qualifier.
+     */
     public enum _N {
         /** SET (1): In a command, this setting indicates that the session is to remain active
          *  after successful completion of the command. In a response, it indicates that the
@@ -86,7 +88,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
     
     private static ValueMap<TPMA_SESSION> _ValueMap = new ValueMap<TPMA_SESSION>();
     
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_SESSION
         continueSession = new TPMA_SESSION(0x1, _N.continueSession),
         auditExclusive = new TPMA_SESSION(0x2, _N.auditExclusive),
@@ -96,29 +98,18 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
         audit = new TPMA_SESSION(0x80, _N.audit);
     
     public TPMA_SESSION () { super(0, _ValueMap); }
-    
     public TPMA_SESSION (int value) { super(value, _ValueMap); }
-    
     public TPMA_SESSION (TPMA_SESSION...attrs) { super(_ValueMap, attrs); }
-    
     public static TPMA_SESSION fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPMA_SESSION.class); }
-    
     public static TPMA_SESSION fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_SESSION.class); }
-    
     public static TPMA_SESSION fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPMA_SESSION.class); }
-    
     public TPMA_SESSION._N asEnum() { return (TPMA_SESSION._N)NameAsEnum; }
-    
     public static Collection<TPMA_SESSION> values() { return _ValueMap.values(); }
-    
     public boolean hasAttr (TPMA_SESSION attr) { return super.hasAttr(attr); }
-    
     public TPMA_SESSION maskAttr (TPMA_SESSION attr) { return super.maskAttr(attr, _ValueMap, TPMA_SESSION.class); }
-    
     private TPMA_SESSION (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPMA_SESSION (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 1; }
 }

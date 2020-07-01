@@ -27,25 +27,16 @@ public final class SHA3_256 extends TpmEnum<SHA3_256>
     public static final SHA3_256
         DIGEST_SIZE = new SHA3_256(32, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA3_256(136, _N.BLOCK_SIZE);
-    
     public SHA3_256 () { super(0, _ValueMap); }
-    
     public SHA3_256 (int value) { super(value, _ValueMap); }
-    
     public static SHA3_256 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SHA3_256.class); }
-    
     public static SHA3_256 fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, SHA3_256.class); }
-    
     public static SHA3_256 fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, SHA3_256.class); }
-    
     public SHA3_256._N asEnum() { return (SHA3_256._N)NameAsEnum; }
-    
     public static Collection<SHA3_256> values() { return _ValueMap.values(); }
-    
     private SHA3_256 (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private SHA3_256 (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

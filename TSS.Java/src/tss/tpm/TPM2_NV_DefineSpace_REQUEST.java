@@ -11,7 +11,7 @@ import tss.*;
  *  to hold the data associated with the NV Index. If a definition already exists at the
  *  NV Index, the TPM will return TPM_RC_NV_DEFINED.
  */
-public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
+public class TPM2_NV_DefineSpace_REQUEST extends ReqStructure
 {
     /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *  Auth Index: 1
@@ -82,7 +82,7 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -90,6 +90,15 @@ public class TPM2_NV_DefineSpace_REQUEST extends TpmStructure
         _p.add(d, "byte", "auth", auth);
         _p.add(d, "TPMS_NV_PUBLIC", "publicInfo", publicInfo);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

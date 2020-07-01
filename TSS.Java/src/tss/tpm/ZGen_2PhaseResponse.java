@@ -12,7 +12,7 @@ import tss.*;
  *  and returns the public point of that ephemeral key along with a numeric value that
  *  allows the TPM to regenerate the associated private key.
  */
-public class ZGen_2PhaseResponse extends TpmStructure
+public class ZGen_2PhaseResponse extends RespStructure
 {
     /** X and Y coordinates of the computed value (scheme dependent)  */
     public TPMS_ECC_POINT outZ1;
@@ -64,13 +64,16 @@ public class ZGen_2PhaseResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ECC_POINT", "outZ1", outZ1);
         _p.add(d, "TPMS_ECC_POINT", "outZ2", outZ2);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

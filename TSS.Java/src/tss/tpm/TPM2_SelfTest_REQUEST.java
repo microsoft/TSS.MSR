@@ -11,7 +11,7 @@ import tss.*;
  *  YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those
  *  functions that have not previously been tested.
  */
-public class TPM2_SelfTest_REQUEST extends TpmStructure
+public class TPM2_SelfTest_REQUEST extends ReqStructure
 {
     /** YES if full test to be performed
      *  NO if only test of untested functions required
@@ -59,7 +59,7 @@ public class TPM2_SelfTest_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -39,25 +39,16 @@ public final class TPM_SPEC extends TpmEnum<TPM_SPEC>
         VERSION = new TPM_SPEC(162, _N.VERSION),
         YEAR = new TPM_SPEC(2019, _N.YEAR),
         DAY_OF_YEAR = new TPM_SPEC(360, _N.DAY_OF_YEAR);
-    
     public TPM_SPEC () { super(0, _ValueMap); }
-    
     public TPM_SPEC (int value) { super(value, _ValueMap); }
-    
     public static TPM_SPEC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_SPEC.class); }
-    
     public static TPM_SPEC fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_SPEC.class); }
-    
     public static TPM_SPEC fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_SPEC.class); }
-    
     public TPM_SPEC._N asEnum() { return (TPM_SPEC._N)NameAsEnum; }
-    
     public static Collection<TPM_SPEC> values() { return _ValueMap.values(); }
-    
     private TPM_SPEC (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_SPEC (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 4; }
 }

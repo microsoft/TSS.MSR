@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command performs an HMAC on the supplied data using the indicated hash algorithm.  */
-public class HMACResponse extends TpmStructure
+public class HMACResponse extends RespStructure
 {
     /** The returned HMAC in a sized buffer  */
     public byte[] outHMAC;
@@ -49,12 +49,15 @@ public class HMACResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "outHMAC", outHMAC);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

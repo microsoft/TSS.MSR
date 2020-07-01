@@ -11,7 +11,7 @@ import tss.*;
  *  It uses the private ephemeral key and a loaded public key (QS) to compute the shared
  *  secret value (P [hde]QS).
  */
-public class TPM2_ECDH_KeyGen_REQUEST extends TpmStructure
+public class TPM2_ECDH_KeyGen_REQUEST extends ReqStructure
 {
     /** Handle of a loaded ECC key public area.
      *  Auth Index: None
@@ -51,12 +51,18 @@ public class TPM2_ECDH_KeyGen_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "keyHandle", keyHandle);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {keyHandle}; }
 }
 
 //<<<

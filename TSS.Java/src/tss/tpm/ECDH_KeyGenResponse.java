@@ -11,7 +11,7 @@ import tss.*;
  *  It uses the private ephemeral key and a loaded public key (QS) to compute the shared
  *  secret value (P [hde]QS).
  */
-public class ECDH_KeyGenResponse extends TpmStructure
+public class ECDH_KeyGenResponse extends RespStructure
 {
     /** Results of P h[de]Qs  */
     public TPMS_ECC_POINT zPoint;
@@ -63,13 +63,16 @@ public class ECDH_KeyGenResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ECC_POINT", "zPoint", zPoint);
         _p.add(d, "TPMS_ECC_POINT", "pubPoint", pubPoint);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

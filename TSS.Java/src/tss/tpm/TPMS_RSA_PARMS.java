@@ -124,7 +124,7 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

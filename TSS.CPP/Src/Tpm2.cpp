@@ -301,6 +301,7 @@ bool Tpm2::DispatchOut(TPM_CC cmdCode, ReqStructure& req)
         cmdBuf.writeNumAtPos(cmdBuf.curPos() - authSizePos - 4, authSizePos);
     }
 
+    // Write marshaled command params to the command buffer
     cmdBuf.writeByteBuf(paramBuf.buffer());
 
     // Finally, set the command buffer size
@@ -358,13 +359,13 @@ bool Tpm2::DispatchIn(TPM_CC cmdCode, RespStructure& resp)
 
     // Read the response header
     TPM_ST respTag = respBuf.readShort();
-    UINT32 respLen = respBuf.readInt();
+    UINT32 respSize = respBuf.readInt();
     TPM_RC respCode = respBuf.readInt();
 
-    size_t actRespLen = respBuf.buffer().size();
-    if (respLen != actRespLen)
-        throw runtime_error("Inconsistent TPM response buffer: " + to_string(respLen) + 
-                            " B reported, " + to_string(actRespLen) + " B received");
+    size_t actRespSize = respBuf.size();
+    if (respSize != actRespSize)
+        throw runtime_error("Inconsistent TPM response buffer: " + to_string(respSize) + 
+                            " B reported, " + to_string(actRespSize) + " B received");
 
     if (respCode == TPM_RC::RETRY)
         return false;
@@ -420,7 +421,8 @@ bool Tpm2::DispatchIn(TPM_CC cmdCode, RespStructure& resp)
         return true;
     }
 
-    // This check only makes sense if the command returned TPM_RC::SUCCESS
+    // A check for the session tag consistency across the command invocation
+    // only makes sense when the command succeeds.
     if (SessTag != respTag)
         throw runtime_error("Wrong response session tag");
 
@@ -440,8 +442,8 @@ bool Tpm2::DispatchIn(TPM_CC cmdCode, RespStructure& resp)
             respParamsSize = 0;
 
     // If there are no sessions then response parameters take up the remaining part
-    // of the response buffer. Otherwise the response parameters are preceded by their
-    // size, and followed by the session area.
+    // of the response buffer. Otherwise the response parameters area is preceded with
+    // its size, and followed by the session area.
     if (SessTag == TPM_ST::SESSIONS)
     {
         respParamsSize = respBuf.readInt();
@@ -451,7 +453,7 @@ bool Tpm2::DispatchIn(TPM_CC cmdCode, RespStructure& resp)
     else
     {
         respParamsPos = respBuf.curPos();
-        respParamsSize = rawRespBuf.size() - respParamsPos;
+        respParamsSize = respBuf.size() - respParamsPos;
     }
 
     if (auditCommand)

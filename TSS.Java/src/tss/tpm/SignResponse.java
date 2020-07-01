@@ -10,7 +10,7 @@ import tss.*;
 /** This command causes the TPM to sign an externally provided hash with the specified
  *  symmetric or asymmetric signing key.
  */
-public class SignResponse extends TpmStructure
+public class SignResponse extends RespStructure
 {
     /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
@@ -64,7 +64,7 @@ public class SignResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

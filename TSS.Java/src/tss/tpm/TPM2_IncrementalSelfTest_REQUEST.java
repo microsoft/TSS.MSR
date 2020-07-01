@@ -8,7 +8,7 @@ import tss.*;
 //>>>
 
 /** This command causes the TPM to perform a test of the selected algorithms.  */
-public class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
+public class TPM2_IncrementalSelfTest_REQUEST extends ReqStructure
 {
     /** List of algorithms that should be tested  */
     public TPM_ALG_ID[] toTest;
@@ -52,12 +52,15 @@ public class TPM2_IncrementalSelfTest_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "toTest", toTest);
     }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(4, 2); }
 }
 
 //<<<

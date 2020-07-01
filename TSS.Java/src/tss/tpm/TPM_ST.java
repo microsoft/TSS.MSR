@@ -115,25 +115,16 @@ public final class TPM_ST extends TpmEnum<TPM_ST>
         HASHCHECK = new TPM_ST(0x8024, _N.HASHCHECK),
         AUTH_SIGNED = new TPM_ST(0x8025, _N.AUTH_SIGNED),
         FU_MANIFEST = new TPM_ST(0x8029, _N.FU_MANIFEST);
-    
     public TPM_ST () { super(0, _ValueMap); }
-    
     public TPM_ST (int value) { super(value, _ValueMap); }
-    
     public static TPM_ST fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_ST.class); }
-    
     public static TPM_ST fromTpm (byte[] buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_ST.class); }
-    
     public static TPM_ST fromTpm (TpmBuffer buf) { return TpmEnum.fromTpm(buf, _ValueMap, TPM_ST.class); }
-    
     public TPM_ST._N asEnum() { return (TPM_ST._N)NameAsEnum; }
-    
     public static Collection<TPM_ST> values() { return _ValueMap.values(); }
-    
     private TPM_ST (int value, _N nameAsEnum) { super(value, nameAsEnum, _ValueMap); }
-    
     private TPM_ST (int value, _N nameAsEnum, boolean noConvFromInt) { super(value, nameAsEnum, null); }
-    
+
     @Override
     protected int wireSize() { return 2; }
 }

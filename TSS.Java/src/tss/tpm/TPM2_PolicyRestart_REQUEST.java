@@ -14,7 +14,7 @@ import tss.*;
  *  replayed because the session restarts with the same nonceTPM. If the PCR are valid for
  *  the policy, the policy may then succeed.
  */
-public class TPM2_PolicyRestart_REQUEST extends TpmStructure
+public class TPM2_PolicyRestart_REQUEST extends ReqStructure
 {
     /** The handle for the policy session  */
     public TPM_HANDLE sessionHandle;
@@ -50,12 +50,18 @@ public class TPM2_PolicyRestart_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "sessionHandle", sessionHandle);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {sessionHandle}; }
 }
 
 //<<<

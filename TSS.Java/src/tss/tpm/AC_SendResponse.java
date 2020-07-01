@@ -10,7 +10,7 @@ import tss.*;
 /** The purpose of this command is to send (copy) a loaded object from the TPM to an
  *  Attached Component.
  */
-public class AC_SendResponse extends TpmStructure
+public class AC_SendResponse extends RespStructure
 {
     /** May include AC specific data or information about an error.  */
     public TPMS_AC_OUTPUT acDataOut;
@@ -51,7 +51,7 @@ public class AC_SendResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {

@@ -11,7 +11,7 @@ import tss.*;
  *  being bound to the parameters of the command. This is most useful for commands such as
  *  TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
  */
-public class TPM2_PolicyNameHash_REQUEST extends TpmStructure
+public class TPM2_PolicyNameHash_REQUEST extends ReqStructure
 {
     /** Handle for the policy session being extended
      *  Auth Index: None
@@ -67,13 +67,22 @@ public class TPM2_PolicyNameHash_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
         _p.add(d, "byte", "nameHash", nameHash);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 0; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {policySession}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

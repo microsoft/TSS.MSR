@@ -10,7 +10,7 @@ import tss.*;
 /** This command causes the TPM to sign an externally provided hash with the specified
  *  symmetric or asymmetric signing key.
  */
-public class TPM2_Sign_REQUEST extends TpmStructure
+public class TPM2_Sign_REQUEST extends ReqStructure
 {
     /** Handle of key that will perform signing
      *  Auth Index: 1
@@ -102,7 +102,7 @@ public class TPM2_Sign_REQUEST extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
@@ -111,6 +111,15 @@ public class TPM2_Sign_REQUEST extends TpmStructure
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
         _p.add(d, "TPMT_TK_HASHCHECK", "validation", validation);
     }
+
+    @Override
+    public int numHandles() { return 1; }
+    
+    public int numAuthHandles() { return 1; }
+    public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {keyHandle}; }
+
+    @Override
+    public SessEncInfo sessEncInfo() { return new SessEncInfo(2, 1); }
 }
 
 //<<<

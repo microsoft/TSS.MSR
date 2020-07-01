@@ -10,7 +10,7 @@ import tss.*;
 /** This command uses loaded keys to validate a signature on a message with the message
  *  digest passed to the TPM.
  */
-public class VerifySignatureResponse extends TpmStructure
+public class VerifySignatureResponse extends RespStructure
 {
     public TPMT_TK_VERIFIED validation;
     
@@ -50,7 +50,7 @@ public class VerifySignatureResponse extends TpmStructure
         _p.endStruct();
         return _p.toString();
     }
-    
+
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
