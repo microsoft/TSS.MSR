@@ -124,8 +124,11 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
 
     @Override
     public int numHandles() { return 3; }
-    
+
+    @Override
     public int numAuthHandles() { return 2; }
+
+    @Override
     public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {privacyAdminHandle, signHandle, sessionHandle}; }
 
     @Override

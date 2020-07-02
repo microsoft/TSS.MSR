@@ -105,8 +105,11 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends ReqStructure
 
     @Override
     public int numHandles() { return 1; }
-    
+
+    @Override
     public int numAuthHandles() { return 1; }
+
+    @Override
     public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {authHandle}; }
 
     @Override

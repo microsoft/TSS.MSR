@@ -90,8 +90,11 @@ public class TPM2_AC_GetCapability_REQUEST extends ReqStructure
 
     @Override
     public int numHandles() { return 1; }
-    
+
+    @Override
     public int numAuthHandles() { return 0; }
+
+    @Override
     public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {ac}; }
 }
 

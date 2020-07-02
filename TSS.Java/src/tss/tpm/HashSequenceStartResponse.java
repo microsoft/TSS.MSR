@@ -54,8 +54,11 @@ public class HashSequenceStartResponse extends RespStructure
 
     @Override
     public int numHandles() { return 1; }
-    
+
+    @Override
     public TPM_HANDLE getHandle() { return handle; }
+
+    @Override
     public void setHandle(TPM_HANDLE h) { handle = h; }
 }
 

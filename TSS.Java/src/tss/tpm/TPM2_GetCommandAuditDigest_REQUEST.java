@@ -117,8 +117,11 @@ public class TPM2_GetCommandAuditDigest_REQUEST extends ReqStructure
 
     @Override
     public int numHandles() { return 2; }
-    
+
+    @Override
     public int numAuthHandles() { return 2; }
+
+    @Override
     public TPM_HANDLE[] getHandles() { return new TPM_HANDLE[] {privacyHandle, signHandle}; }
 
     @Override
