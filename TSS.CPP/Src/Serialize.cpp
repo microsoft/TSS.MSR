@@ -247,19 +247,19 @@ uint32_t TextSerializer::readEnum(size_t enumID)
     return ReadEnum(enumID);
 }
 
-void TextSerializer::writeObj(const ISerializable& obj)
+void TextSerializer::writeObj(const Serializable& obj)
 {
     BeginWriteNamedEntry(true);
     WriteObj(obj);
 }
 
-void TextSerializer::readObj(ISerializable& obj)
+void TextSerializer::readObj(Serializable& obj)
 {
     BeginReadNamedEntry();
     ReadObj(obj);
 }
 
-void TextSerializer::writeObjArr(const vector_of_bases<ISerializable>& arr)
+void TextSerializer::writeObjArr(const vector_of_bases<Serializable>& arr)
 {
     WriteArrSize(arr.size());
     BeginWriteNamedEntry();
@@ -269,7 +269,7 @@ void TextSerializer::writeObjArr(const vector_of_bases<ISerializable>& arr)
     EndWriteArr(arr.size() != 0);
 }
 
-void TextSerializer::readObjArr(vector_of_bases<ISerializable>&& arr)
+void TextSerializer::readObjArr(vector_of_bases<Serializable>&& arr)
 {
     size_t size = ReadArrSize();
     arr.resize(size);
@@ -377,14 +377,14 @@ uint32_t JsonSerializer::ReadEnum(size_t /*enumID*/)
     return (uint32_t)ReadNum();
 }
 
-void JsonSerializer::WriteObj(const ISerializable& obj)
+void JsonSerializer::WriteObj(const Serializable& obj)
 {
     BeginWriteObj();
     obj.Serialize(*this);
     EndWriteObj();
 }
 
-void JsonSerializer::ReadObj(ISerializable& obj)
+void JsonSerializer::ReadObj(Serializable& obj)
 {
     BeginReadObj();
     obj.Deserialize(*this);
@@ -563,7 +563,7 @@ uint32_t PlainTextSerializer::ReadEnum(size_t enumID)
     return res;
 }
 
-void PlainTextSerializer::WriteObj(const ISerializable& obj)
+void PlainTextSerializer::WriteObj(const Serializable& obj)
 {
     const char* type = my_valType == obj.TypeName() ? nstr : obj.TypeName();
     my_valType = nstr;
@@ -576,7 +576,7 @@ void PlainTextSerializer::WriteObj(const ISerializable& obj)
     my_useComma = useComma;
 }
 
-void PlainTextSerializer::ReadObj(ISerializable& obj)
+void PlainTextSerializer::ReadObj(Serializable& obj)
 {
     const char* type = my_valType == obj.TypeName() ? nstr : obj.TypeName();
     BeginReadObj(type);

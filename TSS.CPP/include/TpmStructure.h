@@ -20,7 +20,7 @@ enum class SerializationType
 };
 
 /// <summary> Base class for all TPM structures. </summary>
-class _DLLEXP_ TpmStructure : public TpmMarshaller, public ISerializable
+class _DLLEXP_ TpmStructure : public TpmMarshaller, public Serializable
 {
     friend class Tpm2;
     friend class Crypto;
@@ -63,13 +63,13 @@ public:
     bool Deserialize(SerializationType serializationFormat, string inBuf);
 
 
-    /// <summary> ISerializable method </summary>
-    virtual void Serialize(ISerializer& buf) const {}
+    /// <summary> Serializable method </summary>
+    virtual void Serialize(Serializer& buf) const {}
 
-    /// <summary> ISerializable method </summary>
-    virtual void Deserialize(ISerializer& buf) {}
+    /// <summary> Serializable method </summary>
+    virtual void Deserialize(Serializer& buf) {}
 
-    /// <summary> ISerializable method </summary>
+    /// <summary> Serializable method </summary>
     virtual const char* TypeName () const { return "TpmStructure"; }
 
 
@@ -169,7 +169,7 @@ public:
     /// <returns> Number of authorization TPM handles contained in this data structure </returns>
     virtual uint16_t numAuthHandles() const { return 0; }
 
-    /// <summary> ISerializable method </summary>
+    /// <summary> Serializable method </summary>
     virtual const char* TypeName () const { return "ReqStructure"; }
 };
 
@@ -184,7 +184,7 @@ public:
     /// <summary> Sets this structure's handle field (TPM_HANDLE) if it is present </summary>
     virtual void setHandle(const TPM_HANDLE&) {}
 
-    /// <summary> ISerializable method </summary>
+    /// <summary> Serializable method </summary>
     virtual const char* TypeName () const { return "RespStructure"; }
 };
 

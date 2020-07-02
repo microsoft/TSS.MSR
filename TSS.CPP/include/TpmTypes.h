@@ -3195,8 +3195,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class _TPM_HANDLE
@@ -3286,8 +3286,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_ALGORITHM_DESCRIPTION
@@ -3329,8 +3329,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class _TPMT_HA
@@ -3370,8 +3370,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_DIGEST
@@ -3402,8 +3402,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_DATA
@@ -3450,8 +3450,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_EVENT
@@ -3484,8 +3484,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_MAX_BUFFER
@@ -3518,8 +3518,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_MAX_NV_BUFFER
@@ -3551,8 +3551,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_TIMEOUT
@@ -3585,8 +3585,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_IV
@@ -3617,8 +3617,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_NAME
@@ -3649,8 +3649,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_PCR_SELECT
@@ -3684,8 +3684,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class _TPMS_PCR_SELECTION
@@ -3723,8 +3723,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_TK_CREATION
@@ -3760,8 +3760,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_TK_VERIFIED
@@ -3800,8 +3800,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_TK_AUTH
@@ -3837,8 +3837,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class _TPMT_TK_HASHCHECK
@@ -3875,8 +3875,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_ALG_PROPERTY
@@ -3911,8 +3911,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_TAGGED_PROPERTY
@@ -3947,8 +3947,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_TAGGED_PCR_SELECT
@@ -3983,8 +3983,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_TAGGED_POLICY
@@ -4021,8 +4021,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_ACT_DATA
@@ -4059,8 +4059,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_CC
@@ -4095,8 +4095,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_CCA
@@ -4129,8 +4129,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_ALG
@@ -4165,8 +4165,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_HANDLE
@@ -4201,8 +4201,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_DIGEST
@@ -4235,8 +4235,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_DIGEST_VALUES
@@ -4271,8 +4271,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_PCR_SELECTION
@@ -4307,8 +4307,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_ALG_PROPERTY
@@ -4343,8 +4343,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_TAGGED_TPM_PROPERTY
@@ -4379,8 +4379,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_TAGGED_PCR_PROPERTY
@@ -4415,8 +4415,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_ECC_CURVE
@@ -4452,8 +4452,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_TAGGED_POLICY
@@ -4488,8 +4488,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_ACT_DATA
@@ -4526,8 +4526,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_CAPABILITY_DATA
@@ -4574,8 +4574,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_CLOCK_INFO
@@ -4611,8 +4611,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_TIME_INFO
@@ -4649,8 +4649,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_TIME_ATTEST_INFO
@@ -4687,8 +4687,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_CERTIFY_INFO
@@ -4725,8 +4725,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_QUOTE_INFO
@@ -4769,8 +4769,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_COMMAND_AUDIT_INFO
@@ -4809,8 +4809,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_SESSION_AUDIT_INFO
@@ -4847,8 +4847,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_CREATION_INFO
@@ -4889,8 +4889,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_NV_CERTIFY_INFO
@@ -4929,8 +4929,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_NV_DIGEST_CERTIFY_INFO
@@ -4987,8 +4987,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_ATTEST
@@ -5020,8 +5020,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_ATTEST
@@ -5062,8 +5062,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_AUTH_COMMAND
@@ -5103,8 +5103,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_AUTH_RESPONSE
@@ -5308,7 +5308,7 @@ public:
         algorithm = TPM_ALG_ID::_NULL;
         mode = TPM_ALG_ID::_NULL;
     }
-
+    
     _TPMT_SYM_DEF(TPM_ALG_ID _algorithm, UINT16 _keyBits, TPM_ALG_ID _mode)
       : algorithm(_algorithm), keyBits(_keyBits), mode(_mode)
     {}
@@ -5326,8 +5326,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class _TPMT_SYM_DEF
@@ -5355,7 +5355,7 @@ public:
         algorithm = TPM_ALG_ID::_NULL;
         mode = TPM_ALG_ID::_NULL;
     }
-
+    
     _TPMT_SYM_DEF_OBJECT(TPM_ALG_ID _algorithm, UINT16 _keyBits, TPM_ALG_ID _mode)
       : algorithm(_algorithm), keyBits(_keyBits), mode(_mode)
     {}
@@ -5373,8 +5373,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class _TPMT_SYM_DEF_OBJECT
@@ -5411,8 +5411,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_SYM_KEY
@@ -5446,8 +5446,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_SYMCIPHER_PARMS
@@ -5481,8 +5481,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_LABEL
@@ -5519,8 +5519,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_DERIVE
@@ -5552,8 +5552,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_DERIVE
@@ -5588,8 +5588,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_SENSITIVE_DATA
@@ -5625,8 +5625,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_SENSITIVE_CREATE
@@ -5660,8 +5660,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_SENSITIVE_CREATE
@@ -5696,8 +5696,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_SCHEME_HASH
@@ -5734,8 +5734,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_SCHEME_ECDAA
@@ -5783,7 +5783,7 @@ public:
         hashAlg = TPM_ALG_ID::_NULL;
         kdf = TPM_ALG_ID::_NULL;
     }
-
+    
     TPMS_SCHEME_XOR(TPM_ALG_ID _hashAlg, TPM_ALG_ID _kdf)
       : hashAlg(_hashAlg), kdf(_kdf)
     {}
@@ -5804,8 +5804,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_SCHEME_XOR
@@ -5866,8 +5866,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_KEYEDHASH_SCHEME
@@ -6101,8 +6101,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_SIG_SCHEME
@@ -6388,8 +6388,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_KDF_SCHEME
@@ -6455,8 +6455,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_ASYM_SCHEME
@@ -6494,8 +6494,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_RSA_SCHEME
@@ -6533,8 +6533,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_RSA_DECRYPT
@@ -6568,8 +6568,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_PUBLIC_KEY_RSA
@@ -6602,8 +6602,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_PRIVATE_KEY_RSA
@@ -6638,8 +6638,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_ECC_PARAMETER
@@ -6677,8 +6677,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_ECC_POINT
@@ -6710,8 +6710,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_ECC_POINT
@@ -6749,8 +6749,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_ECC_SCHEME
@@ -6826,8 +6826,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_ALGORITHM_DETAIL_ECC
@@ -6865,8 +6865,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_SIGNATURE_RSA
@@ -6959,8 +6959,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_SIGNATURE_ECC
@@ -7134,8 +7134,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_SIGNATURE
@@ -7166,8 +7166,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_ENCRYPTED_SECRET
@@ -7208,8 +7208,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_KEYEDHASH_PARMS
@@ -7260,8 +7260,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_ASYM_PARMS
@@ -7326,8 +7326,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_RSA_PARMS
@@ -7394,8 +7394,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_ECC_PARMS
@@ -7432,8 +7432,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMT_PUBLIC_PARMS
@@ -7490,8 +7490,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class _TPMT_PUBLIC
@@ -7527,8 +7527,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_PUBLIC
@@ -7559,8 +7559,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_TEMPLATE
@@ -7598,8 +7598,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_PRIVATE_VENDOR_SPECIFIC
@@ -7646,8 +7646,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class _TPMT_SENSITIVE
@@ -7682,8 +7682,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_SENSITIVE
@@ -7720,8 +7720,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class _PRIVATE
@@ -7753,8 +7753,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_PRIVATE
@@ -7792,8 +7792,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_ID_OBJECT
@@ -7825,8 +7825,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_ID_OBJECT
@@ -7865,8 +7865,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_NV_PIN_COUNTER_PARAMETERS
@@ -7914,8 +7914,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_NV_PUBLIC
@@ -7946,8 +7946,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_NV_PUBLIC
@@ -7979,8 +7979,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_CONTEXT_SENSITIVE
@@ -8015,8 +8015,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_CONTEXT_DATA
@@ -8046,8 +8046,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_CONTEXT_DATA
@@ -8092,8 +8092,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_CONTEXT
@@ -8154,8 +8154,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_CREATION_DATA
@@ -8186,8 +8186,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2B_CREATION_DATA
@@ -8222,8 +8222,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPMS_AC_OUTPUT
@@ -8254,8 +8254,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPML_AC_CAPABILITIES
@@ -8291,8 +8291,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2_Startup_REQUEST
@@ -8324,8 +8324,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2_Shutdown_REQUEST
@@ -8359,8 +8359,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2_SelfTest_REQUEST
@@ -8391,8 +8391,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8423,8 +8423,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8481,8 +8481,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8545,8 +8545,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8586,8 +8586,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8627,8 +8627,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8685,8 +8685,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8740,8 +8740,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class CreateResponse
@@ -8782,8 +8782,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8821,8 +8821,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8868,8 +8868,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8905,8 +8905,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8942,8 +8942,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -8982,8 +8982,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9031,8 +9031,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9070,8 +9070,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9114,8 +9114,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9155,8 +9155,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9189,8 +9189,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9224,8 +9224,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9269,8 +9269,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9306,8 +9306,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class ObjectChangeAuthResponse
@@ -9352,8 +9352,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9402,8 +9402,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9457,8 +9457,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9505,8 +9505,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9562,8 +9562,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9605,8 +9605,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class RewrapResponse
@@ -9666,8 +9666,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9705,8 +9705,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class ImportResponse
@@ -9763,8 +9763,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9803,8 +9803,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9858,8 +9858,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9895,8 +9895,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9930,8 +9930,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -9969,8 +9969,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10012,8 +10012,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10052,8 +10052,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10088,8 +10088,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2_ECC_Parameters_REQUEST
@@ -10118,8 +10118,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class ECC_ParametersResponse
@@ -10168,8 +10168,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10210,8 +10210,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10257,8 +10257,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10299,8 +10299,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10353,8 +10353,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10389,8 +10389,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10441,8 +10441,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10479,8 +10479,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10531,8 +10531,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10571,8 +10571,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10613,8 +10613,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10651,8 +10651,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10695,8 +10695,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10732,8 +10732,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10776,8 +10776,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10813,8 +10813,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10849,8 +10849,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2_GetRandom_REQUEST
@@ -10879,8 +10879,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10914,8 +10914,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10959,8 +10959,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -10994,8 +10994,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11041,8 +11041,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11076,8 +11076,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11120,8 +11120,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11152,8 +11152,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11195,8 +11195,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11243,8 +11243,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11285,8 +11285,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11335,8 +11335,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11376,8 +11376,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11434,8 +11434,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11483,8 +11483,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11545,8 +11545,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11593,8 +11593,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11645,8 +11645,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11690,8 +11690,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11748,8 +11748,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11793,8 +11793,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11849,8 +11849,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11896,8 +11896,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11950,8 +11950,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -11995,8 +11995,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12057,8 +12057,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12111,8 +12111,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12160,8 +12160,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12208,8 +12208,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12244,8 +12244,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2_EC_Ephemeral_REQUEST
@@ -12277,8 +12277,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12326,8 +12326,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12362,8 +12362,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class VerifySignatureResponse
@@ -12414,8 +12414,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12457,8 +12457,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class SignResponse
@@ -12503,8 +12503,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12548,8 +12548,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12592,8 +12592,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12627,8 +12627,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12662,8 +12662,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12701,8 +12701,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class PCR_ReadResponse
@@ -12739,8 +12739,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12785,8 +12785,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class PCR_AllocateResponse
@@ -12829,8 +12829,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12873,8 +12873,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12914,8 +12914,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -12986,8 +12986,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13030,8 +13030,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13094,8 +13094,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13139,8 +13139,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13196,8 +13196,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13242,8 +13242,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13292,8 +13292,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13336,8 +13336,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13394,8 +13394,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13444,8 +13444,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13488,8 +13488,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13524,8 +13524,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13566,8 +13566,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13612,8 +13612,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13663,8 +13663,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13717,8 +13717,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13755,8 +13755,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13791,8 +13791,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13828,8 +13828,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13864,8 +13864,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13906,8 +13906,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13949,8 +13949,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -13999,8 +13999,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14055,8 +14055,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14111,8 +14111,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14161,8 +14161,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14212,8 +14212,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14251,8 +14251,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14292,8 +14292,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14328,8 +14328,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14371,8 +14371,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14414,8 +14414,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14454,8 +14454,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14504,8 +14504,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14552,8 +14552,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14597,8 +14597,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14654,8 +14654,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14697,8 +14697,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14737,8 +14737,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class FieldUpgradeDataResponse
@@ -14771,8 +14771,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2_FirmwareRead_REQUEST
@@ -14801,8 +14801,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14835,8 +14835,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14869,8 +14869,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class ContextSaveResponse
@@ -14902,8 +14902,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2_ContextLoad_REQUEST
@@ -14929,8 +14929,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -14968,8 +14968,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2_FlushContext_REQUEST
@@ -15013,8 +15013,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15069,8 +15069,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class ReadClockResponse
@@ -15110,8 +15110,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15153,8 +15153,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15197,8 +15197,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2_GetCapability_REQUEST
@@ -15236,8 +15236,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class GetCapabilityResponse
@@ -15274,8 +15274,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TPM2_TestParms_REQUEST
@@ -15316,8 +15316,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15358,8 +15358,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15400,8 +15400,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15437,8 +15437,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15476,8 +15476,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15524,8 +15524,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15567,8 +15567,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15614,8 +15614,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15664,8 +15664,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15706,8 +15706,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15743,8 +15743,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15794,8 +15794,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15829,8 +15829,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15868,8 +15868,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15910,8 +15910,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -15980,8 +15980,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -16026,8 +16026,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -16069,8 +16069,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -16107,8 +16107,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class AC_GetCapabilityResponse
@@ -16154,8 +16154,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -16191,8 +16191,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class AC_SendResponse
@@ -16240,8 +16240,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -16285,8 +16285,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -16322,8 +16322,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -16354,8 +16354,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 
@@ -16455,8 +16455,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class TssObject
@@ -16490,8 +16490,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class PcrValue
@@ -16531,8 +16531,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class SessionIn
@@ -16569,8 +16569,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class SessionOut
@@ -16607,8 +16607,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class CommandHeader
@@ -16642,8 +16642,8 @@ public:
     
     using TpmStructure::Serialize;
     using TpmStructure::Deserialize;
-    void Serialize(ISerializer& buf) const;
-    void Deserialize(ISerializer& buf);
+    void Serialize(Serializer& buf) const;
+    void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const;
 }; // class _TSS_KEY

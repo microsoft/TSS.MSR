@@ -302,7 +302,7 @@ export class TpmBase
 
         // Get the handles
         if (resp.numHandles() > 0)
-            resp.setHandle(new TPM_HANDLE(respBuf.readInt()));
+            resp.setHandle(TPM_HANDLE.fromTpm(respBuf));
 
         // If a response session is present, response buffer contains a field specifying the size of response parameters
         let respParamsSize = tag == TPM_ST.SESSIONS ? respBuf.readInt()

@@ -4947,7 +4947,7 @@ public:
         /// <returns> outputData - Dummy data </returns>
         ByteVec Vendor_TCG_TestComplete();
     };
-
+    
 public:
     AsyncMethods Async;
 };

@@ -10,30 +10,30 @@ _TPMCPP_BEGIN
 
 using namespace std;
 
-struct ISerializer;
+struct Serializer;
 
-struct _DLLEXP_ ISerializable
+struct _DLLEXP_ Serializable
 {
-    virtual ~ISerializable() {}
+    virtual ~Serializable() {}
 
     /** Serializes this structure into the given buffer managed by a serializer */
-    virtual void Serialize(ISerializer& buf) const = 0;
+    virtual void Serialize(Serializer& buf) const = 0;
 
     /** Deserialize from the given buffer managed by a serializer */
-    virtual void Deserialize(ISerializer& buf) = 0;
+    virtual void Deserialize(Serializer& buf) = 0;
 
     /** @return  Type of the object/value deserialized by the last read operation */
     virtual const char* TypeName () const = 0;
 };
 
-struct _DLLEXP_ ISerializer
+struct _DLLEXP_ Serializer
 {
 protected:
     /** Serializes an array of serializable objects */
-    virtual void writeObjArr(const vector_of_bases<ISerializable>& arr) = 0;
+    virtual void writeObjArr(const vector_of_bases<Serializable>& arr) = 0;
 
     /** Deserializes an array of serializable objects */
-    virtual void readObjArr(vector_of_bases<ISerializable>&& arr) = 0;
+    virtual void readObjArr(vector_of_bases<Serializable>&& arr) = 0;
 
     /** Serializes an array of integers
      *  @param arr  Pointer to the array.
@@ -53,26 +53,10 @@ protected:
     virtual size_t readEnumArr(void* arr, size_t size, size_t valSize, size_t enumID) = 0;
 
 public:
-    virtual ~ISerializer() {}
+    virtual ~Serializer() {}
 
     /** Clears the serialization buffer and initializes new serialization sequence. */
     virtual void reset() = 0;
-
-    /** Initializes new deserialization sequence.
-     *  @throws  exception if this serializer does not use text representation. */
-    virtual void reset(const string&) = 0;
-
-    /** Initializes new deserialization sequence.
-     *  @throws  exception if this serializer does not use binary representation. */
-    virtual void reset(const ByteVec&) = 0;
-
-    /** @return  Buffer with serialized data.
-     *  @throws  exception if this serializer does not use text representation. */
-    virtual const string& getTextBuffer() const = 0;
-
-    /** @return  Buffer with serialized data.
-     *  @throws  exception if this serializer does not use binary representation. */
-    virtual const ByteVec& getByteBuffer() const = 0;
 
     /** @return  Current reading position in the serialization buffer. */
     virtual size_t getCurPos () const = 0;
@@ -92,7 +76,7 @@ public:
      *  @param sizeType  Array size field type name
      *  @return  A reference to this serializer object
      */
-    virtual ISerializer& with(const char* name = "", const char* type = "",
+    virtual Serializer& with(const char* name = "", const char* type = "",
                               const char* sizeName = "", const char* sizeType = "") = 0;
 
     /** @return  Name of the object/value deserialized by the last read operation */
@@ -101,8 +85,8 @@ public:
     /** @return  Type of the object/value deserialized by the last read operation */
     virtual const char* type() const = 0;
 
-    virtual void writeObj(const ISerializable& obj) = 0;
-    virtual void readObj(ISerializable& obj) = 0;
+    virtual void writeObj(const Serializable& obj) = 0;
+    virtual void readObj(Serializable& obj) = 0;
 
     /** Serializes the given enum value
      *  @param  val  Enum value to serialize
@@ -164,14 +148,14 @@ public:
     template<class T>
     void writeObjArr(const vector<T>& arr)
     {
-        writeObjArr(to_base<ISerializable>(arr));
+        writeObjArr(to_base<Serializable>(arr));
     }
 
     /** Deserializes an array of serializable objects */
     template<class T>
     void readObjArr(vector<T>& arr)
     {
-        readObjArr(to_base<ISerializable>(arr));
+        readObjArr(to_base<Serializable>(arr));
     }
 
     /** Serializes an array of enums */
@@ -189,18 +173,22 @@ public:
         arr.resize(size);
         readEnumArr(nullptr, arr.size(), sizeof(E), typeid(E).hash_code());
     }
-
-    //
-    // Helpers & aliases for compatibility with the original TSS.CPP API
-    //
-
-    const string& ToString() const { return getTextBuffer(); }
-    const string& Serialize(const ISerializable* obj) { writeObj(*obj); return ToString(); }
-    bool Deserialize(ISerializable* obj) { readObj(*obj); return true; }
-}; // interface ISerializer
+}; // interface Serializer
 
 
-class _DLLEXP_ TextSerializer : public ISerializer
+struct _DLLEXP_ BinarySerializer : Serializer
+{
+    /** Initializes new deserialization sequence.
+     *  @throws  exception if this serializer does not use binary representation. */
+    virtual void reset(const ByteVec&) = 0;
+
+    /** @return  Buffer with serialized data.
+     *  @throws  exception if this serializer does not use binary representation. */
+    virtual const ByteVec& getByteBuffer() const = 0;
+};
+
+
+class _DLLEXP_ TextSerializer : public Serializer
 {
     void BeginArrSizeOp();
     void EndArrSizeOp();
@@ -276,8 +264,8 @@ protected:
     virtual void WriteEnum(uint32_t val, size_t enumID) = 0;
     virtual uint32_t ReadEnum(size_t enumID) = 0;
 
-    virtual void WriteObj(const ISerializable& obj) = 0;
-    virtual void ReadObj(ISerializable& obj) = 0;
+    virtual void WriteObj(const Serializable& obj) = 0;
+    virtual void ReadObj(Serializable& obj) = 0;
 
     static bool isdnum(char c) { return isdigit(c) || c == '-' || c == '+'; }
     static bool is_empty(const char* str) { return !str || str[0] == 0; }
@@ -287,17 +275,20 @@ public:
     TextSerializer(const string& serialText) { reset(serialText); }
 
     //
-    // ISerializer methods
+    // Serializer methods
     //
 
     virtual void reset();
 
-    virtual void reset(const string& json);
-    virtual void reset(const ByteVec&) { throwUnsupported(); }
+    /** Initializes new deserialization sequence from the given serialized text.
+     *  @throws  exception if this serializer does not use text representation.
+     */
+    virtual void reset(const string& text);
 
+    /** @return  Reference to the underlying string buffer with the serialized data.
+     *  @throws  Exception if this serializer does not use text representation.
+     */
     virtual const string& getTextBuffer() const { return my_buf; }
-
-    virtual const ByteVec& getByteBuffer() const { throwUnsupported(); }
 
     virtual size_t getCurPos () const { return my_pos; }
     virtual void setCurPos (size_t pos) { my_pos = pos; }
@@ -314,17 +305,24 @@ public:
     virtual void writeEnum(uint32_t val, size_t /*enumID*/ = 0);
     virtual uint32_t readEnum(size_t /*enumID*/ = 0);
 
-    virtual void writeObj(const ISerializable& obj);
-    virtual void readObj(ISerializable& obj);
+    virtual void writeObj(const Serializable& obj);
+    virtual void readObj(Serializable& obj);
 
     virtual void writeSizedByteBuf(const ByteVec& buf) = 0;
     virtual ByteVec readSizedByteBuf() = 0;
 
-    virtual void writeObjArr(const vector_of_bases<ISerializable>& arr);
-    virtual void readObjArr(vector_of_bases<ISerializable>&& arr);
+    virtual void writeObjArr(const vector_of_bases<Serializable>& arr);
+    virtual void readObjArr(vector_of_bases<Serializable>&& arr);
 
     virtual void writeEnumArr(const void* arr, size_t size, size_t valSize, size_t enumID) = 0;
     virtual size_t readEnumArr(void* arr, size_t arrSize, size_t valSize, size_t enumID);
+
+    //
+    // Helpers & aliases for compatibility with the original TSS.CPP API
+    //
+    const string& ToString() const { return getTextBuffer(); }
+    const string& Serialize(const Serializable* obj) { writeObj(*obj); return ToString(); }
+    bool Deserialize(Serializable* obj) { readObj(*obj); return true; }
 }; // class TextSerializer
 
 
@@ -342,8 +340,8 @@ protected:
     virtual void WriteEnum(uint32_t val, size_t enumID);
     virtual uint32_t ReadEnum(size_t enumID);
 
-    virtual void WriteObj(const ISerializable& obj);
-    virtual void ReadObj(ISerializable& obj);
+    virtual void WriteObj(const Serializable& obj);
+    virtual void ReadObj(Serializable& obj);
 
 public:
     JsonSerializer() {}
@@ -399,8 +397,8 @@ protected:
     virtual void WriteEnum(uint32_t val, size_t enumID);
     virtual uint32_t ReadEnum(size_t enumID);
 
-    virtual void WriteObj(const ISerializable& obj);
-    virtual void ReadObj(ISerializable& obj);
+    virtual void WriteObj(const Serializable& obj);
+    virtual void ReadObj(Serializable& obj);
 
 public:
     PlainTextSerializer(bool precise = true, size_t maxLineLen = DefaultMaxLineLen)
