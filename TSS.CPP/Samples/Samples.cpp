@@ -2542,8 +2542,8 @@ void Samples::MiscAdmin()
     {
         // The TPM simulator starts off with SHA256 PCR. Let's delete them.
         // --- REVISIT: The GetCap shows this as not working
-        auto resp = tpm.PCR_Allocate(TPM_RH::PLATFORM, {{TPM_ALG_ID::SHA1, { 0, 1, 2, 3, 4 }},
-                                                        {TPM_ALG_ID::SHA256, {0, 23 }} });
+        auto resp = tpm.PCR_Allocate(TPM_RH::PLATFORM, {{TPM_ALG_ID::SHA1, vector<UINT32>{0, 1, 2, 3, 4}},
+                                                        {TPM_ALG_ID::SHA256, vector<UINT32>{0, 23}} });
         _ASSERT(resp.allocationSuccess);
 
         // We have to restart the TPM for this to take effect

@@ -1,0 +1,241 @@
+/*
+	This file contains source-code snippets that the code-generator inserts into the 
+	appropriate class definition file.   
+*/
+
+
+>> TPM_HANDLE
+operator UINT32() const { return handle; }
+
+/// <summary> Create a NULL TPM_HANDLE. </summary>
+static TPM_HANDLE Null() { return TPM_RH::_NULL; }
+
+/// <summary> Create a handle for a persistent object </summary>
+/// <param name="handleOffset"> Offset in the integer range reserved for persistent handles </param>
+static TPM_HANDLE Persistent(UINT32 handleOffset)
+{
+    return (TPM_HT::PERSISTENT << 24) + handleOffset;
+}
+
+/// <summary> Create a TPM_HANDLE for a PCR with given-index. </summary>
+static TPM_HANDLE Pcr(UINT32 PcrIndex) { return PcrIndex; }
+
+/// <summary> Create a TPM_HANDLE for an NV-slot. </summary>
+static TPM_HANDLE NV(UINT32 NvSlot)
+{
+    return (TPM_HT::NV_INDEX << 24) + NvSlot;
+}
+
+[[deprecated("Use default ctor, or TPM_RH_NULL, or TPM_HANDLE::Null() instead")]]
+static TPM_HANDLE NullHandle() { return Null(); }
+
+[[deprecated("Use ctor from UINT32 instead")]]
+static TPM_HANDLE FromReservedHandle(TPM_RH reservedHandle)
+{
+    return TPM_HANDLE(reservedHandle);
+}
+
+[[deprecated("Use TPM_HANDLE::Persistent(UINT32) instead")]]
+static TPM_HANDLE PersistentHandle(UINT32 handleOffset)
+{
+    return (TPM_HT::PERSISTENT << 24) + handleOffset;
+}
+
+[[deprecated("Use TPM_HANDLE::Pcr(UINT32) instead")]]
+static TPM_HANDLE PcrHandle(int PcrIndex) { return PcrIndex; }
+
+[[deprecated("Use TPM_HANDLE::NV(UINT32) instead")]]
+static TPM_HANDLE NVHandle(int NvSlot)
+{
+    return (TPM_HT::NV_INDEX << 24) + NvSlot;
+}
+
+/// <summary> Set the authorization value for this TPM_HANDLE.  The default auth-value is NULL. </summary>
+TPM_HANDLE& SetAuth(const ByteVec& authVal)
+{
+    AuthValue = authVal;
+    return *this;
+};
+
+/// <summary> Get the auth-value </summary>
+const ByteVec& GetAuth() const { return AuthValue; };
+
+/// <summary> Set the name of the associated object (not for handles with architectural names. </summary>
+void SetName(const ByteVec& name);
+
+/// <summary> Get the current name (calculated or assigned) for this TPM_HANDLE. </summary>
+ByteVec GetName() const;
+
+/// <summary> Get the top-byte of the TPM_HANDLE. </summary>
+TPM_HT GetHandleType() const
+{
+    return TPM_HT(handle >> 24);
+};
+
+protected:
+ByteVec AuthValue;
+mutable ByteVec Name;
+
+>> TPMT_HA
+operator const ByteVec&() const { return digest; }
+operator const TPM_ALG_ID() const { return hashAlg; }
+
+bool operator==(const TPMT_HA& rhs) const
+{
+    return this == &rhs
+        || (hashAlg == rhs.hashAlg && digest == rhs.digest);
+}
+bool operator!=(const TPMT_HA& rhs) const { return !(*this == rhs); }
+
+bool operator==(const ByteVec& rhs) const { return digest == rhs; }
+bool operator!=(const ByteVec& rhs) const { return digest != rhs; }
+
+/// <summary> Create a zero-bytes TPMT_HASH with the indicated hash-algorithm. </summary>
+TPMT_HA(TPM_ALG_ID alg);
+
+/// <summary> Create a TPMT_HA from the named-hash of the _data parameter. </summary>
+static TPMT_HA FromHashOfData(TPM_ALG_ID hashAlg, const ByteVec& data);
+
+// TODO: Unicode, etc.
+/// <summary> Create a TPMT_HA from the hash of the supplied-string. </summary>
+static TPMT_HA FromHashOfString(TPM_ALG_ID hashAlg, const string& str);
+
+/// <summary> Returns the digest size in bytes for the current hash algorithm. </summary>
+UINT16 DigestSize();
+
+/// <summary> Returns the digest size in bytes for the given hash algoruthm. </summary>
+static UINT16 DigestSize(TPM_ALG_ID hashAlg);
+
+/// <summary> Perform a TPM-extend operation on the current hash-value.  Note
+/// the TPM only accepts hash-sized vector inputs: this function has no such limitations. </summary>
+TPMT_HA& Extend(const ByteVec& x);
+
+/// <summary> Perform a TPM-event operation on this PCR-value (an event "extends" the hash of _x). </summary>
+TPMT_HA Event(const ByteVec& _x);
+
+void Reset();
+
+/// <summary> Global equality operator overload for TPMT_HA </summary>
+friend bool operator==(const ByteVec& digest, const TPMT_HA& hash) { return digest == hash.digest; }
+
+/// <summary> Global equality operator overload for TPMT_HA </summary>
+friend bool operator!=(const ByteVec& digest, const TPMT_HA& hash) { return digest != hash.digest; }
+
+>> TPMT_PUBLIC
+/// <summary> Return the name of this TPMT_PUBLIC object (the hash-alg-prepended hash of the public area). </summary>
+ByteVec GetName() const;
+
+/// <summary> Validate a TPM-created signature. </summary>
+bool ValidateSignature(const ByteVec& signedData, const TPMU_SIGNATURE& sig);
+
+/// <summary> Validate a TPM-created quote-attestaion. </summary>
+bool ValidateQuote(const class PCR_ReadResponse& expectedPcrVals,
+                   const ByteVec& Nonce, class QuoteResponse& quote) const;
+
+/// <summary> Validate a TPM-created key-certification. </summary>
+bool ValidateCertify(const TPMT_PUBLIC& certifiedKey, const ByteVec& Nonce,
+                     class CertifyResponse& quote) const;
+
+/// <summary> Validate a TPM-created time-quote. </summary>
+bool ValidateGetTime(const ByteVec& Nonce, class GetTimeResponse& timeQuote) const;
+
+/// <summary> Validate a TPM-created key-certification. </summary>
+bool ValidateCommandAudit(const TPMT_HA& expectedHash, const ByteVec& Nonce,
+                          class GetCommandAuditDigestResponse& quote) const;
+
+/// <summary> Validate a session-audit signature. </summary>
+bool ValidateSessionAudit(const TPMT_HA& expectedHash, const ByteVec& Nonce,
+                          class GetSessionAuditDigestResponse& quote) const;
+
+/// <summary> Validate a key creation signature. </summary>
+bool ValidateCertifyCreation(const ByteVec& Nonce, const ByteVec& creationHash,
+                             class CertifyCreationResponse& quote) const;
+
+/// <summary> Validate a key creation signature. </summary>
+bool ValidateCertifyNV(const ByteVec& Nonce, const ByteVec& expectedContents,
+                       UINT16 startOffset, class NV_CertifyResponse& quote) const;
+
+/// <summary> Encrypt: currently only RSA/OAEP. </summary>
+ByteVec Encrypt(const ByteVec& secret, const ByteVec& encodingParms) const;
+
+/// <summary> Creates an activation blob suitable for TPM2_ActivateCredential() on the TPM
+/// with the corresponding private key. </summary>
+class ActivationData CreateActivation(const ByteVec& secret, const ByteVec& activatedName) const;
+
+/// <summary> Encrypt session salt: currently only RSA/OAEP </summary>
+ByteVec EncryptSessionSalt(const ByteVec& _secret) const;
+
+/// <summary> Create an object that we can Import() to the storage key associated with this public key. </summary>
+class DuplicationBlob GetDuplicationBlob(Tpm2& tpm, const TPMT_PUBLIC& pub, const TPMT_SENSITIVE& sensitive,
+                                         const TPMT_SYM_DEF_OBJECT& innerWrapper) const;
+
+[[deprecated("Use GetDuplicationBlob() instead")]]
+class DuplicationBlob CreateImportableObject(Tpm2& tpm, const TPMT_PUBLIC& pub, const TPMT_SENSITIVE& sensitive,
+                                             const TPMT_SYM_DEF_OBJECT& innerWrapper);
+
+/// <summary> Gets the algorithm of this key. </summary>
+[[deprecated("Use type() instead")]]
+TPM_ALG_ID GetAlg() const { return type(); }
+
+>> TPMS_PCR_SELECTION
+/// <summary> Create a TPMS_PCR_SELECTION naming a single-PCR. </summary>
+TPMS_PCR_SELECTION(TPM_ALG_ID alg, UINT32 pcr);
+
+/// <summary> Create a TPMS_PCR_SELECTION for a set of PCR in a single bank. </summary>
+TPMS_PCR_SELECTION(TPM_ALG_ID hashAlg, const vector<UINT32>& pcrs);
+
+/// <summary> Get a PCR-selection array naming exactly one PCR in one bank. </summary>
+static vector<TPMS_PCR_SELECTION> GetSelectionArray(TPM_ALG_ID hashAlg, UINT32 pcr)
+{
+    return vector<TPMS_PCR_SELECTION>{{hashAlg, pcr}};
+}
+
+/// <summary> Is the PCR with index _pcr selected in this TPMS_PCR_SELECTION. </summary>
+bool PcrIsSelected(UINT32 pcr)
+{
+    return pcrSelect[pcr / 8] = (1 << (pcr % 8)) != 0;
+}
+
+/// <summary> Return the current PCR-selection as a UINT32 array. </summary>
+vector<UINT32> ToArray();
+
+[[deprecated("Use {} instead (creates a default-constructed empty vector)")]]
+static vector<TPMS_PCR_SELECTION> NullSelectionArray()
+{
+    return vector<TPMS_PCR_SELECTION>();
+}
+
+>> TPMT_SENSITIVE
+/// <summary> Create an object suitable when the TPM needs a NULL-object input. </summary>
+[[deprecated("Use default ctor instead")]]
+static TPMT_SENSITIVE NullObject() { return TPMT_SENSITIVE(); };
+
+>> TPMT_SYM_DEF
+[[deprecated("Use default ctor instead")]]
+static TPMT_SYM_DEF NullObject() { return TPMT_SYM_DEF(); }
+
+>> TPMT_SYM_DEF_OBJECT
+[[deprecated("Use default ctor instead")]]
+static TPMT_SYM_DEF_OBJECT NullObject() { return TPMT_SYM_DEF_OBJECT(); }
+
+>> TPMT_TK_HASHCHECK
+[[deprecated("Use default ctor instead")]]
+static TPMT_TK_HASHCHECK NullTicket() { return TPMT_TK_HASHCHECK(); }
+
+>> TSS_KEY
+operator const TPMT_PUBLIC& () const { return publicPart; }
+
+/// <summary> Create a new software key based on the parameters in the publicPart.
+/// Sets the publicPart and privatePart memebers. </summary>
+void CreateKey();
+
+/// <summary>Sign the dataToSign byte array using the given signing scheme. 
+/// If the keys does not have a scheme of its own (i.e. was configuted with a NULL scheme),
+/// sigScheme must specify the same scheme or be a NULL scheme (TPMS_NULL_SIG_SCHEME). </summary>
+SignResponse Sign(const ByteVec& dataToSign, const TPMU_SIG_SCHEME& sigScheme) const;
+
+/// <summary>Sign the dataToSign byte array using the given key. </summary>
+SignResponse Sign(const ByteVec& dataToSign) const
+{
+    return Sign(dataToSign, TPMS_NULL_SIG_SCHEME());
+}

@@ -348,6 +348,12 @@ public:
 // DO NOT MODIFY any code below this point - all manual changes will be lost!
 // ------------------------------------------------------------------------------------------------
 
+// <<AUTOGEN_BEGIN>>
+// ------------------------------------------------------------------------------------------------
+// DO NOT REMOVE the <<AUTOGEN_BEGIN>> comment!
+// DO NOT MODIFY any code below this point - all manual changes will be lost!
+// ------------------------------------------------------------------------------------------------
+
     /// <summary> TPM2_Startup() is always preceded by _TPM_Init, which is the physical
     /// indication that TPM initialization is necessary because of a system-wide reset.
     /// TPM2_Startup() is only valid after _TPM_Init. Additional TPM2_Startup() commands are

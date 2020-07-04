@@ -36,27 +36,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Extensions\TPMS_PCR_SELECTION.h">
-      <Filter>Headers\Extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Extensions\TPMT_HA.h">
-      <Filter>Headers\Extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Extensions\TPMT_PUBLIC.h">
-      <Filter>Headers\Extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Extensions\TPMT_SENSITIVE.h">
-      <Filter>Headers\Extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Extensions\TPMT_SYM_DEF.h">
-      <Filter>Headers\Extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Extensions\TPMT_SYM_DEF_OBJECT.h">
-      <Filter>Headers\Extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Extensions\TPM_HANDLE.h">
-      <Filter>Headers\Extensions</Filter>
-    </ClInclude>
     <ClInclude Include="include\fdefs.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -68,9 +47,6 @@
     </ClInclude>
     <ClInclude Include="include\TpmTypes.h">
       <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Extensions\TSS_KEY.h">
-      <Filter>Headers\Extensions</Filter>
     </ClInclude>
     <ClInclude Include="src\stdafx.h">
       <Filter>Sources</Filter>
@@ -86,9 +62,6 @@
     </ClInclude>
     <ClInclude Include="include\TpmHelpers.h">
       <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Extensions\TPMT_TK_HASHCHECK.h">
-      <Filter>Headers\Extensions</Filter>
     </ClInclude>
     <ClInclude Include="include\TpmStructure.h">
       <Filter>Headers</Filter>
@@ -107,11 +80,13 @@
     <Filter Include="Headers">
       <UniqueIdentifier>{b9b998ca-7587-4c87-8337-9eafea490a8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers\Extensions">
-      <UniqueIdentifier>{e9e38cd6-a1d4-4b7d-a2b3-24e5bf3198ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources">
       <UniqueIdentifier>{c3458cdc-7531-42d0-930c-56397f11ece7}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Src\TpmExtensions.cpp.snips">
+      <Filter>Sources</Filter>
+    </None>
   </ItemGroup>
 </Project>

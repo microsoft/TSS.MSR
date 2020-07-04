@@ -194,15 +194,6 @@
     <ClInclude Include="include\Helpers.h" />
     <ClInclude Include="include\Serialize.h" />
     <ClInclude Include="include\Crypto.h" />
-    <ClInclude Include="include\Extensions\TPMS_PCR_SELECTION.h" />
-    <ClInclude Include="include\Extensions\TPMT_HA.h" />
-    <ClInclude Include="include\Extensions\TPMT_PUBLIC.h" />
-    <ClInclude Include="include\Extensions\TPMT_SENSITIVE.h" />
-    <ClInclude Include="include\Extensions\TPMT_SYM_DEF.h" />
-    <ClInclude Include="include\Extensions\TPMT_SYM_DEF_OBJECT.h" />
-    <ClInclude Include="include\Extensions\TPMT_TK_HASHCHECK.h" />
-    <ClInclude Include="include\Extensions\TPM_HANDLE.h" />
-    <ClInclude Include="include\Extensions\TSS_KEY.h" />
     <ClInclude Include="include\fdefs.h" />
     <ClInclude Include="include\TpmHelpers.h" />
     <ClInclude Include="include\TpmMarshal.h" />
@@ -228,6 +219,9 @@
     <ClCompile Include="Src\TpmDevice.cpp" />
     <ClCompile Include="Src\TpmStructure.cpp" />
     <ClCompile Include="Src\TpmTypes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Src\TpmExtensions.cpp.snips" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

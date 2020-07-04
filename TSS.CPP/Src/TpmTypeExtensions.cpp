@@ -11,6 +11,11 @@ using namespace std;
 
 #define null  {}
 
+
+//
+// TPM_HANDLE
+//
+
 void TPM_HANDLE::SetName(const ByteVec& name)
 {
     UINT32 handleType = GetHandleType();
@@ -21,12 +26,9 @@ void TPM_HANDLE::SetName(const ByteVec& name)
         handleType == TPM_HT::PERSISTENT)
     {
         Name = name;
-        return;
     }
-
-    // For the rest of the handle types the name is defined by the handle numeric value only
-    if (name != GetName())
-        throw runtime_error("Trying to set an invalid name of an entity with the name defined by the handle value");
+        else
+            assert (name == GetName() && "Setting an invalid name of an entity with the name defined by the handle value");
 }
 
 ByteVec TPM_HANDLE::GetName() const
@@ -51,6 +53,10 @@ ByteVec TPM_HANDLE::GetName() const
             throw runtime_error("Unknown handle type");
     }
 }
+
+//
+// TPM_HANDLE
+//
 
 bool TPMT_PUBLIC::ValidateSignature(const ByteVec& signedData, const TPMU_SIGNATURE& sig)
 {
@@ -232,7 +238,6 @@ bool TPMT_PUBLIC::ValidateCertifyNV(const ByteVec& Nonce, const ByteVec& expecte
     return Crypto::ValidateSignature(*this, signedBlobHash, *(quote.signature));
 }
 
-
 ByteVec TPMT_PUBLIC::Encrypt(const ByteVec& secret, const ByteVec& encodingParms) const
 {
     return Crypto::Encrypt(*this, secret, encodingParms);
@@ -374,6 +379,64 @@ DuplicationBlob TPMT_PUBLIC::CreateImportableObject(Tpm2& tpm, const TPMT_PUBLIC
     return GetDuplicationBlob(tpm, pub, sensitive, innerWrapper);
 }
 
+ByteVec TPMT_PUBLIC::GetName() const
+{
+    ByteVec pubHash = Crypto::Hash(nameAlg, toBytes());
+    ByteVec theHashAlg = Int16ToTpm(nameAlg);
+    pubHash.insert(pubHash.begin(), theHashAlg.begin(), theHashAlg.end());
+    return pubHash;
+}
+
+//
+// TPMS_PCR_SELECTION
+//
+
+TPMS_PCR_SELECTION::TPMS_PCR_SELECTION(TPM_ALG_ID hashAlg, UINT32 pcr)
+{
+    hash = hashAlg;
+    UINT32 sz = 3;
+
+    if ((pcr / 8 + 1) > sz)
+        sz = pcr / 8 + 1;
+
+    pcrSelect.resize(sz);
+    pcrSelect[pcr / 8] = 1 << (pcr % 8);
+}
+
+TPMS_PCR_SELECTION::TPMS_PCR_SELECTION(TPM_ALG_ID hashAlg, const vector<UINT32>& pcrs)
+{
+    hash = hashAlg;
+    UINT32 pcrMax = 0;
+
+    for (size_t i = 0; i < pcrs.size(); i++)
+    {
+        if (pcrs[i] > pcrMax)
+            pcrMax = pcrs[i];
+    }
+    if (pcrMax < 23)
+        pcrMax = 23;
+
+    pcrSelect.resize(pcrMax / 8 + 1);
+    for (size_t i = 0; i < pcrs.size(); i++)
+        pcrSelect[pcrs[i] / 8] |= 1 << (pcrs[i] % 8);
+}
+
+vector<UINT32> TPMS_PCR_SELECTION::ToArray()
+{
+    vector<UINT32> arr;
+    int maxIs = (int)pcrSelect.size() * 8;
+
+    for (int j = 0; j < maxIs; j++) {
+        if (PcrIsSelected(j))
+            arr.push_back((UINT32)j);
+    }
+    return arr;
+}
+
+//
+// TSS_KEY
+//
+
 void TSS_KEY::CreateKey()
 {
     TPMS_RSA_PARMS *parms = dynamic_cast<TPMS_RSA_PARMS*>(&*this->publicPart.parameters);
@@ -390,6 +453,15 @@ void TSS_KEY::CreateKey()
     pubKey->buffer = pub;
     this->privatePart = priv;
 }
+
+SignResponse TSS_KEY::Sign(const ByteVec& dataToSign, const TPMU_SIG_SCHEME& nonDefaultScheme) const
+{
+    return Crypto::Sign(*this, dataToSign, nonDefaultScheme);
+}
+
+//
+// TPMT_HA
+//
 
 TPMT_HA::TPMT_HA(TPM_ALG_ID alg)
 {
@@ -440,19 +512,6 @@ TPMT_HA TPMT_HA::Event(const ByteVec& x)
 void TPMT_HA::Reset()
 {
     fill(digest.begin(), digest.end(), (BYTE)0);
-}
-
-ByteVec TPMT_PUBLIC::GetName() const
-{
-    ByteVec pubHash = Crypto::Hash(nameAlg, toBytes());
-    ByteVec theHashAlg = Int16ToTpm(nameAlg);
-    pubHash.insert(pubHash.begin(), theHashAlg.begin(), theHashAlg.end());
-    return pubHash;
-}
-
-SignResponse TSS_KEY::Sign(const ByteVec& dataToSign, const TPMU_SIG_SCHEME& nonDefaultScheme) const
-{
-    return Crypto::Sign(*this, dataToSign, nonDefaultScheme);
 }
 
 _TPMCPP_END
