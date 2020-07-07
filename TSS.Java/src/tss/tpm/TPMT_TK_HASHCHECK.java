@@ -81,11 +81,9 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
         _p.add(d, "byte", "digest", digest);
     }
     
-    /**
-    * Create a NULL ticket (e.g. used for signing data with non-restricted keys)
-    * 
-    * @return The null ticket
-    */
+    /** Create a NULL ticket (e.g. used for signing data with non-restricted keys)
+     * @return The null ticket
+     */
     public static TPMT_TK_HASHCHECK nullTicket()
     {
         TPMT_TK_HASHCHECK t = new TPMT_TK_HASHCHECK();

@@ -91,44 +91,31 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         _p.add(d, "byte", "digest", digest);
     }
     
-    /**
-    * Create a TPMT_HA from the hash of data
-    * 
-    * @param hashAlg The hash algorithm
-    * @param data The data to hash
-    * @return A new TPMT_HA
-    */
+    /** Create a TPMT_HA from the hash of data
+     * @param hashAlg The hash algorithm
+     * @param data The data to hash
+     * @return A new TPMT_HA
+     */
     public static TPMT_HA fromHashOf(TPM_ALG_ID hashAlg, byte[] data)
     {
-    	return new TPMT_HA(hashAlg, Crypto.hash(hashAlg, data));
+        return new TPMT_HA(hashAlg, Crypto.hash(hashAlg, data));
     }
     
-    /**
-    * Create a TPMT_HA from the hash of a UTF8 encoded string 
-    * 
-    * @param hashAlg The hash algorithm
-    * @param s The string to hash
-    * @return A new TPMT_HA
-    */
+    /** Create a TPMT_HA from the hash of a UTF8 encoded string 
+     * @param hashAlg The hash algorithm
+     * @param s The string to hash
+     * @return A new TPMT_HA
+     */
     public static TPMT_HA fromHashOf(TPM_ALG_ID hashAlg, String s)
     {
-    	try {
-    		byte[] buf = s.getBytes("UTF8");
-    		return TPMT_HA.fromHashOf(hashAlg, buf);
-    	} catch (Exception e) {
-    		// todo: Auto-generated catch block
-    		e.printStackTrace();
-    		throw new RuntimeException("unexpected error");
-    	} 
-    
+        byte[] buf = s.getBytes();
+        return TPMT_HA.fromHashOf(hashAlg, buf);
     }
     
-    /**
-    * Perform a TPM Extend operation on the contents of this TPMT_HA 
-    * 
-    * @param x The data to extend
-    * @return The same object (to allow chaining)
-    */
+    /** Perform a TPM Extend operation on the contents of this TPMT_HA 
+     * @param x The data to extend
+     * @return The same object (to allow chaining)
+     */
     public TPMT_HA extend(byte[] x)
     {
         byte[] t = Helpers.concatenate(digest, x);
@@ -136,12 +123,10 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         return this;
     }
     
-    /**
-    * Perform a TPM Event operation on the contents of this TPMT_HA 
-    * 
-    * @param x The data to event
-    * @return The same object (to allow chaining)
-    */
+    /** Perform a TPM Event operation on the contents of this TPMT_HA 
+     * @param x The data to event
+     * @return The same object (to allow chaining)
+     */
     public TPMT_HA event(byte[] x)
     {
         byte[] s = Crypto.hash(hashAlg, x);
@@ -150,24 +135,19 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         return this;
     }
     
-    /**
-    * Reset the contents of this hash object to all zeros 
-    * 
-    */
+    /** Reset the contents of this hash object to all zeros */
     public void reset()
     {
-    	digest = new byte[Crypto.digestSize(hashAlg)];
+        digest = new byte[Crypto.digestSize(hashAlg)];
     }
     
-    /**
-    * Create an all zero hash object 
-    * 
-    * @param alg The hash algorithm to use
-    * @return The new zero TPMT_HA
-    */
+    /** Create an all zero hash object 
+     * @param alg The hash algorithm to use
+     * @return The new zero TPMT_HA
+     */
     public static TPMT_HA zeroHash(TPM_ALG_ID alg)
     {
-    	return new TPMT_HA(alg, new byte[Crypto.digestSize(alg)]);
+        return new TPMT_HA(alg, new byte[Crypto.digestSize(alg)]);
     }
     
 }

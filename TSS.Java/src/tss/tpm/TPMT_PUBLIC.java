@@ -140,12 +140,12 @@ public class TPMT_PUBLIC extends TpmStructure
      */
     public boolean validateSignature(byte[] _dataThatWasSigned, TPMU_SIGNATURE _signature)
     {
-    	return Crypto.validateSignature(this, _dataThatWasSigned, _signature);
+        return Crypto.validateSignature(this, _dataThatWasSigned, _signature);
     }
     
     public byte[] encrypt(byte[] inData, String label)
     {
-    	return Crypto.asymEncrypt(this, inData, label);
+        return Crypto.asymEncrypt(this, inData, label);
     }
     
     /**
@@ -155,7 +155,7 @@ public class TPMT_PUBLIC extends TpmStructure
      */
     public byte[] getName()
     {
-       	byte[] pub = toTpm();
+           byte[] pub = toTpm();
         byte[] pubHash = Crypto.hash(nameAlg, pub);
         byte[] theHashAlg = Helpers.hostToNet((short)nameAlg.toInt());
         return Helpers.concatenate(theHashAlg, pubHash);
@@ -171,7 +171,7 @@ public class TPMT_PUBLIC extends TpmStructure
      */
     public boolean validateQuote(PCR_ReadResponse expectedPcrs, byte[] nonce, QuoteResponse quote)
     {
-    	return Crypto.validateQuote(this, expectedPcrs, nonce, quote);
+        return Crypto.validateQuote(this, expectedPcrs, nonce, quote);
     }
     
 }

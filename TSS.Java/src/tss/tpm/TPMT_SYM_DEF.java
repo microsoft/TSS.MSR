@@ -96,14 +96,7 @@ public class TPMT_SYM_DEF extends TpmStructure
     /** @deprecated Use default constructor instead */
 
     @Deprecated
-    public static TPMT_SYM_DEF nullObject()
-    {
-     	return new TPMT_SYM_DEF(
-    								TPM_ALG_ID.NULL, 
-    								(short) 0, 
-    								TPM_ALG_ID.NULL
-    								);
-    }
+    public static TPMT_SYM_DEF nullObject() { return new TPMT_SYM_DEF(); }
     
 }
 

@@ -96,13 +96,13 @@ public class TPM_HANDLE extends TpmStructure
      */
     public static TPM_HANDLE from(TPM_RH _handle)
     {
-    	return new TPM_HANDLE(_handle.toInt());
+        return new TPM_HANDLE(_handle.toInt());
     }
     
     /** @return  New NULL TPM handle */
     public static TPM_HANDLE nullHandle()
     {
-    	return new TPM_HANDLE(TPM_RH.NULL.toInt());
+        return new TPM_HANDLE(TPM_RH.NULL.toInt());
     }
     
     /** Creates a pesistent TPM handle with the given offset (0 - 0x00FFFFFF)

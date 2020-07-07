@@ -77,36 +77,31 @@ public class TPMS_PCR_SELECTION extends TpmStructure
         _p.add(d, "byte", "pcrSelect", pcrSelect);
     }
     
-    /**
-    * Create a PCR_SELECTION naming a single PCR
-    * 
-    * @param pcrAlg The hash algorithm
-    * @param pcrIndex The PCR index
-    * 
-    */
+    /** Create a PCR_SELECTION naming a single PCR
+     * @param pcrAlg The hash algorithm
+     * @param pcrIndex The PCR index
+     */
     public TPMS_PCR_SELECTION(TPM_ALG_ID pcrAlg, int pcrIndex)
     {
-    	hash = pcrAlg;
-       	int sz = 3;
-        if ((pcrIndex / 8 + 1) > sz) {
+        hash = pcrAlg;
+        int sz = 3;
+        if ((pcrIndex / 8 + 1) > sz)
             sz = pcrIndex  / 8 + 1;
-        }
-    	pcrSelect = new byte[sz];
+    
+        pcrSelect = new byte[sz];
         pcrSelect[pcrIndex / 8] = (byte) (1 << (pcrIndex % 8));
     }
     
-    /**
-    * Create a PCR_SELECTION[] from a single PCR
-    * 
-    * @param pcrAlg The hash algorithm
-    * @param pcrIndex The PCR index
-    * @return A new selection array
-    */
+    /** Create a PCR_SELECTION[] from a single PCR
+     * @param pcrAlg The hash algorithm
+     * @param pcrIndex The PCR index
+     * @return A new selection array
+     */
     public static TPMS_PCR_SELECTION[] CreateSelectionArray(TPM_ALG_ID pcrAlg, int pcrIndex)
     {
-    	TPMS_PCR_SELECTION[] arr = new TPMS_PCR_SELECTION[1];
-    	arr[0] = new TPMS_PCR_SELECTION(pcrAlg, pcrIndex);
-    	return arr;
+        TPMS_PCR_SELECTION[] arr = new TPMS_PCR_SELECTION[1];
+        arr[0] = new TPMS_PCR_SELECTION(pcrAlg, pcrIndex);
+        return arr;
     }
     
     /**
@@ -117,26 +112,24 @@ public class TPMS_PCR_SELECTION extends TpmStructure
     */
     public TPMS_PCR_SELECTION(TPM_ALG_ID pcrAlg, int[] pcrIndices)
     {
-     	hash = pcrAlg;
+        hash = pcrAlg;
         int pcrMax = 0;
     
         for (int j = 0; j < pcrIndices.length; j++)
         {
-        	if (pcrIndices[j] > pcrMax) pcrMax = pcrIndices[j];
-    	}
-    
-        if (pcrMax < 23) {
-            pcrMax = 23;
+            if (pcrIndices[j] > pcrMax)
+                pcrMax = pcrIndices[j];
         }
+    
+        if (pcrMax < 23)
+            pcrMax = 23;
     
         pcrSelect = new byte[pcrMax / 8 + 1];
     
         for (int j = 0; j < pcrIndices.length; j++) 
         {
-            pcrSelect[pcrIndices[j] / 8] |= (byte) (1 << (pcrIndices[j] % 8));
+            pcrSelect[pcrIndices[j] / 8] |= (byte)(1 << (pcrIndices[j] % 8));
         }
-    
-        return;
     }
     
 }
