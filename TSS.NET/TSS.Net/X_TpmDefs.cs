@@ -18341,60 +18341,52 @@ namespace Tpm2Lib {
         /// TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has completed successfully. If a TPM requires TPM2_Startup() and another command is received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall return TPM_RC_INITIALIZE.
         /// 
         /// <param name = "startupType"> TPM_SU_CLEAR or TPM_SU_STATE </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void Startup(
-            Su startupType
-        )
+            Su startupType)
         {
-            var inS = new Tpm2StartupRequest(startupType);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Startup, inS, typeof(EmptyResponse), out resp, 0, 0);
+            var req = new Tpm2StartupRequest(startupType);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.Startup, req, resp, 0, 0);
         }
 
         /// This command is used to prepare the TPM for a power cycle. The shutdownType parameter indicates how the subsequent TPM2_Startup() will be processed.
         /// 
         /// <param name = "shutdownType"> TPM_SU_CLEAR or TPM_SU_STATE </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void Shutdown(
-            Su shutdownType
-        )
+            Su shutdownType)
         {
-            var inS = new Tpm2ShutdownRequest(shutdownType);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Shutdown, inS, typeof(EmptyResponse), out resp, 0, 0);
+            var req = new Tpm2ShutdownRequest(shutdownType);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.Shutdown, req, resp, 0, 0);
         }
 
         /// This command causes the TPM to perform a test of its capabilities. If the fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those functions that have not previously been tested.
         /// 
         /// <param name = "fullTest"> YES if full test to be performed
         ///        NO if only test of untested functions required </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void SelfTest(
-            byte fullTest
-        )
+            byte fullTest)
         {
-            var inS = new Tpm2SelfTestRequest(fullTest);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.SelfTest, inS, typeof(EmptyResponse), out resp, 0, 0);
+            var req = new Tpm2SelfTestRequest(fullTest);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.SelfTest, req, resp, 0, 0);
         }
 
         /// This command causes the TPM to perform a test of the selected algorithms.
         /// 
         /// <param name = "toTest"> List of algorithms that should be tested </param>
         /// <returns> toDoList - List of algorithms that need testing </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmAlgId[] IncrementalSelfTest(
-            TpmAlgId[] toTest
-        )
+            TpmAlgId[] toTest)
         {
-            var inS = new Tpm2IncrementalSelfTestRequest(toTest);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.IncrementalSelfTest, inS, typeof(Tpm2IncrementalSelfTestResponse), out resp, 0, 0);
-            return (resp as Tpm2IncrementalSelfTestResponse).toDoList;
+            var req = new Tpm2IncrementalSelfTestRequest(toTest);
+            var resp = new Tpm2IncrementalSelfTestResponse();
+            DispatchMethod(TpmCc.IncrementalSelfTest, req, resp, 0, 0);
+            return resp.toDoList;
         }
 
         /// This command returns manufacturer-specific information regarding the results of a self-test and an indication of the test status.
@@ -18402,19 +18394,15 @@ namespace Tpm2Lib {
         /// <returns> outData - Test result data
         ///                     contains manufacturer-specific information
         ///           testResult - TBD </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] GetTestResult(
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out TpmRc testResult
-        )
+            out TpmRc testResult)
         {
-            var inS = new Tpm2GetTestResultRequest();
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.GetTestResult, inS, typeof(Tpm2GetTestResultResponse), out resp, 0, 0);
-            var outS = (Tpm2GetTestResultResponse)resp;
-            testResult = outS.testResult;
-            return outS.outData;
+            var req = new Tpm2GetTestResultRequest();
+            var resp = new Tpm2GetTestResultResponse();
+            DispatchMethod(TpmCc.GetTestResult, req, resp, 0, 0);
+            testResult = resp.testResult;
+            return resp.outData;
         }
 
         /// This command is used to start an authorization session using alternative methods of establishing the session key (sessionKey). The session key is then used to derive values used for authorization and for encrypting parameters.
@@ -18437,7 +18425,6 @@ namespace Tpm2Lib {
         ///        Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL </param>
         /// <returns> handle - Handle for the newly created session
         ///           nonceTPM - The initial nonce from the TPM, used in the computation of the sessionKey </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle StartAuthSession(
             TpmHandle tpmKey,
@@ -18447,38 +18434,25 @@ namespace Tpm2Lib {
             TpmSe sessionType,
             SymDef symmetric,
             TpmAlgId authHash,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out byte[] nonceTPM
-        )
+            out byte[] nonceTPM)
         {
-            var inS = new Tpm2StartAuthSessionRequest(
-                    tpmKey,
-                    bind,
-                    nonceCaller,
-                    encryptedSalt,
-                    sessionType,
-                    symmetric,
-                    authHash
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.StartAuthSession, inS, typeof(Tpm2StartAuthSessionResponse), out resp, 2, 1);
-            var outS = (Tpm2StartAuthSessionResponse)resp;
-            nonceTPM = outS.nonceTPM;
-            return outS.handle;
+            var req = new Tpm2StartAuthSessionRequest(tpmKey, bind, nonceCaller, encryptedSalt, sessionType, symmetric, authHash);
+            var resp = new Tpm2StartAuthSessionResponse();
+            DispatchMethod(TpmCc.StartAuthSession, req, resp, 2, 1);
+            nonceTPM = resp.nonceTPM;
+            return resp.handle;
         }
 
         /// This command allows a policy authorization session to be returned to its initial state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response code indicates that a policy will fail because the PCR have changed after TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be replayed because the session restarts with the same nonceTPM. If the PCR are valid for the policy, the policy may then succeed.
         /// 
         /// <param name = "sessionHandle"> The handle for the policy session </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyRestart(
-            TpmHandle sessionHandle
-        )
+            TpmHandle sessionHandle)
         {
-            var inS = new Tpm2PolicyRestartRequest(sessionHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyRestart, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyRestartRequest(sessionHandle);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyRestart, req, resp, 1, 0);
         }
 
         /// This command is used to create an object that can be loaded into a TPM using TPM2_Load(). If the command completes successfully, the TPM will create the new object and return the objects creation data (creationData), its public area (outPublic), and its encrypted sensitive area (outPrivate). Preservation of the returned data is the responsibility of the caller. The object will need to be loaded (TPM2_Load()) before it may be used. The only difference between the inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in the unique field.
@@ -18498,7 +18472,6 @@ namespace Tpm2Lib {
         ///           creationHash - Digest of creationData using nameAlg of outPublic
         ///           creationTicket - Ticket used by TPM2_CertifyCreation() to validate that the
         ///                            creation data was produced by the TPM </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmPrivate Create(
             TpmHandle parentHandle,
@@ -18506,31 +18479,19 @@ namespace Tpm2Lib {
             TpmPublic inPublic,
             byte[] outsideInfo,
             PcrSelection[] creationPCR,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out TpmPublic outPublic,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out CreationData creationData,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out byte[] creationHash,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out TkCreation creationTicket
-        )
+            out TkCreation creationTicket)
         {
-            var inS = new Tpm2CreateRequest(
-                    parentHandle,
-                    inSensitive,
-                    inPublic,
-                    outsideInfo,
-                    creationPCR
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Create, inS, typeof(Tpm2CreateResponse), out resp, 1, 0);
-            var outS = (Tpm2CreateResponse)resp;
-            outPublic = outS.outPublic;
-            creationData = outS.creationData;
-            creationHash = outS.creationHash;
-            creationTicket = outS.creationTicket;
-            return outS.outPrivate;
+            var req = new Tpm2CreateRequest(parentHandle, inSensitive, inPublic, outsideInfo, creationPCR);
+            var resp = new Tpm2CreateResponse();
+            DispatchMethod(TpmCc.Create, req, resp, 1, 0);
+            outPublic = resp.outPublic;
+            creationData = resp.creationData;
+            creationHash = resp.creationHash;
+            creationTicket = resp.creationTicket;
+            return resp.outPrivate;
         }
 
         /// This command is used to load objects into the TPM. This command is used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used.
@@ -18542,22 +18503,16 @@ namespace Tpm2Lib {
         /// <param name = "inPublic"> The public portion of the object </param>
         /// <returns> handle - Handle of type TPM_HT_TRANSIENT for the loaded object
         ///           name - Name of the loaded object </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle Load(
             TpmHandle parentHandle,
             TpmPrivate inPrivate,
-            TpmPublic inPublic
-        )
+            TpmPublic inPublic)
         {
-            var inS = new Tpm2LoadRequest(
-                    parentHandle,
-                    inPrivate,
-                    inPublic
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Load, inS, typeof(Tpm2LoadResponse), out resp, 1, 1);
-            return (resp as Tpm2LoadResponse).handle;
+            var req = new Tpm2LoadRequest(parentHandle, inPrivate, inPublic);
+            var resp = new Tpm2LoadResponse();
+            DispatchMethod(TpmCc.Load, req, resp, 1, 1);
+            return resp.handle;
         }
 
         /// This command is used to load an object that is not a Protected Object into the TPM. The command allows loading of a public area or both a public and sensitive area.
@@ -18567,22 +18522,16 @@ namespace Tpm2Lib {
         /// <param name = "hierarchy"> Hierarchy with which the object area is associated </param>
         /// <returns> handle - Handle of type TPM_HT_TRANSIENT for the loaded object
         ///           name - Name of the loaded object </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle LoadExternal(
             Sensitive inPrivate,
             TpmPublic inPublic,
-            TpmHandle hierarchy
-        )
+            TpmHandle hierarchy)
         {
-            var inS = new Tpm2LoadExternalRequest(
-                    inPrivate,
-                    inPublic,
-                    hierarchy
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.LoadExternal, inS, typeof(Tpm2LoadExternalResponse), out resp, 0, 1);
-            return (resp as Tpm2LoadExternalResponse).handle;
+            var req = new Tpm2LoadExternalRequest(inPrivate, inPublic, hierarchy);
+            var resp = new Tpm2LoadExternalResponse();
+            DispatchMethod(TpmCc.LoadExternal, req, resp, 0, 1);
+            return resp.handle;
         }
 
         /// This command allows access to the public area of a loaded object.
@@ -18592,23 +18541,18 @@ namespace Tpm2Lib {
         /// <returns> outPublic - Structure containing the public area of an object
         ///           name - Name of the object
         ///           qualifiedName - The Qualified Name of the object </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmPublic ReadPublic(
             TpmHandle objectHandle,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out byte[] name,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out byte[] qualifiedName
-        )
+            out byte[] qualifiedName)
         {
-            var inS = new Tpm2ReadPublicRequest(objectHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ReadPublic, inS, typeof(Tpm2ReadPublicResponse), out resp, 1, 0);
-            var outS = (Tpm2ReadPublicResponse)resp;
-            name = outS.name;
-            qualifiedName = outS.qualifiedName;
-            return outS.outPublic;
+            var req = new Tpm2ReadPublicRequest(objectHandle);
+            var resp = new Tpm2ReadPublicResponse();
+            DispatchMethod(TpmCc.ReadPublic, req, resp, 1, 0);
+            name = resp.name;
+            qualifiedName = resp.qualifiedName;
+            return resp.outPublic;
         }
 
         /// This command enables the association of a credential with an object in a way that ensures that the TPM has validated the parameters of the credentialed object.
@@ -18625,24 +18569,17 @@ namespace Tpm2Lib {
         /// <returns> certInfo - The decrypted certificate information
         ///                      the data should be no larger than the size of the digest of the
         ///                      nameAlg associated with keyHandle </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] ActivateCredential(
             TpmHandle activateHandle,
             TpmHandle keyHandle,
             IdObject credentialBlob,
-            byte[] secret
-        )
+            byte[] secret)
         {
-            var inS = new Tpm2ActivateCredentialRequest(
-                    activateHandle,
-                    keyHandle,
-                    credentialBlob,
-                    secret
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ActivateCredential, inS, typeof(Tpm2ActivateCredentialResponse), out resp, 2, 0);
-            return (resp as Tpm2ActivateCredentialResponse).certInfo;
+            var req = new Tpm2ActivateCredentialRequest(activateHandle, keyHandle, credentialBlob, secret);
+            var resp = new Tpm2ActivateCredentialResponse();
+            DispatchMethod(TpmCc.ActivateCredential, req, resp, 2, 0);
+            return resp.certInfo;
         }
 
         /// This command allows the TPM to perform the actions required of a Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
@@ -18654,26 +18591,18 @@ namespace Tpm2Lib {
         /// <param name = "objectName"> Name of the object to which the credential applies </param>
         /// <returns> credentialBlob - The credential
         ///           secret - Handle algorithm-dependent data that wraps the key that encrypts credentialBlob </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public IdObject MakeCredential(
             TpmHandle handle,
             byte[] credential,
             byte[] objectName,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out byte[] secret
-        )
+            out byte[] secret)
         {
-            var inS = new Tpm2MakeCredentialRequest(
-                    handle,
-                    credential,
-                    objectName
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.MakeCredential, inS, typeof(Tpm2MakeCredentialResponse), out resp, 1, 0);
-            var outS = (Tpm2MakeCredentialResponse)resp;
-            secret = outS.secret;
-            return outS.credentialBlob;
+            var req = new Tpm2MakeCredentialRequest(handle, credential, objectName);
+            var resp = new Tpm2MakeCredentialResponse();
+            DispatchMethod(TpmCc.MakeCredential, req, resp, 1, 0);
+            secret = resp.secret;
+            return resp.credentialBlob;
         }
 
         /// This command returns the data in a loaded Sealed Data Object.
@@ -18683,16 +18612,14 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <returns> outData - Unsealed data
         ///                     Size of outData is limited to be no more than 128 octets. </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] Unseal(
-            TpmHandle itemHandle
-        )
+            TpmHandle itemHandle)
         {
-            var inS = new Tpm2UnsealRequest(itemHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Unseal, inS, typeof(Tpm2UnsealResponse), out resp, 1, 0);
-            return (resp as Tpm2UnsealResponse).outData;
+            var req = new Tpm2UnsealRequest(itemHandle);
+            var resp = new Tpm2UnsealResponse();
+            DispatchMethod(TpmCc.Unseal, req, resp, 1, 0);
+            return resp.outData;
         }
 
         /// This command is used to change the authorization secret for a TPM-resident object.
@@ -18704,22 +18631,16 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "newAuth"> New authorization value </param>
         /// <returns> outPrivate - Private area containing the new authorization value </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmPrivate ObjectChangeAuth(
             TpmHandle objectHandle,
             TpmHandle parentHandle,
-            byte[] newAuth
-        )
+            byte[] newAuth)
         {
-            var inS = new Tpm2ObjectChangeAuthRequest(
-                    objectHandle,
-                    parentHandle,
-                    newAuth
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ObjectChangeAuth, inS, typeof(Tpm2ObjectChangeAuthResponse), out resp, 2, 0);
-            return (resp as Tpm2ObjectChangeAuthResponse).outPrivate;
+            var req = new Tpm2ObjectChangeAuthRequest(objectHandle, parentHandle, newAuth);
+            var resp = new Tpm2ObjectChangeAuthResponse();
+            DispatchMethod(TpmCc.ObjectChangeAuth, req, resp, 2, 0);
+            return resp.outPrivate;
         }
 
         /// This command creates an object and loads it in the TPM. This command allows creation of any type of object (Primary, Ordinary, or Derived) depending on the type of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is created; if parentHandle references a Storage Parent, then an Ordinary Object is created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
@@ -18734,29 +18655,20 @@ namespace Tpm2Lib {
         ///           outPrivate - The sensitive area of the object (optional)
         ///           outPublic - The public portion of the created object
         ///           name - The name of the created object </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle CreateLoaded(
             TpmHandle parentHandle,
             SensitiveCreate inSensitive,
             byte[] inPublic,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out TpmPrivate outPrivate,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out TpmPublic outPublic
-        )
+            out TpmPublic outPublic)
         {
-            var inS = new Tpm2CreateLoadedRequest(
-                    parentHandle,
-                    inSensitive,
-                    inPublic
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.CreateLoaded, inS, typeof(Tpm2CreateLoadedResponse), out resp, 1, 1);
-            var outS = (Tpm2CreateLoadedResponse)resp;
-            outPrivate = outS.outPrivate;
-            outPublic = outS.outPublic;
-            return outS.handle;
+            var req = new Tpm2CreateLoadedRequest(parentHandle, inSensitive, inPublic);
+            var resp = new Tpm2CreateLoadedResponse();
+            DispatchMethod(TpmCc.CreateLoaded, req, resp, 1, 1);
+            outPrivate = resp.outPrivate;
+            outPublic = resp.outPublic;
+            return resp.handle;
         }
 
         /// This command duplicates a loaded object so that it may be used in a different hierarchy. The new parent key for the duplicate may be on the same or different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
@@ -18779,31 +18691,21 @@ namespace Tpm2Lib {
         ///           duplicate - Private area that may be encrypted by encryptionKeyIn; and may be
         ///                       doubly encrypted
         ///           outSymSeed - Seed protected by the asymmetric algorithms of new parent (NP) </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] Duplicate(
             TpmHandle objectHandle,
             TpmHandle newParentHandle,
             byte[] encryptionKeyIn,
             SymDefObject symmetricAlg,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out TpmPrivate duplicate,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out byte[] outSymSeed
-        )
+            out byte[] outSymSeed)
         {
-            var inS = new Tpm2DuplicateRequest(
-                    objectHandle,
-                    newParentHandle,
-                    encryptionKeyIn,
-                    symmetricAlg
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Duplicate, inS, typeof(Tpm2DuplicateResponse), out resp, 2, 0);
-            var outS = (Tpm2DuplicateResponse)resp;
-            duplicate = outS.duplicate;
-            outSymSeed = outS.outSymSeed;
-            return outS.encryptionKeyOut;
+            var req = new Tpm2DuplicateRequest(objectHandle, newParentHandle, encryptionKeyIn, symmetricAlg);
+            var resp = new Tpm2DuplicateResponse();
+            DispatchMethod(TpmCc.Duplicate, req, resp, 2, 0);
+            duplicate = resp.duplicate;
+            outSymSeed = resp.outSymSeed;
+            return resp.encryptionKeyOut;
         }
 
         /// This command allows the TPM to serve in the role as a Duplication Authority. If proper authorization for use of the oldParent is provided, then an HMAC key and a symmetric key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate. A new protection seed value is generated according to the methods appropriate for newParent and the blob is re-encrypted and a new integrity value is computed. The re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
@@ -18820,7 +18722,6 @@ namespace Tpm2Lib {
         ///        needs oldParent private key to recover the seed and generate the symmetric key </param>
         /// <returns> outDuplicate - An object encrypted using symmetric key derived from outSymSeed
         ///           outSymSeed - Seed for a symmetric key protected by newParent asymmetric key </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmPrivate Rewrap(
             TpmHandle oldParent,
@@ -18828,22 +18729,13 @@ namespace Tpm2Lib {
             TpmPrivate inDuplicate,
             byte[] name,
             byte[] inSymSeed,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out byte[] outSymSeed
-        )
+            out byte[] outSymSeed)
         {
-            var inS = new Tpm2RewrapRequest(
-                    oldParent,
-                    newParent,
-                    inDuplicate,
-                    name,
-                    inSymSeed
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Rewrap, inS, typeof(Tpm2RewrapResponse), out resp, 2, 0);
-            var outS = (Tpm2RewrapResponse)resp;
-            outSymSeed = outS.outSymSeed;
-            return outS.outDuplicate;
+            var req = new Tpm2RewrapRequest(oldParent, newParent, inDuplicate, name, inSymSeed);
+            var resp = new Tpm2RewrapResponse();
+            DispatchMethod(TpmCc.Rewrap, req, resp, 2, 0);
+            outSymSeed = resp.outSymSeed;
+            return resp.outDuplicate;
         }
 
         /// This command allows an object to be encrypted using the symmetric encryption values of a Storage Key. After encryption, the object may be loaded and used in the new hierarchy. The imported object (duplicate) may be singly encrypted, multiply encrypted, or unencrypted.
@@ -18867,7 +18759,6 @@ namespace Tpm2Lib {
         ///        If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey
         ///        shall be the Empty Buffer. </param>
         /// <returns> outPrivate - The sensitive area encrypted with the symmetric key of parentHandle </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmPrivate Import(
             TpmHandle parentHandle,
@@ -18875,20 +18766,12 @@ namespace Tpm2Lib {
             TpmPublic objectPublic,
             TpmPrivate duplicate,
             byte[] inSymSeed,
-            SymDefObject symmetricAlg
-        )
+            SymDefObject symmetricAlg)
         {
-            var inS = new Tpm2ImportRequest(
-                    parentHandle,
-                    encryptionKey,
-                    objectPublic,
-                    duplicate,
-                    inSymSeed,
-                    symmetricAlg
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Import, inS, typeof(Tpm2ImportResponse), out resp, 1, 0);
-            return (resp as Tpm2ImportResponse).outPrivate;
+            var req = new Tpm2ImportRequest(parentHandle, encryptionKey, objectPublic, duplicate, inSymSeed, symmetricAlg);
+            var resp = new Tpm2ImportResponse();
+            DispatchMethod(TpmCc.Import, req, resp, 1, 0);
+            return resp.outPrivate;
         }
 
         /// This command performs RSA encryption using the indicated padding scheme according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
@@ -18908,24 +18791,17 @@ namespace Tpm2Lib {
         ///        Size of the buffer is zero if no label is present
         ///        NOTE 2 See description of label above. </param>
         /// <returns> outData - Encrypted output </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] RsaEncrypt(
             TpmHandle keyHandle,
             byte[] message,
             IAsymSchemeUnion inScheme,
-            byte[] label
-        )
+            byte[] label)
         {
-            var inS = new Tpm2RsaEncryptRequest(
-                    keyHandle,
-                    message,
-                    inScheme,
-                    label
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.RsaEncrypt, inS, typeof(Tpm2RsaEncryptResponse), out resp, 1, 0);
-            return (resp as Tpm2RsaEncryptResponse).outData;
+            var req = new Tpm2RsaEncryptRequest(keyHandle, message, inScheme, label);
+            var resp = new Tpm2RsaEncryptResponse();
+            DispatchMethod(TpmCc.RsaEncrypt, req, resp, 1, 0);
+            return resp.outData;
         }
 
         /// This command performs RSA decryption using the indicated padding scheme according to IETF RFC 8017 ((PKCS#1).
@@ -18942,24 +18818,17 @@ namespace Tpm2Lib {
         ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
         /// <param name = "label"> Label whose association with the message is to be verified </param>
         /// <returns> message - Decrypted output </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] RsaDecrypt(
             TpmHandle keyHandle,
             byte[] cipherText,
             IAsymSchemeUnion inScheme,
-            byte[] label
-        )
+            byte[] label)
         {
-            var inS = new Tpm2RsaDecryptRequest(
-                    keyHandle,
-                    cipherText,
-                    inScheme,
-                    label
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.RsaDecrypt, inS, typeof(Tpm2RsaDecryptResponse), out resp, 1, 0);
-            return (resp as Tpm2RsaDecryptResponse).message;
+            var req = new Tpm2RsaDecryptRequest(keyHandle, cipherText, inScheme, label);
+            var resp = new Tpm2RsaDecryptResponse();
+            DispatchMethod(TpmCc.RsaDecrypt, req, resp, 1, 0);
+            return resp.message;
         }
 
         /// This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the shared secret value (P [hde]QS).
@@ -18968,20 +18837,16 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <returns> zPoint - Results of P h[de]Qs
         ///           pubPoint - Generated ephemeral public point (Qe) </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public EccPoint EcdhKeyGen(
             TpmHandle keyHandle,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out EccPoint pubPoint
-        )
+            out EccPoint pubPoint)
         {
-            var inS = new Tpm2EcdhKeyGenRequest(keyHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.EcdhKeyGen, inS, typeof(Tpm2EcdhKeyGenResponse), out resp, 1, 0);
-            var outS = (Tpm2EcdhKeyGenResponse)resp;
-            pubPoint = outS.pubPoint;
-            return outS.zPoint;
+            var req = new Tpm2EcdhKeyGenRequest(keyHandle);
+            var resp = new Tpm2EcdhKeyGenResponse();
+            DispatchMethod(TpmCc.EcdhKeyGen, req, resp, 1, 0);
+            pubPoint = resp.pubPoint;
+            return resp.zPoint;
         }
 
         /// This command uses the TPM to recover the Z value from a public point (QB) and a private key (ds). It will perform the multiplication of the provided inPoint (QB) with the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h is the cofactor of the curve).
@@ -18992,36 +18857,29 @@ namespace Tpm2Lib {
         /// <param name = "inPoint"> A public key </param>
         /// <returns> outPoint - X and Y coordinates of the product of the multiplication Z = (xZ ,
         ///                      yZ) [hdS]QB </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public EccPoint EcdhZGen(
             TpmHandle keyHandle,
-            EccPoint inPoint
-        )
+            EccPoint inPoint)
         {
-            var inS = new Tpm2EcdhZGenRequest(
-                    keyHandle,
-                    inPoint
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.EcdhZGen, inS, typeof(Tpm2EcdhZGenResponse), out resp, 1, 0);
-            return (resp as Tpm2EcdhZGenResponse).outPoint;
+            var req = new Tpm2EcdhZGenRequest(keyHandle, inPoint);
+            var resp = new Tpm2EcdhZGenResponse();
+            DispatchMethod(TpmCc.EcdhZGen, req, resp, 1, 0);
+            return resp.outPoint;
         }
 
         /// This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.
         /// 
         /// <param name = "curveID"> Parameter set selector </param>
         /// <returns> parameters - ECC parameters for the selected curve </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public AlgorithmDetailEcc EccParameters(
-            EccCurve curveID
-        )
+            EccCurve curveID)
         {
-            var inS = new Tpm2EccParametersRequest(curveID);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.EccParameters, inS, typeof(Tpm2EccParametersResponse), out resp, 0, 0);
-            return (resp as Tpm2EccParametersResponse).parameters;
+            var req = new Tpm2EccParametersRequest(curveID);
+            var resp = new Tpm2EccParametersResponse();
+            DispatchMethod(TpmCc.EccParameters, req, resp, 0, 0);
+            return resp.parameters;
         }
 
         /// This command supports two-phase key exchange protocols. The command is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key and returns the public point of that ephemeral key along with a numeric value that allows the TPM to regenerate the associated private key.
@@ -19036,7 +18894,6 @@ namespace Tpm2Lib {
         /// <param name = "counter"> Value returned by TPM2_EC_Ephemeral() </param>
         /// <returns> outZ1 - X and Y coordinates of the computed value (scheme dependent)
         ///           outZ2 - X and Y coordinates of the second computed value (scheme dependent) </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public EccPoint ZGen2Phase(
             TpmHandle keyA,
@@ -19044,22 +18901,13 @@ namespace Tpm2Lib {
             EccPoint inQeB,
             TpmAlgId inScheme,
             ushort counter,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out EccPoint outZ2
-        )
+            out EccPoint outZ2)
         {
-            var inS = new Tpm2ZGen2PhaseRequest(
-                    keyA,
-                    inQsB,
-                    inQeB,
-                    inScheme,
-                    counter
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ZGen2Phase, inS, typeof(Tpm2ZGen2PhaseResponse), out resp, 1, 0);
-            var outS = (Tpm2ZGen2PhaseResponse)resp;
-            outZ2 = outS.outZ2;
-            return outS.outZ1;
+            var req = new Tpm2ZGen2PhaseRequest(keyA, inQsB, inQeB, inScheme, counter);
+            var resp = new Tpm2ZGen2PhaseResponse();
+            DispatchMethod(TpmCc.ZGen2Phase, req, resp, 1, 0);
+            outZ2 = resp.outZ2;
+            return resp.outZ1;
         }
 
         /// This command performs ECC encryption as described in Part 1, Annex D.
@@ -19073,29 +18921,20 @@ namespace Tpm2Lib {
         /// <returns> C1 - The public ephemeral key used for ECDH
         ///           C2 - The data block produced by the XOR process
         ///           C3 - The integrity value </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public EccPoint EccEncrypt(
             TpmHandle keyHandle,
             byte[] plainText,
             IKdfSchemeUnion inScheme,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out byte[] C2,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out byte[] C3
-        )
+            out byte[] C3)
         {
-            var inS = new Tpm2EccEncryptRequest(
-                    keyHandle,
-                    plainText,
-                    inScheme
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.EccEncrypt, inS, typeof(Tpm2EccEncryptResponse), out resp, 1, 0);
-            var outS = (Tpm2EccEncryptResponse)resp;
-            C2 = outS.C2;
-            C3 = outS.C3;
-            return outS.C1;
+            var req = new Tpm2EccEncryptRequest(keyHandle, plainText, inScheme);
+            var resp = new Tpm2EccEncryptResponse();
+            DispatchMethod(TpmCc.EccEncrypt, req, resp, 1, 0);
+            C2 = resp.C2;
+            C3 = resp.C3;
+            return resp.C1;
         }
 
         /// This command performs ECC decryption.
@@ -19110,26 +18949,18 @@ namespace Tpm2Lib {
         ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
         ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
         /// <returns> plainText - Decrypted output </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] EccDecrypt(
             TpmHandle keyHandle,
             EccPoint C1,
             byte[] C2,
             byte[] C3,
-            IKdfSchemeUnion inScheme
-        )
+            IKdfSchemeUnion inScheme)
         {
-            var inS = new Tpm2EccDecryptRequest(
-                    keyHandle,
-                    C1,
-                    C2,
-                    C3,
-                    inScheme
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.EccDecrypt, inS, typeof(Tpm2EccDecryptResponse), out resp, 1, 0);
-            return (resp as Tpm2EccDecryptResponse).plainText;
+            var req = new Tpm2EccDecryptRequest(keyHandle, C1, C2, C3, inScheme);
+            var resp = new Tpm2EccDecryptResponse();
+            DispatchMethod(TpmCc.EccDecrypt, req, resp, 1, 0);
+            return resp.plainText;
         }
 
         /// NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This should be reflected in platform-specific specifications.
@@ -19145,7 +18976,6 @@ namespace Tpm2Lib {
         /// <param name = "inData"> The data to be encrypted/decrypted </param>
         /// <returns> outData - Encrypted or decrypted output
         ///           ivOut - Chaining value to use for IV in next round </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] EncryptDecrypt(
             TpmHandle keyHandle,
@@ -19153,22 +18983,13 @@ namespace Tpm2Lib {
             TpmAlgId mode,
             byte[] ivIn,
             byte[] inData,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out byte[] ivOut
-        )
+            out byte[] ivOut)
         {
-            var inS = new Tpm2EncryptDecryptRequest(
-                    keyHandle,
-                    decrypt,
-                    mode,
-                    ivIn,
-                    inData
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.EncryptDecrypt, inS, typeof(Tpm2EncryptDecryptResponse), out resp, 1, 0);
-            var outS = (Tpm2EncryptDecryptResponse)resp;
-            ivOut = outS.ivOut;
-            return outS.outData;
+            var req = new Tpm2EncryptDecryptRequest(keyHandle, decrypt, mode, ivIn, inData);
+            var resp = new Tpm2EncryptDecryptResponse();
+            DispatchMethod(TpmCc.EncryptDecrypt, req, resp, 1, 0);
+            ivOut = resp.ivOut;
+            return resp.outData;
         }
 
         /// This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter is the first parameter. This permits inData to be parameter encrypted.
@@ -19184,7 +19005,6 @@ namespace Tpm2Lib {
         /// <param name = "ivIn"> An initial value as required by the algorithm </param>
         /// <returns> outData - Encrypted or decrypted output
         ///           ivOut - Chaining value to use for IV in next round </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] EncryptDecrypt2(
             TpmHandle keyHandle,
@@ -19192,22 +19012,13 @@ namespace Tpm2Lib {
             byte decrypt,
             TpmAlgId mode,
             byte[] ivIn,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out byte[] ivOut
-        )
+            out byte[] ivOut)
         {
-            var inS = new Tpm2EncryptDecrypt2Request(
-                    keyHandle,
-                    inData,
-                    decrypt,
-                    mode,
-                    ivIn
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.EncryptDecrypt2, inS, typeof(Tpm2EncryptDecrypt2Response), out resp, 1, 0);
-            var outS = (Tpm2EncryptDecrypt2Response)resp;
-            ivOut = outS.ivOut;
-            return outS.outData;
+            var req = new Tpm2EncryptDecrypt2Request(keyHandle, inData, decrypt, mode, ivIn);
+            var resp = new Tpm2EncryptDecrypt2Response();
+            DispatchMethod(TpmCc.EncryptDecrypt2, req, resp, 1, 0);
+            ivOut = resp.ivOut;
+            return resp.outData;
         }
 
         /// This command performs a hash operation on a data buffer and returns the results.
@@ -19220,26 +19031,18 @@ namespace Tpm2Lib {
         ///                        outDigest did not start with TPM_GENERATED_VALUE
         ///                        will be a NULL ticket if the digest may not be signed with a
         ///                        restricted key </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] Hash(
             byte[] data,
             TpmAlgId hashAlg,
             TpmHandle hierarchy,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out TkHashcheck validation
-        )
+            out TkHashcheck validation)
         {
-            var inS = new Tpm2HashRequest(
-                    data,
-                    hashAlg,
-                    hierarchy
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Hash, inS, typeof(Tpm2HashResponse), out resp, 0, 0);
-            var outS = (Tpm2HashResponse)resp;
-            validation = outS.validation;
-            return outS.outHash;
+            var req = new Tpm2HashRequest(data, hashAlg, hierarchy);
+            var resp = new Tpm2HashResponse();
+            DispatchMethod(TpmCc.Hash, req, resp, 0, 0);
+            validation = resp.validation;
+            return resp.outHash;
         }
 
         /// This command performs an HMAC on the supplied data using the indicated hash algorithm.
@@ -19250,22 +19053,16 @@ namespace Tpm2Lib {
         /// <param name = "buffer"> HMAC data </param>
         /// <param name = "hashAlg"> Algorithm to use for HMAC </param>
         /// <returns> outHMAC - The returned HMAC in a sized buffer </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] Hmac(
             TpmHandle handle,
             byte[] buffer,
-            TpmAlgId hashAlg
-        )
+            TpmAlgId hashAlg)
         {
-            var inS = new Tpm2HmacRequest(
-                    handle,
-                    buffer,
-                    hashAlg
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Hmac, inS, typeof(Tpm2HmacResponse), out resp, 1, 0);
-            return (resp as Tpm2HmacResponse).outHMAC;
+            var req = new Tpm2HmacRequest(handle, buffer, hashAlg);
+            var resp = new Tpm2HmacResponse();
+            DispatchMethod(TpmCc.Hmac, req, resp, 1, 0);
+            return resp.outHMAC;
         }
 
         /// This command performs an HMAC or a block cipher MAC on the supplied data using the indicated algorithm.
@@ -19276,52 +19073,42 @@ namespace Tpm2Lib {
         /// <param name = "buffer"> MAC data </param>
         /// <param name = "inScheme"> Algorithm to use for MAC </param>
         /// <returns> outMAC - The returned MAC in a sized buffer </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] Mac(
             TpmHandle handle,
             byte[] buffer,
-            TpmAlgId inScheme
-        )
+            TpmAlgId inScheme)
         {
-            var inS = new Tpm2MacRequest(
-                    handle,
-                    buffer,
-                    inScheme
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Mac, inS, typeof(Tpm2MacResponse), out resp, 1, 0);
-            return (resp as Tpm2MacResponse).outMAC;
+            var req = new Tpm2MacRequest(handle, buffer, inScheme);
+            var resp = new Tpm2MacResponse();
+            DispatchMethod(TpmCc.Mac, req, resp, 1, 0);
+            return resp.outMAC;
         }
 
         /// This command returns the next bytesRequested octets from the random number generator (RNG).
         /// 
         /// <param name = "bytesRequested"> Number of octets to return </param>
         /// <returns> randomBytes - The random octets </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] GetRandom(
-            ushort bytesRequested
-        )
+            ushort bytesRequested)
         {
-            var inS = new Tpm2GetRandomRequest(bytesRequested);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.GetRandom, inS, typeof(Tpm2GetRandomResponse), out resp, 0, 0);
-            return (resp as Tpm2GetRandomResponse).randomBytes;
+            var req = new Tpm2GetRandomRequest(bytesRequested);
+            var resp = new Tpm2GetRandomResponse();
+            DispatchMethod(TpmCc.GetRandom, req, resp, 0, 0);
+            return resp.randomBytes;
         }
 
         /// This command is used to add "additional information" to the RNG state.
         /// 
         /// <param name = "inData"> Additional information </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void StirRandom(
-            byte[] inData
-        )
+            byte[] inData)
         {
-            var inS = new Tpm2StirRandomRequest(inData);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.StirRandom, inS, typeof(EmptyResponse), out resp, 0, 0);
+            var req = new Tpm2StirRandomRequest(inData);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.StirRandom, req, resp, 0, 0);
         }
 
         /// This command starts an HMAC sequence. The TPM will create and initialize an HMAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
@@ -19332,22 +19119,16 @@ namespace Tpm2Lib {
         /// <param name = "auth"> Authorization value for subsequent use of the sequence </param>
         /// <param name = "hashAlg"> The hash algorithm to use for the HMAC </param>
         /// <returns> handle - A handle to reference the sequence </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle HmacStart(
             TpmHandle handle,
             byte[] auth,
-            TpmAlgId hashAlg
-        )
+            TpmAlgId hashAlg)
         {
-            var inS = new Tpm2HmacStartRequest(
-                    handle,
-                    auth,
-                    hashAlg
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.HmacStart, inS, typeof(Tpm2HmacStartResponse), out resp, 1, 1);
-            return (resp as Tpm2HmacStartResponse).handle;
+            var req = new Tpm2HmacStartRequest(handle, auth, hashAlg);
+            var resp = new Tpm2HmacStartResponse();
+            DispatchMethod(TpmCc.HmacStart, req, resp, 1, 1);
+            return resp.handle;
         }
 
         /// This command starts a MAC sequence. The TPM will create and initialize a MAC sequence structure, assign a handle to the sequence, and set the authValue of the sequence object to the value in auth.
@@ -19358,22 +19139,16 @@ namespace Tpm2Lib {
         /// <param name = "auth"> Authorization value for subsequent use of the sequence </param>
         /// <param name = "inScheme"> The algorithm to use for the MAC </param>
         /// <returns> handle - A handle to reference the sequence </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle MacStart(
             TpmHandle handle,
             byte[] auth,
-            TpmAlgId inScheme
-        )
+            TpmAlgId inScheme)
         {
-            var inS = new Tpm2MacStartRequest(
-                    handle,
-                    auth,
-                    inScheme
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.MacStart, inS, typeof(Tpm2MacStartResponse), out resp, 1, 1);
-            return (resp as Tpm2MacStartResponse).handle;
+            var req = new Tpm2MacStartRequest(handle, auth, inScheme);
+            var resp = new Tpm2MacStartResponse();
+            DispatchMethod(TpmCc.MacStart, req, resp, 1, 1);
+            return resp.handle;
         }
 
         /// This command starts a hash or an Event Sequence. If hashAlg is an implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH.
@@ -19382,20 +19157,15 @@ namespace Tpm2Lib {
         /// <param name = "hashAlg"> The hash algorithm to use for the hash sequence
         ///        An Event Sequence starts if this is TPM_ALG_NULL. </param>
         /// <returns> handle - A handle to reference the sequence </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle HashSequenceStart(
             byte[] auth,
-            TpmAlgId hashAlg
-        )
+            TpmAlgId hashAlg)
         {
-            var inS = new Tpm2HashSequenceStartRequest(
-                    auth,
-                    hashAlg
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.HashSequenceStart, inS, typeof(Tpm2HashSequenceStartResponse), out resp, 0, 1);
-            return (resp as Tpm2HashSequenceStartResponse).handle;
+            var req = new Tpm2HashSequenceStartRequest(auth, hashAlg);
+            var resp = new Tpm2HashSequenceStartResponse();
+            DispatchMethod(TpmCc.HashSequenceStart, req, resp, 0, 1);
+            return resp.handle;
         }
 
         /// This command is used to add data to a hash or HMAC sequence. The amount of data in buffer may be any size up to the limits of the TPM.
@@ -19404,19 +19174,14 @@ namespace Tpm2Lib {
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <param name = "buffer"> Data to be added to hash </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void SequenceUpdate(
             TpmHandle sequenceHandle,
-            byte[] buffer
-        )
+            byte[] buffer)
         {
-            var inS = new Tpm2SequenceUpdateRequest(
-                    sequenceHandle,
-                    buffer
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.SequenceUpdate, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2SequenceUpdateRequest(sequenceHandle, buffer);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.SequenceUpdate, req, resp, 1, 0);
         }
 
         /// This command adds the last part of data, if any, to a hash/HMAC sequence and returns the result.
@@ -19430,26 +19195,18 @@ namespace Tpm2Lib {
         ///           validation - Ticket indicating that the sequence of octets used to compute
         ///                        outDigest did not start with TPM_GENERATED_VALUE
         ///                        This is a NULL Ticket when the sequence is HMAC. </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] SequenceComplete(
             TpmHandle sequenceHandle,
             byte[] buffer,
             TpmHandle hierarchy,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out TkHashcheck validation
-        )
+            out TkHashcheck validation)
         {
-            var inS = new Tpm2SequenceCompleteRequest(
-                    sequenceHandle,
-                    buffer,
-                    hierarchy
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.SequenceComplete, inS, typeof(Tpm2SequenceCompleteResponse), out resp, 1, 0);
-            var outS = (Tpm2SequenceCompleteResponse)resp;
-            validation = outS.validation;
-            return outS.result;
+            var req = new Tpm2SequenceCompleteRequest(sequenceHandle, buffer, hierarchy);
+            var resp = new Tpm2SequenceCompleteResponse();
+            DispatchMethod(TpmCc.SequenceComplete, req, resp, 1, 0);
+            validation = resp.validation;
+            return resp.result;
         }
 
         /// This command adds the last part of data, if any, to an Event Sequence and returns the result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the returned digest list is processed in the same manner as the digest list input parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with pcrHandle, it is extended with the associated digest value from the list.
@@ -19462,22 +19219,16 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "buffer"> Data to be added to the Event </param>
         /// <returns> results - List of digests computed for the PCR </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHash[] EventSequenceComplete(
             TpmHandle pcrHandle,
             TpmHandle sequenceHandle,
-            byte[] buffer
-        )
+            byte[] buffer)
         {
-            var inS = new Tpm2EventSequenceCompleteRequest(
-                    pcrHandle,
-                    sequenceHandle,
-                    buffer
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.EventSequenceComplete, inS, typeof(Tpm2EventSequenceCompleteResponse), out resp, 2, 0);
-            return (resp as Tpm2EventSequenceCompleteResponse).results;
+            var req = new Tpm2EventSequenceCompleteRequest(pcrHandle, sequenceHandle, buffer);
+            var resp = new Tpm2EventSequenceCompleteResponse();
+            DispatchMethod(TpmCc.EventSequenceComplete, req, resp, 2, 0);
+            return resp.results;
         }
 
         /// The purpose of this command is to prove that an object with a specific Name is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a public area with a given Name is self-consistent and associated with a valid sensitive area. If a relying party has a public area that has the same Name as a Name certified with this command, then the values in that public area are correct.
@@ -19495,28 +19246,19 @@ namespace Tpm2Lib {
         /// <returns> certifyInfo - The structure that was signed
         ///           signature - The asymmetric signature over certifyInfo using the key referenced
         ///                       by signHandle </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest Certify(
             TpmHandle objectHandle,
             TpmHandle signHandle,
             byte[] qualifyingData,
             ISigSchemeUnion inScheme,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out ISignatureUnion signature
-        )
+            out ISignatureUnion signature)
         {
-            var inS = new Tpm2CertifyRequest(
-                    objectHandle,
-                    signHandle,
-                    qualifyingData,
-                    inScheme
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Certify, inS, typeof(Tpm2CertifyResponse), out resp, 2, 0);
-            var outS = (Tpm2CertifyResponse)resp;
-            signature = outS.signature;
-            return outS.certifyInfo;
+            var req = new Tpm2CertifyRequest(objectHandle, signHandle, qualifyingData, inScheme);
+            var resp = new Tpm2CertifyResponse();
+            DispatchMethod(TpmCc.Certify, req, resp, 2, 0);
+            signature = resp.signature;
+            return resp.certifyInfo;
         }
 
         /// This command is used to prove the association between an object and its creation data. The TPM will validate that the ticket was produced by the TPM and that the ticket validates the association between a loaded public area and the provided hash of the creation data (creationHash).
@@ -19535,7 +19277,6 @@ namespace Tpm2Lib {
         /// <param name = "creationTicket"> Ticket produced by TPM2_Create() or TPM2_CreatePrimary() </param>
         /// <returns> certifyInfo - The structure that was signed
         ///           signature - The signature over certifyInfo </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest CertifyCreation(
             TpmHandle signHandle,
@@ -19544,23 +19285,13 @@ namespace Tpm2Lib {
             byte[] creationHash,
             ISigSchemeUnion inScheme,
             TkCreation creationTicket,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out ISignatureUnion signature
-        )
+            out ISignatureUnion signature)
         {
-            var inS = new Tpm2CertifyCreationRequest(
-                    signHandle,
-                    objectHandle,
-                    qualifyingData,
-                    creationHash,
-                    inScheme,
-                    creationTicket
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.CertifyCreation, inS, typeof(Tpm2CertifyCreationResponse), out resp, 2, 0);
-            var outS = (Tpm2CertifyCreationResponse)resp;
-            signature = outS.signature;
-            return outS.certifyInfo;
+            var req = new Tpm2CertifyCreationRequest(signHandle, objectHandle, qualifyingData, creationHash, inScheme, creationTicket);
+            var resp = new Tpm2CertifyCreationResponse();
+            DispatchMethod(TpmCc.CertifyCreation, req, resp, 2, 0);
+            signature = resp.signature;
+            return resp.certifyInfo;
         }
 
         /// This command is used to quote PCR values.
@@ -19575,28 +19306,19 @@ namespace Tpm2Lib {
         /// <param name = "PCRselect"> PCR set to quote </param>
         /// <returns> quoted - The quoted information
         ///           signature - The signature over quoted </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest Quote(
             TpmHandle signHandle,
             byte[] qualifyingData,
             ISigSchemeUnion inScheme,
             PcrSelection[] PCRselect,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out ISignatureUnion signature
-        )
+            out ISignatureUnion signature)
         {
-            var inS = new Tpm2QuoteRequest(
-                    signHandle,
-                    qualifyingData,
-                    inScheme,
-                    PCRselect
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Quote, inS, typeof(Tpm2QuoteResponse), out resp, 1, 0);
-            var outS = (Tpm2QuoteResponse)resp;
-            signature = outS.signature;
-            return outS.quoted;
+            var req = new Tpm2QuoteRequest(signHandle, qualifyingData, inScheme, PCRselect);
+            var resp = new Tpm2QuoteResponse();
+            DispatchMethod(TpmCc.Quote, req, resp, 1, 0);
+            signature = resp.signature;
+            return resp.quoted;
         }
 
         /// This command returns a digital signature of the audit session digest.
@@ -19615,7 +19337,6 @@ namespace Tpm2Lib {
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
         /// <returns> auditInfo - The audit information that was signed
         ///           signature - The signature over auditInfo </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest GetSessionAuditDigest(
             TpmHandle privacyAdminHandle,
@@ -19623,22 +19344,13 @@ namespace Tpm2Lib {
             TpmHandle sessionHandle,
             byte[] qualifyingData,
             ISigSchemeUnion inScheme,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out ISignatureUnion signature
-        )
+            out ISignatureUnion signature)
         {
-            var inS = new Tpm2GetSessionAuditDigestRequest(
-                    privacyAdminHandle,
-                    signHandle,
-                    sessionHandle,
-                    qualifyingData,
-                    inScheme
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.GetSessionAuditDigest, inS, typeof(Tpm2GetSessionAuditDigestResponse), out resp, 3, 0);
-            var outS = (Tpm2GetSessionAuditDigestResponse)resp;
-            signature = outS.signature;
-            return outS.auditInfo;
+            var req = new Tpm2GetSessionAuditDigestRequest(privacyAdminHandle, signHandle, sessionHandle, qualifyingData, inScheme);
+            var resp = new Tpm2GetSessionAuditDigestResponse();
+            DispatchMethod(TpmCc.GetSessionAuditDigest, req, resp, 3, 0);
+            signature = resp.signature;
+            return resp.auditInfo;
         }
 
         /// This command returns the current value of the command audit digest, a digest of the commands being audited, and the audit hash algorithm. These values are placed in an attestation structure and signed with the key referenced by signHandle.
@@ -19655,28 +19367,19 @@ namespace Tpm2Lib {
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
         /// <returns> auditInfo - The auditInfo that was signed
         ///           signature - The signature over auditInfo </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest GetCommandAuditDigest(
             TpmHandle privacyHandle,
             TpmHandle signHandle,
             byte[] qualifyingData,
             ISigSchemeUnion inScheme,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out ISignatureUnion signature
-        )
+            out ISignatureUnion signature)
         {
-            var inS = new Tpm2GetCommandAuditDigestRequest(
-                    privacyHandle,
-                    signHandle,
-                    qualifyingData,
-                    inScheme
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.GetCommandAuditDigest, inS, typeof(Tpm2GetCommandAuditDigestResponse), out resp, 2, 0);
-            var outS = (Tpm2GetCommandAuditDigestResponse)resp;
-            signature = outS.signature;
-            return outS.auditInfo;
+            var req = new Tpm2GetCommandAuditDigestRequest(privacyHandle, signHandle, qualifyingData, inScheme);
+            var resp = new Tpm2GetCommandAuditDigestResponse();
+            DispatchMethod(TpmCc.GetCommandAuditDigest, req, resp, 2, 0);
+            signature = resp.signature;
+            return resp.auditInfo;
         }
 
         /// This command returns the current values of Time and Clock.
@@ -19694,28 +19397,19 @@ namespace Tpm2Lib {
         ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
         /// <returns> timeInfo - Standard TPM-generated attestation block
         ///           signature - The signature over timeInfo </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest GetTime(
             TpmHandle privacyAdminHandle,
             TpmHandle signHandle,
             byte[] qualifyingData,
             ISigSchemeUnion inScheme,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out ISignatureUnion signature
-        )
+            out ISignatureUnion signature)
         {
-            var inS = new Tpm2GetTimeRequest(
-                    privacyAdminHandle,
-                    signHandle,
-                    qualifyingData,
-                    inScheme
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.GetTime, inS, typeof(Tpm2GetTimeResponse), out resp, 2, 0);
-            var outS = (Tpm2GetTimeResponse)resp;
-            signature = outS.signature;
-            return outS.timeInfo;
+            var req = new Tpm2GetTimeRequest(privacyAdminHandle, signHandle, qualifyingData, inScheme);
+            var resp = new Tpm2GetTimeResponse();
+            DispatchMethod(TpmCc.GetTime, req, resp, 2, 0);
+            signature = resp.signature;
+            return resp.timeInfo;
         }
 
         /// The purpose of this command is to generate an X.509 certificate that proves an object with a specific public key and attributes is loaded in the TPM. In contrast to TPM2_Certify, which uses a TCG-defined data structure to convey attestation information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
@@ -19736,7 +19430,6 @@ namespace Tpm2Lib {
         ///                                TBSCertificate.
         ///           tbsDigest - The digest that was signed
         ///           signature - The signature over tbsDigest </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] CertifyX509(
             TpmHandle objectHandle,
@@ -19744,25 +19437,15 @@ namespace Tpm2Lib {
             byte[] reserved,
             ISigSchemeUnion inScheme,
             byte[] partialCertificate,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out byte[] tbsDigest,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out ISignatureUnion signature
-        )
+            out ISignatureUnion signature)
         {
-            var inS = new Tpm2CertifyX509Request(
-                    objectHandle,
-                    signHandle,
-                    reserved,
-                    inScheme,
-                    partialCertificate
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.CertifyX509, inS, typeof(Tpm2CertifyX509Response), out resp, 2, 0);
-            var outS = (Tpm2CertifyX509Response)resp;
-            tbsDigest = outS.tbsDigest;
-            signature = outS.signature;
-            return outS.addedToCertificate;
+            var req = new Tpm2CertifyX509Request(objectHandle, signHandle, reserved, inScheme, partialCertificate);
+            var resp = new Tpm2CertifyX509Response();
+            DispatchMethod(TpmCc.CertifyX509, req, resp, 2, 0);
+            tbsDigest = resp.tbsDigest;
+            signature = resp.signature;
+            return resp.addedToCertificate;
         }
 
         /// TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM will perform the point multiplications on the provided points and return intermediate signing values. The signHandle parameter shall refer to an ECC key and the signing scheme must be anonymous (TPM_RC_SCHEME).
@@ -19777,34 +19460,23 @@ namespace Tpm2Lib {
         ///           L - ECC point L [r](x2, y2)
         ///           E - ECC point E [r]P1
         ///           counter - Least-significant 16 bits of commitCount </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public EccPoint Commit(
             TpmHandle signHandle,
             EccPoint P1,
             byte[] s2,
             byte[] y2,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out EccPoint L,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out EccPoint E,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out ushort counter
-        )
+            out ushort counter)
         {
-            var inS = new Tpm2CommitRequest(
-                    signHandle,
-                    P1,
-                    s2,
-                    y2
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Commit, inS, typeof(Tpm2CommitResponse), out resp, 1, 0);
-            var outS = (Tpm2CommitResponse)resp;
-            L = outS.L;
-            E = outS.E;
-            counter = outS.counter;
-            return outS.K;
+            var req = new Tpm2CommitRequest(signHandle, P1, s2, y2);
+            var resp = new Tpm2CommitResponse();
+            DispatchMethod(TpmCc.Commit, req, resp, 1, 0);
+            L = resp.L;
+            E = resp.E;
+            counter = resp.counter;
+            return resp.K;
         }
 
         /// TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
@@ -19812,20 +19484,16 @@ namespace Tpm2Lib {
         /// <param name = "curveID"> The curve for the computed ephemeral point </param>
         /// <returns> Q - Ephemeral public key Q [r]G
         ///           counter - Least-significant 16 bits of commitCount </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public EccPoint EcEphemeral(
             EccCurve curveID,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out ushort counter
-        )
+            out ushort counter)
         {
-            var inS = new Tpm2EcEphemeralRequest(curveID);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.EcEphemeral, inS, typeof(Tpm2EcEphemeralResponse), out resp, 0, 0);
-            var outS = (Tpm2EcEphemeralResponse)resp;
-            counter = outS.counter;
-            return outS.Q;
+            var req = new Tpm2EcEphemeralRequest(curveID);
+            var resp = new Tpm2EcEphemeralResponse();
+            DispatchMethod(TpmCc.EcEphemeral, req, resp, 0, 0);
+            counter = resp.counter;
+            return resp.Q;
         }
 
         /// This command uses loaded keys to validate a signature on a message with the message digest passed to the TPM.
@@ -19840,22 +19508,16 @@ namespace Tpm2Lib {
         ///                        is used for multiple ticket uses. The ticket provides evidence that
         ///                        the TPM has validated that a digest was signed by a key with the
         ///                        Name of keyName. The ticket is computed by </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TkVerified VerifySignature(
             TpmHandle keyHandle,
             byte[] digest,
-            ISignatureUnion signature
-        )
+            ISignatureUnion signature)
         {
-            var inS = new Tpm2VerifySignatureRequest(
-                    keyHandle,
-                    digest,
-                    signature
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.VerifySignature, inS, typeof(Tpm2VerifySignatureResponse), out resp, 1, 0);
-            return (resp as Tpm2VerifySignatureResponse).validation;
+            var req = new Tpm2VerifySignatureRequest(keyHandle, digest, signature);
+            var resp = new Tpm2VerifySignatureResponse();
+            DispatchMethod(TpmCc.VerifySignature, req, resp, 1, 0);
+            return resp.validation;
         }
 
         /// This command causes the TPM to sign an externally provided hash with the specified symmetric or asymmetric signing key.
@@ -19871,24 +19533,17 @@ namespace Tpm2Lib {
         ///        If keyHandle is not a restricted signing key, then this may be a NULL Ticket with
         ///        tag = TPM_ST_CHECKHASH. </param>
         /// <returns> signature - The signature </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public ISignatureUnion Sign(
             TpmHandle keyHandle,
             byte[] digest,
             ISigSchemeUnion inScheme,
-            TkHashcheck validation
-        )
+            TkHashcheck validation)
         {
-            var inS = new Tpm2SignRequest(
-                    keyHandle,
-                    digest,
-                    inScheme,
-                    validation
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Sign, inS, typeof(Tpm2SignResponse), out resp, 1, 0);
-            return (resp as Tpm2SignResponse).signature;
+            var req = new Tpm2SignRequest(keyHandle, digest, inScheme, validation);
+            var resp = new Tpm2SignResponse();
+            DispatchMethod(TpmCc.Sign, req, resp, 1, 0);
+            return resp.signature;
         }
 
         /// This command may be used by the Privacy Administrator or platform to change the audit status of a command or to set the hash algorithm used for the audit digest, but not both at the same time.
@@ -19901,23 +19556,16 @@ namespace Tpm2Lib {
         /// <param name = "setList"> List of commands that will be added to those that will be audited
         ///        </param>
         /// <param name = "clearList"> List of commands that will no longer be audited </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void SetCommandCodeAuditStatus(
             TpmHandle auth,
             TpmAlgId auditAlg,
             TpmCc[] setList,
-            TpmCc[] clearList
-        )
+            TpmCc[] clearList)
         {
-            var inS = new Tpm2SetCommandCodeAuditStatusRequest(
-                    auth,
-                    auditAlg,
-                    setList,
-                    clearList
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.SetCommandCodeAuditStatus, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2SetCommandCodeAuditStatusRequest(auth, auditAlg, setList, clearList);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.SetCommandCodeAuditStatus, req, resp, 1, 0);
         }
 
         /// This command is used to cause an update to the indicated PCR. The digests parameter contains one or more tagged digest values identified by an algorithm ID. For each digest, the PCR associated with pcrHandle is Extended into the bank identified by the tag (hashAlg).
@@ -19926,19 +19574,14 @@ namespace Tpm2Lib {
         ///        Auth Handle: 1
         ///        Auth Role: USER </param>
         /// <param name = "digests"> List of tagged digest values to be extended </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PcrExtend(
             TpmHandle pcrHandle,
-            TpmHash[] digests
-        )
+            TpmHash[] digests)
         {
-            var inS = new Tpm2PcrExtendRequest(
-                    pcrHandle,
-                    digests
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PcrExtend, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PcrExtendRequest(pcrHandle, digests);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PcrExtend, req, resp, 1, 0);
         }
 
         /// This command is used to cause an update to the indicated PCR.
@@ -19951,20 +19594,15 @@ namespace Tpm2Lib {
         ///                     specification. To handle hash agility, this structure uses the hashAlg
         ///                     parameter to indicate the algorithm used to compute the digest and, by
         ///                     implication, the size of the digest. </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHash[] PcrEvent(
             TpmHandle pcrHandle,
-            byte[] eventData
-        )
+            byte[] eventData)
         {
-            var inS = new Tpm2PcrEventRequest(
-                    pcrHandle,
-                    eventData
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PcrEvent, inS, typeof(Tpm2PcrEventResponse), out resp, 1, 0);
-            return (resp as Tpm2PcrEventResponse).digests;
+            var req = new Tpm2PcrEventRequest(pcrHandle, eventData);
+            var resp = new Tpm2PcrEventResponse();
+            DispatchMethod(TpmCc.PcrEvent, req, resp, 1, 0);
+            return resp.digests;
         }
 
         /// This command returns the values of all PCR specified in pcrSelectionIn.
@@ -19974,23 +19612,18 @@ namespace Tpm2Lib {
         ///           pcrSelectionOut - The PCR in the returned list
         ///           pcrValues - The contents of the PCR indicated in pcrSelectOut-? pcrSelection[]
         ///                       as tagged digests </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public uint PcrRead(
             PcrSelection[] pcrSelectionIn,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out PcrSelection[] pcrSelectionOut,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out Tpm2bDigest[] pcrValues
-        )
+            out Tpm2bDigest[] pcrValues)
         {
-            var inS = new Tpm2PcrReadRequest(pcrSelectionIn);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PcrRead, inS, typeof(Tpm2PcrReadResponse), out resp, 0, 0);
-            var outS = (Tpm2PcrReadResponse)resp;
-            pcrSelectionOut = outS.pcrSelectionOut;
-            pcrValues = outS.pcrValues;
-            return outS.pcrUpdateCounter;
+            var req = new Tpm2PcrReadRequest(pcrSelectionIn);
+            var resp = new Tpm2PcrReadResponse();
+            DispatchMethod(TpmCc.PcrRead, req, resp, 0, 0);
+            pcrSelectionOut = resp.pcrSelectionOut;
+            pcrValues = resp.pcrValues;
+            return resp.pcrUpdateCounter;
         }
 
         /// This command is used to set the desired PCR allocation of PCR and algorithms. This command requires Platform Authorization.
@@ -20003,30 +19636,21 @@ namespace Tpm2Lib {
         ///           maxPCR - Maximum number of PCR that may be in a bank
         ///           sizeNeeded - Number of octets required to satisfy the request
         ///           sizeAvailable - Number of octets available. Computed before the allocation. </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte PcrAllocate(
             TpmHandle authHandle,
             PcrSelection[] pcrAllocation,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out uint maxPCR,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out uint sizeNeeded,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out uint sizeAvailable
-        )
+            out uint sizeAvailable)
         {
-            var inS = new Tpm2PcrAllocateRequest(
-                    authHandle,
-                    pcrAllocation
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PcrAllocate, inS, typeof(Tpm2PcrAllocateResponse), out resp, 1, 0);
-            var outS = (Tpm2PcrAllocateResponse)resp;
-            maxPCR = outS.maxPCR;
-            sizeNeeded = outS.sizeNeeded;
-            sizeAvailable = outS.sizeAvailable;
-            return outS.allocationSuccess;
+            var req = new Tpm2PcrAllocateRequest(authHandle, pcrAllocation);
+            var resp = new Tpm2PcrAllocateResponse();
+            DispatchMethod(TpmCc.PcrAllocate, req, resp, 1, 0);
+            maxPCR = resp.maxPCR;
+            sizeNeeded = resp.sizeNeeded;
+            sizeAvailable = resp.sizeAvailable;
+            return resp.allocationSuccess;
         }
 
         /// This command is used to associate a policy with a PCR or group of PCR. The policy determines the conditions under which a PCR may be extended or reset.
@@ -20037,23 +19661,16 @@ namespace Tpm2Lib {
         /// <param name = "authPolicy"> The desired authPolicy </param>
         /// <param name = "hashAlg"> The hash algorithm of the policy </param>
         /// <param name = "pcrNum"> The PCR for which the policy is to be set </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PcrSetAuthPolicy(
             TpmHandle authHandle,
             byte[] authPolicy,
             TpmAlgId hashAlg,
-            TpmHandle pcrNum
-        )
+            TpmHandle pcrNum)
         {
-            var inS = new Tpm2PcrSetAuthPolicyRequest(
-                    authHandle,
-                    authPolicy,
-                    hashAlg,
-                    pcrNum
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PcrSetAuthPolicy, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PcrSetAuthPolicyRequest(authHandle, authPolicy, hashAlg, pcrNum);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PcrSetAuthPolicy, req, resp, 1, 0);
         }
 
         /// This command changes the authValue of a PCR or group of PCR.
@@ -20062,19 +19679,14 @@ namespace Tpm2Lib {
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <param name = "auth"> The desired authorization value </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PcrSetAuthValue(
             TpmHandle pcrHandle,
-            byte[] auth
-        )
+            byte[] auth)
         {
-            var inS = new Tpm2PcrSetAuthValueRequest(
-                    pcrHandle,
-                    auth
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PcrSetAuthValue, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PcrSetAuthValueRequest(pcrHandle, auth);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PcrSetAuthValue, req, resp, 1, 0);
         }
 
         /// If the attribute of a PCR allows the PCR to be reset and proper authorization is provided, then this command may be used to set the PCR in all banks to zero. The attributes of the PCR may restrict the locality that can perform the reset operation.
@@ -20082,15 +19694,13 @@ namespace Tpm2Lib {
         /// <param name = "pcrHandle"> The PCR to reset
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PcrReset(
-            TpmHandle pcrHandle
-        )
+            TpmHandle pcrHandle)
         {
-            var inS = new Tpm2PcrResetRequest(pcrHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PcrReset, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PcrResetRequest(pcrHandle);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PcrReset, req, resp, 1, 0);
         }
 
         /// This command includes a signed authorization in a policy. The command ties the policy to a signing key by including the Name of the signing key in the policyDigest
@@ -20120,7 +19730,6 @@ namespace Tpm2Lib {
         ///           policyTicket - Produced if the command succeeds and expiration in the command
         ///                          was non-zero; this ticket will use the TPMT_ST_AUTH_SIGNED
         ///                          structure tag. See 23.2.5 </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] PolicySigned(
             TpmHandle authObject,
@@ -20130,24 +19739,13 @@ namespace Tpm2Lib {
             byte[] policyRef,
             int expiration,
             ISignatureUnion auth,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out TkAuth policyTicket
-        )
+            out TkAuth policyTicket)
         {
-            var inS = new Tpm2PolicySignedRequest(
-                    authObject,
-                    policySession,
-                    nonceTPM,
-                    cpHashA,
-                    policyRef,
-                    expiration,
-                    auth
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicySigned, inS, typeof(Tpm2PolicySignedResponse), out resp, 2, 0);
-            var outS = (Tpm2PolicySignedResponse)resp;
-            policyTicket = outS.policyTicket;
-            return outS.timeout;
+            var req = new Tpm2PolicySignedRequest(authObject, policySession, nonceTPM, cpHashA, policyRef, expiration, auth);
+            var resp = new Tpm2PolicySignedResponse();
+            DispatchMethod(TpmCc.PolicySigned, req, resp, 2, 0);
+            policyTicket = resp.policyTicket;
+            return resp.timeout;
         }
 
         /// This command includes a secret-based authorization to a policy. The caller proves knowledge of the secret value using an authorization session using the authValue associated with authHandle. A password session, an HMAC session, or a policy session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
@@ -20174,7 +19772,6 @@ namespace Tpm2Lib {
         ///           policyTicket - Produced if the command succeeds and expiration in the command
         ///                          was non-zero ( See 23.2.5). This ticket will use the
         ///                          TPMT_ST_AUTH_SECRET structure tag </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] PolicySecret(
             TpmHandle authHandle,
@@ -20183,23 +19780,13 @@ namespace Tpm2Lib {
             byte[] cpHashA,
             byte[] policyRef,
             int expiration,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out TkAuth policyTicket
-        )
+            out TkAuth policyTicket)
         {
-            var inS = new Tpm2PolicySecretRequest(
-                    authHandle,
-                    policySession,
-                    nonceTPM,
-                    cpHashA,
-                    policyRef,
-                    expiration
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicySecret, inS, typeof(Tpm2PolicySecretResponse), out resp, 2, 0);
-            var outS = (Tpm2PolicySecretResponse)resp;
-            policyTicket = outS.policyTicket;
-            return outS.timeout;
+            var req = new Tpm2PolicySecretRequest(authHandle, policySession, nonceTPM, cpHashA, policyRef, expiration);
+            var resp = new Tpm2PolicySecretResponse();
+            DispatchMethod(TpmCc.PolicySecret, req, resp, 2, 0);
+            policyTicket = resp.policyTicket;
+            return resp.timeout;
         }
 
         /// This command is similar to TPM2_PolicySigned() except that it takes a ticket instead of a signed authorization. The ticket represents a validated authorization that had an expiration time associated with it.
@@ -20216,7 +19803,6 @@ namespace Tpm2Lib {
         /// <param name = "authName"> Name of the object that provided the authorization </param>
         /// <param name = "ticket"> An authorization ticket returned by the TPM in response to a
         ///        TPM2_PolicySigned() or TPM2_PolicySecret() </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyTicket(
             TpmHandle policySession,
@@ -20224,19 +19810,11 @@ namespace Tpm2Lib {
             byte[] cpHashA,
             byte[] policyRef,
             byte[] authName,
-            TkAuth ticket
-        )
+            TkAuth ticket)
         {
-            var inS = new Tpm2PolicyTicketRequest(
-                    policySession,
-                    timeout,
-                    cpHashA,
-                    policyRef,
-                    authName,
-                    ticket
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyTicket, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyTicketRequest(policySession, timeout, cpHashA, policyRef, authName, ticket);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyTicket, req, resp, 1, 0);
         }
 
         /// This command allows options in authorizations without requiring that the TPM evaluate all of the options. If a policy may be satisfied by different sets of conditions, the TPM need only evaluate one set that satisfies the policy. This command will indicate that one of the required sets of conditions has been satisfied.
@@ -20244,19 +19822,14 @@ namespace Tpm2Lib {
         /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         /// <param name = "pHashList"> The list of hashes to check for a match </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyOR(
             TpmHandle policySession,
-            Tpm2bDigest[] pHashList
-        )
+            Tpm2bDigest[] pHashList)
         {
-            var inS = new Tpm2PolicyORRequest(
-                    policySession,
-                    pHashList
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyOR, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyORRequest(policySession, pHashList);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyOR, req, resp, 1, 0);
         }
 
         /// This command is used to cause conditional gating of a policy based on PCR. This command together with TPM2_PolicyOR() allows one group of authorizations to occur when PCR are in one state and a different set of authorizations when the PCR are in a different state.
@@ -20266,21 +19839,15 @@ namespace Tpm2Lib {
         /// <param name = "pcrDigest"> Expected digest value of the selected PCR using the hash
         ///        algorithm of the session; may be zero length </param>
         /// <param name = "pcrs"> The PCR to include in the check digest </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyPCR(
             TpmHandle policySession,
             byte[] pcrDigest,
-            PcrSelection[] pcrs
-        )
+            PcrSelection[] pcrs)
         {
-            var inS = new Tpm2PolicyPCRRequest(
-                    policySession,
-                    pcrDigest,
-                    pcrs
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyPCR, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyPCRRequest(policySession, pcrDigest, pcrs);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyPCR, req, resp, 1, 0);
         }
 
         /// This command indicates that the authorization will be limited to a specific locality.
@@ -20288,19 +19855,14 @@ namespace Tpm2Lib {
         /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         /// <param name = "locality"> The allowed localities for the policy </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyLocality(
             TpmHandle policySession,
-            LocalityAttr locality
-        )
+            LocalityAttr locality)
         {
-            var inS = new Tpm2PolicyLocalityRequest(
-                    policySession,
-                    locality
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyLocality, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyLocalityRequest(policySession, locality);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyLocality, req, resp, 1, 0);
         }
 
         /// This command is used to cause conditional gating of a policy based on the contents of an NV Index. It is an immediate assertion. The NV index is validated during the TPM2_PolicyNV() command, not when the session is used for authorization.
@@ -20315,7 +19877,6 @@ namespace Tpm2Lib {
         /// <param name = "operandB"> The second operand </param>
         /// <param name = "offset"> The octet offset in the NV Index for the start of operand A </param>
         /// <param name = "operation"> The comparison to make </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyNV(
             TpmHandle authHandle,
@@ -20323,19 +19884,11 @@ namespace Tpm2Lib {
             TpmHandle policySession,
             byte[] operandB,
             ushort offset,
-            Eo operation
-        )
+            Eo operation)
         {
-            var inS = new Tpm2PolicyNVRequest(
-                    authHandle,
-                    nvIndex,
-                    policySession,
-                    operandB,
-                    offset,
-                    operation
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyNV, inS, typeof(EmptyResponse), out resp, 3, 0);
+            var req = new Tpm2PolicyNVRequest(authHandle, nvIndex, policySession, operandB, offset, operation);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyNV, req, resp, 3, 0);
         }
 
         /// This command is used to cause conditional gating of a policy based on the contents of the TPMS_TIME_INFO structure.
@@ -20346,23 +19899,16 @@ namespace Tpm2Lib {
         /// <param name = "offset"> The octet offset in the TPMS_TIME_INFO structure for the start of
         ///        operand A </param>
         /// <param name = "operation"> The comparison to make </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyCounterTimer(
             TpmHandle policySession,
             byte[] operandB,
             ushort offset,
-            Eo operation
-        )
+            Eo operation)
         {
-            var inS = new Tpm2PolicyCounterTimerRequest(
-                    policySession,
-                    operandB,
-                    offset,
-                    operation
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyCounterTimer, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyCounterTimerRequest(policySession, operandB, offset, operation);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyCounterTimer, req, resp, 1, 0);
         }
 
         /// This command indicates that the authorization will be limited to a specific command code.
@@ -20370,34 +19916,27 @@ namespace Tpm2Lib {
         /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         /// <param name = "code"> The allowed commandCode </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyCommandCode(
             TpmHandle policySession,
-            TpmCc code
-        )
+            TpmCc code)
         {
-            var inS = new Tpm2PolicyCommandCodeRequest(
-                    policySession,
-                    code
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyCommandCode, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyCommandCodeRequest(policySession, code);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyCommandCode, req, resp, 1, 0);
         }
 
         /// This command indicates that physical presence will need to be asserted at the time the authorization is performed.
         /// 
         /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyPhysicalPresence(
-            TpmHandle policySession
-        )
+            TpmHandle policySession)
         {
-            var inS = new Tpm2PolicyPhysicalPresenceRequest(policySession);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyPhysicalPresence, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyPhysicalPresenceRequest(policySession);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyPhysicalPresence, req, resp, 1, 0);
         }
 
         /// This command is used to allow a policy to be bound to a specific command and command parameters.
@@ -20405,19 +19944,14 @@ namespace Tpm2Lib {
         /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         /// <param name = "cpHashA"> The cpHash added to the policy </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyCpHash(
             TpmHandle policySession,
-            byte[] cpHashA
-        )
+            byte[] cpHashA)
         {
-            var inS = new Tpm2PolicyCpHashRequest(
-                    policySession,
-                    cpHashA
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyCpHash, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyCpHashRequest(policySession, cpHashA);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyCpHash, req, resp, 1, 0);
         }
 
         /// This command allows a policy to be bound to a specific set of TPM entities without being bound to the parameters of the command. This is most useful for commands such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
@@ -20425,19 +19959,14 @@ namespace Tpm2Lib {
         /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         /// <param name = "nameHash"> The digest to be added to the policy </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyNameHash(
             TpmHandle policySession,
-            byte[] nameHash
-        )
+            byte[] nameHash)
         {
-            var inS = new Tpm2PolicyNameHashRequest(
-                    policySession,
-                    nameHash
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyNameHash, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyNameHashRequest(policySession, nameHash);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyNameHash, req, resp, 1, 0);
         }
 
         /// This command allows qualification of duplication to allow duplication to a selected new parent.
@@ -20448,23 +19977,16 @@ namespace Tpm2Lib {
         /// <param name = "newParentName"> The Name of the new parent </param>
         /// <param name = "includeObject"> If YES, the objectName will be included in the value in
         ///        policySessionpolicyDigest </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyDuplicationSelect(
             TpmHandle policySession,
             byte[] objectName,
             byte[] newParentName,
-            byte includeObject
-        )
+            byte includeObject)
         {
-            var inS = new Tpm2PolicyDuplicationSelectRequest(
-                    policySession,
-                    objectName,
-                    newParentName,
-                    includeObject
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyDuplicationSelect, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyDuplicationSelectRequest(policySession, objectName, newParentName, includeObject);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyDuplicationSelect, req, resp, 1, 0);
         }
 
         /// This command allows policies to change. If a policy were static, then it would be difficult to add users to a policy. This command lets a policy authority sign a new policy so that it may be used in an existing policy.
@@ -20476,55 +19998,43 @@ namespace Tpm2Lib {
         /// <param name = "keySign"> Name of a key that can sign a policy addition </param>
         /// <param name = "checkTicket"> Ticket validating that approvedPolicy and policyRef were
         ///        signed by keySign </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyAuthorize(
             TpmHandle policySession,
             byte[] approvedPolicy,
             byte[] policyRef,
             byte[] keySign,
-            TkVerified checkTicket
-        )
+            TkVerified checkTicket)
         {
-            var inS = new Tpm2PolicyAuthorizeRequest(
-                    policySession,
-                    approvedPolicy,
-                    policyRef,
-                    keySign,
-                    checkTicket
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyAuthorize, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyAuthorizeRequest(policySession, approvedPolicy, policyRef, keySign, checkTicket);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyAuthorize, req, resp, 1, 0);
         }
 
         /// This command allows a policy to be bound to the authorization value of the authorized entity.
         /// 
         /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyAuthValue(
-            TpmHandle policySession
-        )
+            TpmHandle policySession)
         {
-            var inS = new Tpm2PolicyAuthValueRequest(policySession);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyAuthValue, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyAuthValueRequest(policySession);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyAuthValue, req, resp, 1, 0);
         }
 
         /// This command allows a policy to be bound to the authorization value of the authorized object.
         /// 
         /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyPassword(
-            TpmHandle policySession
-        )
+            TpmHandle policySession)
         {
-            var inS = new Tpm2PolicyPasswordRequest(policySession);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyPassword, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyPasswordRequest(policySession);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyPassword, req, resp, 1, 0);
         }
 
         /// This command returns the current policyDigest of the session. This command allows the TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
@@ -20532,16 +20042,14 @@ namespace Tpm2Lib {
         /// <param name = "policySession"> Handle for the policy session
         ///        Auth Index: None </param>
         /// <returns> policyDigest - The current value of the policySessionpolicyDigest </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] PolicyGetDigest(
-            TpmHandle policySession
-        )
+            TpmHandle policySession)
         {
-            var inS = new Tpm2PolicyGetDigestRequest(policySession);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyGetDigest, inS, typeof(Tpm2PolicyGetDigestResponse), out resp, 1, 0);
-            return (resp as Tpm2PolicyGetDigestResponse).policyDigest;
+            var req = new Tpm2PolicyGetDigestRequest(policySession);
+            var resp = new Tpm2PolicyGetDigestResponse();
+            DispatchMethod(TpmCc.PolicyGetDigest, req, resp, 1, 0);
+            return resp.policyDigest;
         }
 
         /// This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a deferred assertion. Values are stored in the policy session context and checked when the policy is used for authorization.
@@ -20550,19 +20058,14 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "writtenSet"> YES if NV Index is required to have been written
         ///        NO if NV Index is required not to have been written </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyNvWritten(
             TpmHandle policySession,
-            byte writtenSet
-        )
+            byte writtenSet)
         {
-            var inS = new Tpm2PolicyNvWrittenRequest(
-                    policySession,
-                    writtenSet
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyNvWritten, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyNvWrittenRequest(policySession, writtenSet);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyNvWritten, req, resp, 1, 0);
         }
 
         /// This command allows a policy to be bound to a specific creation template. This is most useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
@@ -20570,19 +20073,14 @@ namespace Tpm2Lib {
         /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
         /// <param name = "templateHash"> The digest to be added to the policy </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyTemplate(
             TpmHandle policySession,
-            byte[] templateHash
-        )
+            byte[] templateHash)
         {
-            var inS = new Tpm2PolicyTemplateRequest(
-                    policySession,
-                    templateHash
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyTemplate, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyTemplateRequest(policySession, templateHash);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyTemplate, req, resp, 1, 0);
         }
 
         /// This command provides a capability that is the equivalent of a revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization may not be withdrawn. With this command, the approved policy is kept in an NV Index location so that the policy may be changed as needed to render the old policy unusable.
@@ -20594,21 +20092,15 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "policySession"> Handle for the policy session being extended
         ///        Auth Index: None </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyAuthorizeNV(
             TpmHandle authHandle,
             TpmHandle nvIndex,
-            TpmHandle policySession
-        )
+            TpmHandle policySession)
         {
-            var inS = new Tpm2PolicyAuthorizeNVRequest(
-                    authHandle,
-                    nvIndex,
-                    policySession
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyAuthorizeNV, inS, typeof(EmptyResponse), out resp, 3, 0);
+            var req = new Tpm2PolicyAuthorizeNVRequest(authHandle, nvIndex, policySession);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyAuthorizeNV, req, resp, 3, 0);
         }
 
         /// This command is used to create a Primary Object under one of the Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for the object to be created. The size of the unique field shall not be checked for consistency with the other object parameters. The command will create and load a Primary Object. The sensitive area is not returned.
@@ -20629,7 +20121,6 @@ namespace Tpm2Lib {
         ///           creationTicket - Ticket used by TPM2_CertifyCreation() to validate that the
         ///                            creation data was produced by the TPM
         ///           name - The name of the created object </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle CreatePrimary(
             TpmHandle primaryHandle,
@@ -20637,31 +20128,19 @@ namespace Tpm2Lib {
             TpmPublic inPublic,
             byte[] outsideInfo,
             PcrSelection[] creationPCR,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out TpmPublic outPublic,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out CreationData creationData,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
             out byte[] creationHash,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out TkCreation creationTicket
-        )
+            out TkCreation creationTicket)
         {
-            var inS = new Tpm2CreatePrimaryRequest(
-                    primaryHandle,
-                    inSensitive,
-                    inPublic,
-                    outsideInfo,
-                    creationPCR
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.CreatePrimary, inS, typeof(Tpm2CreatePrimaryResponse), out resp, 1, 1);
-            var outS = (Tpm2CreatePrimaryResponse)resp;
-            outPublic = outS.outPublic;
-            creationData = outS.creationData;
-            creationHash = outS.creationHash;
-            creationTicket = outS.creationTicket;
-            return outS.handle;
+            var req = new Tpm2CreatePrimaryRequest(primaryHandle, inSensitive, inPublic, outsideInfo, creationPCR);
+            var resp = new Tpm2CreatePrimaryResponse();
+            DispatchMethod(TpmCc.CreatePrimary, req, resp, 1, 1);
+            outPublic = resp.outPublic;
+            creationData = resp.creationData;
+            creationHash = resp.creationHash;
+            creationTicket = resp.creationTicket;
+            return resp.handle;
         }
 
         /// This command enables and disables use of a hierarchy and its associated NV storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the proper authorization is provided.
@@ -20672,21 +20151,15 @@ namespace Tpm2Lib {
         /// <param name = "enable"> The enable being modified
         ///        TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV </param>
         /// <param name = "state"> YES if the enable should be SET, NO if the enable should be CLEAR </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void HierarchyControl(
             TpmHandle authHandle,
             TpmHandle enable,
-            byte state
-        )
+            byte state)
         {
-            var inS = new Tpm2HierarchyControlRequest(
-                    authHandle,
-                    enable,
-                    state
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.HierarchyControl, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2HierarchyControlRequest(authHandle, enable, state);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.HierarchyControl, req, resp, 1, 0);
         }
 
         /// This command allows setting of the authorization policy for the lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing Authenticated Countdown Timers (ACT), this command may also be used to set the authorization policy for an ACT.
@@ -20699,21 +20172,15 @@ namespace Tpm2Lib {
         ///        If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer. </param>
         /// <param name = "hashAlg"> The hash algorithm to use for the policy
         ///        If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL. </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void SetPrimaryPolicy(
             TpmHandle authHandle,
             byte[] authPolicy,
-            TpmAlgId hashAlg
-        )
+            TpmAlgId hashAlg)
         {
-            var inS = new Tpm2SetPrimaryPolicyRequest(
-                    authHandle,
-                    authPolicy,
-                    hashAlg
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.SetPrimaryPolicy, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2SetPrimaryPolicyRequest(authHandle, authPolicy, hashAlg);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.SetPrimaryPolicy, req, resp, 1, 0);
         }
 
         /// This replaces the current platform primary seed (PPS) with a value from the RNG and sets platformPolicy to the default initialization value (the Empty Buffer).
@@ -20721,15 +20188,13 @@ namespace Tpm2Lib {
         /// <param name = "authHandle"> TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void ChangePPS(
-            TpmHandle authHandle
-        )
+            TpmHandle authHandle)
         {
-            var inS = new Tpm2ChangePPSRequest(authHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ChangePPS, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2ChangePPSRequest(authHandle);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.ChangePPS, req, resp, 1, 0);
         }
 
         /// This replaces the current endorsement primary seed (EPS) with a value from the RNG and sets the Endorsement hierarchy controls to their default initialization values: ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty Buffer. It will flush any resident objects (transient or persistent) in the Endorsement hierarchy and not allow objects in the hierarchy associated with the previous EPS to be loaded.
@@ -20737,15 +20202,13 @@ namespace Tpm2Lib {
         /// <param name = "authHandle"> TPM_RH_PLATFORM+{PP}
         ///        Auth Handle: 1
         ///        Auth Role: USER </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void ChangeEPS(
-            TpmHandle authHandle
-        )
+            TpmHandle authHandle)
         {
-            var inS = new Tpm2ChangeEPSRequest(authHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ChangeEPS, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2ChangeEPSRequest(authHandle);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.ChangeEPS, req, resp, 1, 0);
         }
 
         /// This command removes all TPM context associated with a specific Owner.
@@ -20753,15 +20216,13 @@ namespace Tpm2Lib {
         /// <param name = "authHandle"> TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
         ///        Auth Handle: 1
         ///        Auth Role: USER </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void Clear(
-            TpmHandle authHandle
-        )
+            TpmHandle authHandle)
         {
-            var inS = new Tpm2ClearRequest(authHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.Clear, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2ClearRequest(authHandle);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.Clear, req, resp, 1, 0);
         }
 
         /// TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
@@ -20771,19 +20232,14 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "disable"> YES if the disableOwnerClear flag is to be SET, NO if the flag is
         ///        to be CLEAR. </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void ClearControl(
             TpmHandle auth,
-            byte disable
-        )
+            byte disable)
         {
-            var inS = new Tpm2ClearControlRequest(
-                    auth,
-                    disable
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ClearControl, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2ClearControlRequest(auth, disable);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.ClearControl, req, resp, 1, 0);
         }
 
         /// This command allows the authorization secret for a hierarchy or lockout to be changed using the current authorization value as the command authorization.
@@ -20792,19 +20248,14 @@ namespace Tpm2Lib {
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <param name = "newAuth"> New authorization value </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void HierarchyChangeAuth(
             TpmHandle authHandle,
-            byte[] newAuth
-        )
+            byte[] newAuth)
         {
-            var inS = new Tpm2HierarchyChangeAuthRequest(
-                    authHandle,
-                    newAuth
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.HierarchyChangeAuth, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2HierarchyChangeAuthRequest(authHandle, newAuth);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.HierarchyChangeAuth, req, resp, 1, 0);
         }
 
         /// This command cancels the effect of a TPM lockout due to a number of successive authorization failures. If this command is properly authorized, the lockout counter is set to zero.
@@ -20812,15 +20263,13 @@ namespace Tpm2Lib {
         /// <param name = "lockHandle"> TPM_RH_LOCKOUT
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void DictionaryAttackLockReset(
-            TpmHandle lockHandle
-        )
+            TpmHandle lockHandle)
         {
-            var inS = new Tpm2DictionaryAttackLockResetRequest(lockHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.DictionaryAttackLockReset, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2DictionaryAttackLockResetRequest(lockHandle);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.DictionaryAttackLockReset, req, resp, 1, 0);
         }
 
         /// This command changes the lockout parameters.
@@ -20836,23 +20285,16 @@ namespace Tpm2Lib {
         /// <param name = "lockoutRecovery"> Time in seconds after a lockoutAuth failure before use of
         ///        lockoutAuth is allowed
         ///        A value of zero indicates that a reboot is required. </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void DictionaryAttackParameters(
             TpmHandle lockHandle,
             uint newMaxTries,
             uint newRecoveryTime,
-            uint lockoutRecovery
-        )
+            uint lockoutRecovery)
         {
-            var inS = new Tpm2DictionaryAttackParametersRequest(
-                    lockHandle,
-                    newMaxTries,
-                    newRecoveryTime,
-                    lockoutRecovery
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.DictionaryAttackParameters, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2DictionaryAttackParametersRequest(lockHandle, newMaxTries, newRecoveryTime, lockoutRecovery);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.DictionaryAttackParameters, req, resp, 1, 0);
         }
 
         /// This command is used to determine which commands require assertion of Physical Presence (PP) in addition to platformAuth/platformPolicy.
@@ -20864,21 +20306,15 @@ namespace Tpm2Lib {
         ///        Physical Presence be asserted </param>
         /// <param name = "clearList"> List of commands that will no longer require that Physical
         ///        Presence be asserted </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PpCommands(
             TpmHandle auth,
             TpmCc[] setList,
-            TpmCc[] clearList
-        )
+            TpmCc[] clearList)
         {
-            var inS = new Tpm2PpCommandsRequest(
-                    auth,
-                    setList,
-                    clearList
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PpCommands, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PpCommandsRequest(auth, setList, clearList);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PpCommands, req, resp, 1, 0);
         }
 
         /// This command allows the platform to change the set of algorithms that are used by the TPM. The algorithmSet setting is a vendor-dependent value.
@@ -20888,19 +20324,14 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "algorithmSet"> A TPM vendor-dependent value indicating the algorithm set
         ///        selection </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void SetAlgorithmSet(
             TpmHandle authHandle,
-            uint algorithmSet
-        )
+            uint algorithmSet)
         {
-            var inS = new Tpm2SetAlgorithmSetRequest(
-                    authHandle,
-                    algorithmSet
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.SetAlgorithmSet, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2SetAlgorithmSetRequest(authHandle, algorithmSet);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.SetAlgorithmSet, req, resp, 1, 0);
         }
 
         /// This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a Field Upgrade Manifest.
@@ -20916,23 +20347,16 @@ namespace Tpm2Lib {
         ///        keyHandle (not optional)
         ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
         ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void FieldUpgradeStart(
             TpmHandle authorization,
             TpmHandle keyHandle,
             byte[] fuDigest,
-            ISignatureUnion manifestSignature
-        )
+            ISignatureUnion manifestSignature)
         {
-            var inS = new Tpm2FieldUpgradeStartRequest(
-                    authorization,
-                    keyHandle,
-                    fuDigest,
-                    manifestSignature
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.FieldUpgradeStart, inS, typeof(EmptyResponse), out resp, 2, 0);
+            var req = new Tpm2FieldUpgradeStartRequest(authorization, keyHandle, fuDigest, manifestSignature);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.FieldUpgradeStart, req, resp, 2, 0);
         }
 
         /// This command will take the actual field upgrade image to be installed on the TPM. The exact format of fuData is vendor-specific. This command is only possible following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
@@ -20941,20 +20365,16 @@ namespace Tpm2Lib {
         /// <returns> nextDigest - Tagged digest of the next block
         ///                        TPM_ALG_NULL if field update is complete
         ///           firstDigest - Tagged digest of the first block of the sequence </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHash FieldUpgradeData(
             byte[] fuData,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out TpmHash firstDigest
-        )
+            out TpmHash firstDigest)
         {
-            var inS = new Tpm2FieldUpgradeDataRequest(fuData);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.FieldUpgradeData, inS, typeof(Tpm2FieldUpgradeDataResponse), out resp, 0, 0);
-            var outS = (Tpm2FieldUpgradeDataResponse)resp;
-            firstDigest = outS.firstDigest;
-            return outS.nextDigest;
+            var req = new Tpm2FieldUpgradeDataRequest(fuData);
+            var resp = new Tpm2FieldUpgradeDataResponse();
+            DispatchMethod(TpmCc.FieldUpgradeData, req, resp, 0, 0);
+            firstDigest = resp.firstDigest;
+            return resp.nextDigest;
         }
 
         /// This command is used to read a copy of the current firmware installed in the TPM.
@@ -20962,16 +20382,14 @@ namespace Tpm2Lib {
         /// <param name = "sequenceNumber"> The number of previous calls to this command in this sequence
         ///        set to 0 on the first call </param>
         /// <returns> fuData - Field upgrade image data </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] FirmwareRead(
-            uint sequenceNumber
-        )
+            uint sequenceNumber)
         {
-            var inS = new Tpm2FirmwareReadRequest(sequenceNumber);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.FirmwareRead, inS, typeof(Tpm2FirmwareReadResponse), out resp, 0, 0);
-            return (resp as Tpm2FirmwareReadResponse).fuData;
+            var req = new Tpm2FirmwareReadRequest(sequenceNumber);
+            var resp = new Tpm2FirmwareReadResponse();
+            DispatchMethod(TpmCc.FirmwareRead, req, resp, 0, 0);
+            return resp.fuData;
         }
 
         /// This command saves a session context, object context, or sequence object context outside the TPM.
@@ -20982,47 +20400,41 @@ namespace Tpm2Lib {
         ///                     If the values of the TPMS_CONTEXT structure in TPM2_ContextLoad() are
         ///                     not the same as the values when the context was saved
         ///                     (TPM2_ContextSave()), then the TPM shall not load the context. </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Context ContextSave(
-            TpmHandle saveHandle
-        )
+            TpmHandle saveHandle)
         {
-            var inS = new Tpm2ContextSaveRequest(saveHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ContextSave, inS, typeof(Tpm2ContextSaveResponse), out resp, 1, 0);
-            return (resp as Tpm2ContextSaveResponse).context;
+            var req = new Tpm2ContextSaveRequest(saveHandle);
+            var resp = new Tpm2ContextSaveResponse();
+            DispatchMethod(TpmCc.ContextSave, req, resp, 1, 0);
+            return resp.context;
         }
 
         /// This command is used to reload a context that has been saved by TPM2_ContextSave().
         /// 
         /// <param name = "context"> The context blob </param>
         /// <returns> handle - The handle assigned to the resource after it has been successfully loaded </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TpmHandle ContextLoad(
-            Context context
-        )
+            Context context)
         {
-            var inS = new Tpm2ContextLoadRequest(context);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ContextLoad, inS, typeof(Tpm2ContextLoadResponse), out resp, 0, 1);
-            return (resp as Tpm2ContextLoadResponse).handle;
+            var req = new Tpm2ContextLoadRequest(context);
+            var resp = new Tpm2ContextLoadResponse();
+            DispatchMethod(TpmCc.ContextLoad, req, resp, 0, 1);
+            return resp.handle;
         }
 
         /// This command causes all context associated with a loaded object, sequence object, or session to be removed from TPM memory.
         /// 
         /// <param name = "flushHandle"> The handle of the item to flush
         ///        NOTE This is a use of a handle as a parameter. </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void FlushContext(
-            TpmHandle flushHandle
-        )
+            TpmHandle flushHandle)
         {
-            var inS = new Tpm2FlushContextRequest(flushHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.FlushContext, inS, typeof(EmptyResponse), out resp, 0, 0);
+            var req = new Tpm2FlushContextRequest(flushHandle);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.FlushContext, req, resp, 0, 0);
         }
 
         /// This command allows certain Transient Objects to be made persistent or a persistent object to be evicted.
@@ -21036,37 +20448,29 @@ namespace Tpm2Lib {
         ///        is the persistent handle for the object
         ///        if objectHandle is a persistent object handle, then it shall be the same value as
         ///        persistentHandle </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void EvictControl(
             TpmHandle auth,
             TpmHandle objectHandle,
-            TpmHandle persistentHandle
-        )
+            TpmHandle persistentHandle)
         {
-            var inS = new Tpm2EvictControlRequest(
-                    auth,
-                    objectHandle,
-                    persistentHandle
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.EvictControl, inS, typeof(EmptyResponse), out resp, 2, 0);
+            var req = new Tpm2EvictControlRequest(auth, objectHandle, persistentHandle);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.EvictControl, req, resp, 2, 0);
         }
 
         /// This command reads the current TPMS_TIME_INFO structure that contains the current setting of Time, Clock, resetCount, and restartCount.
         /// 
         /// <returns> currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation
         ///                         and TPM2_ReadClock(). </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public TimeInfo ReadClock(
-
         )
         {
-            var inS = new Tpm2ReadClockRequest();
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ReadClock, inS, typeof(Tpm2ReadClockResponse), out resp, 0, 0);
-            return (resp as Tpm2ReadClockResponse).currentTime;
+            var req = new Tpm2ReadClockRequest();
+            var resp = new Tpm2ReadClockResponse();
+            DispatchMethod(TpmCc.ReadClock, req, resp, 0, 0);
+            return resp.currentTime;
         }
 
         /// This command is used to advance the value of the TPMs Clock. The command will fail if newTime is less than the current value of Clock or if the new time is greater than FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
@@ -21075,19 +20479,14 @@ namespace Tpm2Lib {
         ///        Auth Handle: 1
         ///        Auth Role: USER </param>
         /// <param name = "newTime"> New Clock setting in milliseconds </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void ClockSet(
             TpmHandle auth,
-            ulong newTime
-        )
+            ulong newTime)
         {
-            var inS = new Tpm2ClockSetRequest(
-                    auth,
-                    newTime
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ClockSet, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2ClockSetRequest(auth, newTime);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.ClockSet, req, resp, 1, 0);
         }
 
         /// This command adjusts the rate of advance of Clock and Time to provide a better approximation to real time.
@@ -21096,19 +20495,14 @@ namespace Tpm2Lib {
         ///        Auth Handle: 1
         ///        Auth Role: USER </param>
         /// <param name = "rateAdjust"> Adjustment to current Clock update rate </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void ClockRateAdjust(
             TpmHandle auth,
-            ClockAdjust rateAdjust
-        )
+            ClockAdjust rateAdjust)
         {
-            var inS = new Tpm2ClockRateAdjustRequest(
-                    auth,
-                    rateAdjust
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ClockRateAdjust, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2ClockRateAdjustRequest(auth, rateAdjust);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.ClockRateAdjust, req, resp, 1, 0);
         }
 
         /// This command returns various information regarding the TPM and its current state.
@@ -21118,41 +20512,31 @@ namespace Tpm2Lib {
         /// <param name = "propertyCount"> Number of properties of the indicated type to return </param>
         /// <returns> moreData - Flag to indicate if there are more values of this type
         ///           capabilityData - The capability data </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte GetCapability(
             Cap capability,
             uint property,
             uint propertyCount,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out ICapabilitiesUnion capabilityData
-        )
+            out ICapabilitiesUnion capabilityData)
         {
-            var inS = new Tpm2GetCapabilityRequest(
-                    capability,
-                    property,
-                    propertyCount
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.GetCapability, inS, typeof(Tpm2GetCapabilityResponse), out resp, 0, 0);
-            var outS = (Tpm2GetCapabilityResponse)resp;
-            capabilityData = outS.capabilityData;
-            return outS.moreData;
+            var req = new Tpm2GetCapabilityRequest(capability, property, propertyCount);
+            var resp = new Tpm2GetCapabilityResponse();
+            DispatchMethod(TpmCc.GetCapability, req, resp, 0, 0);
+            capabilityData = resp.capabilityData;
+            return resp.moreData;
         }
 
         /// This command is used to check to see if specific combinations of algorithm parameters are supported.
         /// 
         /// <param name = "parameters"> Algorithm parameters to be validated
         ///        (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void TestParms(
-            IPublicParmsUnion parameters
-        )
+            IPublicParmsUnion parameters)
         {
-            var inS = new Tpm2TestParmsRequest(parameters);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.TestParms, inS, typeof(EmptyResponse), out resp, 0, 0);
+            var req = new Tpm2TestParmsRequest(parameters);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.TestParms, req, resp, 0, 0);
         }
 
         /// This command defines the attributes of an NV Index and causes the TPM to reserve space to hold the data associated with the NV Index. If a definition already exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED.
@@ -21162,21 +20546,15 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "auth"> The authorization value </param>
         /// <param name = "publicInfo"> The public parameters of the NV area </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvDefineSpace(
             TpmHandle authHandle,
             byte[] auth,
-            NvPublic publicInfo
-        )
+            NvPublic publicInfo)
         {
-            var inS = new Tpm2NvDefineSpaceRequest(
-                    authHandle,
-                    auth,
-                    publicInfo
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvDefineSpace, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2NvDefineSpaceRequest(authHandle, auth, publicInfo);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.NvDefineSpace, req, resp, 1, 0);
         }
 
         /// This command removes an Index from the TPM.
@@ -21186,19 +20564,14 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "nvIndex"> The NV Index to remove from NV space
         ///        Auth Index: None </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvUndefineSpace(
             TpmHandle authHandle,
-            TpmHandle nvIndex
-        )
+            TpmHandle nvIndex)
         {
-            var inS = new Tpm2NvUndefineSpaceRequest(
-                    authHandle,
-                    nvIndex
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvUndefineSpace, inS, typeof(EmptyResponse), out resp, 2, 0);
+            var req = new Tpm2NvUndefineSpaceRequest(authHandle, nvIndex);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.NvUndefineSpace, req, resp, 2, 0);
         }
 
         /// This command allows removal of a platform-created NV Index that has TPMA_NV_POLICY_DELETE SET.
@@ -21209,19 +20582,14 @@ namespace Tpm2Lib {
         /// <param name = "platform"> TPM_RH_PLATFORM + {PP}
         ///        Auth Index: 2
         ///        Auth Role: USER </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvUndefineSpaceSpecial(
             TpmHandle nvIndex,
-            TpmHandle platform
-        )
+            TpmHandle platform)
         {
-            var inS = new Tpm2NvUndefineSpaceSpecialRequest(
-                    nvIndex,
-                    platform
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvUndefineSpaceSpecial, inS, typeof(EmptyResponse), out resp, 2, 0);
+            var req = new Tpm2NvUndefineSpaceSpecialRequest(nvIndex, platform);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.NvUndefineSpaceSpecial, req, resp, 2, 0);
         }
 
         /// This command is used to read the public area and Name of an NV Index. The public area of an Index is not privacy-sensitive and no authorization is required to read this data.
@@ -21230,20 +20598,16 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <returns> nvPublic - The public area of the NV Index
         ///           nvName - The Name of the nvIndex </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public NvPublic NvReadPublic(
             TpmHandle nvIndex,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out byte[] nvName
-        )
+            out byte[] nvName)
         {
-            var inS = new Tpm2NvReadPublicRequest(nvIndex);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvReadPublic, inS, typeof(Tpm2NvReadPublicResponse), out resp, 1, 0);
-            var outS = (Tpm2NvReadPublicResponse)resp;
-            nvName = outS.nvName;
-            return outS.nvPublic;
+            var req = new Tpm2NvReadPublicRequest(nvIndex);
+            var resp = new Tpm2NvReadPublicResponse();
+            DispatchMethod(TpmCc.NvReadPublic, req, resp, 1, 0);
+            nvName = resp.nvName;
+            return resp.nvPublic;
         }
 
         /// This command writes a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace().
@@ -21255,23 +20619,16 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "data"> The data to write </param>
         /// <param name = "offset"> The octet offset into the NV Area </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvWrite(
             TpmHandle authHandle,
             TpmHandle nvIndex,
             byte[] data,
-            ushort offset
-        )
+            ushort offset)
         {
-            var inS = new Tpm2NvWriteRequest(
-                    authHandle,
-                    nvIndex,
-                    data,
-                    offset
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvWrite, inS, typeof(EmptyResponse), out resp, 2, 0);
+            var req = new Tpm2NvWriteRequest(authHandle, nvIndex, data, offset);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.NvWrite, req, resp, 2, 0);
         }
 
         /// This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one.
@@ -21281,19 +20638,14 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "nvIndex"> The NV Index to increment
         ///        Auth Index: None </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvIncrement(
             TpmHandle authHandle,
-            TpmHandle nvIndex
-        )
+            TpmHandle nvIndex)
         {
-            var inS = new Tpm2NvIncrementRequest(
-                    authHandle,
-                    nvIndex
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvIncrement, inS, typeof(EmptyResponse), out resp, 2, 0);
+            var req = new Tpm2NvIncrementRequest(authHandle, nvIndex);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.NvIncrement, req, resp, 2, 0);
         }
 
         /// This command extends a value to an area in NV memory that was previously defined by TPM2_NV_DefineSpace.
@@ -21304,21 +20656,15 @@ namespace Tpm2Lib {
         /// <param name = "nvIndex"> The NV Index to extend
         ///        Auth Index: None </param>
         /// <param name = "data"> The data to extend </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvExtend(
             TpmHandle authHandle,
             TpmHandle nvIndex,
-            byte[] data
-        )
+            byte[] data)
         {
-            var inS = new Tpm2NvExtendRequest(
-                    authHandle,
-                    nvIndex,
-                    data
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvExtend, inS, typeof(EmptyResponse), out resp, 2, 0);
+            var req = new Tpm2NvExtendRequest(authHandle, nvIndex, data);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.NvExtend, req, resp, 2, 0);
         }
 
         /// This command is used to SET bits in an NV Index that was created as a bit field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current contents of the NV Index.
@@ -21329,21 +20675,15 @@ namespace Tpm2Lib {
         /// <param name = "nvIndex"> NV Index of the area in which the bit is to be set
         ///        Auth Index: None </param>
         /// <param name = "bits"> The data to OR with the current contents </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvSetBits(
             TpmHandle authHandle,
             TpmHandle nvIndex,
-            ulong bits
-        )
+            ulong bits)
         {
-            var inS = new Tpm2NvSetBitsRequest(
-                    authHandle,
-                    nvIndex,
-                    bits
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvSetBits, inS, typeof(EmptyResponse), out resp, 2, 0);
+            var req = new Tpm2NvSetBitsRequest(authHandle, nvIndex, bits);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.NvSetBits, req, resp, 2, 0);
         }
 
         /// If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are SET, then this command may be used to inhibit further writes of the NV Index.
@@ -21353,19 +20693,14 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "nvIndex"> The NV Index of the area to lock
         ///        Auth Index: None </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvWriteLock(
             TpmHandle authHandle,
-            TpmHandle nvIndex
-        )
+            TpmHandle nvIndex)
         {
-            var inS = new Tpm2NvWriteLockRequest(
-                    authHandle,
-                    nvIndex
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvWriteLock, inS, typeof(EmptyResponse), out resp, 2, 0);
+            var req = new Tpm2NvWriteLockRequest(authHandle, nvIndex);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.NvWriteLock, req, resp, 2, 0);
         }
 
         /// The command will SET TPMA_NV_WRITELOCKED for all indexes that have their TPMA_NV_GLOBALLOCK attribute SET.
@@ -21373,15 +20708,13 @@ namespace Tpm2Lib {
         /// <param name = "authHandle"> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvGlobalWriteLock(
-            TpmHandle authHandle
-        )
+            TpmHandle authHandle)
         {
-            var inS = new Tpm2NvGlobalWriteLockRequest(authHandle);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvGlobalWriteLock, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2NvGlobalWriteLockRequest(authHandle);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.NvGlobalWriteLock, req, resp, 1, 0);
         }
 
         /// This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
@@ -21395,24 +20728,17 @@ namespace Tpm2Lib {
         /// <param name = "offset"> Octet offset into the NV area
         ///        This value shall be less than or equal to the size of the nvIndex data. </param>
         /// <returns> data - The data read </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] NvRead(
             TpmHandle authHandle,
             TpmHandle nvIndex,
             ushort size,
-            ushort offset
-        )
+            ushort offset)
         {
-            var inS = new Tpm2NvReadRequest(
-                    authHandle,
-                    nvIndex,
-                    size,
-                    offset
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvRead, inS, typeof(Tpm2NvReadResponse), out resp, 2, 0);
-            return (resp as Tpm2NvReadResponse).data;
+            var req = new Tpm2NvReadRequest(authHandle, nvIndex, size, offset);
+            var resp = new Tpm2NvReadResponse();
+            DispatchMethod(TpmCc.NvRead, req, resp, 2, 0);
+            return resp.data;
         }
 
         /// If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
@@ -21422,19 +20748,14 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "nvIndex"> The NV Index to be locked
         ///        Auth Index: None </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvReadLock(
             TpmHandle authHandle,
-            TpmHandle nvIndex
-        )
+            TpmHandle nvIndex)
         {
-            var inS = new Tpm2NvReadLockRequest(
-                    authHandle,
-                    nvIndex
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvReadLock, inS, typeof(EmptyResponse), out resp, 2, 0);
+            var req = new Tpm2NvReadLockRequest(authHandle, nvIndex);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.NvReadLock, req, resp, 2, 0);
         }
 
         /// This command allows the authorization secret for an NV Index to be changed.
@@ -21443,19 +20764,14 @@ namespace Tpm2Lib {
         ///        Auth Index: 1
         ///        Auth Role: ADMIN </param>
         /// <param name = "newAuth"> New authorization value </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void NvChangeAuth(
             TpmHandle nvIndex,
-            byte[] newAuth
-        )
+            byte[] newAuth)
         {
-            var inS = new Tpm2NvChangeAuthRequest(
-                    nvIndex,
-                    newAuth
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvChangeAuth, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2NvChangeAuthRequest(nvIndex, newAuth);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.NvChangeAuth, req, resp, 1, 0);
         }
 
         /// The purpose of this command is to certify the contents of an NV Index or portion of an NV Index.
@@ -21479,7 +20795,6 @@ namespace Tpm2Lib {
         /// <returns> certifyInfo - The structure that was signed
         ///           signature - The asymmetric signature over certifyInfo using the key referenced
         ///                       by signHandle </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public Attest NvCertify(
             TpmHandle signHandle,
@@ -21489,24 +20804,13 @@ namespace Tpm2Lib {
             ISigSchemeUnion inScheme,
             ushort size,
             ushort offset,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out ISignatureUnion signature
-        )
+            out ISignatureUnion signature)
         {
-            var inS = new Tpm2NvCertifyRequest(
-                    signHandle,
-                    authHandle,
-                    nvIndex,
-                    qualifyingData,
-                    inScheme,
-                    size,
-                    offset
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.NvCertify, inS, typeof(Tpm2NvCertifyResponse), out resp, 3, 0);
-            var outS = (Tpm2NvCertifyResponse)resp;
-            signature = outS.signature;
-            return outS.certifyInfo;
+            var req = new Tpm2NvCertifyRequest(signHandle, authHandle, nvIndex, qualifyingData, inScheme, size, offset);
+            var resp = new Tpm2NvCertifyResponse();
+            DispatchMethod(TpmCc.NvCertify, req, resp, 3, 0);
+            signature = resp.signature;
+            return resp.certifyInfo;
         }
 
         /// The purpose of this command is to obtain information about an Attached Component referenced by an AC handle.
@@ -21517,26 +20821,18 @@ namespace Tpm2Lib {
         /// <param name = "count"> Maximum number of values to return </param>
         /// <returns> moreData - Flag to indicate whether there are more values
         ///           capabilitiesData - List of capabilities </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte AcGetCapability(
             TpmHandle ac,
             At capability,
             uint count,
-            [SuppressMessage("Microsoft.Design", "CA1021")]
-            out AcOutput[] capabilitiesData
-        )
+            out AcOutput[] capabilitiesData)
         {
-            var inS = new Tpm2AcGetCapabilityRequest(
-                    ac,
-                    capability,
-                    count
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.AcGetCapability, inS, typeof(Tpm2AcGetCapabilityResponse), out resp, 1, 0);
-            var outS = (Tpm2AcGetCapabilityResponse)resp;
-            capabilitiesData = outS.capabilitiesData;
-            return outS.moreData;
+            var req = new Tpm2AcGetCapabilityRequest(ac, capability, count);
+            var resp = new Tpm2AcGetCapabilityResponse();
+            DispatchMethod(TpmCc.AcGetCapability, req, resp, 1, 0);
+            capabilitiesData = resp.capabilitiesData;
+            return resp.moreData;
         }
 
         /// The purpose of this command is to send (copy) a loaded object from the TPM to an Attached Component.
@@ -21551,24 +20847,17 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "acDataIn"> Optional non sensitive information related to the object </param>
         /// <returns> acDataOut - May include AC specific data or information about an error. </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public AcOutput AcSend(
             TpmHandle sendObject,
             TpmHandle authHandle,
             TpmHandle ac,
-            byte[] acDataIn
-        )
+            byte[] acDataIn)
         {
-            var inS = new Tpm2AcSendRequest(
-                    sendObject,
-                    authHandle,
-                    ac,
-                    acDataIn
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.AcSend, inS, typeof(Tpm2AcSendResponse), out resp, 3, 0);
-            return (resp as Tpm2AcSendResponse).acDataOut;
+            var req = new Tpm2AcSendRequest(sendObject, authHandle, ac, acDataIn);
+            var resp = new Tpm2AcSendResponse();
+            DispatchMethod(TpmCc.AcSend, req, resp, 3, 0);
+            return resp.acDataOut;
         }
 
         /// This command allows qualification of the sending (copying) of an Object to an Attached Component (AC). Qualification includes selection of the receiving AC and the method of authentication for the AC, and, in certain circumstances, the Object to be sent may be specified.
@@ -21582,25 +20871,17 @@ namespace Tpm2Lib {
         ///        sent </param>
         /// <param name = "includeObject"> If SET, objectName will be included in the value in
         ///        policySessionpolicyDigest </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void PolicyAcSendSelect(
             TpmHandle policySession,
             byte[] objectName,
             byte[] authHandleName,
             byte[] acName,
-            byte includeObject
-        )
+            byte includeObject)
         {
-            var inS = new Tpm2PolicyAcSendSelectRequest(
-                    policySession,
-                    objectName,
-                    authHandleName,
-                    acName,
-                    includeObject
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.PolicyAcSendSelect, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2PolicyAcSendSelectRequest(policySession, objectName, authHandleName, acName, includeObject);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.PolicyAcSendSelect, req, resp, 1, 0);
         }
 
         /// This command is used to set the time remaining before an Authenticated Countdown Timer (ACT) expires.
@@ -21609,35 +20890,28 @@ namespace Tpm2Lib {
         ///        Auth Index: 1
         ///        Auth Role: USER </param>
         /// <param name = "startTimeout"> The start timeout value for the ACT in seconds </param>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public void ActSetTimeout(
             TpmHandle actHandle,
-            uint startTimeout
-        )
+            uint startTimeout)
         {
-            var inS = new Tpm2ActSetTimeoutRequest(
-                    actHandle,
-                    startTimeout
-            );
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.ActSetTimeout, inS, typeof(EmptyResponse), out resp, 1, 0);
+            var req = new Tpm2ActSetTimeoutRequest(actHandle, startTimeout);
+            var resp = new EmptyResponse();
+            DispatchMethod(TpmCc.ActSetTimeout, req, resp, 1, 0);
         }
 
         /// This is a placeholder to allow testing of the dispatch code.
         /// 
         /// <param name = "inputData"> Dummy data </param>
         /// <returns> outputData - Dummy data </returns>
-        [SuppressMessage("Microsoft.Design", "CA1021")]
         [TpmCommand]
         public byte[] VendorTcgTest(
-            byte[] inputData
-        )
+            byte[] inputData)
         {
-            var inS = new Tpm2VendorTcgTestRequest(inputData);
-            TpmStructureBase resp;
-            DispatchMethod(TpmCc.VendorTcgTest, inS, typeof(Tpm2VendorTcgTestResponse), out resp, 0, 0);
-            return (resp as Tpm2VendorTcgTestResponse).outputData;
+            var req = new Tpm2VendorTcgTestRequest(inputData);
+            var resp = new Tpm2VendorTcgTestResponse();
+            DispatchMethod(TpmCc.VendorTcgTest, req, resp, 0, 0);
+            return resp.outputData;
         }
 
     }

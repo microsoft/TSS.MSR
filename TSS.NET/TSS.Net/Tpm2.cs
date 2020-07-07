@@ -857,7 +857,6 @@ namespace Tpm2Lib
         /// </summary>
         /// <param name="ordinal"></param>
         /// <param name="inParms"></param>
-        /// <param name="expectedResponseType"></param>
         /// <param name="outParms"></param>
         /// <param name="numInHandlesNotUsed"></param>
         /// <param name="numOutHandlesNotUsed"></param>
@@ -865,12 +864,10 @@ namespace Tpm2Lib
         internal bool DispatchMethod(
             TpmCc ordinal,
             TpmStructureBase inParms,
-            Type expectedResponseType,
-            out TpmStructureBase outParms,
+            TpmStructureBase outParms,
             int numInHandlesNotUsed,
             int numOutHandlesNotUsed)
         {
-            outParms = null;
             // todo - ClearCommandContext should be moved to the front of this
             // routine (and we should make local copies of the context-values we depend upon)
             // There are uncaught exceptions that can be generated that would skip
@@ -879,9 +876,7 @@ namespace Tpm2Lib
             byte[] response;
 
             if (CurrentCommand != TpmCc.None)
-            {
                 OuterCommand = CurrentCommand;
-            }
             CurrentCommand = ordinal;
 
 #if false
@@ -900,9 +895,10 @@ namespace Tpm2Lib
                 bool desiredSuccessCode;
                 bool alternate = TheAlternateActionCallback(ordinal,
                                                             inParms,
-                                                            expectedResponseType,
-                                                            out outParms,
+                                                            outParms.GetType(),
+                                                            out TpmStructureBase outParmsAlt,
                                                             out desiredSuccessCode);
+                Debug.Assert (outParmsAlt == null);
                 if (alternate)
                 {
                     _ClearCommandContext();
@@ -929,13 +925,8 @@ namespace Tpm2Lib
                 _ClearCommandPrelaunchContext();
                 _ClearCommandContext();
 
-                Debug.Assert(outParms == null);
                 if (allowedToContinue)
-                {
-                    if (expectedResponseType != null)
-                        outParms = (TpmStructureBase)Activator.CreateInstance(expectedResponseType);
                     return false;
-                }
                 throw;
             }
 
@@ -945,9 +936,7 @@ namespace Tpm2Lib
             byte[] parmsCopy = null;
 
             if (TheCmdParamsCallback != null)
-            {
                 parmsCopy = Globs.CopyData(parms);
-            }
 
             // Response atoms
             TpmSt   responseTag = TpmSt.None;
@@ -989,7 +978,6 @@ namespace Tpm2Lib
                 if (OuterCommand == TpmCc.None && CpHashMode)
                 {
                     CommandParmHash.HashData = GetCommandHash(CommandParmHash.HashAlg, parms, inHandles);
-                    outParms = (TpmStructureBase)Activator.CreateInstance(expectedResponseType);
                     CpHashMode = false;
                     _ClearCommandContext();
                     return true;
@@ -1005,7 +993,6 @@ namespace Tpm2Lib
                 if (DoNotDispatchCommand && OuterCommand == TpmCc.None)
                 {
                     CommandBytes = command;
-                    outParms = (TpmStructureBase)Activator.CreateInstance(expectedResponseType);
                     DoNotDispatchCommand = false;
                     _ClearCommandContext();
                     return true;
@@ -1110,33 +1097,14 @@ namespace Tpm2Lib
 
                     int offset = (int)commandInfo.HandleCountOut * 4;
                     outParmsWithHandles = DoParmEncryption(outParmsWithHandles, commandInfo, offset, Direction.Response);
+
                     var m = new Marshaller(outParmsWithHandles);
-                    outParms = (TpmStructureBase)m.Get(expectedResponseType, "");
-#if false
-                    m = new Marshaller(command);
-                    TpmSt tag = m.Get<TpmSt>();
-                    uint cmdSize = m.Get<uint>();
-                    TpmCc actualCmd = m.Get<TpmCc>();
-                    var actualHandles = new TpmHandle[inHandles.Length];
-                    for (int i = 0; i < inHandles.Length; ++i)
-                    {
-                        actualHandles[i] = m.Get<TpmHandle>();
-                    }
-                    for (int i = 0; i < inSessions.Length; ++i)
-                    {
-                        m.Get<SessionIn>();
-                    }
-                    var actualParms = m.GetArray<byte>(m.GetPutPos() - m.GetGetPos());
-                    if (m.GetPutPos() != cmdSize)
-                    {
-                        throw new Exception("Command length in header does not match input byte-stream");
-                    }
-#endif
                     CommandHeader actualHeader;
                     TpmHandle[] actualHandles;
                     SessionIn[] actualSessions;
                     byte[] actualParmsBuf;
                     CommandProcessor.CrackCommand(command, out actualHeader, out actualHandles, out actualSessions, out actualParmsBuf);
+
                     m = new Marshaller();
                     foreach (TpmHandle h in actualHandles)
                     {
@@ -1213,7 +1181,7 @@ namespace Tpm2Lib
                     }
 
                     var mt = new Marshaller(outParmsWithHandles);
-                    outParms = (TpmStructureBase)mt.Get(expectedResponseType, "");
+                    outParms.ToHost(mt);
                     TheParamsTraceCallback?.Invoke(ordinal, inParms, outParms);
 
                     if (!InjectCmdCallbackInvoked)
@@ -1232,19 +1200,10 @@ namespace Tpm2Lib
                         }
                     }
                 }
-                else
-                {
-                    outParms = (TpmStructureBase)Activator.CreateInstance(expectedResponseType);
-                }
             }
             finally
             {
-                // Check in case an exception happened before outParms was initialized
-                // ReSharper disable once CSharpWarnings::CS0183
-                if (outParms is TpmStructureBase)
-                {
-                    Log(ordinal, outParms, 1);
-                }
+                Log(ordinal, outParms, 1);
                 // Clear all per-invocation state (e.g. sessions, errors expected) ready for next command
                 _ClearCommandContext();
             }

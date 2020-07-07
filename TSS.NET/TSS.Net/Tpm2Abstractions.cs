@@ -171,13 +171,9 @@ namespace Tpm2Lib
             PcrSelection[] creationPCR)
         {
             var inS = new Tpm2CreatePrimaryRequest(primaryHandle, inSensitive, inPublic, outsideInfo, creationPCR);
-            TpmStructureBase outSBase = null;
-            await Task.Run(() => 
-                DispatchMethod(TpmCc.CreatePrimary, inS,
-                               typeof(Tpm2CreatePrimaryResponse),
-                               out outSBase, 1, 1));
-            var outS = (Tpm2CreatePrimaryResponse)outSBase;
-            return outS;
+            var resp = new Tpm2CreatePrimaryResponse();
+            await Task.Run(() => DispatchMethod(TpmCc.CreatePrimary, inS, resp, 1, 1));
+            return resp;
         }
 
         /// <summary>
@@ -196,12 +192,9 @@ namespace Tpm2Lib
             TkHashcheck validation)
         {
             var inS = new Tpm2SignRequest(keyHandle, digest, inScheme, validation);
-            TpmStructureBase outSBase = null;
-            await Task.Run(() => DispatchMethod(TpmCc.Sign, inS,
-                                                typeof (Tpm2SignResponse),
-                                                out outSBase, 1, 0));
-            var outS = (Tpm2SignResponse)outSBase;
-            return outS.signature;
+            var resp = new Tpm2SignResponse();
+            await Task.Run(() => DispatchMethod(TpmCc.Sign, inS, resp, 1, 0));
+            return resp.signature;
         }
 
         /// <summary>
@@ -226,10 +219,9 @@ namespace Tpm2Lib
             PcrSelection[] creationPCR)
         {
             var inS = new Tpm2CreateRequest(parentHandle, inSensitive, inPublic, outsideInfo, creationPCR);
-            TpmStructureBase outSBase = null;
-            await Task.Run(() => DispatchMethod(TpmCc.Create, inS, typeof (Tpm2CreateResponse), out outSBase, 1, 0));
-            var outS = (Tpm2CreateResponse)outSBase;
-            return outS;
+            var resp = new Tpm2CreateResponse();
+            await Task.Run(() => DispatchMethod(TpmCc.Create, inS, resp, 1, 0));
+            return resp;
         }
     }
 }
