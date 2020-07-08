@@ -26,6 +26,7 @@ using namespace std;
 // DO NOT MODIFY any code below this point - all manual changes will be lost!
 // ------------------------------------------------------------------------------------------------
 
+
 map<size_t, map<uint32_t, string>> Enum2StrMap {
     { typeid(TPM_ALG_ID).hash_code(), { {0x0,"_ERROR"}, {0x1,"FIRST"}, {0x1,"RSA"},
             {0x3,"TDES"}, {0x4,"SHA"}, {0x4,"SHA1"}, {0x5,"HMAC"}, {0x6,"AES"}, {0x7,"MGF1"},

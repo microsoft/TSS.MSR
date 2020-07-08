@@ -37,171 +37,162 @@ class _DLLEXP_ Tpm2;
 // DO NOT MODIFY any code below this point - all manual changes will be lost!
 // ------------------------------------------------------------------------------------------------
 
-/** Table 2 is the list of algorithms to which the TCG has assigned an algorithm
- *  identifier along with its numeric identifier.
- */
+/// <summary> Table 2 is the list of algorithms to which the TCG has assigned an algorithm
+/// identifier along with its numeric identifier. </summary>
 struct TPM_ALG_ID : public TpmEnum<UINT16>
 {
     TPM_ENUM_PROLOGUE(TPM_ALG_ID)
     
-    /** Should not occur  */
+    /// <summary> Should not occur </summary>
     _ERROR = 0x0000, 
     
-    /** An object type that contains an RSA key  */
+    /// <summary> An object type that contains an RSA key </summary>
     FIRST = 0x0001, 
     
-    /** An object type that contains an RSA key  */
+    /// <summary> An object type that contains an RSA key </summary>
     RSA = 0x0001, 
     
-    /** Block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called
-     *  Triple Data Encryption Standard)
-     */
+    /// <summary> Block cipher with various key sizes (Triple Data Encryption Algorithm,
+    /// commonly called Triple Data Encryption Standard) </summary>
     TDES = 0x0003, 
     
-    /** Hash algorithm producing a 160-bit digest  */
+    /// <summary> Hash algorithm producing a 160-bit digest </summary>
     SHA = 0x0004, 
     
-    /** Redefinition for documentation consistency  */
+    /// <summary> Redefinition for documentation consistency </summary>
     SHA1 = 0x0004, 
     
-    /** Hash Message Authentication Code (HMAC) algorithm  */
+    /// <summary> Hash Message Authentication Code (HMAC) algorithm </summary>
     HMAC = 0x0005, 
     
-    /** Block cipher with various key sizes  */
+    /// <summary> Block cipher with various key sizes </summary>
     AES = 0x0006, 
     
-    /** Hash-based mask-generation function  */
+    /// <summary> Hash-based mask-generation function </summary>
     MGF1 = 0x0007, 
     
-    /** An object type that may use XOR for encryption or an HMAC for signing and may also
-     *  refer to a data object that is neither signing nor encrypting
-     */
+    /// <summary> An object type that may use XOR for encryption or an HMAC for signing and
+    /// may also refer to a data object that is neither signing nor encrypting </summary>
     KEYEDHASH = 0x0008, 
     
-    /** Hash-based stream cipher  */
+    /// <summary> Hash-based stream cipher </summary>
     XOR = 0x000A, 
     
-    /** Hash algorithm producing a 256-bit digest  */
+    /// <summary> Hash algorithm producing a 256-bit digest </summary>
     SHA256 = 0x000B, 
     
-    /** Hash algorithm producing a 384-bit digest  */
+    /// <summary> Hash algorithm producing a 384-bit digest </summary>
     SHA384 = 0x000C, 
     
-    /** Hash algorithm producing a 512-bit digest  */
+    /// <summary> Hash algorithm producing a 512-bit digest </summary>
     SHA512 = 0x000D, 
     
-    /** Indication that no algorithm is selected  */
+    /// <summary> Indication that no algorithm is selected </summary>
     _NULL = 0x0010, 
     
-    /** Hash algorithm producing a 256-bit digest  */
+    /// <summary> Hash algorithm producing a 256-bit digest </summary>
     SM3_256 = 0x0012, 
     
-    /** Symmetric block cipher with 128 bit key  */
+    /// <summary> Symmetric block cipher with 128 bit key </summary>
     SM4 = 0x0013, 
     
-    /** A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5)  */
+    /// <summary> A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5) </summary>
     RSASSA = 0x0014, 
     
-    /** A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5)  */
+    /// <summary> A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5) </summary>
     RSAES = 0x0015, 
     
-    /** A signature algorithm defined in section 8.1 (RSASSA-PSS)  */
+    /// <summary> A signature algorithm defined in section 8.1 (RSASSA-PSS) </summary>
     RSAPSS = 0x0016, 
     
-    /** A padding algorithm defined in Section 7.1 (RSAES_OAEP)  */
+    /// <summary> A padding algorithm defined in Section 7.1 (RSAES_OAEP) </summary>
     OAEP = 0x0017, 
     
-    /** Signature algorithm using elliptic curve cryptography (ECC)  */
+    /// <summary> Signature algorithm using elliptic curve cryptography (ECC) </summary>
     ECDSA = 0x0018, 
     
-    /** Secret sharing using ECC Based on context, this can be either One-Pass Diffie-Hellman,
-     *  C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC CDH) defined in 6.1.1.2
-     */
+    /// <summary> Secret sharing using ECC Based on context, this can be either One-Pass
+    /// Diffie-Hellman, C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC
+    /// CDH) defined in 6.1.1.2 </summary>
     ECDH = 0x0019, 
     
-    /** Elliptic-curve based, anonymous signing scheme  */
+    /// <summary> Elliptic-curve based, anonymous signing scheme </summary>
     ECDAA = 0x001A, 
     
-    /** Depending on context, either an elliptic-curve-based signature algorithm, encryption
-     *  algorithm, or key exchange protocol
-     */
+    /// <summary> Depending on context, either an elliptic-curve-based signature algorithm,
+    /// encryption algorithm, or key exchange protocol </summary>
     SM2 = 0x001B, 
     
-    /** Elliptic-curve based Schnorr signature  */
+    /// <summary> Elliptic-curve based Schnorr signature </summary>
     ECSCHNORR = 0x001C, 
     
-    /** Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4  */
+    /// <summary> Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4 </summary>
     ECMQV = 0x001D, 
     
-    /** Concatenation key derivation function (approved alternative 1) Section 5.8.1  */
+    /// <summary> Concatenation key derivation function (approved alternative 1) Section 5.8.1
+    /// </summary>
     KDF1_SP800_56A = 0x0020, 
     
-    /** Key derivation function KDF2 Section 13.2  */
+    /// <summary> Key derivation function KDF2 Section 13.2 </summary>
     KDF2 = 0x0021, 
     
-    /** A key derivation method SP800-108, Section 5.1 KDF in Counter Mode  */
+    /// <summary> A key derivation method SP800-108, Section 5.1 KDF in Counter Mode </summary>
     KDF1_SP800_108 = 0x0022, 
     
-    /** Prime field ECC  */
+    /// <summary> Prime field ECC </summary>
     ECC = 0x0023, 
     
-    /** The object type for a symmetric block cipher key  */
+    /// <summary> The object type for a symmetric block cipher key </summary>
     SYMCIPHER = 0x0025, 
     
-    /** Symmetric block cipher with various key sizes  */
+    /// <summary> Symmetric block cipher with various key sizes </summary>
     CAMELLIA = 0x0026, 
     
-    /** Hash algorithm producing a 256-bit digest  */
+    /// <summary> Hash algorithm producing a 256-bit digest </summary>
     SHA3_256 = 0x0027, 
     
-    /** Hash algorithm producing a 384-bit digest  */
+    /// <summary> Hash algorithm producing a 384-bit digest </summary>
     SHA3_384 = 0x0028, 
     
-    /** Hash algorithm producing a 512-bit digest  */
+    /// <summary> Hash algorithm producing a 512-bit digest </summary>
     SHA3_512 = 0x0029, 
     
     CMAC = 0x003F, 
     
-    /** Counter mode if implemented, all symmetric block ciphers (S type) implemented shall be
-     *  capable of using this mode.
-     */
+    /// <summary> Counter mode if implemented, all symmetric block ciphers (S type)
+    /// implemented shall be capable of using this mode. </summary>
     CTR = 0x0040, 
     
-    /** Output Feedback mode if implemented, all symmetric block ciphers (S type) implemented
-     *  shall be capable of using this mode.
-     */
+    /// <summary> Output Feedback mode if implemented, all symmetric block ciphers (S type)
+    /// implemented shall be capable of using this mode. </summary>
     OFB = 0x0041, 
     
-    /** Cipher Block Chaining mode if implemented, all symmetric block ciphers (S type)
-     *  implemented shall be capable of using this mode.
-     */
+    /// <summary> Cipher Block Chaining mode if implemented, all symmetric block ciphers (S
+    /// type) implemented shall be capable of using this mode. </summary>
     CBC = 0x0042, 
     
-    /** Cipher Feedback mode if implemented, all symmetric block ciphers (S type) implemented
-     *  shall be capable of using this mode.
-     */
+    /// <summary> Cipher Feedback mode if implemented, all symmetric block ciphers (S type)
+    /// implemented shall be capable of using this mode. </summary>
     CFB = 0x0043, 
     
-    /** Electronic Codebook mode if implemented, all implemented symmetric block ciphers (S
-     *  type) shall be capable of using this mode.
-     *  NOTE This mode is not recommended for uses unless the key is frequently rotated such
-     *  as in video codecs
-     */
+    /// <summary> Electronic Codebook mode if implemented, all implemented symmetric block
+    /// ciphers (S type) shall be capable of using this mode.
+    /// NOTE This mode is not recommended for uses unless the key is frequently rotated such
+    /// as in video codecs </summary>
     ECB = 0x0044, 
     
     LAST = 0x0044, 
     
-    /** Phony alg ID to be used for the first union member with no selector  */
+    /// <summary> Phony alg ID to be used for the first union member with no selector </summary>
     ANY = 0x7FFF, 
     
-    /** Phony alg ID to be used for the second union member with no selector  */
+    /// <summary> Phony alg ID to be used for the second union member with no selector </summary>
     ANY2 = 0x7FFE
     TPM_ENUM_EPILOGUE(TPM_ALG_ID)
 };
 
-/** Table 4 is the list of identifiers for TCG-registered curve ID values for elliptic
- *  curve cryptography.
- */
+/// <summary> Table 4 is the list of identifiers for TCG-registered curve ID values for
+/// elliptic curve cryptography. </summary>
 struct TPM_ECC_CURVE : public TpmEnum<UINT16>
 {
     TPM_ENUM_PROLOGUE(TPM_ECC_CURVE)
@@ -218,10 +209,10 @@ struct TPM_ECC_CURVE : public TpmEnum<UINT16>
     
     NIST_P521 = 0x0005, 
     
-    /** Curve to support ECDAA  */
+    /// <summary> Curve to support ECDAA </summary>
     BN_P256 = 0x0010, 
     
-    /** Curve to support ECDAA  */
+    /// <summary> Curve to support ECDAA </summary>
     BN_P638 = 0x0011, 
     
     SM2_P256 = 0x0020, 
@@ -230,111 +221,111 @@ struct TPM_ECC_CURVE : public TpmEnum<UINT16>
     TPM_ENUM_EPILOGUE(TPM_ECC_CURVE)
 };
 
-/** Table 13 Defines for SHA1 Hash Values  */
+/// <summary> Table 13 Defines for SHA1 Hash Values </summary>
 struct SHA1 : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(SHA1)
     
-    /** Size of digest in octets  */
+    /// <summary> Size of digest in octets </summary>
     DIGEST_SIZE = 20, 
     
-    /** Size of hash block in octets  */
+    /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 64
     TPM_ENUM_EPILOGUE(SHA1)
 };
 
-/** Table 14 Defines for SHA256 Hash Values  */
+/// <summary> Table 14 Defines for SHA256 Hash Values </summary>
 struct SHA256 : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(SHA256)
     
-    /** Size of digest  */
+    /// <summary> Size of digest </summary>
     DIGEST_SIZE = 32, 
     
-    /** Size of hash block  */
+    /// <summary> Size of hash block </summary>
     BLOCK_SIZE = 64
     TPM_ENUM_EPILOGUE(SHA256)
 };
 
-/** Table 15 Defines for SHA384 Hash Values  */
+/// <summary> Table 15 Defines for SHA384 Hash Values </summary>
 struct SHA384 : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(SHA384)
     
-    /** Size of digest in octets  */
+    /// <summary> Size of digest in octets </summary>
     DIGEST_SIZE = 48, 
     
-    /** Size of hash block in octets  */
+    /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 128
     TPM_ENUM_EPILOGUE(SHA384)
 };
 
-/** Table 16 Defines for SHA512 Hash Values  */
+/// <summary> Table 16 Defines for SHA512 Hash Values </summary>
 struct SHA512 : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(SHA512)
     
-    /** Size of digest in octets  */
+    /// <summary> Size of digest in octets </summary>
     DIGEST_SIZE = 64, 
     
-    /** Size of hash block in octets  */
+    /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 128
     TPM_ENUM_EPILOGUE(SHA512)
 };
 
-/** Table 17 Defines for SM3_256 Hash Values  */
+/// <summary> Table 17 Defines for SM3_256 Hash Values </summary>
 struct SM3_256 : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(SM3_256)
     
-    /** Size of digest in octets  */
+    /// <summary> Size of digest in octets </summary>
     DIGEST_SIZE = 32, 
     
-    /** Size of hash block in octets  */
+    /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 64
     TPM_ENUM_EPILOGUE(SM3_256)
 };
 
-/** Table 18 Defines for SHA3_256 Hash Values  */
+/// <summary> Table 18 Defines for SHA3_256 Hash Values </summary>
 struct SHA3_256 : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(SHA3_256)
     
-    /** Size of digest in octets  */
+    /// <summary> Size of digest in octets </summary>
     DIGEST_SIZE = 32, 
     
-    /** Size of hash block in octets  */
+    /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 136
     TPM_ENUM_EPILOGUE(SHA3_256)
 };
 
-/** Table 19 Defines for SHA3_384 Hash Values  */
+/// <summary> Table 19 Defines for SHA3_384 Hash Values </summary>
 struct SHA3_384 : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(SHA3_384)
     
-    /** Size of digest in octets  */
+    /// <summary> Size of digest in octets </summary>
     DIGEST_SIZE = 48, 
     
-    /** Size of hash block in octets  */
+    /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 104
     TPM_ENUM_EPILOGUE(SHA3_384)
 };
 
-/** Table 20 Defines for SHA3_512 Hash Values  */
+/// <summary> Table 20 Defines for SHA3_512 Hash Values </summary>
 struct SHA3_512 : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(SHA3_512)
     
-    /** Size of digest in octets  */
+    /// <summary> Size of digest in octets </summary>
     DIGEST_SIZE = 64, 
     
-    /** Size of hash block in octets  */
+    /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 72
     TPM_ENUM_EPILOGUE(SHA3_512)
 };
 
-/** Table 4 Defines for Logic Values  */
+/// <summary> Table 4 Defines for Logic Values </summary>
 struct Logic : public TpmEnum<BYTE>
 {
     TPM_ENUM_PROLOGUE(Logic)
@@ -353,34 +344,36 @@ struct Logic : public TpmEnum<BYTE>
     TPM_ENUM_EPILOGUE(Logic)
 };
 
-/** These values are readable with TPM2_GetCapability() (see 6.13 for the format).  */
+/// <summary> These values are readable with TPM2_GetCapability() (see 6.13 for the
+/// format). </summary>
 struct TPM_SPEC : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_SPEC)
     
-    /** ASCII 2.0 with null terminator  */
+    /// <summary> ASCII 2.0 with null terminator </summary>
     FAMILY = 0x322E3000, 
     
-    /** The level number for the specification  */
+    /// <summary> The level number for the specification </summary>
     LEVEL = 0, 
     
-    /** The version number of the spec (001.62 * 100)  */
+    /// <summary> The version number of the spec (001.62 * 100) </summary>
     VERSION = 162, 
     
-    /** The year of the version  */
+    /// <summary> The year of the version </summary>
     YEAR = 2019, 
     
-    /** The day of the year (December 26)  */
+    /// <summary> The day of the year (December 26) </summary>
     DAY_OF_YEAR = 360
     TPM_ENUM_EPILOGUE(TPM_SPEC)
 };
 
-/** This constant value differentiates TPM-generated structures from non-TPM structures.  */
+/// <summary> This constant value differentiates TPM-generated structures from non-TPM
+/// structures. </summary>
 struct TPM_GENERATED : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_GENERATED)
     
-    /** 0xFF TCG (FF 54 43 4716)  */
+    /// <summary> 0xFF TCG (FF 54 43 4716) </summary>
     VALUE = 0xff544347
     TPM_ENUM_EPILOGUE(TPM_GENERATED)
 };
@@ -389,7 +382,7 @@ struct TPM_CC : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_CC)
     
-    /** Compile variable. May decrease based on implementation.  */
+    /// <summary> Compile variable. May decrease based on implementation. </summary>
     FIRST = 0x0000011F, 
     
     NV_UndefineSpaceSpecial = 0x0000011F, 
@@ -448,10 +441,10 @@ struct TPM_CC : public TpmEnum<UINT32>
     
     NV_ChangeAuth = 0x0000013B, 
     
-    /** PCR  */
+    /// <summary> PCR </summary>
     PCR_Event = 0x0000013C, 
     
-    /** PCR  */
+    /// <summary> PCR </summary>
     PCR_Reset = 0x0000013D, 
     
     SequenceComplete = 0x0000013E, 
@@ -476,7 +469,7 @@ struct TPM_CC : public TpmEnum<UINT32>
     
     Certify = 0x00000148, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyNV = 0x00000149, 
     
     CertifyCreation = 0x0000014A, 
@@ -493,7 +486,7 @@ struct TPM_CC : public TpmEnum<UINT32>
     
     ObjectChangeAuth = 0x00000150, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicySecret = 0x00000151, 
     
     Rewrap = 0x00000152, 
@@ -502,10 +495,10 @@ struct TPM_CC : public TpmEnum<UINT32>
     
     ECDH_ZGen = 0x00000154, 
     
-    /** See NOTE 1  */
+    /// <summary> See NOTE 1 </summary>
     HMAC = 0x00000155, 
     
-    /** See NOTE 1  */
+    /// <summary> See NOTE 1 </summary>
     MAC = 0x00000155, 
     
     Import = 0x00000156, 
@@ -516,10 +509,10 @@ struct TPM_CC : public TpmEnum<UINT32>
     
     RSA_Decrypt = 0x00000159, 
     
-    /** See NOTE 1  */
+    /// <summary> See NOTE 1 </summary>
     HMAC_Start = 0x0000015B, 
     
-    /** See NOTE 1  */
+    /// <summary> See NOTE 1 </summary>
     MAC_Start = 0x0000015B, 
     
     SequenceUpdate = 0x0000015C, 
@@ -528,54 +521,54 @@ struct TPM_CC : public TpmEnum<UINT32>
     
     Unseal = 0x0000015E, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicySigned = 0x00000160, 
     
-    /** Context  */
+    /// <summary> Context </summary>
     ContextLoad = 0x00000161, 
     
-    /** Context  */
+    /// <summary> Context </summary>
     ContextSave = 0x00000162, 
     
     ECDH_KeyGen = 0x00000163, 
     
     EncryptDecrypt = 0x00000164, 
     
-    /** Context  */
+    /// <summary> Context </summary>
     FlushContext = 0x00000165, 
     
     LoadExternal = 0x00000167, 
     
     MakeCredential = 0x00000168, 
     
-    /** NV  */
+    /// <summary> NV </summary>
     NV_ReadPublic = 0x00000169, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyAuthorize = 0x0000016A, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyAuthValue = 0x0000016B, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyCommandCode = 0x0000016C, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyCounterTimer = 0x0000016D, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyCpHash = 0x0000016E, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyLocality = 0x0000016F, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyNameHash = 0x00000170, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyOR = 0x00000171, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyTicket = 0x00000172, 
     
     ReadPublic = 0x00000173, 
@@ -598,10 +591,10 @@ struct TPM_CC : public TpmEnum<UINT32>
     
     Hash = 0x0000017D, 
     
-    /** PCR  */
+    /// <summary> PCR </summary>
     PCR_Read = 0x0000017E, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyPCR = 0x0000017F, 
     
     PolicyRestart = 0x00000180, 
@@ -618,35 +611,35 @@ struct TPM_CC : public TpmEnum<UINT32>
     
     HashSequenceStart = 0x00000186, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyPhysicalPresence = 0x00000187, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyDuplicationSelect = 0x00000188, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyGetDigest = 0x00000189, 
     
     TestParms = 0x0000018A, 
     
     Commit = 0x0000018B, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyPassword = 0x0000018C, 
     
     ZGen_2Phase = 0x0000018D, 
     
     EC_Ephemeral = 0x0000018E, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyNvWritten = 0x0000018F, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyTemplate = 0x00000190, 
     
     CreateLoaded = 0x00000191, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     PolicyAuthorizeNV = 0x00000192, 
     
     EncryptDecrypt2 = 0x00000193, 
@@ -655,7 +648,7 @@ struct TPM_CC : public TpmEnum<UINT32>
     
     AC_Send = 0x00000195, 
     
-    /** Policy  */
+    /// <summary> Policy </summary>
     Policy_AC_SendSelect = 0x00000196, 
     
     CertifyX509 = 0x00000197, 
@@ -666,17 +659,17 @@ struct TPM_CC : public TpmEnum<UINT32>
     
     ECC_Decrypt = 0x0000019A, 
     
-    /** Compile variable. May increase based on implementation.  */
+    /// <summary> Compile variable. May increase based on implementation. </summary>
     LAST = 0x0000019A, 
     
     CC_VEND = 0x20000000, 
     
-    /** Used for testing of command dispatch  */
+    /// <summary> Used for testing of command dispatch </summary>
     Vendor_TCG_Test = CC_VEND+0x0000
     TPM_ENUM_EPILOGUE(TPM_CC)
 };
 
-/** Architecturally defined constants  */
+/// <summary> Architecturally defined constants </summary>
 struct ImplementationConstants : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(ImplementationConstants)
@@ -729,727 +722,706 @@ struct ImplementationConstants : public TpmEnum<UINT32>
     TPM_ENUM_EPILOGUE(ImplementationConstants)
 };
 
-/** In general, response codes defined in TPM 2.0 Part 2 will be unmarshaling errors and
- *  will have the F (format) bit SET. Codes that are unique to TPM 2.0 Part 3 will have
- *  the F bit CLEAR but the V (version) attribute will be SET to indicate that it is a TPM
- *  2.0 response code. See Response Code Details in TPM 2.0 Part 1.
- */
+/// <summary> In general, response codes defined in TPM 2.0 Part 2 will be unmarshaling
+/// errors and will have the F (format) bit SET. Codes that are unique to TPM 2.0 Part 3
+/// will have the F bit CLEAR but the V (version) attribute will be SET to indicate that
+/// it is a TPM 2.0 response code. See Response Code Details in TPM 2.0 Part 1. </summary>
 struct TPM_RC : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_RC)
     
     SUCCESS = 0x000, 
     
-    /** Defined for compatibility with TPM 1.2  */
+    /// <summary> Defined for compatibility with TPM 1.2 </summary>
     BAD_TAG = 0x01E, 
     
-    /** Set for all format 0 response codes  */
+    /// <summary> Set for all format 0 response codes </summary>
     RC_VER1 = 0x100, 
     
-    /** TPM not initialized by TPM2_Startup or already initialized  */
+    /// <summary> TPM not initialized by TPM2_Startup or already initialized </summary>
     INITIALIZE = RC_VER1 + 0x000, 
     
-    /** Commands not being accepted because of a TPM failure
-     *  NOTE This may be returned by TPM2_GetTestResult() as the testResult parameter.
-     */
+    /// <summary> Commands not being accepted because of a TPM failure
+    /// NOTE This may be returned by TPM2_GetTestResult() as the testResult parameter. </summary>
     FAILURE = RC_VER1 + 0x001, 
     
-    /** Improper use of a sequence handle  */
+    /// <summary> Improper use of a sequence handle </summary>
     SEQUENCE = RC_VER1 + 0x003, 
     
-    /** Not currently used  */
+    /// <summary> Not currently used </summary>
     PRIVATE = RC_VER1 + 0x00B, 
     
-    /** Not currently used  */
+    /// <summary> Not currently used </summary>
     HMAC = RC_VER1 + 0x019, 
     
-    /** The command is disabled  */
+    /// <summary> The command is disabled </summary>
     DISABLED = RC_VER1 + 0x020, 
     
-    /** Command failed because audit sequence required exclusivity  */
+    /// <summary> Command failed because audit sequence required exclusivity </summary>
     EXCLUSIVE = RC_VER1 + 0x021, 
     
-    /** Authorization handle is not correct for command  */
+    /// <summary> Authorization handle is not correct for command </summary>
     AUTH_TYPE = RC_VER1 + 0x024, 
     
-    /** Command requires an authorization session for handle and it is not present.  */
+    /// <summary> Command requires an authorization session for handle and it is not present. </summary>
     AUTH_MISSING = RC_VER1 + 0x025, 
     
-    /** Policy failure in math operation or an invalid authPolicy value  */
+    /// <summary> Policy failure in math operation or an invalid authPolicy value </summary>
     POLICY = RC_VER1 + 0x026, 
     
-    /** PCR check fail  */
+    /// <summary> PCR check fail </summary>
     PCR = RC_VER1 + 0x027, 
     
-    /** PCR have changed since checked.  */
+    /// <summary> PCR have changed since checked. </summary>
     PCR_CHANGED = RC_VER1 + 0x028, 
     
-    /** For all commands other than TPM2_FieldUpgradeData(), this code indicates that the TPM
-     *  is in field upgrade mode; for TPM2_FieldUpgradeData(), this code indicates that the
-     *  TPM is not in field upgrade mode
-     */
+    /// <summary> For all commands other than TPM2_FieldUpgradeData(), this code indicates
+    /// that the TPM is in field upgrade mode; for TPM2_FieldUpgradeData(), this code
+    /// indicates that the TPM is not in field upgrade mode </summary>
     UPGRADE = RC_VER1 + 0x02D, 
     
-    /** Context ID counter is at maximum.  */
+    /// <summary> Context ID counter is at maximum. </summary>
     TOO_MANY_CONTEXTS = RC_VER1 + 0x02E, 
     
-    /** AuthValue or authPolicy is not available for selected entity.  */
+    /// <summary> AuthValue or authPolicy is not available for selected entity. </summary>
     AUTH_UNAVAILABLE = RC_VER1 + 0x02F, 
     
-    /** A _TPM_Init and Startup(CLEAR) is required before the TPM can resume operation.  */
+    /// <summary> A _TPM_Init and Startup(CLEAR) is required before the TPM can resume
+    /// operation. </summary>
     REBOOT = RC_VER1 + 0x030, 
     
-    /** The protection algorithms (hash and symmetric) are not reasonably balanced. The digest
-     *  size of the hash must be larger than the key size of the symmetric algorithm.
-     */
+    /// <summary> The protection algorithms (hash and symmetric) are not reasonably balanced.
+    /// The digest size of the hash must be larger than the key size of the symmetric
+    /// algorithm. </summary>
     UNBALANCED = RC_VER1 + 0x031, 
     
-    /** Command commandSize value is inconsistent with contents of the command buffer; either
-     *  the size is not the same as the octets loaded by the hardware interface layer or the
-     *  value is not large enough to hold a command header
-     */
+    /// <summary> Command commandSize value is inconsistent with contents of the command
+    /// buffer; either the size is not the same as the octets loaded by the hardware interface
+    /// layer or the value is not large enough to hold a command header </summary>
     COMMAND_SIZE = RC_VER1 + 0x042, 
     
-    /** Command code not supported  */
+    /// <summary> Command code not supported </summary>
     COMMAND_CODE = RC_VER1 + 0x043, 
     
-    /** The value of authorizationSize is out of range or the number of octets in the
-     *  Authorization Area is greater than required
-     */
+    /// <summary> The value of authorizationSize is out of range or the number of octets in
+    /// the Authorization Area is greater than required </summary>
     AUTHSIZE = RC_VER1 + 0x044, 
     
-    /** Use of an authorization session with a context command or another command that cannot
-     *  have an authorization session.
-     */
+    /// <summary> Use of an authorization session with a context command or another command
+    /// that cannot have an authorization session. </summary>
     AUTH_CONTEXT = RC_VER1 + 0x045, 
     
-    /** NV offset+size is out of range.  */
+    /// <summary> NV offset+size is out of range. </summary>
     NV_RANGE = RC_VER1 + 0x046, 
     
-    /** Requested allocation size is larger than allowed.  */
+    /// <summary> Requested allocation size is larger than allowed. </summary>
     NV_SIZE = RC_VER1 + 0x047, 
     
-    /** NV access locked.  */
+    /// <summary> NV access locked. </summary>
     NV_LOCKED = RC_VER1 + 0x048, 
     
-    /** NV access authorization fails in command actions (this failure does not affect lockout.action)  */
+    /// <summary> NV access authorization fails in command actions (this failure does not
+    /// affect lockout.action) </summary>
     NV_AUTHORIZATION = RC_VER1 + 0x049, 
     
-    /** An NV Index is used before being initialized or the state saved by
-     *  TPM2_Shutdown(STATE) could not be restored
-     */
+    /// <summary> An NV Index is used before being initialized or the state saved by
+    /// TPM2_Shutdown(STATE) could not be restored </summary>
     NV_UNINITIALIZED = RC_VER1 + 0x04A, 
     
-    /** Insufficient space for NV allocation  */
+    /// <summary> Insufficient space for NV allocation </summary>
     NV_SPACE = RC_VER1 + 0x04B, 
     
-    /** NV Index or persistent object already defined  */
+    /// <summary> NV Index or persistent object already defined </summary>
     NV_DEFINED = RC_VER1 + 0x04C, 
     
-    /** Context in TPM2_ContextLoad() is not valid  */
+    /// <summary> Context in TPM2_ContextLoad() is not valid </summary>
     BAD_CONTEXT = RC_VER1 + 0x050, 
     
-    /** CpHash value already set or not correct for use  */
+    /// <summary> CpHash value already set or not correct for use </summary>
     CPHASH = RC_VER1 + 0x051, 
     
-    /** Handle for parent is not a valid parent  */
+    /// <summary> Handle for parent is not a valid parent </summary>
     PARENT = RC_VER1 + 0x052, 
     
-    /** Some function needs testing.  */
+    /// <summary> Some function needs testing. </summary>
     NEEDS_TEST = RC_VER1 + 0x053, 
     
-    /** Returned when an internal function cannot process a request due to an unspecified
-     *  problem. This code is usually related to invalid parameters that are not properly
-     *  filtered by the input unmarshaling code.
-     */
+    /// <summary> Returned when an internal function cannot process a request due to an
+    /// unspecified problem. This code is usually related to invalid parameters that are not
+    /// properly filtered by the input unmarshaling code. </summary>
     NO_RESULT = RC_VER1 + 0x054, 
     
-    /** The sensitive area did not unmarshal correctly after decryption this code is used in
-     *  lieu of the other unmarshaling errors so that an attacker cannot determine where the
-     *  unmarshaling error occurred
-     */
+    /// <summary> The sensitive area did not unmarshal correctly after decryption this code is
+    /// used in lieu of the other unmarshaling errors so that an attacker cannot determine
+    /// where the unmarshaling error occurred </summary>
     SENSITIVE = RC_VER1 + 0x055, 
     
-    /** Largest version 1 code that is not a warning  */
+    /// <summary> Largest version 1 code that is not a warning </summary>
     RC_MAX_FM0 = RC_VER1 + 0x07F, 
     
-    /** This bit is SET in all format 1 response codes
-     *  The codes in this group may have a value added to them to indicate the handle,
-     *  session, or parameter to which they apply.
-     */
+    /// <summary> This bit is SET in all format 1 response codes
+    /// The codes in this group may have a value added to them to indicate the handle,
+    /// session, or parameter to which they apply. </summary>
     RC_FMT1 = 0x080, 
     
-    /** Asymmetric algorithm not supported or not correct  */
+    /// <summary> Asymmetric algorithm not supported or not correct </summary>
     ASYMMETRIC = RC_FMT1 + 0x001, 
     
-    /** Inconsistent attributes  */
+    /// <summary> Inconsistent attributes </summary>
     ATTRIBUTES = RC_FMT1 + 0x002, 
     
-    /** Hash algorithm not supported or not appropriate  */
+    /// <summary> Hash algorithm not supported or not appropriate </summary>
     HASH = RC_FMT1 + 0x003, 
     
-    /** Value is out of range or is not correct for the context  */
+    /// <summary> Value is out of range or is not correct for the context </summary>
     VALUE = RC_FMT1 + 0x004, 
     
-    /** Hierarchy is not enabled or is not correct for the use  */
+    /// <summary> Hierarchy is not enabled or is not correct for the use </summary>
     HIERARCHY = RC_FMT1 + 0x005, 
     
-    /** Key size is not supported  */
+    /// <summary> Key size is not supported </summary>
     KEY_SIZE = RC_FMT1 + 0x007, 
     
-    /** Mask generation function not supported  */
+    /// <summary> Mask generation function not supported </summary>
     MGF = RC_FMT1 + 0x008, 
     
-    /** Mode of operation not supported  */
+    /// <summary> Mode of operation not supported </summary>
     MODE = RC_FMT1 + 0x009, 
     
-    /** The type of the value is not appropriate for the use  */
+    /// <summary> The type of the value is not appropriate for the use </summary>
     TYPE = RC_FMT1 + 0x00A, 
     
-    /** The handle is not correct for the use  */
+    /// <summary> The handle is not correct for the use </summary>
     HANDLE = RC_FMT1 + 0x00B, 
     
-    /** Unsupported key derivation function or function not appropriate for use  */
+    /// <summary> Unsupported key derivation function or function not appropriate for use </summary>
     KDF = RC_FMT1 + 0x00C, 
     
-    /** Value was out of allowed range.  */
+    /// <summary> Value was out of allowed range. </summary>
     RANGE = RC_FMT1 + 0x00D, 
     
-    /** The authorization HMAC check failed and DA counter incremented  */
+    /// <summary> The authorization HMAC check failed and DA counter incremented </summary>
     AUTH_FAIL = RC_FMT1 + 0x00E, 
     
-    /** Invalid nonce size or nonce value mismatch  */
+    /// <summary> Invalid nonce size or nonce value mismatch </summary>
     NONCE = RC_FMT1 + 0x00F, 
     
-    /** Authorization requires assertion of PP  */
+    /// <summary> Authorization requires assertion of PP </summary>
     PP = RC_FMT1 + 0x010, 
     
-    /** Unsupported or incompatible scheme  */
+    /// <summary> Unsupported or incompatible scheme </summary>
     SCHEME = RC_FMT1 + 0x012, 
     
-    /** Structure is the wrong size  */
+    /// <summary> Structure is the wrong size </summary>
     SIZE = RC_FMT1 + 0x015, 
     
-    /** Unsupported symmetric algorithm or key size, or not appropriate for instance  */
+    /// <summary> Unsupported symmetric algorithm or key size, or not appropriate for instance
+    /// </summary>
     SYMMETRIC = RC_FMT1 + 0x016, 
     
-    /** Incorrect structure tag  */
+    /// <summary> Incorrect structure tag </summary>
     TAG = RC_FMT1 + 0x017, 
     
-    /** Union selector is incorrect  */
+    /// <summary> Union selector is incorrect </summary>
     SELECTOR = RC_FMT1 + 0x018, 
     
-    /** The TPM was unable to unmarshal a value because there were not enough octets in the
-     *  input buffer
-     */
+    /// <summary> The TPM was unable to unmarshal a value because there were not enough octets
+    /// in the input buffer </summary>
     INSUFFICIENT = RC_FMT1 + 0x01A, 
     
-    /** The signature is not valid  */
+    /// <summary> The signature is not valid </summary>
     SIGNATURE = RC_FMT1 + 0x01B, 
     
-    /** Key fields are not compatible with the selected use  */
+    /// <summary> Key fields are not compatible with the selected use </summary>
     KEY = RC_FMT1 + 0x01C, 
     
-    /** A policy check failed  */
+    /// <summary> A policy check failed </summary>
     POLICY_FAIL = RC_FMT1 + 0x01D, 
     
-    /** Integrity check failed  */
+    /// <summary> Integrity check failed </summary>
     INTEGRITY = RC_FMT1 + 0x01F, 
     
-    /** Invalid ticket  */
+    /// <summary> Invalid ticket </summary>
     TICKET = RC_FMT1 + 0x020, 
     
-    /** Reserved bits not set to zero as required  */
+    /// <summary> Reserved bits not set to zero as required </summary>
     RESERVED_BITS = RC_FMT1 + 0x021, 
     
-    /** Authorization failure without DA implications  */
+    /// <summary> Authorization failure without DA implications </summary>
     BAD_AUTH = RC_FMT1 + 0x022, 
     
-    /** The policy has expired  */
+    /// <summary> The policy has expired </summary>
     EXPIRED = RC_FMT1 + 0x023, 
     
-    /** The commandCode in the policy is not the commandCode of the command or the command
-     *  code in a policy command references a command that is not implemented
-     */
+    /// <summary> The commandCode in the policy is not the commandCode of the command or the
+    /// command code in a policy command references a command that is not implemented </summary>
     POLICY_CC = RC_FMT1 + 0x024, 
     
-    /** Public and sensitive portions of an object are not cryptographically bound  */
+    /// <summary> Public and sensitive portions of an object are not cryptographically bound </summary>
     BINDING = RC_FMT1 + 0x025, 
     
-    /** Curve not supported  */
+    /// <summary> Curve not supported </summary>
     CURVE = RC_FMT1 + 0x026, 
     
-    /** Point is not on the required curve.  */
+    /// <summary> Point is not on the required curve. </summary>
     ECC_POINT = RC_FMT1 + 0x027, 
     
-    /** Set for warning response codes  */
+    /// <summary> Set for warning response codes </summary>
     RC_WARN = 0x900, 
     
-    /** Gap for context ID is too large  */
+    /// <summary> Gap for context ID is too large </summary>
     CONTEXT_GAP = RC_WARN + 0x001, 
     
-    /** Out of memory for object contexts  */
+    /// <summary> Out of memory for object contexts </summary>
     OBJECT_MEMORY = RC_WARN + 0x002, 
     
-    /** Out of memory for session contexts  */
+    /// <summary> Out of memory for session contexts </summary>
     SESSION_MEMORY = RC_WARN + 0x003, 
     
-    /** Out of shared object/session memory or need space for internal operations  */
+    /// <summary> Out of shared object/session memory or need space for internal operations </summary>
     MEMORY = RC_WARN + 0x004, 
     
-    /** Out of session handles a session must be flushed before a new session may be created  */
+    /// <summary> Out of session handles a session must be flushed before a new session may be
+    /// created </summary>
     SESSION_HANDLES = RC_WARN + 0x005, 
     
-    /** Out of object handles the handle space for objects is depleted and a reboot is required
-     *  NOTE 1 This cannot occur on the reference implementation.
-     *  NOTE 2 There is no reason why an implementation would implement a design that would
-     *  deplete handle space. Platform specifications are encouraged to forbid it.
-     */
+    /// <summary> Out of object handles the handle space for objects is depleted and a reboot
+    /// is required
+    /// NOTE 1 This cannot occur on the reference implementation.
+    /// NOTE 2 There is no reason why an implementation would implement a design that would
+    /// deplete handle space. Platform specifications are encouraged to forbid it. </summary>
     OBJECT_HANDLES = RC_WARN + 0x006, 
     
-    /** Bad locality  */
+    /// <summary> Bad locality </summary>
     LOCALITY = RC_WARN + 0x007, 
     
-    /** The TPM has suspended operation on the command; forward progress was made and the
-     *  command may be retried
-     *  See TPM 2.0 Part 1, Multi-tasking.
-     *  NOTE This cannot occur on the reference implementation.
-     */
+    /// <summary> The TPM has suspended operation on the command; forward progress was made
+    /// and the command may be retried
+    /// See TPM 2.0 Part 1, Multi-tasking.
+    /// NOTE This cannot occur on the reference implementation. </summary>
     YIELDED = RC_WARN + 0x008, 
     
-    /** The command was canceled  */
+    /// <summary> The command was canceled </summary>
     CANCELED = RC_WARN + 0x009, 
     
-    /** TPM is performing self-tests  */
+    /// <summary> TPM is performing self-tests </summary>
     TESTING = RC_WARN + 0x00A, 
     
-    /** The 1st handle in the handle area references a transient object or session that is not
-     *  loaded
-     */
+    /// <summary> The 1st handle in the handle area references a transient object or session
+    /// that is not loaded </summary>
     REFERENCE_H0 = RC_WARN + 0x010, 
     
-    /** The 2nd handle in the handle area references a transient object or session that is not
-     *  loaded
-     */
+    /// <summary> The 2nd handle in the handle area references a transient object or session
+    /// that is not loaded </summary>
     REFERENCE_H1 = RC_WARN + 0x011, 
     
-    /** The 3rd handle in the handle area references a transient object or session that is not
-     *  loaded
-     */
+    /// <summary> The 3rd handle in the handle area references a transient object or session
+    /// that is not loaded </summary>
     REFERENCE_H2 = RC_WARN + 0x012, 
     
-    /** The 4th handle in the handle area references a transient object or session that is not
-     *  loaded
-     */
+    /// <summary> The 4th handle in the handle area references a transient object or session
+    /// that is not loaded </summary>
     REFERENCE_H3 = RC_WARN + 0x013, 
     
-    /** The 5th handle in the handle area references a transient object or session that is not
-     *  loaded
-     */
+    /// <summary> The 5th handle in the handle area references a transient object or session
+    /// that is not loaded </summary>
     REFERENCE_H4 = RC_WARN + 0x014, 
     
-    /** The 6th handle in the handle area references a transient object or session that is not
-     *  loaded
-     */
+    /// <summary> The 6th handle in the handle area references a transient object or session
+    /// that is not loaded </summary>
     REFERENCE_H5 = RC_WARN + 0x015, 
     
-    /** The 7th handle in the handle area references a transient object or session that is not
-     *  loaded
-     */
+    /// <summary> The 7th handle in the handle area references a transient object or session
+    /// that is not loaded </summary>
     REFERENCE_H6 = RC_WARN + 0x016, 
     
-    /** The 1st authorization session handle references a session that is not loaded  */
+    /// <summary> The 1st authorization session handle references a session that is not loaded
+    /// </summary>
     REFERENCE_S0 = RC_WARN + 0x018, 
     
-    /** The 2nd authorization session handle references a session that is not loaded  */
+    /// <summary> The 2nd authorization session handle references a session that is not loaded
+    /// </summary>
     REFERENCE_S1 = RC_WARN + 0x019, 
     
-    /** The 3rd authorization session handle references a session that is not loaded  */
+    /// <summary> The 3rd authorization session handle references a session that is not loaded
+    /// </summary>
     REFERENCE_S2 = RC_WARN + 0x01A, 
     
-    /** The 4th authorization session handle references a session that is not loaded  */
+    /// <summary> The 4th authorization session handle references a session that is not loaded
+    /// </summary>
     REFERENCE_S3 = RC_WARN + 0x01B, 
     
-    /** The 5th session handle references a session that is not loaded  */
+    /// <summary> The 5th session handle references a session that is not loaded </summary>
     REFERENCE_S4 = RC_WARN + 0x01C, 
     
-    /** The 6th session handle references a session that is not loaded  */
+    /// <summary> The 6th session handle references a session that is not loaded </summary>
     REFERENCE_S5 = RC_WARN + 0x01D, 
     
-    /** The 7th authorization session handle references a session that is not loaded  */
+    /// <summary> The 7th authorization session handle references a session that is not loaded
+    /// </summary>
     REFERENCE_S6 = RC_WARN + 0x01E, 
     
-    /** The TPM is rate-limiting accesses to prevent wearout of NV  */
+    /// <summary> The TPM is rate-limiting accesses to prevent wearout of NV </summary>
     NV_RATE = RC_WARN + 0x020, 
     
-    /** Authorizations for objects subject to DA protection are not allowed at this time
-     *  because the TPM is in DA lockout mode
-     */
+    /// <summary> Authorizations for objects subject to DA protection are not allowed at this
+    /// time because the TPM is in DA lockout mode </summary>
     LOCKOUT = RC_WARN + 0x021, 
     
-    /** The TPM was not able to start the command  */
+    /// <summary> The TPM was not able to start the command </summary>
     RETRY = RC_WARN + 0x022, 
     
-    /** The command may require writing of NV and NV is not current accessible  */
+    /// <summary> The command may require writing of NV and NV is not current accessible </summary>
     NV_UNAVAILABLE = RC_WARN + 0x023, 
     
-    /** This value is reserved and shall not be returned by the TPM  */
+    /// <summary> This value is reserved and shall not be returned by the TPM </summary>
     NOT_USED = RC_WARN + 0x7F, 
     
-    /** Add to a handle-related error  */
+    /// <summary> Add to a handle-related error </summary>
     H = 0x000, 
     
-    /** Add to a parameter-related error  */
+    /// <summary> Add to a parameter-related error </summary>
     P = 0x040, 
     
-    /** Add to a session-related error  */
+    /// <summary> Add to a session-related error </summary>
     S = 0x800, 
     
-    /** Add to a parameter-, handle-, or session-related error  */
+    /// <summary> Add to a parameter-, handle-, or session-related error </summary>
     _1 = 0x100, 
     
-    /** Add to a parameter-, handle-, or session-related error  */
+    /// <summary> Add to a parameter-, handle-, or session-related error </summary>
     _2 = 0x200, 
     
-    /** Add to a parameter-, handle-, or session-related error  */
+    /// <summary> Add to a parameter-, handle-, or session-related error </summary>
     _3 = 0x300, 
     
-    /** Add to a parameter-, handle-, or session-related error  */
+    /// <summary> Add to a parameter-, handle-, or session-related error </summary>
     _4 = 0x400, 
     
-    /** Add to a parameter-, handle-, or session-related error  */
+    /// <summary> Add to a parameter-, handle-, or session-related error </summary>
     _5 = 0x500, 
     
-    /** Add to a parameter-, handle-, or session-related error  */
+    /// <summary> Add to a parameter-, handle-, or session-related error </summary>
     _6 = 0x600, 
     
-    /** Add to a parameter-, handle-, or session-related error  */
+    /// <summary> Add to a parameter-, handle-, or session-related error </summary>
     _7 = 0x700, 
     
-    /** Add to a parameter-related error  */
+    /// <summary> Add to a parameter-related error </summary>
     _8 = 0x800, 
     
-    /** Add to a parameter-related error  */
+    /// <summary> Add to a parameter-related error </summary>
     _9 = 0x900, 
     
-    /** Add to a parameter-related error  */
+    /// <summary> Add to a parameter-related error </summary>
     A = 0xA00, 
     
-    /** Add to a parameter-related error  */
+    /// <summary> Add to a parameter-related error </summary>
     B = 0xB00, 
     
-    /** Add to a parameter-related error  */
+    /// <summary> Add to a parameter-related error </summary>
     C = 0xC00, 
     
-    /** Add to a parameter-related error  */
+    /// <summary> Add to a parameter-related error </summary>
     D = 0xD00, 
     
-    /** Add to a parameter-related error  */
+    /// <summary> Add to a parameter-related error </summary>
     E = 0xE00, 
     
-    /** Add to a parameter-related error  */
+    /// <summary> Add to a parameter-related error </summary>
     F = 0xF00, 
     
-    /** Number mask  */
+    /// <summary> Number mask </summary>
     N_MASK = 0xF00, 
     
-    /** Response buffer returned by the TPM is too short  */
+    /// <summary> Response buffer returned by the TPM is too short </summary>
     TSS_TCP_BAD_HANDSHAKE_RESP = 0x40280001, 
     
-    /** Too old TCP server version  */
+    /// <summary> Too old TCP server version </summary>
     TSS_TCP_SERVER_TOO_OLD = 0x40280002, 
     
-    /** Bad ack from the TCP end point  */
+    /// <summary> Bad ack from the TCP end point </summary>
     TSS_TCP_BAD_ACK = 0x40280003, 
     
-    /** Wrong length of the response buffer returned by the TPM  */
+    /// <summary> Wrong length of the response buffer returned by the TPM </summary>
     TSS_TCP_BAD_RESP_LEN = 0x40280004, 
     
-    /** TPM2_Startup returned unexpected response code  */
+    /// <summary> TPM2_Startup returned unexpected response code </summary>
     TSS_TCP_UNEXPECTED_STARTUP_RESP = 0x40280005, 
     
-    /** Invalid size tag in the TPM response TCP packet  */
+    /// <summary> Invalid size tag in the TPM response TCP packet </summary>
     TSS_TCP_INVALID_SIZE_TAG = 0x40280006, 
     
-    /** TPM over TCP device is not connected  */
+    /// <summary> TPM over TCP device is not connected </summary>
     TSS_TCP_DISCONNECTED = 0x40280007, 
     
-    /** General TPM command dispatch failure  */
+    /// <summary> General TPM command dispatch failure </summary>
     TSS_DISPATCH_FAILED = 0x40280010, 
     
-    /** Sending data to TPM failed  */
+    /// <summary> Sending data to TPM failed </summary>
     TSS_SEND_OP_FAILED = 0x40280011, 
     
-    /** Response buffer returned by the TPM is too short  */
+    /// <summary> Response buffer returned by the TPM is too short </summary>
     TSS_RESP_BUF_TOO_SHORT = 0x40280021, 
     
-    /** Invalid tag in the response buffer returned by the TPM  */
+    /// <summary> Invalid tag in the response buffer returned by the TPM </summary>
     TSS_RESP_BUF_INVALID_SESSION_TAG = 0x40280022, 
     
-    /** Inconsistent TPM response parameters size  */
+    /// <summary> Inconsistent TPM response parameters size </summary>
     TSS_RESP_BUF_INVALID_SIZE = 0x40280023, 
     
-    /** Windows TBS error TPM_E_COMMAND_BLOCKED  */
+    /// <summary> Windows TBS error TPM_E_COMMAND_BLOCKED </summary>
     TBS_COMMAND_BLOCKED = 0x80280400, 
     
-    /** Windows TBS error TPM_E_INVALID_HANDLE  */
+    /// <summary> Windows TBS error TPM_E_INVALID_HANDLE </summary>
     TBS_INVALID_HANDLE = 0x80280401, 
     
-    /** Windows TBS error TPM_E_DUPLICATE_VHANDLE  */
+    /// <summary> Windows TBS error TPM_E_DUPLICATE_VHANDLE </summary>
     TBS_DUPLICATE_V_HANDLE = 0x80280402, 
     
-    /** Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED  */
+    /// <summary> Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED </summary>
     TBS_EMBEDDED_COMMAND_BLOCKED = 0x80280403, 
     
-    /** Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED  */
+    /// <summary> Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED </summary>
     TBS_EMBEDDED_COMMAND_UNSUPPORTED = 0x80280404, 
     
-    /** Windows TBS returned success but empty response buffer  */
+    /// <summary> Windows TBS returned success but empty response buffer </summary>
     TBS_UNKNOWN_ERROR = 0x80284000, 
     
-    /** Windows TBS error TBS_E_INTERNAL_ERROR  */
+    /// <summary> Windows TBS error TBS_E_INTERNAL_ERROR </summary>
     TBS_INTERNAL_ERROR = 0x80284001, 
     
-    /** Windows TBS error TBS_E_BAD_PARAMETER  */
+    /// <summary> Windows TBS error TBS_E_BAD_PARAMETER </summary>
     TBS_BAD_PARAMETER = 0x80284002, 
     
-    /** Windows TBS error TBS_E_INVALID_OUTPUT_POINTER  */
+    /// <summary> Windows TBS error TBS_E_INVALID_OUTPUT_POINTER </summary>
     TBS_INVALID_OUTPUT_POINTER = 0x80284003, 
     
-    /** Windows TBS error TBS_E_INVALID_CONTEXT  */
+    /// <summary> Windows TBS error TBS_E_INVALID_CONTEXT </summary>
     TBS_INVALID_CONTEXT = 0x80284004, 
     
-    /** Windows TBS error TBS_E_INSUFFICIENT_BUFFER  */
+    /// <summary> Windows TBS error TBS_E_INSUFFICIENT_BUFFER </summary>
     TBS_INSUFFICIENT_BUFFER = 0x80284005, 
     
-    /** Windows TBS error TBS_E_IOERROR  */
+    /// <summary> Windows TBS error TBS_E_IOERROR </summary>
     TBS_IO_ERROR = 0x80284006, 
     
-    /** Windows TBS error TBS_E_INVALID_CONTEXT_PARAM  */
+    /// <summary> Windows TBS error TBS_E_INVALID_CONTEXT_PARAM </summary>
     TBS_INVALID_CONTEXT_PARAM = 0x80284007, 
     
-    /** Windows TBS error TBS_E_SERVICE_NOT_RUNNING  */
+    /// <summary> Windows TBS error TBS_E_SERVICE_NOT_RUNNING </summary>
     TBS_SERVICE_NOT_RUNNING = 0x80284008, 
     
-    /** Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS  */
+    /// <summary> Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS </summary>
     TBS_TOO_MANY_CONTEXTS = 0x80284009, 
     
-    /** Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES  */
+    /// <summary> Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES </summary>
     TBS_TOO_MANY_RESOURCES = 0x8028400A, 
     
-    /** Windows TBS error TBS_E_SERVICE_START_PENDING  */
+    /// <summary> Windows TBS error TBS_E_SERVICE_START_PENDING </summary>
     TBS_SERVICE_START_PENDING = 0x8028400B, 
     
-    /** Windows TBS error TBS_E_PPI_NOT_SUPPORTED  */
+    /// <summary> Windows TBS error TBS_E_PPI_NOT_SUPPORTED </summary>
     TBS_PPI_NOT_SUPPORTED = 0x8028400C, 
     
-    /** Windows TBS error TBS_E_COMMAND_CANCELED  */
+    /// <summary> Windows TBS error TBS_E_COMMAND_CANCELED </summary>
     TBS_COMMAND_CANCELED = 0x8028400D, 
     
-    /** Windows TBS error TBS_E_BUFFER_TOO_LARGE  */
+    /// <summary> Windows TBS error TBS_E_BUFFER_TOO_LARGE </summary>
     TBS_BUFFER_TOO_LARGE = 0x8028400E, 
     
-    /** Windows TBS error TBS_E_TPM_NOT_FOUND  */
+    /// <summary> Windows TBS error TBS_E_TPM_NOT_FOUND </summary>
     TBS_TPM_NOT_FOUND = 0x8028400F, 
     
-    /** Windows TBS error TBS_E_SERVICE_DISABLED  */
+    /// <summary> Windows TBS error TBS_E_SERVICE_DISABLED </summary>
     TBS_SERVICE_DISABLED = 0x80284010, 
     
-    /** Windows TBS error TBS_E_ACCESS_DENIED  */
+    /// <summary> Windows TBS error TBS_E_ACCESS_DENIED </summary>
     TBS_ACCESS_DENIED = 0x80284012, 
     
-    /** Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED  */
+    /// <summary> Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED </summary>
     TBS_PPI_FUNCTION_NOT_SUPPORTED = 0x80284014, 
     
-    /** Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND  */
+    /// <summary> Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND </summary>
     TBS_OWNER_AUTH_NOT_FOUND = 0x80284015
     TPM_ENUM_EPILOGUE(TPM_RC)
 };
 
-/** A TPM_CLOCK_ADJUST value is used to change the rate at which the TPM internal
- *  oscillator is divided. A change to the divider will change the rate at which Clock and
- *  Time change.
- */
+/// <summary> A TPM_CLOCK_ADJUST value is used to change the rate at which the TPM
+/// internal oscillator is divided. A change to the divider will change the rate at which
+/// Clock and Time change. </summary>
 struct TPM_CLOCK_ADJUST : public TpmEnum<INT8>
 {
     TPM_ENUM_PROLOGUE(TPM_CLOCK_ADJUST)
     
-    /** Slow the Clock update rate by one coarse adjustment step.  */
+    /// <summary> Slow the Clock update rate by one coarse adjustment step. </summary>
     COARSE_SLOWER = -3, 
     
-    /** Slow the Clock update rate by one medium adjustment step.  */
+    /// <summary> Slow the Clock update rate by one medium adjustment step. </summary>
     MEDIUM_SLOWER = -2, 
     
-    /** Slow the Clock update rate by one fine adjustment step.  */
+    /// <summary> Slow the Clock update rate by one fine adjustment step. </summary>
     FINE_SLOWER = -1, 
     
-    /** No change to the Clock update rate.  */
+    /// <summary> No change to the Clock update rate. </summary>
     NO_CHANGE = 0, 
     
-    /** Speed the Clock update rate by one fine adjustment step.  */
+    /// <summary> Speed the Clock update rate by one fine adjustment step. </summary>
     FINE_FASTER = 1, 
     
-    /** Speed the Clock update rate by one medium adjustment step.  */
+    /// <summary> Speed the Clock update rate by one medium adjustment step. </summary>
     MEDIUM_FASTER = 2, 
     
-    /** Speed the Clock update rate by one coarse adjustment step.  */
+    /// <summary> Speed the Clock update rate by one coarse adjustment step. </summary>
     COARSE_FASTER = 3
     TPM_ENUM_EPILOGUE(TPM_CLOCK_ADJUST)
 };
 
-/** Table 18 Definition of (UINT16) TPM_EO Constants [IN/OUT]  */
+/// <summary> Table 18 Definition of (UINT16) TPM_EO Constants [IN/OUT] </summary>
 struct TPM_EO : public TpmEnum<UINT16>
 {
     TPM_ENUM_PROLOGUE(TPM_EO)
     
-    /** A = B  */
+    /// <summary> A = B </summary>
     EQ = 0x0000, 
     
-    /** A B  */
+    /// <summary> A B </summary>
     NEQ = 0x0001, 
     
-    /** A ˃ B signed  */
+    /// <summary> A ˃ B signed </summary>
     SIGNED_GT = 0x0002, 
     
-    /** A ˃ B unsigned  */
+    /// <summary> A ˃ B unsigned </summary>
     UNSIGNED_GT = 0x0003, 
     
-    /** A ˂ B signed  */
+    /// <summary> A ˂ B signed </summary>
     SIGNED_LT = 0x0004, 
     
-    /** A ˂ B unsigned  */
+    /// <summary> A ˂ B unsigned </summary>
     UNSIGNED_LT = 0x0005, 
     
-    /** A B signed  */
+    /// <summary> A B signed </summary>
     SIGNED_GE = 0x0006, 
     
-    /** A B unsigned  */
+    /// <summary> A B unsigned </summary>
     UNSIGNED_GE = 0x0007, 
     
-    /** A B signed  */
+    /// <summary> A B signed </summary>
     SIGNED_LE = 0x0008, 
     
-    /** A B unsigned  */
+    /// <summary> A B unsigned </summary>
     UNSIGNED_LE = 0x0009, 
     
-    /** All bits SET in B are SET in A. ((A∧B)=B)  */
+    /// <summary> All bits SET in B are SET in A. ((A∧B)=B) </summary>
     BITSET = 0x000A, 
     
-    /** All bits SET in B are CLEAR in A. ((A∧B)=0)  */
+    /// <summary> All bits SET in B are CLEAR in A. ((A∧B)=0) </summary>
     BITCLEAR = 0x000B
     TPM_ENUM_EPILOGUE(TPM_EO)
 };
 
-/** Structure tags are used to disambiguate structures. They are 16-bit values with the
- *  most significant bit SET so that they do not overlap TPM_ALG_ID values. A single
- *  exception is made for the value associated with TPM_ST_RSP_COMMAND (0x00C4), which has
- *  the same value as the TPM_TAG_RSP_COMMAND tag from earlier versions of this
- *  specification. This value is used when the TPM is compatible with a previous TPM
- *  specification and the TPM cannot determine which family of response code to return
- *  because the command tag is not valid.
- */
+/// <summary> Structure tags are used to disambiguate structures. They are 16-bit values
+/// with the most significant bit SET so that they do not overlap TPM_ALG_ID values. A
+/// single exception is made for the value associated with TPM_ST_RSP_COMMAND (0x00C4),
+/// which has the same value as the TPM_TAG_RSP_COMMAND tag from earlier versions of this
+/// specification. This value is used when the TPM is compatible with a previous TPM
+/// specification and the TPM cannot determine which family of response code to return
+/// because the command tag is not valid. </summary>
 struct TPM_ST : public TpmEnum<UINT16>
 {
     TPM_ENUM_PROLOGUE(TPM_ST)
     
-    /** Tag value for a response; used when there is an error in the tag. This is also the
-     *  value returned from a TPM 1.2 when an error occurs. This value is used in this
-     *  specification because an error in the command tag may prevent determination of the
-     *  family. When this tag is used in the response, the response code will be
-     *  TPM_RC_BAD_TAG (0 1E16), which has the same numeric value as the TPM 1.2 response code
-     *  for TPM_BADTAG.
-     *  NOTE In a previously published version of this specification, TPM_RC_BAD_TAG was
-     *  incorrectly assigned a value of 0x030 instead of 30 (0x01e). Some implementations my
-     *  return the old value instead of the new value.
-     */
+    /// <summary> Tag value for a response; used when there is an error in the tag. This is
+    /// also the value returned from a TPM 1.2 when an error occurs. This value is used in
+    /// this specification because an error in the command tag may prevent determination of
+    /// the family. When this tag is used in the response, the response code will be
+    /// TPM_RC_BAD_TAG (0 1E16), which has the same numeric value as the TPM 1.2 response code
+    /// for TPM_BADTAG.
+    /// NOTE In a previously published version of this specification, TPM_RC_BAD_TAG was
+    /// incorrectly assigned a value of 0x030 instead of 30 (0x01e). Some implementations my
+    /// return the old value instead of the new value. </summary>
     RSP_COMMAND = 0x00C4, 
     
-    /** No structure type specified  */
+    /// <summary> No structure type specified </summary>
     _NULL = 0X8000, 
     
-    /** Tag value for a command/response for a command defined in this specification;
-     *  indicating that the command/response has no attached sessions and no
-     *  authorizationSize/parameterSize value is present
-     *  If the responseCode from the TPM is not TPM_RC_SUCCESS, then the response tag shall
-     *  have this value.
-     */
+    /// <summary> Tag value for a command/response for a command defined in this
+    /// specification; indicating that the command/response has no attached sessions and no
+    /// authorizationSize/parameterSize value is present
+    /// If the responseCode from the TPM is not TPM_RC_SUCCESS, then the response tag shall
+    /// have this value. </summary>
     NO_SESSIONS = 0x8001, 
     
-    /** Tag value for a command/response for a command defined in this specification;
-     *  indicating that the command/response has one or more attached sessions and the
-     *  authorizationSize/parameterSize field is present
-     */
+    /// <summary> Tag value for a command/response for a command defined in this
+    /// specification; indicating that the command/response has one or more attached sessions
+    /// and the authorizationSize/parameterSize field is present </summary>
     SESSIONS = 0x8002, 
     
-    /** Tag for an attestation structure  */
+    /// <summary> Tag for an attestation structure </summary>
     ATTEST_NV = 0x8014, 
     
-    /** Tag for an attestation structure  */
+    /// <summary> Tag for an attestation structure </summary>
     ATTEST_COMMAND_AUDIT = 0x8015, 
     
-    /** Tag for an attestation structure  */
+    /// <summary> Tag for an attestation structure </summary>
     ATTEST_SESSION_AUDIT = 0x8016, 
     
-    /** Tag for an attestation structure  */
+    /// <summary> Tag for an attestation structure </summary>
     ATTEST_CERTIFY = 0x8017, 
     
-    /** Tag for an attestation structure  */
+    /// <summary> Tag for an attestation structure </summary>
     ATTEST_QUOTE = 0x8018, 
     
-    /** Tag for an attestation structure  */
+    /// <summary> Tag for an attestation structure </summary>
     ATTEST_TIME = 0x8019, 
     
-    /** Tag for an attestation structure  */
+    /// <summary> Tag for an attestation structure </summary>
     ATTEST_CREATION = 0x801A, 
     
-    /** Tag for an attestation structure  */
+    /// <summary> Tag for an attestation structure </summary>
     ATTEST_NV_DIGEST = 0x801C, 
     
-    /** Tag for a ticket type  */
+    /// <summary> Tag for a ticket type </summary>
     CREATION = 0x8021, 
     
-    /** Tag for a ticket type  */
+    /// <summary> Tag for a ticket type </summary>
     VERIFIED = 0x8022, 
     
-    /** Tag for a ticket type  */
+    /// <summary> Tag for a ticket type </summary>
     AUTH_SECRET = 0x8023, 
     
-    /** Tag for a ticket type  */
+    /// <summary> Tag for a ticket type </summary>
     HASHCHECK = 0x8024, 
     
-    /** Tag for a ticket type  */
+    /// <summary> Tag for a ticket type </summary>
     AUTH_SIGNED = 0x8025, 
     
-    /** Tag for a structure describing a Field Upgrade Policy  */
+    /// <summary> Tag for a structure describing a Field Upgrade Policy </summary>
     FU_MANIFEST = 0x8029
     TPM_ENUM_EPILOGUE(TPM_ST)
 };
 
-/** These values are used in TPM2_Startup() to indicate the shutdown and startup mode. The
- *  defined startup sequences are:
- */
+/// <summary> These values are used in TPM2_Startup() to indicate the shutdown and startup
+/// mode. The defined startup sequences are: </summary>
 struct TPM_SU : public TpmEnum<UINT16>
 {
     TPM_ENUM_PROLOGUE(TPM_SU)
     
-    /** On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save
-     *  state required for an orderly startup (TPM Reset).
-     *  on TPM2_Startup(), indicates that the TPM should perform TPM Reset or TPM Restart
-     */
+    /// <summary> On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power
+    /// and save state required for an orderly startup (TPM Reset).
+    /// on TPM2_Startup(), indicates that the TPM should perform TPM Reset or TPM Restart </summary>
     CLEAR = 0x0000, 
     
-    /** On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save
-     *  state required for an orderly startup (TPM Restart or TPM Resume)
-     *  on TPM2_Startup(), indicates that the TPM should restore the state saved by
-     *  TPM2_Shutdown(TPM_SU_STATE)
-     */
+    /// <summary> On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power
+    /// and save state required for an orderly startup (TPM Restart or TPM Resume)
+    /// on TPM2_Startup(), indicates that the TPM should restore the state saved by
+    /// TPM2_Shutdown(TPM_SU_STATE) </summary>
     STATE = 0x0001
     TPM_ENUM_EPILOGUE(TPM_SU)
 };
 
-/** This type is used in TPM2_StartAuthSession() to indicate the type of the session to be
- *  created.
- */
+/// <summary> This type is used in TPM2_StartAuthSession() to indicate the type of the
+/// session to be created. </summary>
 struct TPM_SE : public TpmEnum<UINT8>
 {
     TPM_ENUM_PROLOGUE(TPM_SE)
@@ -1458,750 +1430,720 @@ struct TPM_SE : public TpmEnum<UINT8>
     
     POLICY = 0x01, 
     
-    /** The policy session is being used to compute the policyHash and not for command authorization.
-     *  This setting modifies some policy commands and prevents session from being used to
-     *  authorize a command.
-     */
+    /// <summary> The policy session is being used to compute the policyHash and not for
+    /// command authorization.
+    /// This setting modifies some policy commands and prevents session from being used to
+    /// authorize a command. </summary>
     TRIAL = 0x03
     TPM_ENUM_EPILOGUE(TPM_SE)
 };
 
-/** The TPM_CAP values are used in TPM2_GetCapability() to select the type of the value to
- *  be returned. The format of the response varies according to the type of the value.
- */
+/// <summary> The TPM_CAP values are used in TPM2_GetCapability() to select the type of
+/// the value to be returned. The format of the response varies according to the type of
+/// the value. </summary>
 struct TPM_CAP : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_CAP)
     
     FIRST = 0x00000000, 
     
-    /** TPML_ALG_PROPERTY  */
+    /// <summary> TPML_ALG_PROPERTY </summary>
     ALGS = 0x00000000, 
     
-    /** TPML_HANDLE  */
+    /// <summary> TPML_HANDLE </summary>
     HANDLES = 0x00000001, 
     
-    /** TPML_CCA  */
+    /// <summary> TPML_CCA </summary>
     COMMANDS = 0x00000002, 
     
-    /** TPML_CC  */
+    /// <summary> TPML_CC </summary>
     PP_COMMANDS = 0x00000003, 
     
-    /** TPML_CC  */
+    /// <summary> TPML_CC </summary>
     AUDIT_COMMANDS = 0x00000004, 
     
-    /** TPML_PCR_SELECTION  */
+    /// <summary> TPML_PCR_SELECTION </summary>
     PCRS = 0x00000005, 
     
-    /** TPML_TAGGED_TPM_PROPERTY  */
+    /// <summary> TPML_TAGGED_TPM_PROPERTY </summary>
     TPM_PROPERTIES = 0x00000006, 
     
-    /** TPML_TAGGED_PCR_PROPERTY  */
+    /// <summary> TPML_TAGGED_PCR_PROPERTY </summary>
     PCR_PROPERTIES = 0x00000007, 
     
-    /** TPML_ECC_CURVE  */
+    /// <summary> TPML_ECC_CURVE </summary>
     ECC_CURVES = 0x00000008, 
     
-    /** TPML_TAGGED_POLICY  */
+    /// <summary> TPML_TAGGED_POLICY </summary>
     AUTH_POLICIES = 0x00000009, 
     
-    /** TPML_ACT_DATA  */
+    /// <summary> TPML_ACT_DATA </summary>
     ACT = 0x0000000A, 
     
     LAST = 0x0000000A, 
     
-    /** Manufacturer-specific values  */
+    /// <summary> Manufacturer-specific values </summary>
     VENDOR_PROPERTY = 0x00000100
     TPM_ENUM_EPILOGUE(TPM_CAP)
 };
 
-/** The TPM_PT constants are used in TPM2_GetCapability(capability =
- *  TPM_CAP_TPM_PROPERTIES) to indicate the property being selected or returned.
- */
+/// <summary> The TPM_PT constants are used in TPM2_GetCapability(capability =
+/// TPM_CAP_TPM_PROPERTIES) to indicate the property being selected or returned. </summary>
 struct TPM_PT : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_PT)
     
-    /** Indicates no property type  */
+    /// <summary> Indicates no property type </summary>
     NONE = 0x00000000, 
     
-    /** The number of properties in each group.
-     *  NOTE The first group with any properties is group 1 (PT_GROUP * 1). Group 0 is reserved.
-     */
+    /// <summary> The number of properties in each group.
+    /// NOTE The first group with any properties is group 1 (PT_GROUP * 1). Group 0 is
+    /// reserved. </summary>
     PT_GROUP = 0x00000100, 
     
-    /** The group of fixed properties returned as TPMS_TAGGED_PROPERTY
-     *  The values in this group are only changed due to a firmware change in the TPM.
-     */
+    /// <summary> The group of fixed properties returned as TPMS_TAGGED_PROPERTY
+    /// The values in this group are only changed due to a firmware change in the TPM. </summary>
     PT_FIXED = PT_GROUP * 1, 
     
-    /** A 4-octet character string containing the TPM Family value (TPM_SPEC_FAMILY)  */
+    /// <summary> A 4-octet character string containing the TPM Family value (TPM_SPEC_FAMILY)
+    /// </summary>
     FAMILY_INDICATOR = PT_FIXED + 0, 
     
-    /** The level of the specification
-     *  NOTE 1 For this specification, the level is zero.
-     *  NOTE 2 The level is on the title page of the specification.
-     */
+    /// <summary> The level of the specification
+    /// NOTE 1 For this specification, the level is zero.
+    /// NOTE 2 The level is on the title page of the specification. </summary>
     LEVEL = PT_FIXED + 1, 
     
-    /** The specification Revision times 100
-     *  EXAMPLE Revision 01.01 would have a value of 101.
-     *  NOTE The Revision value is on the title page of the specification.
-     */
+    /// <summary> The specification Revision times 100
+    /// EXAMPLE Revision 01.01 would have a value of 101.
+    /// NOTE The Revision value is on the title page of the specification. </summary>
     REVISION = PT_FIXED + 2, 
     
-    /** The specification day of year using TCG calendar
-     *  EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
-     *  NOTE The specification date is on the title page of the specification or errata (see 6.1).
-     */
+    /// <summary> The specification day of year using TCG calendar
+    /// EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
+    /// NOTE The specification date is on the title page of the specification or errata (see
+    /// 6.1). </summary>
     DAY_OF_YEAR = PT_FIXED + 3, 
     
-    /** The specification year using the CE
-     *  EXAMPLE The year 2010 has a value of 000007DA16.
-     *  NOTE The specification date is on the title page of the specification or errata (see 6.1).
-     */
+    /// <summary> The specification year using the CE
+    /// EXAMPLE The year 2010 has a value of 000007DA16.
+    /// NOTE The specification date is on the title page of the specification or errata (see
+    /// 6.1). </summary>
     YEAR = PT_FIXED + 4, 
     
-    /** The vendor ID unique to each TPM manufacturer  */
+    /// <summary> The vendor ID unique to each TPM manufacturer </summary>
     MANUFACTURER = PT_FIXED + 5, 
     
-    /** The first four characters of the vendor ID string
-     *  NOTE When the vendor string is fewer than 16 octets, the additional property values do
-     *  not have to be present. A vendor string of 4 octets can be represented in one 32-bit
-     *  value and no null terminating character is required.
-     */
+    /// <summary> The first four characters of the vendor ID string
+    /// NOTE When the vendor string is fewer than 16 octets, the additional property values do
+    /// not have to be present. A vendor string of 4 octets can be represented in one 32-bit
+    /// value and no null terminating character is required. </summary>
     VENDOR_STRING_1 = PT_FIXED + 6, 
     
-    /** The second four characters of the vendor ID string  */
+    /// <summary> The second four characters of the vendor ID string </summary>
     VENDOR_STRING_2 = PT_FIXED + 7, 
     
-    /** The third four characters of the vendor ID string  */
+    /// <summary> The third four characters of the vendor ID string </summary>
     VENDOR_STRING_3 = PT_FIXED + 8, 
     
-    /** The fourth four characters of the vendor ID sting  */
+    /// <summary> The fourth four characters of the vendor ID sting </summary>
     VENDOR_STRING_4 = PT_FIXED + 9, 
     
-    /** Vendor-defined value indicating the TPM model  */
+    /// <summary> Vendor-defined value indicating the TPM model </summary>
     VENDOR_TPM_TYPE = PT_FIXED + 10, 
     
-    /** The most-significant 32 bits of a TPM vendor-specific value indicating the version
-     *  number of the firmware. See 10.12.2 and 10.12.12.
-     */
+    /// <summary> The most-significant 32 bits of a TPM vendor-specific value indicating the
+    /// version number of the firmware. See 10.12.2 and 10.12.12. </summary>
     FIRMWARE_VERSION_1 = PT_FIXED + 11, 
     
-    /** The least-significant 32 bits of a TPM vendor-specific value indicating the version
-     *  number of the firmware. See 10.12.2 and 10.12.12.
-     */
+    /// <summary> The least-significant 32 bits of a TPM vendor-specific value indicating the
+    /// version number of the firmware. See 10.12.2 and 10.12.12. </summary>
     FIRMWARE_VERSION_2 = PT_FIXED + 12, 
     
-    /** The maximum size of a parameter (typically, a TPM2B_MAX_BUFFER)  */
+    /// <summary> The maximum size of a parameter (typically, a TPM2B_MAX_BUFFER) </summary>
     INPUT_BUFFER = PT_FIXED + 13, 
     
-    /** The minimum number of transient objects that can be held in TPM RAM
-     *  NOTE This minimum shall be no less than the minimum value required by the
-     *  platform-specific specification to which the TPM is built.
-     */
+    /// <summary> The minimum number of transient objects that can be held in TPM RAM
+    /// NOTE This minimum shall be no less than the minimum value required by the
+    /// platform-specific specification to which the TPM is built. </summary>
     HR_TRANSIENT_MIN = PT_FIXED + 14, 
     
-    /** The minimum number of persistent objects that can be held in TPM NV memory
-     *  NOTE This minimum shall be no less than the minimum value required by the
-     *  platform-specific specification to which the TPM is built.
-     */
+    /// <summary> The minimum number of persistent objects that can be held in TPM NV memory
+    /// NOTE This minimum shall be no less than the minimum value required by the
+    /// platform-specific specification to which the TPM is built. </summary>
     HR_PERSISTENT_MIN = PT_FIXED + 15, 
     
-    /** The minimum number of authorization sessions that can be held in TPM RAM
-     *  NOTE This minimum shall be no less than the minimum value required by the
-     *  platform-specific specification to which the TPM is built.
-     */
+    /// <summary> The minimum number of authorization sessions that can be held in TPM RAM
+    /// NOTE This minimum shall be no less than the minimum value required by the
+    /// platform-specific specification to which the TPM is built. </summary>
     HR_LOADED_MIN = PT_FIXED + 16, 
     
-    /** The number of authorization sessions that may be active at a time
-     *  A session is active when it has a context associated with its handle. The context may
-     *  either be in TPM RAM or be context saved.
-     *  NOTE This value shall be no less than the minimum value required by the
-     *  platform-specific specification to which the TPM is built.
-     */
+    /// <summary> The number of authorization sessions that may be active at a time
+    /// A session is active when it has a context associated with its handle. The context may
+    /// either be in TPM RAM or be context saved.
+    /// NOTE This value shall be no less than the minimum value required by the
+    /// platform-specific specification to which the TPM is built. </summary>
     ACTIVE_SESSIONS_MAX = PT_FIXED + 17, 
     
-    /** The number of PCR implemented
-     *  NOTE This number is determined by the defined attributes, not the number of PCR that
-     *  are populated.
-     */
+    /// <summary> The number of PCR implemented
+    /// NOTE This number is determined by the defined attributes, not the number of PCR that
+    /// are populated. </summary>
     PCR_COUNT = PT_FIXED + 18, 
     
-    /** The minimum number of octets in a TPMS_PCR_SELECT.sizeOfSelect
-     *  NOTE This value is not determined by the number of PCR implemented but by the number
-     *  of PCR required by the platform-specific specification with which the TPM is compliant
-     *  or by the implementer if not adhering to a platform-specific specification.
-     */
+    /// <summary> The minimum number of octets in a TPMS_PCR_SELECT.sizeOfSelect
+    /// NOTE This value is not determined by the number of PCR implemented but by the number
+    /// of PCR required by the platform-specific specification with which the TPM is compliant
+    /// or by the implementer if not adhering to a platform-specific specification. </summary>
     PCR_SELECT_MIN = PT_FIXED + 19, 
     
-    /** The maximum allowed difference (unsigned) between the contextID values of two saved
-     *  session contexts
-     *  This value shall be 2n-1, where n is at least 16.
-     */
+    /// <summary> The maximum allowed difference (unsigned) between the contextID values of
+    /// two saved session contexts
+    /// This value shall be 2n-1, where n is at least 16. </summary>
     CONTEXT_GAP_MAX = PT_FIXED + 20, 
     
-    /** The maximum number of NV Indexes that are allowed to have the TPM_NT_COUNTER attribute
-     *  NOTE 1 It is allowed for this value to be larger than the number of NV Indexes that
-     *  can be defined. This would be indicative of a TPM implementation that did not use
-     *  different implementation technology for different NV Index types.
-     *  NOTE 2 The value zero indicates that there is no fixed maximum. The number of counter
-     *  indexes is determined by the available NV memory pool.
-     */
+    /// <summary> The maximum number of NV Indexes that are allowed to have the TPM_NT_COUNTER
+    /// attribute
+    /// NOTE 1 It is allowed for this value to be larger than the number of NV Indexes that
+    /// can be defined. This would be indicative of a TPM implementation that did not use
+    /// different implementation technology for different NV Index types.
+    /// NOTE 2 The value zero indicates that there is no fixed maximum. The number of counter
+    /// indexes is determined by the available NV memory pool. </summary>
     NV_COUNTERS_MAX = PT_FIXED + 22, 
     
-    /** The maximum size of an NV Index data area  */
+    /// <summary> The maximum size of an NV Index data area </summary>
     NV_INDEX_MAX = PT_FIXED + 23, 
     
-    /** A TPMA_MEMORY indicating the memory management method for the TPM  */
+    /// <summary> A TPMA_MEMORY indicating the memory management method for the TPM </summary>
     MEMORY = PT_FIXED + 24, 
     
-    /** Interval, in milliseconds, between updates to the copy of TPMS_CLOCK_INFO.clock in NV  */
+    /// <summary> Interval, in milliseconds, between updates to the copy of
+    /// TPMS_CLOCK_INFO.clock in NV </summary>
     CLOCK_UPDATE = PT_FIXED + 25, 
     
-    /** The algorithm used for the integrity HMAC on saved contexts and for hashing the fuData
-     *  of TPM2_FirmwareRead()
-     */
+    /// <summary> The algorithm used for the integrity HMAC on saved contexts and for hashing
+    /// the fuData of TPM2_FirmwareRead() </summary>
     CONTEXT_HASH = PT_FIXED + 26, 
     
-    /** TPM_ALG_ID, the algorithm used for encryption of saved contexts  */
+    /// <summary> TPM_ALG_ID, the algorithm used for encryption of saved contexts </summary>
     CONTEXT_SYM = PT_FIXED + 27, 
     
-    /** TPM_KEY_BITS, the size of the key used for encryption of saved contexts  */
+    /// <summary> TPM_KEY_BITS, the size of the key used for encryption of saved contexts </summary>
     CONTEXT_SYM_SIZE = PT_FIXED + 28, 
     
-    /** The modulus - 1 of the count for NV update of an orderly counter
-     *  The returned value is MAX_ORDERLY_COUNT.
-     *  This will have a value of 2N 1 where 1 N 32
-     *  NOTE 1 An orderly counter is an NV Index with an TPM_NT of TPM_NV_COUNTER and
-     *  TPMA_NV_ORDERLY SET.
-     *  NOTE 2 When the low-order bits of a counter equal this value, an NV write occurs on
-     *  the next increment.
-     */
+    /// <summary> The modulus - 1 of the count for NV update of an orderly counter
+    /// The returned value is MAX_ORDERLY_COUNT.
+    /// This will have a value of 2N 1 where 1 N 32
+    /// NOTE 1 An orderly counter is an NV Index with an TPM_NT of TPM_NV_COUNTER and
+    /// TPMA_NV_ORDERLY SET.
+    /// NOTE 2 When the low-order bits of a counter equal this value, an NV write occurs on
+    /// the next increment. </summary>
     ORDERLY_COUNT = PT_FIXED + 29, 
     
-    /** The maximum value for commandSize in a command  */
+    /// <summary> The maximum value for commandSize in a command </summary>
     MAX_COMMAND_SIZE = PT_FIXED + 30, 
     
-    /** The maximum value for responseSize in a response  */
+    /// <summary> The maximum value for responseSize in a response </summary>
     MAX_RESPONSE_SIZE = PT_FIXED + 31, 
     
-    /** The maximum size of a digest that can be produced by the TPM  */
+    /// <summary> The maximum size of a digest that can be produced by the TPM </summary>
     MAX_DIGEST = PT_FIXED + 32, 
     
-    /** The maximum size of an object context that will be returned by TPM2_ContextSave  */
+    /// <summary> The maximum size of an object context that will be returned by
+    /// TPM2_ContextSave </summary>
     MAX_OBJECT_CONTEXT = PT_FIXED + 33, 
     
-    /** The maximum size of a session context that will be returned by TPM2_ContextSave  */
+    /// <summary> The maximum size of a session context that will be returned by
+    /// TPM2_ContextSave </summary>
     MAX_SESSION_CONTEXT = PT_FIXED + 34, 
     
-    /** Platform-specific family (a TPM_PS value)(see Table 25)
-     *  NOTE The platform-specific values for the TPM_PT_PS parameters are in the relevant
-     *  platform-specific specification. In the reference implementation, all of these values
-     *  are 0.
-     */
+    /// <summary> Platform-specific family (a TPM_PS value)(see Table 25)
+    /// NOTE The platform-specific values for the TPM_PT_PS parameters are in the relevant
+    /// platform-specific specification. In the reference implementation, all of these values
+    /// are 0. </summary>
     PS_FAMILY_INDICATOR = PT_FIXED + 35, 
     
-    /** The level of the platform-specific specification  */
+    /// <summary> The level of the platform-specific specification </summary>
     PS_LEVEL = PT_FIXED + 36, 
     
-    /** A platform specific value  */
+    /// <summary> A platform specific value </summary>
     PS_REVISION = PT_FIXED + 37, 
     
-    /** The platform-specific TPM specification day of year using TCG calendar
-     *  EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
-     */
+    /// <summary> The platform-specific TPM specification day of year using TCG calendar
+    /// EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16). </summary>
     PS_DAY_OF_YEAR = PT_FIXED + 38, 
     
-    /** The platform-specific TPM specification year using the CE
-     *  EXAMPLE The year 2010 has a value of 000007DA16.
-     */
+    /// <summary> The platform-specific TPM specification year using the CE
+    /// EXAMPLE The year 2010 has a value of 000007DA16. </summary>
     PS_YEAR = PT_FIXED + 39, 
     
-    /** The number of split signing operations supported by the TPM  */
+    /// <summary> The number of split signing operations supported by the TPM </summary>
     SPLIT_MAX = PT_FIXED + 40, 
     
-    /** Total number of commands implemented in the TPM  */
+    /// <summary> Total number of commands implemented in the TPM </summary>
     TOTAL_COMMANDS = PT_FIXED + 41, 
     
-    /** Number of commands from the TPM library that are implemented  */
+    /// <summary> Number of commands from the TPM library that are implemented </summary>
     LIBRARY_COMMANDS = PT_FIXED + 42, 
     
-    /** Number of vendor commands that are implemented  */
+    /// <summary> Number of vendor commands that are implemented </summary>
     VENDOR_COMMANDS = PT_FIXED + 43, 
     
-    /** The maximum data size in one NV write, NV read, NV extend, or NV certify command  */
+    /// <summary> The maximum data size in one NV write, NV read, NV extend, or NV certify
+    /// command </summary>
     NV_BUFFER_MAX = PT_FIXED + 44, 
     
-    /** A TPMA_MODES value, indicating that the TPM is designed for these modes.  */
+    /// <summary> A TPMA_MODES value, indicating that the TPM is designed for these modes. </summary>
     MODES = PT_FIXED + 45, 
     
-    /** The maximum size of a TPMS_CAPABILITY_DATA structure returned in TPM2_GetCapability().  */
+    /// <summary> The maximum size of a TPMS_CAPABILITY_DATA structure returned in
+    /// TPM2_GetCapability(). </summary>
     MAX_CAP_BUFFER = PT_FIXED + 46, 
     
-    /** The group of variable properties returned as TPMS_TAGGED_PROPERTY
-     *  The properties in this group change because of a Protected Capability other than a
-     *  firmware update. The values are not necessarily persistent across all power transitions.
-     */
+    /// <summary> The group of variable properties returned as TPMS_TAGGED_PROPERTY
+    /// The properties in this group change because of a Protected Capability other than a
+    /// firmware update. The values are not necessarily persistent across all power
+    /// transitions. </summary>
     PT_VAR = PT_GROUP * 2, 
     
-    /** TPMA_PERMANENT  */
+    /// <summary> TPMA_PERMANENT </summary>
     PERMANENT = PT_VAR + 0, 
     
-    /** TPMA_STARTUP_CLEAR  */
+    /// <summary> TPMA_STARTUP_CLEAR </summary>
     STARTUP_CLEAR = PT_VAR + 1, 
     
-    /** The number of NV Indexes currently defined  */
+    /// <summary> The number of NV Indexes currently defined </summary>
     HR_NV_INDEX = PT_VAR + 2, 
     
-    /** The number of authorization sessions currently loaded into TPM RAM  */
+    /// <summary> The number of authorization sessions currently loaded into TPM RAM </summary>
     HR_LOADED = PT_VAR + 3, 
     
-    /** The number of additional authorization sessions, of any type, that could be loaded
-     *  into TPM RAM
-     *  This value is an estimate. If this value is at least 1, then at least one
-     *  authorization session of any type may be loaded. Any command that changes the RAM
-     *  memory allocation can make this estimate invalid.
-     *  NOTE A valid implementation may return 1 even if more than one authorization session
-     *  would fit into RAM.
-     */
+    /// <summary> The number of additional authorization sessions, of any type, that could be
+    /// loaded into TPM RAM
+    /// This value is an estimate. If this value is at least 1, then at least one
+    /// authorization session of any type may be loaded. Any command that changes the RAM
+    /// memory allocation can make this estimate invalid.
+    /// NOTE A valid implementation may return 1 even if more than one authorization session
+    /// would fit into RAM. </summary>
     HR_LOADED_AVAIL = PT_VAR + 4, 
     
-    /** The number of active authorization sessions currently being tracked by the TPM
-     *  This is the sum of the loaded and saved sessions.
-     */
+    /// <summary> The number of active authorization sessions currently being tracked by the TPM
+    /// This is the sum of the loaded and saved sessions. </summary>
     HR_ACTIVE = PT_VAR + 5, 
     
-    /** The number of additional authorization sessions, of any type, that could be created
-     *  This value is an estimate. If this value is at least 1, then at least one
-     *  authorization session of any type may be created. Any command that changes the RAM
-     *  memory allocation can make this estimate invalid.
-     *  NOTE A valid implementation may return 1 even if more than one authorization session
-     *  could be created.
-     */
+    /// <summary> The number of additional authorization sessions, of any type, that could be created
+    /// This value is an estimate. If this value is at least 1, then at least one
+    /// authorization session of any type may be created. Any command that changes the RAM
+    /// memory allocation can make this estimate invalid.
+    /// NOTE A valid implementation may return 1 even if more than one authorization session
+    /// could be created. </summary>
     HR_ACTIVE_AVAIL = PT_VAR + 6, 
     
-    /** Estimate of the number of additional transient objects that could be loaded into TPM RAM
-     *  This value is an estimate. If this value is at least 1, then at least one object of
-     *  any type may be loaded. Any command that changes the memory allocation can make this
-     *  estimate invalid.
-     *  NOTE A valid implementation may return 1 even if more than one transient object would
-     *  fit into RAM.
-     */
+    /// <summary> Estimate of the number of additional transient objects that could be loaded
+    /// into TPM RAM
+    /// This value is an estimate. If this value is at least 1, then at least one object of
+    /// any type may be loaded. Any command that changes the memory allocation can make this
+    /// estimate invalid.
+    /// NOTE A valid implementation may return 1 even if more than one transient object would
+    /// fit into RAM. </summary>
     HR_TRANSIENT_AVAIL = PT_VAR + 7, 
     
-    /** The number of persistent objects currently loaded into TPM NV memory  */
+    /// <summary> The number of persistent objects currently loaded into TPM NV memory </summary>
     HR_PERSISTENT = PT_VAR + 8, 
     
-    /** The number of additional persistent objects that could be loaded into NV memory
-     *  This value is an estimate. If this value is at least 1, then at least one object of
-     *  any type may be made persistent. Any command that changes the NV memory allocation can
-     *  make this estimate invalid.
-     *  NOTE A valid implementation may return 1 even if more than one persistent object would
-     *  fit into NV memory.
-     */
+    /// <summary> The number of additional persistent objects that could be loaded into NV memory
+    /// This value is an estimate. If this value is at least 1, then at least one object of
+    /// any type may be made persistent. Any command that changes the NV memory allocation can
+    /// make this estimate invalid.
+    /// NOTE A valid implementation may return 1 even if more than one persistent object would
+    /// fit into NV memory. </summary>
     HR_PERSISTENT_AVAIL = PT_VAR + 9, 
     
-    /** The number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute  */
+    /// <summary> The number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute </summary>
     NV_COUNTERS = PT_VAR + 10, 
     
-    /** The number of additional NV Indexes that can be defined with their TPM_NT of
-     *  TPM_NV_COUNTER and the TPMA_NV_ORDERLY attribute SET
-     *  This value is an estimate. If this value is at least 1, then at least one NV Index may
-     *  be created with a TPM_NT of TPM_NV_COUNTER and the TPMA_NV_ORDERLY attributes. Any
-     *  command that changes the NV memory allocation can make this estimate invalid.
-     *  NOTE A valid implementation may return 1 even if more than one NV counter could be defined.
-     */
+    /// <summary> The number of additional NV Indexes that can be defined with their TPM_NT of
+    /// TPM_NV_COUNTER and the TPMA_NV_ORDERLY attribute SET
+    /// This value is an estimate. If this value is at least 1, then at least one NV Index may
+    /// be created with a TPM_NT of TPM_NV_COUNTER and the TPMA_NV_ORDERLY attributes. Any
+    /// command that changes the NV memory allocation can make this estimate invalid.
+    /// NOTE A valid implementation may return 1 even if more than one NV counter could be
+    /// defined. </summary>
     NV_COUNTERS_AVAIL = PT_VAR + 11, 
     
-    /** Code that limits the algorithms that may be used with the TPM  */
+    /// <summary> Code that limits the algorithms that may be used with the TPM </summary>
     ALGORITHM_SET = PT_VAR + 12, 
     
-    /** The number of loaded ECC curves  */
+    /// <summary> The number of loaded ECC curves </summary>
     LOADED_CURVES = PT_VAR + 13, 
     
-    /** The current value of the lockout counter (failedTries)  */
+    /// <summary> The current value of the lockout counter (failedTries) </summary>
     LOCKOUT_COUNTER = PT_VAR + 14, 
     
-    /** The number of authorization failures before DA lockout is invoked  */
+    /// <summary> The number of authorization failures before DA lockout is invoked </summary>
     MAX_AUTH_FAIL = PT_VAR + 15, 
     
-    /** The number of seconds before the value reported by TPM_PT_LOCKOUT_COUNTER is decremented  */
+    /// <summary> The number of seconds before the value reported by TPM_PT_LOCKOUT_COUNTER is
+    /// decremented </summary>
     LOCKOUT_INTERVAL = PT_VAR + 16, 
     
-    /** The number of seconds after a lockoutAuth failure before use of lockoutAuth may be
-     *  attempted again
-     */
+    /// <summary> The number of seconds after a lockoutAuth failure before use of lockoutAuth
+    /// may be attempted again </summary>
     LOCKOUT_RECOVERY = PT_VAR + 17, 
     
-    /** Number of milliseconds before the TPM will accept another command that will modify NV
-     *  This value is an approximation and may go up or down over time.
-     */
+    /// <summary> Number of milliseconds before the TPM will accept another command that will
+    /// modify NV
+    /// This value is an approximation and may go up or down over time. </summary>
     NV_WRITE_RECOVERY = PT_VAR + 18, 
     
-    /** The high-order 32 bits of the command audit counter  */
+    /// <summary> The high-order 32 bits of the command audit counter </summary>
     AUDIT_COUNTER_0 = PT_VAR + 19, 
     
-    /** The low-order 32 bits of the command audit counter  */
+    /// <summary> The low-order 32 bits of the command audit counter </summary>
     AUDIT_COUNTER_1 = PT_VAR + 20
     TPM_ENUM_EPILOGUE(TPM_PT)
 };
 
-/** The TPM_PT_PCR constants are used in TPM2_GetCapability() to indicate the property
- *  being selected or returned. The PCR properties can be read when capability ==
- *  TPM_CAP_PCR_PROPERTIES. If there is no property that corresponds to the value of
- *  property, the next higher value is returned, if it exists.
- */
+/// <summary> The TPM_PT_PCR constants are used in TPM2_GetCapability() to indicate the
+/// property being selected or returned. The PCR properties can be read when capability ==
+/// TPM_CAP_PCR_PROPERTIES. If there is no property that corresponds to the value of
+/// property, the next higher value is returned, if it exists. </summary>
 struct TPM_PT_PCR : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_PT_PCR)
     
-    /** Bottom of the range of TPM_PT_PCR properties  */
+    /// <summary> Bottom of the range of TPM_PT_PCR properties </summary>
     FIRST = 0x00000000, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and restored by TPM_SU_STATE  */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and
+    /// restored by TPM_SU_STATE </summary>
     SAVE = 0x00000000, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 0
-     *  This property is only present if a locality other than 0 is implemented.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
+    /// locality 0
+    /// This property is only present if a locality other than 0 is implemented. </summary>
     EXTEND_L0 = 0x00000001, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
-     *  TPM2_PCR_Reset() from locality 0
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+    /// TPM2_PCR_Reset() from locality 0 </summary>
     RESET_L0 = 0x00000002, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 1
-     *  This property is only present if locality 1 is implemented.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
+    /// locality 1
+    /// This property is only present if locality 1 is implemented. </summary>
     EXTEND_L1 = 0x00000003, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
-     *  TPM2_PCR_Reset() from locality 1
-     *  This property is only present if locality 1 is implemented.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+    /// TPM2_PCR_Reset() from locality 1
+    /// This property is only present if locality 1 is implemented. </summary>
     RESET_L1 = 0x00000004, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 2
-     *  This property is only present if localities 1 and 2 are implemented.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
+    /// locality 2
+    /// This property is only present if localities 1 and 2 are implemented. </summary>
     EXTEND_L2 = 0x00000005, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
-     *  TPM2_PCR_Reset() from locality 2
-     *  This property is only present if localities 1 and 2 are implemented.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+    /// TPM2_PCR_Reset() from locality 2
+    /// This property is only present if localities 1 and 2 are implemented. </summary>
     RESET_L2 = 0x00000006, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 3
-     *  This property is only present if localities 1, 2, and 3 are implemented.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
+    /// locality 3
+    /// This property is only present if localities 1, 2, and 3 are implemented. </summary>
     EXTEND_L3 = 0x00000007, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
-     *  TPM2_PCR_Reset() from locality 3
-     *  This property is only present if localities 1, 2, and 3 are implemented.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+    /// TPM2_PCR_Reset() from locality 3
+    /// This property is only present if localities 1, 2, and 3 are implemented. </summary>
     RESET_L3 = 0x00000008, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 4
-     *  This property is only present if localities 1, 2, 3, and 4 are implemented.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
+    /// locality 4
+    /// This property is only present if localities 1, 2, 3, and 4 are implemented. </summary>
     EXTEND_L4 = 0x00000009, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
-     *  TPM2_PCR_Reset() from locality 4
-     *  This property is only present if localities 1, 2, 3, and 4 are implemented.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
+    /// TPM2_PCR_Reset() from locality 4
+    /// This property is only present if localities 1, 2, 3, and 4 are implemented. </summary>
     RESET_L4 = 0x0000000A, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that modifications to this PCR (reset or
-     *  Extend) will not increment the pcrUpdateCounter
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that modifications to this PCR
+    /// (reset or Extend) will not increment the pcrUpdateCounter </summary>
     NO_INCREMENT = 0x00000011, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR is reset by a D-RTM event
-     *  These PCR are reset to -1 on TPM2_Startup() and reset to 0 on a _TPM_Hash_End event
-     *  following a _TPM_Hash_Start event.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is reset by a D-RTM event
+    /// These PCR are reset to -1 on TPM2_Startup() and reset to 0 on a _TPM_Hash_End event
+    /// following a _TPM_Hash_Start event. </summary>
     DRTM_RESET = 0x00000012, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by policy
-     *  This property is only present if the TPM supports policy control of a PCR.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by policy
+    /// This property is only present if the TPM supports policy control of a PCR. </summary>
     POLICY = 0x00000013, 
     
-    /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by an
-     *  authorization value
-     *  This property is only present if the TPM supports authorization control of a PCR.
-     */
+    /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by an
+    /// authorization value
+    /// This property is only present if the TPM supports authorization control of a PCR. </summary>
     AUTH = 0x00000014, 
     
-    /** Top of the range of TPM_PT_PCR properties of the implementation
-     *  If the TPM receives a request for a PCR property with a value larger than this, the
-     *  TPM will return a zero length list and set the moreData parameter to NO.
-     *  NOTE This is an implementation-specific value. The value shown reflects the reference
-     *  code implementation.
-     */
+    /// <summary> Top of the range of TPM_PT_PCR properties of the implementation
+    /// If the TPM receives a request for a PCR property with a value larger than this, the
+    /// TPM will return a zero length list and set the moreData parameter to NO.
+    /// NOTE This is an implementation-specific value. The value shown reflects the reference
+    /// code implementation. </summary>
     LAST = 0x00000014
     TPM_ENUM_EPILOGUE(TPM_PT_PCR)
 };
 
-/** The platform values in Table 25 are used for the TPM_PT_PS_FAMILY_INDICATOR.  */
+/// <summary> The platform values in Table 25 are used for the TPM_PT_PS_FAMILY_INDICATOR.
+/// </summary>
 struct TPM_PS : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_PS)
     
-    /** Not platform specific  */
+    /// <summary> Not platform specific </summary>
     MAIN = 0x00000000, 
     
-    /** PC Client  */
+    /// <summary> PC Client </summary>
     PC = 0x00000001, 
     
-    /** PDA (includes all mobile devices that are not specifically cell phones)  */
+    /// <summary> PDA (includes all mobile devices that are not specifically cell phones) </summary>
     PDA = 0x00000002, 
     
-    /** Cell Phone  */
+    /// <summary> Cell Phone </summary>
     CELL_PHONE = 0x00000003, 
     
-    /** Server WG  */
+    /// <summary> Server WG </summary>
     SERVER = 0x00000004, 
     
-    /** Peripheral WG  */
+    /// <summary> Peripheral WG </summary>
     PERIPHERAL = 0x00000005, 
     
-    /** TSS WG (deprecated)  */
+    /// <summary> TSS WG (deprecated) </summary>
     TSS = 0x00000006, 
     
-    /** Storage WG  */
+    /// <summary> Storage WG </summary>
     STORAGE = 0x00000007, 
     
-    /** Authentication WG  */
+    /// <summary> Authentication WG </summary>
     AUTHENTICATION = 0x00000008, 
     
-    /** Embedded WG  */
+    /// <summary> Embedded WG </summary>
     EMBEDDED = 0x00000009, 
     
-    /** Hardcopy WG  */
+    /// <summary> Hardcopy WG </summary>
     HARDCOPY = 0x0000000A, 
     
-    /** Infrastructure WG (deprecated)  */
+    /// <summary> Infrastructure WG (deprecated) </summary>
     INFRASTRUCTURE = 0x0000000B, 
     
-    /** Virtualization WG  */
+    /// <summary> Virtualization WG </summary>
     VIRTUALIZATION = 0x0000000C, 
     
-    /** Trusted Network Connect WG (deprecated)  */
+    /// <summary> Trusted Network Connect WG (deprecated) </summary>
     TNC = 0x0000000D, 
     
-    /** Multi-tenant WG (deprecated)  */
+    /// <summary> Multi-tenant WG (deprecated) </summary>
     MULTI_TENANT = 0x0000000E, 
     
-    /** Technical Committee (deprecated)  */
+    /// <summary> Technical Committee (deprecated) </summary>
     TC = 0x0000000F
     TPM_ENUM_EPILOGUE(TPM_PS)
 };
 
-/** The 32-bit handle space is divided into 256 regions of equal size with 224 values in
- *  each. Each of these ranges represents a handle type.
- */
+/// <summary> The 32-bit handle space is divided into 256 regions of equal size with 224
+/// values in each. Each of these ranges represents a handle type. </summary>
 struct TPM_HT : public TpmEnum<UINT8>
 {
     TPM_ENUM_PROLOGUE(TPM_HT)
     
-    /** PCR consecutive numbers, starting at 0, that reference the PCR registers
-     *  A platform-specific specification will set the minimum number of PCR and an
-     *  implementation may have more.
-     */
+    /// <summary> PCR consecutive numbers, starting at 0, that reference the PCR registers
+    /// A platform-specific specification will set the minimum number of PCR and an
+    /// implementation may have more. </summary>
     PCR = 0x00, 
     
-    /** NV Index assigned by the caller  */
+    /// <summary> NV Index assigned by the caller </summary>
     NV_INDEX = 0x01, 
     
-    /** HMAC Authorization Session assigned by the TPM when the session is created  */
+    /// <summary> HMAC Authorization Session assigned by the TPM when the session is created </summary>
     HMAC_SESSION = 0x02, 
     
-    /** Loaded Authorization Session used only in the context of TPM2_GetCapability
-     *  This type references both loaded HMAC and loaded policy authorization sessions.
-     */
+    /// <summary> Loaded Authorization Session used only in the context of TPM2_GetCapability
+    /// This type references both loaded HMAC and loaded policy authorization sessions. </summary>
     LOADED_SESSION = 0x02, 
     
-    /** Policy Authorization Session assigned by the TPM when the session is created  */
+    /// <summary> Policy Authorization Session assigned by the TPM when the session is created
+    /// </summary>
     POLICY_SESSION = 0x03, 
     
-    /** Saved Authorization Session used only in the context of TPM2_GetCapability
-     *  This type references saved authorization session contexts for which the TPM is
-     *  maintaining tracking information.
-     */
+    /// <summary> Saved Authorization Session used only in the context of TPM2_GetCapability
+    /// This type references saved authorization session contexts for which the TPM is
+    /// maintaining tracking information. </summary>
     SAVED_SESSION = 0x03, 
     
-    /** Permanent Values assigned by this specification in Table 28  */
+    /// <summary> Permanent Values assigned by this specification in Table 28 </summary>
     PERMANENT = 0x40, 
     
-    /** Transient Objects assigned by the TPM when an object is loaded into transient-object
-     *  memory or when a persistent object is converted to a transient object
-     */
+    /// <summary> Transient Objects assigned by the TPM when an object is loaded into
+    /// transient-object memory or when a persistent object is converted to a transient object
+    /// </summary>
     TRANSIENT = 0x80, 
     
-    /** Persistent Objects assigned by the TPM when a loaded transient object is made persistent  */
+    /// <summary> Persistent Objects assigned by the TPM when a loaded transient object is
+    /// made persistent </summary>
     PERSISTENT = 0x81, 
     
-    /** Attached Component handle for an Attached Component.  */
+    /// <summary> Attached Component handle for an Attached Component. </summary>
     AC = 0x90
     TPM_ENUM_EPILOGUE(TPM_HT)
 };
 
-/** Table 28 lists the architecturally defined handles that cannot be changed. The handles
- *  include authorization handles, and special handles.
- */
+/// <summary> Table 28 lists the architecturally defined handles that cannot be changed.
+/// The handles include authorization handles, and special handles. </summary>
 struct TPM_RH : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_RH)
     
     FIRST = 0x40000000, 
     
-    /** Not used1  */
+    /// <summary> Not used1 </summary>
     SRK = 0x40000000, 
     
-    /** Handle references the Storage Primary Seed (SPS), the ownerAuth, and the ownerPolicy  */
+    /// <summary> Handle references the Storage Primary Seed (SPS), the ownerAuth, and the
+    /// ownerPolicy </summary>
     OWNER = 0x40000001, 
     
-    /** Not used1  */
+    /// <summary> Not used1 </summary>
     REVOKE = 0x40000002, 
     
-    /** Not used1  */
+    /// <summary> Not used1 </summary>
     TRANSPORT = 0x40000003, 
     
-    /** Not used1  */
+    /// <summary> Not used1 </summary>
     OPERATOR = 0x40000004, 
     
-    /** Not used1  */
+    /// <summary> Not used1 </summary>
     ADMIN = 0x40000005, 
     
-    /** Not used1  */
+    /// <summary> Not used1 </summary>
     EK = 0x40000006, 
     
-    /** A handle associated with the null hierarchy, an EmptyAuth authValue, and an Empty
-     *  Policy authPolicy.
-     */
+    /// <summary> A handle associated with the null hierarchy, an EmptyAuth authValue, and an
+    /// Empty Policy authPolicy. </summary>
     _NULL = 0x40000007, 
     
-    /** Value reserved to the TPM to indicate a handle location that has not been initialized
-     *  or assigned
-     */
+    /// <summary> Value reserved to the TPM to indicate a handle location that has not been
+    /// initialized or assigned </summary>
     UNASSIGNED = 0x40000008, 
     
-    /** Authorization value used to indicate a password authorization session  */
+    /// <summary> Authorization value used to indicate a password authorization session </summary>
     PW = 0x40000009, 
     
-    /** Deprecated: use PW instead  */
+    /// <summary> Deprecated: use PW instead </summary>
     RS_PW [[deprecated("Use TPM_RH::PW instead")]] = 0x40000009,
     
-    /** References the authorization associated with the dictionary attack lockout reset  */
+    /// <summary> References the authorization associated with the dictionary attack lockout
+    /// reset </summary>
     LOCKOUT = 0x4000000A, 
     
-    /** References the Endorsement Primary Seed (EPS), endorsementAuth, and endorsementPolicy  */
+    /// <summary> References the Endorsement Primary Seed (EPS), endorsementAuth, and
+    /// endorsementPolicy </summary>
     ENDORSEMENT = 0x4000000B, 
     
-    /** References the Platform Primary Seed (PPS), platformAuth, and platformPolicy  */
+    /// <summary> References the Platform Primary Seed (PPS), platformAuth, and platformPolicy
+    /// </summary>
     PLATFORM = 0x4000000C, 
     
-    /** For phEnableNV  */
+    /// <summary> For phEnableNV </summary>
     PLATFORM_NV = 0x4000000D, 
     
-    /** Start of a range of authorization values that are vendor-specific. A TPM may support
-     *  any of the values in this range as are needed for vendor-specific purposes.
-     *  Disabled if ehEnable is CLEAR.
-     *  NOTE Any includes none.
-     */
+    /// <summary> Start of a range of authorization values that are vendor-specific. A TPM may
+    /// support any of the values in this range as are needed for vendor-specific purposes.
+    /// Disabled if ehEnable is CLEAR.
+    /// NOTE Any includes none. </summary>
     AUTH_00 = 0x40000010, 
     
-    /** End of the range of vendor-specific authorization values.  */
+    /// <summary> End of the range of vendor-specific authorization values. </summary>
     AUTH_FF = 0x4000010F, 
     
-    /** Start of the range of authenticated timers  */
+    /// <summary> Start of the range of authenticated timers </summary>
     ACT_0 = 0x40000110, 
     
-    /** End of the range of authenticated timers  */
+    /// <summary> End of the range of authenticated timers </summary>
     ACT_F = 0x4000011F, 
     
-    /** The top of the reserved handle area
-     *  This is set to allow TPM2_GetCapability() to know where to stop. It may vary as
-     *  implementations add to the permanent handle area.
-     */
+    /// <summary> The top of the reserved handle area
+    /// This is set to allow TPM2_GetCapability() to know where to stop. It may vary as
+    /// implementations add to the permanent handle area. </summary>
     LAST = 0x4000011F
     TPM_ENUM_EPILOGUE(TPM_RH)
 };
 
-/** This table lists the values of the TPM_NT field of a TPMA_NV. See Table 215 for usage.  */
+/// <summary> This table lists the values of the TPM_NT field of a TPMA_NV. See Table 215
+/// for usage. </summary>
 struct TPM_NT : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_NT)
     
-    /** Ordinary contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write().  */
+    /// <summary> Ordinary contains data that is opaque to the TPM that can only be modified
+    /// using TPM2_NV_Write(). </summary>
     ORDINARY = 0x0, 
     
-    /** Counter contains an 8-octet value that is to be used as a counter and can only be
-     *  modified with TPM2_NV_Increment()
-     */
+    /// <summary> Counter contains an 8-octet value that is to be used as a counter and can
+    /// only be modified with TPM2_NV_Increment() </summary>
     COUNTER = 0x1, 
     
-    /** Bit Field contains an 8-octet value to be used as a bit field and can only be modified
-     *  with TPM2_NV_SetBits().
-     */
+    /// <summary> Bit Field contains an 8-octet value to be used as a bit field and can only
+    /// be modified with TPM2_NV_SetBits(). </summary>
     BITS = 0x2, 
     
-    /** Extend contains a digest-sized value used like a PCR. The Index can only be modified
-     *  using TPM2_NV_Extend(). The extend will use the nameAlg of the Index.
-     */
+    /// <summary> Extend contains a digest-sized value used like a PCR. The Index can only be
+    /// modified using TPM2_NV_Extend(). The extend will use the nameAlg of the Index. </summary>
     EXTEND = 0x4, 
     
-    /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit  */
+    /// <summary> PIN Fail - contains pinCount that increments on a PIN authorization failure
+    /// and a pinLimit </summary>
     PIN_FAIL = 0x8, 
     
-    /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit  */
+    /// <summary> PIN Pass - contains pinCount that increments on a PIN authorization success
+    /// and a pinLimit </summary>
     PIN_PASS = 0x9
     TPM_ENUM_EPILOGUE(TPM_NT)
 };
 
-/** These constants are used in TPM2_AC_GetCapability() to indicate the first tagged value
- *  returned from an attached component.
- */
+/// <summary> These constants are used in TPM2_AC_GetCapability() to indicate the first
+/// tagged value returned from an attached component. </summary>
 struct TPM_AT : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_AT)
     
-    /** In a command, a non-specific request for AC information; in a response, indicates that
-     *  outputData is not meaningful
-     */
+    /// <summary> In a command, a non-specific request for AC information; in a response,
+    /// indicates that outputData is not meaningful </summary>
     ANY = 0x00000000, 
     
-    /** Indicates a TCG defined, device-specific error  */
+    /// <summary> Indicates a TCG defined, device-specific error </summary>
     _ERROR = 0x00000001, 
     
-    /** Indicates the most significant 32 bits of a pairing value for the AC  */
+    /// <summary> Indicates the most significant 32 bits of a pairing value for the AC </summary>
     PV1 = 0x00000002, 
     
-    /** Value added to a TPM_AT to indicate a vendor-specific tag value  */
+    /// <summary> Value added to a TPM_AT to indicate a vendor-specific tag value </summary>
     VEND = 0x80000000
     TPM_ENUM_EPILOGUE(TPM_AT)
 };
 
-/** These constants are the TCG-defined error values returned by an AC.  */
+/// <summary> These constants are the TCG-defined error values returned by an AC. </summary>
 struct TPM_AE : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_AE)
     
-    /** In a command, a non-specific request for AC information; in a response, indicates that
-     *  outputData is not meaningful
-     */
+    /// <summary> In a command, a non-specific request for AC information; in a response,
+    /// indicates that outputData is not meaningful </summary>
     NONE = 0x00000000
     TPM_ENUM_EPILOGUE(TPM_AE)
 };
 
-/** These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values.  */
+/// <summary> These values are readable with TPM2_GetCapability(). They are the
+/// TPM_PT_PS_xxx values. </summary>
 struct PLATFORM : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(PLATFORM)
@@ -2218,158 +2160,150 @@ struct PLATFORM : public TpmEnum<UINT32>
     TPM_ENUM_EPILOGUE(PLATFORM)
 };
 
-/** This table contains a collection of values used in various parts of the reference
- *  code. The values shown are illustrative.
- */
+/// <summary> This table contains a collection of values used in various parts of the
+/// reference code. The values shown are illustrative. </summary>
 struct Implementation : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(Implementation)
     
-    /** Temporary define  */
+    /// <summary> Temporary define </summary>
     FIELD_UPGRADE_IMPLEMENTED = Logic::NO, 
     
-    /** Selection of the library that provides the basic hashing functions.  */
+    /// <summary> Selection of the library that provides the basic hashing functions. </summary>
     HASH_LIB = ImplementationConstants::Ossl, 
     
-    /** Selection of the library that provides the low-level symmetric cryptography. Choices
-     *  are determined by the vendor (See LibSupport.h for implications).
-     */
+    /// <summary> Selection of the library that provides the low-level symmetric cryptography.
+    /// Choices are determined by the vendor (See LibSupport.h for implications). </summary>
     SYM_LIB = ImplementationConstants::Ossl, 
     
-    /** Selection of the library that provides the big number math including ECC. Choices are
-     *  determined by the vendor (See LibSupport.h for implications).
-     */
+    /// <summary> Selection of the library that provides the big number math including ECC.
+    /// Choices are determined by the vendor (See LibSupport.h for implications). </summary>
     MATH_LIB = ImplementationConstants::Ossl, 
     
-    /** The number of PCR in the TPM  */
+    /// <summary> The number of PCR in the TPM </summary>
     IMPLEMENTATION_PCR = 24, 
     
     PCR_SELECT_MAX = ((IMPLEMENTATION_PCR+7)/8), 
     
-    /** The number of PCR required by the relevant platform specification  */
+    /// <summary> The number of PCR required by the relevant platform specification </summary>
     PLATFORM_PCR = 24, 
     
     PCR_SELECT_MIN = ((PLATFORM_PCR + 7) / 8), 
     
-    /** The D-RTM PCR
-     *  NOTE This value is not defined when the TPM does not implement D-RTM
-     */
+    /// <summary> The D-RTM PCR
+    /// NOTE This value is not defined when the TPM does not implement D-RTM </summary>
     DRTM_PCR = 17, 
     
-    /** The PCR that will receive the H-CRTM value at TPM2_Startup. This value should not be changed.  */
+    /// <summary> The PCR that will receive the H-CRTM value at TPM2_Startup. This value
+    /// should not be changed. </summary>
     HCRTM_PCR = 0, 
     
-    /** The number of localities supported by the TPM
-     *  This is expected to be either 5 for a PC, or 1 for just about everything else.
-     */
+    /// <summary> The number of localities supported by the TPM
+    /// This is expected to be either 5 for a PC, or 1 for just about everything else. </summary>
     NUM_LOCALITIES = 5, 
     
-    /** The maximum number of handles in the handle area
-     *  This should be produced by the Part 3 parser but is here for now.
-     */
+    /// <summary> The maximum number of handles in the handle area
+    /// This should be produced by the Part 3 parser but is here for now. </summary>
     MAX_HANDLE_NUM = 3, 
     
-    /** The number of simultaneously active sessions that are supported by the TPM implementation  */
+    /// <summary> The number of simultaneously active sessions that are supported by the TPM
+    /// implementation </summary>
     MAX_ACTIVE_SESSIONS = 64, 
     
-    /** The number of sessions that the TPM may have in memory  */
+    /// <summary> The number of sessions that the TPM may have in memory </summary>
     MAX_LOADED_SESSIONS = 3, 
     
-    /** This is the current maximum value  */
+    /// <summary> This is the current maximum value </summary>
     MAX_SESSION_NUM = 3, 
     
-    /** The number of simultaneously loaded objects that are supported by the TPM; this number
-     *  does not include the objects that may be placed in NV memory by TPM2_EvictControl().
-     */
+    /// <summary> The number of simultaneously loaded objects that are supported by the TPM;
+    /// this number does not include the objects that may be placed in NV memory by
+    /// TPM2_EvictControl(). </summary>
     MAX_LOADED_OBJECTS = 3, 
     
-    /** The minimum number of evict objects supported by the TPM  */
+    /// <summary> The minimum number of evict objects supported by the TPM </summary>
     MIN_EVICT_OBJECTS = 2, 
     
-    /** Number of PCR groups that have individual policies  */
+    /// <summary> Number of PCR groups that have individual policies </summary>
     NUM_POLICY_PCR_GROUP = 1, 
     
-    /** Number of PCR groups that have individual authorization values  */
+    /// <summary> Number of PCR groups that have individual authorization values </summary>
     NUM_AUTHVALUE_PCR_GROUP = 1, 
     
     MAX_CONTEXT_SIZE = 1264, 
     
     MAX_DIGEST_BUFFER = 1024, 
     
-    /** Maximum data size allowed in an NV Index  */
+    /// <summary> Maximum data size allowed in an NV Index </summary>
     MAX_NV_INDEX_SIZE = 2048, 
     
-    /** Maximum data size in one NV read or write command  */
+    /// <summary> Maximum data size in one NV read or write command </summary>
     MAX_NV_BUFFER_SIZE = 1024, 
     
-    /** Maximum size of a capability buffer  */
+    /// <summary> Maximum size of a capability buffer </summary>
     MAX_CAP_BUFFER = 1024, 
     
-    /** Size of NV memory in octets  */
+    /// <summary> Size of NV memory in octets </summary>
     NV_MEMORY_SIZE = 16384, 
     
-    /** The TPM will not allocate a non-counter index if it would prevent allocation of this
-     *  number of indices.
-     */
+    /// <summary> The TPM will not allocate a non-counter index if it would prevent allocation
+    /// of this number of indices. </summary>
     MIN_COUNTER_INDICES = 8, 
     
     NUM_STATIC_PCR = 16, 
     
-    /** Number of algorithms that can be in a list  */
+    /// <summary> Number of algorithms that can be in a list </summary>
     MAX_ALG_LIST_SIZE = 64, 
     
-    /** Size of the Primary Seed in octets  */
+    /// <summary> Size of the Primary Seed in octets </summary>
     PRIMARY_SEED_SIZE = 32, 
     
-    /** Context encryption algorithm
-     *  Just use the root so that the macros in GpMacros.h will work correctly.
-     */
+    /// <summary> Context encryption algorithm
+    /// Just use the root so that the macros in GpMacros.h will work correctly. </summary>
     CONTEXT_ENCRYPT_ALGORITHM = TPM_ALG_ID::AES, 
     
-    /** The update interval expressed as a power of 2 seconds
-     *  A value of 12 is 4,096 seconds (~68 minutes).
-     */
+    /// <summary> The update interval expressed as a power of 2 seconds
+    /// A value of 12 is 4,096 seconds (~68 minutes). </summary>
     NV_CLOCK_UPDATE_INTERVAL = 12, 
     
-    /** Number of PCR groups that allow policy/auth  */
+    /// <summary> Number of PCR groups that allow policy/auth </summary>
     NUM_POLICY_PCR = 1, 
     
-    /** Maximum size of a command  */
+    /// <summary> Maximum size of a command </summary>
     MAX_COMMAND_SIZE = 4096, 
     
-    /** Maximum size of a response  */
+    /// <summary> Maximum size of a response </summary>
     MAX_RESPONSE_SIZE = 4096, 
     
-    /** Number between 1 and 32 inclusive  */
+    /// <summary> Number between 1 and 32 inclusive </summary>
     ORDERLY_BITS = 8, 
     
-    /** The maximum number of octets that may be in a sealed blob; 128 is the minimum allowed value  */
+    /// <summary> The maximum number of octets that may be in a sealed blob; 128 is the
+    /// minimum allowed value </summary>
     MAX_SYM_DATA = 128, 
     
     MAX_RNG_ENTROPY_SIZE = 64, 
     
-    /** Number of bytes used for the RAM index space. If this is not large enough, it might
-     *  not be possible to allocate orderly indices.
-     */
+    /// <summary> Number of bytes used for the RAM index space. If this is not large enough,
+    /// it might not be possible to allocate orderly indices. </summary>
     RAM_INDEX_SPACE = 512, 
     
-    /** 216 + 1  */
+    /// <summary> 216 + 1 </summary>
     RSA_DEFAULT_PUBLIC_EXPONENT = 0x00010001, 
     
-    /** Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented  */
+    /// <summary> Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented </summary>
     ENABLE_PCR_NO_INCREMENT = Logic::YES, 
     
     CRT_FORMAT_RSA = Logic::YES, 
     
     VENDOR_COMMAND_COUNT = 0, 
     
-    /** Maximum size of the vendor-specific buffer  */
+    /// <summary> Maximum size of the vendor-specific buffer </summary>
     MAX_VENDOR_BUFFER_SIZE = 1024, 
     
-    /** L value for a derivation. This is the
-     *  maximum number of bits allowed from an instantiation of a KDF-DRBG. This is size is OK
-     *  because RSA keys are never derived keys
-     */
+    /// <summary> L value for a derivation. This is the
+    /// maximum number of bits allowed from an instantiation of a KDF-DRBG. This is size is OK
+    /// because RSA keys are never derived keys </summary>
     MAX_DERIVATION_BITS = 8192, 
     
     RSA_MAX_PRIME = (ImplementationConstants::MAX_RSA_KEY_BYTES/2), 
@@ -2378,22 +2312,22 @@ struct Implementation : public TpmEnum<UINT32>
     
     SIZE_OF_X509_SERIAL_NUMBER = 20, 
     
-    /** This is a vendor-specific value so it is in this vendor-speific table. When this is
-     *  used, RSA_PRIVATE_SIZE will have been defined
-     */
+    /// <summary> This is a vendor-specific value so it is in this vendor-speific table. When
+    /// this is used, RSA_PRIVATE_SIZE will have been defined </summary>
     PRIVATE_VENDOR_SPECIFIC_BYTES = RSA_PRIVATE_SIZE
     TPM_ENUM_EPILOGUE(Implementation)
 };
 
-/** The definitions in Table 29 are used to define many of the interface data types.  */
+/// <summary> The definitions in Table 29 are used to define many of the interface data
+/// types. </summary>
 struct TPM_HC : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_HC)
     
-    /** To mask off the HR  */
+    /// <summary> To mask off the HR </summary>
     HR_HANDLE_MASK = 0x00FFFFFF, 
     
-    /** To mask off the variable part  */
+    /// <summary> To mask off the variable part </summary>
     HR_RANGE_MASK = 0xFF000000, 
     
     HR_SHIFT = 24, 
@@ -2412,293 +2346,270 @@ struct TPM_HC : public TpmEnum<UINT32>
     
     HR_PERMANENT = (TPM_HT::PERMANENT << HR_SHIFT), 
     
-    /** First PCR  */
+    /// <summary> First PCR </summary>
     PCR_FIRST = (HR_PCR + 0), 
     
-    /** Last PCR  */
+    /// <summary> Last PCR </summary>
     PCR_LAST = (PCR_FIRST + Implementation::IMPLEMENTATION_PCR-1), 
     
-    /** First HMAC session  */
+    /// <summary> First HMAC session </summary>
     HMAC_SESSION_FIRST = (HR_HMAC_SESSION + 0), 
     
-    /** Last HMAC session  */
+    /// <summary> Last HMAC session </summary>
     HMAC_SESSION_LAST = (HMAC_SESSION_FIRST+Implementation::MAX_ACTIVE_SESSIONS-1), 
     
-    /** Used in GetCapability  */
+    /// <summary> Used in GetCapability </summary>
     LOADED_SESSION_FIRST = HMAC_SESSION_FIRST, 
     
-    /** Used in GetCapability  */
+    /// <summary> Used in GetCapability </summary>
     LOADED_SESSION_LAST = HMAC_SESSION_LAST, 
     
-    /** First policy session  */
+    /// <summary> First policy session </summary>
     POLICY_SESSION_FIRST = (HR_POLICY_SESSION + 0), 
     
-    /** Last policy session  */
+    /// <summary> Last policy session </summary>
     POLICY_SESSION_LAST = (POLICY_SESSION_FIRST + Implementation::MAX_ACTIVE_SESSIONS-1), 
     
-    /** First transient object  */
+    /// <summary> First transient object </summary>
     TRANSIENT_FIRST = (HR_TRANSIENT + 0), 
     
-    /** Used in GetCapability  */
+    /// <summary> Used in GetCapability </summary>
     ACTIVE_SESSION_FIRST = POLICY_SESSION_FIRST, 
     
-    /** Used in GetCapability  */
+    /// <summary> Used in GetCapability </summary>
     ACTIVE_SESSION_LAST = POLICY_SESSION_LAST, 
     
-    /** Last transient object  */
+    /// <summary> Last transient object </summary>
     TRANSIENT_LAST = (TRANSIENT_FIRST+Implementation::MAX_LOADED_OBJECTS-1), 
     
-    /** First persistent object  */
+    /// <summary> First persistent object </summary>
     PERSISTENT_FIRST = (HR_PERSISTENT + 0), 
     
-    /** Last persistent object  */
+    /// <summary> Last persistent object </summary>
     PERSISTENT_LAST = (PERSISTENT_FIRST + 0x00FFFFFF), 
     
-    /** First platform persistent object  */
+    /// <summary> First platform persistent object </summary>
     PLATFORM_PERSISTENT = (PERSISTENT_FIRST + 0x00800000), 
     
-    /** First allowed NV Index  */
+    /// <summary> First allowed NV Index </summary>
     NV_INDEX_FIRST = (HR_NV_INDEX + 0), 
     
-    /** Last allowed NV Index  */
+    /// <summary> Last allowed NV Index </summary>
     NV_INDEX_LAST = (NV_INDEX_FIRST + 0x00FFFFFF), 
     
     PERMANENT_FIRST = TPM_RH::FIRST, 
     
     PERMANENT_LAST = TPM_RH::LAST, 
     
-    /** AC aliased NV Index  */
+    /// <summary> AC aliased NV Index </summary>
     HR_NV_AC = ((TPM_HT::NV_INDEX << HR_SHIFT) + 0xD00000), 
     
-    /** First NV Index aliased to Attached Component  */
+    /// <summary> First NV Index aliased to Attached Component </summary>
     NV_AC_FIRST = (HR_NV_AC + 0), 
     
-    /** Last NV Index aliased to Attached Component  */
+    /// <summary> Last NV Index aliased to Attached Component </summary>
     NV_AC_LAST = (HR_NV_AC + 0x0000FFFF), 
     
-    /** AC Handle  */
+    /// <summary> AC Handle </summary>
     HR_AC = (TPM_HT::AC << HR_SHIFT), 
     
-    /** First Attached Component  */
+    /// <summary> First Attached Component </summary>
     AC_FIRST = (HR_AC + 0), 
     
-    /** Last Attached Component  */
+    /// <summary> Last Attached Component </summary>
     AC_LAST = (HR_AC + 0x0000FFFF)
     TPM_ENUM_EPILOGUE(TPM_HC)
 };
 
-/** This structure defines the attributes of an algorithm.  */
+/// <summary> This structure defines the attributes of an algorithm. </summary>
 struct TPMA_ALGORITHM : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPMA_ALGORITHM)
     
-    /** SET (1): an asymmetric algorithm with public and private portions
-     *  CLEAR (0): not an asymmetric algorithm
-     */
+    /// <summary> SET (1): an asymmetric algorithm with public and private portions
+    /// CLEAR (0): not an asymmetric algorithm </summary>
     asymmetric = 0x1, 
     
-    /** SET (1): a symmetric block cipher
-     *  CLEAR (0): not a symmetric block cipher
-     */
+    /// <summary> SET (1): a symmetric block cipher
+    /// CLEAR (0): not a symmetric block cipher </summary>
     symmetric = 0x2, 
     
-    /** SET (1): a hash algorithm
-     *  CLEAR (0): not a hash algorithm
-     */
+    /// <summary> SET (1): a hash algorithm
+    /// CLEAR (0): not a hash algorithm </summary>
     hash = 0x4, 
     
-    /** SET (1): an algorithm that may be used as an object type
-     *  CLEAR (0): an algorithm that is not used as an object type
-     */
+    /// <summary> SET (1): an algorithm that may be used as an object type
+    /// CLEAR (0): an algorithm that is not used as an object type </summary>
     object = 0x8, 
     
-    /** SET (1): a signing algorithm. The setting of asymmetric, symmetric, and hash will
-     *  indicate the type of signing algorithm.
-     *  CLEAR (0): not a signing algorithm
-     */
+    /// <summary> SET (1): a signing algorithm. The setting of asymmetric, symmetric, and hash
+    /// will indicate the type of signing algorithm.
+    /// CLEAR (0): not a signing algorithm </summary>
     signing = 0x100, 
     
-    /** SET (1): an encryption/decryption algorithm. The setting of asymmetric, symmetric, and
-     *  hash will indicate the type of encryption/decryption algorithm.
-     *  CLEAR (0): not an encryption/decryption algorithm
-     */
+    /// <summary> SET (1): an encryption/decryption algorithm. The setting of asymmetric,
+    /// symmetric, and hash will indicate the type of encryption/decryption algorithm.
+    /// CLEAR (0): not an encryption/decryption algorithm </summary>
     encrypting = 0x200, 
     
-    /** SET (1): a method such as a key derivative function (KDF)
-     *  CLEAR (0): not a method
-     */
+    /// <summary> SET (1): a method such as a key derivative function (KDF)
+    /// CLEAR (0): not a method </summary>
     method = 0x400
     TPM_ENUM_EPILOGUE(TPMA_ALGORITHM)
 };
 
-/** This attribute structure indicates an objects use, its authorization types, and its
- *  relationship to other objects.
- */
+/// <summary> This attribute structure indicates an objects use, its authorization types,
+/// and its relationship to other objects. </summary>
 struct TPMA_OBJECT : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPMA_OBJECT)
     
-    /** SET (1): The hierarchy of the object, as indicated by its Qualified Name, may not change.
-     *  CLEAR (0): The hierarchy of the object may change as a result of this object or an
-     *  ancestor key being duplicated for use in another hierarchy.
-     *  NOTE fixedTPM does not indicate that key material resides on a single TPM (see
-     *  sensitiveDataOrigin).
-     */
+    /// <summary> SET (1): The hierarchy of the object, as indicated by its Qualified Name,
+    /// may not change.
+    /// CLEAR (0): The hierarchy of the object may change as a result of this object or an
+    /// ancestor key being duplicated for use in another hierarchy.
+    /// NOTE fixedTPM does not indicate that key material resides on a single TPM (see
+    /// sensitiveDataOrigin). </summary>
     fixedTPM = 0x2, 
     
-    /** SET (1): Previously saved contexts of this object may not be loaded after Startup(CLEAR).
-     *  CLEAR (0): Saved contexts of this object may be used after a Shutdown(STATE) and
-     *  subsequent Startup().
-     */
+    /// <summary> SET (1): Previously saved contexts of this object may not be loaded after
+    /// Startup(CLEAR).
+    /// CLEAR (0): Saved contexts of this object may be used after a Shutdown(STATE) and
+    /// subsequent Startup(). </summary>
     stClear = 0x4, 
     
-    /** SET (1): The parent of the object may not change.
-     *  CLEAR (0): The parent of the object may change as the result of a TPM2_Duplicate() of
-     *  the object.
-     */
+    /// <summary> SET (1): The parent of the object may not change.
+    /// CLEAR (0): The parent of the object may change as the result of a TPM2_Duplicate() of
+    /// the object. </summary>
     fixedParent = 0x10, 
     
-    /** SET (1): Indicates that, when the object was created with TPM2_Create() or
-     *  TPM2_CreatePrimary(), the TPM generated all of the sensitive data other than the authValue.
-     *  CLEAR (0): A portion of the sensitive data, other than the authValue, was provided by
-     *  the caller.
-     */
+    /// <summary> SET (1): Indicates that, when the object was created with TPM2_Create() or
+    /// TPM2_CreatePrimary(), the TPM generated all of the sensitive data other than the authValue.
+    /// CLEAR (0): A portion of the sensitive data, other than the authValue, was provided by
+    /// the caller. </summary>
     sensitiveDataOrigin = 0x20, 
     
-    /** SET (1): Approval of USER role actions with this object may be with an HMAC session or
-     *  with a password using the authValue of the object or a policy session.
-     *  CLEAR (0): Approval of USER role actions with this object may only be done with a
-     *  policy session.
-     */
+    /// <summary> SET (1): Approval of USER role actions with this object may be with an HMAC
+    /// session or with a password using the authValue of the object or a policy session.
+    /// CLEAR (0): Approval of USER role actions with this object may only be done with a
+    /// policy session. </summary>
     userWithAuth = 0x40, 
     
-    /** SET (1): Approval of ADMIN role actions with this object may only be done with a
-     *  policy session.
-     *  CLEAR (0): Approval of ADMIN role actions with this object may be with an HMAC session
-     *  or with a password using the authValue of the object or a policy session.
-     */
+    /// <summary> SET (1): Approval of ADMIN role actions with this object may only be done
+    /// with a policy session.
+    /// CLEAR (0): Approval of ADMIN role actions with this object may be with an HMAC session
+    /// or with a password using the authValue of the object or a policy session. </summary>
     adminWithPolicy = 0x80, 
     
-    /** SET (1): The object is not subject to dictionary attack protections.
-     *  CLEAR (0): The object is subject to dictionary attack protections.
-     */
+    /// <summary> SET (1): The object is not subject to dictionary attack protections.
+    /// CLEAR (0): The object is subject to dictionary attack protections. </summary>
     noDA = 0x400, 
     
-    /** SET (1): If the object is duplicated, then symmetricAlg shall not be TPM_ALG_NULL and
-     *  newParentHandle shall not be TPM_RH_NULL.
-     *  CLEAR (0): The object may be duplicated without an inner wrapper on the private
-     *  portion of the object and the new parent may be TPM_RH_NULL.
-     */
+    /// <summary> SET (1): If the object is duplicated, then symmetricAlg shall not be
+    /// TPM_ALG_NULL and newParentHandle shall not be TPM_RH_NULL.
+    /// CLEAR (0): The object may be duplicated without an inner wrapper on the private
+    /// portion of the object and the new parent may be TPM_RH_NULL. </summary>
     encryptedDuplication = 0x800, 
     
-    /** SET (1): Key usage is restricted to manipulate structures of known format; the parent
-     *  of this key shall have restricted SET.
-     *  CLEAR (0): Key usage is not restricted to use on special formats.
-     */
+    /// <summary> SET (1): Key usage is restricted to manipulate structures of known format;
+    /// the parent of this key shall have restricted SET.
+    /// CLEAR (0): Key usage is not restricted to use on special formats. </summary>
     restricted = 0x10000, 
     
-    /** SET (1): The private portion of the key may be used to decrypt.
-     *  CLEAR (0): The private portion of the key may not be used to decrypt.
-     */
+    /// <summary> SET (1): The private portion of the key may be used to decrypt.
+    /// CLEAR (0): The private portion of the key may not be used to decrypt. </summary>
     decrypt = 0x20000, 
     
-    /** SET (1): For a symmetric cipher object, the private portion of the key may be used to
-     *  encrypt. For other objects, the private portion of the key may be used to sign.
-     *  CLEAR (0): The private portion of the key may not be used to sign or encrypt.
-     */
+    /// <summary> SET (1): For a symmetric cipher object, the private portion of the key may
+    /// be used to encrypt. For other objects, the private portion of the key may be used to sign.
+    /// CLEAR (0): The private portion of the key may not be used to sign or encrypt. </summary>
     sign = 0x40000, 
     
-    /** Alias to the sign value.  */
+    /// <summary> Alias to the sign value. </summary>
     encrypt = 0x40000, 
     
-    /** SET (1): An asymmetric key that may not be used to sign with TPM2_Sign()
-     *  CLEAR (0): A key that may be used with TPM2_Sign() if sign is SET
-     *  NOTE: This attribute only has significance if sign is SET.
-     */
+    /// <summary> SET (1): An asymmetric key that may not be used to sign with TPM2_Sign()
+    /// CLEAR (0): A key that may be used with TPM2_Sign() if sign is SET
+    /// NOTE: This attribute only has significance if sign is SET. </summary>
     x509sign = 0x80000
     TPM_ENUM_EPILOGUE(TPMA_OBJECT)
 };
 
-/** This octet in each session is used to identify the session type, indicate its
- *  relationship to any handles in the command, and indicate its use in parameter encryption.
- */
+/// <summary> This octet in each session is used to identify the session type, indicate
+/// its relationship to any handles in the command, and indicate its use in parameter
+/// encryption. </summary>
 struct TPMA_SESSION : public TpmEnum<UINT8>
 {
     TPM_ENUM_PROLOGUE(TPMA_SESSION)
     
-    /** SET (1): In a command, this setting indicates that the session is to remain active
-     *  after successful completion of the command. In a response, it indicates that the
-     *  session is still active. If SET in the command, this attribute shall be SET in the response.
-     *  CLEAR (0): In a command, this setting indicates that the TPM should close the session
-     *  and flush any related context when the command completes successfully. In a response,
-     *  it indicates that the session is closed and the context is no longer active.
-     *  This attribute has no meaning for a password authorization and the TPM will allow any
-     *  setting of the attribute in the command and SET the attribute in the response.
-     *  This attribute will only be CLEAR in one response for a logical session. If the
-     *  attribute is CLEAR, the context associated with the session is no longer in use and
-     *  the space is available. A session created after another session is ended may have the
-     *  same handle but logically is not the same session.
-     *  This attribute has no effect if the command does not complete successfully.
-     */
+    /// <summary> SET (1): In a command, this setting indicates that the session is to remain
+    /// active after successful completion of the command. In a response, it indicates that
+    /// the session is still active. If SET in the command, this attribute shall be SET in the
+    /// response.
+    /// CLEAR (0): In a command, this setting indicates that the TPM should close the session
+    /// and flush any related context when the command completes successfully. In a response,
+    /// it indicates that the session is closed and the context is no longer active.
+    /// This attribute has no meaning for a password authorization and the TPM will allow any
+    /// setting of the attribute in the command and SET the attribute in the response.
+    /// This attribute will only be CLEAR in one response for a logical session. If the
+    /// attribute is CLEAR, the context associated with the session is no longer in use and
+    /// the space is available. A session created after another session is ended may have the
+    /// same handle but logically is not the same session.
+    /// This attribute has no effect if the command does not complete successfully. </summary>
     continueSession = 0x1, 
     
-    /** SET (1): In a command, this setting indicates that the command should only be executed
-     *  if the session is exclusive at the start of the command. In a response, it indicates
-     *  that the session is exclusive. This setting is only allowed if the audit attribute is
-     *  SET (TPM_RC_ATTRIBUTES).
-     *  CLEAR (0): In a command, indicates that the session need not be exclusive at the start
-     *  of the command. In a response, indicates that the session is not exclusive.
-     */
+    /// <summary> SET (1): In a command, this setting indicates that the command should only
+    /// be executed if the session is exclusive at the start of the command. In a response, it
+    /// indicates that the session is exclusive. This setting is only allowed if the audit
+    /// attribute is SET (TPM_RC_ATTRIBUTES).
+    /// CLEAR (0): In a command, indicates that the session need not be exclusive at the start
+    /// of the command. In a response, indicates that the session is not exclusive. </summary>
     auditExclusive = 0x2, 
     
-    /** SET (1): In a command, this setting indicates that the audit digest of the session
-     *  should be initialized and the exclusive status of the session SET. This setting is
-     *  only allowed if the audit attribute is SET (TPM_RC_ATTRIBUTES).
-     *  CLEAR (0): In a command, indicates that the audit digest should not be initialized.
-     *  This bit is always CLEAR in a response.
-     */
+    /// <summary> SET (1): In a command, this setting indicates that the audit digest of the
+    /// session should be initialized and the exclusive status of the session SET. This
+    /// setting is only allowed if the audit attribute is SET (TPM_RC_ATTRIBUTES).
+    /// CLEAR (0): In a command, indicates that the audit digest should not be initialized.
+    /// This bit is always CLEAR in a response. </summary>
     auditReset = 0x4, 
     
-    /** SET (1): In a command, this setting indicates that the first parameter in the command
-     *  is symmetrically encrypted using the parameter encryption scheme described in TPM 2.0
-     *  Part 1. The TPM will decrypt the parameter after performing any HMAC computations and
-     *  before unmarshaling the parameter. In a response, the attribute is copied from the
-     *  request but has no effect on the response.
-     *  CLEAR (0): Session not used for encryption.
-     *  For a password authorization, this attribute will be CLEAR in both the command and response.
-     *  This attribute may be SET in a session that is not associated with a command handle.
-     *  Such a session is provided for purposes of encrypting a parameter and not for authorization.
-     *  This attribute may be SET in combination with any other session attributes.
-     */
+    /// <summary> SET (1): In a command, this setting indicates that the first parameter in
+    /// the command is symmetrically encrypted using the parameter encryption scheme described
+    /// in TPM 2.0 Part 1. The TPM will decrypt the parameter after performing any HMAC
+    /// computations and before unmarshaling the parameter. In a response, the attribute is
+    /// copied from the request but has no effect on the response.
+    /// CLEAR (0): Session not used for encryption.
+    /// For a password authorization, this attribute will be CLEAR in both the command and response.
+    /// This attribute may be SET in a session that is not associated with a command handle.
+    /// Such a session is provided for purposes of encrypting a parameter and not for authorization.
+    /// This attribute may be SET in combination with any other session attributes. </summary>
     decrypt = 0x20, 
     
-    /** SET (1): In a command, this setting indicates that the TPM should use this session to
-     *  encrypt the first parameter in the response. In a response, it indicates that the
-     *  attribute was set in the command and that the TPM used the session to encrypt the
-     *  first parameter in the response using the parameter encryption scheme described in TPM
-     *  2.0 Part 1.
-     *  CLEAR (0): Session not used for encryption.
-     *  For a password authorization, this attribute will be CLEAR in both the command and response.
-     *  This attribute may be SET in a session that is not associated with a command handle.
-     *  Such a session is provided for purposes of encrypting a parameter and not for authorization.
-     */
+    /// <summary> SET (1): In a command, this setting indicates that the TPM should use this
+    /// session to encrypt the first parameter in the response. In a response, it indicates
+    /// that the attribute was set in the command and that the TPM used the session to encrypt
+    /// the first parameter in the response using the parameter encryption scheme described in
+    /// TPM 2.0 Part 1.
+    /// CLEAR (0): Session not used for encryption.
+    /// For a password authorization, this attribute will be CLEAR in both the command and response.
+    /// This attribute may be SET in a session that is not associated with a command handle.
+    /// Such a session is provided for purposes of encrypting a parameter and not for
+    /// authorization. </summary>
     encrypt = 0x40, 
     
-    /** SET (1): In a command or response, this setting indicates that the session is for
-     *  audit and that auditExclusive and auditReset have meaning. This session may also be
-     *  used for authorization, encryption, or decryption. The encrypted and encrypt fields
-     *  may be SET or CLEAR.
-     *  CLEAR (0): Session is not used for audit.
-     *  If SET in the command, then this attribute will be SET in the response.
-     */
+    /// <summary> SET (1): In a command or response, this setting indicates that the session
+    /// is for audit and that auditExclusive and auditReset have meaning. This session may
+    /// also be used for authorization, encryption, or decryption. The encrypted and encrypt
+    /// fields may be SET or CLEAR.
+    /// CLEAR (0): Session is not used for audit.
+    /// If SET in the command, then this attribute will be SET in the response. </summary>
     audit = 0x80
     TPM_ENUM_EPILOGUE(TPMA_SESSION)
 };
 
-/** In a TPMS_CREATION_DATA structure, this structure is used to indicate the locality of
- *  the command that created the object. No more than one of the locality attributes shall
- *  be set in the creation data.
- */
+/// <summary> In a TPMS_CREATION_DATA structure, this structure is used to indicate the
+/// locality of the command that created the object. No more than one of the locality
+/// attributes shall be set in the creation data. </summary>
 struct TPMA_LOCALITY : public TpmEnum<UINT8>
 {
     TPM_ENUM_PROLOGUE(TPMA_LOCALITY)
@@ -2713,602 +2624,556 @@ struct TPMA_LOCALITY : public TpmEnum<UINT8>
     
     LOC_FOUR = 0x10, 
     
-    /** If any of these bits is set, an extended locality is indicated  */
+    /// <summary> If any of these bits is set, an extended locality is indicated </summary>
     Extended_BIT_MASK = 0x000000E0,
     Extended_BIT_OFFSET = 5,
     Extended_BIT_LENGTH = 3,
     TPM_ENUM_EPILOGUE(TPMA_LOCALITY)
 };
 
-/** The attributes in this structure are persistent and are not changed as a result of
- *  _TPM_Init or any TPM2_Startup(). Some of the attributes in this structure may change
- *  as the result of specific Protected Capabilities. This structure may be read using
- *  TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_PERMANENT).
- */
+/// <summary> The attributes in this structure are persistent and are not changed as a
+/// result of _TPM_Init or any TPM2_Startup(). Some of the attributes in this structure
+/// may change as the result of specific Protected Capabilities. This structure may be
+/// read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property =
+/// TPM_PT_PERMANENT). </summary>
 struct TPMA_PERMANENT : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPMA_PERMANENT)
     
-    /** SET (1): TPM2_HierarchyChangeAuth() with ownerAuth has been executed since the last TPM2_Clear().
-     *  CLEAR (0): ownerAuth has not been changed since TPM2_Clear().
-     */
+    /// <summary> SET (1): TPM2_HierarchyChangeAuth() with ownerAuth has been executed since
+    /// the last TPM2_Clear().
+    /// CLEAR (0): ownerAuth has not been changed since TPM2_Clear(). </summary>
     ownerAuthSet = 0x1, 
     
-    /** SET (1): TPM2_HierarchyChangeAuth() with endorsementAuth has been executed since the
-     *  last TPM2_Clear().
-     *  CLEAR (0): endorsementAuth has not been changed since TPM2_Clear().
-     */
+    /// <summary> SET (1): TPM2_HierarchyChangeAuth() with endorsementAuth has been executed
+    /// since the last TPM2_Clear().
+    /// CLEAR (0): endorsementAuth has not been changed since TPM2_Clear(). </summary>
     endorsementAuthSet = 0x2, 
     
-    /** SET (1): TPM2_HierarchyChangeAuth() with lockoutAuth has been executed since the last
-     *  TPM2_Clear().
-     *  CLEAR (0): lockoutAuth has not been changed since TPM2_Clear().
-     */
+    /// <summary> SET (1): TPM2_HierarchyChangeAuth() with lockoutAuth has been executed since
+    /// the last TPM2_Clear().
+    /// CLEAR (0): lockoutAuth has not been changed since TPM2_Clear(). </summary>
     lockoutAuthSet = 0x4, 
     
-    /** SET (1): TPM2_Clear() is disabled.
-     *  CLEAR (0): TPM2_Clear() is enabled.
-     *  NOTE See TPM2_ClearControl in TPM 2.0 Part 3 for details on changing this attribute.
-     */
+    /// <summary> SET (1): TPM2_Clear() is disabled.
+    /// CLEAR (0): TPM2_Clear() is enabled.
+    /// NOTE See TPM2_ClearControl in TPM 2.0 Part 3 for details on changing this attribute. </summary>
     disableClear = 0x100, 
     
-    /** SET (1): The TPM is in lockout, when failedTries is equal to maxTries.  */
+    /// <summary> SET (1): The TPM is in lockout, when failedTries is equal to maxTries. </summary>
     inLockout = 0x200, 
     
-    /** SET (1): The EPS was created by the TPM.
-     *  CLEAR (0): The EPS was created outside of the TPM using a manufacturer-specific process.
-     */
+    /// <summary> SET (1): The EPS was created by the TPM.
+    /// CLEAR (0): The EPS was created outside of the TPM using a manufacturer-specific
+    /// process. </summary>
     tpmGeneratedEPS = 0x400
     TPM_ENUM_EPILOGUE(TPMA_PERMANENT)
 };
 
-/** This structure may be read using TPM2_GetCapability(capability =
- *  TPM_CAP_TPM_PROPERTIES, property = TPM_PT_STARTUP_CLEAR).
- */
+/// <summary> This structure may be read using TPM2_GetCapability(capability =
+/// TPM_CAP_TPM_PROPERTIES, property = TPM_PT_STARTUP_CLEAR). </summary>
 struct TPMA_STARTUP_CLEAR : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPMA_STARTUP_CLEAR)
     
-    /** SET (1): The platform hierarchy is enabled and platformAuth or platformPolicy may be
-     *  used for authorization.
-     *  CLEAR (0): platformAuth and platformPolicy may not be used for authorizations, and
-     *  objects in the platform hierarchy, including persistent objects, cannot be used.
-     *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
-     */
+    /// <summary> SET (1): The platform hierarchy is enabled and platformAuth or
+    /// platformPolicy may be used for authorization.
+    /// CLEAR (0): platformAuth and platformPolicy may not be used for authorizations, and
+    /// objects in the platform hierarchy, including persistent objects, cannot be used.
+    /// NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this
+    /// attribute. </summary>
     phEnable = 0x1, 
     
-    /** SET (1): The Storage hierarchy is enabled and ownerAuth or ownerPolicy may be used for
-     *  authorization. NV indices defined using owner authorization are accessible.
-     *  CLEAR (0): ownerAuth and ownerPolicy may not be used for authorizations, and objects
-     *  in the Storage hierarchy, persistent objects, and NV indices defined using owner
-     *  authorization cannot be used.
-     *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
-     */
+    /// <summary> SET (1): The Storage hierarchy is enabled and ownerAuth or ownerPolicy may
+    /// be used for authorization. NV indices defined using owner authorization are accessible.
+    /// CLEAR (0): ownerAuth and ownerPolicy may not be used for authorizations, and objects
+    /// in the Storage hierarchy, persistent objects, and NV indices defined using owner
+    /// authorization cannot be used.
+    /// NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this
+    /// attribute. </summary>
     shEnable = 0x2, 
     
-    /** SET (1): The EPS hierarchy is enabled and Endorsement Authorization may be used to
-     *  authorize commands.
-     *  CLEAR (0): Endorsement Authorization may not be used for authorizations, and objects
-     *  in the endorsement hierarchy, including persistent objects, cannot be used.
-     *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
-     */
+    /// <summary> SET (1): The EPS hierarchy is enabled and Endorsement Authorization may be
+    /// used to authorize commands.
+    /// CLEAR (0): Endorsement Authorization may not be used for authorizations, and objects
+    /// in the endorsement hierarchy, including persistent objects, cannot be used.
+    /// NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this
+    /// attribute. </summary>
     ehEnable = 0x4, 
     
-    /** SET (1): NV indices that have TPMA_NV_PLATFORMCREATE SET may be read or written. The
-     *  platform can create define and undefine indices.
-     *  CLEAR (0): NV indices that have TPMA_NV_PLATFORMCREATE SET may not be read or written
-     *  (TPM_RC_HANDLE). The platform cannot define (TPM_RC_HIERARCHY) or undefined
-     *  (TPM_RC_HANDLE) indices.
-     *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
-     *  NOTE
-     *  read refers to these commands: TPM2_NV_Read, TPM2_NV_ReadPublic, TPM_NV_Certify, TPM2_PolicyNV
-     *  write refers to these commands: TPM2_NV_Write, TPM2_NV_Increment, TPM2_NV_Extend, TPM2_NV_SetBits
-     *  NOTE The TPM must query the index TPMA_NV_PLATFORMCREATE attribute to determine
-     *  whether phEnableNV is applicable. Since the TPM will return TPM_RC_HANDLE if the index
-     *  does not exist, it also returns this error code if the index is disabled. Otherwise,
-     *  the TPM would leak the existence of an index even when disabled.
-     */
+    /// <summary> SET (1): NV indices that have TPMA_NV_PLATFORMCREATE SET may be read or
+    /// written. The platform can create define and undefine indices.
+    /// CLEAR (0): NV indices that have TPMA_NV_PLATFORMCREATE SET may not be read or written
+    /// (TPM_RC_HANDLE). The platform cannot define (TPM_RC_HIERARCHY) or undefined
+    /// (TPM_RC_HANDLE) indices.
+    /// NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
+    /// NOTE
+    /// read refers to these commands: TPM2_NV_Read, TPM2_NV_ReadPublic, TPM_NV_Certify, TPM2_PolicyNV
+    /// write refers to these commands: TPM2_NV_Write, TPM2_NV_Increment, TPM2_NV_Extend, TPM2_NV_SetBits
+    /// NOTE The TPM must query the index TPMA_NV_PLATFORMCREATE attribute to determine
+    /// whether phEnableNV is applicable. Since the TPM will return TPM_RC_HANDLE if the index
+    /// does not exist, it also returns this error code if the index is disabled. Otherwise,
+    /// the TPM would leak the existence of an index even when disabled. </summary>
     phEnableNV = 0x8, 
     
-    /** SET (1): The TPM received a TPM2_Shutdown() and a matching TPM2_Startup().
-     *  CLEAR (0): TPM2_Startup(TPM_SU_CLEAR) was not preceded by a TPM2_Shutdown() of any type.
-     *  NOTE A shutdown is orderly if the TPM receives a TPM2_Shutdown() of any type followed
-     *  by a TPM2_Startup() of any type. However, the TPM will return an error if
-     *  TPM2_Startup(TPM_SU_STATE) was not preceded by TPM2_Shutdown(TPM_SU_STATE).
-     */
+    /// <summary> SET (1): The TPM received a TPM2_Shutdown() and a matching TPM2_Startup().
+    /// CLEAR (0): TPM2_Startup(TPM_SU_CLEAR) was not preceded by a TPM2_Shutdown() of any type.
+    /// NOTE A shutdown is orderly if the TPM receives a TPM2_Shutdown() of any type followed
+    /// by a TPM2_Startup() of any type. However, the TPM will return an error if
+    /// TPM2_Startup(TPM_SU_STATE) was not preceded by TPM2_Shutdown(TPM_SU_STATE). </summary>
     orderly = 0x80000000
     TPM_ENUM_EPILOGUE(TPMA_STARTUP_CLEAR)
 };
 
-/** This structure of this attribute is used to report the memory management method used
- *  by the TPM for transient objects and authorization sessions. This structure may be
- *  read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property = TPM_PT_MEMORY).
- */
+/// <summary> This structure of this attribute is used to report the memory management
+/// method used by the TPM for transient objects and authorization sessions. This
+/// structure may be read using TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES,
+/// property = TPM_PT_MEMORY). </summary>
 struct TPMA_MEMORY : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPMA_MEMORY)
     
-    /** SET (1): indicates that the RAM memory used for authorization session contexts is
-     *  shared with the memory used for transient objects
-     *  CLEAR (0): indicates that the memory used for authorization sessions is not shared
-     *  with memory used for transient objects
-     */
+    /// <summary> SET (1): indicates that the RAM memory used for authorization session
+    /// contexts is shared with the memory used for transient objects
+    /// CLEAR (0): indicates that the memory used for authorization sessions is not shared
+    /// with memory used for transient objects </summary>
     sharedRAM = 0x1, 
     
-    /** SET (1): indicates that the NV memory used for persistent objects is shared with the
-     *  NV memory used for NV Index values
-     *  CLEAR (0): indicates that the persistent objects and NV Index values are allocated
-     *  from separate sections of NV
-     */
+    /// <summary> SET (1): indicates that the NV memory used for persistent objects is shared
+    /// with the NV memory used for NV Index values
+    /// CLEAR (0): indicates that the persistent objects and NV Index values are allocated
+    /// from separate sections of NV </summary>
     sharedNV = 0x2, 
     
-    /** SET (1): indicates that the TPM copies persistent objects to a transient-object slot
-     *  in RAM when the persistent object is referenced in a command. The TRM is required to
-     *  make sure that an object slot is available.
-     *  CLEAR (0): indicates that the TPM does not use transient-object slots when persistent
-     *  objects are referenced
-     */
+    /// <summary> SET (1): indicates that the TPM copies persistent objects to a
+    /// transient-object slot in RAM when the persistent object is referenced in a command.
+    /// The TRM is required to make sure that an object slot is available.
+    /// CLEAR (0): indicates that the TPM does not use transient-object slots when persistent
+    /// objects are referenced </summary>
     objectCopiedToRam = 0x4
     TPM_ENUM_EPILOGUE(TPMA_MEMORY)
 };
 
-/** This structure defines the attributes of a command from a context management
- *  perspective. The fields of the structure indicate to the TPM Resource Manager (TRM)
- *  the number of resources required by a command and how the command affects the TPMs resources.
- */
+/// <summary> This structure defines the attributes of a command from a context management
+/// perspective. The fields of the structure indicate to the TPM Resource Manager (TRM)
+/// the number of resources required by a command and how the command affects the TPMs
+/// resources. </summary>
 struct TPMA_CC : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPMA_CC)
     
-    /** Indicates the command being selected  */
+    /// <summary> Indicates the command being selected </summary>
     commandIndex_BIT_MASK = 0x0000FFFF,
     commandIndex_BIT_OFFSET = 0,
     commandIndex_BIT_LENGTH = 16,
     
-    /** SET (1): indicates that the command may write to NV
-     *  CLEAR (0): indicates that the command does not write to NV
-     */
+    /// <summary> SET (1): indicates that the command may write to NV
+    /// CLEAR (0): indicates that the command does not write to NV </summary>
     nv = 0x400000, 
     
-    /** SET (1): This command could flush any number of loaded contexts.
-     *  CLEAR (0): no additional changes other than indicated by the flushed attribute
-     */
+    /// <summary> SET (1): This command could flush any number of loaded contexts.
+    /// CLEAR (0): no additional changes other than indicated by the flushed attribute </summary>
     extensive = 0x800000, 
     
-    /** SET (1): The context associated with any transient handle in the command will be
-     *  flushed when this command completes.
-     *  CLEAR (0): No context is flushed as a side effect of this command.
-     */
+    /// <summary> SET (1): The context associated with any transient handle in the command
+    /// will be flushed when this command completes.
+    /// CLEAR (0): No context is flushed as a side effect of this command. </summary>
     flushed = 0x1000000, 
     
-    /** Indicates the number of the handles in the handle area for this command  */
+    /// <summary> Indicates the number of the handles in the handle area for this command </summary>
     cHandles_BIT_MASK = 0x0E000000,
     cHandles_BIT_OFFSET = 25,
     cHandles_BIT_LENGTH = 3,
     
-    /** SET (1): indicates the presence of the handle area in the response  */
+    /// <summary> SET (1): indicates the presence of the handle area in the response </summary>
     rHandle = 0x10000000, 
     
-    /** SET (1): indicates that the command is vendor-specific
-     *  CLEAR (0): indicates that the command is defined in a version of this specification
-     */
+    /// <summary> SET (1): indicates that the command is vendor-specific
+    /// CLEAR (0): indicates that the command is defined in a version of this specification </summary>
     V = 0x20000000, 
     
-    /** Allocated for software; shall be zero  */
+    /// <summary> Allocated for software; shall be zero </summary>
     Res_BIT_MASK = 0xC0000000,
     Res_BIT_OFFSET = 30,
     Res_BIT_LENGTH = 2,
     TPM_ENUM_EPILOGUE(TPMA_CC)
 };
 
-/** This structure of this attribute is used to report that the TPM is designed for these
- *  modes. This structure may be read using TPM2_GetCapability(capability =
- *  TPM_CAP_TPM_PROPERTIES, property = TPM_PT_MODES).
- */
+/// <summary> This structure of this attribute is used to report that the TPM is designed
+/// for these modes. This structure may be read using TPM2_GetCapability(capability =
+/// TPM_CAP_TPM_PROPERTIES, property = TPM_PT_MODES). </summary>
 struct TPMA_MODES : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPMA_MODES)
     
-    /** SET (1): indicates that the TPM is designed to comply with all of the FIPS 140-2
-     *  requirements at Level 1 or higher.
-     */
+    /// <summary> SET (1): indicates that the TPM is designed to comply with all of the FIPS
+    /// 140-2 requirements at Level 1 or higher. </summary>
     FIPS_140_2 = 0x1
     TPM_ENUM_EPILOGUE(TPMA_MODES)
 };
 
-/** These attributes are as specified in clause 4.2.1.3. of RFC 5280 Internet X.509 Public
- *  Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. For
- *  TPM2_CertifyX509, when a caller provides a DER encoded Key Usage in
- *  partialCertificate, the TPM will validate that the key to be certified meets the
- *  requirements of Key Usage.
- */
+/// <summary> These attributes are as specified in clause 4.2.1.3. of RFC 5280 Internet
+/// X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL)
+/// Profile. For TPM2_CertifyX509, when a caller provides a DER encoded Key Usage in
+/// partialCertificate, the TPM will validate that the key to be certified meets the
+/// requirements of Key Usage. </summary>
 struct TPMA_X509_KEY_USAGE : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPMA_X509_KEY_USAGE)
     
-    /** Attributes.Decrypt SET  */
+    /// <summary> Attributes.Decrypt SET </summary>
     decipherOnly = 0x800000, 
     
-    /** Attributes.Decrypt SET  */
+    /// <summary> Attributes.Decrypt SET </summary>
     encipherOnly = 0x1000000, 
     
-    /** Attributes.sign SET  */
+    /// <summary> Attributes.sign SET </summary>
     cRLSign = 0x2000000, 
     
-    /** Attributes.sign SET  */
+    /// <summary> Attributes.sign SET </summary>
     keyCertSign = 0x4000000, 
     
-    /** Attributes.Decrypt SET  */
+    /// <summary> Attributes.Decrypt SET </summary>
     keyAgreement = 0x8000000, 
     
-    /** Attributes.Decrypt SET  */
+    /// <summary> Attributes.Decrypt SET </summary>
     dataEncipherment = 0x10000000, 
     
-    /** Asymmetric key with decrypt and restricted SET key has the attributes of a parent key  */
+    /// <summary> Asymmetric key with decrypt and restricted SET key has the attributes of a
+    /// parent key </summary>
     keyEncipherment = 0x20000000, 
     
-    /** FixedTPM SET in Subject Key (objectHandle)  */
+    /// <summary> FixedTPM SET in Subject Key (objectHandle) </summary>
     nonrepudiation = 0x40000000, 
     
-    /** Alias to the nonrepudiation value.  */
+    /// <summary> Alias to the nonrepudiation value. </summary>
     contentCommitment = 0x40000000, 
     
-    /** Sign SET in Subject Key (objectHandle)  */
+    /// <summary> Sign SET in Subject Key (objectHandle) </summary>
     digitalSignature = 0x80000000
     TPM_ENUM_EPILOGUE(TPMA_X509_KEY_USAGE)
 };
 
-/** This attribute is used to report the ACT state. This attribute may be read using
- *  TPM2_GetCapability(capability = TPM_CAP_ACT, property = TPM_RH_ACT_x where x is the
- *  ACT number (0-F)). The signaled value must be preserved across TPM Resume or if the
- *  TPM has not lost power. The signaled value may be preserved over a power cycle of a TPM.
- */
+/// <summary> This attribute is used to report the ACT state. This attribute may be read
+/// using TPM2_GetCapability(capability = TPM_CAP_ACT, property = TPM_RH_ACT_x where x is
+/// the ACT number (0-F)). The signaled value must be preserved across TPM Resume or if
+/// the TPM has not lost power. The signaled value may be preserved over a power cycle of
+/// a TPM. </summary>
 struct TPMA_ACT : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPMA_ACT)
     
-    /** SET (1): The ACT has signaled
-     *  CLEAR (0): The ACT has not signaled
-     */
+    /// <summary> SET (1): The ACT has signaled
+    /// CLEAR (0): The ACT has not signaled </summary>
     signaled = 0x1, 
     
-    /** Preserves the state of signaled, depending on the power cycle  */
+    /// <summary> Preserves the state of signaled, depending on the power cycle </summary>
     preserveSignaled = 0x2
     TPM_ENUM_EPILOGUE(TPMA_ACT)
 };
 
-/** A TPM_NV_INDEX is used to reference a defined location in NV memory. The format of the
- *  Index is changed from TPM 1.2 in order to include the Index in the reserved handle
- *  space. Handles in this range use the digest of the public area of the Index as the
- *  Name of the entity in authorization computations
- */
+/// <summary> A TPM_NV_INDEX is used to reference a defined location in NV memory. The
+/// format of the Index is changed from TPM 1.2 in order to include the Index in the
+/// reserved handle space. Handles in this range use the digest of the public area of the
+/// Index as the Name of the entity in authorization computations </summary>
 struct TPM_NV_INDEX : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_NV_INDEX)
     
-    /** The Index of the NV location  */
+    /// <summary> The Index of the NV location </summary>
     index_BIT_MASK = 0x00FFFFFF,
     index_BIT_OFFSET = 0,
     index_BIT_LENGTH = 24,
     
-    /** Constant value of TPM_HT_NV_INDEX indicating the NV Index range  */
+    /// <summary> Constant value of TPM_HT_NV_INDEX indicating the NV Index range </summary>
     RhNv_BIT_MASK = 0xFF000000,
     RhNv_BIT_OFFSET = 24,
     RhNv_BIT_LENGTH = 8,
     TPM_ENUM_EPILOGUE(TPM_NV_INDEX)
 };
 
-/** This structure allows the TPM to keep track of the data and permissions to manipulate
- *  an NV Index.
- */
+/// <summary> This structure allows the TPM to keep track of the data and permissions to
+/// manipulate an NV Index. </summary>
 struct TPMA_NV : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPMA_NV)
     
-    /** SET (1): The Index data can be written if Platform Authorization is provided.
-     *  CLEAR (0): Writing of the Index data cannot be authorized with Platform Authorization.
-     */
+    /// <summary> SET (1): The Index data can be written if Platform Authorization is provided.
+    /// CLEAR (0): Writing of the Index data cannot be authorized with Platform Authorization.
+    /// </summary>
     PPWRITE = 0x1, 
     
-    /** SET (1): The Index data can be written if Owner Authorization is provided.
-     *  CLEAR (0): Writing of the Index data cannot be authorized with Owner Authorization.
-     */
+    /// <summary> SET (1): The Index data can be written if Owner Authorization is provided.
+    /// CLEAR (0): Writing of the Index data cannot be authorized with Owner Authorization. </summary>
     OWNERWRITE = 0x2, 
     
-    /** SET (1): Authorizations to change the Index contents that require USER role may be
-     *  provided with an HMAC session or password.
-     *  CLEAR (0): Authorizations to change the Index contents that require USER role may not
-     *  be provided with an HMAC session or password.
-     */
+    /// <summary> SET (1): Authorizations to change the Index contents that require USER role
+    /// may be provided with an HMAC session or password.
+    /// CLEAR (0): Authorizations to change the Index contents that require USER role may not
+    /// be provided with an HMAC session or password. </summary>
     AUTHWRITE = 0x4, 
     
-    /** SET (1): Authorizations to change the Index contents that require USER role may be
-     *  provided with a policy session.
-     *  CLEAR (0): Authorizations to change the Index contents that require USER role may not
-     *  be provided with a policy session.
-     *  NOTE TPM2_NV_ChangeAuth() always requires that authorization be provided in a policy session.
-     */
+    /// <summary> SET (1): Authorizations to change the Index contents that require USER role
+    /// may be provided with a policy session.
+    /// CLEAR (0): Authorizations to change the Index contents that require USER role may not
+    /// be provided with a policy session.
+    /// NOTE TPM2_NV_ChangeAuth() always requires that authorization be provided in a policy
+    /// session. </summary>
     POLICYWRITE = 0x8, 
     
-    /** Ordinary contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write().  */
+    /// <summary> Ordinary contains data that is opaque to the TPM that can only be modified
+    /// using TPM2_NV_Write(). </summary>
     ORDINARY = 0x0,
     
-    /** Counter contains an 8-octet value that is to be used as a counter and can only be
-     *  modified with TPM2_NV_Increment()
-     */
+    /// <summary> Counter contains an 8-octet value that is to be used as a counter and can
+    /// only be modified with TPM2_NV_Increment() </summary>
     COUNTER = 0x10,
     
-    /** Bit Field contains an 8-octet value to be used as a bit field and can only be modified
-     *  with TPM2_NV_SetBits().
-     */
+    /// <summary> Bit Field contains an 8-octet value to be used as a bit field and can only
+    /// be modified with TPM2_NV_SetBits(). </summary>
     BITS = 0x20,
     
-    /** Extend contains a digest-sized value used like a PCR. The Index can only be modified
-     *  using TPM2_NV_Extend(). The extend will use the nameAlg of the Index.
-     */
+    /// <summary> Extend contains a digest-sized value used like a PCR. The Index can only be
+    /// modified using TPM2_NV_Extend(). The extend will use the nameAlg of the Index. </summary>
     EXTEND = 0x40,
     
-    /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit  */
+    /// <summary> PIN Fail - contains pinCount that increments on a PIN authorization failure
+    /// and a pinLimit </summary>
     PIN_FAIL = 0x80,
     
-    /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit  */
+    /// <summary> PIN Pass - contains pinCount that increments on a PIN authorization success
+    /// and a pinLimit </summary>
     PIN_PASS = 0x90,
     
-    /** The type of the index.
-     *  NOTE A TPM is not required to support all TPM_NT values
-     */
+    /// <summary> The type of the index.
+    /// NOTE A TPM is not required to support all TPM_NT values </summary>
     TpmNt_BIT_MASK = 0x000000F0,
     TpmNt_BIT_OFFSET = 4,
     TpmNt_BIT_LENGTH = 4,
     
-    /** SET (1): Index may not be deleted unless the authPolicy is satisfied using
-     *  TPM2_NV_UndefineSpaceSpecial().
-     *  CLEAR (0): Index may be deleted with proper platform or owner authorization using
-     *  TPM2_NV_UndefineSpace().
-     *  NOTE An Index with this attribute and a policy that cannot be satisfied (e.g., an
-     *  Empty Policy) cannot be deleted.
-     */
+    /// <summary> SET (1): Index may not be deleted unless the authPolicy is satisfied using
+    /// TPM2_NV_UndefineSpaceSpecial().
+    /// CLEAR (0): Index may be deleted with proper platform or owner authorization using
+    /// TPM2_NV_UndefineSpace().
+    /// NOTE An Index with this attribute and a policy that cannot be satisfied (e.g., an
+    /// Empty Policy) cannot be deleted. </summary>
     POLICY_DELETE = 0x400, 
     
-    /** SET (1): Index cannot be written.
-     *  CLEAR (0): Index can be written.
-     */
+    /// <summary> SET (1): Index cannot be written.
+    /// CLEAR (0): Index can be written. </summary>
     WRITELOCKED = 0x800, 
     
-    /** SET (1): A partial write of the Index data is not allowed. The write size shall match
-     *  the defined space size.
-     *  CLEAR (0): Partial writes are allowed. This setting is required if the .dataSize of
-     *  the Index is larger than NV_MAX_BUFFER_SIZE for the implementation.
-     */
+    /// <summary> SET (1): A partial write of the Index data is not allowed. The write size
+    /// shall match the defined space size.
+    /// CLEAR (0): Partial writes are allowed. This setting is required if the .dataSize of
+    /// the Index is larger than NV_MAX_BUFFER_SIZE for the implementation. </summary>
     WRITEALL = 0x1000, 
     
-    /** SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this location.
-     *  CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if
-     *  TPMA_NV_WRITE_STCLEAR is also CLEAR.
-     */
+    /// <summary> SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this location.
+    /// CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if
+    /// TPMA_NV_WRITE_STCLEAR is also CLEAR. </summary>
     WRITEDEFINE = 0x2000, 
     
-    /** SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this location
-     *  until the next TPM Reset or TPM Restart.
-     *  CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if TPMA_NV_WRITEDEFINE
-     *  is also CLEAR.
-     */
+    /// <summary> SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this
+    /// location until the next TPM Reset or TPM Restart.
+    /// CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if TPMA_NV_WRITEDEFINE
+    /// is also CLEAR. </summary>
     WRITE_STCLEAR = 0x4000, 
     
-    /** SET (1): If TPM2_NV_GlobalWriteLock() is successful, TPMA_NV_WRITELOCKED is set.
-     *  CLEAR (0): TPM2_NV_GlobalWriteLock() has no effect on the writing of the data at this Index.
-     */
+    /// <summary> SET (1): If TPM2_NV_GlobalWriteLock() is successful, TPMA_NV_WRITELOCKED is set.
+    /// CLEAR (0): TPM2_NV_GlobalWriteLock() has no effect on the writing of the data at this
+    /// Index. </summary>
     GLOBALLOCK = 0x8000, 
     
-    /** SET (1): The Index data can be read if Platform Authorization is provided.
-     *  CLEAR (0): Reading of the Index data cannot be authorized with Platform Authorization.
-     */
+    /// <summary> SET (1): The Index data can be read if Platform Authorization is provided.
+    /// CLEAR (0): Reading of the Index data cannot be authorized with Platform Authorization.
+    /// </summary>
     PPREAD = 0x10000, 
     
-    /** SET (1): The Index data can be read if Owner Authorization is provided.
-     *  CLEAR (0): Reading of the Index data cannot be authorized with Owner Authorization.
-     */
+    /// <summary> SET (1): The Index data can be read if Owner Authorization is provided.
+    /// CLEAR (0): Reading of the Index data cannot be authorized with Owner Authorization. </summary>
     OWNERREAD = 0x20000, 
     
-    /** SET (1): The Index data may be read if the authValue is provided.
-     *  CLEAR (0): Reading of the Index data cannot be authorized with the Index authValue.
-     */
+    /// <summary> SET (1): The Index data may be read if the authValue is provided.
+    /// CLEAR (0): Reading of the Index data cannot be authorized with the Index authValue. </summary>
     AUTHREAD = 0x40000, 
     
-    /** SET (1): The Index data may be read if the authPolicy is satisfied.
-     *  CLEAR (0): Reading of the Index data cannot be authorized with the Index authPolicy.
-     */
+    /// <summary> SET (1): The Index data may be read if the authPolicy is satisfied.
+    /// CLEAR (0): Reading of the Index data cannot be authorized with the Index authPolicy. </summary>
     POLICYREAD = 0x80000, 
     
-    /** SET (1): Authorization failures of the Index do not affect the DA logic and
-     *  authorization of the Index is not blocked when the TPM is in Lockout mode.
-     *  CLEAR (0): Authorization failures of the Index will increment the authorization
-     *  failure counter and authorizations of this Index are not allowed when the TPM is in
-     *  Lockout mode.
-     */
+    /// <summary> SET (1): Authorization failures of the Index do not affect the DA logic and
+    /// authorization of the Index is not blocked when the TPM is in Lockout mode.
+    /// CLEAR (0): Authorization failures of the Index will increment the authorization
+    /// failure counter and authorizations of this Index are not allowed when the TPM is in
+    /// Lockout mode. </summary>
     NO_DA = 0x2000000, 
     
-    /** SET (1): NV Index state is only required to be saved when the TPM performs an orderly
-     *  shutdown (TPM2_Shutdown()).
-     *  CLEAR (0): NV Index state is required to be persistent after the command to update the
-     *  Index completes successfully (that is, the NV update is synchronous with the update command).
-     */
+    /// <summary> SET (1): NV Index state is only required to be saved when the TPM performs
+    /// an orderly shutdown (TPM2_Shutdown()).
+    /// CLEAR (0): NV Index state is required to be persistent after the command to update the
+    /// Index completes successfully (that is, the NV update is synchronous with the update
+    /// command). </summary>
     ORDERLY = 0x4000000, 
     
-    /** SET (1): TPMA_NV_WRITTEN for the Index is CLEAR by TPM Reset or TPM Restart.
-     *  CLEAR (0): TPMA_NV_WRITTEN is not changed by TPM Restart.
-     *  NOTE This attribute may only be SET if TPM_NT is not TPM_NT_COUNTER.
-     */
+    /// <summary> SET (1): TPMA_NV_WRITTEN for the Index is CLEAR by TPM Reset or TPM Restart.
+    /// CLEAR (0): TPMA_NV_WRITTEN is not changed by TPM Restart.
+    /// NOTE This attribute may only be SET if TPM_NT is not TPM_NT_COUNTER. </summary>
     CLEAR_STCLEAR = 0x8000000, 
     
-    /** SET (1): Reads of the Index are blocked until the next TPM Reset or TPM Restart.
-     *  CLEAR (0): Reads of the Index are allowed if proper authorization is provided.
-     */
+    /// <summary> SET (1): Reads of the Index are blocked until the next TPM Reset or TPM Restart.
+    /// CLEAR (0): Reads of the Index are allowed if proper authorization is provided. </summary>
     READLOCKED = 0x10000000, 
     
-    /** SET (1): Index has been written.
-     *  CLEAR (0): Index has not been written.
-     */
+    /// <summary> SET (1): Index has been written.
+    /// CLEAR (0): Index has not been written. </summary>
     WRITTEN = 0x20000000, 
     
-    /** SET (1): This Index may be undefined with Platform Authorization but not with Owner
-     *  Authorization.
-     *  CLEAR (0): This Index may be undefined using Owner Authorization but not with Platform
-     *  Authorization.
-     *  The TPM will validate that this attribute is SET when the Index is defined using
-     *  Platform Authorization and will validate that this attribute is CLEAR when the Index
-     *  is defined using Owner Authorization.
-     */
+    /// <summary> SET (1): This Index may be undefined with Platform Authorization but not
+    /// with Owner Authorization.
+    /// CLEAR (0): This Index may be undefined using Owner Authorization but not with Platform
+    /// Authorization.
+    /// The TPM will validate that this attribute is SET when the Index is defined using
+    /// Platform Authorization and will validate that this attribute is CLEAR when the Index
+    /// is defined using Owner Authorization. </summary>
     PLATFORMCREATE = 0x40000000, 
     
-    /** SET (1): TPM2_NV_ReadLock() may be used to SET TPMA_NV_READLOCKED for this Index.
-     *  CLEAR (0): TPM2_NV_ReadLock() has no effect on this Index.
-     */
+    /// <summary> SET (1): TPM2_NV_ReadLock() may be used to SET TPMA_NV_READLOCKED for this Index.
+    /// CLEAR (0): TPM2_NV_ReadLock() has no effect on this Index. </summary>
     READ_STCLEAR = 0x80000000
     TPM_ENUM_EPILOGUE(TPMA_NV)
 };
 
-/** Base class for TPM union interfaces  */
+/// <summary> Base class for TPM union interfaces </summary>
 class _DLLEXP_ TpmUnion: public virtual TpmStructure {};
 
-/** Table 119 Definition of TPMU_CAPABILITIES Union [OUT]
- *  (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
- *  TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
- *  TPML_TAGGED_POLICY, TPML_ACT_DATA])
- */
+/// <summary> Table 119 Definition of TPMU_CAPABILITIES Union [OUT]
+/// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
+/// TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
+/// TPML_TAGGED_POLICY, TPML_ACT_DATA]) </summary>
 class _DLLEXP_ TPMU_CAPABILITIES: public virtual TpmUnion
 {
     public: virtual TPM_CAP GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** Table 132 Definition of TPMU_ATTEST Union [OUT]
- *  (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
- *  TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO,
- *  TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO])
- */
+/// <summary> Table 132 Definition of TPMU_ATTEST Union [OUT]
+/// (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
+/// TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO,
+/// TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO]) </summary>
 class _DLLEXP_ TPMU_ATTEST: public virtual TpmUnion
 {
     public: virtual TPM_ST GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** This union allows additional parameters to be added for a symmetric cipher. Currently,
- *  no additional parameters are required for any of the symmetric algorithms.
- *  (One of [TPMS_TDES_SYM_DETAILS, TPMS_AES_SYM_DETAILS, TPMS_SM4_SYM_DETAILS,
- *  TPMS_CAMELLIA_SYM_DETAILS, TPMS_ANY_SYM_DETAILS, TPMS_XOR_SYM_DETAILS, TPMS_NULL_SYM_DETAILS])
- */
+/// <summary> This union allows additional parameters to be added for a symmetric cipher.
+/// Currently, no additional parameters are required for any of the symmetric algorithms.
+/// (One of [TPMS_TDES_SYM_DETAILS, TPMS_AES_SYM_DETAILS, TPMS_SM4_SYM_DETAILS,
+/// TPMS_CAMELLIA_SYM_DETAILS, TPMS_ANY_SYM_DETAILS, TPMS_XOR_SYM_DETAILS,
+/// TPMS_NULL_SYM_DETAILS]) </summary>
 class _DLLEXP_ TPMU_SYM_DETAILS: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** This structure allows a TPM2B_SENSITIVE_CREATE structure to carry either a
- *  TPM2B_SENSITVE_DATA or a TPM2B_DERIVE structure. The contents of the union are
- *  determined by context. When an object is being derived, the derivation values are present.
- *  (One of [BYTE, TPMS_DERIVE])
- */
+/// <summary> This structure allows a TPM2B_SENSITIVE_CREATE structure to carry either a
+/// TPM2B_SENSITVE_DATA or a TPM2B_DERIVE structure. The contents of the union are
+/// determined by context. When an object is being derived, the derivation values are present.
+/// (One of [BYTE, TPMS_DERIVE]) </summary>
 class _DLLEXP_ TPMU_SENSITIVE_CREATE: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT]
- *  (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
- */
+/// <summary> Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT]
+/// (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH]) </summary>
 class _DLLEXP_ TPMU_SCHEME_KEYEDHASH: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** This is the union of all of the signature schemes.
- *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
- *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
- *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
- */
+/// <summary> This is the union of all of the signature schemes.
+/// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+/// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+/// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
 class _DLLEXP_ TPMU_SIG_SCHEME: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT]
- *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
- *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
- */
+/// <summary> Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT]
+/// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+/// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
 class _DLLEXP_ TPMU_KDF_SCHEME: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** This union of all asymmetric schemes is used in each of the asymmetric scheme
- *  structures. The actual scheme structure is defined by the interface type used for the
- *  selector (TPMI_ALG_ASYM_SCHEME).
- *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
- *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
- *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
- *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
- */
+/// <summary> This union of all asymmetric schemes is used in each of the asymmetric
+/// scheme structures. The actual scheme structure is defined by the interface type used
+/// for the selector (TPMI_ALG_ASYM_SCHEME).
+/// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+/// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+/// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+/// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
 class _DLLEXP_ TPMU_ASYM_SCHEME: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** A TPMU_SIGNATURE_COMPOSITE is a union of the various signatures that are supported by
- *  a particular TPM implementation. The union allows substitution of any signature
- *  algorithm wherever a signature is required in a structure.
- *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
- *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
- *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
- */
+/// <summary> A TPMU_SIGNATURE_COMPOSITE is a union of the various signatures that are
+/// supported by a particular TPM implementation. The union allows substitution of any
+/// signature algorithm wherever a signature is required in a structure.
+/// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+/// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+/// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
 class _DLLEXP_ TPMU_SIGNATURE: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** This is the union of all values allowed in in the unique field of a TPMT_PUBLIC.
- *  (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
- *  TPMS_ECC_POINT, TPMS_DERIVE])
- */
+/// <summary> This is the union of all values allowed in in the unique field of a TPMT_PUBLIC.
+/// (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
+/// TPMS_ECC_POINT, TPMS_DERIVE]) </summary>
 class _DLLEXP_ TPMU_PUBLIC_ID: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** Table 199 defines the possible parameter definition structures that may be contained
- *  in the public portion of a key. If the Object can be a parent, the first field must be
- *  a TPMT_SYM_DEF_OBJECT. See 11.1.7.
- *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
- *  TPMS_ASYM_PARMS])
- */
+/// <summary> Table 199 defines the possible parameter definition structures that may be
+/// contained in the public portion of a key. If the Object can be a parent, the first
+/// field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7.
+/// (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+/// TPMS_ASYM_PARMS]) </summary>
 class _DLLEXP_ TPMU_PUBLIC_PARMS: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT]
- *  (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
- *  TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC])
- */
+/// <summary> Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT]
+/// (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
+/// TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC]) </summary>
 class _DLLEXP_ TPMU_SENSITIVE_COMPOSITE: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/** Handle of a loaded TPM key or other object [TSS]  */
+/// <summary> Handle of a loaded TPM key or other object [TSS] </summary>
 class _DLLEXP_ TPM_HANDLE : public TpmStructure
 {
 public:
-    /** Handle value  */
+    /// <summary> Handle value </summary>
     UINT32 handle;
 
 public:
@@ -3320,10 +3185,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM_HANDLE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM_HANDLE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM_HANDLE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM_HANDLE>(buf); }
     
     virtual const char* TypeName () const { return "TPM_HANDLE"; }
@@ -3408,24 +3273,23 @@ public:
     
 }; // class TPM_HANDLE
 
-/** Base class for empty union elements.
- *  An empty union element does not contain any data to marshal.
- *  This data structure can be used in place of any other union
- *  initialized with its own empty element.
- */
+/// <summary> Base class for empty union elements.
+/// An empty union element does not contain any data to marshal.
+/// This data structure can be used in place of any other union
+/// initialized with its own empty element. </summary>
 class _DLLEXP_ TPMS_NULL_UNION : public virtual TpmStructure, public TPMU_SYM_DETAILS, public TPMU_SCHEME_KEYEDHASH, public TPMU_SIG_SCHEME, public TPMU_KDF_SCHEME, public TPMU_ASYM_SCHEME, public TPMU_SIGNATURE
 {
 public:
 public:
     TPMS_NULL_UNION() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_UNION fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_UNION>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_UNION fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_UNION>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_UNION"; }
@@ -3436,23 +3300,22 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_NULL_UNION(*this); }
 }; // class TPMS_NULL_UNION
 
-/** This structure is used as a placeholder. In some cases, a union will have a selector
- *  value with no data to unmarshal when that type is selected. Rather than leave the
- *  entry empty, TPMS_EMPTY may be selected.
- */
+/// <summary> This structure is used as a placeholder. In some cases, a union will have a
+/// selector value with no data to unmarshal when that type is selected. Rather than leave
+/// the entry empty, TPMS_EMPTY may be selected. </summary>
 class _DLLEXP_ TPMS_EMPTY : public virtual TpmStructure, public TPMU_ASYM_SCHEME
 {
 public:
 public:
     TPMS_EMPTY() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_EMPTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_EMPTY>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_EMPTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_EMPTY>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_EMPTY"; }
@@ -3463,14 +3326,15 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_EMPTY(*this); }
 }; // class TPMS_EMPTY
 
-/** This structure is a return value for a TPM2_GetCapability() that reads the installed algorithms.  */
+/// <summary> This structure is a return value for a TPM2_GetCapability() that reads the
+/// installed algorithms. </summary>
 class _DLLEXP_ TPMS_ALGORITHM_DESCRIPTION : public TpmStructure
 {
 public:
-    /** An algorithm  */
+    /// <summary> An algorithm </summary>
     TPM_ALG_ID alg;
     
-    /** The attributes of the algorithm  */
+    /// <summary> The attributes of the algorithm </summary>
     TPMA_ALGORITHM attributes;
 
 public:
@@ -3482,10 +3346,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ALGORITHM_DESCRIPTION fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ALGORITHM_DESCRIPTION>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ALGORITHM_DESCRIPTION fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ALGORITHM_DESCRIPTION>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ALGORITHM_DESCRIPTION"; }
@@ -3498,21 +3362,19 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ALGORITHM_DESCRIPTION(*this); }
 }; // class TPMS_ALGORITHM_DESCRIPTION
 
-/** Table 80 shows the basic hash-agile structure used in this specification. To handle
- *  hash agility, this structure uses the hashAlg parameter to indicate the algorithm used
- *  to compute the digest and, by implication, the size of the digest.
- */
+/// <summary> Table 80 shows the basic hash-agile structure used in this specification. To
+/// handle hash agility, this structure uses the hashAlg parameter to indicate the
+/// algorithm used to compute the digest and, by implication, the size of the digest. </summary>
 class _DLLEXP_ TPMT_HA : public virtual TpmStructure, public TPMU_SIGNATURE
 {
 public:
-    /** Selector of the hash contained in the digest that implies the size of the digest
-     *  NOTE The leading + on the type indicates that this structure should pass an indication
-     *  to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if
-     *  a use of a TPMT_HA allows TPM_ALG_NULL.
-     */
+    /// <summary> Selector of the hash contained in the digest that implies the size of the digest
+    /// NOTE The leading + on the type indicates that this structure should pass an indication
+    /// to the unmarshaling function for TPMI_ALG_HASH so that TPM_ALG_NULL will be allowed if
+    /// a use of a TPMT_HA allows TPM_ALG_NULL. </summary>
     TPM_ALG_ID hashAlg;
     
-    /** Hash value  */
+    /// <summary> Hash value </summary>
     ByteVec digest;
 
 public:
@@ -3521,16 +3383,16 @@ public:
       : hashAlg(_hashAlg), digest(_digest)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_HA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_HA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_HA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_HA>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_HA"; }
@@ -3588,13 +3450,12 @@ public:
     
 }; // class TPMT_HA
 
-/** This structure is used for a sized buffer that cannot be larger than the largest
- *  digest produced by any hash algorithm implemented on the TPM.
- */
+/// <summary> This structure is used for a sized buffer that cannot be larger than the
+/// largest digest produced by any hash algorithm implemented on the TPM. </summary>
 class _DLLEXP_ TPM2B_DIGEST : public virtual TpmStructure, public TPMU_PUBLIC_ID
 {
 public:
-    /** The buffer area that can be no larger than a digest  */
+    /// <summary> The buffer area that can be no larger than a digest </summary>
     ByteVec buffer;
 
 public:
@@ -3606,16 +3467,16 @@ public:
     operator ByteVec&() { return buffer; }
     operator const ByteVec&() const { return buffer; }
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_DIGEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_DIGEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_DIGEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_DIGEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_DIGEST"; }
@@ -3628,9 +3489,8 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_DIGEST(*this); }
 }; // class TPM2B_DIGEST
 
-/** This structure is used for a data buffer that is required to be no larger than the
- *  size of the Name of an object.
- */
+/// <summary> This structure is used for a data buffer that is required to be no larger
+/// than the size of the Name of an object. </summary>
 class _DLLEXP_ TPM2B_DATA : public TpmStructure
 {
 public:
@@ -3645,10 +3505,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_DATA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_DATA"; }
@@ -3661,29 +3521,27 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_DATA(*this); }
 }; // class TPM2B_DATA
 
-/** Table 83 Definition of Types for TPM2B_NONCE  */
+/// <summary> Table 83 Definition of Types for TPM2B_NONCE </summary>
 typedef TPM2B_DIGEST TPM2B_NONCE;
 
-/** This structure is used for an authorization value and limits an authValue to being no
- *  larger than the largest digest produced by a TPM. In order to ensure consistency
- *  within an object, the authValue may be no larger than the size of the digest produced
- *  by the objects nameAlg. This ensures that any TPM that can load the object will be
- *  able to handle the authValue of the object.
- */
+/// <summary> This structure is used for an authorization value and limits an authValue to
+/// being no larger than the largest digest produced by a TPM. In order to ensure
+/// consistency within an object, the authValue may be no larger than the size of the
+/// digest produced by the objects nameAlg. This ensures that any TPM that can load the
+/// object will be able to handle the authValue of the object. </summary>
 typedef TPM2B_DIGEST TPM2B_AUTH;
 
-/** This type is a sized buffer that can hold an operand for a comparison with an NV Index
- *  location. The maximum size of the operand is implementation dependent but a TPM is
- *  required to support an operand size that is at least as big as the digest produced by
- *  any of the hash algorithms implemented on the TPM.
- */
+/// <summary> This type is a sized buffer that can hold an operand for a comparison with
+/// an NV Index location. The maximum size of the operand is implementation dependent but
+/// a TPM is required to support an operand size that is at least as big as the digest
+/// produced by any of the hash algorithms implemented on the TPM. </summary>
 typedef TPM2B_DIGEST TPM2B_OPERAND;
 
-/** This type is a sized buffer that can hold event data.  */
+/// <summary> This type is a sized buffer that can hold event data. </summary>
 class _DLLEXP_ TPM2B_EVENT : public TpmStructure
 {
 public:
-    /** The operand  */
+    /// <summary> The operand </summary>
     ByteVec buffer;
 
 public:
@@ -3695,10 +3553,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_EVENT fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_EVENT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_EVENT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_EVENT>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_EVENT"; }
@@ -3711,13 +3569,13 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_EVENT(*this); }
 }; // class TPM2B_EVENT
 
-/** This type is a sized buffer that can hold a maximally sized buffer for commands that
- *  use a large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
- */
+/// <summary> This type is a sized buffer that can hold a maximally sized buffer for
+/// commands that use a large data buffer such as TPM2_Hash(), TPM2_SequenceUpdate(), or
+/// TPM2_FieldUpgradeData(). </summary>
 class _DLLEXP_ TPM2B_MAX_BUFFER : public TpmStructure
 {
 public:
-    /** The operand  */
+    /// <summary> The operand </summary>
     ByteVec buffer;
 
 public:
@@ -3729,10 +3587,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_MAX_BUFFER fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_MAX_BUFFER>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_MAX_BUFFER fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_MAX_BUFFER>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_MAX_BUFFER"; }
@@ -3745,15 +3603,13 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_MAX_BUFFER(*this); }
 }; // class TPM2B_MAX_BUFFER
 
-/** This type is a sized buffer that can hold a maximally sized buffer for NV data
- *  commands such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify().
- */
+/// <summary> This type is a sized buffer that can hold a maximally sized buffer for NV
+/// data commands such as TPM2_NV_Read(), TPM2_NV_Write(), and TPM2_NV_Certify(). </summary>
 class _DLLEXP_ TPM2B_MAX_NV_BUFFER : public TpmStructure
 {
 public:
-    /** The operand
-     *  NOTE MAX_NV_BUFFER_SIZE is TPM-dependent
-     */
+    /// <summary> The operand
+    /// NOTE MAX_NV_BUFFER_SIZE is TPM-dependent </summary>
     ByteVec buffer;
 
 public:
@@ -3765,10 +3621,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_MAX_NV_BUFFER fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_MAX_NV_BUFFER>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_MAX_NV_BUFFER fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_MAX_NV_BUFFER>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_MAX_NV_BUFFER"; }
@@ -3781,13 +3637,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_MAX_NV_BUFFER(*this); }
 }; // class TPM2B_MAX_NV_BUFFER
 
-/** This TPM-dependent structure is used to provide the timeout value for an
- *  authorization. The size shall be 8 or less.
- */
+/// <summary> This TPM-dependent structure is used to provide the timeout value for an
+/// authorization. The size shall be 8 or less. </summary>
 class _DLLEXP_ TPM2B_TIMEOUT : public TpmStructure
 {
 public:
-    /** The timeout value  */
+    /// <summary> The timeout value </summary>
     ByteVec buffer;
 
 public:
@@ -3799,10 +3654,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_TIMEOUT fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_TIMEOUT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_TIMEOUT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_TIMEOUT>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_TIMEOUT"; }
@@ -3815,14 +3670,13 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_TIMEOUT(*this); }
 }; // class TPM2B_TIMEOUT
 
-/** This structure is used for passing an initial value for a symmetric block cipher to or
- *  from the TPM. The size is set to be the largest block size of any implemented
- *  symmetric cipher implemented on the TPM.
- */
+/// <summary> This structure is used for passing an initial value for a symmetric block
+/// cipher to or from the TPM. The size is set to be the largest block size of any
+/// implemented symmetric cipher implemented on the TPM. </summary>
 class _DLLEXP_ TPM2B_IV : public TpmStructure
 {
 public:
-    /** The IV value  */
+    /// <summary> The IV value </summary>
     ByteVec buffer;
 
 public:
@@ -3834,10 +3688,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_IV fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_IV>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_IV fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_IV>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_IV"; }
@@ -3850,11 +3704,11 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_IV(*this); }
 }; // class TPM2B_IV
 
-/** This buffer holds a Name for any entity type.  */
+/// <summary> This buffer holds a Name for any entity type. </summary>
 class _DLLEXP_ TPM2B_NAME : public TpmStructure
 {
 public:
-    /** The Name structure  */
+    /// <summary> The Name structure </summary>
     ByteVec name;
 
 public:
@@ -3866,10 +3720,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_NAME fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_NAME>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_NAME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_NAME>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_NAME"; }
@@ -3882,11 +3736,11 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_NAME(*this); }
 }; // class TPM2B_NAME
 
-/** This structure provides a standard method of specifying a list of PCR.  */
+/// <summary> This structure provides a standard method of specifying a list of PCR. </summary>
 class _DLLEXP_ TPMS_PCR_SELECT : public TpmStructure
 {
 public:
-    /** The bit map of selected PCR  */
+    /// <summary> The bit map of selected PCR </summary>
     ByteVec pcrSelect;
 
 public:
@@ -3898,10 +3752,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_PCR_SELECT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_PCR_SELECT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_PCR_SELECT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_PCR_SELECT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_PCR_SELECT"; }
@@ -3914,14 +3768,14 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_PCR_SELECT(*this); }
 }; // class TPMS_PCR_SELECT
 
-/** Table 94 Definition of TPMS_PCR_SELECTION Structure  */
+/// <summary> Table 94 Definition of TPMS_PCR_SELECTION Structure </summary>
 class _DLLEXP_ TPMS_PCR_SELECTION : public TpmStructure
 {
 public:
-    /** The hash algorithm associated with the selection  */
+    /// <summary> The hash algorithm associated with the selection </summary>
     TPM_ALG_ID hash;
     
-    /** The bit map of selected PCR  */
+    /// <summary> The bit map of selected PCR </summary>
     ByteVec pcrSelect;
 
 public:
@@ -3933,10 +3787,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_PCR_SELECTION fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_PCR_SELECTION>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_PCR_SELECTION fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_PCR_SELECTION>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_PCR_SELECTION"; }
@@ -3977,16 +3831,16 @@ public:
     
 }; // class TPMS_PCR_SELECTION
 
-/** This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used to bind
- *  the creation data to the object to which it applies. The ticket is computed by
- */
+/// <summary> This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used
+/// to bind the creation data to the object to which it applies. The ticket is computed by
+/// </summary>
 class _DLLEXP_ TPMT_TK_CREATION : public TpmStructure
 {
 public:
-    /** The hierarchy containing name  */
+    /// <summary> The hierarchy containing name </summary>
     TPM_HANDLE hierarchy;
     
-    /** This shall be the HMAC produced using a proof value of hierarchy.  */
+    /// <summary> This shall be the HMAC produced using a proof value of hierarchy. </summary>
     ByteVec digest;
 
 public:
@@ -3998,10 +3852,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_TK_CREATION fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_TK_CREATION>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_TK_CREATION fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_TK_CREATION>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_TK_CREATION"; }
@@ -4014,17 +3868,16 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_TK_CREATION(*this); }
 }; // class TPMT_TK_CREATION
 
-/** This ticket is produced by TPM2_VerifySignature(). This formulation is used for
- *  multiple ticket uses. The ticket provides evidence that the TPM has validated that a
- *  digest was signed by a key with the Name of keyName. The ticket is computed by
- */
+/// <summary> This ticket is produced by TPM2_VerifySignature(). This formulation is used
+/// for multiple ticket uses. The ticket provides evidence that the TPM has validated that
+/// a digest was signed by a key with the Name of keyName. The ticket is computed by </summary>
 class _DLLEXP_ TPMT_TK_VERIFIED : public TpmStructure
 {
 public:
-    /** The hierarchy containing keyName  */
+    /// <summary> The hierarchy containing keyName </summary>
     TPM_HANDLE hierarchy;
     
-    /** This shall be the HMAC produced using a proof value of hierarchy.  */
+    /// <summary> This shall be the HMAC produced using a proof value of hierarchy. </summary>
     ByteVec digest;
 
 public:
@@ -4036,10 +3889,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_TK_VERIFIED fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_TK_VERIFIED>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_TK_VERIFIED fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_TK_VERIFIED>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_TK_VERIFIED"; }
@@ -4052,20 +3905,19 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_TK_VERIFIED(*this); }
 }; // class TPMT_TK_VERIFIED
 
-/** This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when the
- *  authorization has an expiration time. If nonceTPM was provided in the policy command,
- *  the ticket is computed by
- */
+/// <summary> This ticket is produced by TPM2_PolicySigned() and TPM2_PolicySecret() when
+/// the authorization has an expiration time. If nonceTPM was provided in the policy
+/// command, the ticket is computed by </summary>
 class _DLLEXP_ TPMT_TK_AUTH : public TpmStructure
 {
 public:
-    /** Ticket structure tag  */
+    /// <summary> Ticket structure tag </summary>
     TPM_ST tag;
     
-    /** The hierarchy of the object used to produce the ticket  */
+    /// <summary> The hierarchy of the object used to produce the ticket </summary>
     TPM_HANDLE hierarchy;
     
-    /** This shall be the HMAC produced using a proof value of hierarchy.  */
+    /// <summary> This shall be the HMAC produced using a proof value of hierarchy. </summary>
     ByteVec digest;
 
 public:
@@ -4077,10 +3929,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_TK_AUTH fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_TK_AUTH>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_TK_AUTH fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_TK_AUTH>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_TK_AUTH"; }
@@ -4093,16 +3945,16 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_TK_AUTH(*this); }
 }; // class TPMT_TK_AUTH
 
-/** This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the message
- *  that was digested did not start with TPM_GENERATED_VALUE. The ticket is computed by
- */
+/// <summary> This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash() when the
+/// message that was digested did not start with TPM_GENERATED_VALUE. The ticket is
+/// computed by </summary>
 class _DLLEXP_ TPMT_TK_HASHCHECK : public TpmStructure
 {
 public:
-    /** The hierarchy  */
+    /// <summary> The hierarchy </summary>
     TPM_HANDLE hierarchy;
     
-    /** This shall be the HMAC produced using a proof value of hierarchy.  */
+    /// <summary> This shall be the HMAC produced using a proof value of hierarchy. </summary>
     ByteVec digest;
 
 public:
@@ -4114,10 +3966,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_TK_HASHCHECK fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_TK_HASHCHECK>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_TK_HASHCHECK fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_TK_HASHCHECK>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_TK_HASHCHECK"; }
@@ -4134,16 +3986,15 @@ public:
     
 }; // class TPMT_TK_HASHCHECK
 
-/** This structure is used to report the properties of an algorithm identifier. It is
- *  returned in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG.
- */
+/// <summary> This structure is used to report the properties of an algorithm identifier.
+/// It is returned in response to a TPM2_GetCapability() with capability = TPM_CAP_ALG. </summary>
 class _DLLEXP_ TPMS_ALG_PROPERTY : public TpmStructure
 {
 public:
-    /** An algorithm identifier  */
+    /// <summary> An algorithm identifier </summary>
     TPM_ALG_ID alg;
     
-    /** The attributes of the algorithm  */
+    /// <summary> The attributes of the algorithm </summary>
     TPMA_ALGORITHM algProperties;
 
 public:
@@ -4155,10 +4006,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ALG_PROPERTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ALG_PROPERTY>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ALG_PROPERTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ALG_PROPERTY>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ALG_PROPERTY"; }
@@ -4171,16 +4022,15 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ALG_PROPERTY(*this); }
 }; // class TPMS_ALG_PROPERTY
 
-/** This structure is used to report the properties that are UINT32 values. It is returned
- *  in response to a TPM2_GetCapability().
- */
+/// <summary> This structure is used to report the properties that are UINT32 values. It
+/// is returned in response to a TPM2_GetCapability(). </summary>
 class _DLLEXP_ TPMS_TAGGED_PROPERTY : public TpmStructure
 {
 public:
-    /** A property identifier  */
+    /// <summary> A property identifier </summary>
     TPM_PT property;
     
-    /** The value of the property  */
+    /// <summary> The value of the property </summary>
     UINT32 value;
 
 public:
@@ -4192,10 +4042,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TAGGED_PROPERTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TAGGED_PROPERTY>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TAGGED_PROPERTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TAGGED_PROPERTY>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_TAGGED_PROPERTY"; }
@@ -4208,14 +4058,15 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_TAGGED_PROPERTY(*this); }
 }; // class TPMS_TAGGED_PROPERTY
 
-/** This structure is used in TPM2_GetCapability() to return the attributes of the PCR.  */
+/// <summary> This structure is used in TPM2_GetCapability() to return the attributes of
+/// the PCR. </summary>
 class _DLLEXP_ TPMS_TAGGED_PCR_SELECT : public TpmStructure
 {
 public:
-    /** The property identifier  */
+    /// <summary> The property identifier </summary>
     TPM_PT_PCR tag;
     
-    /** The bit map of PCR with the identified property  */
+    /// <summary> The bit map of PCR with the identified property </summary>
     ByteVec pcrSelect;
 
 public:
@@ -4227,10 +4078,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TAGGED_PCR_SELECT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TAGGED_PCR_SELECT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TAGGED_PCR_SELECT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TAGGED_PCR_SELECT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_TAGGED_PCR_SELECT"; }
@@ -4243,16 +4094,15 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_TAGGED_PCR_SELECT(*this); }
 }; // class TPMS_TAGGED_PCR_SELECT
 
-/** This structure is used in TPM2_GetCapability() to return the policy associated with a
- *  permanent handle.
- */
+/// <summary> This structure is used in TPM2_GetCapability() to return the policy
+/// associated with a permanent handle. </summary>
 class _DLLEXP_ TPMS_TAGGED_POLICY : public TpmStructure
 {
 public:
-    /** A permanent handle  */
+    /// <summary> A permanent handle </summary>
     TPM_HANDLE handle;
     
-    /** The policy algorithm and hash  */
+    /// <summary> The policy algorithm and hash </summary>
     TPMT_HA policyHash;
 
 public:
@@ -4264,10 +4114,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TAGGED_POLICY fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TAGGED_POLICY>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TAGGED_POLICY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TAGGED_POLICY>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_TAGGED_POLICY"; }
@@ -4280,17 +4130,17 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_TAGGED_POLICY(*this); }
 }; // class TPMS_TAGGED_POLICY
 
-/** This structure is used in TPM2_GetCapability() to return the ACT data.  */
+/// <summary> This structure is used in TPM2_GetCapability() to return the ACT data. </summary>
 class _DLLEXP_ TPMS_ACT_DATA : public TpmStructure
 {
 public:
-    /** A permanent handle  */
+    /// <summary> A permanent handle </summary>
     TPM_HANDLE handle;
     
-    /** The current timeout of the ACT  */
+    /// <summary> The current timeout of the ACT </summary>
     UINT32 timeout;
     
-    /** The state of the ACT  */
+    /// <summary> The state of the ACT </summary>
     TPMA_ACT attributes;
 
 public:
@@ -4302,10 +4152,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ACT_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ACT_DATA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ACT_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ACT_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ACT_DATA"; }
@@ -4318,16 +4168,14 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ACT_DATA(*this); }
 }; // class TPMS_ACT_DATA
 
-/** A list of command codes may be input to the TPM or returned by the TPM depending on
- *  the command.
- */
+/// <summary> A list of command codes may be input to the TPM or returned by the TPM
+/// depending on the command. </summary>
 class _DLLEXP_ TPML_CC : public virtual TpmStructure, public TPMU_CAPABILITIES
 {
 public:
-    /** A list of command codes
-     *  The maximum only applies to a command code list in a command. The response size is
-     *  limited only by the size of the parameter buffer.
-     */
+    /// <summary> A list of command codes
+    /// The maximum only applies to a command code list in a command. The response size is
+    /// limited only by the size of the parameter buffer. </summary>
     vector<TPM_CC> commandCodes;
 
 public:
@@ -4336,16 +4184,16 @@ public:
       : commandCodes(_commandCodes)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::PP_COMMANDS; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_CC fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_CC>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_CC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_CC>(buf); }
     
     virtual const char* TypeName () const { return "TPML_CC"; }
@@ -4358,11 +4206,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_CC(*this); }
 }; // class TPML_CC
 
-/** This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS).  */
+/// <summary> This list is only used in TPM2_GetCapability(capability = TPM_CAP_COMMANDS).
+/// </summary>
 class _DLLEXP_ TPML_CCA : public virtual TpmStructure, public TPMU_CAPABILITIES
 {
 public:
-    /** A list of command codes attributes  */
+    /// <summary> A list of command codes attributes </summary>
     vector<TPMA_CC> commandAttributes;
 
 public:
@@ -4371,16 +4220,16 @@ public:
       : commandAttributes(_commandAttributes)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::COMMANDS; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_CCA fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_CCA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_CCA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_CCA>(buf); }
     
     virtual const char* TypeName () const { return "TPML_CCA"; }
@@ -4393,14 +4242,13 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_CCA(*this); }
 }; // class TPML_CCA
 
-/** This list is returned by TPM2_IncrementalSelfTest().  */
+/// <summary> This list is returned by TPM2_IncrementalSelfTest(). </summary>
 class _DLLEXP_ TPML_ALG : public TpmStructure
 {
 public:
-    /** A list of algorithm IDs
-     *  The maximum only applies to an algorithm list in a command. The response size is
-     *  limited only by the size of the parameter buffer.
-     */
+    /// <summary> A list of algorithm IDs
+    /// The maximum only applies to an algorithm list in a command. The response size is
+    /// limited only by the size of the parameter buffer. </summary>
     vector<TPM_ALG_ID> algorithms;
 
 public:
@@ -4412,10 +4260,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_ALG fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_ALG>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_ALG fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_ALG>(buf); }
     
     virtual const char* TypeName () const { return "TPML_ALG"; }
@@ -4428,13 +4276,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_ALG(*this); }
 }; // class TPML_ALG
 
-/** This structure is used when the TPM returns a list of loaded handles when the
- *  capability in TPM2_GetCapability() is TPM_CAP_HANDLE.
- */
+/// <summary> This structure is used when the TPM returns a list of loaded handles when
+/// the capability in TPM2_GetCapability() is TPM_CAP_HANDLE. </summary>
 class _DLLEXP_ TPML_HANDLE : public virtual TpmStructure, public TPMU_CAPABILITIES
 {
 public:
-    /** An array of handles  */
+    /// <summary> An array of handles </summary>
     vector<TPM_HANDLE> handle;
 
 public:
@@ -4443,16 +4290,16 @@ public:
       : handle(_handle)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::HANDLES; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_HANDLE fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_HANDLE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_HANDLE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_HANDLE>(buf); }
     
     virtual const char* TypeName () const { return "TPML_HANDLE"; }
@@ -4465,17 +4312,15 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_HANDLE(*this); }
 }; // class TPML_HANDLE
 
-/** This list is used to convey a list of digest values. This type is used in
- *  TPM2_PolicyOR() and in TPM2_PCR_Read().
- */
+/// <summary> This list is used to convey a list of digest values. This type is used in
+/// TPM2_PolicyOR() and in TPM2_PCR_Read(). </summary>
 class _DLLEXP_ TPML_DIGEST : public TpmStructure
 {
 public:
-    /** A list of digests
-     *  For TPM2_PolicyOR(), all digests will have been computed using the digest of the
-     *  policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for
-     *  the bank containing the PCR.
-     */
+    /// <summary> A list of digests
+    /// For TPM2_PolicyOR(), all digests will have been computed using the digest of the
+    /// policy session. For TPM2_PCR_Read(), each digest will be the size of the digest for
+    /// the bank containing the PCR. </summary>
     vector<TPM2B_DIGEST> digests;
 
 public:
@@ -4487,10 +4332,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_DIGEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_DIGEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_DIGEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_DIGEST>(buf); }
     
     virtual const char* TypeName () const { return "TPML_DIGEST"; }
@@ -4503,13 +4348,13 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_DIGEST(*this); }
 }; // class TPML_DIGEST
 
-/** This list is used to convey a list of digest values. This type is returned by
- *  TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for TPM2_PCR_Extend().
- */
+/// <summary> This list is used to convey a list of digest values. This type is returned
+/// by TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an input for
+/// TPM2_PCR_Extend(). </summary>
 class _DLLEXP_ TPML_DIGEST_VALUES : public TpmStructure
 {
 public:
-    /** A list of tagged digests  */
+    /// <summary> A list of tagged digests </summary>
     vector<TPMT_HA> digests;
 
 public:
@@ -4521,10 +4366,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_DIGEST_VALUES fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_DIGEST_VALUES>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_DIGEST_VALUES fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_DIGEST_VALUES>(buf); }
     
     virtual const char* TypeName () const { return "TPML_DIGEST_VALUES"; }
@@ -4537,13 +4382,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_DIGEST_VALUES(*this); }
 }; // class TPML_DIGEST_VALUES
 
-/** This list is used to indicate the PCR that are included in a selection when more than
- *  one PCR value may be selected.
- */
+/// <summary> This list is used to indicate the PCR that are included in a selection when
+/// more than one PCR value may be selected. </summary>
 class _DLLEXP_ TPML_PCR_SELECTION : public virtual TpmStructure, public TPMU_CAPABILITIES
 {
 public:
-    /** List of selections  */
+    /// <summary> List of selections </summary>
     vector<TPMS_PCR_SELECTION> pcrSelections;
 
 public:
@@ -4552,16 +4396,16 @@ public:
       : pcrSelections(_pcrSelections)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::PCRS; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_PCR_SELECTION fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_PCR_SELECTION>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_PCR_SELECTION fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_PCR_SELECTION>(buf); }
     
     virtual const char* TypeName () const { return "TPML_PCR_SELECTION"; }
@@ -4574,13 +4418,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_PCR_SELECTION(*this); }
 }; // class TPML_PCR_SELECTION
 
-/** This list is used to report on a list of algorithm attributes. It is returned in a
- *  TPM2_GetCapability().
- */
+/// <summary> This list is used to report on a list of algorithm attributes. It is
+/// returned in a TPM2_GetCapability(). </summary>
 class _DLLEXP_ TPML_ALG_PROPERTY : public virtual TpmStructure, public TPMU_CAPABILITIES
 {
 public:
-    /** List of properties  */
+    /// <summary> List of properties </summary>
     vector<TPMS_ALG_PROPERTY> algProperties;
 
 public:
@@ -4589,16 +4432,16 @@ public:
       : algProperties(_algProperties)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::ALGS; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_ALG_PROPERTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_ALG_PROPERTY>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_ALG_PROPERTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_ALG_PROPERTY>(buf); }
     
     virtual const char* TypeName () const { return "TPML_ALG_PROPERTY"; }
@@ -4611,13 +4454,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_ALG_PROPERTY(*this); }
 }; // class TPML_ALG_PROPERTY
 
-/** This list is used to report on a list of properties that are TPMS_TAGGED_PROPERTY
- *  values. It is returned by a TPM2_GetCapability().
- */
+/// <summary> This list is used to report on a list of properties that are
+/// TPMS_TAGGED_PROPERTY values. It is returned by a TPM2_GetCapability(). </summary>
 class _DLLEXP_ TPML_TAGGED_TPM_PROPERTY : public virtual TpmStructure, public TPMU_CAPABILITIES
 {
 public:
-    /** An array of tagged properties  */
+    /// <summary> An array of tagged properties </summary>
     vector<TPMS_TAGGED_PROPERTY> tpmProperty;
 
 public:
@@ -4626,16 +4468,16 @@ public:
       : tpmProperty(_tpmProperty)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::TPM_PROPERTIES; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_TAGGED_TPM_PROPERTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_TAGGED_TPM_PROPERTY>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_TAGGED_TPM_PROPERTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_TAGGED_TPM_PROPERTY>(buf); }
     
     virtual const char* TypeName () const { return "TPML_TAGGED_TPM_PROPERTY"; }
@@ -4648,13 +4490,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_TAGGED_TPM_PROPERTY(*this); }
 }; // class TPML_TAGGED_TPM_PROPERTY
 
-/** This list is used to report on a list of properties that are TPMS_PCR_SELECT values.
- *  It is returned by a TPM2_GetCapability().
- */
+/// <summary> This list is used to report on a list of properties that are TPMS_PCR_SELECT
+/// values. It is returned by a TPM2_GetCapability(). </summary>
 class _DLLEXP_ TPML_TAGGED_PCR_PROPERTY : public virtual TpmStructure, public TPMU_CAPABILITIES
 {
 public:
-    /** A tagged PCR selection  */
+    /// <summary> A tagged PCR selection </summary>
     vector<TPMS_TAGGED_PCR_SELECT> pcrProperty;
 
 public:
@@ -4663,16 +4504,16 @@ public:
       : pcrProperty(_pcrProperty)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::PCR_PROPERTIES; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_TAGGED_PCR_PROPERTY fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_TAGGED_PCR_PROPERTY>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_TAGGED_PCR_PROPERTY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_TAGGED_PCR_PROPERTY>(buf); }
     
     virtual const char* TypeName () const { return "TPML_TAGGED_PCR_PROPERTY"; }
@@ -4685,13 +4526,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_TAGGED_PCR_PROPERTY(*this); }
 }; // class TPML_TAGGED_PCR_PROPERTY
 
-/** This list is used to report the ECC curve ID values supported by the TPM. It is
- *  returned by a TPM2_GetCapability().
- */
+/// <summary> This list is used to report the ECC curve ID values supported by the TPM. It
+/// is returned by a TPM2_GetCapability(). </summary>
 class _DLLEXP_ TPML_ECC_CURVE : public virtual TpmStructure, public TPMU_CAPABILITIES
 {
 public:
-    /** Array of ECC curve identifiers  */
+    /// <summary> Array of ECC curve identifiers </summary>
     vector<TPM_ECC_CURVE> eccCurves;
 
 public:
@@ -4700,16 +4540,16 @@ public:
       : eccCurves(_eccCurves)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::ECC_CURVES; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_ECC_CURVE fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_ECC_CURVE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_ECC_CURVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_ECC_CURVE>(buf); }
     
     virtual const char* TypeName () const { return "TPML_ECC_CURVE"; }
@@ -4722,14 +4562,13 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_ECC_CURVE(*this); }
 }; // class TPML_ECC_CURVE
 
-/** This list is used to report the authorization policy values for permanent handles.
- *  This is list may be generated by TPM2_GetCapabiltiy(). A permanent handle that cannot
- *  have a policy is not included in the list.
- */
+/// <summary> This list is used to report the authorization policy values for permanent
+/// handles. This is list may be generated by TPM2_GetCapabiltiy(). A permanent handle
+/// that cannot have a policy is not included in the list. </summary>
 class _DLLEXP_ TPML_TAGGED_POLICY : public virtual TpmStructure, public TPMU_CAPABILITIES
 {
 public:
-    /** Array of tagged policies  */
+    /// <summary> Array of tagged policies </summary>
     vector<TPMS_TAGGED_POLICY> policies;
 
 public:
@@ -4738,16 +4577,16 @@ public:
       : policies(_policies)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::AUTH_POLICIES; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_TAGGED_POLICY fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_TAGGED_POLICY>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_TAGGED_POLICY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_TAGGED_POLICY>(buf); }
     
     virtual const char* TypeName () const { return "TPML_TAGGED_POLICY"; }
@@ -4760,13 +4599,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_TAGGED_POLICY(*this); }
 }; // class TPML_TAGGED_POLICY
 
-/** This list is used to report the timeout and state for the ACT. This list may be
- *  generated by TPM2_GetCapabilty(). Only implemented ACT are present in the list
- */
+/// <summary> This list is used to report the timeout and state for the ACT. This list may
+/// be generated by TPM2_GetCapabilty(). Only implemented ACT are present in the list </summary>
 class _DLLEXP_ TPML_ACT_DATA : public virtual TpmStructure, public TPMU_CAPABILITIES
 {
 public:
-    /** Array of ACT data  */
+    /// <summary> Array of ACT data </summary>
     vector<TPMS_ACT_DATA> actData;
 
 public:
@@ -4775,16 +4613,16 @@ public:
       : actData(_actData)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_CAP GetUnionSelector() const { return TPM_CAP::ACT; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_ACT_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_ACT_DATA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_ACT_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_ACT_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPML_ACT_DATA"; }
@@ -4797,18 +4635,17 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_ACT_DATA(*this); }
 }; // class TPML_ACT_DATA
 
-/** This data area is returned in response to a TPM2_GetCapability().  */
+/// <summary> This data area is returned in response to a TPM2_GetCapability(). </summary>
 class _DLLEXP_ TPMS_CAPABILITY_DATA : public TpmStructure
 {
 public:
-    /** The capability  */
+    /// <summary> The capability </summary>
     public: TPM_CAP capability() const { return data->GetUnionSelector(); }
     
-    /** The capability data
-     *  (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
-     *  TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
-     *  TPML_TAGGED_POLICY, TPML_ACT_DATA])
-     */
+    /// <summary> The capability data
+    /// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
+    /// TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
+    /// TPML_TAGGED_POLICY, TPML_ACT_DATA]) </summary>
     shared_ptr<TPMU_CAPABILITIES> data;
 
 public:
@@ -4820,10 +4657,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CAPABILITY_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CAPABILITY_DATA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CAPABILITY_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CAPABILITY_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CAPABILITY_DATA"; }
@@ -4836,30 +4673,27 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_CAPABILITY_DATA(*this); }
 }; // class TPMS_CAPABILITY_DATA
 
-/** This structure is used in each of the attestation commands.  */
+/// <summary> This structure is used in each of the attestation commands. </summary>
 class _DLLEXP_ TPMS_CLOCK_INFO : public TpmStructure
 {
 public:
-    /** Time value in milliseconds that advances while the TPM is powered
-     *  NOTE The interpretation of the time-origin (clock=0) is out of the scope of this
-     *  specification, although Coordinated Universal Time (UTC) is expected to be a common
-     *  convention. This structure element is used to report on the TPM's Clock value.
-     *  This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()).
-     *  This value may be advanced by TPM2_ClockSet().
-     */
+    /// <summary> Time value in milliseconds that advances while the TPM is powered
+    /// NOTE The interpretation of the time-origin (clock=0) is out of the scope of this
+    /// specification, although Coordinated Universal Time (UTC) is expected to be a common
+    /// convention. This structure element is used to report on the TPM's Clock value.
+    /// This value is reset to zero when the Storage Primary Seed is changed (TPM2_Clear()).
+    /// This value may be advanced by TPM2_ClockSet(). </summary>
     UINT64 clock;
     
-    /** Number of occurrences of TPM Reset since the last TPM2_Clear()  */
+    /// <summary> Number of occurrences of TPM Reset since the last TPM2_Clear() </summary>
     UINT32 resetCount;
     
-    /** Number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since the last
-     *  TPM Reset or TPM2_Clear().
-     */
+    /// <summary> Number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since
+    /// the last TPM Reset or TPM2_Clear(). </summary>
     UINT32 restartCount;
     
-    /** No value of Clock greater than the current value of Clock has been previously reported
-     *  by the TPM. Set to YES on TPM2_Clear().
-     */
+    /// <summary> No value of Clock greater than the current value of Clock has been
+    /// previously reported by the TPM. Set to YES on TPM2_Clear(). </summary>
     BYTE safe;
 
 public:
@@ -4871,10 +4705,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CLOCK_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CLOCK_INFO>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CLOCK_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CLOCK_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CLOCK_INFO"; }
@@ -4887,16 +4721,16 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_CLOCK_INFO(*this); }
 }; // class TPMS_CLOCK_INFO
 
-/** This structure is used in, e.g., the TPM2_GetTime() attestation and TPM2_ReadClock().  */
+/// <summary> This structure is used in, e.g., the TPM2_GetTime() attestation and
+/// TPM2_ReadClock(). </summary>
 class _DLLEXP_ TPMS_TIME_INFO : public TpmStructure
 {
 public:
-    /** Time in milliseconds since the TIme circuit was last reset
-     *  This structure element is used to report on the TPM's Time value.
-     */
+    /// <summary> Time in milliseconds since the TIme circuit was last reset
+    /// This structure element is used to report on the TPM's Time value. </summary>
     UINT64 time;
     
-    /** A structure containing the clock information  */
+    /// <summary> A structure containing the clock information </summary>
     TPMS_CLOCK_INFO clockInfo;
 
 public:
@@ -4908,10 +4742,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TIME_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TIME_INFO>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TIME_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TIME_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_TIME_INFO"; }
@@ -4924,14 +4758,14 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_TIME_INFO(*this); }
 }; // class TPMS_TIME_INFO
 
-/** This structure is used when the TPM performs TPM2_GetTime.  */
+/// <summary> This structure is used when the TPM performs TPM2_GetTime. </summary>
 class _DLLEXP_ TPMS_TIME_ATTEST_INFO : public virtual TpmStructure, public TPMU_ATTEST
 {
 public:
-    /** The Time, Clock, resetCount, restartCount, and Safe indicator  */
+    /// <summary> The Time, Clock, resetCount, restartCount, and Safe indicator </summary>
     TPMS_TIME_INFO time;
     
-    /** A TPM vendor-specific value indicating the version number of the firmware  */
+    /// <summary> A TPM vendor-specific value indicating the version number of the firmware </summary>
     UINT64 firmwareVersion;
 
 public:
@@ -4940,16 +4774,16 @@ public:
       : time(_time), firmwareVersion(_firmwareVersion)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_TIME; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TIME_ATTEST_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TIME_ATTEST_INFO>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TIME_ATTEST_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TIME_ATTEST_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_TIME_ATTEST_INFO"; }
@@ -4962,14 +4796,14 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_TIME_ATTEST_INFO(*this); }
 }; // class TPMS_TIME_ATTEST_INFO
 
-/** This is the attested data for TPM2_Certify().  */
+/// <summary> This is the attested data for TPM2_Certify(). </summary>
 class _DLLEXP_ TPMS_CERTIFY_INFO : public virtual TpmStructure, public TPMU_ATTEST
 {
 public:
-    /** Name of the certified object  */
+    /// <summary> Name of the certified object </summary>
     ByteVec name;
     
-    /** Qualified Name of the certified object  */
+    /// <summary> Qualified Name of the certified object </summary>
     ByteVec qualifiedName;
 
 public:
@@ -4978,16 +4812,16 @@ public:
       : name(_name), qualifiedName(_qualifiedName)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_CERTIFY; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CERTIFY_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CERTIFY_INFO>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CERTIFY_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CERTIFY_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CERTIFY_INFO"; }
@@ -5000,14 +4834,14 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_CERTIFY_INFO(*this); }
 }; // class TPMS_CERTIFY_INFO
 
-/** This is the attested data for TPM2_Quote().  */
+/// <summary> This is the attested data for TPM2_Quote(). </summary>
 class _DLLEXP_ TPMS_QUOTE_INFO : public virtual TpmStructure, public TPMU_ATTEST
 {
 public:
-    /** Information on algID, PCR selected and digest  */
+    /// <summary> Information on algID, PCR selected and digest </summary>
     vector<TPMS_PCR_SELECTION> pcrSelect;
     
-    /** Digest of the selected PCR using the hash of the signing key  */
+    /// <summary> Digest of the selected PCR using the hash of the signing key </summary>
     ByteVec pcrDigest;
 
 public:
@@ -5016,16 +4850,16 @@ public:
       : pcrSelect(_pcrSelect), pcrDigest(_pcrDigest)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_QUOTE; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_QUOTE_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_QUOTE_INFO>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_QUOTE_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_QUOTE_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_QUOTE_INFO"; }
@@ -5038,20 +4872,20 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_QUOTE_INFO(*this); }
 }; // class TPMS_QUOTE_INFO
 
-/** This is the attested data for TPM2_GetCommandAuditDigest().  */
+/// <summary> This is the attested data for TPM2_GetCommandAuditDigest(). </summary>
 class _DLLEXP_ TPMS_COMMAND_AUDIT_INFO : public virtual TpmStructure, public TPMU_ATTEST
 {
 public:
-    /** The monotonic audit counter  */
+    /// <summary> The monotonic audit counter </summary>
     UINT64 auditCounter;
     
-    /** Hash algorithm used for the command audit  */
+    /// <summary> Hash algorithm used for the command audit </summary>
     TPM_ALG_ID digestAlg;
     
-    /** The current value of the audit digest  */
+    /// <summary> The current value of the audit digest </summary>
     ByteVec auditDigest;
     
-    /** Digest of the command codes being audited using digestAlg  */
+    /// <summary> Digest of the command codes being audited using digestAlg </summary>
     ByteVec commandDigest;
 
 public:
@@ -5060,16 +4894,16 @@ public:
       : auditCounter(_auditCounter), digestAlg(_digestAlg), auditDigest(_auditDigest), commandDigest(_commandDigest)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_COMMAND_AUDIT; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_COMMAND_AUDIT_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_COMMAND_AUDIT_INFO>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_COMMAND_AUDIT_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_COMMAND_AUDIT_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_COMMAND_AUDIT_INFO"; }
@@ -5082,17 +4916,16 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_COMMAND_AUDIT_INFO(*this); }
 }; // class TPMS_COMMAND_AUDIT_INFO
 
-/** This is the attested data for TPM2_GetSessionAuditDigest().  */
+/// <summary> This is the attested data for TPM2_GetSessionAuditDigest(). </summary>
 class _DLLEXP_ TPMS_SESSION_AUDIT_INFO : public virtual TpmStructure, public TPMU_ATTEST
 {
 public:
-    /** Current exclusive status of the session
-     *  TRUE if all of the commands recorded in the sessionDigest were executed without any
-     *  intervening TPM command that did not use this audit session
-     */
+    /// <summary> Current exclusive status of the session
+    /// TRUE if all of the commands recorded in the sessionDigest were executed without any
+    /// intervening TPM command that did not use this audit session </summary>
     BYTE exclusiveSession;
     
-    /** The current value of the session audit digest  */
+    /// <summary> The current value of the session audit digest </summary>
     ByteVec sessionDigest;
 
 public:
@@ -5101,16 +4934,16 @@ public:
       : exclusiveSession(_exclusiveSession), sessionDigest(_sessionDigest)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_SESSION_AUDIT; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SESSION_AUDIT_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SESSION_AUDIT_INFO>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SESSION_AUDIT_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SESSION_AUDIT_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SESSION_AUDIT_INFO"; }
@@ -5123,14 +4956,14 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SESSION_AUDIT_INFO(*this); }
 }; // class TPMS_SESSION_AUDIT_INFO
 
-/** This is the attested data for TPM2_CertifyCreation().  */
+/// <summary> This is the attested data for TPM2_CertifyCreation(). </summary>
 class _DLLEXP_ TPMS_CREATION_INFO : public virtual TpmStructure, public TPMU_ATTEST
 {
 public:
-    /** Name of the object  */
+    /// <summary> Name of the object </summary>
     ByteVec objectName;
     
-    /** CreationHash  */
+    /// <summary> CreationHash </summary>
     ByteVec creationHash;
 
 public:
@@ -5139,16 +4972,16 @@ public:
       : objectName(_objectName), creationHash(_creationHash)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_CREATION; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CREATION_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CREATION_INFO>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CREATION_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CREATION_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CREATION_INFO"; }
@@ -5161,19 +4994,18 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_CREATION_INFO(*this); }
 }; // class TPMS_CREATION_INFO
 
-/** This structure contains the Name and contents of the selected NV Index that is
- *  certified by TPM2_NV_Certify().
- */
+/// <summary> This structure contains the Name and contents of the selected NV Index that
+/// is certified by TPM2_NV_Certify(). </summary>
 class _DLLEXP_ TPMS_NV_CERTIFY_INFO : public virtual TpmStructure, public TPMU_ATTEST
 {
 public:
-    /** Name of the NV Index  */
+    /// <summary> Name of the NV Index </summary>
     ByteVec indexName;
     
-    /** The offset parameter of TPM2_NV_Certify()  */
+    /// <summary> The offset parameter of TPM2_NV_Certify() </summary>
     UINT16 offset;
     
-    /** Contents of the NV Index  */
+    /// <summary> Contents of the NV Index </summary>
     ByteVec nvContents;
 
 public:
@@ -5182,16 +5014,16 @@ public:
       : indexName(_indexName), offset(_offset), nvContents(_nvContents)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_NV; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NV_CERTIFY_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NV_CERTIFY_INFO>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NV_CERTIFY_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NV_CERTIFY_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NV_CERTIFY_INFO"; }
@@ -5204,16 +5036,16 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_NV_CERTIFY_INFO(*this); }
 }; // class TPMS_NV_CERTIFY_INFO
 
-/** This structure contains the Name and hash of the contents of the selected NV Index
- *  that is certified by TPM2_NV_Certify(). The data is hashed using hash of the signing scheme.
- */
+/// <summary> This structure contains the Name and hash of the contents of the selected NV
+/// Index that is certified by TPM2_NV_Certify(). The data is hashed using hash of the
+/// signing scheme. </summary>
 class _DLLEXP_ TPMS_NV_DIGEST_CERTIFY_INFO : public virtual TpmStructure, public TPMU_ATTEST
 {
 public:
-    /** Name of the NV Index  */
+    /// <summary> Name of the NV Index </summary>
     ByteVec indexName;
     
-    /** Hash of the contents of the index  */
+    /// <summary> Hash of the contents of the index </summary>
     ByteVec nvDigest;
 
 public:
@@ -5222,16 +5054,16 @@ public:
       : indexName(_indexName), nvDigest(_nvDigest)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ST GetUnionSelector() const { return TPM_ST::ATTEST_NV_DIGEST; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NV_DIGEST_CERTIFY_INFO fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NV_DIGEST_CERTIFY_INFO>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NV_DIGEST_CERTIFY_INFO fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NV_DIGEST_CERTIFY_INFO>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NV_DIGEST_CERTIFY_INFO"; }
@@ -5244,39 +5076,37 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_NV_DIGEST_CERTIFY_INFO(*this); }
 }; // class TPMS_NV_DIGEST_CERTIFY_INFO
 
-/** This structure is used on each TPM-generated signed structure. The signature is over
- *  this structure.
- */
+/// <summary> This structure is used on each TPM-generated signed structure. The signature
+/// is over this structure. </summary>
 class _DLLEXP_ TPMS_ATTEST : public TpmStructure
 {
 public:
-    /** The indication that this structure was created by a TPM (always TPM_GENERATED_VALUE)  */
+    /// <summary> The indication that this structure was created by a TPM (always
+    /// TPM_GENERATED_VALUE) </summary>
     TPM_GENERATED magic;
     
-    /** Type of the attestation structure  */
+    /// <summary> Type of the attestation structure </summary>
     public: TPM_ST type() const { return attested->GetUnionSelector(); }
     
-    /** Qualified Name of the signing key  */
+    /// <summary> Qualified Name of the signing key </summary>
     ByteVec qualifiedSigner;
     
-    /** External information supplied by caller
-     *  NOTE A TPM2B_DATA structure provides room for a digest and a method indicator to
-     *  indicate the components of the digest. The definition of this method indicator is
-     *  outside the scope of this specification.
-     */
+    /// <summary> External information supplied by caller
+    /// NOTE A TPM2B_DATA structure provides room for a digest and a method indicator to
+    /// indicate the components of the digest. The definition of this method indicator is
+    /// outside the scope of this specification. </summary>
     ByteVec extraData;
     
-    /** Clock, resetCount, restartCount, and Safe  */
+    /// <summary> Clock, resetCount, restartCount, and Safe </summary>
     TPMS_CLOCK_INFO clockInfo;
     
-    /** TPM-vendor-specific value identifying the version number of the firmware  */
+    /// <summary> TPM-vendor-specific value identifying the version number of the firmware </summary>
     UINT64 firmwareVersion;
     
-    /** The type-specific attestation information
-     *  (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
-     *  TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO,
-     *  TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO])
-     */
+    /// <summary> The type-specific attestation information
+    /// (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
+    /// TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO,
+    /// TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO]) </summary>
     shared_ptr<TPMU_ATTEST> attested;
 
 public:
@@ -5288,10 +5118,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ATTEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ATTEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ATTEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ATTEST>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ATTEST"; }
@@ -5304,13 +5134,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ATTEST(*this); }
 }; // class TPMS_ATTEST
 
-/** This sized buffer to contain the signed structure. The attestationData is the signed
- *  portion of the structure. The size parameter is not signed.
- */
+/// <summary> This sized buffer to contain the signed structure. The attestationData is
+/// the signed portion of the structure. The size parameter is not signed. </summary>
 class _DLLEXP_ TPM2B_ATTEST : public TpmStructure
 {
 public:
-    /** The signed structure  */
+    /// <summary> The signed structure </summary>
     TPMS_ATTEST attestationData;
 
 public:
@@ -5322,10 +5151,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_ATTEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_ATTEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_ATTEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_ATTEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_ATTEST"; }
@@ -5338,20 +5167,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_ATTEST(*this); }
 }; // class TPM2B_ATTEST
 
-/** This is the format used for each of the authorizations in the session area of a command.  */
+/// <summary> This is the format used for each of the authorizations in the session area
+/// of a command. </summary>
 class _DLLEXP_ TPMS_AUTH_COMMAND : public TpmStructure
 {
 public:
-    /** The session handle  */
+    /// <summary> The session handle </summary>
     TPM_HANDLE sessionHandle;
     
-    /** The session nonce, may be the Empty Buffer  */
+    /// <summary> The session nonce, may be the Empty Buffer </summary>
     ByteVec nonce;
     
-    /** The session attributes  */
+    /// <summary> The session attributes </summary>
     TPMA_SESSION sessionAttributes;
     
-    /** Either an HMAC, a password, or an EmptyAuth  */
+    /// <summary> Either an HMAC, a password, or an EmptyAuth </summary>
     ByteVec hmac;
 
 public:
@@ -5363,10 +5193,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_AUTH_COMMAND fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_AUTH_COMMAND>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_AUTH_COMMAND fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_AUTH_COMMAND>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_AUTH_COMMAND"; }
@@ -5379,20 +5209,20 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_AUTH_COMMAND(*this); }
 }; // class TPMS_AUTH_COMMAND
 
-/** This is the format for each of the authorizations in the session area of the response.
- *  If the TPM returns TPM_RC_SUCCESS, then the session area of the response contains the
- *  same number of authorizations as the command and the authorizations are in the same order.
- */
+/// <summary> This is the format for each of the authorizations in the session area of the
+/// response. If the TPM returns TPM_RC_SUCCESS, then the session area of the response
+/// contains the same number of authorizations as the command and the authorizations are
+/// in the same order. </summary>
 class _DLLEXP_ TPMS_AUTH_RESPONSE : public TpmStructure
 {
 public:
-    /** The session nonce, may be the Empty Buffer  */
+    /// <summary> The session nonce, may be the Empty Buffer </summary>
     ByteVec nonce;
     
-    /** The session attributes  */
+    /// <summary> The session attributes </summary>
     TPMA_SESSION sessionAttributes;
     
-    /** Either an HMAC or an EmptyAuth  */
+    /// <summary> Either an HMAC or an EmptyAuth </summary>
     ByteVec hmac;
 
 public:
@@ -5404,10 +5234,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_AUTH_RESPONSE fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_AUTH_RESPONSE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_AUTH_RESPONSE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_AUTH_RESPONSE>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_AUTH_RESPONSE"; }
@@ -5420,22 +5250,22 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_AUTH_RESPONSE(*this); }
 }; // class TPMS_AUTH_RESPONSE
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_TDES for the union TPMU_SYM_DETAILS
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_TDES for the union TPMU_SYM_DETAILS
+/// </summary>
 class _DLLEXP_ TPMS_TDES_SYM_DETAILS : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_TDES_SYM_DETAILS() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::TDES; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TDES_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_TDES_SYM_DETAILS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_TDES_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_TDES_SYM_DETAILS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_TDES_SYM_DETAILS"; }
@@ -5446,22 +5276,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_TDES_SYM_DETAILS(*this); }
 }; // class TPMS_TDES_SYM_DETAILS
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_AES for the union TPMU_SYM_DETAILS
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_AES for the union TPMU_SYM_DETAILS </summary>
 class _DLLEXP_ TPMS_AES_SYM_DETAILS : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_AES_SYM_DETAILS() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::AES; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_AES_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_AES_SYM_DETAILS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_AES_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_AES_SYM_DETAILS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_AES_SYM_DETAILS"; }
@@ -5472,22 +5301,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_AES_SYM_DETAILS(*this); }
 }; // class TPMS_AES_SYM_DETAILS
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_SM4 for the union TPMU_SYM_DETAILS
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_SM4 for the union TPMU_SYM_DETAILS </summary>
 class _DLLEXP_ TPMS_SM4_SYM_DETAILS : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_SM4_SYM_DETAILS() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM4; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SM4_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SM4_SYM_DETAILS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SM4_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SM4_SYM_DETAILS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SM4_SYM_DETAILS"; }
@@ -5498,22 +5326,22 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SM4_SYM_DETAILS(*this); }
 }; // class TPMS_SM4_SYM_DETAILS
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_CAMELLIA for the union TPMU_SYM_DETAILS
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_CAMELLIA for the union
+/// TPMU_SYM_DETAILS </summary>
 class _DLLEXP_ TPMS_CAMELLIA_SYM_DETAILS : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_CAMELLIA_SYM_DETAILS() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::CAMELLIA; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CAMELLIA_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CAMELLIA_SYM_DETAILS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CAMELLIA_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CAMELLIA_SYM_DETAILS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CAMELLIA_SYM_DETAILS"; }
@@ -5524,22 +5352,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_CAMELLIA_SYM_DETAILS(*this); }
 }; // class TPMS_CAMELLIA_SYM_DETAILS
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_ANY for the union TPMU_SYM_DETAILS
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_ANY for the union TPMU_SYM_DETAILS </summary>
 class _DLLEXP_ TPMS_ANY_SYM_DETAILS : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_ANY_SYM_DETAILS() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ANY_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ANY_SYM_DETAILS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ANY_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ANY_SYM_DETAILS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ANY_SYM_DETAILS"; }
@@ -5550,22 +5377,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ANY_SYM_DETAILS(*this); }
 }; // class TPMS_ANY_SYM_DETAILS
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_XOR for the union TPMU_SYM_DETAILS
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_XOR for the union TPMU_SYM_DETAILS </summary>
 class _DLLEXP_ TPMS_XOR_SYM_DETAILS : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_XOR_SYM_DETAILS() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::XOR; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_XOR_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_XOR_SYM_DETAILS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_XOR_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_XOR_SYM_DETAILS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_XOR_SYM_DETAILS"; }
@@ -5576,22 +5402,22 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_XOR_SYM_DETAILS(*this); }
 }; // class TPMS_XOR_SYM_DETAILS
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SYM_DETAILS
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SYM_DETAILS
+/// </summary>
 class _DLLEXP_ TPMS_NULL_SYM_DETAILS : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_NULL_SYM_DETAILS() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_SYM_DETAILS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_SYM_DETAILS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_SYM_DETAILS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_SYM_DETAILS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_SYM_DETAILS"; }
@@ -5602,19 +5428,19 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_NULL_SYM_DETAILS(*this); }
 }; // class TPMS_NULL_SYM_DETAILS
 
-/** The TPMT_SYM_DEF structure is used to select an algorithm to be used for parameter
- *  encryption in those cases when different symmetric algorithms may be selected.
- */
+/// <summary> The TPMT_SYM_DEF structure is used to select an algorithm to be used for
+/// parameter encryption in those cases when different symmetric algorithms may be
+/// selected. </summary>
 class _DLLEXP_ TPMT_SYM_DEF : public TpmStructure
 {
 public:
-    /** symmetric algorithm  */
+    /// <summary> symmetric algorithm </summary>
     TPM_ALG_ID algorithm;
     
-    /** key size in bits  */
+    /// <summary> key size in bits </summary>
     UINT16 keyBits;
     
-    /** encryption mode  */
+    /// <summary> encryption mode </summary>
     TPM_ALG_ID mode;
 
 public:
@@ -5631,10 +5457,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_SYM_DEF fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_SYM_DEF>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_SYM_DEF fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_SYM_DEF>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_SYM_DEF"; }
@@ -5651,20 +5477,19 @@ public:
     
 }; // class TPMT_SYM_DEF
 
-/** This structure is used when different symmetric block cipher (not XOR) algorithms may
- *  be selected. If the Object can be an ordinary parent (not a derivation parent), this
- *  must be the first field in the Object's parameter (see 12.2.3.7) field.
- */
+/// <summary> This structure is used when different symmetric block cipher (not XOR)
+/// algorithms may be selected. If the Object can be an ordinary parent (not a derivation
+/// parent), this must be the first field in the Object's parameter (see 12.2.3.7) field. </summary>
 class _DLLEXP_ TPMT_SYM_DEF_OBJECT : public TpmStructure
 {
 public:
-    /** symmetric algorithm  */
+    /// <summary> symmetric algorithm </summary>
     TPM_ALG_ID algorithm;
     
-    /** key size in bits  */
+    /// <summary> key size in bits </summary>
     UINT16 keyBits;
     
-    /** encryption mode  */
+    /// <summary> encryption mode </summary>
     TPM_ALG_ID mode;
 
 public:
@@ -5681,10 +5506,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_SYM_DEF_OBJECT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_SYM_DEF_OBJECT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_SYM_DEF_OBJECT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_SYM_DEF_OBJECT>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_SYM_DEF_OBJECT"; }
@@ -5701,11 +5526,12 @@ public:
     
 }; // class TPMT_SYM_DEF_OBJECT
 
-/** This structure is used to hold a symmetric key in the sensitive area of an asymmetric object.  */
+/// <summary> This structure is used to hold a symmetric key in the sensitive area of an
+/// asymmetric object. </summary>
 class _DLLEXP_ TPM2B_SYM_KEY : public virtual TpmStructure, public TPMU_SENSITIVE_COMPOSITE
 {
 public:
-    /** The key  */
+    /// <summary> The key </summary>
     ByteVec buffer;
 
 public:
@@ -5714,16 +5540,16 @@ public:
       : buffer(_buffer)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_SYM_KEY fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_SYM_KEY>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_SYM_KEY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_SYM_KEY>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_SYM_KEY"; }
@@ -5736,11 +5562,11 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_SYM_KEY(*this); }
 }; // class TPM2B_SYM_KEY
 
-/** This structure contains the parameters for a symmetric block cipher object.  */
+/// <summary> This structure contains the parameters for a symmetric block cipher object. </summary>
 class _DLLEXP_ TPMS_SYMCIPHER_PARMS : public virtual TpmStructure, public TPMU_PUBLIC_PARMS
 {
 public:
-    /** A symmetric block cipher  */
+    /// <summary> A symmetric block cipher </summary>
     TPMT_SYM_DEF_OBJECT sym;
 
 public:
@@ -5749,16 +5575,16 @@ public:
       : sym(_sym)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SYMCIPHER_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SYMCIPHER_PARMS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SYMCIPHER_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SYMCIPHER_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SYMCIPHER_PARMS"; }
@@ -5771,14 +5597,14 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SYMCIPHER_PARMS(*this); }
 }; // class TPMS_SYMCIPHER_PARMS
 
-/** This buffer holds a label or context value. For interoperability and backwards
- *  compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the device and
- *  the largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes.
- */
+/// <summary> This buffer holds a label or context value. For interoperability and
+/// backwards compatibility, LABEL_MAX_BUFFER is the minimum of the largest digest on the
+/// device and the largest ECC parameter (MAX_ECC_KEY_BYTES) but no more than 32 bytes. </summary>
 class _DLLEXP_ TPM2B_LABEL : public TpmStructure
 {
 public:
-    /** Symmetric data for a created object or the label and context for a derived object  */
+    /// <summary> Symmetric data for a created object or the label and context for a derived
+    /// object </summary>
     ByteVec buffer;
 
 public:
@@ -5790,10 +5616,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_LABEL fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_LABEL>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_LABEL fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_LABEL>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_LABEL"; }
@@ -5806,10 +5632,9 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_LABEL(*this); }
 }; // class TPM2B_LABEL
 
-/** This structure contains the label and context fields for a derived object. These
- *  values are used in the derivation KDF. The values in the unique field of inPublic area
- *  template take precedence over the values in the inSensitive parameter.
- */
+/// <summary> This structure contains the label and context fields for a derived object.
+/// These values are used in the derivation KDF. The values in the unique field of
+/// inPublic area template take precedence over the values in the inSensitive parameter. </summary>
 class _DLLEXP_ TPMS_DERIVE : public virtual TpmStructure, public TPMU_SENSITIVE_CREATE, public TPMU_PUBLIC_ID
 {
 public:
@@ -5823,16 +5648,16 @@ public:
       : label(_label), context(_context)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY2; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_DERIVE fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_DERIVE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_DERIVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_DERIVE>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_DERIVE"; }
@@ -5845,11 +5670,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_DERIVE(*this); }
 }; // class TPMS_DERIVE
 
-/** Table 147 Definition of TPM2B_DERIVE Structure  */
+/// <summary> Table 147 Definition of TPM2B_DERIVE Structure </summary>
 class _DLLEXP_ TPM2B_DERIVE : public TpmStructure
 {
 public:
-    /** Symmetric data for a created object or the label and context for a derived object  */
+    /// <summary> Symmetric data for a created object or the label and context for a derived
+    /// object </summary>
     TPMS_DERIVE buffer;
 
 public:
@@ -5861,10 +5687,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_DERIVE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_DERIVE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_DERIVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_DERIVE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_DERIVE"; }
@@ -5877,11 +5703,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_DERIVE(*this); }
 }; // class TPM2B_DERIVE
 
-/** This buffer wraps the TPMU_SENSITIVE_CREATE structure.  */
+/// <summary> This buffer wraps the TPMU_SENSITIVE_CREATE structure. </summary>
 class _DLLEXP_ TPM2B_SENSITIVE_DATA : public virtual TpmStructure, public TPMU_SENSITIVE_COMPOSITE
 {
 public:
-    /** Symmetric data for a created object or the label and context for a derived object  */
+    /// <summary> Symmetric data for a created object or the label and context for a derived
+    /// object </summary>
     ByteVec buffer;
 
 public:
@@ -5890,16 +5717,16 @@ public:
       : buffer(_buffer)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_SENSITIVE_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_SENSITIVE_DATA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_SENSITIVE_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_SENSITIVE_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_SENSITIVE_DATA"; }
@@ -5912,16 +5739,16 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_SENSITIVE_DATA(*this); }
 }; // class TPM2B_SENSITIVE_DATA
 
-/** This structure defines the values to be placed in the sensitive area of a created
- *  object. This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
- */
+/// <summary> This structure defines the values to be placed in the sensitive area of a
+/// created object. This structure is only used within a TPM2B_SENSITIVE_CREATE structure.
+/// </summary>
 class _DLLEXP_ TPMS_SENSITIVE_CREATE : public TpmStructure
 {
 public:
-    /** The USER auth secret value  */
+    /// <summary> The USER auth secret value </summary>
     ByteVec userAuth;
     
-    /** Data to be sealed, a key, or derivation values  */
+    /// <summary> Data to be sealed, a key, or derivation values </summary>
     ByteVec data;
 
 public:
@@ -5933,10 +5760,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SENSITIVE_CREATE fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SENSITIVE_CREATE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SENSITIVE_CREATE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SENSITIVE_CREATE>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SENSITIVE_CREATE"; }
@@ -5949,14 +5776,14 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SENSITIVE_CREATE(*this); }
 }; // class TPMS_SENSITIVE_CREATE
 
-/** This structure contains the sensitive creation data in a sized buffer. This structure
- *  is defined so that both the userAuth and data values of the TPMS_SENSITIVE_CREATE may
- *  be passed as a single parameter for parameter encryption purposes.
- */
+/// <summary> This structure contains the sensitive creation data in a sized buffer. This
+/// structure is defined so that both the userAuth and data values of the
+/// TPMS_SENSITIVE_CREATE may be passed as a single parameter for parameter encryption
+/// purposes. </summary>
 class _DLLEXP_ TPM2B_SENSITIVE_CREATE : public TpmStructure
 {
 public:
-    /** Data to be sealed or a symmetric key value.  */
+    /// <summary> Data to be sealed or a symmetric key value. </summary>
     TPMS_SENSITIVE_CREATE sensitive;
 
 public:
@@ -5968,10 +5795,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_SENSITIVE_CREATE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_SENSITIVE_CREATE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_SENSITIVE_CREATE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_SENSITIVE_CREATE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_SENSITIVE_CREATE"; }
@@ -5984,13 +5811,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_SENSITIVE_CREATE(*this); }
 }; // class TPM2B_SENSITIVE_CREATE
 
-/** This structure is the scheme data for schemes that only require a hash to complete
- *  their definition.
- */
+/// <summary> This structure is the scheme data for schemes that only require a hash to
+/// complete their definition. </summary>
 class _DLLEXP_ TPMS_SCHEME_HASH : public virtual TpmStructure, public TPMU_SCHEME_KEYEDHASH, public TPMU_SIG_SCHEME, public TPMU_KDF_SCHEME, public TPMU_ASYM_SCHEME, public TPMU_SIGNATURE
 {
 public:
-    /** The hash algorithm used to digest the message  */
+    /// <summary> The hash algorithm used to digest the message </summary>
     TPM_ALG_ID hashAlg;
 
 public:
@@ -5999,16 +5825,16 @@ public:
       : hashAlg(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SCHEME_HASH fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SCHEME_HASH>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SCHEME_HASH fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SCHEME_HASH>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SCHEME_HASH"; }
@@ -6021,14 +5847,14 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SCHEME_HASH(*this); }
 }; // class TPMS_SCHEME_HASH
 
-/** This definition is for split signing schemes that require a commit count.  */
+/// <summary> This definition is for split signing schemes that require a commit count. </summary>
 class _DLLEXP_ TPMS_SCHEME_ECDAA : public virtual TpmStructure, public TPMU_SIG_SCHEME, public TPMU_ASYM_SCHEME
 {
 public:
-    /** The hash algorithm used to digest the message  */
+    /// <summary> The hash algorithm used to digest the message </summary>
     TPM_ALG_ID hashAlg;
     
-    /** The counter value that is used between TPM2_Commit() and the sign operation  */
+    /// <summary> The counter value that is used between TPM2_Commit() and the sign operation </summary>
     UINT16 count;
 
 public:
@@ -6037,16 +5863,16 @@ public:
       : hashAlg(_hashAlg), count(_count)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SCHEME_ECDAA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SCHEME_ECDAA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SCHEME_ECDAA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SCHEME_ECDAA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SCHEME_ECDAA"; }
@@ -6059,7 +5885,7 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SCHEME_ECDAA(*this); }
 }; // class TPMS_SCHEME_ECDAA
 
-/** Table 155 Definition of Types for HMAC_SIG_SCHEME  */
+/// <summary> Table 155 Definition of Types for HMAC_SIG_SCHEME </summary>
 class _DLLEXP_ TPMS_SCHEME_HMAC : public TPMS_SCHEME_HASH
 {
 public:
@@ -6069,13 +5895,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::HMAC; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SCHEME_HMAC fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SCHEME_HMAC>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SCHEME_HMAC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SCHEME_HMAC>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SCHEME_HMAC"; }
@@ -6086,14 +5912,14 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SCHEME_HMAC(*this); }
 }; // class TPMS_SCHEME_HMAC
 
-/** This structure is for the XOR encryption scheme.  */
+/// <summary> This structure is for the XOR encryption scheme. </summary>
 class _DLLEXP_ TPMS_SCHEME_XOR : public virtual TpmStructure, public TPMU_SCHEME_KEYEDHASH
 {
 public:
-    /** The hash algorithm used to digest the message  */
+    /// <summary> The hash algorithm used to digest the message </summary>
     TPM_ALG_ID hashAlg;
     
-    /** The key derivation function  */
+    /// <summary> The key derivation function </summary>
     TPM_ALG_ID kdf;
 
 public:
@@ -6107,16 +5933,16 @@ public:
       : hashAlg(_hashAlg), kdf(_kdf)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::XOR; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SCHEME_XOR fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SCHEME_XOR>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SCHEME_XOR fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SCHEME_XOR>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SCHEME_XOR"; }
@@ -6129,22 +5955,22 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SCHEME_XOR(*this); }
 }; // class TPMS_SCHEME_XOR
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SCHEME_KEYEDHASH
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union
+/// TPMU_SCHEME_KEYEDHASH </summary>
 class _DLLEXP_ TPMS_NULL_SCHEME_KEYEDHASH : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_NULL_SCHEME_KEYEDHASH() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_SCHEME_KEYEDHASH fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_SCHEME_KEYEDHASH>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_SCHEME_KEYEDHASH fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_SCHEME_KEYEDHASH>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_SCHEME_KEYEDHASH"; }
@@ -6155,16 +5981,15 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_NULL_SCHEME_KEYEDHASH(*this); }
 }; // class TPMS_NULL_SCHEME_KEYEDHASH
 
-/** This structure is used for a hash signing object.  */
+/// <summary> This structure is used for a hash signing object. </summary>
 class _DLLEXP_ TPMT_KEYEDHASH_SCHEME : public TpmStructure
 {
 public:
-    /** Selects the scheme  */
+    /// <summary> Selects the scheme </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The scheme parameters
-     *  (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
-     */
+    /// <summary> The scheme parameters
+    /// (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH]) </summary>
     shared_ptr<TPMU_SCHEME_KEYEDHASH> details;
 
 public:
@@ -6176,10 +6001,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_KEYEDHASH_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_KEYEDHASH_SCHEME>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_KEYEDHASH_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_KEYEDHASH_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_KEYEDHASH_SCHEME"; }
@@ -6192,7 +6017,8 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_KEYEDHASH_SCHEME(*this); }
 }; // class TPMT_KEYEDHASH_SCHEME
 
-/** These are the RSA schemes that only need a hash algorithm as a scheme parameter.  */
+/// <summary> These are the RSA schemes that only need a hash algorithm as a scheme
+/// parameter. </summary>
 class _DLLEXP_ TPMS_SIG_SCHEME_RSASSA : public TPMS_SCHEME_HASH
 {
 public:
@@ -6202,13 +6028,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_RSASSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_RSASSA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_RSASSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_RSASSA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_RSASSA"; }
@@ -6219,7 +6045,8 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIG_SCHEME_RSASSA(*this); }
 }; // class TPMS_SIG_SCHEME_RSASSA
 
-/** These are the RSA schemes that only need a hash algorithm as a scheme parameter.  */
+/// <summary> These are the RSA schemes that only need a hash algorithm as a scheme
+/// parameter. </summary>
 class _DLLEXP_ TPMS_SIG_SCHEME_RSAPSS : public TPMS_SCHEME_HASH
 {
 public:
@@ -6229,13 +6056,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_RSAPSS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_RSAPSS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_RSAPSS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_RSAPSS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_RSAPSS"; }
@@ -6246,10 +6073,9 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIG_SCHEME_RSAPSS(*this); }
 }; // class TPMS_SIG_SCHEME_RSAPSS
 
-/** Most of the ECC signature schemes only require a hash algorithm to complete the
- *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
- *  count value so they are typed to be TPMS_SCHEME_ECDAA.
- */
+/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete
+/// the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require
+/// a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
 class _DLLEXP_ TPMS_SIG_SCHEME_ECDSA : public TPMS_SCHEME_HASH
 {
 public:
@@ -6259,13 +6085,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_ECDSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_ECDSA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_ECDSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_ECDSA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_ECDSA"; }
@@ -6276,10 +6102,9 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIG_SCHEME_ECDSA(*this); }
 }; // class TPMS_SIG_SCHEME_ECDSA
 
-/** Most of the ECC signature schemes only require a hash algorithm to complete the
- *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
- *  count value so they are typed to be TPMS_SCHEME_ECDAA.
- */
+/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete
+/// the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require
+/// a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
 class _DLLEXP_ TPMS_SIG_SCHEME_SM2 : public TPMS_SCHEME_HASH
 {
 public:
@@ -6289,13 +6114,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_SM2 fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_SM2>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_SM2 fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_SM2>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_SM2"; }
@@ -6306,10 +6131,9 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIG_SCHEME_SM2(*this); }
 }; // class TPMS_SIG_SCHEME_SM2
 
-/** Most of the ECC signature schemes only require a hash algorithm to complete the
- *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
- *  count value so they are typed to be TPMS_SCHEME_ECDAA.
- */
+/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete
+/// the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require
+/// a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
 class _DLLEXP_ TPMS_SIG_SCHEME_ECSCHNORR : public TPMS_SCHEME_HASH
 {
 public:
@@ -6319,13 +6143,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_ECSCHNORR fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_ECSCHNORR>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_ECSCHNORR fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_ECSCHNORR>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_ECSCHNORR"; }
@@ -6336,10 +6160,9 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIG_SCHEME_ECSCHNORR(*this); }
 }; // class TPMS_SIG_SCHEME_ECSCHNORR
 
-/** Most of the ECC signature schemes only require a hash algorithm to complete the
- *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
- *  count value so they are typed to be TPMS_SCHEME_ECDAA.
- */
+/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete
+/// the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require
+/// a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
 class _DLLEXP_ TPMS_SIG_SCHEME_ECDAA : public TPMS_SCHEME_ECDAA
 {
 public:
@@ -6349,13 +6172,13 @@ public:
       : TPMS_SCHEME_ECDAA(_hashAlg, _count)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_ECDAA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIG_SCHEME_ECDAA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIG_SCHEME_ECDAA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIG_SCHEME_ECDAA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIG_SCHEME_ECDAA"; }
@@ -6366,22 +6189,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIG_SCHEME_ECDAA(*this); }
 }; // class TPMS_SIG_SCHEME_ECDAA
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIG_SCHEME
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIG_SCHEME </summary>
 class _DLLEXP_ TPMS_NULL_SIG_SCHEME : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_NULL_SIG_SCHEME() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_SIG_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_SIG_SCHEME>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_SIG_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_SIG_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_SIG_SCHEME"; }
@@ -6392,18 +6214,17 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_NULL_SIG_SCHEME(*this); }
 }; // class TPMS_NULL_SIG_SCHEME
 
-/** Table 162 Definition of TPMT_SIG_SCHEME Structure  */
+/// <summary> Table 162 Definition of TPMT_SIG_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_SIG_SCHEME : public TpmStructure
 {
 public:
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Scheme parameters
-     *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     */
+    /// <summary> Scheme parameters
+    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
     shared_ptr<TPMU_SIG_SCHEME> details;
 
 public:
@@ -6415,10 +6236,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_SIG_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_SIG_SCHEME>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_SIG_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_SIG_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_SIG_SCHEME"; }
@@ -6431,7 +6252,8 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_SIG_SCHEME(*this); }
 }; // class TPMT_SIG_SCHEME
 
-/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.  */
+/// <summary> These are the RSA encryption schemes that only need a hash algorithm as a
+/// controlling parameter. </summary>
 class _DLLEXP_ TPMS_ENC_SCHEME_OAEP : public TPMS_SCHEME_HASH
 {
 public:
@@ -6441,13 +6263,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::OAEP; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ENC_SCHEME_OAEP fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ENC_SCHEME_OAEP>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ENC_SCHEME_OAEP fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ENC_SCHEME_OAEP>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ENC_SCHEME_OAEP"; }
@@ -6458,20 +6280,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ENC_SCHEME_OAEP(*this); }
 }; // class TPMS_ENC_SCHEME_OAEP
 
-/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.  */
+/// <summary> These are the RSA encryption schemes that only need a hash algorithm as a
+/// controlling parameter. </summary>
 class _DLLEXP_ TPMS_ENC_SCHEME_RSAES : public TPMS_EMPTY
 {
 public:
 public:
     TPMS_ENC_SCHEME_RSAES() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAES; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ENC_SCHEME_RSAES fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ENC_SCHEME_RSAES>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ENC_SCHEME_RSAES fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ENC_SCHEME_RSAES>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ENC_SCHEME_RSAES"; }
@@ -6482,7 +6305,8 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ENC_SCHEME_RSAES(*this); }
 }; // class TPMS_ENC_SCHEME_RSAES
 
-/** These are the ECC schemes that only need a hash algorithm as a controlling parameter.  */
+/// <summary> These are the ECC schemes that only need a hash algorithm as a controlling
+/// parameter. </summary>
 class _DLLEXP_ TPMS_KEY_SCHEME_ECDH : public TPMS_SCHEME_HASH
 {
 public:
@@ -6492,13 +6316,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDH; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KEY_SCHEME_ECDH fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KEY_SCHEME_ECDH>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KEY_SCHEME_ECDH fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KEY_SCHEME_ECDH>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_KEY_SCHEME_ECDH"; }
@@ -6509,7 +6333,8 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_KEY_SCHEME_ECDH(*this); }
 }; // class TPMS_KEY_SCHEME_ECDH
 
-/** These are the ECC schemes that only need a hash algorithm as a controlling parameter.  */
+/// <summary> These are the ECC schemes that only need a hash algorithm as a controlling
+/// parameter. </summary>
 class _DLLEXP_ TPMS_KEY_SCHEME_ECMQV : public TPMS_SCHEME_HASH
 {
 public:
@@ -6519,13 +6344,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECMQV; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KEY_SCHEME_ECMQV fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KEY_SCHEME_ECMQV>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KEY_SCHEME_ECMQV fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KEY_SCHEME_ECMQV>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_KEY_SCHEME_ECMQV"; }
@@ -6536,10 +6361,9 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_KEY_SCHEME_ECMQV(*this); }
 }; // class TPMS_KEY_SCHEME_ECMQV
 
-/** These structures are used to define the key derivation for symmetric secret sharing
- *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
- *  with the decrypt attribute SET.
- */
+/// <summary> These structures are used to define the key derivation for symmetric secret
+/// sharing using asymmetric methods. A secret sharing scheme is required in any
+/// asymmetric key with the decrypt attribute SET. </summary>
 class _DLLEXP_ TPMS_KDF_SCHEME_MGF1 : public TPMS_SCHEME_HASH
 {
 public:
@@ -6549,13 +6373,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::MGF1; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KDF_SCHEME_MGF1 fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KDF_SCHEME_MGF1>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KDF_SCHEME_MGF1 fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KDF_SCHEME_MGF1>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_MGF1"; }
@@ -6566,10 +6390,9 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_KDF_SCHEME_MGF1(*this); }
 }; // class TPMS_KDF_SCHEME_MGF1
 
-/** These structures are used to define the key derivation for symmetric secret sharing
- *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
- *  with the decrypt attribute SET.
- */
+/// <summary> These structures are used to define the key derivation for symmetric secret
+/// sharing using asymmetric methods. A secret sharing scheme is required in any
+/// asymmetric key with the decrypt attribute SET. </summary>
 class _DLLEXP_ TPMS_KDF_SCHEME_KDF1_SP800_56A : public TPMS_SCHEME_HASH
 {
 public:
@@ -6579,13 +6402,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_56A; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KDF_SCHEME_KDF1_SP800_56A fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KDF_SCHEME_KDF1_SP800_56A>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KDF_SCHEME_KDF1_SP800_56A fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KDF_SCHEME_KDF1_SP800_56A>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_KDF1_SP800_56A"; }
@@ -6596,10 +6419,9 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_KDF_SCHEME_KDF1_SP800_56A(*this); }
 }; // class TPMS_KDF_SCHEME_KDF1_SP800_56A
 
-/** These structures are used to define the key derivation for symmetric secret sharing
- *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
- *  with the decrypt attribute SET.
- */
+/// <summary> These structures are used to define the key derivation for symmetric secret
+/// sharing using asymmetric methods. A secret sharing scheme is required in any
+/// asymmetric key with the decrypt attribute SET. </summary>
 class _DLLEXP_ TPMS_KDF_SCHEME_KDF2 : public TPMS_SCHEME_HASH
 {
 public:
@@ -6609,13 +6431,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF2; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KDF_SCHEME_KDF2 fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KDF_SCHEME_KDF2>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KDF_SCHEME_KDF2 fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KDF_SCHEME_KDF2>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_KDF2"; }
@@ -6626,10 +6448,9 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_KDF_SCHEME_KDF2(*this); }
 }; // class TPMS_KDF_SCHEME_KDF2
 
-/** These structures are used to define the key derivation for symmetric secret sharing
- *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
- *  with the decrypt attribute SET.
- */
+/// <summary> These structures are used to define the key derivation for symmetric secret
+/// sharing using asymmetric methods. A secret sharing scheme is required in any
+/// asymmetric key with the decrypt attribute SET. </summary>
 class _DLLEXP_ TPMS_KDF_SCHEME_KDF1_SP800_108 : public TPMS_SCHEME_HASH
 {
 public:
@@ -6639,13 +6460,13 @@ public:
       : TPMS_SCHEME_HASH(_hashAlg)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KDF1_SP800_108; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KDF_SCHEME_KDF1_SP800_108 fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KDF_SCHEME_KDF1_SP800_108>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KDF_SCHEME_KDF1_SP800_108 fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KDF_SCHEME_KDF1_SP800_108>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_KDF_SCHEME_KDF1_SP800_108"; }
@@ -6656,22 +6477,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_KDF_SCHEME_KDF1_SP800_108(*this); }
 }; // class TPMS_KDF_SCHEME_KDF1_SP800_108
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_KDF_SCHEME
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_KDF_SCHEME </summary>
 class _DLLEXP_ TPMS_NULL_KDF_SCHEME : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_NULL_KDF_SCHEME() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_KDF_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_KDF_SCHEME>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_KDF_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_KDF_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_KDF_SCHEME"; }
@@ -6682,17 +6502,16 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_NULL_KDF_SCHEME(*this); }
 }; // class TPMS_NULL_KDF_SCHEME
 
-/** Table 167 Definition of TPMT_KDF_SCHEME Structure  */
+/// <summary> Table 167 Definition of TPMT_KDF_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_KDF_SCHEME : public TpmStructure
 {
 public:
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Scheme parameters
-     *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-     *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
-     */
+    /// <summary> Scheme parameters
+    /// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+    /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
     shared_ptr<TPMU_KDF_SCHEME> details;
 
 public:
@@ -6704,10 +6523,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_KDF_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_KDF_SCHEME>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_KDF_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_KDF_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_KDF_SCHEME"; }
@@ -6720,22 +6539,22 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_KDF_SCHEME(*this); }
 }; // class TPMT_KDF_SCHEME
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_ASYM_SCHEME
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_ASYM_SCHEME
+/// </summary>
 class _DLLEXP_ TPMS_NULL_ASYM_SCHEME : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_NULL_ASYM_SCHEME() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_ASYM_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_ASYM_SCHEME>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_ASYM_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_ASYM_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_ASYM_SCHEME"; }
@@ -6746,22 +6565,20 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_NULL_ASYM_SCHEME(*this); }
 }; // class TPMS_NULL_ASYM_SCHEME
 
-/** This structure is defined to allow overlay of all of the schemes for any asymmetric
- *  object. This structure is not sent on the interface. It is defined so that common
- *  functions may operate on any similar scheme structure.
- */
+/// <summary> This structure is defined to allow overlay of all of the schemes for any
+/// asymmetric object. This structure is not sent on the interface. It is defined so that
+/// common functions may operate on any similar scheme structure. </summary>
 class _DLLEXP_ TPMT_ASYM_SCHEME : public TpmStructure
 {
 public:
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Scheme parameters
-     *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
-     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     */
+    /// <summary> Scheme parameters
+    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+    /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
     shared_ptr<TPMU_ASYM_SCHEME> details;
 
 public:
@@ -6773,10 +6590,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_ASYM_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_ASYM_SCHEME>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_ASYM_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_ASYM_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_ASYM_SCHEME"; }
@@ -6789,19 +6606,18 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_ASYM_SCHEME(*this); }
 }; // class TPMT_ASYM_SCHEME
 
-/** Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure  */
+/// <summary> Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_RSA_SCHEME : public TpmStructure
 {
 public:
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Scheme parameters
-     *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
-     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     */
+    /// <summary> Scheme parameters
+    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+    /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
     shared_ptr<TPMU_ASYM_SCHEME> details;
 
 public:
@@ -6813,10 +6629,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_RSA_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_RSA_SCHEME>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_RSA_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_RSA_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_RSA_SCHEME"; }
@@ -6829,19 +6645,18 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_RSA_SCHEME(*this); }
 }; // class TPMT_RSA_SCHEME
 
-/** Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure  */
+/// <summary> Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure </summary>
 class _DLLEXP_ TPMT_RSA_DECRYPT : public TpmStructure
 {
 public:
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Scheme parameters
-     *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
-     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     */
+    /// <summary> Scheme parameters
+    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+    /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
     shared_ptr<TPMU_ASYM_SCHEME> details;
 
 public:
@@ -6853,10 +6668,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_RSA_DECRYPT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_RSA_DECRYPT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_RSA_DECRYPT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_RSA_DECRYPT>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_RSA_DECRYPT"; }
@@ -6869,11 +6684,11 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_RSA_DECRYPT(*this); }
 }; // class TPMT_RSA_DECRYPT
 
-/** This sized buffer holds the largest RSA public key supported by the TPM.  */
+/// <summary> This sized buffer holds the largest RSA public key supported by the TPM. </summary>
 class _DLLEXP_ TPM2B_PUBLIC_KEY_RSA : public virtual TpmStructure, public TPMU_PUBLIC_ID
 {
 public:
-    /** Value  */
+    /// <summary> Value </summary>
     ByteVec buffer;
 
 public:
@@ -6882,16 +6697,16 @@ public:
       : buffer(_buffer)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_PUBLIC_KEY_RSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_PUBLIC_KEY_RSA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_PUBLIC_KEY_RSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_PUBLIC_KEY_RSA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_PUBLIC_KEY_RSA"; }
@@ -6904,7 +6719,7 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_PUBLIC_KEY_RSA(*this); }
 }; // class TPM2B_PUBLIC_KEY_RSA
 
-/** This sized buffer holds the largest RSA prime number supported by the TPM.  */
+/// <summary> This sized buffer holds the largest RSA prime number supported by the TPM. </summary>
 class _DLLEXP_ TPM2B_PRIVATE_KEY_RSA : public virtual TpmStructure, public TPMU_SENSITIVE_COMPOSITE
 {
 public:
@@ -6916,16 +6731,16 @@ public:
       : buffer(_buffer)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_PRIVATE_KEY_RSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_PRIVATE_KEY_RSA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_PRIVATE_KEY_RSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_PRIVATE_KEY_RSA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_PRIVATE_KEY_RSA"; }
@@ -6938,11 +6753,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_PRIVATE_KEY_RSA(*this); }
 }; // class TPM2B_PRIVATE_KEY_RSA
 
-/** This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM.  */
+/// <summary> This sized buffer holds the largest ECC parameter (coordinate) supported by
+/// the TPM. </summary>
 class _DLLEXP_ TPM2B_ECC_PARAMETER : public virtual TpmStructure, public TPMU_SENSITIVE_COMPOSITE
 {
 public:
-    /** The parameter data  */
+    /// <summary> The parameter data </summary>
     ByteVec buffer;
 
 public:
@@ -6951,16 +6767,16 @@ public:
       : buffer(_buffer)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_ECC_PARAMETER fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_ECC_PARAMETER>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_ECC_PARAMETER fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_ECC_PARAMETER>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_ECC_PARAMETER"; }
@@ -6973,14 +6789,15 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_ECC_PARAMETER(*this); }
 }; // class TPM2B_ECC_PARAMETER
 
-/** This structure holds two ECC coordinates that, together, make up an ECC point.  */
+/// <summary> This structure holds two ECC coordinates that, together, make up an ECC
+/// point. </summary>
 class _DLLEXP_ TPMS_ECC_POINT : public virtual TpmStructure, public TPMU_PUBLIC_ID
 {
 public:
-    /** X coordinate  */
+    /// <summary> X coordinate </summary>
     ByteVec x;
     
-    /** Y coordinate  */
+    /// <summary> Y coordinate </summary>
     ByteVec y;
 
 public:
@@ -6989,16 +6806,16 @@ public:
       : x(_x), y(_y)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ECC_POINT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ECC_POINT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ECC_POINT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ECC_POINT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ECC_POINT"; }
@@ -7011,13 +6828,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ECC_POINT(*this); }
 }; // class TPMS_ECC_POINT
 
-/** This structure is defined to allow a point to be a single sized parameter so that it
- *  may be encrypted.
- */
+/// <summary> This structure is defined to allow a point to be a single sized parameter so
+/// that it may be encrypted. </summary>
 class _DLLEXP_ TPM2B_ECC_POINT : public TpmStructure
 {
 public:
-    /** Coordinates  */
+    /// <summary> Coordinates </summary>
     TPMS_ECC_POINT point;
 
 public:
@@ -7029,10 +6845,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_ECC_POINT fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_ECC_POINT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_ECC_POINT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_ECC_POINT>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_ECC_POINT"; }
@@ -7045,19 +6861,18 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_ECC_POINT(*this); }
 }; // class TPM2B_ECC_POINT
 
-/** Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure  */
+/// <summary> Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure </summary>
 class _DLLEXP_ TPMT_ECC_SCHEME : public TpmStructure
 {
 public:
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Scheme parameters
-     *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
-     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     */
+    /// <summary> Scheme parameters
+    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+    /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
     shared_ptr<TPMU_ASYM_SCHEME> details;
 
 public:
@@ -7069,10 +6884,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_ECC_SCHEME fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_ECC_SCHEME>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_ECC_SCHEME fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_ECC_SCHEME>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_ECC_SCHEME"; }
@@ -7085,58 +6900,56 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_ECC_SCHEME(*this); }
 }; // class TPMT_ECC_SCHEME
 
-/** This structure is used to report on the curve parameters of an ECC curve. It is
- *  returned by TPM2_ECC_Parameters().
- */
+/// <summary> This structure is used to report on the curve parameters of an ECC curve. It
+/// is returned by TPM2_ECC_Parameters(). </summary>
 class _DLLEXP_ TPMS_ALGORITHM_DETAIL_ECC : public TpmStructure
 {
 public:
-    /** Identifier for the curve  */
+    /// <summary> Identifier for the curve </summary>
     TPM_ECC_CURVE curveID;
     
-    /** Size in bits of the key  */
+    /// <summary> Size in bits of the key </summary>
     UINT16 keySize;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID kdfScheme() const { return kdf ? kdf->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** If not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations
-     *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-     *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
-     */
+    /// <summary> If not TPM_ALG_NULL, the required KDF and hash algorithm used in secret
+    /// sharing operations
+    /// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+    /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
     shared_ptr<TPMU_KDF_SCHEME> kdf;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID signScheme() const { return sign ? sign->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be
-     *  used with this curve.
-     *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
-     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     */
+    /// <summary> If not TPM_ALG_NULL, this is the mandatory signature scheme that is required
+    /// to be used with this curve.
+    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+    /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
     shared_ptr<TPMU_ASYM_SCHEME> sign;
     
-    /** Fp (the modulus)  */
+    /// <summary> Fp (the modulus) </summary>
     ByteVec p;
     
-    /** Coefficient of the linear term in the curve equation  */
+    /// <summary> Coefficient of the linear term in the curve equation </summary>
     ByteVec a;
     
-    /** Constant term for curve equation  */
+    /// <summary> Constant term for curve equation </summary>
     ByteVec b;
     
-    /** X coordinate of base point G  */
+    /// <summary> X coordinate of base point G </summary>
     ByteVec gX;
     
-    /** Y coordinate of base point G  */
+    /// <summary> Y coordinate of base point G </summary>
     ByteVec gY;
     
-    /** Order of G  */
+    /// <summary> Order of G </summary>
     ByteVec n;
     
-    /** Cofactor (a size of zero indicates a cofactor of 1)  */
+    /// <summary> Cofactor (a size of zero indicates a cofactor of 1) </summary>
     ByteVec h;
 
 public:
@@ -7148,10 +6961,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ALGORITHM_DETAIL_ECC fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ALGORITHM_DETAIL_ECC>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ALGORITHM_DETAIL_ECC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ALGORITHM_DETAIL_ECC>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ALGORITHM_DETAIL_ECC"; }
@@ -7164,16 +6977,15 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ALGORITHM_DETAIL_ECC(*this); }
 }; // class TPMS_ALGORITHM_DETAIL_ECC
 
-/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure  */
+/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_RSA : public virtual TpmStructure, public TPMU_SIGNATURE
 {
 public:
-    /** The hash algorithm used to digest the message
-     *  TPM_ALG_NULL is not allowed.
-     */
+    /// <summary> The hash algorithm used to digest the message
+    /// TPM_ALG_NULL is not allowed. </summary>
     TPM_ALG_ID hash;
     
-    /** The signature is the size of a public key.  */
+    /// <summary> The signature is the size of a public key. </summary>
     ByteVec sig;
 
 public:
@@ -7182,16 +6994,16 @@ public:
       : hash(_hash), sig(_sig)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_RSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_RSA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_RSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_RSA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_RSA"; }
@@ -7204,7 +7016,7 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIGNATURE_RSA(*this); }
 }; // class TPMS_SIGNATURE_RSA
 
-/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure  */
+/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_RSASSA : public TPMS_SIGNATURE_RSA
 {
 public:
@@ -7214,13 +7026,13 @@ public:
       : TPMS_SIGNATURE_RSA(_hash, _sig)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSASSA; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_RSASSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_RSASSA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_RSASSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_RSASSA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_RSASSA"; }
@@ -7231,7 +7043,7 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIGNATURE_RSASSA(*this); }
 }; // class TPMS_SIGNATURE_RSASSA
 
-/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure  */
+/// <summary> Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_RSAPSS : public TPMS_SIGNATURE_RSA
 {
 public:
@@ -7241,13 +7053,13 @@ public:
       : TPMS_SIGNATURE_RSA(_hash, _sig)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSAPSS; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_RSAPSS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_RSAPSS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_RSAPSS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_RSAPSS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_RSAPSS"; }
@@ -7258,13 +7070,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIGNATURE_RSAPSS(*this); }
 }; // class TPMS_SIGNATURE_RSAPSS
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_ECC : public virtual TpmStructure, public TPMU_SIGNATURE
 {
 public:
-    /** The hash algorithm used in the signature process
-     *  TPM_ALG_NULL is not allowed.
-     */
+    /// <summary> The hash algorithm used in the signature process
+    /// TPM_ALG_NULL is not allowed. </summary>
     TPM_ALG_ID hash;
     
     ByteVec signatureR;
@@ -7277,16 +7088,16 @@ public:
       : hash(_hash), signatureR(_signatureR), signatureS(_signatureS)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_ECC fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_ECC>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_ECC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_ECC>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECC"; }
@@ -7299,7 +7110,7 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIGNATURE_ECC(*this); }
 }; // class TPMS_SIGNATURE_ECC
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_ECDSA : public TPMS_SIGNATURE_ECC
 {
 public:
@@ -7309,13 +7120,13 @@ public:
       : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDSA; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_ECDSA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_ECDSA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_ECDSA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_ECDSA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECDSA"; }
@@ -7326,7 +7137,7 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIGNATURE_ECDSA(*this); }
 }; // class TPMS_SIGNATURE_ECDSA
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_ECDAA : public TPMS_SIGNATURE_ECC
 {
 public:
@@ -7336,13 +7147,13 @@ public:
       : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECDAA; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_ECDAA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_ECDAA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_ECDAA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_ECDAA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECDAA"; }
@@ -7353,7 +7164,7 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIGNATURE_ECDAA(*this); }
 }; // class TPMS_SIGNATURE_ECDAA
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_SM2 : public TPMS_SIGNATURE_ECC
 {
 public:
@@ -7363,13 +7174,13 @@ public:
       : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SM2; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_SM2 fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_SM2>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_SM2 fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_SM2>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_SM2"; }
@@ -7380,7 +7191,7 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIGNATURE_SM2(*this); }
 }; // class TPMS_SIGNATURE_SM2
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
+/// <summary> Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure </summary>
 class _DLLEXP_ TPMS_SIGNATURE_ECSCHNORR : public TPMS_SIGNATURE_ECC
 {
 public:
@@ -7390,13 +7201,13 @@ public:
       : TPMS_SIGNATURE_ECC(_hash, _signatureR, _signatureS)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECSCHNORR; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_ECSCHNORR fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_SIGNATURE_ECSCHNORR>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_SIGNATURE_ECSCHNORR fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_SIGNATURE_ECSCHNORR>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_SIGNATURE_ECSCHNORR"; }
@@ -7407,22 +7218,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_SIGNATURE_ECSCHNORR(*this); }
 }; // class TPMS_SIGNATURE_ECSCHNORR
 
-/** Custom data structure representing an empty element (i.e. the one with 
- *  no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIGNATURE
- */
+/// <summary> Custom data structure representing an empty element (i.e. the one with 
+/// no data to marshal) for selector algorithm TPM_ALG_NULL for the union TPMU_SIGNATURE </summary>
 class _DLLEXP_ TPMS_NULL_SIGNATURE : public TPMS_NULL_UNION
 {
 public:
 public:
     TPMS_NULL_SIGNATURE() {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::_NULL; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_SIGNATURE fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NULL_SIGNATURE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NULL_SIGNATURE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NULL_SIGNATURE>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NULL_SIGNATURE"; }
@@ -7433,23 +7243,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_NULL_SIGNATURE(*this); }
 }; // class TPMS_NULL_SIGNATURE
 
-/** Table 190 shows the basic algorithm-agile structure when a symmetric or asymmetric
- *  signature is indicated. The sigAlg parameter indicates the algorithm used for the
- *  signature. This structure is output from commands such as the attestation commands and
- *  TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(),
- *  TPM2_PolicySigned(), and TPM2_FieldUpgradeStart().
- */
+/// <summary> Table 190 shows the basic algorithm-agile structure when a symmetric or
+/// asymmetric signature is indicated. The sigAlg parameter indicates the algorithm used
+/// for the signature. This structure is output from commands such as the attestation
+/// commands and TPM2_Sign, and is an input to commands such as TPM2_VerifySignature(),
+/// TPM2_PolicySigned(), and TPM2_FieldUpgradeStart(). </summary>
 class _DLLEXP_ TPMT_SIGNATURE : public TpmStructure
 {
 public:
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID sigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** This shall be the actual signature information.
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> This shall be the actual signature information.
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -7461,10 +7269,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_SIGNATURE fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_SIGNATURE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_SIGNATURE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_SIGNATURE>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_SIGNATURE"; }
@@ -7477,11 +7285,11 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_SIGNATURE(*this); }
 }; // class TPMT_SIGNATURE
 
-/** Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure  */
+/// <summary> Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure </summary>
 class _DLLEXP_ TPM2B_ENCRYPTED_SECRET : public TpmStructure
 {
 public:
-    /** Secret  */
+    /// <summary> Secret </summary>
     ByteVec secret;
 
 public:
@@ -7493,10 +7301,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_ENCRYPTED_SECRET fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_ENCRYPTED_SECRET>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_ENCRYPTED_SECRET fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_ENCRYPTED_SECRET>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_ENCRYPTED_SECRET"; }
@@ -7509,20 +7317,18 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_ENCRYPTED_SECRET(*this); }
 }; // class TPM2B_ENCRYPTED_SECRET
 
-/** This structure describes the parameters that would appear in the public area of a
- *  KEYEDHASH object.
- */
+/// <summary> This structure describes the parameters that would appear in the public area
+/// of a KEYEDHASH object. </summary>
 class _DLLEXP_ TPMS_KEYEDHASH_PARMS : public virtual TpmStructure, public TPMU_PUBLIC_PARMS
 {
 public:
-    /** Selects the scheme  */
+    /// <summary> Selects the scheme </summary>
     public: TPM_ALG_ID schemeScheme() const { return scheme ? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Indicates the signing method used for a keyedHash signing object. This field also
-     *  determines the size of the data field for a data object created with TPM2_Create() or
-     *  TPM2_CreatePrimary().
-     *  (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
-     */
+    /// <summary> Indicates the signing method used for a keyedHash signing object. This field
+    /// also determines the size of the data field for a data object created with
+    /// TPM2_Create() or TPM2_CreatePrimary().
+    /// (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH]) </summary>
     shared_ptr<TPMU_SCHEME_KEYEDHASH> scheme;
 
 public:
@@ -7531,16 +7337,16 @@ public:
       : scheme(dynamic_cast<TPMU_SCHEME_KEYEDHASH*>(_scheme.Clone()))
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KEYEDHASH_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_KEYEDHASH_PARMS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_KEYEDHASH_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_KEYEDHASH_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_KEYEDHASH_PARMS"; }
@@ -7553,31 +7359,28 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_KEYEDHASH_PARMS(*this); }
 }; // class TPMS_KEYEDHASH_PARMS
 
-/** This structure contains the common public area parameters for an asymmetric key. The
- *  first two parameters of the parameter definition structures of an asymmetric key shall
- *  have the same two first components.
- */
+/// <summary> This structure contains the common public area parameters for an asymmetric
+/// key. The first two parameters of the parameter definition structures of an asymmetric
+/// key shall have the same two first components. </summary>
 class _DLLEXP_ TPMS_ASYM_PARMS : public virtual TpmStructure, public TPMU_PUBLIC_PARMS
 {
 public:
-    /** The companion symmetric algorithm for a restricted decryption key and shall be set to
-     *  a supported symmetric algorithm
-     *  This field is optional for keys that are not decryption keys and shall be set to
-     *  TPM_ALG_NULL if not used.
-     */
+    /// <summary> The companion symmetric algorithm for a restricted decryption key and shall
+    /// be set to a supported symmetric algorithm
+    /// This field is optional for keys that are not decryption keys and shall be set to
+    /// TPM_ALG_NULL if not used. </summary>
     TPMT_SYM_DEF_OBJECT symmetric;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID schemeScheme() const { return scheme ? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** For a key with the sign attribute SET, a valid signing scheme for the key type
-     *  for a key with the decrypt attribute SET, a valid key exchange protocol
-     *  for a key with sign and decrypt attributes, shall be TPM_ALG_NULL
-     *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
-     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     */
+    /// <summary> For a key with the sign attribute SET, a valid signing scheme for the key type
+    /// for a key with the decrypt attribute SET, a valid key exchange protocol
+    /// for a key with sign and decrypt attributes, shall be TPM_ALG_NULL
+    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+    /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
     shared_ptr<TPMU_ASYM_SCHEME> scheme;
 
 public:
@@ -7586,16 +7389,16 @@ public:
       : symmetric(_symmetric), scheme(dynamic_cast<TPMU_ASYM_SCHEME*>(_scheme.Clone()))
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ASYM_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ASYM_PARMS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ASYM_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ASYM_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ASYM_PARMS"; }
@@ -7608,45 +7411,42 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ASYM_PARMS(*this); }
 }; // class TPMS_ASYM_PARMS
 
-/** A TPM compatible with this specification and supporting RSA shall support two primes
- *  and an exponent of zero. An exponent of zero indicates that the exponent is the
- *  default of 216 + 1. Support for other values is optional. Use of other exponents in
- *  duplicated keys is not recommended because the resulting keys would not be
- *  interoperable with other TPMs.
- */
+/// <summary> A TPM compatible with this specification and supporting RSA shall support
+/// two primes and an exponent of zero. An exponent of zero indicates that the exponent is
+/// the default of 216 + 1. Support for other values is optional. Use of other exponents
+/// in duplicated keys is not recommended because the resulting keys would not be
+/// interoperable with other TPMs. </summary>
 class _DLLEXP_ TPMS_RSA_PARMS : public virtual TpmStructure, public TPMU_PUBLIC_PARMS
 {
 public:
-    /** For a restricted decryption key, shall be set to a supported symmetric algorithm, key
-     *  size, and mode.
-     *  if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
-     */
+    /// <summary> For a restricted decryption key, shall be set to a supported symmetric
+    /// algorithm, key size, and mode.
+    /// if the key is not a restricted decryption key, this field shall be set to
+    /// TPM_ALG_NULL. </summary>
     TPMT_SYM_DEF_OBJECT symmetric;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID schemeScheme() const { return scheme ? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Scheme.scheme shall be:
-     *  for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL
-     *  for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA
-     *  for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL
-     *  unless the object also has the sign attribute
-     *  for a restricted decryption key, TPM_ALG_NULL
-     *  NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be
-     *  TPM_ALG_NULL.
-     *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
-     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     */
+    /// <summary> Scheme.scheme shall be:
+    /// for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL
+    /// for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA
+    /// for an unrestricted decryption key, TPM_ALG_RSAES, TPM_ALG_OAEP, or TPM_ALG_NULL
+    /// unless the object also has the sign attribute
+    /// for a restricted decryption key, TPM_ALG_NULL
+    /// NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be
+    /// TPM_ALG_NULL.
+    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+    /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
     shared_ptr<TPMU_ASYM_SCHEME> scheme;
     
-    /** Number of bits in the public modulus  */
+    /// <summary> Number of bits in the public modulus </summary>
     UINT16 keyBits;
     
-    /** The public exponent
-     *  A prime number greater than 2.
-     */
+    /// <summary> The public exponent
+    /// A prime number greater than 2. </summary>
     UINT32 exponent;
 
 public:
@@ -7655,16 +7455,16 @@ public:
       : symmetric(_symmetric), scheme(dynamic_cast<TPMU_ASYM_SCHEME*>(_scheme.Clone())), keyBits(_keyBits), exponent(_exponent)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::RSA; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_RSA_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_RSA_PARMS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_RSA_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_RSA_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_RSA_PARMS"; }
@@ -7677,46 +7477,44 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_RSA_PARMS(*this); }
 }; // class TPMS_RSA_PARMS
 
-/** This structure contains the parameters for prime modulus ECC.  */
+/// <summary> This structure contains the parameters for prime modulus ECC. </summary>
 class _DLLEXP_ TPMS_ECC_PARMS : public virtual TpmStructure, public TPMU_PUBLIC_PARMS
 {
 public:
-    /** For a restricted decryption key, shall be set to a supported symmetric algorithm, key
-     *  size. and mode.
-     *  if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
-     */
+    /// <summary> For a restricted decryption key, shall be set to a supported symmetric
+    /// algorithm, key size. and mode.
+    /// if the key is not a restricted decryption key, this field shall be set to
+    /// TPM_ALG_NULL. </summary>
     TPMT_SYM_DEF_OBJECT symmetric;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID schemeScheme() const { return scheme ? scheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** If the sign attribute of the key is SET, then this shall be a valid signing scheme.
-     *  NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field
-     *  shall have the same value.
-     *  If the decrypt attribute of the key is SET, then this shall be a valid key exchange
-     *  scheme or TPM_ALG_NULL.
-     *  If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
-     *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
-     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     */
+    /// <summary> If the sign attribute of the key is SET, then this shall be a valid signing scheme.
+    /// NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field
+    /// shall have the same value.
+    /// If the decrypt attribute of the key is SET, then this shall be a valid key exchange
+    /// scheme or TPM_ALG_NULL.
+    /// If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
+    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+    /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
     shared_ptr<TPMU_ASYM_SCHEME> scheme;
     
-    /** ECC curve ID  */
+    /// <summary> ECC curve ID </summary>
     TPM_ECC_CURVE curveID;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID kdfScheme() const { return kdf ? kdf->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** An optional key derivation scheme for generating a symmetric key from a Z value
-     *  If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required
-     *  to be NULL.
-     *  NOTE There are currently no commands where this parameter has effect and, in the
-     *  reference code, this field needs to be set to TPM_ALG_NULL.
-     *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-     *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
-     */
+    /// <summary> An optional key derivation scheme for generating a symmetric key from a Z value
+    /// If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required
+    /// to be NULL.
+    /// NOTE There are currently no commands where this parameter has effect and, in the
+    /// reference code, this field needs to be set to TPM_ALG_NULL.
+    /// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+    /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
     shared_ptr<TPMU_KDF_SCHEME> kdf;
 
 public:
@@ -7725,16 +7523,16 @@ public:
       : symmetric(_symmetric), scheme(dynamic_cast<TPMU_ASYM_SCHEME*>(_scheme.Clone())), curveID(_curveID), kdf(dynamic_cast<TPMU_KDF_SCHEME*>(_kdf.Clone()))
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ECC; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ECC_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ECC_PARMS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ECC_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ECC_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ECC_PARMS"; }
@@ -7747,19 +7545,17 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ECC_PARMS(*this); }
 }; // class TPMS_ECC_PARMS
 
-/** This structure is used in TPM2_TestParms() to validate that a set of algorithm
- *  parameters is supported by the TPM.
- */
+/// <summary> This structure is used in TPM2_TestParms() to validate that a set of
+/// algorithm parameters is supported by the TPM. </summary>
 class _DLLEXP_ TPMT_PUBLIC_PARMS : public TpmStructure
 {
 public:
-    /** The algorithm to be tested  */
+    /// <summary> The algorithm to be tested </summary>
     public: TPM_ALG_ID type() const { return parameters->GetUnionSelector(); }
     
-    /** The algorithm details
-     *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
-     *  TPMS_ASYM_PARMS])
-     */
+    /// <summary> The algorithm details
+    /// (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+    /// TPMS_ASYM_PARMS]) </summary>
     shared_ptr<TPMU_PUBLIC_PARMS> parameters;
 
 public:
@@ -7771,10 +7567,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_PUBLIC_PARMS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_PUBLIC_PARMS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_PUBLIC_PARMS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_PUBLIC_PARMS>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_PUBLIC_PARMS"; }
@@ -7787,41 +7583,37 @@ public:
     virtual TpmStructure* Clone() const { return new TPMT_PUBLIC_PARMS(*this); }
 }; // class TPMT_PUBLIC_PARMS
 
-/** Table 201 defines the public area structure. The Name of the object is nameAlg
- *  concatenated with the digest of this structure using nameAlg.
- */
+/// <summary> Table 201 defines the public area structure. The Name of the object is
+/// nameAlg concatenated with the digest of this structure using nameAlg. </summary>
 class _DLLEXP_ TPMT_PUBLIC : public TpmStructure
 {
 public:
-    /** Algorithm associated with this object  */
+    /// <summary> Algorithm associated with this object </summary>
     public: TPM_ALG_ID type() const { return parameters->GetUnionSelector(); }
     
-    /** Algorithm used for computing the Name of the object
-     *  NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate
-     *  that the nameAlg may be TPM_ALG_NULL.
-     */
+    /// <summary> Algorithm used for computing the Name of the object
+    /// NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate
+    /// that the nameAlg may be TPM_ALG_NULL. </summary>
     TPM_ALG_ID nameAlg;
     
-    /** Attributes that, along with type, determine the manipulations of this object  */
+    /// <summary> Attributes that, along with type, determine the manipulations of this object
+    /// </summary>
     TPMA_OBJECT objectAttributes;
     
-    /** Optional policy for using this key
-     *  The policy is computed using the nameAlg of the object.
-     *  NOTE Shall be the Empty Policy if no authorization policy is present.
-     */
+    /// <summary> Optional policy for using this key
+    /// The policy is computed using the nameAlg of the object.
+    /// NOTE Shall be the Empty Policy if no authorization policy is present. </summary>
     ByteVec authPolicy;
     
-    /** The algorithm or structure details
-     *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
-     *  TPMS_ASYM_PARMS])
-     */
+    /// <summary> The algorithm or structure details
+    /// (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+    /// TPMS_ASYM_PARMS]) </summary>
     shared_ptr<TPMU_PUBLIC_PARMS> parameters;
     
-    /** The unique identifier of the structure
-     *  For an asymmetric key, this would be the public key.
-     *  (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
-     *  TPMS_ECC_POINT, TPMS_DERIVE])
-     */
+    /// <summary> The unique identifier of the structure
+    /// For an asymmetric key, this would be the public key.
+    /// (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
+    /// TPMS_ECC_POINT, TPMS_DERIVE]) </summary>
     shared_ptr<TPMU_PUBLIC_ID> unique;
 
 public:
@@ -7833,10 +7625,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_PUBLIC fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_PUBLIC>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_PUBLIC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_PUBLIC>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_PUBLIC"; }
@@ -7905,16 +7697,14 @@ public:
     
 }; // class TPMT_PUBLIC
 
-/** This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any response
- *  that returns a public area.
- */
+/// <summary> This sized buffer is used to embed a TPMT_PUBLIC in a load command and in
+/// any response that returns a public area. </summary>
 class _DLLEXP_ TPM2B_PUBLIC : public TpmStructure
 {
 public:
-    /** The public area
-     *  NOTE The + indicates that the caller may specify that use of TPM_ALG_NULL is allowed
-     *  for nameAlg.
-     */
+    /// <summary> The public area
+    /// NOTE The + indicates that the caller may specify that use of TPM_ALG_NULL is allowed
+    /// for nameAlg. </summary>
     TPMT_PUBLIC publicArea;
 
 public:
@@ -7926,10 +7716,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_PUBLIC fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_PUBLIC>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_PUBLIC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_PUBLIC>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_PUBLIC"; }
@@ -7942,11 +7732,11 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_PUBLIC(*this); }
 }; // class TPM2B_PUBLIC
 
-/** This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().  */
+/// <summary> This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded(). </summary>
 class _DLLEXP_ TPM2B_TEMPLATE : public TpmStructure
 {
 public:
-    /** The public area  */
+    /// <summary> The public area </summary>
     ByteVec buffer;
 
 public:
@@ -7958,10 +7748,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_TEMPLATE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_TEMPLATE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_TEMPLATE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_TEMPLATE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_TEMPLATE"; }
@@ -7974,13 +7764,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_TEMPLATE(*this); }
 }; // class TPM2B_TEMPLATE
 
-/** This structure is defined for coding purposes. For IO to the TPM, the sensitive
- *  portion of the key will be in a canonical form. For an RSA key, this will be one of
- *  the prime factors of the public modulus. After loading, it is typical that other
- *  values will be computed so that computations using the private key will not need to
- *  start with just one prime factor. This structure can be used to store the results of
- *  such vendor-specific calculations.
- */
+/// <summary> This structure is defined for coding purposes. For IO to the TPM, the
+/// sensitive portion of the key will be in a canonical form. For an RSA key, this will be
+/// one of the prime factors of the public modulus. After loading, it is typical that
+/// other values will be computed so that computations using the private key will not need
+/// to start with just one prime factor. This structure can be used to store the results
+/// of such vendor-specific calculations. </summary>
 class _DLLEXP_ TPM2B_PRIVATE_VENDOR_SPECIFIC : public virtual TpmStructure, public TPMU_SENSITIVE_COMPOSITE
 {
 public:
@@ -7992,16 +7781,16 @@ public:
       : buffer(_buffer)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::ANY; }
     
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_PRIVATE_VENDOR_SPECIFIC fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_PRIVATE_VENDOR_SPECIFIC>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_PRIVATE_VENDOR_SPECIFIC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_PRIVATE_VENDOR_SPECIFIC>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_PRIVATE_VENDOR_SPECIFIC"; }
@@ -8014,29 +7803,27 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_PRIVATE_VENDOR_SPECIFIC(*this); }
 }; // class TPM2B_PRIVATE_VENDOR_SPECIFIC
 
-/** AuthValue shall not be larger than the size of the digest produced by the nameAlg of
- *  the object. seedValue shall be the size of the digest produced by the nameAlg of the object.
- */
+/// <summary> AuthValue shall not be larger than the size of the digest produced by the
+/// nameAlg of the object. seedValue shall be the size of the digest produced by the
+/// nameAlg of the object. </summary>
 class _DLLEXP_ TPMT_SENSITIVE : public TpmStructure
 {
 public:
-    /** Identifier for the sensitive area
-     *  This shall be the same as the type parameter of the associated public area.
-     */
+    /// <summary> Identifier for the sensitive area
+    /// This shall be the same as the type parameter of the associated public area. </summary>
     public: TPM_ALG_ID sensitiveType() const { return sensitive->GetUnionSelector(); }
     
-    /** User authorization data
-     *  The authValue may be a zero-length string.
-     */
+    /// <summary> User authorization data
+    /// The authValue may be a zero-length string. </summary>
     ByteVec authValue;
     
-    /** For a parent object, the optional protection seed; for other objects, the obfuscation value  */
+    /// <summary> For a parent object, the optional protection seed; for other objects, the
+    /// obfuscation value </summary>
     ByteVec seedValue;
     
-    /** The type-specific private data
-     *  (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
-     *  TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC])
-     */
+    /// <summary> The type-specific private data
+    /// (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
+    /// TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC]) </summary>
     shared_ptr<TPMU_SENSITIVE_COMPOSITE> sensitive;
 
 public:
@@ -8048,10 +7835,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_SENSITIVE fromTpm(TpmBuffer& buf) { return buf.createObj<TPMT_SENSITIVE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMT_SENSITIVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMT_SENSITIVE>(buf); }
     
     virtual const char* TypeName () const { return "TPMT_SENSITIVE"; }
@@ -8069,13 +7856,13 @@ public:
     
 }; // class TPMT_SENSITIVE
 
-/** The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal(). It is an
- *  unencrypted sensitive area but it may be encrypted using parameter encryption.
- */
+/// <summary> The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal().
+/// It is an unencrypted sensitive area but it may be encrypted using parameter
+/// encryption. </summary>
 class _DLLEXP_ TPM2B_SENSITIVE : public TpmStructure
 {
 public:
-    /** An unencrypted sensitive area  */
+    /// <summary> An unencrypted sensitive area </summary>
     TPMT_SENSITIVE sensitiveArea;
 
 public:
@@ -8087,10 +7874,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_SENSITIVE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_SENSITIVE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_SENSITIVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_SENSITIVE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_SENSITIVE"; }
@@ -8103,18 +7890,17 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_SENSITIVE(*this); }
 }; // class TPM2B_SENSITIVE
 
-/** This structure is defined to size the contents of a TPM2B_PRIVATE. This structure is
- *  not directly marshaled or unmarshaled.
- */
+/// <summary> This structure is defined to size the contents of a TPM2B_PRIVATE. This
+/// structure is not directly marshaled or unmarshaled. </summary>
 class _DLLEXP_ _PRIVATE : public TpmStructure
 {
 public:
     ByteVec integrityOuter;
     
-    /** Could also be a TPM2B_IV  */
+    /// <summary> Could also be a TPM2B_IV </summary>
     ByteVec integrityInner;
     
-    /** The sensitive area  */
+    /// <summary> The sensitive area </summary>
     TPMT_SENSITIVE sensitive;
 
 public:
@@ -8126,10 +7912,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static _PRIVATE fromTpm(TpmBuffer& buf) { return buf.createObj<_PRIVATE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static _PRIVATE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<_PRIVATE>(buf); }
     
     virtual const char* TypeName () const { return "_PRIVATE"; }
@@ -8142,13 +7928,12 @@ public:
     virtual TpmStructure* Clone() const { return new _PRIVATE(*this); }
 }; // class _PRIVATE
 
-/** The TPM2B_PRIVATE structure is used as a parameter in multiple commands that create,
- *  load, and modify the sensitive area of an object.
- */
+/// <summary> The TPM2B_PRIVATE structure is used as a parameter in multiple commands that
+/// create, load, and modify the sensitive area of an object. </summary>
 class _DLLEXP_ TPM2B_PRIVATE : public TpmStructure
 {
 public:
-    /** An encrypted private area  */
+    /// <summary> An encrypted private area </summary>
     ByteVec buffer;
 
 public:
@@ -8160,10 +7945,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_PRIVATE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_PRIVATE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_PRIVATE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_PRIVATE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_PRIVATE"; }
@@ -8176,19 +7961,18 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_PRIVATE(*this); }
 }; // class TPM2B_PRIVATE
 
-/** This structure is used for sizing the TPM2B_ID_OBJECT.  */
+/// <summary> This structure is used for sizing the TPM2B_ID_OBJECT. </summary>
 class _DLLEXP_ TPMS_ID_OBJECT : public TpmStructure
 {
 public:
-    /** HMAC using the nameAlg of the storage key on the target TPM  */
+    /// <summary> HMAC using the nameAlg of the storage key on the target TPM </summary>
     ByteVec integrityHMAC;
     
-    /** Credential protector information returned if name matches the referenced object
-     *  All of the encIdentity is encrypted, including the size field.
-     *  NOTE The TPM is not required to check that the size is not larger than the digest of
-     *  the nameAlg. However, if the size is larger, the ID object may not be usable on a TPM
-     *  that has no digest larger than produced by nameAlg.
-     */
+    /// <summary> Credential protector information returned if name matches the referenced object
+    /// All of the encIdentity is encrypted, including the size field.
+    /// NOTE The TPM is not required to check that the size is not larger than the digest of
+    /// the nameAlg. However, if the size is larger, the ID object may not be usable on a TPM
+    /// that has no digest larger than produced by nameAlg. </summary>
     ByteVec encIdentity;
 
 public:
@@ -8200,10 +7984,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ID_OBJECT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_ID_OBJECT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_ID_OBJECT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_ID_OBJECT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_ID_OBJECT"; }
@@ -8216,13 +8000,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_ID_OBJECT(*this); }
 }; // class TPMS_ID_OBJECT
 
-/** This structure is an output from TPM2_MakeCredential() and is an input to
- *  TPM2_ActivateCredential().
- */
+/// <summary> This structure is an output from TPM2_MakeCredential() and is an input to
+/// TPM2_ActivateCredential(). </summary>
 class _DLLEXP_ TPM2B_ID_OBJECT : public TpmStructure
 {
 public:
-    /** An encrypted credential area  */
+    /// <summary> An encrypted credential area </summary>
     TPMS_ID_OBJECT credential;
 
 public:
@@ -8234,10 +8017,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_ID_OBJECT fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_ID_OBJECT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_ID_OBJECT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_ID_OBJECT>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_ID_OBJECT"; }
@@ -8250,22 +8033,19 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_ID_OBJECT(*this); }
 }; // class TPM2B_ID_OBJECT
 
-/** This is the data that can be written to and read from a TPM_NT_PIN_PASS or
- *  TPM_NT_PIN_FAIL non-volatile index. pinCount is the most significant octets. pinLimit
- *  is the least significant octets.
- */
+/// <summary> This is the data that can be written to and read from a TPM_NT_PIN_PASS or
+/// TPM_NT_PIN_FAIL non-volatile index. pinCount is the most significant octets. pinLimit
+/// is the least significant octets. </summary>
 class _DLLEXP_ TPMS_NV_PIN_COUNTER_PARAMETERS : public TpmStructure
 {
 public:
-    /** This counter shows the current number of successful authValue authorization attempts
-     *  to access a TPM_NT_PIN_PASS index or the current number of unsuccessful authValue
-     *  authorization attempts to access a TPM_NT_PIN_FAIL index.
-     */
+    /// <summary> This counter shows the current number of successful authValue authorization
+    /// attempts to access a TPM_NT_PIN_PASS index or the current number of unsuccessful
+    /// authValue authorization attempts to access a TPM_NT_PIN_FAIL index. </summary>
     UINT32 pinCount;
     
-    /** This threshold is the value of pinCount at which the authValue authorization of the
-     *  host TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out.
-     */
+    /// <summary> This threshold is the value of pinCount at which the authValue authorization
+    /// of the host TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out. </summary>
     UINT32 pinLimit;
 
 public:
@@ -8277,10 +8057,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NV_PIN_COUNTER_PARAMETERS fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NV_PIN_COUNTER_PARAMETERS>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NV_PIN_COUNTER_PARAMETERS fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NV_PIN_COUNTER_PARAMETERS>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NV_PIN_COUNTER_PARAMETERS"; }
@@ -8293,30 +8073,28 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_NV_PIN_COUNTER_PARAMETERS(*this); }
 }; // class TPMS_NV_PIN_COUNTER_PARAMETERS
 
-/** This structure describes an NV Index.  */
+/// <summary> This structure describes an NV Index. </summary>
 class _DLLEXP_ TPMS_NV_PUBLIC : public TpmStructure
 {
 public:
-    /** The handle of the data area  */
+    /// <summary> The handle of the data area </summary>
     TPM_HANDLE nvIndex;
     
-    /** Hash algorithm used to compute the name of the Index and used for the authPolicy. For
-     *  an extend index, the hash algorithm used for the extend.
-     */
+    /// <summary> Hash algorithm used to compute the name of the Index and used for the
+    /// authPolicy. For an extend index, the hash algorithm used for the extend. </summary>
     TPM_ALG_ID nameAlg;
     
-    /** The Index attributes  */
+    /// <summary> The Index attributes </summary>
     TPMA_NV attributes;
     
-    /** Optional access policy for the Index
-     *  The policy is computed using the nameAlg
-     *  NOTE Shall be the Empty Policy if no authorization policy is present.
-     */
+    /// <summary> Optional access policy for the Index
+    /// The policy is computed using the nameAlg
+    /// NOTE Shall be the Empty Policy if no authorization policy is present. </summary>
     ByteVec authPolicy;
     
-    /** The size of the data area
-     *  The maximum size is implementation-dependent. The minimum maximum size is platform-specific.
-     */
+    /// <summary> The size of the data area
+    /// The maximum size is implementation-dependent. The minimum maximum size is
+    /// platform-specific. </summary>
     UINT16 dataSize;
 
 public:
@@ -8328,10 +8106,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NV_PUBLIC fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_NV_PUBLIC>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_NV_PUBLIC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_NV_PUBLIC>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_NV_PUBLIC"; }
@@ -8344,11 +8122,11 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_NV_PUBLIC(*this); }
 }; // class TPMS_NV_PUBLIC
 
-/** This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface.  */
+/// <summary> This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface. </summary>
 class _DLLEXP_ TPM2B_NV_PUBLIC : public TpmStructure
 {
 public:
-    /** The public area  */
+    /// <summary> The public area </summary>
     TPMS_NV_PUBLIC nvPublic;
 
 public:
@@ -8360,10 +8138,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_NV_PUBLIC fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_NV_PUBLIC>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_NV_PUBLIC fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_NV_PUBLIC>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_NV_PUBLIC"; }
@@ -8376,13 +8154,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_NV_PUBLIC(*this); }
 }; // class TPM2B_NV_PUBLIC
 
-/** This structure holds the object or session context data. When saved, the full
- *  structure is encrypted.
- */
+/// <summary> This structure holds the object or session context data. When saved, the
+/// full structure is encrypted. </summary>
 class _DLLEXP_ TPM2B_CONTEXT_SENSITIVE : public TpmStructure
 {
 public:
-    /** The sensitive data  */
+    /// <summary> The sensitive data </summary>
     ByteVec buffer;
 
 public:
@@ -8394,10 +8171,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_CONTEXT_SENSITIVE fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_CONTEXT_SENSITIVE>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_CONTEXT_SENSITIVE fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_CONTEXT_SENSITIVE>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_CONTEXT_SENSITIVE"; }
@@ -8410,14 +8187,15 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_CONTEXT_SENSITIVE(*this); }
 }; // class TPM2B_CONTEXT_SENSITIVE
 
-/** This structure holds the integrity value and the encrypted data for a context.  */
+/// <summary> This structure holds the integrity value and the encrypted data for a
+/// context. </summary>
 class _DLLEXP_ TPMS_CONTEXT_DATA : public TpmStructure
 {
 public:
-    /** The integrity value  */
+    /// <summary> The integrity value </summary>
     ByteVec integrity;
     
-    /** The sensitive area  */
+    /// <summary> The sensitive area </summary>
     ByteVec encrypted;
 
 public:
@@ -8429,10 +8207,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CONTEXT_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CONTEXT_DATA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CONTEXT_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CONTEXT_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CONTEXT_DATA"; }
@@ -8445,7 +8223,7 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_CONTEXT_DATA(*this); }
 }; // class TPMS_CONTEXT_DATA
 
-/** This structure is used in a TPMS_CONTEXT.  */
+/// <summary> This structure is used in a TPMS_CONTEXT. </summary>
 class _DLLEXP_ TPM2B_CONTEXT_DATA : public TpmStructure
 {
 public:
@@ -8460,10 +8238,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_CONTEXT_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_CONTEXT_DATA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_CONTEXT_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_CONTEXT_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_CONTEXT_DATA"; }
@@ -8476,27 +8254,25 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_CONTEXT_DATA(*this); }
 }; // class TPM2B_CONTEXT_DATA
 
-/** This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the values of
- *  the TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the values when
- *  the context was saved (TPM2_ContextSave()), then the TPM shall not load the context.
- */
+/// <summary> This structure is used in TPM2_ContextLoad() and TPM2_ContextSave(). If the
+/// values of the TPMS_CONTEXT structure in TPM2_ContextLoad() are not the same as the
+/// values when the context was saved (TPM2_ContextSave()), then the TPM shall not load
+/// the context. </summary>
 class _DLLEXP_ TPMS_CONTEXT : public TpmStructure
 {
 public:
-    /** The sequence number of the context
-     *  NOTE Transient object contexts and session contexts used different counters.
-     */
+    /// <summary> The sequence number of the context
+    /// NOTE Transient object contexts and session contexts used different counters. </summary>
     UINT64 sequence;
     
-    /** A handle indicating if the context is a session, object, or sequence object (see Table
-     *  222 Context Handle Values
-     */
+    /// <summary> A handle indicating if the context is a session, object, or sequence object
+    /// (see Table 222 Context Handle Values </summary>
     TPM_HANDLE savedHandle;
     
-    /** The hierarchy of the context  */
+    /// <summary> The hierarchy of the context </summary>
     TPM_HANDLE hierarchy;
     
-    /** The context data and integrity HMAC  */
+    /// <summary> The context data and integrity HMAC </summary>
     TPMS_CONTEXT_DATA contextBlob;
 
 public:
@@ -8508,10 +8284,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CONTEXT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CONTEXT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CONTEXT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CONTEXT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CONTEXT"; }
@@ -8524,44 +8300,41 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_CONTEXT(*this); }
 }; // class TPMS_CONTEXT
 
-/** This structure provides information relating to the creation environment for the
- *  object. The creation data includes the parent Name, parent Qualified Name, and the
- *  digest of selected PCR. These values represent the environment in which the object was
- *  created. Creation data allows a relying party to determine if an object was created
- *  when some appropriate protections were present.
- */
+/// <summary> This structure provides information relating to the creation environment for
+/// the object. The creation data includes the parent Name, parent Qualified Name, and the
+/// digest of selected PCR. These values represent the environment in which the object was
+/// created. Creation data allows a relying party to determine if an object was created
+/// when some appropriate protections were present. </summary>
 class _DLLEXP_ TPMS_CREATION_DATA : public TpmStructure
 {
 public:
-    /** List indicating the PCR included in pcrDigest  */
+    /// <summary> List indicating the PCR included in pcrDigest </summary>
     vector<TPMS_PCR_SELECTION> pcrSelect;
     
-    /** Digest of the selected PCR using nameAlg of the object for which this structure is
-     *  being created
-     *  pcrDigest.size shall be zero if the pcrSelect list is empty.
-     */
+    /// <summary> Digest of the selected PCR using nameAlg of the object for which this
+    /// structure is being created
+    /// pcrDigest.size shall be zero if the pcrSelect list is empty. </summary>
     ByteVec pcrDigest;
     
-    /** The locality at which the object was created  */
+    /// <summary> The locality at which the object was created </summary>
     TPMA_LOCALITY locality;
     
-    /** NameAlg of the parent  */
+    /// <summary> NameAlg of the parent </summary>
     TPM_ALG_ID parentNameAlg;
     
-    /** Name of the parent at time of creation
-     *  The size will match digest size associated with parentNameAlg unless it is
-     *  TPM_ALG_NULL, in which case the size will be 4 and parentName will be the hierarchy handle.
-     */
+    /// <summary> Name of the parent at time of creation
+    /// The size will match digest size associated with parentNameAlg unless it is
+    /// TPM_ALG_NULL, in which case the size will be 4 and parentName will be the hierarchy
+    /// handle. </summary>
     ByteVec parentName;
     
-    /** Qualified Name of the parent at the time of creation
-     *  Size is the same as parentName.
-     */
+    /// <summary> Qualified Name of the parent at the time of creation
+    /// Size is the same as parentName. </summary>
     ByteVec parentQualifiedName;
     
-    /** Association with additional information added by the key creator
-     *  This will be the contents of the outsideInfo parameter in TPM2_Create() or TPM2_CreatePrimary().
-     */
+    /// <summary> Association with additional information added by the key creator
+    /// This will be the contents of the outsideInfo parameter in TPM2_Create() or
+    /// TPM2_CreatePrimary(). </summary>
     ByteVec outsideInfo;
 
 public:
@@ -8573,10 +8346,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CREATION_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_CREATION_DATA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_CREATION_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_CREATION_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_CREATION_DATA"; }
@@ -8589,9 +8362,8 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_CREATION_DATA(*this); }
 }; // class TPMS_CREATION_DATA
 
-/** This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is never
- *  entered into the TPM and never has a size of zero.
- */
+/// <summary> This structure is created by TPM2_Create() and TPM2_CreatePrimary(). It is
+/// never entered into the TPM and never has a size of zero. </summary>
 class _DLLEXP_ TPM2B_CREATION_DATA : public TpmStructure
 {
 public:
@@ -8606,10 +8378,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_CREATION_DATA fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_CREATION_DATA>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_CREATION_DATA fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_CREATION_DATA>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_CREATION_DATA"; }
@@ -8622,16 +8394,15 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_CREATION_DATA(*this); }
 }; // class TPM2B_CREATION_DATA
 
-/** TPMS_AC_OUTPUT is used to return information about an AC. The tag structure parameter
- *  indicates the type of the data value.
- */
+/// <summary> TPMS_AC_OUTPUT is used to return information about an AC. The tag structure
+/// parameter indicates the type of the data value. </summary>
 class _DLLEXP_ TPMS_AC_OUTPUT : public TpmStructure
 {
 public:
-    /** Tag indicating the contents of data  */
+    /// <summary> Tag indicating the contents of data </summary>
     TPM_AT tag;
     
-    /** The data returned from the AC  */
+    /// <summary> The data returned from the AC </summary>
     UINT32 data;
 
 public:
@@ -8643,10 +8414,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_AC_OUTPUT fromTpm(TpmBuffer& buf) { return buf.createObj<TPMS_AC_OUTPUT>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPMS_AC_OUTPUT fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPMS_AC_OUTPUT>(buf); }
     
     virtual const char* TypeName () const { return "TPMS_AC_OUTPUT"; }
@@ -8659,11 +8430,11 @@ public:
     virtual TpmStructure* Clone() const { return new TPMS_AC_OUTPUT(*this); }
 }; // class TPMS_AC_OUTPUT
 
-/** This list is only used in TPM2_AC_GetCapability().  */
+/// <summary> This list is only used in TPM2_AC_GetCapability(). </summary>
 class _DLLEXP_ TPML_AC_CAPABILITIES : public TpmStructure
 {
 public:
-    /** A list of AC values  */
+    /// <summary> A list of AC values </summary>
     vector<TPMS_AC_OUTPUT> acCapabilities;
 
 public:
@@ -8675,10 +8446,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_AC_CAPABILITIES fromTpm(TpmBuffer& buf) { return buf.createObj<TPML_AC_CAPABILITIES>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPML_AC_CAPABILITIES fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPML_AC_CAPABILITIES>(buf); }
     
     virtual const char* TypeName () const { return "TPML_AC_CAPABILITIES"; }
@@ -8691,17 +8462,16 @@ public:
     virtual TpmStructure* Clone() const { return new TPML_AC_CAPABILITIES(*this); }
 }; // class TPML_AC_CAPABILITIES
 
-/** TPM2_Startup() is always preceded by _TPM_Init, which is the physical indication that
- *  TPM initialization is necessary because of a system-wide reset. TPM2_Startup() is only
- *  valid after _TPM_Init. Additional TPM2_Startup() commands are not allowed after it has
- *  completed successfully. If a TPM requires TPM2_Startup() and another command is
- *  received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall
- *  return TPM_RC_INITIALIZE.
- */
+/// <summary> TPM2_Startup() is always preceded by _TPM_Init, which is the physical
+/// indication that TPM initialization is necessary because of a system-wide reset.
+/// TPM2_Startup() is only valid after _TPM_Init. Additional TPM2_Startup() commands are
+/// not allowed after it has completed successfully. If a TPM requires TPM2_Startup() and
+/// another command is received, or if the TPM receives TPM2_Startup() when it is not
+/// required, the TPM shall return TPM_RC_INITIALIZE. </summary>
 class _DLLEXP_ TPM2_Startup_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_SU_CLEAR or TPM_SU_STATE  */
+    /// <summary> TPM_SU_CLEAR or TPM_SU_STATE </summary>
     TPM_SU startupType;
 
 public:
@@ -8713,10 +8483,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Startup_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Startup_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Startup_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Startup_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Startup_REQUEST"; }
@@ -8729,13 +8499,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_Startup_REQUEST(*this); }
 }; // class TPM2_Startup_REQUEST
 
-/** This command is used to prepare the TPM for a power cycle. The shutdownType parameter
- *  indicates how the subsequent TPM2_Startup() will be processed.
- */
+/// <summary> This command is used to prepare the TPM for a power cycle. The shutdownType
+/// parameter indicates how the subsequent TPM2_Startup() will be processed. </summary>
 class _DLLEXP_ TPM2_Shutdown_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_SU_CLEAR or TPM_SU_STATE  */
+    /// <summary> TPM_SU_CLEAR or TPM_SU_STATE </summary>
     TPM_SU shutdownType;
 
 public:
@@ -8747,10 +8516,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Shutdown_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Shutdown_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Shutdown_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Shutdown_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Shutdown_REQUEST"; }
@@ -8763,16 +8532,14 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_Shutdown_REQUEST(*this); }
 }; // class TPM2_Shutdown_REQUEST
 
-/** This command causes the TPM to perform a test of its capabilities. If the fullTest is
- *  YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those
- *  functions that have not previously been tested.
- */
+/// <summary> This command causes the TPM to perform a test of its capabilities. If the
+/// fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only
+/// test those functions that have not previously been tested. </summary>
 class _DLLEXP_ TPM2_SelfTest_REQUEST : public ReqStructure
 {
 public:
-    /** YES if full test to be performed
-     *  NO if only test of untested functions required
-     */
+    /// <summary> YES if full test to be performed
+    /// NO if only test of untested functions required </summary>
     BYTE fullTest;
 
 public:
@@ -8784,10 +8551,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SelfTest_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SelfTest_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SelfTest_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SelfTest_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SelfTest_REQUEST"; }
@@ -8800,11 +8567,11 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_SelfTest_REQUEST(*this); }
 }; // class TPM2_SelfTest_REQUEST
 
-/** This command causes the TPM to perform a test of the selected algorithms.  */
+/// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
 class _DLLEXP_ TPM2_IncrementalSelfTest_REQUEST : public ReqStructure
 {
 public:
-    /** List of algorithms that should be tested  */
+    /// <summary> List of algorithms that should be tested </summary>
     vector<TPM_ALG_ID> toTest;
 
 public:
@@ -8816,10 +8583,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_IncrementalSelfTest_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_IncrementalSelfTest_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_IncrementalSelfTest_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_IncrementalSelfTest_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_IncrementalSelfTest_REQUEST"; }
@@ -8835,11 +8602,11 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {4, 2}; }
 }; // class TPM2_IncrementalSelfTest_REQUEST
 
-/** This command causes the TPM to perform a test of the selected algorithms.  */
+/// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
 class _DLLEXP_ IncrementalSelfTestResponse : public RespStructure
 {
 public:
-    /** List of algorithms that need testing  */
+    /// <summary> List of algorithms that need testing </summary>
     vector<TPM_ALG_ID> toDoList;
 
 public:
@@ -8848,10 +8615,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static IncrementalSelfTestResponse fromTpm(TpmBuffer& buf) { return buf.createObj<IncrementalSelfTestResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static IncrementalSelfTestResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<IncrementalSelfTestResponse>(buf); }
     
     virtual const char* TypeName () const { return "IncrementalSelfTestResponse"; }
@@ -8867,19 +8634,18 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {4, 2}; }
 }; // class IncrementalSelfTestResponse
 
-/** This command returns manufacturer-specific information regarding the results of a
- *  self-test and an indication of the test status.
- */
+/// <summary> This command returns manufacturer-specific information regarding the results
+/// of a self-test and an indication of the test status. </summary>
 class _DLLEXP_ TPM2_GetTestResult_REQUEST : public ReqStructure
 {
 public:
 public:
     TPM2_GetTestResult_REQUEST() {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetTestResult_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetTestResult_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetTestResult_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetTestResult_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetTestResult_REQUEST"; }
@@ -8890,15 +8656,13 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_GetTestResult_REQUEST(*this); }
 }; // class TPM2_GetTestResult_REQUEST
 
-/** This command returns manufacturer-specific information regarding the results of a
- *  self-test and an indication of the test status.
- */
+/// <summary> This command returns manufacturer-specific information regarding the results
+/// of a self-test and an indication of the test status. </summary>
 class _DLLEXP_ GetTestResultResponse : public RespStructure
 {
 public:
-    /** Test result data
-     *  contains manufacturer-specific information
-     */
+    /// <summary> Test result data
+    /// contains manufacturer-specific information </summary>
     ByteVec outData;
     
     TPM_RC testResult;
@@ -8909,10 +8673,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetTestResultResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetTestResultResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetTestResultResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetTestResultResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetTestResultResponse"; }
@@ -8928,46 +8692,40 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class GetTestResultResponse
 
-/** This command is used to start an authorization session using alternative methods of
- *  establishing the session key (sessionKey). The session key is then used to derive
- *  values used for authorization and for encrypting parameters.
- */
+/// <summary> This command is used to start an authorization session using alternative
+/// methods of establishing the session key (sessionKey). The session key is then used to
+/// derive values used for authorization and for encrypting parameters. </summary>
 class _DLLEXP_ TPM2_StartAuthSession_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of a loaded decrypt key used to encrypt salt
-     *  may be TPM_RH_NULL
-     *  Auth Index: None
-     */
+    /// <summary> Handle of a loaded decrypt key used to encrypt salt
+    /// may be TPM_RH_NULL
+    /// Auth Index: None </summary>
     TPM_HANDLE tpmKey;
     
-    /** Entity providing the authValue
-     *  may be TPM_RH_NULL
-     *  Auth Index: None
-     */
+    /// <summary> Entity providing the authValue
+    /// may be TPM_RH_NULL
+    /// Auth Index: None </summary>
     TPM_HANDLE bind;
     
-    /** Initial nonceCaller, sets nonceTPM size for the session
-     *  shall be at least 16 octets
-     */
+    /// <summary> Initial nonceCaller, sets nonceTPM size for the session
+    /// shall be at least 16 octets </summary>
     ByteVec nonceCaller;
     
-    /** Value encrypted according to the type of tpmKey
-     *  If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.
-     */
+    /// <summary> Value encrypted according to the type of tpmKey
+    /// If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer. </summary>
     ByteVec encryptedSalt;
     
-    /** Indicates the type of the session; simple HMAC or policy (including a trial policy)  */
+    /// <summary> Indicates the type of the session; simple HMAC or policy (including a trial
+    /// policy) </summary>
     TPM_SE sessionType;
     
-    /** The algorithm and key size for parameter encryption
-     *  may select TPM_ALG_NULL
-     */
+    /// <summary> The algorithm and key size for parameter encryption
+    /// may select TPM_ALG_NULL </summary>
     TPMT_SYM_DEF symmetric;
     
-    /** Hash algorithm to use for the session
-     *  Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL
-     */
+    /// <summary> Hash algorithm to use for the session
+    /// Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL </summary>
     TPM_ALG_ID authHash;
 
 public:
@@ -8979,10 +8737,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_StartAuthSession_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_StartAuthSession_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_StartAuthSession_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_StartAuthSession_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_StartAuthSession_REQUEST"; }
@@ -9002,17 +8760,16 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_StartAuthSession_REQUEST
 
-/** This command is used to start an authorization session using alternative methods of
- *  establishing the session key (sessionKey). The session key is then used to derive
- *  values used for authorization and for encrypting parameters.
- */
+/// <summary> This command is used to start an authorization session using alternative
+/// methods of establishing the session key (sessionKey). The session key is then used to
+/// derive values used for authorization and for encrypting parameters. </summary>
 class _DLLEXP_ StartAuthSessionResponse : public RespStructure
 {
 public:
-    /** Handle for the newly created session  */
+    /// <summary> Handle for the newly created session </summary>
     TPM_HANDLE handle;
     
-    /** The initial nonce from the TPM, used in the computation of the sessionKey  */
+    /// <summary> The initial nonce from the TPM, used in the computation of the sessionKey </summary>
     ByteVec nonceTPM;
 
 public:
@@ -9021,10 +8778,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static StartAuthSessionResponse fromTpm(TpmBuffer& buf) { return buf.createObj<StartAuthSessionResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static StartAuthSessionResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<StartAuthSessionResponse>(buf); }
     
     virtual const char* TypeName () const { return "StartAuthSessionResponse"; }
@@ -9044,17 +8801,16 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class StartAuthSessionResponse
 
-/** This command allows a policy authorization session to be returned to its initial
- *  state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response
- *  code indicates that a policy will fail because the PCR have changed after
- *  TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be
- *  replayed because the session restarts with the same nonceTPM. If the PCR are valid for
- *  the policy, the policy may then succeed.
- */
+/// <summary> This command allows a policy authorization session to be returned to its
+/// initial state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That
+/// response code indicates that a policy will fail because the PCR have changed after
+/// TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be
+/// replayed because the session restarts with the same nonceTPM. If the PCR are valid for
+/// the policy, the policy may then succeed. </summary>
 class _DLLEXP_ TPM2_PolicyRestart_REQUEST : public ReqStructure
 {
 public:
-    /** The handle for the policy session  */
+    /// <summary> The handle for the policy session </summary>
     TPM_HANDLE sessionHandle;
 
 public:
@@ -9063,10 +8819,10 @@ public:
       : sessionHandle(_sessionHandle)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyRestart_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyRestart_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyRestart_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyRestart_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyRestart_REQUEST"; }
@@ -9084,35 +8840,32 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {sessionHandle}; }
 }; // class TPM2_PolicyRestart_REQUEST
 
-/** This command is used to create an object that can be loaded into a TPM using
- *  TPM2_Load(). If the command completes successfully, the TPM will create the new object
- *  and return the objects creation data (creationData), its public area (outPublic), and
- *  its encrypted sensitive area (outPrivate). Preservation of the returned data is the
- *  responsibility of the caller. The object will need to be loaded (TPM2_Load()) before
- *  it may be used. The only difference between the inPublic TPMT_PUBLIC template and the
- *  outPublic TPMT_PUBLIC object is in the unique field.
- */
+/// <summary> This command is used to create an object that can be loaded into a TPM using
+/// TPM2_Load(). If the command completes successfully, the TPM will create the new object
+/// and return the objects creation data (creationData), its public area (outPublic), and
+/// its encrypted sensitive area (outPrivate). Preservation of the returned data is the
+/// responsibility of the caller. The object will need to be loaded (TPM2_Load()) before
+/// it may be used. The only difference between the inPublic TPMT_PUBLIC template and the
+/// outPublic TPMT_PUBLIC object is in the unique field. </summary>
 class _DLLEXP_ TPM2_Create_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of parent for new object
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of parent for new object
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE parentHandle;
     
-    /** The sensitive data  */
+    /// <summary> The sensitive data </summary>
     TPMS_SENSITIVE_CREATE inSensitive;
     
-    /** The public template  */
+    /// <summary> The public template </summary>
     TPMT_PUBLIC inPublic;
     
-    /** Data that will be included in the creation data for this object to provide permanent,
-     *  verifiable linkage between this object and some object owner data
-     */
+    /// <summary> Data that will be included in the creation data for this object to provide
+    /// permanent, verifiable linkage between this object and some object owner data </summary>
     ByteVec outsideInfo;
     
-    /** PCR that will be used in creation data  */
+    /// <summary> PCR that will be used in creation data </summary>
     vector<TPMS_PCR_SELECTION> creationPCR;
 
 public:
@@ -9124,10 +8877,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Create_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Create_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Create_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Create_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Create_REQUEST"; }
@@ -9147,32 +8900,30 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_Create_REQUEST
 
-/** This command is used to create an object that can be loaded into a TPM using
- *  TPM2_Load(). If the command completes successfully, the TPM will create the new object
- *  and return the objects creation data (creationData), its public area (outPublic), and
- *  its encrypted sensitive area (outPrivate). Preservation of the returned data is the
- *  responsibility of the caller. The object will need to be loaded (TPM2_Load()) before
- *  it may be used. The only difference between the inPublic TPMT_PUBLIC template and the
- *  outPublic TPMT_PUBLIC object is in the unique field.
- */
+/// <summary> This command is used to create an object that can be loaded into a TPM using
+/// TPM2_Load(). If the command completes successfully, the TPM will create the new object
+/// and return the objects creation data (creationData), its public area (outPublic), and
+/// its encrypted sensitive area (outPrivate). Preservation of the returned data is the
+/// responsibility of the caller. The object will need to be loaded (TPM2_Load()) before
+/// it may be used. The only difference between the inPublic TPMT_PUBLIC template and the
+/// outPublic TPMT_PUBLIC object is in the unique field. </summary>
 class _DLLEXP_ CreateResponse : public RespStructure
 {
 public:
-    /** The private portion of the object  */
+    /// <summary> The private portion of the object </summary>
     TPM2B_PRIVATE outPrivate;
     
-    /** The public portion of the created object  */
+    /// <summary> The public portion of the created object </summary>
     TPMT_PUBLIC outPublic;
     
-    /** Contains a TPMS_CREATION_DATA  */
+    /// <summary> Contains a TPMS_CREATION_DATA </summary>
     TPMS_CREATION_DATA creationData;
     
-    /** Digest of creationData using nameAlg of outPublic  */
+    /// <summary> Digest of creationData using nameAlg of outPublic </summary>
     ByteVec creationHash;
     
-    /** Ticket used by TPM2_CertifyCreation() to validate that the creation data was produced
-     *  by the TPM
-     */
+    /// <summary> Ticket used by TPM2_CertifyCreation() to validate that the creation data was
+    /// produced by the TPM </summary>
     TPMT_TK_CREATION creationTicket;
 
 public:
@@ -9181,10 +8932,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CreateResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CreateResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CreateResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CreateResponse>(buf); }
     
     virtual const char* TypeName () const { return "CreateResponse"; }
@@ -9197,23 +8948,21 @@ public:
     virtual TpmStructure* Clone() const { return new CreateResponse(*this); }
 }; // class CreateResponse
 
-/** This command is used to load objects into the TPM. This command is used when both a
- *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be
- *  loaded, the TPM2_LoadExternal command is used.
- */
+/// <summary> This command is used to load objects into the TPM. This command is used when
+/// both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to
+/// be loaded, the TPM2_LoadExternal command is used. </summary>
 class _DLLEXP_ TPM2_Load_REQUEST : public ReqStructure
 {
 public:
-    /** TPM handle of parent key; shall not be a reserved handle
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM handle of parent key; shall not be a reserved handle
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE parentHandle;
     
-    /** The private portion of the object  */
+    /// <summary> The private portion of the object </summary>
     TPM2B_PRIVATE inPrivate;
     
-    /** The public portion of the object  */
+    /// <summary> The public portion of the object </summary>
     TPMT_PUBLIC inPublic;
 
 public:
@@ -9225,10 +8974,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Load_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Load_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Load_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Load_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Load_REQUEST"; }
@@ -9246,17 +8995,16 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {parentHandle}; }
 }; // class TPM2_Load_REQUEST
 
-/** This command is used to load objects into the TPM. This command is used when both a
- *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be
- *  loaded, the TPM2_LoadExternal command is used.
- */
+/// <summary> This command is used to load objects into the TPM. This command is used when
+/// both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to
+/// be loaded, the TPM2_LoadExternal command is used. </summary>
 class _DLLEXP_ LoadResponse : public RespStructure
 {
 public:
-    /** Handle of type TPM_HT_TRANSIENT for the loaded object  */
+    /// <summary> Handle of type TPM_HT_TRANSIENT for the loaded object </summary>
     TPM_HANDLE handle;
     
-    /** Name of the loaded object  */
+    /// <summary> Name of the loaded object </summary>
     ByteVec name;
 
 public:
@@ -9265,10 +9013,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static LoadResponse fromTpm(TpmBuffer& buf) { return buf.createObj<LoadResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static LoadResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<LoadResponse>(buf); }
     
     virtual const char* TypeName () const { return "LoadResponse"; }
@@ -9288,19 +9036,19 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class LoadResponse
 
-/** This command is used to load an object that is not a Protected Object into the TPM.
- *  The command allows loading of a public area or both a public and sensitive area.
- */
+/// <summary> This command is used to load an object that is not a Protected Object into
+/// the TPM. The command allows loading of a public area or both a public and sensitive
+/// area. </summary>
 class _DLLEXP_ TPM2_LoadExternal_REQUEST : public ReqStructure
 {
 public:
-    /** The sensitive portion of the object (optional)  */
+    /// <summary> The sensitive portion of the object (optional) </summary>
     TPMT_SENSITIVE inPrivate;
     
-    /** The public portion of the object  */
+    /// <summary> The public portion of the object </summary>
     TPMT_PUBLIC inPublic;
     
-    /** Hierarchy with which the object area is associated  */
+    /// <summary> Hierarchy with which the object area is associated </summary>
     TPM_HANDLE hierarchy;
 
 public:
@@ -9312,10 +9060,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_LoadExternal_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_LoadExternal_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_LoadExternal_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_LoadExternal_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_LoadExternal_REQUEST"; }
@@ -9331,16 +9079,16 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_LoadExternal_REQUEST
 
-/** This command is used to load an object that is not a Protected Object into the TPM.
- *  The command allows loading of a public area or both a public and sensitive area.
- */
+/// <summary> This command is used to load an object that is not a Protected Object into
+/// the TPM. The command allows loading of a public area or both a public and sensitive
+/// area. </summary>
 class _DLLEXP_ LoadExternalResponse : public RespStructure
 {
 public:
-    /** Handle of type TPM_HT_TRANSIENT for the loaded object  */
+    /// <summary> Handle of type TPM_HT_TRANSIENT for the loaded object </summary>
     TPM_HANDLE handle;
     
-    /** Name of the loaded object  */
+    /// <summary> Name of the loaded object </summary>
     ByteVec name;
 
 public:
@@ -9349,10 +9097,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static LoadExternalResponse fromTpm(TpmBuffer& buf) { return buf.createObj<LoadExternalResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static LoadExternalResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<LoadExternalResponse>(buf); }
     
     virtual const char* TypeName () const { return "LoadExternalResponse"; }
@@ -9372,13 +9120,12 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class LoadExternalResponse
 
-/** This command allows access to the public area of a loaded object.  */
+/// <summary> This command allows access to the public area of a loaded object. </summary>
 class _DLLEXP_ TPM2_ReadPublic_REQUEST : public ReqStructure
 {
 public:
-    /** TPM handle of an object
-     *  Auth Index: None
-     */
+    /// <summary> TPM handle of an object
+    /// Auth Index: None </summary>
     TPM_HANDLE objectHandle;
 
 public:
@@ -9387,10 +9134,10 @@ public:
       : objectHandle(_objectHandle)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ReadPublic_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ReadPublic_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ReadPublic_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ReadPublic_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ReadPublic_REQUEST"; }
@@ -9408,17 +9155,17 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {objectHandle}; }
 }; // class TPM2_ReadPublic_REQUEST
 
-/** This command allows access to the public area of a loaded object.  */
+/// <summary> This command allows access to the public area of a loaded object. </summary>
 class _DLLEXP_ ReadPublicResponse : public RespStructure
 {
 public:
-    /** Structure containing the public area of an object  */
+    /// <summary> Structure containing the public area of an object </summary>
     TPMT_PUBLIC outPublic;
     
-    /** Name of the object  */
+    /// <summary> Name of the object </summary>
     ByteVec name;
     
-    /** The Qualified Name of the object  */
+    /// <summary> The Qualified Name of the object </summary>
     ByteVec qualifiedName;
 
 public:
@@ -9427,10 +9174,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ReadPublicResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ReadPublicResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ReadPublicResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ReadPublicResponse>(buf); }
     
     virtual const char* TypeName () const { return "ReadPublicResponse"; }
@@ -9446,28 +9193,25 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class ReadPublicResponse
 
-/** This command enables the association of a credential with an object in a way that
- *  ensures that the TPM has validated the parameters of the credentialed object.
- */
+/// <summary> This command enables the association of a credential with an object in a way
+/// that ensures that the TPM has validated the parameters of the credentialed object. </summary>
 class _DLLEXP_ TPM2_ActivateCredential_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the object associated with certificate in credentialBlob
-     *  Auth Index: 1
-     *  Auth Role: ADMIN
-     */
+    /// <summary> Handle of the object associated with certificate in credentialBlob
+    /// Auth Index: 1
+    /// Auth Role: ADMIN </summary>
     TPM_HANDLE activateHandle;
     
-    /** Loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
-     *  Auth Index: 2
-     *  Auth Role: USER
-     */
+    /// <summary> Loaded key used to decrypt the TPMS_SENSITIVE in credentialBlob
+    /// Auth Index: 2
+    /// Auth Role: USER </summary>
     TPM_HANDLE keyHandle;
     
-    /** The credential  */
+    /// <summary> The credential </summary>
     TPMS_ID_OBJECT credentialBlob;
     
-    /** KeyHandle algorithm-dependent encrypted seed that protects credentialBlob  */
+    /// <summary> KeyHandle algorithm-dependent encrypted seed that protects credentialBlob </summary>
     ByteVec secret;
 
 public:
@@ -9479,10 +9223,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ActivateCredential_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ActivateCredential_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ActivateCredential_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ActivateCredential_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ActivateCredential_REQUEST"; }
@@ -9502,16 +9246,14 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_ActivateCredential_REQUEST
 
-/** This command enables the association of a credential with an object in a way that
- *  ensures that the TPM has validated the parameters of the credentialed object.
- */
+/// <summary> This command enables the association of a credential with an object in a way
+/// that ensures that the TPM has validated the parameters of the credentialed object. </summary>
 class _DLLEXP_ ActivateCredentialResponse : public RespStructure
 {
 public:
-    /** The decrypted certificate information
-     *  the data should be no larger than the size of the digest of the nameAlg associated
-     *  with keyHandle
-     */
+    /// <summary> The decrypted certificate information
+    /// the data should be no larger than the size of the digest of the nameAlg associated
+    /// with keyHandle </summary>
     ByteVec certInfo;
 
 public:
@@ -9520,10 +9262,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ActivateCredentialResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ActivateCredentialResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ActivateCredentialResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ActivateCredentialResponse>(buf); }
     
     virtual const char* TypeName () const { return "ActivateCredentialResponse"; }
@@ -9539,21 +9281,20 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class ActivateCredentialResponse
 
-/** This command allows the TPM to perform the actions required of a Certificate Authority
- *  (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
- */
+/// <summary> This command allows the TPM to perform the actions required of a Certificate
+/// Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential. </summary>
 class _DLLEXP_ TPM2_MakeCredential_REQUEST : public ReqStructure
 {
 public:
-    /** Loaded public area, used to encrypt the sensitive area containing the credential key
-     *  Auth Index: None
-     */
+    /// <summary> Loaded public area, used to encrypt the sensitive area containing the
+    /// credential key
+    /// Auth Index: None </summary>
     TPM_HANDLE handle;
     
-    /** The credential information  */
+    /// <summary> The credential information </summary>
     ByteVec credential;
     
-    /** Name of the object to which the credential applies  */
+    /// <summary> Name of the object to which the credential applies </summary>
     ByteVec objectName;
 
 public:
@@ -9565,10 +9306,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_MakeCredential_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_MakeCredential_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_MakeCredential_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_MakeCredential_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_MakeCredential_REQUEST"; }
@@ -9588,16 +9329,16 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_MakeCredential_REQUEST
 
-/** This command allows the TPM to perform the actions required of a Certificate Authority
- *  (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
- */
+/// <summary> This command allows the TPM to perform the actions required of a Certificate
+/// Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential. </summary>
 class _DLLEXP_ MakeCredentialResponse : public RespStructure
 {
 public:
-    /** The credential  */
+    /// <summary> The credential </summary>
     TPMS_ID_OBJECT credentialBlob;
     
-    /** Handle algorithm-dependent data that wraps the key that encrypts credentialBlob  */
+    /// <summary> Handle algorithm-dependent data that wraps the key that encrypts
+    /// credentialBlob </summary>
     ByteVec secret;
 
 public:
@@ -9606,10 +9347,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static MakeCredentialResponse fromTpm(TpmBuffer& buf) { return buf.createObj<MakeCredentialResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static MakeCredentialResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<MakeCredentialResponse>(buf); }
     
     virtual const char* TypeName () const { return "MakeCredentialResponse"; }
@@ -9625,14 +9366,13 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class MakeCredentialResponse
 
-/** This command returns the data in a loaded Sealed Data Object.  */
+/// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
 class _DLLEXP_ TPM2_Unseal_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of a loaded data object
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of a loaded data object
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE itemHandle;
 
 public:
@@ -9641,10 +9381,10 @@ public:
       : itemHandle(_itemHandle)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Unseal_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Unseal_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Unseal_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Unseal_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Unseal_REQUEST"; }
@@ -9662,13 +9402,12 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {itemHandle}; }
 }; // class TPM2_Unseal_REQUEST
 
-/** This command returns the data in a loaded Sealed Data Object.  */
+/// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
 class _DLLEXP_ UnsealResponse : public RespStructure
 {
 public:
-    /** Unsealed data
-     *  Size of outData is limited to be no more than 128 octets.
-     */
+    /// <summary> Unsealed data
+    /// Size of outData is limited to be no more than 128 octets. </summary>
     ByteVec outData;
 
 public:
@@ -9677,10 +9416,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static UnsealResponse fromTpm(TpmBuffer& buf) { return buf.createObj<UnsealResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static UnsealResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<UnsealResponse>(buf); }
     
     virtual const char* TypeName () const { return "UnsealResponse"; }
@@ -9696,22 +9435,21 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class UnsealResponse
 
-/** This command is used to change the authorization secret for a TPM-resident object.  */
+/// <summary> This command is used to change the authorization secret for a TPM-resident
+/// object. </summary>
 class _DLLEXP_ TPM2_ObjectChangeAuth_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the object
-     *  Auth Index: 1
-     *  Auth Role: ADMIN
-     */
+    /// <summary> Handle of the object
+    /// Auth Index: 1
+    /// Auth Role: ADMIN </summary>
     TPM_HANDLE objectHandle;
     
-    /** Handle of the parent
-     *  Auth Index: None
-     */
+    /// <summary> Handle of the parent
+    /// Auth Index: None </summary>
     TPM_HANDLE parentHandle;
     
-    /** New authorization value  */
+    /// <summary> New authorization value </summary>
     ByteVec newAuth;
 
 public:
@@ -9723,10 +9461,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ObjectChangeAuth_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ObjectChangeAuth_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ObjectChangeAuth_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ObjectChangeAuth_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ObjectChangeAuth_REQUEST"; }
@@ -9746,11 +9484,12 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_ObjectChangeAuth_REQUEST
 
-/** This command is used to change the authorization secret for a TPM-resident object.  */
+/// <summary> This command is used to change the authorization secret for a TPM-resident
+/// object. </summary>
 class _DLLEXP_ ObjectChangeAuthResponse : public RespStructure
 {
 public:
-    /** Private area containing the new authorization value  */
+    /// <summary> Private area containing the new authorization value </summary>
     TPM2B_PRIVATE outPrivate;
 
 public:
@@ -9759,10 +9498,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ObjectChangeAuthResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ObjectChangeAuthResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ObjectChangeAuthResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ObjectChangeAuthResponse>(buf); }
     
     virtual const char* TypeName () const { return "ObjectChangeAuthResponse"; }
@@ -9775,26 +9514,25 @@ public:
     virtual TpmStructure* Clone() const { return new ObjectChangeAuthResponse(*this); }
 }; // class ObjectChangeAuthResponse
 
-/** This command creates an object and loads it in the TPM. This command allows creation
- *  of any type of object (Primary, Ordinary, or Derived) depending on the type of
- *  parentHandle. If parentHandle references a Primary Seed, then a Primary Object is
- *  created; if parentHandle references a Storage Parent, then an Ordinary Object is
- *  created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
- */
+/// <summary> This command creates an object and loads it in the TPM. This command allows
+/// creation of any type of object (Primary, Ordinary, or Derived) depending on the type
+/// of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is
+/// created; if parentHandle references a Storage Parent, then an Ordinary Object is
+/// created; and if parentHandle references a Derivation Parent, then a Derived Object is
+/// generated. </summary>
 class _DLLEXP_ TPM2_CreateLoaded_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of a transient storage key, a persistent storage key, TPM_RH_ENDORSEMENT,
-     *  TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of a transient storage key, a persistent storage key,
+    /// TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE parentHandle;
     
-    /** The sensitive data, see TPM 2.0 Part 1 Sensitive Values  */
+    /// <summary> The sensitive data, see TPM 2.0 Part 1 Sensitive Values </summary>
     TPMS_SENSITIVE_CREATE inSensitive;
     
-    /** The public template  */
+    /// <summary> The public template </summary>
     ByteVec inPublic;
 
 public:
@@ -9806,10 +9544,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_CreateLoaded_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_CreateLoaded_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_CreateLoaded_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_CreateLoaded_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_CreateLoaded_REQUEST"; }
@@ -9829,25 +9567,25 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_CreateLoaded_REQUEST
 
-/** This command creates an object and loads it in the TPM. This command allows creation
- *  of any type of object (Primary, Ordinary, or Derived) depending on the type of
- *  parentHandle. If parentHandle references a Primary Seed, then a Primary Object is
- *  created; if parentHandle references a Storage Parent, then an Ordinary Object is
- *  created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
- */
+/// <summary> This command creates an object and loads it in the TPM. This command allows
+/// creation of any type of object (Primary, Ordinary, or Derived) depending on the type
+/// of parentHandle. If parentHandle references a Primary Seed, then a Primary Object is
+/// created; if parentHandle references a Storage Parent, then an Ordinary Object is
+/// created; and if parentHandle references a Derivation Parent, then a Derived Object is
+/// generated. </summary>
 class _DLLEXP_ CreateLoadedResponse : public RespStructure
 {
 public:
-    /** Handle of type TPM_HT_TRANSIENT for created object  */
+    /// <summary> Handle of type TPM_HT_TRANSIENT for created object </summary>
     TPM_HANDLE handle;
     
-    /** The sensitive area of the object (optional)  */
+    /// <summary> The sensitive area of the object (optional) </summary>
     TPM2B_PRIVATE outPrivate;
     
-    /** The public portion of the created object  */
+    /// <summary> The public portion of the created object </summary>
     TPMT_PUBLIC outPublic;
     
-    /** The name of the created object  */
+    /// <summary> The name of the created object </summary>
     ByteVec name;
 
 public:
@@ -9856,10 +9594,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CreateLoadedResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CreateLoadedResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CreateLoadedResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CreateLoadedResponse>(buf); }
     
     virtual const char* TypeName () const { return "CreateLoadedResponse"; }
@@ -9877,33 +9615,29 @@ protected:
     virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
 }; // class CreateLoadedResponse
 
-/** This command duplicates a loaded object so that it may be used in a different
- *  hierarchy. The new parent key for the duplicate may be on the same or different TPM or
- *  TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
- */
+/// <summary> This command duplicates a loaded object so that it may be used in a
+/// different hierarchy. The new parent key for the duplicate may be on the same or
+/// different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to
+/// be loaded. </summary>
 class _DLLEXP_ TPM2_Duplicate_REQUEST : public ReqStructure
 {
 public:
-    /** Loaded object to duplicate
-     *  Auth Index: 1
-     *  Auth Role: DUP
-     */
+    /// <summary> Loaded object to duplicate
+    /// Auth Index: 1
+    /// Auth Role: DUP </summary>
     TPM_HANDLE objectHandle;
     
-    /** Shall reference the public area of an asymmetric key
-     *  Auth Index: None
-     */
+    /// <summary> Shall reference the public area of an asymmetric key
+    /// Auth Index: None </summary>
     TPM_HANDLE newParentHandle;
     
-    /** Optional symmetric encryption key
-     *  The size for this key is set to zero when the TPM is to generate the key. This
-     *  parameter may be encrypted.
-     */
+    /// <summary> Optional symmetric encryption key
+    /// The size for this key is set to zero when the TPM is to generate the key. This
+    /// parameter may be encrypted. </summary>
     ByteVec encryptionKeyIn;
     
-    /** Definition for the symmetric algorithm to be used for the inner wrapper
-     *  may be TPM_ALG_NULL if no inner wrapper is applied
-     */
+    /// <summary> Definition for the symmetric algorithm to be used for the inner wrapper
+    /// may be TPM_ALG_NULL if no inner wrapper is applied </summary>
     TPMT_SYM_DEF_OBJECT symmetricAlg;
 
 public:
@@ -9915,10 +9649,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Duplicate_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Duplicate_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Duplicate_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Duplicate_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Duplicate_REQUEST"; }
@@ -9938,23 +9672,23 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_Duplicate_REQUEST
 
-/** This command duplicates a loaded object so that it may be used in a different
- *  hierarchy. The new parent key for the duplicate may be on the same or different TPM or
- *  TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
- */
+/// <summary> This command duplicates a loaded object so that it may be used in a
+/// different hierarchy. The new parent key for the duplicate may be on the same or
+/// different TPM or TPM_RH_NULL. Only the public area of newParentHandle is required to
+/// be loaded. </summary>
 class _DLLEXP_ DuplicateResponse : public RespStructure
 {
 public:
-    /** If the caller provided an encryption key or if symmetricAlg was TPM_ALG_NULL, then
-     *  this will be the Empty Buffer; otherwise, it shall contain the TPM-generated,
-     *  symmetric encryption key for the inner wrapper.
-     */
+    /// <summary> If the caller provided an encryption key or if symmetricAlg was
+    /// TPM_ALG_NULL, then this will be the Empty Buffer; otherwise, it shall contain the
+    /// TPM-generated, symmetric encryption key for the inner wrapper. </summary>
     ByteVec encryptionKeyOut;
     
-    /** Private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted  */
+    /// <summary> Private area that may be encrypted by encryptionKeyIn; and may be doubly
+    /// encrypted </summary>
     TPM2B_PRIVATE duplicate;
     
-    /** Seed protected by the asymmetric algorithms of new parent (NP)  */
+    /// <summary> Seed protected by the asymmetric algorithms of new parent (NP) </summary>
     ByteVec outSymSeed;
 
 public:
@@ -9963,10 +9697,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static DuplicateResponse fromTpm(TpmBuffer& buf) { return buf.createObj<DuplicateResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static DuplicateResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<DuplicateResponse>(buf); }
     
     virtual const char* TypeName () const { return "DuplicateResponse"; }
@@ -9982,36 +9716,33 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class DuplicateResponse
 
-/** This command allows the TPM to serve in the role as a Duplication Authority. If proper
- *  authorization for use of the oldParent is provided, then an HMAC key and a symmetric
- *  key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate.
- *  A new protection seed value is generated according to the methods appropriate for
- *  newParent and the blob is re-encrypted and a new integrity value is computed. The
- *  re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
- */
+/// <summary> This command allows the TPM to serve in the role as a Duplication Authority.
+/// If proper authorization for use of the oldParent is provided, then an HMAC key and a
+/// symmetric key are recovered from inSymSeed and used to integrity check and decrypt
+/// inDuplicate. A new protection seed value is generated according to the methods
+/// appropriate for newParent and the blob is re-encrypted and a new integrity value is
+/// computed. The re-encrypted blob is returned in outDuplicate and the symmetric key
+/// returned in outSymKey. </summary>
 class _DLLEXP_ TPM2_Rewrap_REQUEST : public ReqStructure
 {
 public:
-    /** Parent of object
-     *  Auth Index: 1
-     *  Auth Role: User
-     */
+    /// <summary> Parent of object
+    /// Auth Index: 1
+    /// Auth Role: User </summary>
     TPM_HANDLE oldParent;
     
-    /** New parent of the object
-     *  Auth Index: None
-     */
+    /// <summary> New parent of the object
+    /// Auth Index: None </summary>
     TPM_HANDLE newParent;
     
-    /** An object encrypted using symmetric key derived from inSymSeed  */
+    /// <summary> An object encrypted using symmetric key derived from inSymSeed </summary>
     TPM2B_PRIVATE inDuplicate;
     
-    /** The Name of the object being rewrapped  */
+    /// <summary> The Name of the object being rewrapped </summary>
     ByteVec name;
     
-    /** The seed for the symmetric key and HMAC key
-     *  needs oldParent private key to recover the seed and generate the symmetric key
-     */
+    /// <summary> The seed for the symmetric key and HMAC key
+    /// needs oldParent private key to recover the seed and generate the symmetric key </summary>
     ByteVec inSymSeed;
 
 public:
@@ -10023,10 +9754,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Rewrap_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Rewrap_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Rewrap_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Rewrap_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Rewrap_REQUEST"; }
@@ -10044,20 +9775,20 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {oldParent, newParent}; }
 }; // class TPM2_Rewrap_REQUEST
 
-/** This command allows the TPM to serve in the role as a Duplication Authority. If proper
- *  authorization for use of the oldParent is provided, then an HMAC key and a symmetric
- *  key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate.
- *  A new protection seed value is generated according to the methods appropriate for
- *  newParent and the blob is re-encrypted and a new integrity value is computed. The
- *  re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
- */
+/// <summary> This command allows the TPM to serve in the role as a Duplication Authority.
+/// If proper authorization for use of the oldParent is provided, then an HMAC key and a
+/// symmetric key are recovered from inSymSeed and used to integrity check and decrypt
+/// inDuplicate. A new protection seed value is generated according to the methods
+/// appropriate for newParent and the blob is re-encrypted and a new integrity value is
+/// computed. The re-encrypted blob is returned in outDuplicate and the symmetric key
+/// returned in outSymKey. </summary>
 class _DLLEXP_ RewrapResponse : public RespStructure
 {
 public:
-    /** An object encrypted using symmetric key derived from outSymSeed  */
+    /// <summary> An object encrypted using symmetric key derived from outSymSeed </summary>
     TPM2B_PRIVATE outDuplicate;
     
-    /** Seed for a symmetric key protected by newParent asymmetric key  */
+    /// <summary> Seed for a symmetric key protected by newParent asymmetric key </summary>
     ByteVec outSymSeed;
 
 public:
@@ -10066,10 +9797,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static RewrapResponse fromTpm(TpmBuffer& buf) { return buf.createObj<RewrapResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static RewrapResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<RewrapResponse>(buf); }
     
     virtual const char* TypeName () const { return "RewrapResponse"; }
@@ -10082,45 +9813,40 @@ public:
     virtual TpmStructure* Clone() const { return new RewrapResponse(*this); }
 }; // class RewrapResponse
 
-/** This command allows an object to be encrypted using the symmetric encryption values of
- *  a Storage Key. After encryption, the object may be loaded and used in the new
- *  hierarchy. The imported object (duplicate) may be singly encrypted, multiply
- *  encrypted, or unencrypted.
- */
+/// <summary> This command allows an object to be encrypted using the symmetric encryption
+/// values of a Storage Key. After encryption, the object may be loaded and used in the
+/// new hierarchy. The imported object (duplicate) may be singly encrypted, multiply
+/// encrypted, or unencrypted. </summary>
 class _DLLEXP_ TPM2_Import_REQUEST : public ReqStructure
 {
 public:
-    /** The handle of the new parent for the object
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> The handle of the new parent for the object
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE parentHandle;
     
-    /** The optional symmetric encryption key used as the inner wrapper for duplicate
-     *  If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer.
-     */
+    /// <summary> The optional symmetric encryption key used as the inner wrapper for duplicate
+    /// If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer. </summary>
     ByteVec encryptionKey;
     
-    /** The public area of the object to be imported
-     *  This is provided so that the integrity value for duplicate and the object attributes
-     *  can be checked.
-     *  NOTE Even if the integrity value of the object is not checked on input, the object
-     *  Name is required to create the integrity value for the imported object.
-     */
+    /// <summary> The public area of the object to be imported
+    /// This is provided so that the integrity value for duplicate and the object attributes
+    /// can be checked.
+    /// NOTE Even if the integrity value of the object is not checked on input, the object
+    /// Name is required to create the integrity value for the imported object. </summary>
     TPMT_PUBLIC objectPublic;
     
-    /** The symmetrically encrypted duplicate object that may contain an inner symmetric wrapper  */
+    /// <summary> The symmetrically encrypted duplicate object that may contain an inner
+    /// symmetric wrapper </summary>
     TPM2B_PRIVATE duplicate;
     
-    /** The seed for the symmetric key and HMAC key
-     *  inSymSeed is encrypted/encoded using the algorithms of newParent.
-     */
+    /// <summary> The seed for the symmetric key and HMAC key
+    /// inSymSeed is encrypted/encoded using the algorithms of newParent. </summary>
     ByteVec inSymSeed;
     
-    /** Definition for the symmetric algorithm to use for the inner wrapper
-     *  If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall
-     *  be the Empty Buffer.
-     */
+    /// <summary> Definition for the symmetric algorithm to use for the inner wrapper
+    /// If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall
+    /// be the Empty Buffer. </summary>
     TPMT_SYM_DEF_OBJECT symmetricAlg;
 
 public:
@@ -10132,10 +9858,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Import_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Import_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Import_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Import_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Import_REQUEST"; }
@@ -10155,15 +9881,14 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_Import_REQUEST
 
-/** This command allows an object to be encrypted using the symmetric encryption values of
- *  a Storage Key. After encryption, the object may be loaded and used in the new
- *  hierarchy. The imported object (duplicate) may be singly encrypted, multiply
- *  encrypted, or unencrypted.
- */
+/// <summary> This command allows an object to be encrypted using the symmetric encryption
+/// values of a Storage Key. After encryption, the object may be loaded and used in the
+/// new hierarchy. The imported object (duplicate) may be singly encrypted, multiply
+/// encrypted, or unencrypted. </summary>
 class _DLLEXP_ ImportResponse : public RespStructure
 {
 public:
-    /** The sensitive area encrypted with the symmetric key of parentHandle  */
+    /// <summary> The sensitive area encrypted with the symmetric key of parentHandle </summary>
     TPM2B_PRIVATE outPrivate;
 
 public:
@@ -10172,10 +9897,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ImportResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ImportResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ImportResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ImportResponse>(buf); }
     
     virtual const char* TypeName () const { return "ImportResponse"; }
@@ -10188,41 +9913,37 @@ public:
     virtual TpmStructure* Clone() const { return new ImportResponse(*this); }
 }; // class ImportResponse
 
-/** This command performs RSA encryption using the indicated padding scheme according to
- *  IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use
- *  inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL,
- *  then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
- */
+/// <summary> This command performs RSA encryption using the indicated padding scheme
+/// according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the
+/// caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not
+/// TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme
+/// (TPM_RC_SCHEME). </summary>
 class _DLLEXP_ TPM2_RSA_Encrypt_REQUEST : public ReqStructure
 {
 public:
-    /** Reference to public portion of RSA key to use for encryption
-     *  Auth Index: None
-     */
+    /// <summary> Reference to public portion of RSA key to use for encryption
+    /// Auth Index: None </summary>
     TPM_HANDLE keyHandle;
     
-    /** Message to be encrypted
-     *  NOTE 1 The data type was chosen because it limits the overall size of the input to no
-     *  greater than the size of the largest RSA public key. This may be larger than allowed
-     *  for keyHandle.
-     */
+    /// <summary> Message to be encrypted
+    /// NOTE 1 The data type was chosen because it limits the overall size of the input to no
+    /// greater than the size of the largest RSA public key. This may be larger than allowed
+    /// for keyHandle. </summary>
     ByteVec message;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
-     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     */
+    /// <summary> The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
+    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+    /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
     shared_ptr<TPMU_ASYM_SCHEME> inScheme;
     
-    /** Optional label L to be associated with the message
-     *  Size of the buffer is zero if no label is present
-     *  NOTE 2 See description of label above.
-     */
+    /// <summary> Optional label L to be associated with the message
+    /// Size of the buffer is zero if no label is present
+    /// NOTE 2 See description of label above. </summary>
     ByteVec label;
 
 public:
@@ -10234,10 +9955,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_RSA_Encrypt_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_RSA_Encrypt_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_RSA_Encrypt_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_RSA_Encrypt_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_RSA_Encrypt_REQUEST"; }
@@ -10257,15 +9978,15 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_RSA_Encrypt_REQUEST
 
-/** This command performs RSA encryption using the indicated padding scheme according to
- *  IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use
- *  inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL,
- *  then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
- */
+/// <summary> This command performs RSA encryption using the indicated padding scheme
+/// according to IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the
+/// caller may use inScheme to specify the padding scheme. If scheme of keyHandle is not
+/// TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme
+/// (TPM_RC_SCHEME). </summary>
 class _DLLEXP_ RSA_EncryptResponse : public RespStructure
 {
 public:
-    /** Encrypted output  */
+    /// <summary> Encrypted output </summary>
     ByteVec outData;
 
 public:
@@ -10274,10 +9995,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static RSA_EncryptResponse fromTpm(TpmBuffer& buf) { return buf.createObj<RSA_EncryptResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static RSA_EncryptResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<RSA_EncryptResponse>(buf); }
     
     virtual const char* TypeName () const { return "RSA_EncryptResponse"; }
@@ -10293,35 +10014,31 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class RSA_EncryptResponse
 
-/** This command performs RSA decryption using the indicated padding scheme according to
- *  IETF RFC 8017 ((PKCS#1).
- */
+/// <summary> This command performs RSA decryption using the indicated padding scheme
+/// according to IETF RFC 8017 ((PKCS#1). </summary>
 class _DLLEXP_ TPM2_RSA_Decrypt_REQUEST : public ReqStructure
 {
 public:
-    /** RSA key to use for decryption
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> RSA key to use for decryption
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE keyHandle;
     
-    /** Cipher text to be decrypted
-     *  NOTE An encrypted RSA data block is the size of the public modulus.
-     */
+    /// <summary> Cipher text to be decrypted
+    /// NOTE An encrypted RSA data block is the size of the public modulus. </summary>
     ByteVec cipherText;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
-     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
-     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
-     */
+    /// <summary> The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
+    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+    /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
     shared_ptr<TPMU_ASYM_SCHEME> inScheme;
     
-    /** Label whose association with the message is to be verified  */
+    /// <summary> Label whose association with the message is to be verified </summary>
     ByteVec label;
 
 public:
@@ -10333,10 +10050,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_RSA_Decrypt_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_RSA_Decrypt_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_RSA_Decrypt_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_RSA_Decrypt_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_RSA_Decrypt_REQUEST"; }
@@ -10356,13 +10073,12 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_RSA_Decrypt_REQUEST
 
-/** This command performs RSA decryption using the indicated padding scheme according to
- *  IETF RFC 8017 ((PKCS#1).
- */
+/// <summary> This command performs RSA decryption using the indicated padding scheme
+/// according to IETF RFC 8017 ((PKCS#1). </summary>
 class _DLLEXP_ RSA_DecryptResponse : public RespStructure
 {
 public:
-    /** Decrypted output  */
+    /// <summary> Decrypted output </summary>
     ByteVec message;
 
 public:
@@ -10371,10 +10087,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static RSA_DecryptResponse fromTpm(TpmBuffer& buf) { return buf.createObj<RSA_DecryptResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static RSA_DecryptResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<RSA_DecryptResponse>(buf); }
     
     virtual const char* TypeName () const { return "RSA_DecryptResponse"; }
@@ -10390,16 +10106,14 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class RSA_DecryptResponse
 
-/** This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G).
- *  It uses the private ephemeral key and a loaded public key (QS) to compute the shared
- *  secret value (P [hde]QS).
- */
+/// <summary> This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe
+/// [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the
+/// shared secret value (P [hde]QS). </summary>
 class _DLLEXP_ TPM2_ECDH_KeyGen_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of a loaded ECC key public area.
-     *  Auth Index: None
-     */
+    /// <summary> Handle of a loaded ECC key public area.
+    /// Auth Index: None </summary>
     TPM_HANDLE keyHandle;
 
 public:
@@ -10408,10 +10122,10 @@ public:
       : keyHandle(_keyHandle)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ECDH_KeyGen_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ECDH_KeyGen_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ECDH_KeyGen_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ECDH_KeyGen_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ECDH_KeyGen_REQUEST"; }
@@ -10429,17 +10143,16 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
 }; // class TPM2_ECDH_KeyGen_REQUEST
 
-/** This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G).
- *  It uses the private ephemeral key and a loaded public key (QS) to compute the shared
- *  secret value (P [hde]QS).
- */
+/// <summary> This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe
+/// [de]G). It uses the private ephemeral key and a loaded public key (QS) to compute the
+/// shared secret value (P [hde]QS). </summary>
 class _DLLEXP_ ECDH_KeyGenResponse : public RespStructure
 {
 public:
-    /** Results of P h[de]Qs  */
+    /// <summary> Results of P h[de]Qs </summary>
     TPMS_ECC_POINT zPoint;
     
-    /** Generated ephemeral public point (Qe)  */
+    /// <summary> Generated ephemeral public point (Qe) </summary>
     TPMS_ECC_POINT pubPoint;
 
 public:
@@ -10448,10 +10161,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ECDH_KeyGenResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ECDH_KeyGenResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ECDH_KeyGenResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ECDH_KeyGenResponse>(buf); }
     
     virtual const char* TypeName () const { return "ECDH_KeyGenResponse"; }
@@ -10467,21 +10180,19 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class ECDH_KeyGenResponse
 
-/** This command uses the TPM to recover the Z value from a public point (QB) and a
- *  private key (ds). It will perform the multiplication of the provided inPoint (QB) with
- *  the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)
- *  [hds]QB; where h is the cofactor of the curve).
- */
+/// <summary> This command uses the TPM to recover the Z value from a public point (QB)
+/// and a private key (ds). It will perform the multiplication of the provided inPoint
+/// (QB) with the private key (ds) and return the coordinates of the resultant point (Z =
+/// (xZ , yZ) [hds]QB; where h is the cofactor of the curve). </summary>
 class _DLLEXP_ TPM2_ECDH_ZGen_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of a loaded ECC key
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of a loaded ECC key
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE keyHandle;
     
-    /** A public key  */
+    /// <summary> A public key </summary>
     TPMS_ECC_POINT inPoint;
 
 public:
@@ -10493,10 +10204,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ECDH_ZGen_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ECDH_ZGen_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ECDH_ZGen_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ECDH_ZGen_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ECDH_ZGen_REQUEST"; }
@@ -10516,15 +10227,15 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_ECDH_ZGen_REQUEST
 
-/** This command uses the TPM to recover the Z value from a public point (QB) and a
- *  private key (ds). It will perform the multiplication of the provided inPoint (QB) with
- *  the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)
- *  [hds]QB; where h is the cofactor of the curve).
- */
+/// <summary> This command uses the TPM to recover the Z value from a public point (QB)
+/// and a private key (ds). It will perform the multiplication of the provided inPoint
+/// (QB) with the private key (ds) and return the coordinates of the resultant point (Z =
+/// (xZ , yZ) [hds]QB; where h is the cofactor of the curve). </summary>
 class _DLLEXP_ ECDH_ZGenResponse : public RespStructure
 {
 public:
-    /** X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB  */
+    /// <summary> X and Y coordinates of the product of the multiplication Z = (xZ , yZ)
+    /// [hdS]QB </summary>
     TPMS_ECC_POINT outPoint;
 
 public:
@@ -10533,10 +10244,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ECDH_ZGenResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ECDH_ZGenResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ECDH_ZGenResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ECDH_ZGenResponse>(buf); }
     
     virtual const char* TypeName () const { return "ECDH_ZGenResponse"; }
@@ -10552,11 +10263,12 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class ECDH_ZGenResponse
 
-/** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.  */
+/// <summary> This command returns the parameters of an ECC curve identified by its
+/// TCG-assigned curveID. </summary>
 class _DLLEXP_ TPM2_ECC_Parameters_REQUEST : public ReqStructure
 {
 public:
-    /** Parameter set selector  */
+    /// <summary> Parameter set selector </summary>
     TPM_ECC_CURVE curveID;
 
 public:
@@ -10568,10 +10280,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ECC_Parameters_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ECC_Parameters_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ECC_Parameters_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ECC_Parameters_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ECC_Parameters_REQUEST"; }
@@ -10584,11 +10296,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_ECC_Parameters_REQUEST(*this); }
 }; // class TPM2_ECC_Parameters_REQUEST
 
-/** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.  */
+/// <summary> This command returns the parameters of an ECC curve identified by its
+/// TCG-assigned curveID. </summary>
 class _DLLEXP_ ECC_ParametersResponse : public RespStructure
 {
 public:
-    /** ECC parameters for the selected curve  */
+    /// <summary> ECC parameters for the selected curve </summary>
     TPMS_ALGORITHM_DETAIL_ECC parameters;
 
 public:
@@ -10597,10 +10310,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ECC_ParametersResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ECC_ParametersResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ECC_ParametersResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ECC_ParametersResponse>(buf); }
     
     virtual const char* TypeName () const { return "ECC_ParametersResponse"; }
@@ -10613,31 +10326,29 @@ public:
     virtual TpmStructure* Clone() const { return new ECC_ParametersResponse(*this); }
 }; // class ECC_ParametersResponse
 
-/** This command supports two-phase key exchange protocols. The command is used in
- *  combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key
- *  and returns the public point of that ephemeral key along with a numeric value that
- *  allows the TPM to regenerate the associated private key.
- */
+/// <summary> This command supports two-phase key exchange protocols. The command is used
+/// in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral
+/// key and returns the public point of that ephemeral key along with a numeric value that
+/// allows the TPM to regenerate the associated private key. </summary>
 class _DLLEXP_ TPM2_ZGen_2Phase_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of an unrestricted decryption key ECC
-     *  The private key referenced by this handle is used as dS,A
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of an unrestricted decryption key ECC
+    /// The private key referenced by this handle is used as dS,A
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE keyA;
     
-    /** Other partys static public key (Qs,B = (Xs,B, Ys,B))  */
+    /// <summary> Other partys static public key (Qs,B = (Xs,B, Ys,B)) </summary>
     TPMS_ECC_POINT inQsB;
     
-    /** Other party's ephemeral public key (Qe,B = (Xe,B, Ye,B))  */
+    /// <summary> Other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) </summary>
     TPMS_ECC_POINT inQeB;
     
-    /** The key exchange scheme  */
+    /// <summary> The key exchange scheme </summary>
     TPM_ALG_ID inScheme;
     
-    /** Value returned by TPM2_EC_Ephemeral()  */
+    /// <summary> Value returned by TPM2_EC_Ephemeral() </summary>
     UINT16 counter;
 
 public:
@@ -10649,10 +10360,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ZGen_2Phase_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ZGen_2Phase_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ZGen_2Phase_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ZGen_2Phase_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ZGen_2Phase_REQUEST"; }
@@ -10672,18 +10383,17 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_ZGen_2Phase_REQUEST
 
-/** This command supports two-phase key exchange protocols. The command is used in
- *  combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key
- *  and returns the public point of that ephemeral key along with a numeric value that
- *  allows the TPM to regenerate the associated private key.
- */
+/// <summary> This command supports two-phase key exchange protocols. The command is used
+/// in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral
+/// key and returns the public point of that ephemeral key along with a numeric value that
+/// allows the TPM to regenerate the associated private key. </summary>
 class _DLLEXP_ ZGen_2PhaseResponse : public RespStructure
 {
 public:
-    /** X and Y coordinates of the computed value (scheme dependent)  */
+    /// <summary> X and Y coordinates of the computed value (scheme dependent) </summary>
     TPMS_ECC_POINT outZ1;
     
-    /** X and Y coordinates of the second computed value (scheme dependent)  */
+    /// <summary> X and Y coordinates of the second computed value (scheme dependent) </summary>
     TPMS_ECC_POINT outZ2;
 
 public:
@@ -10692,10 +10402,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ZGen_2PhaseResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ZGen_2PhaseResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ZGen_2PhaseResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ZGen_2PhaseResponse>(buf); }
     
     virtual const char* TypeName () const { return "ZGen_2PhaseResponse"; }
@@ -10711,25 +10421,23 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class ZGen_2PhaseResponse
 
-/** This command performs ECC encryption as described in Part 1, Annex D.  */
+/// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
 class _DLLEXP_ TPM2_ECC_Encrypt_REQUEST : public ReqStructure
 {
 public:
-    /** Reference to public portion of ECC key to use for encryption
-     *  Auth Index: None
-     */
+    /// <summary> Reference to public portion of ECC key to use for encryption
+    /// Auth Index: None </summary>
     TPM_HANDLE keyHandle;
     
-    /** Plaintext to be encrypted  */
+    /// <summary> Plaintext to be encrypted </summary>
     ByteVec plainText;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-     *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
-     */
+    /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+    /// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+    /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
     shared_ptr<TPMU_KDF_SCHEME> inScheme;
 
 public:
@@ -10741,10 +10449,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ECC_Encrypt_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ECC_Encrypt_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ECC_Encrypt_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ECC_Encrypt_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ECC_Encrypt_REQUEST"; }
@@ -10764,17 +10472,17 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_ECC_Encrypt_REQUEST
 
-/** This command performs ECC encryption as described in Part 1, Annex D.  */
+/// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
 class _DLLEXP_ ECC_EncryptResponse : public RespStructure
 {
 public:
-    /** The public ephemeral key used for ECDH  */
+    /// <summary> The public ephemeral key used for ECDH </summary>
     TPMS_ECC_POINT C1;
     
-    /** The data block produced by the XOR process  */
+    /// <summary> The data block produced by the XOR process </summary>
     ByteVec C2;
     
-    /** The integrity value  */
+    /// <summary> The integrity value </summary>
     ByteVec C3;
 
 public:
@@ -10783,10 +10491,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ECC_EncryptResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ECC_EncryptResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ECC_EncryptResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ECC_EncryptResponse>(buf); }
     
     virtual const char* TypeName () const { return "ECC_EncryptResponse"; }
@@ -10802,32 +10510,30 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class ECC_EncryptResponse
 
-/** This command performs ECC decryption.  */
+/// <summary> This command performs ECC decryption. </summary>
 class _DLLEXP_ TPM2_ECC_Decrypt_REQUEST : public ReqStructure
 {
 public:
-    /** ECC key to use for decryption
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> ECC key to use for decryption
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE keyHandle;
     
-    /** The public ephemeral key used for ECDH  */
+    /// <summary> The public ephemeral key used for ECDH </summary>
     TPMS_ECC_POINT C1;
     
-    /** The data block produced by the XOR process  */
+    /// <summary> The data block produced by the XOR process </summary>
     ByteVec C2;
     
-    /** The integrity value  */
+    /// <summary> The integrity value </summary>
     ByteVec C3;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-     *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
-     */
+    /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+    /// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+    /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
     shared_ptr<TPMU_KDF_SCHEME> inScheme;
 
 public:
@@ -10839,10 +10545,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ECC_Decrypt_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ECC_Decrypt_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ECC_Decrypt_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ECC_Decrypt_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ECC_Decrypt_REQUEST"; }
@@ -10862,11 +10568,11 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_ECC_Decrypt_REQUEST
 
-/** This command performs ECC decryption.  */
+/// <summary> This command performs ECC decryption. </summary>
 class _DLLEXP_ ECC_DecryptResponse : public RespStructure
 {
 public:
-    /** Decrypted output  */
+    /// <summary> Decrypted output </summary>
     ByteVec plainText;
 
 public:
@@ -10875,10 +10581,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ECC_DecryptResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ECC_DecryptResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ECC_DecryptResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ECC_DecryptResponse>(buf); }
     
     virtual const char* TypeName () const { return "ECC_DecryptResponse"; }
@@ -10894,30 +10600,28 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class ECC_DecryptResponse
 
-/** NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This
- *  should be reflected in platform-specific specifications.
- */
+/// <summary> NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred.
+/// This should be reflected in platform-specific specifications. </summary>
 class _DLLEXP_ TPM2_EncryptDecrypt_REQUEST : public ReqStructure
 {
 public:
-    /** The symmetric key used for the operation
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> The symmetric key used for the operation
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE keyHandle;
     
-    /** If YES, then the operation is decryption; if NO, the operation is encryption  */
+    /// <summary> If YES, then the operation is decryption; if NO, the operation is encryption
+    /// </summary>
     BYTE decrypt;
     
-    /** Symmetric encryption/decryption mode
-     *  this field shall match the default mode of the key or be TPM_ALG_NULL.
-     */
+    /// <summary> Symmetric encryption/decryption mode
+    /// this field shall match the default mode of the key or be TPM_ALG_NULL. </summary>
     TPM_ALG_ID mode;
     
-    /** An initial value as required by the algorithm  */
+    /// <summary> An initial value as required by the algorithm </summary>
     ByteVec ivIn;
     
-    /** The data to be encrypted/decrypted  */
+    /// <summary> The data to be encrypted/decrypted </summary>
     ByteVec inData;
 
 public:
@@ -10929,10 +10633,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_EncryptDecrypt_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_EncryptDecrypt_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_EncryptDecrypt_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_EncryptDecrypt_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_EncryptDecrypt_REQUEST"; }
@@ -10950,16 +10654,15 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {keyHandle}; }
 }; // class TPM2_EncryptDecrypt_REQUEST
 
-/** NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This
- *  should be reflected in platform-specific specifications.
- */
+/// <summary> NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred.
+/// This should be reflected in platform-specific specifications. </summary>
 class _DLLEXP_ EncryptDecryptResponse : public RespStructure
 {
 public:
-    /** Encrypted or decrypted output  */
+    /// <summary> Encrypted or decrypted output </summary>
     ByteVec outData;
     
-    /** Chaining value to use for IV in next round  */
+    /// <summary> Chaining value to use for IV in next round </summary>
     ByteVec ivOut;
 
 public:
@@ -10968,10 +10671,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static EncryptDecryptResponse fromTpm(TpmBuffer& buf) { return buf.createObj<EncryptDecryptResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static EncryptDecryptResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<EncryptDecryptResponse>(buf); }
     
     virtual const char* TypeName () const { return "EncryptDecryptResponse"; }
@@ -10987,30 +10690,28 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class EncryptDecryptResponse
 
-/** This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter
- *  is the first parameter. This permits inData to be parameter encrypted.
- */
+/// <summary> This command is identical to TPM2_EncryptDecrypt(), except that the inData
+/// parameter is the first parameter. This permits inData to be parameter encrypted. </summary>
 class _DLLEXP_ TPM2_EncryptDecrypt2_REQUEST : public ReqStructure
 {
 public:
-    /** The symmetric key used for the operation
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> The symmetric key used for the operation
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE keyHandle;
     
-    /** The data to be encrypted/decrypted  */
+    /// <summary> The data to be encrypted/decrypted </summary>
     ByteVec inData;
     
-    /** If YES, then the operation is decryption; if NO, the operation is encryption  */
+    /// <summary> If YES, then the operation is decryption; if NO, the operation is encryption
+    /// </summary>
     BYTE decrypt;
     
-    /** Symmetric mode
-     *  this field shall match the default mode of the key or be TPM_ALG_NULL.
-     */
+    /// <summary> Symmetric mode
+    /// this field shall match the default mode of the key or be TPM_ALG_NULL. </summary>
     TPM_ALG_ID mode;
     
-    /** An initial value as required by the algorithm  */
+    /// <summary> An initial value as required by the algorithm </summary>
     ByteVec ivIn;
 
 public:
@@ -11022,10 +10723,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_EncryptDecrypt2_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_EncryptDecrypt2_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_EncryptDecrypt2_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_EncryptDecrypt2_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_EncryptDecrypt2_REQUEST"; }
@@ -11045,16 +10746,15 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_EncryptDecrypt2_REQUEST
 
-/** This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter
- *  is the first parameter. This permits inData to be parameter encrypted.
- */
+/// <summary> This command is identical to TPM2_EncryptDecrypt(), except that the inData
+/// parameter is the first parameter. This permits inData to be parameter encrypted. </summary>
 class _DLLEXP_ EncryptDecrypt2Response : public RespStructure
 {
 public:
-    /** Encrypted or decrypted output  */
+    /// <summary> Encrypted or decrypted output </summary>
     ByteVec outData;
     
-    /** Chaining value to use for IV in next round  */
+    /// <summary> Chaining value to use for IV in next round </summary>
     ByteVec ivOut;
 
 public:
@@ -11063,10 +10763,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static EncryptDecrypt2Response fromTpm(TpmBuffer& buf) { return buf.createObj<EncryptDecrypt2Response>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static EncryptDecrypt2Response fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<EncryptDecrypt2Response>(buf); }
     
     virtual const char* TypeName () const { return "EncryptDecrypt2Response"; }
@@ -11082,17 +10782,18 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class EncryptDecrypt2Response
 
-/** This command performs a hash operation on a data buffer and returns the results.  */
+/// <summary> This command performs a hash operation on a data buffer and returns the
+/// results. </summary>
 class _DLLEXP_ TPM2_Hash_REQUEST : public ReqStructure
 {
 public:
-    /** Data to be hashed  */
+    /// <summary> Data to be hashed </summary>
     ByteVec data;
     
-    /** Algorithm for the hash being computed shall not be TPM_ALG_NULL  */
+    /// <summary> Algorithm for the hash being computed shall not be TPM_ALG_NULL </summary>
     TPM_ALG_ID hashAlg;
     
-    /** Hierarchy to use for the ticket (TPM_RH_NULL allowed)  */
+    /// <summary> Hierarchy to use for the ticket (TPM_RH_NULL allowed) </summary>
     TPM_HANDLE hierarchy;
 
 public:
@@ -11104,10 +10805,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Hash_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Hash_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Hash_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Hash_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Hash_REQUEST"; }
@@ -11123,17 +10824,17 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_Hash_REQUEST
 
-/** This command performs a hash operation on a data buffer and returns the results.  */
+/// <summary> This command performs a hash operation on a data buffer and returns the
+/// results. </summary>
 class _DLLEXP_ HashResponse : public RespStructure
 {
 public:
-    /** Results  */
+    /// <summary> Results </summary>
     ByteVec outHash;
     
-    /** Ticket indicating that the sequence of octets used to compute outDigest did not start
-     *  with TPM_GENERATED_VALUE
-     *  will be a NULL ticket if the digest may not be signed with a restricted key
-     */
+    /// <summary> Ticket indicating that the sequence of octets used to compute outDigest did
+    /// not start with TPM_GENERATED_VALUE
+    /// will be a NULL ticket if the digest may not be signed with a restricted key </summary>
     TPMT_TK_HASHCHECK validation;
 
 public:
@@ -11142,10 +10843,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static HashResponse fromTpm(TpmBuffer& buf) { return buf.createObj<HashResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static HashResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<HashResponse>(buf); }
     
     virtual const char* TypeName () const { return "HashResponse"; }
@@ -11161,20 +10862,20 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class HashResponse
 
-/** This command performs an HMAC on the supplied data using the indicated hash algorithm.  */
+/// <summary> This command performs an HMAC on the supplied data using the indicated hash
+/// algorithm. </summary>
 class _DLLEXP_ TPM2_HMAC_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the symmetric signing key providing the HMAC key
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle for the symmetric signing key providing the HMAC key
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE handle;
     
-    /** HMAC data  */
+    /// <summary> HMAC data </summary>
     ByteVec buffer;
     
-    /** Algorithm to use for HMAC  */
+    /// <summary> Algorithm to use for HMAC </summary>
     TPM_ALG_ID hashAlg;
 
 public:
@@ -11186,10 +10887,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_HMAC_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_HMAC_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_HMAC_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_HMAC_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_HMAC_REQUEST"; }
@@ -11209,11 +10910,12 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_HMAC_REQUEST
 
-/** This command performs an HMAC on the supplied data using the indicated hash algorithm.  */
+/// <summary> This command performs an HMAC on the supplied data using the indicated hash
+/// algorithm. </summary>
 class _DLLEXP_ HMACResponse : public RespStructure
 {
 public:
-    /** The returned HMAC in a sized buffer  */
+    /// <summary> The returned HMAC in a sized buffer </summary>
     ByteVec outHMAC;
 
 public:
@@ -11222,10 +10924,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static HMACResponse fromTpm(TpmBuffer& buf) { return buf.createObj<HMACResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static HMACResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<HMACResponse>(buf); }
     
     virtual const char* TypeName () const { return "HMACResponse"; }
@@ -11241,22 +10943,20 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class HMACResponse
 
-/** This command performs an HMAC or a block cipher MAC on the supplied data using the
- *  indicated algorithm.
- */
+/// <summary> This command performs an HMAC or a block cipher MAC on the supplied data
+/// using the indicated algorithm. </summary>
 class _DLLEXP_ TPM2_MAC_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the symmetric signing key providing the MAC key
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle for the symmetric signing key providing the MAC key
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE handle;
     
-    /** MAC data  */
+    /// <summary> MAC data </summary>
     ByteVec buffer;
     
-    /** Algorithm to use for MAC  */
+    /// <summary> Algorithm to use for MAC </summary>
     TPM_ALG_ID inScheme;
 
 public:
@@ -11268,10 +10968,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_MAC_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_MAC_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_MAC_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_MAC_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_MAC_REQUEST"; }
@@ -11291,13 +10991,12 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_MAC_REQUEST
 
-/** This command performs an HMAC or a block cipher MAC on the supplied data using the
- *  indicated algorithm.
- */
+/// <summary> This command performs an HMAC or a block cipher MAC on the supplied data
+/// using the indicated algorithm. </summary>
 class _DLLEXP_ MACResponse : public RespStructure
 {
 public:
-    /** The returned MAC in a sized buffer  */
+    /// <summary> The returned MAC in a sized buffer </summary>
     ByteVec outMAC;
 
 public:
@@ -11306,10 +11005,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static MACResponse fromTpm(TpmBuffer& buf) { return buf.createObj<MACResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static MACResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<MACResponse>(buf); }
     
     virtual const char* TypeName () const { return "MACResponse"; }
@@ -11325,11 +11024,12 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class MACResponse
 
-/** This command returns the next bytesRequested octets from the random number generator (RNG).  */
+/// <summary> This command returns the next bytesRequested octets from the random number
+/// generator (RNG). </summary>
 class _DLLEXP_ TPM2_GetRandom_REQUEST : public ReqStructure
 {
 public:
-    /** Number of octets to return  */
+    /// <summary> Number of octets to return </summary>
     UINT16 bytesRequested;
 
 public:
@@ -11341,10 +11041,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetRandom_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetRandom_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetRandom_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetRandom_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetRandom_REQUEST"; }
@@ -11357,11 +11057,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_GetRandom_REQUEST(*this); }
 }; // class TPM2_GetRandom_REQUEST
 
-/** This command returns the next bytesRequested octets from the random number generator (RNG).  */
+/// <summary> This command returns the next bytesRequested octets from the random number
+/// generator (RNG). </summary>
 class _DLLEXP_ GetRandomResponse : public RespStructure
 {
 public:
-    /** The random octets  */
+    /// <summary> The random octets </summary>
     ByteVec randomBytes;
 
 public:
@@ -11370,10 +11071,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetRandomResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetRandomResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetRandomResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetRandomResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetRandomResponse"; }
@@ -11389,11 +11090,11 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class GetRandomResponse
 
-/** This command is used to add "additional information" to the RNG state.  */
+/// <summary> This command is used to add "additional information" to the RNG state. </summary>
 class _DLLEXP_ TPM2_StirRandom_REQUEST : public ReqStructure
 {
 public:
-    /** Additional information  */
+    /// <summary> Additional information </summary>
     ByteVec inData;
 
 public:
@@ -11405,10 +11106,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_StirRandom_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_StirRandom_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_StirRandom_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_StirRandom_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_StirRandom_REQUEST"; }
@@ -11424,23 +11125,21 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_StirRandom_REQUEST
 
-/** This command starts an HMAC sequence. The TPM will create and initialize an HMAC
- *  sequence structure, assign a handle to the sequence, and set the authValue of the
- *  sequence object to the value in auth.
- */
+/// <summary> This command starts an HMAC sequence. The TPM will create and initialize an
+/// HMAC sequence structure, assign a handle to the sequence, and set the authValue of the
+/// sequence object to the value in auth. </summary>
 class _DLLEXP_ TPM2_HMAC_Start_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of an HMAC key
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of an HMAC key
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE handle;
     
-    /** Authorization value for subsequent use of the sequence  */
+    /// <summary> Authorization value for subsequent use of the sequence </summary>
     ByteVec auth;
     
-    /** The hash algorithm to use for the HMAC  */
+    /// <summary> The hash algorithm to use for the HMAC </summary>
     TPM_ALG_ID hashAlg;
 
 public:
@@ -11452,10 +11151,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_HMAC_Start_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_HMAC_Start_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_HMAC_Start_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_HMAC_Start_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_HMAC_Start_REQUEST"; }
@@ -11475,23 +11174,22 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_HMAC_Start_REQUEST
 
-/** This command starts an HMAC sequence. The TPM will create and initialize an HMAC
- *  sequence structure, assign a handle to the sequence, and set the authValue of the
- *  sequence object to the value in auth.
- */
+/// <summary> This command starts an HMAC sequence. The TPM will create and initialize an
+/// HMAC sequence structure, assign a handle to the sequence, and set the authValue of the
+/// sequence object to the value in auth. </summary>
 class _DLLEXP_ HMAC_StartResponse : public RespStructure
 {
 public:
-    /** A handle to reference the sequence  */
+    /// <summary> A handle to reference the sequence </summary>
     TPM_HANDLE handle;
 
 public:
     HMAC_StartResponse() {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static HMAC_StartResponse fromTpm(TpmBuffer& buf) { return buf.createObj<HMAC_StartResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static HMAC_StartResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<HMAC_StartResponse>(buf); }
     
     virtual const char* TypeName () const { return "HMAC_StartResponse"; }
@@ -11509,23 +11207,21 @@ protected:
     virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
 }; // class HMAC_StartResponse
 
-/** This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
- *  structure, assign a handle to the sequence, and set the authValue of the sequence
- *  object to the value in auth.
- */
+/// <summary> This command starts a MAC sequence. The TPM will create and initialize a MAC
+/// sequence structure, assign a handle to the sequence, and set the authValue of the
+/// sequence object to the value in auth. </summary>
 class _DLLEXP_ TPM2_MAC_Start_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of a MAC key
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of a MAC key
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE handle;
     
-    /** Authorization value for subsequent use of the sequence  */
+    /// <summary> Authorization value for subsequent use of the sequence </summary>
     ByteVec auth;
     
-    /** The algorithm to use for the MAC  */
+    /// <summary> The algorithm to use for the MAC </summary>
     TPM_ALG_ID inScheme;
 
 public:
@@ -11537,10 +11233,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_MAC_Start_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_MAC_Start_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_MAC_Start_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_MAC_Start_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_MAC_Start_REQUEST"; }
@@ -11560,23 +11256,22 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_MAC_Start_REQUEST
 
-/** This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
- *  structure, assign a handle to the sequence, and set the authValue of the sequence
- *  object to the value in auth.
- */
+/// <summary> This command starts a MAC sequence. The TPM will create and initialize a MAC
+/// sequence structure, assign a handle to the sequence, and set the authValue of the
+/// sequence object to the value in auth. </summary>
 class _DLLEXP_ MAC_StartResponse : public RespStructure
 {
 public:
-    /** A handle to reference the sequence  */
+    /// <summary> A handle to reference the sequence </summary>
     TPM_HANDLE handle;
 
 public:
     MAC_StartResponse() {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static MAC_StartResponse fromTpm(TpmBuffer& buf) { return buf.createObj<MAC_StartResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static MAC_StartResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<MAC_StartResponse>(buf); }
     
     virtual const char* TypeName () const { return "MAC_StartResponse"; }
@@ -11594,20 +11289,18 @@ protected:
     virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
 }; // class MAC_StartResponse
 
-/** This command starts a hash or an Event Sequence. If hashAlg is an implemented hash,
- *  then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is
- *  started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
- *  shall return TPM_RC_HASH.
- */
+/// <summary> This command starts a hash or an Event Sequence. If hashAlg is an
+/// implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an
+/// Event Sequence is started. If hashAlg is neither an implemented algorithm nor
+/// TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH. </summary>
 class _DLLEXP_ TPM2_HashSequenceStart_REQUEST : public ReqStructure
 {
 public:
-    /** Authorization value for subsequent use of the sequence  */
+    /// <summary> Authorization value for subsequent use of the sequence </summary>
     ByteVec auth;
     
-    /** The hash algorithm to use for the hash sequence
-     *  An Event Sequence starts if this is TPM_ALG_NULL.
-     */
+    /// <summary> The hash algorithm to use for the hash sequence
+    /// An Event Sequence starts if this is TPM_ALG_NULL. </summary>
     TPM_ALG_ID hashAlg;
 
 public:
@@ -11619,10 +11312,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_HashSequenceStart_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_HashSequenceStart_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_HashSequenceStart_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_HashSequenceStart_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_HashSequenceStart_REQUEST"; }
@@ -11638,24 +11331,23 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_HashSequenceStart_REQUEST
 
-/** This command starts a hash or an Event Sequence. If hashAlg is an implemented hash,
- *  then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is
- *  started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
- *  shall return TPM_RC_HASH.
- */
+/// <summary> This command starts a hash or an Event Sequence. If hashAlg is an
+/// implemented hash, then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an
+/// Event Sequence is started. If hashAlg is neither an implemented algorithm nor
+/// TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH. </summary>
 class _DLLEXP_ HashSequenceStartResponse : public RespStructure
 {
 public:
-    /** A handle to reference the sequence  */
+    /// <summary> A handle to reference the sequence </summary>
     TPM_HANDLE handle;
 
 public:
     HashSequenceStartResponse() {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static HashSequenceStartResponse fromTpm(TpmBuffer& buf) { return buf.createObj<HashSequenceStartResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static HashSequenceStartResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<HashSequenceStartResponse>(buf); }
     
     virtual const char* TypeName () const { return "HashSequenceStartResponse"; }
@@ -11673,19 +11365,17 @@ protected:
     virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
 }; // class HashSequenceStartResponse
 
-/** This command is used to add data to a hash or HMAC sequence. The amount of data in
- *  buffer may be any size up to the limits of the TPM.
- */
+/// <summary> This command is used to add data to a hash or HMAC sequence. The amount of
+/// data in buffer may be any size up to the limits of the TPM. </summary>
 class _DLLEXP_ TPM2_SequenceUpdate_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the sequence object
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle for the sequence object
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE sequenceHandle;
     
-    /** Data to be added to hash  */
+    /// <summary> Data to be added to hash </summary>
     ByteVec buffer;
 
 public:
@@ -11697,10 +11387,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SequenceUpdate_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SequenceUpdate_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SequenceUpdate_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SequenceUpdate_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SequenceUpdate_REQUEST"; }
@@ -11720,22 +11410,20 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_SequenceUpdate_REQUEST
 
-/** This command adds the last part of data, if any, to a hash/HMAC sequence and returns
- *  the result.
- */
+/// <summary> This command adds the last part of data, if any, to a hash/HMAC sequence and
+/// returns the result. </summary>
 class _DLLEXP_ TPM2_SequenceComplete_REQUEST : public ReqStructure
 {
 public:
-    /** Authorization for the sequence
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Authorization for the sequence
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE sequenceHandle;
     
-    /** Data to be added to the hash/HMAC  */
+    /// <summary> Data to be added to the hash/HMAC </summary>
     ByteVec buffer;
     
-    /** Hierarchy of the ticket for a hash  */
+    /// <summary> Hierarchy of the ticket for a hash </summary>
     TPM_HANDLE hierarchy;
 
 public:
@@ -11747,10 +11435,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SequenceComplete_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SequenceComplete_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SequenceComplete_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SequenceComplete_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SequenceComplete_REQUEST"; }
@@ -11770,19 +11458,17 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_SequenceComplete_REQUEST
 
-/** This command adds the last part of data, if any, to a hash/HMAC sequence and returns
- *  the result.
- */
+/// <summary> This command adds the last part of data, if any, to a hash/HMAC sequence and
+/// returns the result. </summary>
 class _DLLEXP_ SequenceCompleteResponse : public RespStructure
 {
 public:
-    /** The returned HMAC or digest in a sized buffer  */
+    /// <summary> The returned HMAC or digest in a sized buffer </summary>
     ByteVec result;
     
-    /** Ticket indicating that the sequence of octets used to compute outDigest did not start
-     *  with TPM_GENERATED_VALUE
-     *  This is a NULL Ticket when the sequence is HMAC.
-     */
+    /// <summary> Ticket indicating that the sequence of octets used to compute outDigest did
+    /// not start with TPM_GENERATED_VALUE
+    /// This is a NULL Ticket when the sequence is HMAC. </summary>
     TPMT_TK_HASHCHECK validation;
 
 public:
@@ -11791,10 +11477,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static SequenceCompleteResponse fromTpm(TpmBuffer& buf) { return buf.createObj<SequenceCompleteResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static SequenceCompleteResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<SequenceCompleteResponse>(buf); }
     
     virtual const char* TypeName () const { return "SequenceCompleteResponse"; }
@@ -11810,28 +11496,26 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class SequenceCompleteResponse
 
-/** This command adds the last part of data, if any, to an Event Sequence and returns the
- *  result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
- *  returned digest list is processed in the same manner as the digest list input
- *  parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with
- *  pcrHandle, it is extended with the associated digest value from the list.
- */
+/// <summary> This command adds the last part of data, if any, to an Event Sequence and
+/// returns the result in a digest list. If pcrHandle references a PCR and not
+/// TPM_RH_NULL, then the returned digest list is processed in the same manner as the
+/// digest list input parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR
+/// associated with pcrHandle, it is extended with the associated digest value from the
+/// list. </summary>
 class _DLLEXP_ TPM2_EventSequenceComplete_REQUEST : public ReqStructure
 {
 public:
-    /** PCR to be extended with the Event data
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> PCR to be extended with the Event data
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE pcrHandle;
     
-    /** Authorization for the sequence
-     *  Auth Index: 2
-     *  Auth Role: USER
-     */
+    /// <summary> Authorization for the sequence
+    /// Auth Index: 2
+    /// Auth Role: USER </summary>
     TPM_HANDLE sequenceHandle;
     
-    /** Data to be added to the Event  */
+    /// <summary> Data to be added to the Event </summary>
     ByteVec buffer;
 
 public:
@@ -11843,10 +11527,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_EventSequenceComplete_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_EventSequenceComplete_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_EventSequenceComplete_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_EventSequenceComplete_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_EventSequenceComplete_REQUEST"; }
@@ -11866,16 +11550,16 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_EventSequenceComplete_REQUEST
 
-/** This command adds the last part of data, if any, to an Event Sequence and returns the
- *  result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
- *  returned digest list is processed in the same manner as the digest list input
- *  parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with
- *  pcrHandle, it is extended with the associated digest value from the list.
- */
+/// <summary> This command adds the last part of data, if any, to an Event Sequence and
+/// returns the result in a digest list. If pcrHandle references a PCR and not
+/// TPM_RH_NULL, then the returned digest list is processed in the same manner as the
+/// digest list input parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR
+/// associated with pcrHandle, it is extended with the associated digest value from the
+/// list. </summary>
 class _DLLEXP_ EventSequenceCompleteResponse : public RespStructure
 {
 public:
-    /** List of digests computed for the PCR  */
+    /// <summary> List of digests computed for the PCR </summary>
     vector<TPMT_HA> results;
 
 public:
@@ -11884,10 +11568,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static EventSequenceCompleteResponse fromTpm(TpmBuffer& buf) { return buf.createObj<EventSequenceCompleteResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static EventSequenceCompleteResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<EventSequenceCompleteResponse>(buf); }
     
     virtual const char* TypeName () const { return "EventSequenceCompleteResponse"; }
@@ -11903,38 +11587,34 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {4, 66}; }
 }; // class EventSequenceCompleteResponse
 
-/** The purpose of this command is to prove that an object with a specific Name is loaded
- *  in the TPM. By certifying that the object is loaded, the TPM warrants that a public
- *  area with a given Name is self-consistent and associated with a valid sensitive area.
- *  If a relying party has a public area that has the same Name as a Name certified with
- *  this command, then the values in that public area are correct.
- */
+/// <summary> The purpose of this command is to prove that an object with a specific Name
+/// is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a
+/// public area with a given Name is self-consistent and associated with a valid sensitive
+/// area. If a relying party has a public area that has the same Name as a Name certified
+/// with this command, then the values in that public area are correct. </summary>
 class _DLLEXP_ TPM2_Certify_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the object to be certified
-     *  Auth Index: 1
-     *  Auth Role: ADMIN
-     */
+    /// <summary> Handle of the object to be certified
+    /// Auth Index: 1
+    /// Auth Role: ADMIN </summary>
     TPM_HANDLE objectHandle;
     
-    /** Handle of the key used to sign the attestation structure
-     *  Auth Index: 2
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the key used to sign the attestation structure
+    /// Auth Index: 2
+    /// Auth Role: USER </summary>
     TPM_HANDLE signHandle;
     
-    /** User provided qualifying data  */
+    /// <summary> User provided qualifying data </summary>
     ByteVec qualifyingData;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     */
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
 
 public:
@@ -11946,10 +11626,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Certify_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Certify_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Certify_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Certify_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Certify_REQUEST"; }
@@ -11969,26 +11649,24 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_Certify_REQUEST
 
-/** The purpose of this command is to prove that an object with a specific Name is loaded
- *  in the TPM. By certifying that the object is loaded, the TPM warrants that a public
- *  area with a given Name is self-consistent and associated with a valid sensitive area.
- *  If a relying party has a public area that has the same Name as a Name certified with
- *  this command, then the values in that public area are correct.
- */
+/// <summary> The purpose of this command is to prove that an object with a specific Name
+/// is loaded in the TPM. By certifying that the object is loaded, the TPM warrants that a
+/// public area with a given Name is self-consistent and associated with a valid sensitive
+/// area. If a relying party has a public area that has the same Name as a Name certified
+/// with this command, then the values in that public area are correct. </summary>
 class _DLLEXP_ CertifyResponse : public RespStructure
 {
 public:
-    /** The structure that was signed  */
+    /// <summary> The structure that was signed </summary>
     TPMS_ATTEST certifyInfo;
     
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The asymmetric signature over certifyInfo using the key referenced by signHandle
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> The asymmetric signature over certifyInfo using the key referenced by signHandle
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -11997,10 +11675,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CertifyResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CertifyResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CertifyResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CertifyResponse>(buf); }
     
     virtual const char* TypeName () const { return "CertifyResponse"; }
@@ -12016,42 +11694,38 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class CertifyResponse
 
-/** This command is used to prove the association between an object and its creation data.
- *  The TPM will validate that the ticket was produced by the TPM and that the ticket
- *  validates the association between a loaded public area and the provided hash of the
- *  creation data (creationHash).
- */
+/// <summary> This command is used to prove the association between an object and its
+/// creation data. The TPM will validate that the ticket was produced by the TPM and that
+/// the ticket validates the association between a loaded public area and the provided
+/// hash of the creation data (creationHash). </summary>
 class _DLLEXP_ TPM2_CertifyCreation_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the key that will sign the attestation block
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the key that will sign the attestation block
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE signHandle;
     
-    /** The object associated with the creation data
-     *  Auth Index: None
-     */
+    /// <summary> The object associated with the creation data
+    /// Auth Index: None </summary>
     TPM_HANDLE objectHandle;
     
-    /** User-provided qualifying data  */
+    /// <summary> User-provided qualifying data </summary>
     ByteVec qualifyingData;
     
-    /** Hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary()  */
+    /// <summary> Hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary() </summary>
     ByteVec creationHash;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     */
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
     
-    /** Ticket produced by TPM2_Create() or TPM2_CreatePrimary()  */
+    /// <summary> Ticket produced by TPM2_Create() or TPM2_CreatePrimary() </summary>
     TPMT_TK_CREATION creationTicket;
 
 public:
@@ -12063,10 +11737,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_CertifyCreation_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_CertifyCreation_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_CertifyCreation_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_CertifyCreation_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_CertifyCreation_REQUEST"; }
@@ -12086,25 +11760,23 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_CertifyCreation_REQUEST
 
-/** This command is used to prove the association between an object and its creation data.
- *  The TPM will validate that the ticket was produced by the TPM and that the ticket
- *  validates the association between a loaded public area and the provided hash of the
- *  creation data (creationHash).
- */
+/// <summary> This command is used to prove the association between an object and its
+/// creation data. The TPM will validate that the ticket was produced by the TPM and that
+/// the ticket validates the association between a loaded public area and the provided
+/// hash of the creation data (creationHash). </summary>
 class _DLLEXP_ CertifyCreationResponse : public RespStructure
 {
 public:
-    /** The structure that was signed  */
+    /// <summary> The structure that was signed </summary>
     TPMS_ATTEST certifyInfo;
     
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The signature over certifyInfo
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> The signature over certifyInfo
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12113,10 +11785,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CertifyCreationResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CertifyCreationResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CertifyCreationResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CertifyCreationResponse>(buf); }
     
     virtual const char* TypeName () const { return "CertifyCreationResponse"; }
@@ -12132,30 +11804,28 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class CertifyCreationResponse
 
-/** This command is used to quote PCR values.  */
+/// <summary> This command is used to quote PCR values. </summary>
 class _DLLEXP_ TPM2_Quote_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of key that will perform signature
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of key that will perform signature
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE signHandle;
     
-    /** Data supplied by the caller  */
+    /// <summary> Data supplied by the caller </summary>
     ByteVec qualifyingData;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     */
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
     
-    /** PCR set to quote  */
+    /// <summary> PCR set to quote </summary>
     vector<TPMS_PCR_SELECTION> PCRselect;
 
 public:
@@ -12167,10 +11837,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Quote_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Quote_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Quote_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Quote_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Quote_REQUEST"; }
@@ -12190,21 +11860,20 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_Quote_REQUEST
 
-/** This command is used to quote PCR values.  */
+/// <summary> This command is used to quote PCR values. </summary>
 class _DLLEXP_ QuoteResponse : public RespStructure
 {
 public:
-    /** The quoted information  */
+    /// <summary> The quoted information </summary>
     TPMS_ATTEST quoted;
     
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The signature over quoted
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> The signature over quoted
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12213,10 +11882,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static QuoteResponse fromTpm(TpmBuffer& buf) { return buf.createObj<QuoteResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static QuoteResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<QuoteResponse>(buf); }
     
     virtual const char* TypeName () const { return "QuoteResponse"; }
@@ -12232,38 +11901,34 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class QuoteResponse
 
-/** This command returns a digital signature of the audit session digest.  */
+/// <summary> This command returns a digital signature of the audit session digest. </summary>
 class _DLLEXP_ TPM2_GetSessionAuditDigest_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE privacyAdminHandle;
     
-    /** Handle of the signing key
-     *  Auth Index: 2
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the signing key
+    /// Auth Index: 2
+    /// Auth Role: USER </summary>
     TPM_HANDLE signHandle;
     
-    /** Handle of the audit session
-     *  Auth Index: None
-     */
+    /// <summary> Handle of the audit session
+    /// Auth Index: None </summary>
     TPM_HANDLE sessionHandle;
     
-    /** User-provided qualifying data may be zero-length  */
+    /// <summary> User-provided qualifying data may be zero-length </summary>
     ByteVec qualifyingData;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     */
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
 
 public:
@@ -12275,10 +11940,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetSessionAuditDigest_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetSessionAuditDigest_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetSessionAuditDigest_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetSessionAuditDigest_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetSessionAuditDigest_REQUEST"; }
@@ -12298,21 +11963,20 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_GetSessionAuditDigest_REQUEST
 
-/** This command returns a digital signature of the audit session digest.  */
+/// <summary> This command returns a digital signature of the audit session digest. </summary>
 class _DLLEXP_ GetSessionAuditDigestResponse : public RespStructure
 {
 public:
-    /** The audit information that was signed  */
+    /// <summary> The audit information that was signed </summary>
     TPMS_ATTEST auditInfo;
     
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The signature over auditInfo
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> The signature over auditInfo
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12321,10 +11985,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetSessionAuditDigestResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetSessionAuditDigestResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetSessionAuditDigestResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetSessionAuditDigestResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetSessionAuditDigestResponse"; }
@@ -12340,36 +12004,32 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class GetSessionAuditDigestResponse
 
-/** This command returns the current value of the command audit digest, a digest of the
- *  commands being audited, and the audit hash algorithm. These values are placed in an
- *  attestation structure and signed with the key referenced by signHandle.
- */
+/// <summary> This command returns the current value of the command audit digest, a digest
+/// of the commands being audited, and the audit hash algorithm. These values are placed
+/// in an attestation structure and signed with the key referenced by signHandle. </summary>
 class _DLLEXP_ TPM2_GetCommandAuditDigest_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE privacyHandle;
     
-    /** The handle of the signing key
-     *  Auth Index: 2
-     *  Auth Role: USER
-     */
+    /// <summary> The handle of the signing key
+    /// Auth Index: 2
+    /// Auth Role: USER </summary>
     TPM_HANDLE signHandle;
     
-    /** Other data to associate with this audit digest  */
+    /// <summary> Other data to associate with this audit digest </summary>
     ByteVec qualifyingData;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     */
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
 
 public:
@@ -12381,10 +12041,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetCommandAuditDigest_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetCommandAuditDigest_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetCommandAuditDigest_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetCommandAuditDigest_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetCommandAuditDigest_REQUEST"; }
@@ -12404,24 +12064,22 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_GetCommandAuditDigest_REQUEST
 
-/** This command returns the current value of the command audit digest, a digest of the
- *  commands being audited, and the audit hash algorithm. These values are placed in an
- *  attestation structure and signed with the key referenced by signHandle.
- */
+/// <summary> This command returns the current value of the command audit digest, a digest
+/// of the commands being audited, and the audit hash algorithm. These values are placed
+/// in an attestation structure and signed with the key referenced by signHandle. </summary>
 class _DLLEXP_ GetCommandAuditDigestResponse : public RespStructure
 {
 public:
-    /** The auditInfo that was signed  */
+    /// <summary> The auditInfo that was signed </summary>
     TPMS_ATTEST auditInfo;
     
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The signature over auditInfo
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> The signature over auditInfo
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12430,10 +12088,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetCommandAuditDigestResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetCommandAuditDigestResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetCommandAuditDigestResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetCommandAuditDigestResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetCommandAuditDigestResponse"; }
@@ -12449,33 +12107,30 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class GetCommandAuditDigestResponse
 
-/** This command returns the current values of Time and Clock.  */
+/// <summary> This command returns the current values of Time and Clock. </summary>
 class _DLLEXP_ TPM2_GetTime_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE privacyAdminHandle;
     
-    /** The keyHandle identifier of a loaded key that can perform digital signatures
-     *  Auth Index: 2
-     *  Auth Role: USER
-     */
+    /// <summary> The keyHandle identifier of a loaded key that can perform digital signatures
+    /// Auth Index: 2
+    /// Auth Role: USER </summary>
     TPM_HANDLE signHandle;
     
-    /** Data to tick stamp  */
+    /// <summary> Data to tick stamp </summary>
     ByteVec qualifyingData;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     */
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
 
 public:
@@ -12487,10 +12142,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetTime_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetTime_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetTime_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetTime_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetTime_REQUEST"; }
@@ -12510,21 +12165,20 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_GetTime_REQUEST
 
-/** This command returns the current values of Time and Clock.  */
+/// <summary> This command returns the current values of Time and Clock. </summary>
 class _DLLEXP_ GetTimeResponse : public RespStructure
 {
 public:
-    /** Standard TPM-generated attestation block  */
+    /// <summary> Standard TPM-generated attestation block </summary>
     TPMS_ATTEST timeInfo;
     
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The signature over timeInfo
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> The signature over timeInfo
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12533,10 +12187,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetTimeResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetTimeResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetTimeResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetTimeResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetTimeResponse"; }
@@ -12552,42 +12206,38 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class GetTimeResponse
 
-/** The purpose of this command is to generate an X.509 certificate that proves an object
- *  with a specific public key and attributes is loaded in the TPM. In contrast to
- *  TPM2_Certify, which uses a TCG-defined data structure to convey attestation
- *  information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded
- *  X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key
- *  Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
- */
+/// <summary> The purpose of this command is to generate an X.509 certificate that proves
+/// an object with a specific public key and attributes is loaded in the TPM. In contrast
+/// to TPM2_Certify, which uses a TCG-defined data structure to convey attestation
+/// information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded
+/// X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key
+/// Infrastructure Certificate and Certificate Revocation List (CRL) Profile. </summary>
 class _DLLEXP_ TPM2_CertifyX509_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the object to be certified
-     *  Auth Index: 1
-     *  Auth Role: ADMIN
-     */
+    /// <summary> Handle of the object to be certified
+    /// Auth Index: 1
+    /// Auth Role: ADMIN </summary>
     TPM_HANDLE objectHandle;
     
-    /** Handle of the key used to sign the attestation structure
-     *  Auth Index: 2
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the key used to sign the attestation structure
+    /// Auth Index: 2
+    /// Auth Role: USER </summary>
     TPM_HANDLE signHandle;
     
-    /** Shall be an Empty Buffer  */
+    /// <summary> Shall be an Empty Buffer </summary>
     ByteVec reserved;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     */
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
     
-    /** A DER encoded partial certificate  */
+    /// <summary> A DER encoded partial certificate </summary>
     ByteVec partialCertificate;
 
 public:
@@ -12599,10 +12249,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_CertifyX509_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_CertifyX509_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_CertifyX509_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_CertifyX509_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_CertifyX509_REQUEST"; }
@@ -12622,32 +12272,29 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_CertifyX509_REQUEST
 
-/** The purpose of this command is to generate an X.509 certificate that proves an object
- *  with a specific public key and attributes is loaded in the TPM. In contrast to
- *  TPM2_Certify, which uses a TCG-defined data structure to convey attestation
- *  information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded
- *  X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key
- *  Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
- */
+/// <summary> The purpose of this command is to generate an X.509 certificate that proves
+/// an object with a specific public key and attributes is loaded in the TPM. In contrast
+/// to TPM2_Certify, which uses a TCG-defined data structure to convey attestation
+/// information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded
+/// X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key
+/// Infrastructure Certificate and Certificate Revocation List (CRL) Profile. </summary>
 class _DLLEXP_ CertifyX509Response : public RespStructure
 {
 public:
-    /** A DER encoded SEQUENCE containing the DER encoded fields added to partialCertificate
-     *  to make it a complete RFC5280 TBSCertificate.
-     */
+    /// <summary> A DER encoded SEQUENCE containing the DER encoded fields added to
+    /// partialCertificate to make it a complete RFC5280 TBSCertificate. </summary>
     ByteVec addedToCertificate;
     
-    /** The digest that was signed  */
+    /// <summary> The digest that was signed </summary>
     ByteVec tbsDigest;
     
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The signature over tbsDigest
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> The signature over tbsDigest
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12656,10 +12303,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CertifyX509Response fromTpm(TpmBuffer& buf) { return buf.createObj<CertifyX509Response>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CertifyX509Response fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CertifyX509Response>(buf); }
     
     virtual const char* TypeName () const { return "CertifyX509Response"; }
@@ -12675,27 +12322,25 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class CertifyX509Response
 
-/** TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM
- *  will perform the point multiplications on the provided points and return intermediate
- *  signing values. The signHandle parameter shall refer to an ECC key and the signing
- *  scheme must be anonymous (TPM_RC_SCHEME).
- */
+/// <summary> TPM2_Commit() performs the first part of an ECC anonymous signing operation.
+/// The TPM will perform the point multiplications on the provided points and return
+/// intermediate signing values. The signHandle parameter shall refer to an ECC key and
+/// the signing scheme must be anonymous (TPM_RC_SCHEME). </summary>
 class _DLLEXP_ TPM2_Commit_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the key that will be used in the signing operation
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the key that will be used in the signing operation
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE signHandle;
     
-    /** A point (M) on the curve used by signHandle  */
+    /// <summary> A point (M) on the curve used by signHandle </summary>
     TPMS_ECC_POINT P1;
     
-    /** Octet array used to derive x-coordinate of a base point  */
+    /// <summary> Octet array used to derive x-coordinate of a base point </summary>
     ByteVec s2;
     
-    /** Y coordinate of the point associated with s2  */
+    /// <summary> Y coordinate of the point associated with s2 </summary>
     ByteVec y2;
 
 public:
@@ -12707,10 +12352,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Commit_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Commit_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Commit_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Commit_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Commit_REQUEST"; }
@@ -12730,24 +12375,23 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_Commit_REQUEST
 
-/** TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM
- *  will perform the point multiplications on the provided points and return intermediate
- *  signing values. The signHandle parameter shall refer to an ECC key and the signing
- *  scheme must be anonymous (TPM_RC_SCHEME).
- */
+/// <summary> TPM2_Commit() performs the first part of an ECC anonymous signing operation.
+/// The TPM will perform the point multiplications on the provided points and return
+/// intermediate signing values. The signHandle parameter shall refer to an ECC key and
+/// the signing scheme must be anonymous (TPM_RC_SCHEME). </summary>
 class _DLLEXP_ CommitResponse : public RespStructure
 {
 public:
-    /** ECC point K [ds](x2, y2)  */
+    /// <summary> ECC point K [ds](x2, y2) </summary>
     TPMS_ECC_POINT K;
     
-    /** ECC point L [r](x2, y2)  */
+    /// <summary> ECC point L [r](x2, y2) </summary>
     TPMS_ECC_POINT L;
     
-    /** ECC point E [r]P1  */
+    /// <summary> ECC point E [r]P1 </summary>
     TPMS_ECC_POINT E;
     
-    /** Least-significant 16 bits of commitCount  */
+    /// <summary> Least-significant 16 bits of commitCount </summary>
     UINT16 counter;
 
 public:
@@ -12756,10 +12400,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CommitResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CommitResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CommitResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CommitResponse>(buf); }
     
     virtual const char* TypeName () const { return "CommitResponse"; }
@@ -12775,11 +12419,12 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class CommitResponse
 
-/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.  */
+/// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key
+/// exchange protocol. </summary>
 class _DLLEXP_ TPM2_EC_Ephemeral_REQUEST : public ReqStructure
 {
 public:
-    /** The curve for the computed ephemeral point  */
+    /// <summary> The curve for the computed ephemeral point </summary>
     TPM_ECC_CURVE curveID;
 
 public:
@@ -12791,10 +12436,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_EC_Ephemeral_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_EC_Ephemeral_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_EC_Ephemeral_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_EC_Ephemeral_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_EC_Ephemeral_REQUEST"; }
@@ -12807,14 +12452,15 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_EC_Ephemeral_REQUEST(*this); }
 }; // class TPM2_EC_Ephemeral_REQUEST
 
-/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.  */
+/// <summary> TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key
+/// exchange protocol. </summary>
 class _DLLEXP_ EC_EphemeralResponse : public RespStructure
 {
 public:
-    /** Ephemeral public key Q [r]G  */
+    /// <summary> Ephemeral public key Q [r]G </summary>
     TPMS_ECC_POINT Q;
     
-    /** Least-significant 16 bits of commitCount  */
+    /// <summary> Least-significant 16 bits of commitCount </summary>
     UINT16 counter;
 
 public:
@@ -12823,10 +12469,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static EC_EphemeralResponse fromTpm(TpmBuffer& buf) { return buf.createObj<EC_EphemeralResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static EC_EphemeralResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<EC_EphemeralResponse>(buf); }
     
     virtual const char* TypeName () const { return "EC_EphemeralResponse"; }
@@ -12842,28 +12488,25 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class EC_EphemeralResponse
 
-/** This command uses loaded keys to validate a signature on a message with the message
- *  digest passed to the TPM.
- */
+/// <summary> This command uses loaded keys to validate a signature on a message with the
+/// message digest passed to the TPM. </summary>
 class _DLLEXP_ TPM2_VerifySignature_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of public key that will be used in the validation
-     *  Auth Index: None
-     */
+    /// <summary> Handle of public key that will be used in the validation
+    /// Auth Index: None </summary>
     TPM_HANDLE keyHandle;
     
-    /** Digest of the signed message  */
+    /// <summary> Digest of the signed message </summary>
     ByteVec digest;
     
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signature to be tested
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> Signature to be tested
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12875,10 +12518,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_VerifySignature_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_VerifySignature_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_VerifySignature_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_VerifySignature_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_VerifySignature_REQUEST"; }
@@ -12898,9 +12541,8 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_VerifySignature_REQUEST
 
-/** This command uses loaded keys to validate a signature on a message with the message
- *  digest passed to the TPM.
- */
+/// <summary> This command uses loaded keys to validate a signature on a message with the
+/// message digest passed to the TPM. </summary>
 class _DLLEXP_ VerifySignatureResponse : public RespStructure
 {
 public:
@@ -12912,10 +12554,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static VerifySignatureResponse fromTpm(TpmBuffer& buf) { return buf.createObj<VerifySignatureResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static VerifySignatureResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<VerifySignatureResponse>(buf); }
     
     virtual const char* TypeName () const { return "VerifySignatureResponse"; }
@@ -12928,35 +12570,31 @@ public:
     virtual TpmStructure* Clone() const { return new VerifySignatureResponse(*this); }
 }; // class VerifySignatureResponse
 
-/** This command causes the TPM to sign an externally provided hash with the specified
- *  symmetric or asymmetric signing key.
- */
+/// <summary> This command causes the TPM to sign an externally provided hash with the
+/// specified symmetric or asymmetric signing key. </summary>
 class _DLLEXP_ TPM2_Sign_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of key that will perform signing
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of key that will perform signing
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE keyHandle;
     
-    /** Digest to be signed  */
+    /// <summary> Digest to be signed </summary>
     ByteVec digest;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
-     *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     */
+    /// <summary> Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
+    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
     
-    /** Proof that digest was created by the TPM
-     *  If keyHandle is not a restricted signing key, then this may be a NULL Ticket with tag
-     *  = TPM_ST_CHECKHASH.
-     */
+    /// <summary> Proof that digest was created by the TPM
+    /// If keyHandle is not a restricted signing key, then this may be a NULL Ticket with tag
+    /// = TPM_ST_CHECKHASH. </summary>
     TPMT_TK_HASHCHECK validation;
 
 public:
@@ -12968,10 +12606,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Sign_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Sign_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Sign_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Sign_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Sign_REQUEST"; }
@@ -12991,20 +12629,18 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_Sign_REQUEST
 
-/** This command causes the TPM to sign an externally provided hash with the specified
- *  symmetric or asymmetric signing key.
- */
+/// <summary> This command causes the TPM to sign an externally provided hash with the
+/// specified symmetric or asymmetric signing key. </summary>
 class _DLLEXP_ SignResponse : public RespStructure
 {
 public:
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The signature
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> The signature
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -13013,10 +12649,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static SignResponse fromTpm(TpmBuffer& buf) { return buf.createObj<SignResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static SignResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<SignResponse>(buf); }
     
     virtual const char* TypeName () const { return "SignResponse"; }
@@ -13029,26 +12665,25 @@ public:
     virtual TpmStructure* Clone() const { return new SignResponse(*this); }
 }; // class SignResponse
 
-/** This command may be used by the Privacy Administrator or platform to change the audit
- *  status of a command or to set the hash algorithm used for the audit digest, but not
- *  both at the same time.
- */
+/// <summary> This command may be used by the Privacy Administrator or platform to change
+/// the audit status of a command or to set the hash algorithm used for the audit digest,
+/// but not both at the same time. </summary>
 class _DLLEXP_ TPM2_SetCommandCodeAuditStatus_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE auth;
     
-    /** Hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed  */
+    /// <summary> Hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not
+    /// changed </summary>
     TPM_ALG_ID auditAlg;
     
-    /** List of commands that will be added to those that will be audited  */
+    /// <summary> List of commands that will be added to those that will be audited </summary>
     vector<TPM_CC> setList;
     
-    /** List of commands that will no longer be audited  */
+    /// <summary> List of commands that will no longer be audited </summary>
     vector<TPM_CC> clearList;
 
 public:
@@ -13060,10 +12695,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SetCommandCodeAuditStatus_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SetCommandCodeAuditStatus_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SetCommandCodeAuditStatus_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SetCommandCodeAuditStatus_REQUEST"; }
@@ -13081,21 +12716,19 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {auth}; }
 }; // class TPM2_SetCommandCodeAuditStatus_REQUEST
 
-/** This command is used to cause an update to the indicated PCR. The digests parameter
- *  contains one or more tagged digest values identified by an algorithm ID. For each
- *  digest, the PCR associated with pcrHandle is Extended into the bank identified by the
- *  tag (hashAlg).
- */
+/// <summary> This command is used to cause an update to the indicated PCR. The digests
+/// parameter contains one or more tagged digest values identified by an algorithm ID. For
+/// each digest, the PCR associated with pcrHandle is Extended into the bank identified by
+/// the tag (hashAlg). </summary>
 class _DLLEXP_ TPM2_PCR_Extend_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the PCR
-     *  Auth Handle: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the PCR
+    /// Auth Handle: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE pcrHandle;
     
-    /** List of tagged digest values to be extended  */
+    /// <summary> List of tagged digest values to be extended </summary>
     vector<TPMT_HA> digests;
 
 public:
@@ -13107,10 +12740,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_Extend_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_Extend_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_Extend_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_Extend_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_Extend_REQUEST"; }
@@ -13130,17 +12763,16 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {4, 66}; }
 }; // class TPM2_PCR_Extend_REQUEST
 
-/** This command is used to cause an update to the indicated PCR.  */
+/// <summary> This command is used to cause an update to the indicated PCR. </summary>
 class _DLLEXP_ TPM2_PCR_Event_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the PCR
-     *  Auth Handle: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the PCR
+    /// Auth Handle: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE pcrHandle;
     
-    /** Event data in sized buffer  */
+    /// <summary> Event data in sized buffer </summary>
     ByteVec eventData;
 
 public:
@@ -13152,10 +12784,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_Event_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_Event_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_Event_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_Event_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_Event_REQUEST"; }
@@ -13175,7 +12807,7 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PCR_Event_REQUEST
 
-/** This command is used to cause an update to the indicated PCR.  */
+/// <summary> This command is used to cause an update to the indicated PCR. </summary>
 class _DLLEXP_ PCR_EventResponse : public RespStructure
 {
 public:
@@ -13187,10 +12819,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PCR_EventResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PCR_EventResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PCR_EventResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PCR_EventResponse>(buf); }
     
     virtual const char* TypeName () const { return "PCR_EventResponse"; }
@@ -13206,11 +12838,11 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {4, 66}; }
 }; // class PCR_EventResponse
 
-/** This command returns the values of all PCR specified in pcrSelectionIn.  */
+/// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
 class _DLLEXP_ TPM2_PCR_Read_REQUEST : public ReqStructure
 {
 public:
-    /** The selection of PCR to read  */
+    /// <summary> The selection of PCR to read </summary>
     vector<TPMS_PCR_SELECTION> pcrSelectionIn;
 
 public:
@@ -13222,10 +12854,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_Read_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_Read_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_Read_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_Read_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_Read_REQUEST"; }
@@ -13241,17 +12873,18 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {4, 3}; }
 }; // class TPM2_PCR_Read_REQUEST
 
-/** This command returns the values of all PCR specified in pcrSelectionIn.  */
+/// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
 class _DLLEXP_ PCR_ReadResponse : public RespStructure
 {
 public:
-    /** The current value of the PCR update counter  */
+    /// <summary> The current value of the PCR update counter </summary>
     UINT32 pcrUpdateCounter;
     
-    /** The PCR in the returned list  */
+    /// <summary> The PCR in the returned list </summary>
     vector<TPMS_PCR_SELECTION> pcrSelectionOut;
     
-    /** The contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests  */
+    /// <summary> The contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged
+    /// digests </summary>
     vector<TPM2B_DIGEST> pcrValues;
 
 public:
@@ -13260,10 +12893,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PCR_ReadResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PCR_ReadResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PCR_ReadResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PCR_ReadResponse>(buf); }
     
     virtual const char* TypeName () const { return "PCR_ReadResponse"; }
@@ -13276,19 +12909,17 @@ public:
     virtual TpmStructure* Clone() const { return new PCR_ReadResponse(*this); }
 }; // class PCR_ReadResponse
 
-/** This command is used to set the desired PCR allocation of PCR and algorithms. This
- *  command requires Platform Authorization.
- */
+/// <summary> This command is used to set the desired PCR allocation of PCR and
+/// algorithms. This command requires Platform Authorization. </summary>
 class _DLLEXP_ TPM2_PCR_Allocate_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_PLATFORM+{PP}
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_PLATFORM+{PP}
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The requested allocation  */
+    /// <summary> The requested allocation </summary>
     vector<TPMS_PCR_SELECTION> pcrAllocation;
 
 public:
@@ -13300,10 +12931,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_Allocate_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_Allocate_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_Allocate_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_Allocate_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_Allocate_REQUEST"; }
@@ -13323,22 +12954,21 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {4, 3}; }
 }; // class TPM2_PCR_Allocate_REQUEST
 
-/** This command is used to set the desired PCR allocation of PCR and algorithms. This
- *  command requires Platform Authorization.
- */
+/// <summary> This command is used to set the desired PCR allocation of PCR and
+/// algorithms. This command requires Platform Authorization. </summary>
 class _DLLEXP_ PCR_AllocateResponse : public RespStructure
 {
 public:
-    /** YES if the allocation succeeded  */
+    /// <summary> YES if the allocation succeeded </summary>
     BYTE allocationSuccess;
     
-    /** Maximum number of PCR that may be in a bank  */
+    /// <summary> Maximum number of PCR that may be in a bank </summary>
     UINT32 maxPCR;
     
-    /** Number of octets required to satisfy the request  */
+    /// <summary> Number of octets required to satisfy the request </summary>
     UINT32 sizeNeeded;
     
-    /** Number of octets available. Computed before the allocation.  */
+    /// <summary> Number of octets available. Computed before the allocation. </summary>
     UINT32 sizeAvailable;
 
 public:
@@ -13347,10 +12977,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PCR_AllocateResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PCR_AllocateResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PCR_AllocateResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PCR_AllocateResponse>(buf); }
     
     virtual const char* TypeName () const { return "PCR_AllocateResponse"; }
@@ -13363,25 +12993,23 @@ public:
     virtual TpmStructure* Clone() const { return new PCR_AllocateResponse(*this); }
 }; // class PCR_AllocateResponse
 
-/** This command is used to associate a policy with a PCR or group of PCR. The policy
- *  determines the conditions under which a PCR may be extended or reset.
- */
+/// <summary> This command is used to associate a policy with a PCR or group of PCR. The
+/// policy determines the conditions under which a PCR may be extended or reset. </summary>
 class _DLLEXP_ TPM2_PCR_SetAuthPolicy_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_PLATFORM+{PP}
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_PLATFORM+{PP}
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The desired authPolicy  */
+    /// <summary> The desired authPolicy </summary>
     ByteVec authPolicy;
     
-    /** The hash algorithm of the policy  */
+    /// <summary> The hash algorithm of the policy </summary>
     TPM_ALG_ID hashAlg;
     
-    /** The PCR for which the policy is to be set  */
+    /// <summary> The PCR for which the policy is to be set </summary>
     TPM_HANDLE pcrNum;
 
 public:
@@ -13393,10 +13021,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_SetAuthPolicy_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_SetAuthPolicy_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_SetAuthPolicy_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_SetAuthPolicy_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_SetAuthPolicy_REQUEST"; }
@@ -13416,17 +13044,16 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PCR_SetAuthPolicy_REQUEST
 
-/** This command changes the authValue of a PCR or group of PCR.  */
+/// <summary> This command changes the authValue of a PCR or group of PCR. </summary>
 class _DLLEXP_ TPM2_PCR_SetAuthValue_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for a PCR that may have an authorization value set
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle for a PCR that may have an authorization value set
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE pcrHandle;
     
-    /** The desired authorization value  */
+    /// <summary> The desired authorization value </summary>
     ByteVec auth;
 
 public:
@@ -13438,10 +13065,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_SetAuthValue_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_SetAuthValue_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_SetAuthValue_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_SetAuthValue_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_SetAuthValue_REQUEST"; }
@@ -13461,17 +13088,16 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PCR_SetAuthValue_REQUEST
 
-/** If the attribute of a PCR allows the PCR to be reset and proper authorization is
- *  provided, then this command may be used to set the PCR in all banks to zero. The
- *  attributes of the PCR may restrict the locality that can perform the reset operation.
- */
+/// <summary> If the attribute of a PCR allows the PCR to be reset and proper
+/// authorization is provided, then this command may be used to set the PCR in all banks
+/// to zero. The attributes of the PCR may restrict the locality that can perform the
+/// reset operation. </summary>
 class _DLLEXP_ TPM2_PCR_Reset_REQUEST : public ReqStructure
 {
 public:
-    /** The PCR to reset
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> The PCR to reset
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE pcrHandle;
 
 public:
@@ -13480,10 +13106,10 @@ public:
       : pcrHandle(_pcrHandle)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_Reset_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PCR_Reset_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PCR_Reset_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PCR_Reset_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PCR_Reset_REQUEST"; }
@@ -13501,52 +13127,46 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {pcrHandle}; }
 }; // class TPM2_PCR_Reset_REQUEST
 
-/** This command includes a signed authorization in a policy. The command ties the policy
- *  to a signing key by including the Name of the signing key in the policyDigest
- */
+/// <summary> This command includes a signed authorization in a policy. The command ties
+/// the policy to a signing key by including the Name of the signing key in the
+/// policyDigest </summary>
 class _DLLEXP_ TPM2_PolicySigned_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for a key that will validate the signature
-     *  Auth Index: None
-     */
+    /// <summary> Handle for a key that will validate the signature
+    /// Auth Index: None </summary>
     TPM_HANDLE authObject;
     
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The policy nonce for the session
-     *  This can be the Empty Buffer.
-     */
+    /// <summary> The policy nonce for the session
+    /// This can be the Empty Buffer. </summary>
     ByteVec nonceTPM;
     
-    /** Digest of the command parameters to which this authorization is limited
-     *  This is not the cpHash for this command but the cpHash for the command to which this
-     *  policy session will be applied. If it is not limited, the parameter will be the Empty Buffer.
-     */
+    /// <summary> Digest of the command parameters to which this authorization is limited
+    /// This is not the cpHash for this command but the cpHash for the command to which this
+    /// policy session will be applied. If it is not limited, the parameter will be the Empty
+    /// Buffer. </summary>
     ByteVec cpHashA;
     
-    /** A reference to a policy relating to the authorization may be the Empty Buffer
-     *  Size is limited to be no larger than the nonce size supported on the TPM.
-     */
+    /// <summary> A reference to a policy relating to the authorization may be the Empty Buffer
+    /// Size is limited to be no larger than the nonce size supported on the TPM. </summary>
     ByteVec policyRef;
     
-    /** Time when authorization will expire, measured in seconds from the time that nonceTPM
-     *  was generated
-     *  If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
-     */
+    /// <summary> Time when authorization will expire, measured in seconds from the time that
+    /// nonceTPM was generated
+    /// If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </summary>
     INT32 expiration;
     
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID authSigAlg() const { return auth ? auth->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signed authorization (not optional)
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> Signed authorization (not optional)
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> auth;
 
 public:
@@ -13558,10 +13178,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicySigned_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicySigned_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicySigned_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicySigned_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicySigned_REQUEST"; }
@@ -13581,20 +13201,19 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PolicySigned_REQUEST
 
-/** This command includes a signed authorization in a policy. The command ties the policy
- *  to a signing key by including the Name of the signing key in the policyDigest
- */
+/// <summary> This command includes a signed authorization in a policy. The command ties
+/// the policy to a signing key by including the Name of the signing key in the
+/// policyDigest </summary>
 class _DLLEXP_ PolicySignedResponse : public RespStructure
 {
 public:
-    /** Implementation-specific time value, used to indicate to the TPM when the ticket expires
-     *  NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
-     */
+    /// <summary> Implementation-specific time value, used to indicate to the TPM when the
+    /// ticket expires
+    /// NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer. </summary>
     ByteVec timeout;
     
-    /** Produced if the command succeeds and expiration in the command was non-zero; this
-     *  ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
-     */
+    /// <summary> Produced if the command succeeds and expiration in the command was non-zero;
+    /// this ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5 </summary>
     TPMT_TK_AUTH policyTicket;
 
 public:
@@ -13603,10 +13222,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PolicySignedResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PolicySignedResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PolicySignedResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PolicySignedResponse>(buf); }
     
     virtual const char* TypeName () const { return "PolicySignedResponse"; }
@@ -13622,45 +13241,40 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class PolicySignedResponse
 
-/** This command includes a secret-based authorization to a policy. The caller proves
- *  knowledge of the secret value using an authorization session using the authValue
- *  associated with authHandle. A password session, an HMAC session, or a policy session
- *  containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
- */
+/// <summary> This command includes a secret-based authorization to a policy. The caller
+/// proves knowledge of the secret value using an authorization session using the
+/// authValue associated with authHandle. A password session, an HMAC session, or a policy
+/// session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this
+/// requirement. </summary>
 class _DLLEXP_ TPM2_PolicySecret_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for an entity providing the authorization
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle for an entity providing the authorization
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The policy nonce for the session
-     *  This can be the Empty Buffer.
-     */
+    /// <summary> The policy nonce for the session
+    /// This can be the Empty Buffer. </summary>
     ByteVec nonceTPM;
     
-    /** Digest of the command parameters to which this authorization is limited
-     *  This not the cpHash for this command but the cpHash for the command to which this
-     *  policy session will be applied. If it is not limited, the parameter will be the Empty Buffer.
-     */
+    /// <summary> Digest of the command parameters to which this authorization is limited
+    /// This not the cpHash for this command but the cpHash for the command to which this
+    /// policy session will be applied. If it is not limited, the parameter will be the Empty
+    /// Buffer. </summary>
     ByteVec cpHashA;
     
-    /** A reference to a policy relating to the authorization may be the Empty Buffer
-     *  Size is limited to be no larger than the nonce size supported on the TPM.
-     */
+    /// <summary> A reference to a policy relating to the authorization may be the Empty Buffer
+    /// Size is limited to be no larger than the nonce size supported on the TPM. </summary>
     ByteVec policyRef;
     
-    /** Time when authorization will expire, measured in seconds from the time that nonceTPM
-     *  was generated
-     *  If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
-     */
+    /// <summary> Time when authorization will expire, measured in seconds from the time that
+    /// nonceTPM was generated
+    /// If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </summary>
     INT32 expiration;
 
 public:
@@ -13672,10 +13286,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicySecret_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicySecret_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicySecret_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicySecret_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicySecret_REQUEST"; }
@@ -13695,20 +13309,20 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PolicySecret_REQUEST
 
-/** This command includes a secret-based authorization to a policy. The caller proves
- *  knowledge of the secret value using an authorization session using the authValue
- *  associated with authHandle. A password session, an HMAC session, or a policy session
- *  containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
- */
+/// <summary> This command includes a secret-based authorization to a policy. The caller
+/// proves knowledge of the secret value using an authorization session using the
+/// authValue associated with authHandle. A password session, an HMAC session, or a policy
+/// session containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this
+/// requirement. </summary>
 class _DLLEXP_ PolicySecretResponse : public RespStructure
 {
 public:
-    /** Implementation-specific time value used to indicate to the TPM when the ticket expires  */
+    /// <summary> Implementation-specific time value used to indicate to the TPM when the
+    /// ticket expires </summary>
     ByteVec timeout;
     
-    /** Produced if the command succeeds and expiration in the command was non-zero ( See
-     *  23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag
-     */
+    /// <summary> Produced if the command succeeds and expiration in the command was non-zero
+    /// ( See 23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag </summary>
     TPMT_TK_AUTH policyTicket;
 
 public:
@@ -13717,10 +13331,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PolicySecretResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PolicySecretResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PolicySecretResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PolicySecretResponse>(buf); }
     
     virtual const char* TypeName () const { return "PolicySecretResponse"; }
@@ -13736,37 +13350,33 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class PolicySecretResponse
 
-/** This command is similar to TPM2_PolicySigned() except that it takes a ticket instead
- *  of a signed authorization. The ticket represents a validated authorization that had an
- *  expiration time associated with it.
- */
+/// <summary> This command is similar to TPM2_PolicySigned() except that it takes a ticket
+/// instead of a signed authorization. The ticket represents a validated authorization
+/// that had an expiration time associated with it. </summary>
 class _DLLEXP_ TPM2_PolicyTicket_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** Time when authorization will expire
-     *  The contents are TPM specific. This shall be the value returned when ticket was produced.
-     */
+    /// <summary> Time when authorization will expire
+    /// The contents are TPM specific. This shall be the value returned when ticket was
+    /// produced. </summary>
     ByteVec timeout;
     
-    /** Digest of the command parameters to which this authorization is limited
-     *  If it is not limited, the parameter will be the Empty Buffer.
-     */
+    /// <summary> Digest of the command parameters to which this authorization is limited
+    /// If it is not limited, the parameter will be the Empty Buffer. </summary>
     ByteVec cpHashA;
     
-    /** Reference to a qualifier for the policy may be the Empty Buffer  */
+    /// <summary> Reference to a qualifier for the policy may be the Empty Buffer </summary>
     ByteVec policyRef;
     
-    /** Name of the object that provided the authorization  */
+    /// <summary> Name of the object that provided the authorization </summary>
     ByteVec authName;
     
-    /** An authorization ticket returned by the TPM in response to a TPM2_PolicySigned() or
-     *  TPM2_PolicySecret()
-     */
+    /// <summary> An authorization ticket returned by the TPM in response to a
+    /// TPM2_PolicySigned() or TPM2_PolicySecret() </summary>
     TPMT_TK_AUTH ticket;
 
 public:
@@ -13778,10 +13388,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyTicket_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyTicket_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyTicket_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyTicket_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyTicket_REQUEST"; }
@@ -13801,20 +13411,18 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PolicyTicket_REQUEST
 
-/** This command allows options in authorizations without requiring that the TPM evaluate
- *  all of the options. If a policy may be satisfied by different sets of conditions, the
- *  TPM need only evaluate one set that satisfies the policy. This command will indicate
- *  that one of the required sets of conditions has been satisfied.
- */
+/// <summary> This command allows options in authorizations without requiring that the TPM
+/// evaluate all of the options. If a policy may be satisfied by different sets of
+/// conditions, the TPM need only evaluate one set that satisfies the policy. This command
+/// will indicate that one of the required sets of conditions has been satisfied. </summary>
 class _DLLEXP_ TPM2_PolicyOR_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The list of hashes to check for a match  */
+    /// <summary> The list of hashes to check for a match </summary>
     vector<TPM2B_DIGEST> pHashList;
 
 public:
@@ -13826,10 +13434,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyOR_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyOR_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyOR_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyOR_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyOR_REQUEST"; }
@@ -13849,25 +13457,22 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {4, 2}; }
 }; // class TPM2_PolicyOR_REQUEST
 
-/** This command is used to cause conditional gating of a policy based on PCR. This
- *  command together with TPM2_PolicyOR() allows one group of authorizations to occur when
- *  PCR are in one state and a different set of authorizations when the PCR are in a
- *  different state.
- */
+/// <summary> This command is used to cause conditional gating of a policy based on PCR.
+/// This command together with TPM2_PolicyOR() allows one group of authorizations to occur
+/// when PCR are in one state and a different set of authorizations when the PCR are in a
+/// different state. </summary>
 class _DLLEXP_ TPM2_PolicyPCR_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** Expected digest value of the selected PCR using the hash algorithm of the session; may
-     *  be zero length
-     */
+    /// <summary> Expected digest value of the selected PCR using the hash algorithm of the
+    /// session; may be zero length </summary>
     ByteVec pcrDigest;
     
-    /** The PCR to include in the check digest  */
+    /// <summary> The PCR to include in the check digest </summary>
     vector<TPMS_PCR_SELECTION> pcrs;
 
 public:
@@ -13879,10 +13484,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyPCR_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyPCR_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyPCR_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyPCR_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyPCR_REQUEST"; }
@@ -13902,16 +13507,16 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PolicyPCR_REQUEST
 
-/** This command indicates that the authorization will be limited to a specific locality.  */
+/// <summary> This command indicates that the authorization will be limited to a specific
+/// locality. </summary>
 class _DLLEXP_ TPM2_PolicyLocality_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The allowed localities for the policy  */
+    /// <summary> The allowed localities for the policy </summary>
     TPMA_LOCALITY locality;
 
 public:
@@ -13923,10 +13528,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyLocality_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyLocality_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyLocality_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyLocality_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyLocality_REQUEST"; }
@@ -13944,36 +13549,32 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {policySession}; }
 }; // class TPM2_PolicyLocality_REQUEST
 
-/** This command is used to cause conditional gating of a policy based on the contents of
- *  an NV Index. It is an immediate assertion. The NV index is validated during the
- *  TPM2_PolicyNV() command, not when the session is used for authorization.
- */
+/// <summary> This command is used to cause conditional gating of a policy based on the
+/// contents of an NV Index. It is an immediate assertion. The NV index is validated
+/// during the TPM2_PolicyNV() command, not when the session is used for authorization. </summary>
 class _DLLEXP_ TPM2_PolicyNV_REQUEST : public ReqStructure
 {
 public:
-    /** Handle indicating the source of the authorization value
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle indicating the source of the authorization value
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The NV Index of the area to read
-     *  Auth Index: None
-     */
+    /// <summary> The NV Index of the area to read
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
     
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The second operand  */
+    /// <summary> The second operand </summary>
     ByteVec operandB;
     
-    /** The octet offset in the NV Index for the start of operand A  */
+    /// <summary> The octet offset in the NV Index for the start of operand A </summary>
     UINT16 offset;
     
-    /** The comparison to make  */
+    /// <summary> The comparison to make </summary>
     TPM_EO operation;
 
 public:
@@ -13985,10 +13586,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyNV_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyNV_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyNV_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyNV_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyNV_REQUEST"; }
@@ -14008,24 +13609,22 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PolicyNV_REQUEST
 
-/** This command is used to cause conditional gating of a policy based on the contents of
- *  the TPMS_TIME_INFO structure.
- */
+/// <summary> This command is used to cause conditional gating of a policy based on the
+/// contents of the TPMS_TIME_INFO structure. </summary>
 class _DLLEXP_ TPM2_PolicyCounterTimer_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The second operand  */
+    /// <summary> The second operand </summary>
     ByteVec operandB;
     
-    /** The octet offset in the TPMS_TIME_INFO structure for the start of operand A  */
+    /// <summary> The octet offset in the TPMS_TIME_INFO structure for the start of operand A </summary>
     UINT16 offset;
     
-    /** The comparison to make  */
+    /// <summary> The comparison to make </summary>
     TPM_EO operation;
 
 public:
@@ -14037,10 +13636,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyCounterTimer_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyCounterTimer_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyCounterTimer_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyCounterTimer_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyCounterTimer_REQUEST"; }
@@ -14060,16 +13659,16 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PolicyCounterTimer_REQUEST
 
-/** This command indicates that the authorization will be limited to a specific command code.  */
+/// <summary> This command indicates that the authorization will be limited to a specific
+/// command code. </summary>
 class _DLLEXP_ TPM2_PolicyCommandCode_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The allowed commandCode  */
+    /// <summary> The allowed commandCode </summary>
     TPM_CC code;
 
 public:
@@ -14081,10 +13680,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyCommandCode_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyCommandCode_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyCommandCode_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyCommandCode_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyCommandCode_REQUEST"; }
@@ -14102,15 +13701,13 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {policySession}; }
 }; // class TPM2_PolicyCommandCode_REQUEST
 
-/** This command indicates that physical presence will need to be asserted at the time the
- *  authorization is performed.
- */
+/// <summary> This command indicates that physical presence will need to be asserted at
+/// the time the authorization is performed. </summary>
 class _DLLEXP_ TPM2_PolicyPhysicalPresence_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
 
 public:
@@ -14119,10 +13716,10 @@ public:
       : policySession(_policySession)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyPhysicalPresence_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyPhysicalPresence_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyPhysicalPresence_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyPhysicalPresence_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyPhysicalPresence_REQUEST"; }
@@ -14140,16 +13737,16 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {policySession}; }
 }; // class TPM2_PolicyPhysicalPresence_REQUEST
 
-/** This command is used to allow a policy to be bound to a specific command and command parameters.  */
+/// <summary> This command is used to allow a policy to be bound to a specific command and
+/// command parameters. </summary>
 class _DLLEXP_ TPM2_PolicyCpHash_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The cpHash added to the policy  */
+    /// <summary> The cpHash added to the policy </summary>
     ByteVec cpHashA;
 
 public:
@@ -14161,10 +13758,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyCpHash_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyCpHash_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyCpHash_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyCpHash_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyCpHash_REQUEST"; }
@@ -14184,19 +13781,18 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PolicyCpHash_REQUEST
 
-/** This command allows a policy to be bound to a specific set of TPM entities without
- *  being bound to the parameters of the command. This is most useful for commands such as
- *  TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
- */
+/// <summary> This command allows a policy to be bound to a specific set of TPM entities
+/// without being bound to the parameters of the command. This is most useful for commands
+/// such as TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a
+/// policy. </summary>
 class _DLLEXP_ TPM2_PolicyNameHash_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The digest to be added to the policy  */
+    /// <summary> The digest to be added to the policy </summary>
     ByteVec nameHash;
 
 public:
@@ -14208,10 +13804,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyNameHash_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyNameHash_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyNameHash_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyNameHash_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyNameHash_REQUEST"; }
@@ -14231,24 +13827,23 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PolicyNameHash_REQUEST
 
-/** This command allows qualification of duplication to allow duplication to a selected
- *  new parent.
- */
+/// <summary> This command allows qualification of duplication to allow duplication to a
+/// selected new parent. </summary>
 class _DLLEXP_ TPM2_PolicyDuplicationSelect_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The Name of the object to be duplicated  */
+    /// <summary> The Name of the object to be duplicated </summary>
     ByteVec objectName;
     
-    /** The Name of the new parent  */
+    /// <summary> The Name of the new parent </summary>
     ByteVec newParentName;
     
-    /** If YES, the objectName will be included in the value in policySessionpolicyDigest  */
+    /// <summary> If YES, the objectName will be included in the value in
+    /// policySessionpolicyDigest </summary>
     BYTE includeObject;
 
 public:
@@ -14260,10 +13855,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyDuplicationSelect_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyDuplicationSelect_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyDuplicationSelect_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyDuplicationSelect_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyDuplicationSelect_REQUEST"; }
@@ -14283,28 +13878,26 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PolicyDuplicationSelect_REQUEST
 
-/** This command allows policies to change. If a policy were static, then it would be
- *  difficult to add users to a policy. This command lets a policy authority sign a new
- *  policy so that it may be used in an existing policy.
- */
+/// <summary> This command allows policies to change. If a policy were static, then it
+/// would be difficult to add users to a policy. This command lets a policy authority sign
+/// a new policy so that it may be used in an existing policy. </summary>
 class _DLLEXP_ TPM2_PolicyAuthorize_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** Digest of the policy being approved  */
+    /// <summary> Digest of the policy being approved </summary>
     ByteVec approvedPolicy;
     
-    /** A policy qualifier  */
+    /// <summary> A policy qualifier </summary>
     ByteVec policyRef;
     
-    /** Name of a key that can sign a policy addition  */
+    /// <summary> Name of a key that can sign a policy addition </summary>
     ByteVec keySign;
     
-    /** Ticket validating that approvedPolicy and policyRef were signed by keySign  */
+    /// <summary> Ticket validating that approvedPolicy and policyRef were signed by keySign </summary>
     TPMT_TK_VERIFIED checkTicket;
 
 public:
@@ -14316,10 +13909,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyAuthorize_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyAuthorize_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyAuthorize_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyAuthorize_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyAuthorize_REQUEST"; }
@@ -14339,13 +13932,13 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PolicyAuthorize_REQUEST
 
-/** This command allows a policy to be bound to the authorization value of the authorized entity.  */
+/// <summary> This command allows a policy to be bound to the authorization value of the
+/// authorized entity. </summary>
 class _DLLEXP_ TPM2_PolicyAuthValue_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
 
 public:
@@ -14354,10 +13947,10 @@ public:
       : policySession(_policySession)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyAuthValue_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyAuthValue_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyAuthValue_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyAuthValue_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyAuthValue_REQUEST"; }
@@ -14375,13 +13968,13 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {policySession}; }
 }; // class TPM2_PolicyAuthValue_REQUEST
 
-/** This command allows a policy to be bound to the authorization value of the authorized object.  */
+/// <summary> This command allows a policy to be bound to the authorization value of the
+/// authorized object. </summary>
 class _DLLEXP_ TPM2_PolicyPassword_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
 
 public:
@@ -14390,10 +13983,10 @@ public:
       : policySession(_policySession)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyPassword_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyPassword_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyPassword_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyPassword_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyPassword_REQUEST"; }
@@ -14411,15 +14004,14 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {policySession}; }
 }; // class TPM2_PolicyPassword_REQUEST
 
-/** This command returns the current policyDigest of the session. This command allows the
- *  TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
- */
+/// <summary> This command returns the current policyDigest of the session. This command
+/// allows the TPM to be used to perform the actions required to pre-compute the
+/// authPolicy for an object. </summary>
 class _DLLEXP_ TPM2_PolicyGetDigest_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
 
 public:
@@ -14428,10 +14020,10 @@ public:
       : policySession(_policySession)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyGetDigest_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyGetDigest_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyGetDigest_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyGetDigest_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyGetDigest_REQUEST"; }
@@ -14449,13 +14041,13 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {policySession}; }
 }; // class TPM2_PolicyGetDigest_REQUEST
 
-/** This command returns the current policyDigest of the session. This command allows the
- *  TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
- */
+/// <summary> This command returns the current policyDigest of the session. This command
+/// allows the TPM to be used to perform the actions required to pre-compute the
+/// authPolicy for an object. </summary>
 class _DLLEXP_ PolicyGetDigestResponse : public RespStructure
 {
 public:
-    /** The current value of the policySessionpolicyDigest  */
+    /// <summary> The current value of the policySessionpolicyDigest </summary>
     ByteVec policyDigest;
 
 public:
@@ -14464,10 +14056,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PolicyGetDigestResponse fromTpm(TpmBuffer& buf) { return buf.createObj<PolicyGetDigestResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PolicyGetDigestResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PolicyGetDigestResponse>(buf); }
     
     virtual const char* TypeName () const { return "PolicyGetDigestResponse"; }
@@ -14483,21 +14075,18 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class PolicyGetDigestResponse
 
-/** This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
- *  deferred assertion. Values are stored in the policy session context and checked when
- *  the policy is used for authorization.
- */
+/// <summary> This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes.
+/// This is a deferred assertion. Values are stored in the policy session context and
+/// checked when the policy is used for authorization. </summary>
 class _DLLEXP_ TPM2_PolicyNvWritten_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** YES if NV Index is required to have been written
-     *  NO if NV Index is required not to have been written
-     */
+    /// <summary> YES if NV Index is required to have been written
+    /// NO if NV Index is required not to have been written </summary>
     BYTE writtenSet;
 
 public:
@@ -14509,10 +14098,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyNvWritten_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyNvWritten_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyNvWritten_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyNvWritten_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyNvWritten_REQUEST"; }
@@ -14530,19 +14119,17 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {policySession}; }
 }; // class TPM2_PolicyNvWritten_REQUEST
 
-/** This command allows a policy to be bound to a specific creation template. This is most
- *  useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or
- *  TPM2_CreateLoaded().
- */
+/// <summary> This command allows a policy to be bound to a specific creation template.
+/// This is most useful for an object creation command such as TPM2_Create(),
+/// TPM2_CreatePrimary(), or TPM2_CreateLoaded(). </summary>
 class _DLLEXP_ TPM2_PolicyTemplate_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The digest to be added to the policy  */
+    /// <summary> The digest to be added to the policy </summary>
     ByteVec templateHash;
 
 public:
@@ -14554,10 +14141,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyTemplate_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyTemplate_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyTemplate_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyTemplate_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyTemplate_REQUEST"; }
@@ -14577,28 +14164,25 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_PolicyTemplate_REQUEST
 
-/** This command provides a capability that is the equivalent of a revocable policy. With
- *  TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization
- *  may not be withdrawn. With this command, the approved policy is kept in an NV Index
- *  location so that the policy may be changed as needed to render the old policy unusable.
- */
+/// <summary> This command provides a capability that is the equivalent of a revocable
+/// policy. With TPM2_PolicyAuthorize(), the authorization ticket never expires, so the
+/// authorization may not be withdrawn. With this command, the approved policy is kept in
+/// an NV Index location so that the policy may be changed as needed to render the old
+/// policy unusable. </summary>
 class _DLLEXP_ TPM2_PolicyAuthorizeNV_REQUEST : public ReqStructure
 {
 public:
-    /** Handle indicating the source of the authorization value
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle indicating the source of the authorization value
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The NV Index of the area to read
-     *  Auth Index: None
-     */
+    /// <summary> The NV Index of the area to read
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
     
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
 
 public:
@@ -14607,10 +14191,10 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex), policySession(_policySession)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyAuthorizeNV_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PolicyAuthorizeNV_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PolicyAuthorizeNV_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PolicyAuthorizeNV_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PolicyAuthorizeNV_REQUEST"; }
@@ -14628,33 +14212,30 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex, policySession}; }
 }; // class TPM2_PolicyAuthorizeNV_REQUEST
 
-/** This command is used to create a Primary Object under one of the Primary Seeds or a
- *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for
- *  the object to be created. The size of the unique field shall not be checked for
- *  consistency with the other object parameters. The command will create and load a
- *  Primary Object. The sensitive area is not returned.
- */
+/// <summary> This command is used to create a Primary Object under one of the Primary
+/// Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a
+/// template for the object to be created. The size of the unique field shall not be
+/// checked for consistency with the other object parameters. The command will create and
+/// load a Primary Object. The sensitive area is not returned. </summary>
 class _DLLEXP_ TPM2_CreatePrimary_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE primaryHandle;
     
-    /** The sensitive data, see TPM 2.0 Part 1 Sensitive Values  */
+    /// <summary> The sensitive data, see TPM 2.0 Part 1 Sensitive Values </summary>
     TPMS_SENSITIVE_CREATE inSensitive;
     
-    /** The public template  */
+    /// <summary> The public template </summary>
     TPMT_PUBLIC inPublic;
     
-    /** Data that will be included in the creation data for this object to provide permanent,
-     *  verifiable linkage between this object and some object owner data
-     */
+    /// <summary> Data that will be included in the creation data for this object to provide
+    /// permanent, verifiable linkage between this object and some object owner data </summary>
     ByteVec outsideInfo;
     
-    /** PCR that will be used in creation data  */
+    /// <summary> PCR that will be used in creation data </summary>
     vector<TPMS_PCR_SELECTION> creationPCR;
 
 public:
@@ -14666,10 +14247,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_CreatePrimary_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_CreatePrimary_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_CreatePrimary_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_CreatePrimary_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_CreatePrimary_REQUEST"; }
@@ -14689,33 +14270,31 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_CreatePrimary_REQUEST
 
-/** This command is used to create a Primary Object under one of the Primary Seeds or a
- *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for
- *  the object to be created. The size of the unique field shall not be checked for
- *  consistency with the other object parameters. The command will create and load a
- *  Primary Object. The sensitive area is not returned.
- */
+/// <summary> This command is used to create a Primary Object under one of the Primary
+/// Seeds or a Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a
+/// template for the object to be created. The size of the unique field shall not be
+/// checked for consistency with the other object parameters. The command will create and
+/// load a Primary Object. The sensitive area is not returned. </summary>
 class _DLLEXP_ CreatePrimaryResponse : public RespStructure
 {
 public:
-    /** Handle of type TPM_HT_TRANSIENT for created Primary Object  */
+    /// <summary> Handle of type TPM_HT_TRANSIENT for created Primary Object </summary>
     TPM_HANDLE handle;
     
-    /** The public portion of the created object  */
+    /// <summary> The public portion of the created object </summary>
     TPMT_PUBLIC outPublic;
     
-    /** Contains a TPMT_CREATION_DATA  */
+    /// <summary> Contains a TPMT_CREATION_DATA </summary>
     TPMS_CREATION_DATA creationData;
     
-    /** Digest of creationData using nameAlg of outPublic  */
+    /// <summary> Digest of creationData using nameAlg of outPublic </summary>
     ByteVec creationHash;
     
-    /** Ticket used by TPM2_CertifyCreation() to validate that the creation data was produced
-     *  by the TPM
-     */
+    /// <summary> Ticket used by TPM2_CertifyCreation() to validate that the creation data was
+    /// produced by the TPM </summary>
     TPMT_TK_CREATION creationTicket;
     
-    /** The name of the created object  */
+    /// <summary> The name of the created object </summary>
     ByteVec name;
 
 public:
@@ -14724,10 +14303,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CreatePrimaryResponse fromTpm(TpmBuffer& buf) { return buf.createObj<CreatePrimaryResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CreatePrimaryResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CreatePrimaryResponse>(buf); }
     
     virtual const char* TypeName () const { return "CreatePrimaryResponse"; }
@@ -14747,25 +14326,22 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class CreatePrimaryResponse
 
-/** This command enables and disables use of a hierarchy and its associated NV storage.
- *  The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
- *  proper authorization is provided.
- */
+/// <summary> This command enables and disables use of a hierarchy and its associated NV
+/// storage. The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed
+/// when the proper authorization is provided. </summary>
 class _DLLEXP_ TPM2_HierarchyControl_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The enable being modified
-     *  TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV
-     */
+    /// <summary> The enable being modified
+    /// TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM, or TPM_RH_PLATFORM_NV </summary>
     TPM_HANDLE enable;
     
-    /** YES if the enable should be SET, NO if the enable should be CLEAR  */
+    /// <summary> YES if the enable should be SET, NO if the enable should be CLEAR </summary>
     BYTE state;
 
 public:
@@ -14777,10 +14353,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_HierarchyControl_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_HierarchyControl_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_HierarchyControl_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_HierarchyControl_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_HierarchyControl_REQUEST"; }
@@ -14798,29 +14374,25 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
 }; // class TPM2_HierarchyControl_REQUEST
 
-/** This command allows setting of the authorization policy for the lockout
- *  (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy
- *  (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing
- *  Authenticated Countdown Timers (ACT), this command may also be used to set the
- *  authorization policy for an ACT.
- */
+/// <summary> This command allows setting of the authorization policy for the lockout
+/// (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy
+/// (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing
+/// Authenticated Countdown Timers (ACT), this command may also be used to set the
+/// authorization policy for an ACT. </summary>
 class _DLLEXP_ TPM2_SetPrimaryPolicy_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** An authorization policy digest; may be the Empty Buffer
-     *  If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer.
-     */
+    /// <summary> An authorization policy digest; may be the Empty Buffer
+    /// If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer. </summary>
     ByteVec authPolicy;
     
-    /** The hash algorithm to use for the policy
-     *  If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL.
-     */
+    /// <summary> The hash algorithm to use for the policy
+    /// If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL. </summary>
     TPM_ALG_ID hashAlg;
 
 public:
@@ -14832,10 +14404,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SetPrimaryPolicy_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SetPrimaryPolicy_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SetPrimaryPolicy_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SetPrimaryPolicy_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SetPrimaryPolicy_REQUEST"; }
@@ -14855,16 +14427,14 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_SetPrimaryPolicy_REQUEST
 
-/** This replaces the current platform primary seed (PPS) with a value from the RNG and
- *  sets platformPolicy to the default initialization value (the Empty Buffer).
- */
+/// <summary> This replaces the current platform primary seed (PPS) with a value from the
+/// RNG and sets platformPolicy to the default initialization value (the Empty Buffer). </summary>
 class _DLLEXP_ TPM2_ChangePPS_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_PLATFORM+{PP}
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_PLATFORM+{PP}
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
 
 public:
@@ -14873,10 +14443,10 @@ public:
       : authHandle(_authHandle)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ChangePPS_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ChangePPS_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ChangePPS_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ChangePPS_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ChangePPS_REQUEST"; }
@@ -14894,20 +14464,18 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
 }; // class TPM2_ChangePPS_REQUEST
 
-/** This replaces the current endorsement primary seed (EPS) with a value from the RNG and
- *  sets the Endorsement hierarchy controls to their default initialization values:
- *  ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty
- *  Buffer. It will flush any resident objects (transient or persistent) in the
- *  Endorsement hierarchy and not allow objects in the hierarchy associated with the
- *  previous EPS to be loaded.
- */
+/// <summary> This replaces the current endorsement primary seed (EPS) with a value from
+/// the RNG and sets the Endorsement hierarchy controls to their default initialization
+/// values: ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the
+/// Empty Buffer. It will flush any resident objects (transient or persistent) in the
+/// Endorsement hierarchy and not allow objects in the hierarchy associated with the
+/// previous EPS to be loaded. </summary>
 class _DLLEXP_ TPM2_ChangeEPS_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_PLATFORM+{PP}
-     *  Auth Handle: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_PLATFORM+{PP}
+    /// Auth Handle: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
 
 public:
@@ -14916,10 +14484,10 @@ public:
       : authHandle(_authHandle)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ChangeEPS_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ChangeEPS_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ChangeEPS_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ChangeEPS_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ChangeEPS_REQUEST"; }
@@ -14937,14 +14505,13 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
 }; // class TPM2_ChangeEPS_REQUEST
 
-/** This command removes all TPM context associated with a specific Owner.  */
+/// <summary> This command removes all TPM context associated with a specific Owner. </summary>
 class _DLLEXP_ TPM2_Clear_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
-     *  Auth Handle: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
+    /// Auth Handle: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
 
 public:
@@ -14953,10 +14520,10 @@ public:
       : authHandle(_authHandle)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Clear_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Clear_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Clear_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Clear_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Clear_REQUEST"; }
@@ -14974,17 +14541,17 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
 }; // class TPM2_Clear_REQUEST
 
-/** TPM2_ClearControl() disables and enables the execution of TPM2_Clear().  */
+/// <summary> TPM2_ClearControl() disables and enables the execution of TPM2_Clear(). </summary>
 class _DLLEXP_ TPM2_ClearControl_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
-     *  Auth Handle: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
+    /// Auth Handle: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE auth;
     
-    /** YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR.  */
+    /// <summary> YES if the disableOwnerClear flag is to be SET, NO if the flag is to be
+    /// CLEAR. </summary>
     BYTE disable;
 
 public:
@@ -14996,10 +14563,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ClearControl_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ClearControl_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ClearControl_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ClearControl_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ClearControl_REQUEST"; }
@@ -15017,19 +14584,17 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {auth}; }
 }; // class TPM2_ClearControl_REQUEST
 
-/** This command allows the authorization secret for a hierarchy or lockout to be changed
- *  using the current authorization value as the command authorization.
- */
+/// <summary> This command allows the authorization secret for a hierarchy or lockout to
+/// be changed using the current authorization value as the command authorization. </summary>
 class _DLLEXP_ TPM2_HierarchyChangeAuth_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** New authorization value  */
+    /// <summary> New authorization value </summary>
     ByteVec newAuth;
 
 public:
@@ -15041,10 +14606,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_HierarchyChangeAuth_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_HierarchyChangeAuth_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_HierarchyChangeAuth_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_HierarchyChangeAuth_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_HierarchyChangeAuth_REQUEST"; }
@@ -15064,17 +14629,15 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_HierarchyChangeAuth_REQUEST
 
-/** This command cancels the effect of a TPM lockout due to a number of successive
- *  authorization failures. If this command is properly authorized, the lockout counter is
- *  set to zero.
- */
+/// <summary> This command cancels the effect of a TPM lockout due to a number of
+/// successive authorization failures. If this command is properly authorized, the lockout
+/// counter is set to zero. </summary>
 class _DLLEXP_ TPM2_DictionaryAttackLockReset_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_LOCKOUT
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_LOCKOUT
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE lockHandle;
 
 public:
@@ -15083,10 +14646,10 @@ public:
       : lockHandle(_lockHandle)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_DictionaryAttackLockReset_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_DictionaryAttackLockReset_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_DictionaryAttackLockReset_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_DictionaryAttackLockReset_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_DictionaryAttackLockReset_REQUEST"; }
@@ -15104,27 +14667,24 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {lockHandle}; }
 }; // class TPM2_DictionaryAttackLockReset_REQUEST
 
-/** This command changes the lockout parameters.  */
+/// <summary> This command changes the lockout parameters. </summary>
 class _DLLEXP_ TPM2_DictionaryAttackParameters_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_LOCKOUT
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_LOCKOUT
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE lockHandle;
     
-    /** Count of authorization failures before the lockout is imposed  */
+    /// <summary> Count of authorization failures before the lockout is imposed </summary>
     UINT32 newMaxTries;
     
-    /** Time in seconds before the authorization failure count is automatically decremented
-     *  A value of zero indicates that DA protection is disabled.
-     */
+    /// <summary> Time in seconds before the authorization failure count is automatically decremented
+    /// A value of zero indicates that DA protection is disabled. </summary>
     UINT32 newRecoveryTime;
     
-    /** Time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
-     *  A value of zero indicates that a reboot is required.
-     */
+    /// <summary> Time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
+    /// A value of zero indicates that a reboot is required. </summary>
     UINT32 lockoutRecovery;
 
 public:
@@ -15136,10 +14696,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_DictionaryAttackParameters_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_DictionaryAttackParameters_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_DictionaryAttackParameters_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_DictionaryAttackParameters_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_DictionaryAttackParameters_REQUEST"; }
@@ -15157,22 +14717,22 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {lockHandle}; }
 }; // class TPM2_DictionaryAttackParameters_REQUEST
 
-/** This command is used to determine which commands require assertion of Physical
- *  Presence (PP) in addition to platformAuth/platformPolicy.
- */
+/// <summary> This command is used to determine which commands require assertion of
+/// Physical Presence (PP) in addition to platformAuth/platformPolicy. </summary>
 class _DLLEXP_ TPM2_PP_Commands_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_PLATFORM+PP
-     *  Auth Index: 1
-     *  Auth Role: USER + Physical Presence
-     */
+    /// <summary> TPM_RH_PLATFORM+PP
+    /// Auth Index: 1
+    /// Auth Role: USER + Physical Presence </summary>
     TPM_HANDLE auth;
     
-    /** List of commands to be added to those that will require that Physical Presence be asserted  */
+    /// <summary> List of commands to be added to those that will require that Physical
+    /// Presence be asserted </summary>
     vector<TPM_CC> setList;
     
-    /** List of commands that will no longer require that Physical Presence be asserted  */
+    /// <summary> List of commands that will no longer require that Physical Presence be
+    /// asserted </summary>
     vector<TPM_CC> clearList;
 
 public:
@@ -15184,10 +14744,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PP_Commands_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_PP_Commands_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_PP_Commands_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_PP_Commands_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_PP_Commands_REQUEST"; }
@@ -15207,19 +14767,17 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {4, 4}; }
 }; // class TPM2_PP_Commands_REQUEST
 
-/** This command allows the platform to change the set of algorithms that are used by the
- *  TPM. The algorithmSet setting is a vendor-dependent value.
- */
+/// <summary> This command allows the platform to change the set of algorithms that are
+/// used by the TPM. The algorithmSet setting is a vendor-dependent value. </summary>
 class _DLLEXP_ TPM2_SetAlgorithmSet_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_PLATFORM
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_PLATFORM
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** A TPM vendor-dependent value indicating the algorithm set selection  */
+    /// <summary> A TPM vendor-dependent value indicating the algorithm set selection </summary>
     UINT32 algorithmSet;
 
 public:
@@ -15231,10 +14789,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SetAlgorithmSet_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_SetAlgorithmSet_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_SetAlgorithmSet_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_SetAlgorithmSet_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_SetAlgorithmSet_REQUEST"; }
@@ -15252,35 +14810,31 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
 }; // class TPM2_SetAlgorithmSet_REQUEST
 
-/** This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a
- *  Field Upgrade Manifest.
- */
+/// <summary> This command uses platformPolicy and a TPM Vendor Authorization Key to
+/// authorize a Field Upgrade Manifest. </summary>
 class _DLLEXP_ TPM2_FieldUpgradeStart_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_PLATFORM+{PP}
-     *  Auth Index:1
-     *  Auth Role: ADMIN
-     */
+    /// <summary> TPM_RH_PLATFORM+{PP}
+    /// Auth Index:1
+    /// Auth Role: ADMIN </summary>
     TPM_HANDLE authorization;
     
-    /** Handle of a public area that contains the TPM Vendor Authorization Key that will be
-     *  used to validate manifestSignature
-     *  Auth Index: None
-     */
+    /// <summary> Handle of a public area that contains the TPM Vendor Authorization Key that
+    /// will be used to validate manifestSignature
+    /// Auth Index: None </summary>
     TPM_HANDLE keyHandle;
     
-    /** Digest of the first block in the field upgrade sequence  */
+    /// <summary> Digest of the first block in the field upgrade sequence </summary>
     ByteVec fuDigest;
     
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID manifestSignatureSigAlg() const { return manifestSignature ? manifestSignature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signature over fuDigest using the key associated with keyHandle (not optional)
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> Signature over fuDigest using the key associated with keyHandle (not optional)
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> manifestSignature;
 
 public:
@@ -15292,10 +14846,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_FieldUpgradeStart_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_FieldUpgradeStart_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_FieldUpgradeStart_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_FieldUpgradeStart_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_FieldUpgradeStart_REQUEST"; }
@@ -15315,15 +14869,15 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_FieldUpgradeStart_REQUEST
 
-/** This command will take the actual field upgrade image to be installed on the TPM. The
- *  exact format of fuData is vendor-specific. This command is only possible following a
- *  successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
- *  TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
- */
+/// <summary> This command will take the actual field upgrade image to be installed on the
+/// TPM. The exact format of fuData is vendor-specific. This command is only possible
+/// following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a
+/// properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return
+/// TPM_RC_FIELDUPGRADE. </summary>
 class _DLLEXP_ TPM2_FieldUpgradeData_REQUEST : public ReqStructure
 {
 public:
-    /** Field upgrade image data  */
+    /// <summary> Field upgrade image data </summary>
     ByteVec fuData;
 
 public:
@@ -15335,10 +14889,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_FieldUpgradeData_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_FieldUpgradeData_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_FieldUpgradeData_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_FieldUpgradeData_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_FieldUpgradeData_REQUEST"; }
@@ -15354,20 +14908,19 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_FieldUpgradeData_REQUEST
 
-/** This command will take the actual field upgrade image to be installed on the TPM. The
- *  exact format of fuData is vendor-specific. This command is only possible following a
- *  successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
- *  TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
- */
+/// <summary> This command will take the actual field upgrade image to be installed on the
+/// TPM. The exact format of fuData is vendor-specific. This command is only possible
+/// following a successful TPM2_FieldUpgradeStart(). If the TPM has not received a
+/// properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return
+/// TPM_RC_FIELDUPGRADE. </summary>
 class _DLLEXP_ FieldUpgradeDataResponse : public RespStructure
 {
 public:
-    /** Tagged digest of the next block
-     *  TPM_ALG_NULL if field update is complete
-     */
+    /// <summary> Tagged digest of the next block
+    /// TPM_ALG_NULL if field update is complete </summary>
     TPMT_HA nextDigest;
     
-    /** Tagged digest of the first block of the sequence  */
+    /// <summary> Tagged digest of the first block of the sequence </summary>
     TPMT_HA firstDigest;
 
 public:
@@ -15376,10 +14929,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static FieldUpgradeDataResponse fromTpm(TpmBuffer& buf) { return buf.createObj<FieldUpgradeDataResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static FieldUpgradeDataResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<FieldUpgradeDataResponse>(buf); }
     
     virtual const char* TypeName () const { return "FieldUpgradeDataResponse"; }
@@ -15392,13 +14945,13 @@ public:
     virtual TpmStructure* Clone() const { return new FieldUpgradeDataResponse(*this); }
 }; // class FieldUpgradeDataResponse
 
-/** This command is used to read a copy of the current firmware installed in the TPM.  */
+/// <summary> This command is used to read a copy of the current firmware installed in the
+/// TPM. </summary>
 class _DLLEXP_ TPM2_FirmwareRead_REQUEST : public ReqStructure
 {
 public:
-    /** The number of previous calls to this command in this sequence
-     *  set to 0 on the first call
-     */
+    /// <summary> The number of previous calls to this command in this sequence
+    /// set to 0 on the first call </summary>
     UINT32 sequenceNumber;
 
 public:
@@ -15410,10 +14963,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_FirmwareRead_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_FirmwareRead_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_FirmwareRead_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_FirmwareRead_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_FirmwareRead_REQUEST"; }
@@ -15426,11 +14979,12 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_FirmwareRead_REQUEST(*this); }
 }; // class TPM2_FirmwareRead_REQUEST
 
-/** This command is used to read a copy of the current firmware installed in the TPM.  */
+/// <summary> This command is used to read a copy of the current firmware installed in the
+/// TPM. </summary>
 class _DLLEXP_ FirmwareReadResponse : public RespStructure
 {
 public:
-    /** Field upgrade image data  */
+    /// <summary> Field upgrade image data </summary>
     ByteVec fuData;
 
 public:
@@ -15439,10 +14993,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static FirmwareReadResponse fromTpm(TpmBuffer& buf) { return buf.createObj<FirmwareReadResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static FirmwareReadResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<FirmwareReadResponse>(buf); }
     
     virtual const char* TypeName () const { return "FirmwareReadResponse"; }
@@ -15458,15 +15012,13 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class FirmwareReadResponse
 
-/** This command saves a session context, object context, or sequence object context
- *  outside the TPM.
- */
+/// <summary> This command saves a session context, object context, or sequence object
+/// context outside the TPM. </summary>
 class _DLLEXP_ TPM2_ContextSave_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the resource to save
-     *  Auth Index: None
-     */
+    /// <summary> Handle of the resource to save
+    /// Auth Index: None </summary>
     TPM_HANDLE saveHandle;
 
 public:
@@ -15475,10 +15027,10 @@ public:
       : saveHandle(_saveHandle)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ContextSave_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ContextSave_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ContextSave_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ContextSave_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ContextSave_REQUEST"; }
@@ -15496,9 +15048,8 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {saveHandle}; }
 }; // class TPM2_ContextSave_REQUEST
 
-/** This command saves a session context, object context, or sequence object context
- *  outside the TPM.
- */
+/// <summary> This command saves a session context, object context, or sequence object
+/// context outside the TPM. </summary>
 class _DLLEXP_ ContextSaveResponse : public RespStructure
 {
 public:
@@ -15510,10 +15061,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ContextSaveResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ContextSaveResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ContextSaveResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ContextSaveResponse>(buf); }
     
     virtual const char* TypeName () const { return "ContextSaveResponse"; }
@@ -15526,11 +15077,12 @@ public:
     virtual TpmStructure* Clone() const { return new ContextSaveResponse(*this); }
 }; // class ContextSaveResponse
 
-/** This command is used to reload a context that has been saved by TPM2_ContextSave().  */
+/// <summary> This command is used to reload a context that has been saved by
+/// TPM2_ContextSave(). </summary>
 class _DLLEXP_ TPM2_ContextLoad_REQUEST : public ReqStructure
 {
 public:
-    /** The context blob  */
+    /// <summary> The context blob </summary>
     TPMS_CONTEXT context;
 
 public:
@@ -15542,10 +15094,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ContextLoad_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ContextLoad_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ContextLoad_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ContextLoad_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ContextLoad_REQUEST"; }
@@ -15558,20 +15110,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_ContextLoad_REQUEST(*this); }
 }; // class TPM2_ContextLoad_REQUEST
 
-/** This command is used to reload a context that has been saved by TPM2_ContextSave().  */
+/// <summary> This command is used to reload a context that has been saved by
+/// TPM2_ContextSave(). </summary>
 class _DLLEXP_ ContextLoadResponse : public RespStructure
 {
 public:
-    /** The handle assigned to the resource after it has been successfully loaded  */
+    /// <summary> The handle assigned to the resource after it has been successfully loaded </summary>
     TPM_HANDLE handle;
 
 public:
     ContextLoadResponse() {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ContextLoadResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ContextLoadResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ContextLoadResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ContextLoadResponse>(buf); }
     
     virtual const char* TypeName () const { return "ContextLoadResponse"; }
@@ -15589,15 +15142,13 @@ protected:
     virtual void setHandle(const TPM_HANDLE& h) { handle = h; }
 }; // class ContextLoadResponse
 
-/** This command causes all context associated with a loaded object, sequence object, or
- *  session to be removed from TPM memory.
- */
+/// <summary> This command causes all context associated with a loaded object, sequence
+/// object, or session to be removed from TPM memory. </summary>
 class _DLLEXP_ TPM2_FlushContext_REQUEST : public ReqStructure
 {
 public:
-    /** The handle of the item to flush
-     *  NOTE This is a use of a handle as a parameter.
-     */
+    /// <summary> The handle of the item to flush
+    /// NOTE This is a use of a handle as a parameter. </summary>
     TPM_HANDLE flushHandle;
 
 public:
@@ -15609,10 +15160,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_FlushContext_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_FlushContext_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_FlushContext_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_FlushContext_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_FlushContext_REQUEST"; }
@@ -15625,28 +15176,24 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_FlushContext_REQUEST(*this); }
 }; // class TPM2_FlushContext_REQUEST
 
-/** This command allows certain Transient Objects to be made persistent or a persistent
- *  object to be evicted.
- */
+/// <summary> This command allows certain Transient Objects to be made persistent or a
+/// persistent object to be evicted. </summary>
 class _DLLEXP_ TPM2_EvictControl_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
-     *  Auth Handle: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /// Auth Handle: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE auth;
     
-    /** The handle of a loaded object
-     *  Auth Index: None
-     */
+    /// <summary> The handle of a loaded object
+    /// Auth Index: None </summary>
     TPM_HANDLE objectHandle;
     
-    /** If objectHandle is a transient object handle, then this is the persistent handle for
-     *  the object
-     *  if objectHandle is a persistent object handle, then it shall be the same value as
-     *  persistentHandle
-     */
+    /// <summary> If objectHandle is a transient object handle, then this is the persistent
+    /// handle for the object
+    /// if objectHandle is a persistent object handle, then it shall be the same value as
+    /// persistentHandle </summary>
     TPM_HANDLE persistentHandle;
 
 public:
@@ -15658,10 +15205,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_EvictControl_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_EvictControl_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_EvictControl_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_EvictControl_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_EvictControl_REQUEST"; }
@@ -15679,19 +15226,18 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {auth, objectHandle}; }
 }; // class TPM2_EvictControl_REQUEST
 
-/** This command reads the current TPMS_TIME_INFO structure that contains the current
- *  setting of Time, Clock, resetCount, and restartCount.
- */
+/// <summary> This command reads the current TPMS_TIME_INFO structure that contains the
+/// current setting of Time, Clock, resetCount, and restartCount. </summary>
 class _DLLEXP_ TPM2_ReadClock_REQUEST : public ReqStructure
 {
 public:
 public:
     TPM2_ReadClock_REQUEST() {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ReadClock_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ReadClock_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ReadClock_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ReadClock_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ReadClock_REQUEST"; }
@@ -15702,9 +15248,8 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_ReadClock_REQUEST(*this); }
 }; // class TPM2_ReadClock_REQUEST
 
-/** This command reads the current TPMS_TIME_INFO structure that contains the current
- *  setting of Time, Clock, resetCount, and restartCount.
- */
+/// <summary> This command reads the current TPMS_TIME_INFO structure that contains the
+/// current setting of Time, Clock, resetCount, and restartCount. </summary>
 class _DLLEXP_ ReadClockResponse : public RespStructure
 {
 public:
@@ -15716,10 +15261,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ReadClockResponse fromTpm(TpmBuffer& buf) { return buf.createObj<ReadClockResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static ReadClockResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<ReadClockResponse>(buf); }
     
     virtual const char* TypeName () const { return "ReadClockResponse"; }
@@ -15732,21 +15277,20 @@ public:
     virtual TpmStructure* Clone() const { return new ReadClockResponse(*this); }
 }; // class ReadClockResponse
 
-/** This command is used to advance the value of the TPMs Clock. The command will fail if
- *  newTime is less than the current value of Clock or if the new time is greater than
- *  FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If
- *  either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
- */
+/// <summary> This command is used to advance the value of the TPMs Clock. The command
+/// will fail if newTime is less than the current value of Clock or if the new time is
+/// greater than FFFF00000000000016. If both of these checks succeed, Clock is set to
+/// newTime. If either of these checks fails, the TPM shall return TPM_RC_VALUE and make
+/// no change to Clock. </summary>
 class _DLLEXP_ TPM2_ClockSet_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
-     *  Auth Handle: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /// Auth Handle: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE auth;
     
-    /** New Clock setting in milliseconds  */
+    /// <summary> New Clock setting in milliseconds </summary>
     UINT64 newTime;
 
 public:
@@ -15758,10 +15302,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ClockSet_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ClockSet_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ClockSet_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ClockSet_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ClockSet_REQUEST"; }
@@ -15779,19 +15323,17 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {auth}; }
 }; // class TPM2_ClockSet_REQUEST
 
-/** This command adjusts the rate of advance of Clock and Time to provide a better
- *  approximation to real time.
- */
+/// <summary> This command adjusts the rate of advance of Clock and Time to provide a
+/// better approximation to real time. </summary>
 class _DLLEXP_ TPM2_ClockRateAdjust_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
-     *  Auth Handle: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /// Auth Handle: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE auth;
     
-    /** Adjustment to current Clock update rate  */
+    /// <summary> Adjustment to current Clock update rate </summary>
     TPM_CLOCK_ADJUST rateAdjust;
 
 public:
@@ -15803,10 +15345,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ClockRateAdjust_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ClockRateAdjust_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ClockRateAdjust_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ClockRateAdjust_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ClockRateAdjust_REQUEST"; }
@@ -15824,17 +15366,18 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {auth}; }
 }; // class TPM2_ClockRateAdjust_REQUEST
 
-/** This command returns various information regarding the TPM and its current state.  */
+/// <summary> This command returns various information regarding the TPM and its current
+/// state. </summary>
 class _DLLEXP_ TPM2_GetCapability_REQUEST : public ReqStructure
 {
 public:
-    /** Group selection; determines the format of the response  */
+    /// <summary> Group selection; determines the format of the response </summary>
     TPM_CAP capability;
     
-    /** Further definition of information  */
+    /// <summary> Further definition of information </summary>
     UINT32 property;
     
-    /** Number of properties of the indicated type to return  */
+    /// <summary> Number of properties of the indicated type to return </summary>
     UINT32 propertyCount;
 
 public:
@@ -15846,10 +15389,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetCapability_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_GetCapability_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_GetCapability_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_GetCapability_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_GetCapability_REQUEST"; }
@@ -15862,21 +15405,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_GetCapability_REQUEST(*this); }
 }; // class TPM2_GetCapability_REQUEST
 
-/** This command returns various information regarding the TPM and its current state.  */
+/// <summary> This command returns various information regarding the TPM and its current
+/// state. </summary>
 class _DLLEXP_ GetCapabilityResponse : public RespStructure
 {
 public:
-    /** Flag to indicate if there are more values of this type  */
+    /// <summary> Flag to indicate if there are more values of this type </summary>
     BYTE moreData;
     
-    /** The capability  */
+    /// <summary> The capability </summary>
     public: TPM_CAP capabilityDataCapability() const { return capabilityData->GetUnionSelector(); }
     
-    /** The capability data
-     *  (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
-     *  TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
-     *  TPML_TAGGED_POLICY, TPML_ACT_DATA])
-     */
+    /// <summary> The capability data
+    /// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
+    /// TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
+    /// TPML_TAGGED_POLICY, TPML_ACT_DATA]) </summary>
     shared_ptr<TPMU_CAPABILITIES> capabilityData;
 
 public:
@@ -15885,10 +15428,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetCapabilityResponse fromTpm(TpmBuffer& buf) { return buf.createObj<GetCapabilityResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static GetCapabilityResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<GetCapabilityResponse>(buf); }
     
     virtual const char* TypeName () const { return "GetCapabilityResponse"; }
@@ -15901,19 +15444,17 @@ public:
     virtual TpmStructure* Clone() const { return new GetCapabilityResponse(*this); }
 }; // class GetCapabilityResponse
 
-/** This command is used to check to see if specific combinations of algorithm parameters
- *  are supported.
- */
+/// <summary> This command is used to check to see if specific combinations of algorithm
+/// parameters are supported. </summary>
 class _DLLEXP_ TPM2_TestParms_REQUEST : public ReqStructure
 {
 public:
-    /** The algorithm to be tested  */
+    /// <summary> The algorithm to be tested </summary>
     public: TPM_ALG_ID parametersType() const { return parameters->GetUnionSelector(); }
     
-    /** Algorithm parameters to be validated
-     *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
-     *  TPMS_ASYM_PARMS])
-     */
+    /// <summary> Algorithm parameters to be validated
+    /// (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+    /// TPMS_ASYM_PARMS]) </summary>
     shared_ptr<TPMU_PUBLIC_PARMS> parameters;
 
 public:
@@ -15925,10 +15466,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_TestParms_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_TestParms_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_TestParms_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_TestParms_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_TestParms_REQUEST"; }
@@ -15941,23 +15482,21 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2_TestParms_REQUEST(*this); }
 }; // class TPM2_TestParms_REQUEST
 
-/** This command defines the attributes of an NV Index and causes the TPM to reserve space
- *  to hold the data associated with the NV Index. If a definition already exists at the
- *  NV Index, the TPM will return TPM_RC_NV_DEFINED.
- */
+/// <summary> This command defines the attributes of an NV Index and causes the TPM to
+/// reserve space to hold the data associated with the NV Index. If a definition already
+/// exists at the NV Index, the TPM will return TPM_RC_NV_DEFINED. </summary>
 class _DLLEXP_ TPM2_NV_DefineSpace_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The authorization value  */
+    /// <summary> The authorization value </summary>
     ByteVec auth;
     
-    /** The public parameters of the NV area  */
+    /// <summary> The public parameters of the NV area </summary>
     TPMS_NV_PUBLIC publicInfo;
 
 public:
@@ -15969,10 +15508,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_DefineSpace_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_DefineSpace_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_DefineSpace_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_DefineSpace_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_DefineSpace_REQUEST"; }
@@ -15992,19 +15531,17 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_NV_DefineSpace_REQUEST
 
-/** This command removes an Index from the TPM.  */
+/// <summary> This command removes an Index from the TPM. </summary>
 class _DLLEXP_ TPM2_NV_UndefineSpace_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The NV Index to remove from NV space
-     *  Auth Index: None
-     */
+    /// <summary> The NV Index to remove from NV space
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
 
 public:
@@ -16013,10 +15550,10 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_UndefineSpace_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_UndefineSpace_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_UndefineSpace_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_UndefineSpace_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_UndefineSpace_REQUEST"; }
@@ -16034,22 +15571,19 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
 }; // class TPM2_NV_UndefineSpace_REQUEST
 
-/** This command allows removal of a platform-created NV Index that has
- *  TPMA_NV_POLICY_DELETE SET.
- */
+/// <summary> This command allows removal of a platform-created NV Index that has
+/// TPMA_NV_POLICY_DELETE SET. </summary>
 class _DLLEXP_ TPM2_NV_UndefineSpaceSpecial_REQUEST : public ReqStructure
 {
 public:
-    /** Index to be deleted
-     *  Auth Index: 1
-     *  Auth Role: ADMIN
-     */
+    /// <summary> Index to be deleted
+    /// Auth Index: 1
+    /// Auth Role: ADMIN </summary>
     TPM_HANDLE nvIndex;
     
-    /** TPM_RH_PLATFORM + {PP}
-     *  Auth Index: 2
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_PLATFORM + {PP}
+    /// Auth Index: 2
+    /// Auth Role: USER </summary>
     TPM_HANDLE platform;
 
 public:
@@ -16058,10 +15592,10 @@ public:
       : nvIndex(_nvIndex), platform(_platform)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_UndefineSpaceSpecial_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_UndefineSpaceSpecial_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_UndefineSpaceSpecial_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_UndefineSpaceSpecial_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_UndefineSpaceSpecial_REQUEST"; }
@@ -16079,15 +15613,14 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {nvIndex, platform}; }
 }; // class TPM2_NV_UndefineSpaceSpecial_REQUEST
 
-/** This command is used to read the public area and Name of an NV Index. The public area
- *  of an Index is not privacy-sensitive and no authorization is required to read this data.
- */
+/// <summary> This command is used to read the public area and Name of an NV Index. The
+/// public area of an Index is not privacy-sensitive and no authorization is required to
+/// read this data. </summary>
 class _DLLEXP_ TPM2_NV_ReadPublic_REQUEST : public ReqStructure
 {
 public:
-    /** The NV Index
-     *  Auth Index: None
-     */
+    /// <summary> The NV Index
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
 
 public:
@@ -16096,10 +15629,10 @@ public:
       : nvIndex(_nvIndex)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_ReadPublic_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_ReadPublic_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_ReadPublic_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_ReadPublic_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_ReadPublic_REQUEST"; }
@@ -16117,16 +15650,16 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {nvIndex}; }
 }; // class TPM2_NV_ReadPublic_REQUEST
 
-/** This command is used to read the public area and Name of an NV Index. The public area
- *  of an Index is not privacy-sensitive and no authorization is required to read this data.
- */
+/// <summary> This command is used to read the public area and Name of an NV Index. The
+/// public area of an Index is not privacy-sensitive and no authorization is required to
+/// read this data. </summary>
 class _DLLEXP_ NV_ReadPublicResponse : public RespStructure
 {
 public:
-    /** The public area of the NV Index  */
+    /// <summary> The public area of the NV Index </summary>
     TPMS_NV_PUBLIC nvPublic;
     
-    /** The Name of the nvIndex  */
+    /// <summary> The Name of the nvIndex </summary>
     ByteVec nvName;
 
 public:
@@ -16135,10 +15668,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static NV_ReadPublicResponse fromTpm(TpmBuffer& buf) { return buf.createObj<NV_ReadPublicResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static NV_ReadPublicResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<NV_ReadPublicResponse>(buf); }
     
     virtual const char* TypeName () const { return "NV_ReadPublicResponse"; }
@@ -16154,27 +15687,24 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class NV_ReadPublicResponse
 
-/** This command writes a value to an area in NV memory that was previously defined by
- *  TPM2_NV_DefineSpace().
- */
+/// <summary> This command writes a value to an area in NV memory that was previously
+/// defined by TPM2_NV_DefineSpace(). </summary>
 class _DLLEXP_ TPM2_NV_Write_REQUEST : public ReqStructure
 {
 public:
-    /** Handle indicating the source of the authorization value
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle indicating the source of the authorization value
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The NV Index of the area to write
-     *  Auth Index: None
-     */
+    /// <summary> The NV Index of the area to write
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
     
-    /** The data to write  */
+    /// <summary> The data to write </summary>
     ByteVec data;
     
-    /** The octet offset into the NV Area  */
+    /// <summary> The octet offset into the NV Area </summary>
     UINT16 offset;
 
 public:
@@ -16186,10 +15716,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_Write_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_Write_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_Write_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_Write_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_Write_REQUEST"; }
@@ -16209,21 +15739,18 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_NV_Write_REQUEST
 
-/** This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
- *  attribute. The data value of the NV Index is incremented by one.
- */
+/// <summary> This command is used to increment the value in an NV Index that has the
+/// TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one. </summary>
 class _DLLEXP_ TPM2_NV_Increment_REQUEST : public ReqStructure
 {
 public:
-    /** Handle indicating the source of the authorization value
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle indicating the source of the authorization value
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The NV Index to increment
-     *  Auth Index: None
-     */
+    /// <summary> The NV Index to increment
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
 
 public:
@@ -16232,10 +15759,10 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_Increment_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_Increment_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_Increment_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_Increment_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_Increment_REQUEST"; }
@@ -16253,24 +15780,21 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
 }; // class TPM2_NV_Increment_REQUEST
 
-/** This command extends a value to an area in NV memory that was previously defined by
- *  TPM2_NV_DefineSpace.
- */
+/// <summary> This command extends a value to an area in NV memory that was previously
+/// defined by TPM2_NV_DefineSpace. </summary>
 class _DLLEXP_ TPM2_NV_Extend_REQUEST : public ReqStructure
 {
 public:
-    /** Handle indicating the source of the authorization value
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle indicating the source of the authorization value
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The NV Index to extend
-     *  Auth Index: None
-     */
+    /// <summary> The NV Index to extend
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
     
-    /** The data to extend  */
+    /// <summary> The data to extend </summary>
     ByteVec data;
 
 public:
@@ -16282,10 +15806,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_Extend_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_Extend_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_Extend_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_Extend_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_Extend_REQUEST"; }
@@ -16305,25 +15829,22 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_NV_Extend_REQUEST
 
-/** This command is used to SET bits in an NV Index that was created as a bit field. Any
- *  number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current
- *  contents of the NV Index.
- */
+/// <summary> This command is used to SET bits in an NV Index that was created as a bit
+/// field. Any number of bits from 0 to 64 may be SET. The contents of bits are ORed with
+/// the current contents of the NV Index. </summary>
 class _DLLEXP_ TPM2_NV_SetBits_REQUEST : public ReqStructure
 {
 public:
-    /** Handle indicating the source of the authorization value
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle indicating the source of the authorization value
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** NV Index of the area in which the bit is to be set
-     *  Auth Index: None
-     */
+    /// <summary> NV Index of the area in which the bit is to be set
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
     
-    /** The data to OR with the current contents  */
+    /// <summary> The data to OR with the current contents </summary>
     UINT64 bits;
 
 public:
@@ -16335,10 +15856,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_SetBits_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_SetBits_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_SetBits_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_SetBits_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_SetBits_REQUEST"; }
@@ -16356,21 +15877,19 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
 }; // class TPM2_NV_SetBits_REQUEST
 
-/** If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are
- *  SET, then this command may be used to inhibit further writes of the NV Index.
- */
+/// <summary> If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV
+/// location are SET, then this command may be used to inhibit further writes of the NV
+/// Index. </summary>
 class _DLLEXP_ TPM2_NV_WriteLock_REQUEST : public ReqStructure
 {
 public:
-    /** Handle indicating the source of the authorization value
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle indicating the source of the authorization value
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The NV Index of the area to lock
-     *  Auth Index: None
-     */
+    /// <summary> The NV Index of the area to lock
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
 
 public:
@@ -16379,10 +15898,10 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_WriteLock_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_WriteLock_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_WriteLock_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_WriteLock_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_WriteLock_REQUEST"; }
@@ -16400,16 +15919,14 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
 }; // class TPM2_NV_WriteLock_REQUEST
 
-/** The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
- *  TPMA_NV_GLOBALLOCK attribute SET.
- */
+/// <summary> The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
+/// TPMA_NV_GLOBALLOCK attribute SET. </summary>
 class _DLLEXP_ TPM2_NV_GlobalWriteLock_REQUEST : public ReqStructure
 {
 public:
-    /** TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
 
 public:
@@ -16418,10 +15935,10 @@ public:
       : authHandle(_authHandle)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_GlobalWriteLock_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_GlobalWriteLock_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_GlobalWriteLock_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_GlobalWriteLock_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_GlobalWriteLock_REQUEST"; }
@@ -16439,27 +15956,25 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle}; }
 }; // class TPM2_NV_GlobalWriteLock_REQUEST
 
-/** This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().  */
+/// <summary> This command reads a value from an area in NV memory previously defined by
+/// TPM2_NV_DefineSpace(). </summary>
 class _DLLEXP_ TPM2_NV_Read_REQUEST : public ReqStructure
 {
 public:
-    /** The handle indicating the source of the authorization value
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> The handle indicating the source of the authorization value
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The NV Index to be read
-     *  Auth Index: None
-     */
+    /// <summary> The NV Index to be read
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
     
-    /** Number of octets to read  */
+    /// <summary> Number of octets to read </summary>
     UINT16 size;
     
-    /** Octet offset into the NV area
-     *  This value shall be less than or equal to the size of the nvIndex data.
-     */
+    /// <summary> Octet offset into the NV area
+    /// This value shall be less than or equal to the size of the nvIndex data. </summary>
     UINT16 offset;
 
 public:
@@ -16471,10 +15986,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_Read_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_Read_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_Read_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_Read_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_Read_REQUEST"; }
@@ -16492,11 +16007,12 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
 }; // class TPM2_NV_Read_REQUEST
 
-/** This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().  */
+/// <summary> This command reads a value from an area in NV memory previously defined by
+/// TPM2_NV_DefineSpace(). </summary>
 class _DLLEXP_ NV_ReadResponse : public RespStructure
 {
 public:
-    /** The data read  */
+    /// <summary> The data read </summary>
     ByteVec data;
 
 public:
@@ -16505,10 +16021,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static NV_ReadResponse fromTpm(TpmBuffer& buf) { return buf.createObj<NV_ReadResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static NV_ReadResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<NV_ReadResponse>(buf); }
     
     virtual const char* TypeName () const { return "NV_ReadResponse"; }
@@ -16524,21 +16040,18 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class NV_ReadResponse
 
-/** If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
- *  further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
- */
+/// <summary> If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to
+/// prevent further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR). </summary>
 class _DLLEXP_ TPM2_NV_ReadLock_REQUEST : public ReqStructure
 {
 public:
-    /** The handle indicating the source of the authorization value
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> The handle indicating the source of the authorization value
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** The NV Index to be locked
-     *  Auth Index: None
-     */
+    /// <summary> The NV Index to be locked
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
 
 public:
@@ -16547,10 +16060,10 @@ public:
       : authHandle(_authHandle), nvIndex(_nvIndex)
     {}
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_ReadLock_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_ReadLock_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_ReadLock_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_ReadLock_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_ReadLock_REQUEST"; }
@@ -16568,17 +16081,16 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {authHandle, nvIndex}; }
 }; // class TPM2_NV_ReadLock_REQUEST
 
-/** This command allows the authorization secret for an NV Index to be changed.  */
+/// <summary> This command allows the authorization secret for an NV Index to be changed. </summary>
 class _DLLEXP_ TPM2_NV_ChangeAuth_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the entity
-     *  Auth Index: 1
-     *  Auth Role: ADMIN
-     */
+    /// <summary> Handle of the entity
+    /// Auth Index: 1
+    /// Auth Role: ADMIN </summary>
     TPM_HANDLE nvIndex;
     
-    /** New authorization value  */
+    /// <summary> New authorization value </summary>
     ByteVec newAuth;
 
 public:
@@ -16590,10 +16102,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_ChangeAuth_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_ChangeAuth_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_ChangeAuth_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_ChangeAuth_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_ChangeAuth_REQUEST"; }
@@ -16613,48 +16125,42 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_NV_ChangeAuth_REQUEST
 
-/** The purpose of this command is to certify the contents of an NV Index or portion of an
- *  NV Index.
- */
+/// <summary> The purpose of this command is to certify the contents of an NV Index or
+/// portion of an NV Index. </summary>
 class _DLLEXP_ TPM2_NV_Certify_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the key used to sign the attestation structure
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the key used to sign the attestation structure
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE signHandle;
     
-    /** Handle indicating the source of the authorization value for the NV Index
-     *  Auth Index: 2
-     *  Auth Role: USER
-     */
+    /// <summary> Handle indicating the source of the authorization value for the NV Index
+    /// Auth Index: 2
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** Index for the area to be certified
-     *  Auth Index: None
-     */
+    /// <summary> Index for the area to be certified
+    /// Auth Index: None </summary>
     TPM_HANDLE nvIndex;
     
-    /** User-provided qualifying data  */
+    /// <summary> User-provided qualifying data </summary>
     ByteVec qualifyingData;
     
-    /** Scheme selector  */
+    /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
-     */
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
     
-    /** Number of octets to certify  */
+    /// <summary> Number of octets to certify </summary>
     UINT16 size;
     
-    /** Octet offset into the NV area
-     *  This value shall be less than or equal to the size of the nvIndex data.
-     */
+    /// <summary> Octet offset into the NV area
+    /// This value shall be less than or equal to the size of the nvIndex data. </summary>
     UINT16 offset;
 
 public:
@@ -16666,10 +16172,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_Certify_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_NV_Certify_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_NV_Certify_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_NV_Certify_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_NV_Certify_REQUEST"; }
@@ -16689,23 +16195,21 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_NV_Certify_REQUEST
 
-/** The purpose of this command is to certify the contents of an NV Index or portion of an
- *  NV Index.
- */
+/// <summary> The purpose of this command is to certify the contents of an NV Index or
+/// portion of an NV Index. </summary>
 class _DLLEXP_ NV_CertifyResponse : public RespStructure
 {
 public:
-    /** The structure that was signed  */
+    /// <summary> The structure that was signed </summary>
     TPMS_ATTEST certifyInfo;
     
-    /** Selector of the algorithm used to construct the signature  */
+    /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /** The asymmetric signature over certifyInfo using the key referenced by signHandle
-     *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
-     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
-     */
+    /// <summary> The asymmetric signature over certifyInfo using the key referenced by signHandle
+    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -16714,10 +16218,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static NV_CertifyResponse fromTpm(TpmBuffer& buf) { return buf.createObj<NV_CertifyResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static NV_CertifyResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<NV_CertifyResponse>(buf); }
     
     virtual const char* TypeName () const { return "NV_CertifyResponse"; }
@@ -16733,21 +16237,19 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class NV_CertifyResponse
 
-/** The purpose of this command is to obtain information about an Attached Component
- *  referenced by an AC handle.
- */
+/// <summary> The purpose of this command is to obtain information about an Attached
+/// Component referenced by an AC handle. </summary>
 class _DLLEXP_ TPM2_AC_GetCapability_REQUEST : public ReqStructure
 {
 public:
-    /** Handle indicating the Attached Component
-     *  Auth Index: None
-     */
+    /// <summary> Handle indicating the Attached Component
+    /// Auth Index: None </summary>
     TPM_HANDLE ac;
     
-    /** Starting info type  */
+    /// <summary> Starting info type </summary>
     TPM_AT capability;
     
-    /** Maximum number of values to return  */
+    /// <summary> Maximum number of values to return </summary>
     UINT32 count;
 
 public:
@@ -16759,10 +16261,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_AC_GetCapability_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_AC_GetCapability_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_AC_GetCapability_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_AC_GetCapability_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_AC_GetCapability_REQUEST"; }
@@ -16780,16 +16282,15 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {ac}; }
 }; // class TPM2_AC_GetCapability_REQUEST
 
-/** The purpose of this command is to obtain information about an Attached Component
- *  referenced by an AC handle.
- */
+/// <summary> The purpose of this command is to obtain information about an Attached
+/// Component referenced by an AC handle. </summary>
 class _DLLEXP_ AC_GetCapabilityResponse : public RespStructure
 {
 public:
-    /** Flag to indicate whether there are more values  */
+    /// <summary> Flag to indicate whether there are more values </summary>
     BYTE moreData;
     
-    /** List of capabilities  */
+    /// <summary> List of capabilities </summary>
     vector<TPMS_AC_OUTPUT> capabilitiesData;
 
 public:
@@ -16798,10 +16299,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static AC_GetCapabilityResponse fromTpm(TpmBuffer& buf) { return buf.createObj<AC_GetCapabilityResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static AC_GetCapabilityResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<AC_GetCapabilityResponse>(buf); }
     
     virtual const char* TypeName () const { return "AC_GetCapabilityResponse"; }
@@ -16814,30 +16315,26 @@ public:
     virtual TpmStructure* Clone() const { return new AC_GetCapabilityResponse(*this); }
 }; // class AC_GetCapabilityResponse
 
-/** The purpose of this command is to send (copy) a loaded object from the TPM to an
- *  Attached Component.
- */
+/// <summary> The purpose of this command is to send (copy) a loaded object from the TPM
+/// to an Attached Component. </summary>
 class _DLLEXP_ TPM2_AC_Send_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the object being sent to ac
-     *  Auth Index: 1
-     *  Auth Role: DUP
-     */
+    /// <summary> Handle of the object being sent to ac
+    /// Auth Index: 1
+    /// Auth Role: DUP </summary>
     TPM_HANDLE sendObject;
     
-    /** The handle indicating the source of the authorization value
-     *  Auth Index: 2
-     *  Auth Role: USER
-     */
+    /// <summary> The handle indicating the source of the authorization value
+    /// Auth Index: 2
+    /// Auth Role: USER </summary>
     TPM_HANDLE authHandle;
     
-    /** Handle indicating the Attached Component to which the object will be sent
-     *  Auth Index: None
-     */
+    /// <summary> Handle indicating the Attached Component to which the object will be sent
+    /// Auth Index: None </summary>
     TPM_HANDLE ac;
     
-    /** Optional non sensitive information related to the object  */
+    /// <summary> Optional non sensitive information related to the object </summary>
     ByteVec acDataIn;
 
 public:
@@ -16849,10 +16346,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_AC_Send_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_AC_Send_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_AC_Send_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_AC_Send_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_AC_Send_REQUEST"; }
@@ -16872,13 +16369,12 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_AC_Send_REQUEST
 
-/** The purpose of this command is to send (copy) a loaded object from the TPM to an
- *  Attached Component.
- */
+/// <summary> The purpose of this command is to send (copy) a loaded object from the TPM
+/// to an Attached Component. </summary>
 class _DLLEXP_ AC_SendResponse : public RespStructure
 {
 public:
-    /** May include AC specific data or information about an error.  */
+    /// <summary> May include AC specific data or information about an error. </summary>
     TPMS_AC_OUTPUT acDataOut;
 
 public:
@@ -16887,10 +16383,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static AC_SendResponse fromTpm(TpmBuffer& buf) { return buf.createObj<AC_SendResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static AC_SendResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<AC_SendResponse>(buf); }
     
     virtual const char* TypeName () const { return "AC_SendResponse"; }
@@ -16903,29 +16399,28 @@ public:
     virtual TpmStructure* Clone() const { return new AC_SendResponse(*this); }
 }; // class AC_SendResponse
 
-/** This command allows qualification of the sending (copying) of an Object to an Attached
- *  Component (AC). Qualification includes selection of the receiving AC and the method of
- *  authentication for the AC, and, in certain circumstances, the Object to be sent may be
- *  specified.
- */
+/// <summary> This command allows qualification of the sending (copying) of an Object to
+/// an Attached Component (AC). Qualification includes selection of the receiving AC and
+/// the method of authentication for the AC, and, in certain circumstances, the Object to
+/// be sent may be specified. </summary>
 class _DLLEXP_ TPM2_Policy_AC_SendSelect_REQUEST : public ReqStructure
 {
 public:
-    /** Handle for the policy session being extended
-     *  Auth Index: None
-     */
+    /// <summary> Handle for the policy session being extended
+    /// Auth Index: None </summary>
     TPM_HANDLE policySession;
     
-    /** The Name of the Object to be sent  */
+    /// <summary> The Name of the Object to be sent </summary>
     ByteVec objectName;
     
-    /** The Name associated with authHandle used in the TPM2_AC_Send() command  */
+    /// <summary> The Name associated with authHandle used in the TPM2_AC_Send() command </summary>
     ByteVec authHandleName;
     
-    /** The Name of the Attached Component to which the Object will be sent  */
+    /// <summary> The Name of the Attached Component to which the Object will be sent </summary>
     ByteVec acName;
     
-    /** If SET, objectName will be included in the value in policySessionpolicyDigest  */
+    /// <summary> If SET, objectName will be included in the value in
+    /// policySessionpolicyDigest </summary>
     BYTE includeObject;
 
 public:
@@ -16937,10 +16432,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Policy_AC_SendSelect_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Policy_AC_SendSelect_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Policy_AC_SendSelect_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Policy_AC_SendSelect_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Policy_AC_SendSelect_REQUEST"; }
@@ -16960,19 +16455,17 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_Policy_AC_SendSelect_REQUEST
 
-/** This command is used to set the time remaining before an Authenticated Countdown Timer
- *  (ACT) expires.
- */
+/// <summary> This command is used to set the time remaining before an Authenticated
+/// Countdown Timer (ACT) expires. </summary>
 class _DLLEXP_ TPM2_ACT_SetTimeout_REQUEST : public ReqStructure
 {
 public:
-    /** Handle of the selected ACT
-     *  Auth Index: 1
-     *  Auth Role: USER
-     */
+    /// <summary> Handle of the selected ACT
+    /// Auth Index: 1
+    /// Auth Role: USER </summary>
     TPM_HANDLE actHandle;
     
-    /** The start timeout value for the ACT in seconds  */
+    /// <summary> The start timeout value for the ACT in seconds </summary>
     UINT32 startTimeout;
 
 public:
@@ -16984,10 +16477,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ACT_SetTimeout_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_ACT_SetTimeout_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_ACT_SetTimeout_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_ACT_SetTimeout_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_ACT_SetTimeout_REQUEST"; }
@@ -17005,11 +16498,11 @@ protected:
     virtual vector<TPM_HANDLE> getHandles() const { return {actHandle}; }
 }; // class TPM2_ACT_SetTimeout_REQUEST
 
-/** This is a placeholder to allow testing of the dispatch code.  */
+/// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
 class _DLLEXP_ TPM2_Vendor_TCG_Test_REQUEST : public ReqStructure
 {
 public:
-    /** Dummy data  */
+    /// <summary> Dummy data </summary>
     ByteVec inputData;
 
 public:
@@ -17021,10 +16514,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Vendor_TCG_Test_REQUEST fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2_Vendor_TCG_Test_REQUEST>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2_Vendor_TCG_Test_REQUEST fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2_Vendor_TCG_Test_REQUEST>(buf); }
     
     virtual const char* TypeName () const { return "TPM2_Vendor_TCG_Test_REQUEST"; }
@@ -17040,11 +16533,11 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class TPM2_Vendor_TCG_Test_REQUEST
 
-/** This is a placeholder to allow testing of the dispatch code.  */
+/// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
 class _DLLEXP_ Vendor_TCG_TestResponse : public RespStructure
 {
 public:
-    /** Dummy data  */
+    /// <summary> Dummy data </summary>
     ByteVec outputData;
 
 public:
@@ -17053,10 +16546,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static Vendor_TCG_TestResponse fromTpm(TpmBuffer& buf) { return buf.createObj<Vendor_TCG_TestResponse>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static Vendor_TCG_TestResponse fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<Vendor_TCG_TestResponse>(buf); }
     
     virtual const char* TypeName () const { return "Vendor_TCG_TestResponse"; }
@@ -17072,79 +16565,77 @@ protected:
     virtual SessEncInfo sessEncInfo() const { return {2, 1}; }
 }; // class Vendor_TCG_TestResponse
 
-/** These are the RSA schemes that only need a hash algorithm as a scheme parameter.  */
+/// <summary> These are the RSA schemes that only need a hash algorithm as a scheme
+/// parameter. </summary>
 typedef TPMS_SIG_SCHEME_RSASSA TPMS_SCHEME_RSASSA;
 
-/** These are the RSA schemes that only need a hash algorithm as a scheme parameter.  */
+/// <summary> These are the RSA schemes that only need a hash algorithm as a scheme
+/// parameter. </summary>
 typedef TPMS_SIG_SCHEME_RSAPSS TPMS_SCHEME_RSAPSS;
 
-/** Most of the ECC signature schemes only require a hash algorithm to complete the
- *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
- *  count value so they are typed to be TPMS_SCHEME_ECDAA.
- */
+/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete
+/// the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require
+/// a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
 typedef TPMS_SIG_SCHEME_ECDSA TPMS_SCHEME_ECDSA;
 
-/** Most of the ECC signature schemes only require a hash algorithm to complete the
- *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
- *  count value so they are typed to be TPMS_SCHEME_ECDAA.
- */
+/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete
+/// the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require
+/// a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
 typedef TPMS_SIG_SCHEME_SM2 TPMS_SCHEME_SM2;
 
-/** Most of the ECC signature schemes only require a hash algorithm to complete the
- *  definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require a
- *  count value so they are typed to be TPMS_SCHEME_ECDAA.
- */
+/// <summary> Most of the ECC signature schemes only require a hash algorithm to complete
+/// the definition and can be typed as TPMS_SCHEME_HASH. Anonymous algorithms also require
+/// a count value so they are typed to be TPMS_SCHEME_ECDAA. </summary>
 typedef TPMS_SIG_SCHEME_ECSCHNORR TPMS_SCHEME_ECSCHNORR;
 
-/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.  */
+/// <summary> These are the RSA encryption schemes that only need a hash algorithm as a
+/// controlling parameter. </summary>
 typedef TPMS_ENC_SCHEME_OAEP TPMS_SCHEME_OAEP;
 
-/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.  */
+/// <summary> These are the RSA encryption schemes that only need a hash algorithm as a
+/// controlling parameter. </summary>
 typedef TPMS_ENC_SCHEME_RSAES TPMS_SCHEME_RSAES;
 
-/** These are the ECC schemes that only need a hash algorithm as a controlling parameter.  */
+/// <summary> These are the ECC schemes that only need a hash algorithm as a controlling
+/// parameter. </summary>
 typedef TPMS_KEY_SCHEME_ECDH TPMS_SCHEME_ECDH;
 
-/** These are the ECC schemes that only need a hash algorithm as a controlling parameter.  */
+/// <summary> These are the ECC schemes that only need a hash algorithm as a controlling
+/// parameter. </summary>
 typedef TPMS_KEY_SCHEME_ECMQV TPMS_SCHEME_ECMQV;
 
-/** These structures are used to define the key derivation for symmetric secret sharing
- *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
- *  with the decrypt attribute SET.
- */
+/// <summary> These structures are used to define the key derivation for symmetric secret
+/// sharing using asymmetric methods. A secret sharing scheme is required in any
+/// asymmetric key with the decrypt attribute SET. </summary>
 typedef TPMS_KDF_SCHEME_MGF1 TPMS_SCHEME_MGF1;
 
-/** These structures are used to define the key derivation for symmetric secret sharing
- *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
- *  with the decrypt attribute SET.
- */
+/// <summary> These structures are used to define the key derivation for symmetric secret
+/// sharing using asymmetric methods. A secret sharing scheme is required in any
+/// asymmetric key with the decrypt attribute SET. </summary>
 typedef TPMS_KDF_SCHEME_KDF1_SP800_56A TPMS_SCHEME_KDF1_SP800_56A;
 
-/** These structures are used to define the key derivation for symmetric secret sharing
- *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
- *  with the decrypt attribute SET.
- */
+/// <summary> These structures are used to define the key derivation for symmetric secret
+/// sharing using asymmetric methods. A secret sharing scheme is required in any
+/// asymmetric key with the decrypt attribute SET. </summary>
 typedef TPMS_KDF_SCHEME_KDF2 TPMS_SCHEME_KDF2;
 
-/** These structures are used to define the key derivation for symmetric secret sharing
- *  using asymmetric methods. A secret sharing scheme is required in any asymmetric key
- *  with the decrypt attribute SET.
- */
+/// <summary> These structures are used to define the key derivation for symmetric secret
+/// sharing using asymmetric methods. A secret sharing scheme is required in any
+/// asymmetric key with the decrypt attribute SET. </summary>
 typedef TPMS_KDF_SCHEME_KDF1_SP800_108 TPMS_SCHEME_KDF1_SP800_108;
 
-/** Contains the public and the plaintext-sensitive and/or encrypted private part of a TPM
- *  key (or other object)
- */
+/// <summary> Contains the public and the plaintext-sensitive and/or encrypted private
+/// part of a TPM key (or other object) </summary>
 class _DLLEXP_ TssObject : public TpmStructure
 {
 public:
-    /** Public part of key  */
+    /// <summary> Public part of key </summary>
     TPMT_PUBLIC Public;
     
-    /** Sensitive part of key  */
+    /// <summary> Sensitive part of key </summary>
     TPMT_SENSITIVE Sensitive;
     
-    /** Private part is the encrypted sensitive part of key  */
+    /// <summary> Private part is the encrypted sensitive part of key </summary>
     TPM2B_PRIVATE Private;
 
 public:
@@ -17156,10 +16647,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TssObject fromTpm(TpmBuffer& buf) { return buf.createObj<TssObject>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TssObject fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TssObject>(buf); }
     
     virtual const char* TypeName () const { return "TssObject"; }
@@ -17172,14 +16663,14 @@ public:
     virtual TpmStructure* Clone() const { return new TssObject(*this); }
 }; // class TssObject
 
-/** Contains a PCR index and associated hash(pcr-value) [TSS]  */
+/// <summary> Contains a PCR index and associated hash(pcr-value) [TSS] </summary>
 class _DLLEXP_ PcrValue : public TpmStructure
 {
 public:
-    /** PCR Index  */
+    /// <summary> PCR Index </summary>
     UINT32 index;
     
-    /** PCR Value  */
+    /// <summary> PCR Value </summary>
     TPMT_HA value;
 
 public:
@@ -17191,10 +16682,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PcrValue fromTpm(TpmBuffer& buf) { return buf.createObj<PcrValue>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static PcrValue fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<PcrValue>(buf); }
     
     virtual const char* TypeName () const { return "PcrValue"; }
@@ -17207,20 +16698,20 @@ public:
     virtual TpmStructure* Clone() const { return new PcrValue(*this); }
 }; // class PcrValue
 
-/** Structure representing a session block in a command buffer [TSS]  */
+/// <summary> Structure representing a session block in a command buffer [TSS] </summary>
 class _DLLEXP_ SessionIn : public TpmStructure
 {
 public:
-    /** Session handle  */
+    /// <summary> Session handle </summary>
     TPM_HANDLE handle;
     
-    /** Caller nonce  */
+    /// <summary> Caller nonce </summary>
     ByteVec nonceCaller;
     
-    /** Session attributes  */
+    /// <summary> Session attributes </summary>
     TPMA_SESSION attributes;
     
-    /** AuthValue (or HMAC)  */
+    /// <summary> AuthValue (or HMAC) </summary>
     ByteVec auth;
 
 public:
@@ -17232,10 +16723,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static SessionIn fromTpm(TpmBuffer& buf) { return buf.createObj<SessionIn>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static SessionIn fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<SessionIn>(buf); }
     
     virtual const char* TypeName () const { return "SessionIn"; }
@@ -17248,17 +16739,17 @@ public:
     virtual TpmStructure* Clone() const { return new SessionIn(*this); }
 }; // class SessionIn
 
-/** Structure representing a session block in a response buffer [TSS]  */
+/// <summary> Structure representing a session block in a response buffer [TSS] </summary>
 class _DLLEXP_ SessionOut : public TpmStructure
 {
 public:
-    /** TPM nonce  */
+    /// <summary> TPM nonce </summary>
     ByteVec nonceTpm;
     
-    /** Session attributes  */
+    /// <summary> Session attributes </summary>
     TPMA_SESSION attributes;
     
-    /** HMAC value  */
+    /// <summary> HMAC value </summary>
     ByteVec auth;
 
 public:
@@ -17270,10 +16761,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static SessionOut fromTpm(TpmBuffer& buf) { return buf.createObj<SessionOut>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static SessionOut fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<SessionOut>(buf); }
     
     virtual const char* TypeName () const { return "SessionOut"; }
@@ -17286,17 +16777,17 @@ public:
     virtual TpmStructure* Clone() const { return new SessionOut(*this); }
 }; // class SessionOut
 
-/** Command header [TSS]  */
+/// <summary> Command header [TSS] </summary>
 class _DLLEXP_ CommandHeader : public TpmStructure
 {
 public:
-    /** Command tag (sessions, or no sessions)  */
+    /// <summary> Command tag (sessions, or no sessions) </summary>
     TPM_ST Tag;
     
-    /** Total command buffer length  */
+    /// <summary> Total command buffer length </summary>
     UINT32 CommandSize;
     
-    /** Command code  */
+    /// <summary> Command code </summary>
     TPM_CC CommandCode;
 
 public:
@@ -17308,10 +16799,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CommandHeader fromTpm(TpmBuffer& buf) { return buf.createObj<CommandHeader>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static CommandHeader fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<CommandHeader>(buf); }
     
     virtual const char* TypeName () const { return "CommandHeader"; }
@@ -17324,14 +16815,14 @@ public:
     virtual TpmStructure* Clone() const { return new CommandHeader(*this); }
 }; // class CommandHeader
 
-/** Contains the public and private part of a TPM key  */
+/// <summary> Contains the public and private part of a TPM key </summary>
 class _DLLEXP_ TSS_KEY : public TpmStructure
 {
 public:
-    /** Public part of key  */
+    /// <summary> Public part of key </summary>
     TPMT_PUBLIC publicPart;
     
-    /** Private part is the encrypted sensitive part of key  */
+    /// <summary> Private part is the encrypted sensitive part of key </summary>
     ByteVec privatePart;
 
 public:
@@ -17343,10 +16834,10 @@ public:
     void toTpm(TpmBuffer& buf) const;
     void initFromTpm(TpmBuffer& buf);
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TSS_KEY fromTpm(TpmBuffer& buf) { return buf.createObj<TSS_KEY>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TSS_KEY fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TSS_KEY>(buf); }
     
     virtual const char* TypeName () const { return "TSS_KEY"; }
@@ -17376,7 +16867,8 @@ public:
     }
 }; // class TSS_KEY
 
-/** Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector() implementation  */
+/// <summary> Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector()
+/// implementation </summary>
 class _DLLEXP_ TPM2B_DIGEST_SYMCIPHER : public TPM2B_DIGEST
 {
 public:
@@ -17386,13 +16878,13 @@ public:
       : TPM2B_DIGEST(_buffer)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::SYMCIPHER; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_DIGEST_SYMCIPHER fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_DIGEST_SYMCIPHER>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_DIGEST_SYMCIPHER fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_DIGEST_SYMCIPHER>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_DIGEST_SYMCIPHER"; }
@@ -17403,7 +16895,7 @@ public:
     virtual TpmStructure* Clone() const { return new TPM2B_DIGEST_SYMCIPHER(*this); }
 }; // class TPM2B_DIGEST_SYMCIPHER
 
-/** Auto-derived from TPM2B_DIGEST  */
+/// <summary> Auto-derived from TPM2B_DIGEST </summary>
 class _DLLEXP_ TPM2B_DIGEST_KEYEDHASH : public TPM2B_DIGEST
 {
 public:
@@ -17413,13 +16905,13 @@ public:
       : TPM2B_DIGEST(_buffer)
     {}
     
-    /** TpmUnion method  */
+    /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_DIGEST_KEYEDHASH fromTpm(TpmBuffer& buf) { return buf.createObj<TPM2B_DIGEST_KEYEDHASH>(); }
     
-    /** Static marshaling helper  */
+    /// <summary> Static marshaling helper </summary>
     static TPM2B_DIGEST_KEYEDHASH fromBytes(const ByteVec& buf) { return TpmStructure::fromBytes<TPM2B_DIGEST_KEYEDHASH>(buf); }
     
     virtual const char* TypeName () const { return "TPM2B_DIGEST_KEYEDHASH"; }
