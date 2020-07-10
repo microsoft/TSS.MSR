@@ -16,8 +16,8 @@
   <PropertyGroup Condition="!($(NixTarget))">
     <DefineConstants>TSS_USE_BCRYPT</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(NixTarget) Or $(TargetFramework.Contains('2.'))">
-    <DefineConstants>TSS_USE_BCRYPT</DefineConstants>
+  <PropertyGroup Condition="$(NixTarget) Or $(TargetFramework.Contains('2.')) Or $(TargetFramework.Contains('3.'))">
+    <DefineConstants>__NETCOREAPP2__</DefineConstants>
   </PropertyGroup>
   
 
