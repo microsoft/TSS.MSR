@@ -5,6 +5,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <AssemblyName>Tpm2TesterFramework</AssemblyName>
+    <TargetFrameworks>net472;netcoreapp2.1</TargetFrameworks>
     <WarningLevel>4</WarningLevel>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
@@ -12,13 +13,12 @@
     <NixTarget>false</NixTarget>
 	<NixTarget Condition="$(RuntimeIdentifier.Contains('linux')) Or '$(OS)' == 'Unix' Or '$(OS)' == 'Linux'">true</NixTarget>
   </PropertyGroup>
-  <PropertyGroup Condition="$(NixTarget)">
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-	<DefineConstants>__NETCOREAPP2__;TSS_NO_STACK</DefineConstants>
-  </PropertyGroup>
   <PropertyGroup Condition="!($(NixTarget))">
-    <TargetFramework>net472</TargetFramework>
-	<DefineConstants>TSS_USE_BCRYPT</DefineConstants>
+    <DefineConstants>TSS_USE_BCRYPT</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(NixTarget) Or $(TargetFramework.Contains('2.')) Or $(TargetFramework.Contains('3.'))">
+    <DefineConstants>__NETCOREAPP2__;__MonoCS__</DefineConstants>
+	<!-- TSS_NO_STACK -->
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

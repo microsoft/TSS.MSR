@@ -208,7 +208,7 @@ namespace Signing
                 var signature = tpm[keyAuth].Sign(keyHandle,            // Handle of signing key
                                                   digestToSign,         // Data to sign
                                                   null,                 // Use key's scheme
-                                                  TpmHashCheck.Null()) as SignatureRsassa;
+                                                  new TkHashcheck()) as SignatureRsassa;
                 // 
                 // Print the signature.
                 // 

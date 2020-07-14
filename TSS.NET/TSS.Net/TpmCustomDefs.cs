@@ -1327,10 +1327,7 @@ namespace Tpm2Lib
 
     public partial class SymDef : TpmStructureBase
     {
-        /// <summary>
-        /// Use 'new SymDef(TpmAlgId _Algorithm, ushort _KeyBits, TpmAlgId _Mode)' instead
-        /// </summary>
-        [Obsolete]
+        [Obsolete("Use 'new SymDef(TpmAlgId alg, ushort keyBits, TpmAlgId mode)' instead")]
         public SymDef(TpmAlgId theAlg, TpmAlgId hmacHash)
         {
             Algorithm = theAlg;
@@ -1390,10 +1387,7 @@ namespace Tpm2Lib
 
     public partial class SymDefObject : IPublicParmsUnion
     {
-        /// <summary>
-        /// Use 'new SymDefObject()' instead
-        /// </summary>
-        [Obsolete]
+        [Obsolete("Use default ctor instead")]
         public static SymDefObject NullObject()
         {
             return new SymDefObject();
@@ -1459,13 +1453,10 @@ namespace Tpm2Lib
         }
     } // class SymDefObject
 
-    [Obsolete]
+    [Obsolete("The only method defined by this class is obsolete")]
     public class TpmHashCheck
     {
-        /// <summary>
-        /// Use 'new TkHashcheck()' instead
-        /// </summary>
-        [Obsolete]
+        [Obsolete("Use 'new TkHashcheck()' instead")]
         public static TkHashcheck Null()
         {
             return new TkHashcheck();

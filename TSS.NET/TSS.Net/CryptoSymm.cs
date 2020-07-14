@@ -157,8 +157,8 @@ namespace Tpm2Lib
                     limitedSupport = true;
                     break;
                 default:
-                    Globs.Throw<ArgumentException>("Unsupported symmetric algorithm " + symDef.Algorithm);
-                    break;
+                    //Globs.Throw<ArgumentException>("Unsupported symmetric algorithm " + symDef.Algorithm);
+                    return null;
             }
 
             int blockSize = GetBlockSize(symDef);

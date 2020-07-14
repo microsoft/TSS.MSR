@@ -642,7 +642,7 @@ namespace PCRandKeys
             var sig = await tpm.SignAsync(newPrimary.handle,          // Signing key handle
                                           dataToSign,                       // Data to sign
                                           new SchemeRsassa(TpmAlgId.Sha1),  // Default scheme
-                                          TpmHashCheck.Null());
+                                          new TkHashcheck());
             //
             // Print the signature. A different structure is returned for each 
             // signing scheme, so cast the interface to our signature type.

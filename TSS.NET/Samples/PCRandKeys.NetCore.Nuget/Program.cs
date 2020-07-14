@@ -3,8 +3,10 @@
  */
 
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Linq;
+using System.Diagnostics;
 using System.Threading;
 using Tpm2Lib;
 
@@ -15,33 +17,26 @@ namespace PCRandKeys
     /// </summary>
     class Program
     {
-        /// <summary>
-        /// Defines the argument to use to have this program use a TCP connection
-        /// to communicate with a TPM 2.0 simulator.
-        /// </summary>
-        private const string DeviceSimulator = "-tcp";
-        /// <summary>
-        /// Defines the argument to use to have this program use the Windows TBS
-        /// API to communicate with a TPM 2.0 device.
-        /// </summary>
+        /// <summary> Attempt to connect to a simulator or TPM proxy over TCP/IP </summary>
+        private const string DeviceTcp = "-tcp";
+        private const string DeviceSim = "-sim";
+
+        /// <summary> Use the Windows TBS API to access the OS TPM 2.0 device </summary>
         private const string DeviceWinTbs = "-tbs";
-        /// <summary>
-        /// Defines the argument to use to have this program use the Linux /dev/tpm0
-        /// device file to communicate with a TPM 2.0 device.
-        /// </summary>
+
+        /// <summary> Use Linux /dev/tpm0 or /dev/tpmrm0 device file to access the OS TPM 2.0 device </summary>
         private const string DeviceLinux = "-tpm0";
-        /// <summary>
-        /// The default connection to use for communication with the TPM.
-        /// </summary>
-        private const string DefaultDevice = DeviceSimulator;
-        /// <summary>
-        /// If using a TCP connection, the default DNS name/IP address for the
-        /// simulator.
-        /// </summary>
+
+        /// <summary>  Use the OS TPM interface (TBS on Windows and /dev/tpm0 or /dev/tpmrm0 on Linux) </summary>
+        private const string DeviceSys = "-sys";
+
+        /// <summary> The default connection to use for communication with the TPM </summary>
+        private const string DefaultDevice = DeviceSim;
+
+        /// <summary> When using a TCP connection, use the locally running simulator by default </summary>
         private const string DefaultSimulatorName = "127.0.0.1";
-        /// <summary>
-        /// If using a TCP connection, the default TCP port of the simulator.
-        /// </summary>
+
+        /// <summary> When using a TCP connection, the default TCP port of the simulator </summary>
         private const int DefaultSimulatorPort = 2321;
 
         /// <summary>
@@ -52,13 +47,11 @@ namespace PCRandKeys
             Console.WriteLine();
             Console.WriteLine("Usage: PCRandKeys [<device>]");
             Console.WriteLine();
-            Console.WriteLine($"    <device> can be '{DeviceWinTbs}' or '{DeviceLinux}' or '{DeviceSimulator}'. Defaults to '{DefaultDevice}'.");
-            Console.WriteLine($"        If <device> is '{DeviceSimulator}', the program will connect to a simulator\n" +
-                              $"        listening on a TCP port.");
-            Console.WriteLine($"        If <device> is '{DeviceWinTbs}', the program will use the TBS interface to talk\n" +
-                              $"        to the TPM device.");
-            Console.WriteLine($"        If <device> is '{DeviceLinux}', the program will use the /dev/tpm0 interface to talk\n" +
-                              $"        to the TPM device.");
+            Console.WriteLine($"    <device> can be one of {{{DeviceWinTbs}|{DeviceLinux}|{DeviceSys}|{DeviceTcp}|{DeviceSim}}}");
+            Console.WriteLine($"        {DeviceSim} or {DeviceSim} attempts connect to a simulator or TPM proxy over TCP/IP");
+            Console.WriteLine($"            This is the default choice.");
+            Console.WriteLine($"        {DeviceSys}, {DeviceWinTbs} or {DeviceLinux} uses the OS TPM interface");
+            Console.WriteLine($"            (TBS on Windows and /dev/tpm0 or /dev/tpmrm0 on Linux).");
         }
 
         /// <summary>
@@ -68,29 +61,31 @@ namespace PCRandKeys
         /// <param name="tpmDeviceName">The name of the selected TPM connection created.</param>
         /// <returns>True if the arguments could be parsed. False if an unknown argument or malformed
         /// argument was present.</returns>
-        static bool ParseArguments(IEnumerable<string> args, out string tpmDeviceName)
+        static string ParseArguments(string[] args)
         {
-            tpmDeviceName = DefaultDevice;
-            foreach (string arg in args)
+            if (args.Length > 0 && args[0][0] != '-' && File.Exists(args[0]))
+                args = args.Skip(1).ToArray();
+
+            if (args.Length == 0)
+                return DefaultDevice;
+
+            if (args.Length == 1)
             {
-                if (string.Compare(arg, DeviceSimulator, true) == 0)
+                var arg = args[0].ToLower();
+
+                if (arg == DeviceSim || arg == DeviceTcp)
                 {
-                    tpmDeviceName = DeviceSimulator;
+                    return DeviceSim;
                 }
-                else if (string.Compare(arg, DeviceWinTbs, true) == 0)
+                if (arg == DeviceWinTbs || arg == DeviceLinux || arg == DeviceSys)
                 {
-                    tpmDeviceName = DeviceWinTbs;
-                }
-                else if (string.Compare(arg, DeviceLinux, true) == 0)
-                {
-                    tpmDeviceName = DeviceLinux;
-                }
-                else
-                {
-                    return false;
+                    bool win = System.Runtime.InteropServices.RuntimeInformation.OSDescription.ToLower().Contains("windows");
+                    return win ? DeviceWinTbs : DeviceLinux;
                 }
             }
-            return true;
+
+            WriteUsage();
+            return null;
         }
 
         /// <summary>
@@ -106,12 +101,9 @@ namespace PCRandKeys
             // are malformed, then instructions for usage are displayed and 
             // the program terminates.
             // 
-            string tpmDeviceName;
-            if (!ParseArguments(args, out tpmDeviceName))
-            {
-                WriteUsage();
+            string tpmDeviceName = ParseArguments(args);
+            if (tpmDeviceName == null)
                 return;
-            }
 
             try
             {
@@ -121,7 +113,7 @@ namespace PCRandKeys
                 Tpm2Device tpmDevice;
                 switch (tpmDeviceName)
                 {
-                    case DeviceSimulator:
+                    case DeviceSim:
                         tpmDevice = new TcpTpmDevice(DefaultSimulatorName, DefaultSimulatorPort);
                         break;
 
@@ -200,9 +192,9 @@ namespace PCRandKeys
             //
             // Read the value of the SHA1 PCR 1 and 2
             // 
-            var valuesToRead = new PcrSelection[] 
+            var valuesToRead = new PcrSelection[]
                 {
-                    new PcrSelection(TpmAlgId.Sha1, new uint[] {1, 2})
+                    new PcrSelection(TpmAlgId.Sha256, new uint[] {1, 2})
                 };
 
             PcrSelection[] valsRead;
@@ -222,7 +214,7 @@ namespace PCRandKeys
             //
             // Print out PCR-1
             // 
-            var pcr1 = new TpmHash(TpmAlgId.Sha1, values[0].buffer);
+            var pcr1 = new TpmHash(TpmAlgId.Sha256, values[0].buffer);
             Console.WriteLine("PCR1: " + pcr1);
 
             //
@@ -268,15 +260,15 @@ namespace PCRandKeys
             // And check that it is indeed zero
             // 
             tpm.PcrRead(new PcrSelection[] {
-                            new PcrSelection(TpmAlgId.Sha1, new uint[] {16})
-                        }, 
+                            new PcrSelection(TpmAlgId.Sha256, new uint[] {16})
+                        },
                         out valsRead,
                         out values);
 
             //
             // Did it reset?
             // 
-            if (TpmHash.ZeroHash(TpmAlgId.Sha1) != values[0].buffer)
+            if (TpmHash.ZeroHash(TpmAlgId.Sha256) != values[0].buffer)
             {
                 throw new Exception("PCR did not reset");
             }
@@ -325,12 +317,12 @@ namespace PCRandKeys
 
             // Typical storage key template
             var parms = new TpmPublic(TpmAlgId.Sha256,                                  // Name algorithm
-                                      ObjectAttr.Restricted   | ObjectAttr.Decrypt  |   // Storage key
-                                      ObjectAttr.FixedParent  | ObjectAttr.FixedTPM |   // Non-duplicable
+                                      ObjectAttr.Restricted | ObjectAttr.Decrypt |   // Storage key
+                                      ObjectAttr.FixedParent | ObjectAttr.FixedTPM |   // Non-duplicable
                                       ObjectAttr.UserWithAuth | ObjectAttr.SensitiveDataOrigin,
                                       null,                                             // No policy
-                                      // No signing or decryption scheme, and non-empty symmetric
-                                      // specification (even when it is an asymmetric key)
+                                                                                        // No signing or decryption scheme, and non-empty symmetric
+                                                                                        // specification (even when it is an asymmetric key)
                                       new RsaParms(new SymDefObject(TpmAlgId.Aes, 128, TpmAlgId.Cfb),
                                                    null, 2048, 0),
                                       new Tpm2bPublicKeyRsa(seed)     // Additional entropy for key derivation
@@ -344,13 +336,13 @@ namespace PCRandKeys
             TkCreation creationTicket;
             byte[] creationHash;
 
-            return  tpm.CreatePrimary(TpmRh.Owner,          // In storage hierarchy
+            return tpm.CreatePrimary(TpmRh.Owner,          // In storage hierarchy
                                       sensCreate,           // Auth value
                                       parms,                // Key template
-                                      //
-                                      // The following parameters influence the creation of the 
-                                      // creation-ticket. They are not used in this sample
-                                      //
+                                                            //
+                                                            // The following parameters influence the creation of the 
+                                                            // creation-ticket. They are not used in this sample
+                                                            //
                                       null,                 // Null outsideInfo
                                       new PcrSelection[0],  // Not PCR-bound
                                       out newKeyPub,        // Our outs
@@ -376,13 +368,13 @@ namespace PCRandKeys
             // Template for a signing key.  We will make the key restricted so that we 
             // can quote with it too.
             // 
-            var signKeyPubTemplate = new TpmPublic(TpmAlgId.Sha1,
+            var signKeyPubTemplate = new TpmPublic(TpmAlgId.Sha256,
                                                    ObjectAttr.Sign | ObjectAttr.Restricted |      // A "quoting" key
                                                    ObjectAttr.FixedParent | ObjectAttr.FixedTPM | // Non-duplicable
                                                    ObjectAttr.UserWithAuth |                      // Authorize with auth-data
                                                    ObjectAttr.SensitiveDataOrigin,                // TPM will create a new key
                                                    null,
-                                                   new RsaParms(new SymDefObject(), new SchemeRsassa(TpmAlgId.Sha1), 2048, 0),
+                                                   new RsaParms(new SymDefObject(), new SchemeRsassa(TpmAlgId.Sha256), 2048, 0),
                                                    new Tpm2bPublicKeyRsa());
             //
             // Auth-data for new key
@@ -415,44 +407,44 @@ namespace PCRandKeys
             // Load the key as a child of the primary that it 
             // was created under.
             // 
-            TpmHandle signHandle = tpm.Load(primHandle, keyPriv, keyPub);
+            TpmHandle hSigKey = tpm.Load(primHandle, keyPriv, keyPub);
 
             //
             // Note that Load returns the "name" of the key and this is automatically
             // associated with the handle.
             // 
-            Console.WriteLine("Name of key:" + BitConverter.ToString(signHandle.Name));
+            Console.WriteLine("Name of key:" + BitConverter.ToString(hSigKey.Name));
 
             //
-            // Aome data to quote
+            // A nonce (or qualifying data)
             // 
-            TpmHash hashToSign = TpmHash.FromData(TpmAlgId.Sha1, new byte[] { 4, 3, 2, 1 });
+            TpmHash nonce = TpmHash.FromData(TpmAlgId.Sha256, new byte[] { 4, 3, 2, 1 });
 
             //
-            // PCRs to quote.  SHA-1 bank, PCR-indices 1, 2, and 3
+            // PCRs to quote.  SHA-256 bank, PCR-indices 1, 2, and 3
             // 
-            var pcrsToQuote = new PcrSelection[] 
+            var pcrsToQuote = new PcrSelection[]
             {
-                new PcrSelection(TpmAlgId.Sha, new uint[] { 1, 2, 3 })
+                new PcrSelection(TpmAlgId.Sha256, new uint[] { 1, 2, 3 })
             };
 
             //
-            // Ask the TPM to quote the PCR (and the nonce).  The TPM
-            // returns the quote-signature and the data that was signed
+            // Ask the TPM to quote the PCR (with the given nonce).  The TPM
+            // returns both the signature and the quote data that were signed.
             // 
             ISignatureUnion quoteSig;
-            Attest quotedInfo = tpm.Quote(signHandle,
-                                                    hashToSign,
-                                                    new SchemeRsassa(TpmAlgId.Sha1),
-                                                    pcrsToQuote,
-                                                    out quoteSig);
+            Attest quotedInfo = tpm.Quote(hSigKey,
+                                          nonce,
+                                          new SchemeRsassa(TpmAlgId.Sha256),
+                                          pcrsToQuote,
+                                          out quoteSig);
             //
             // Print out what was quoted
             // 
             var info = (QuoteInfo)quotedInfo.attested;
-            Console.WriteLine("PCRs that were quoted: "    +
+            Console.WriteLine("PCRs that were quoted: " +
                               info.pcrSelect[0].ToString() +
-                              "\nHash of PCR-array: "      +
+                              "\nHash of PCR-array: " +
                               BitConverter.ToString(info.pcrDigest));
 
             //
@@ -461,7 +453,7 @@ namespace PCRandKeys
             PcrSelection[] outSelection;
             Tpm2bDigest[] outValues;
             tpm.PcrRead(new PcrSelection[] {
-                            new PcrSelection(TpmAlgId.Sha, new uint[] { 1, 2, 3 }) 
+                            new PcrSelection(TpmAlgId.Sha256, new uint[] { 1, 2, 3 })
                         },
                         out outSelection,
                         out outValues);
@@ -470,8 +462,8 @@ namespace PCRandKeys
             // Use the TSS.Net library to validate the quote against the
             // values just read.
             // 
-            bool quoteOk = keyPub.VerifyQuote(TpmAlgId.Sha1, outSelection, outValues,
-                                              hashToSign, quotedInfo, quoteSig);
+            bool quoteOk = keyPub.VerifyQuote(TpmAlgId.Sha256, outSelection, outValues,
+                                              nonce, quotedInfo, quoteSig);
             if (!quoteOk)
             {
                 throw new Exception("Quote did not validate");
@@ -487,7 +479,7 @@ namespace PCRandKeys
             //
             var nullProof = new TkHashcheck(TpmHandle.RhNull, null);
             tpm._ExpectError(TpmRc.Ticket)
-               .Sign(signHandle, hashToSign, new SchemeRsassa(TpmAlgId.Sha1), nullProof);
+               .Sign(hSigKey, nonce, new SchemeRsassa(TpmAlgId.Sha256), nullProof);
 
             //
             // But if we ask the TPM to hash the same data and then sign it 
@@ -495,7 +487,7 @@ namespace PCRandKeys
             // sign it.
             // 
             TkHashcheck tkSafeHash;
-            TpmHandle hashHandle = tpm.HashSequenceStart(null, TpmAlgId.Sha1);
+            TpmHandle hashHandle = tpm.HashSequenceStart(null, TpmAlgId.Sha256);
 
             //
             // The ticket is only generated if the data is "safe."
@@ -507,8 +499,8 @@ namespace PCRandKeys
             // TPM that the data that it is about to sign does not 
             // start with TPM_GENERATED
             // 
-            ISignatureUnion sig = tpm.Sign(signHandle, hashToSign,
-                                           new SchemeRsassa(TpmAlgId.Sha1), tkSafeHash);
+            ISignatureUnion sig = tpm.Sign(hSigKey, nonce,
+                                           new SchemeRsassa(TpmAlgId.Sha256), tkSafeHash);
             //
             // And we can verify the signature
             // 
@@ -524,7 +516,7 @@ namespace PCRandKeys
             // Clean up
             // 
             tpm.FlushContext(primHandle);
-            tpm.FlushContext(signHandle);
+            tpm.FlushContext(hSigKey);
 
             Console.WriteLine("PCR Quote sample finished.");
         } // QuotePcrs()
@@ -546,10 +538,10 @@ namespace PCRandKeys
             // NOTE - The term SRK is not used in TPM 2.0 spec, but is widely used
             // in other documents.
             // 
-            var srkTemplate = new TpmPublic(TpmAlgId.Sha1,                      // Name algorithm
-                                            ObjectAttr.Restricted   |           // Storage keys must be restricted
-                                            ObjectAttr.Decrypt      |           // Storage keys are Decrypt keys
-                                            ObjectAttr.FixedParent  | ObjectAttr.FixedTPM | // Non-duplicable (like 1.2)
+            var srkTemplate = new TpmPublic(TpmAlgId.Sha256,                      // Name algorithm
+                                            ObjectAttr.Restricted |           // Storage keys must be restricted
+                                            ObjectAttr.Decrypt |           // Storage keys are Decrypt keys
+                                            ObjectAttr.FixedParent | ObjectAttr.FixedTPM | // Non-duplicable (like 1.2)
                                             ObjectAttr.UserWithAuth | ObjectAttr.SensitiveDataOrigin,
                                             null,                               // No policy
                                             new RsaParms(new SymDefObject(TpmAlgId.Aes, 128, TpmAlgId.Cfb),
@@ -577,7 +569,7 @@ namespace PCRandKeys
                                                     out srkCreationData,    // Not used here
                                                     out srkCreationHash,    // Ibid
                                                     out srkCreationTicket); // Ibid
-                                                                
+
             //
             // print out text-versions of the public key just created
             // 
@@ -621,13 +613,13 @@ namespace PCRandKeys
             // or other object to be created.  The template below instructs the TPM 
             // to create a new 2048-bit non-migratable signing key.
             // 
-            var keyTemplate = new TpmPublic(TpmAlgId.Sha1,                                  // Name algorithm
-                                            ObjectAttr.UserWithAuth | ObjectAttr.Sign     | // Signing key
-                                            ObjectAttr.FixedParent  | ObjectAttr.FixedTPM | // Non-migratable 
+            var keyTemplate = new TpmPublic(TpmAlgId.Sha256,                                  // Name algorithm
+                                            ObjectAttr.UserWithAuth | ObjectAttr.Sign | // Signing key
+                                            ObjectAttr.FixedParent | ObjectAttr.FixedTPM | // Non-migratable 
                                             ObjectAttr.SensitiveDataOrigin,
                                             null,                                    // No policy
-                                            new RsaParms(new SymDefObject(), 
-                                                         new SchemeRsassa(TpmAlgId.Sha1), 2048, 0),
+                                            new RsaParms(new SymDefObject(),
+                                                         new SchemeRsassa(TpmAlgId.Sha256), 2048, 0),
                                             new Tpm2bPublicKeyRsa());
             //
             // Authorization for the key we are about to create
@@ -653,11 +645,11 @@ namespace PCRandKeys
             // Use the key to sign some data
             // 
             byte[] message = Encoding.Unicode.GetBytes("ABC");
-            TpmHash dataToSign = TpmHash.FromData(TpmAlgId.Sha1, message);
+            TpmHash dataToSign = TpmHash.FromData(TpmAlgId.Sha256, message);
             var sig = await tpm.SignAsync(newPrimary.handle,          // Signing key handle
                                           dataToSign,                       // Data to sign
-                                          new SchemeRsassa(TpmAlgId.Sha1),  // Default scheme
-                                          TpmHashCheck.Null());
+                                          new SchemeRsassa(TpmAlgId.Sha256),  // Default scheme
+                                          new TkHashcheck());
             //
             // Print the signature. A different structure is returned for each 
             // signing scheme, so cast the interface to our signature type.

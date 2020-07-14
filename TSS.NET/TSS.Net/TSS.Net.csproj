@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <NeutralLanguage>en-US</NeutralLanguage>
-    <TargetFrameworks>netstandard2.0;net472;netcoreapp2.0;netcoreapp2.1</TargetFrameworks>
     <AssemblyName>TSS.Net</AssemblyName>
+    <TargetFrameworks>netstandard2.0;net472;netcoreapp2.1</TargetFrameworks>
     <PackageId>TSS.Net</PackageId>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Version>2.1.1</Version>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
   <PropertyGroup>
     <NixTarget>false</NixTarget>
@@ -27,10 +27,11 @@
     <DelaySign>true</DelaySign>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
+<!--
   <ItemGroup>
     <PackageReference Include="System.Security.Cryptography.Cng" Version="4.5.0" />
   </ItemGroup>
-
+-->
   <!--
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>

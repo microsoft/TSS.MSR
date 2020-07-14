@@ -228,3 +228,4 @@ FakesAssemblies/
 /Tpm2Tester/TestSuite/RemainingTests_0.txt
 /Tpm2Tester/TestSuite/Properties/launchSettings.json
 *.map
+*.json

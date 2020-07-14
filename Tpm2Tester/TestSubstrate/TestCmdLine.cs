@@ -42,6 +42,9 @@ namespace Tpm2Tester
             Target = framework;
             TestCfg = Target.TestCfg;
             Args = args;
+
+            if (args.Length > 0 && args[0][0] != '-' && File.Exists(args[0]))
+                CurArg = 1;
         }
 
         static SortedSet<Option> DefinedOptions = new SortedSet<Option> {

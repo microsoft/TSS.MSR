@@ -3,8 +3,10 @@
  */
 
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Linq;
+using System.Diagnostics;
 using System.Threading;
 using Tpm2Lib;
 
@@ -15,33 +17,26 @@ namespace PCRandKeys
     /// </summary>
     class Program
     {
-        /// <summary>
-        /// Defines the argument to use to have this program use a TCP connection
-        /// to communicate with a TPM 2.0 simulator.
-        /// </summary>
-        private const string DeviceSimulator = "-tcp";
-        /// <summary>
-        /// Defines the argument to use to have this program use the Windows TBS
-        /// API to communicate with a TPM 2.0 device.
-        /// </summary>
+        /// <summary> Attempt to connect to a simulator or TPM proxy over TCP/IP </summary>
+        private const string DeviceTcp = "-tcp";
+        private const string DeviceSim = "-sim";
+
+        /// <summary> Use the Windows TBS API to access the OS TPM 2.0 device </summary>
         private const string DeviceWinTbs = "-tbs";
-        /// <summary>
-        /// Defines the argument to use to have this program use the Linux /dev/tpm0
-        /// device file to communicate with a TPM 2.0 device.
-        /// </summary>
+
+        /// <summary> Use Linux /dev/tpm0 or /dev/tpmrm0 device file to access the OS TPM 2.0 device </summary>
         private const string DeviceLinux = "-tpm0";
-        /// <summary>
-        /// The default connection to use for communication with the TPM.
-        /// </summary>
-        private const string DefaultDevice = DeviceSimulator;
-        /// <summary>
-        /// If using a TCP connection, the default DNS name/IP address for the
-        /// simulator.
-        /// </summary>
+
+        /// <summary>  Use the OS TPM interface (TBS on Windows and /dev/tpm0 or /dev/tpmrm0 on Linux) </summary>
+        private const string DeviceSys = "-sys";
+
+        /// <summary> The default connection to use for communication with the TPM </summary>
+        private const string DefaultDevice = DeviceSim;
+
+        /// <summary> When using a TCP connection, use the locally running simulator by default </summary>
         private const string DefaultSimulatorName = "127.0.0.1";
-        /// <summary>
-        /// If using a TCP connection, the default TCP port of the simulator.
-        /// </summary>
+
+        /// <summary> When using a TCP connection, the default TCP port of the simulator </summary>
         private const int DefaultSimulatorPort = 2321;
 
         /// <summary>
@@ -52,13 +47,11 @@ namespace PCRandKeys
             Console.WriteLine();
             Console.WriteLine("Usage: PCRandKeys [<device>]");
             Console.WriteLine();
-            Console.WriteLine($"    <device> can be '{DeviceWinTbs}' or '{DeviceLinux}' or '{DeviceSimulator}'. Defaults to '{DefaultDevice}'.");
-            Console.WriteLine($"        If <device> is '{DeviceSimulator}', the program will connect to a simulator\n" +
-                              $"        listening on a TCP port.");
-            Console.WriteLine($"        If <device> is '{DeviceWinTbs}', the program will use the TBS interface to talk\n" +
-                              $"        to the TPM device.");
-            Console.WriteLine($"        If <device> is '{DeviceLinux}', the program will use the /dev/tpm0 interface to talk\n" +
-                              $"        to the TPM device.");
+            Console.WriteLine($"    <device> can be one of {{{DeviceWinTbs}|{DeviceLinux}|{DeviceSys}|{DeviceTcp}|{DeviceSim}}}");
+            Console.WriteLine($"        {DeviceSim} or {DeviceSim} attempts connect to a simulator or TPM proxy over TCP/IP");
+            Console.WriteLine($"            This is the default choice.");
+            Console.WriteLine($"        {DeviceSys}, {DeviceWinTbs} or {DeviceLinux} uses the OS TPM interface");
+            Console.WriteLine($"            (TBS on Windows and /dev/tpm0 or /dev/tpmrm0 on Linux).");
         }
 
         /// <summary>
@@ -68,29 +61,31 @@ namespace PCRandKeys
         /// <param name="tpmDeviceName">The name of the selected TPM connection created.</param>
         /// <returns>True if the arguments could be parsed. False if an unknown argument or malformed
         /// argument was present.</returns>
-        static bool ParseArguments(IEnumerable<string> args, out string tpmDeviceName)
+        static string ParseArguments(string[] args)
         {
-            tpmDeviceName = DefaultDevice;
-            foreach (string arg in args)
+            if (args.Length > 0 && args[0][0] != '-' && File.Exists(args[0]))
+                args = args.Skip(1).ToArray();
+
+            if (args.Length == 0)
+                return DefaultDevice;
+
+            if (args.Length == 1)
             {
-                if (string.Compare(arg, DeviceSimulator, true) == 0)
+                var arg = args[0].ToLower();
+
+                if (arg == DeviceSim || arg == DeviceTcp)
                 {
-                    tpmDeviceName = DeviceSimulator;
+                    return DeviceSim;
                 }
-                else if (string.Compare(arg, DeviceWinTbs, true) == 0)
+                if (arg == DeviceWinTbs || arg == DeviceLinux || arg == DeviceSys)
                 {
-                    tpmDeviceName = DeviceWinTbs;
-                }
-                else if (string.Compare(arg, DeviceLinux, true) == 0)
-                {
-                    tpmDeviceName = DeviceLinux;
-                }
-                else
-                {
-                    return false;
+                    bool win = System.Runtime.InteropServices.RuntimeInformation.OSDescription.ToLower().Contains("windows");
+                    return win ? DeviceWinTbs : DeviceLinux;
                 }
             }
-            return true;
+
+            WriteUsage();
+            return null;
         }
 
         /// <summary>
@@ -106,12 +101,9 @@ namespace PCRandKeys
             // are malformed, then instructions for usage are displayed and 
             // the program terminates.
             // 
-            string tpmDeviceName;
-            if (!ParseArguments(args, out tpmDeviceName))
-            {
-                WriteUsage();
+            string tpmDeviceName = ParseArguments(args);
+            if (tpmDeviceName == null)
                 return;
-            }
 
             try
             {
@@ -121,7 +113,7 @@ namespace PCRandKeys
                 Tpm2Device tpmDevice;
                 switch (tpmDeviceName)
                 {
-                    case DeviceSimulator:
+                    case DeviceSim:
                         tpmDevice = new TcpTpmDevice(DefaultSimulatorName, DefaultSimulatorPort);
                         break;
 
@@ -657,7 +649,7 @@ namespace PCRandKeys
             var sig = await tpm.SignAsync(newPrimary.handle,          // Signing key handle
                                           dataToSign,                       // Data to sign
                                           new SchemeRsassa(TpmAlgId.Sha256),  // Default scheme
-                                          TpmHashCheck.Null());
+                                          new TkHashcheck());
             //
             // Print the signature. A different structure is returned for each 
             // signing scheme, so cast the interface to our signature type.
