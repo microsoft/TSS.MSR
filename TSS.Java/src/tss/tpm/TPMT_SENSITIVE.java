@@ -25,7 +25,10 @@ public class TPMT_SENSITIVE extends TpmStructure
     /** For a parent object, the optional protection seed; for other objects, the obfuscation value  */
     public byte[] seedValue;
     
-    /** The type-specific private data  */
+    /** The type-specific private data
+     *  One of: TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
+     *  TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC.
+     */
     public TPMU_SENSITIVE_COMPOSITE sensitive;
     
     public TPMT_SENSITIVE() {}
@@ -35,8 +38,8 @@ public class TPMT_SENSITIVE extends TpmStructure
      *  @param _seedValue For a parent object, the optional protection seed; for other objects,
      *         the obfuscation value
      *  @param _sensitive The type-specific private data
-     *         (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
-     *         TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC])
+     *         One of: TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
+     *         TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC.
      */
     public TPMT_SENSITIVE(byte[] _authValue, byte[] _seedValue, TPMU_SENSITIVE_COMPOSITE _sensitive)
     {

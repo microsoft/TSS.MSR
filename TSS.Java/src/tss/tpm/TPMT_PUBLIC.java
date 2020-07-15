@@ -30,11 +30,16 @@ public class TPMT_PUBLIC extends TpmStructure
      */
     public byte[] authPolicy;
     
-    /** The algorithm or structure details  */
+    /** The algorithm or structure details
+     *  One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+     *  TPMS_ASYM_PARMS.
+     */
     public TPMU_PUBLIC_PARMS parameters;
     
     /** The unique identifier of the structure
      *  For an asymmetric key, this would be the public key.
+     *  One of: TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
+     *  TPMS_ECC_POINT, TPMS_DERIVE.
      */
     public TPMU_PUBLIC_ID unique;
     
@@ -50,12 +55,12 @@ public class TPMT_PUBLIC extends TpmStructure
      *         The policy is computed using the nameAlg of the object.
      *         NOTE Shall be the Empty Policy if no authorization policy is present.
      *  @param _parameters The algorithm or structure details
-     *         (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
-     *         TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
+     *         One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+     *         TPMS_ASYM_PARMS.
      *  @param _unique The unique identifier of the structure
      *         For an asymmetric key, this would be the public key.
-     *         (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
-     *         TPMS_ECC_POINT, TPMS_DERIVE])
+     *         One of: TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
+     *         TPMS_ECC_POINT, TPMS_DERIVE.
      */
     public TPMT_PUBLIC(TPM_ALG_ID _nameAlg, TPMA_OBJECT _objectAttributes, byte[] _authPolicy, TPMU_PUBLIC_PARMS _parameters, TPMU_PUBLIC_ID _unique)
     {

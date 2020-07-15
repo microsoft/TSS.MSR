@@ -4709,27 +4709,27 @@ namespace Tpm2Lib {
     //------------------------- UNIONS -----------------------------------------
     //-----------------------------------------------------------------------------
 
-    /// <summary> Table 119 Definition of TPMU_CAPABILITIES Union [OUT]
-    /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, PcrSelectionArray,
+    /// <summary> Table 119 Definition of TPMU_CAPABILITIES Union [OUT] </summary>
+    /// <remarks> One of: AlgPropertyArray, HandleArray, CcaArray, CcArray, PcrSelectionArray,
     /// TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray,
-    /// ActDataArray]) </summary>
+    /// ActDataArray. </remarks>
     public interface ICapabilitiesUnion
     {
         Cap GetUnionSelector();
     }
 
-    /// <summary> Table 132 Definition of TPMU_ATTEST Union [OUT]
-    /// (One of [CertifyInfo, CreationInfo, QuoteInfo, CommandAuditInfo, SessionAuditInfo,
-    /// TimeAttestInfo, NvCertifyInfo, NvDigestCertifyInfo]) </summary>
+    /// <summary> Table 132 Definition of TPMU_ATTEST Union [OUT] </summary>
+    /// <remarks> One of: CertifyInfo, CreationInfo, QuoteInfo, CommandAuditInfo,
+    /// SessionAuditInfo, TimeAttestInfo, NvCertifyInfo, NvDigestCertifyInfo. </remarks>
     public interface IAttestUnion
     {
         TpmSt GetUnionSelector();
     }
 
     /// <summary> This union allows additional parameters to be added for a symmetric cipher.
-    /// Currently, no additional parameters are required for any of the symmetric algorithms.
-    /// (One of [TdesSymDetails, AesSymDetails, Sm4SymDetails, CamelliaSymDetails,
-    /// AnySymDetails, XorSymDetails, NullSymDetails]) </summary>
+    /// Currently, no additional parameters are required for any of the symmetric algorithms. </summary>
+    /// <remarks> One of: TdesSymDetails, AesSymDetails, Sm4SymDetails, CamelliaSymDetails,
+    /// AnySymDetails, XorSymDetails, NullSymDetails. </remarks>
     public interface ISymDetailsUnion
     {
         TpmAlgId GetUnionSelector();
@@ -4737,31 +4737,32 @@ namespace Tpm2Lib {
 
     /// <summary> This structure allows a TPM2B_SENSITIVE_CREATE structure to carry either a
     /// TPM2B_SENSITVE_DATA or a TPM2B_DERIVE structure. The contents of the union are
-    /// determined by context. When an object is being derived, the derivation values are present.
-    /// (One of [byte, TpmDerive]) </summary>
+    /// determined by context. When an object is being derived, the derivation values are
+    /// present. </summary>
+    /// <remarks> One of: byte, TpmDerive. </remarks>
     public interface ISensitiveCreateUnion
     {
         TpmAlgId GetUnionSelector();
     }
 
-    /// <summary> Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT]
-    /// (One of [SchemeHmac, SchemeXor, NullSchemeKeyedhash]) </summary>
+    /// <summary> Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT] </summary>
+    /// <remarks> One of: SchemeHmac, SchemeXor, NullSchemeKeyedhash. </remarks>
     public interface ISchemeKeyedhashUnion
     {
         TpmAlgId GetUnionSelector();
     }
 
-    /// <summary> This is the union of all of the signature schemes.
-    /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-    /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
+    /// <summary> This is the union of all of the signature schemes. </summary>
+    /// <remarks> One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+    /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </remarks>
     public interface ISigSchemeUnion
     {
         TpmAlgId GetUnionSelector();
     }
 
-    /// <summary> Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT]
-    /// (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
-    /// SchemeHash, NullKdfScheme]) </summary>
+    /// <summary> Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT] </summary>
+    /// <remarks> One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
+    /// KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme. </remarks>
     public interface IKdfSchemeUnion
     {
         TpmAlgId GetUnionSelector();
@@ -4769,10 +4770,10 @@ namespace Tpm2Lib {
 
     /// <summary> This union of all asymmetric schemes is used in each of the asymmetric
     /// scheme structures. The actual scheme structure is defined by the interface type used
-    /// for the selector (TPMI_ALG_ASYM_SCHEME).
-    /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+    /// for the selector (TPMI_ALG_ASYM_SCHEME). </summary>
+    /// <remarks> One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
     /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-    /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
+    /// EncSchemeOaep, SchemeHash, NullAsymScheme. </remarks>
     public interface IAsymSchemeUnion
     {
         TpmAlgId GetUnionSelector();
@@ -4780,17 +4781,18 @@ namespace Tpm2Lib {
 
     /// <summary> A TPMU_SIGNATURE_COMPOSITE is a union of the various signatures that are
     /// supported by a particular TPM implementation. The union allows substitution of any
-    /// signature algorithm wherever a signature is required in a structure.
-    /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-    /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+    /// signature algorithm wherever a signature is required in a structure. </summary>
+    /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+    /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
     public interface ISignatureUnion
     {
         TpmAlgId GetUnionSelector();
     }
 
-    /// <summary> This is the union of all values allowed in in the unique field of a TPMT_PUBLIC.
-    /// (One of [Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint,
-    /// TpmDerive]) </summary>
+    /// <summary> This is the union of all values allowed in in the unique field of a
+    /// TPMT_PUBLIC. </summary>
+    /// <remarks> One of: Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa,
+    /// EccPoint, TpmDerive. </remarks>
     public interface IPublicIdUnion
     {
         TpmAlgId GetUnionSelector();
@@ -4798,16 +4800,16 @@ namespace Tpm2Lib {
 
     /// <summary> Table 199 defines the possible parameter definition structures that may be
     /// contained in the public portion of a key. If the Object can be a parent, the first
-    /// field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7.
-    /// (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </summary>
+    /// field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7. </summary>
+    /// <remarks> One of: KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms. </remarks>
     public interface IPublicParmsUnion
     {
         TpmAlgId GetUnionSelector();
     }
 
-    /// <summary> Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT]
-    /// (One of [Tpm2bPrivateKeyRsa, Tpm2bEccParameter, Tpm2bSensitiveData, Tpm2bSymKey,
-    /// Tpm2bPrivateVendorSpecific]) </summary>
+    /// <summary> Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT] </summary>
+    /// <remarks> One of: Tpm2bPrivateKeyRsa, Tpm2bEccParameter, Tpm2bSensitiveData,
+    /// Tpm2bSymKey, Tpm2bPrivateVendorSpecific. </remarks>
     public interface ISensitiveCompositeUnion
     {
         TpmAlgId GetUnionSelector();
@@ -6200,10 +6202,10 @@ namespace Tpm2Lib {
             get { return data.GetUnionSelector(); }
         }
 
-        /// <summary> The capability data
-        /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, PcrSelectionArray,
+        /// <summary> The capability data </summary>
+        /// <remarks> One of: AlgPropertyArray, HandleArray, CcaArray, CcArray, PcrSelectionArray,
         /// TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray,
-        /// ActDataArray]) </summary>
+        /// ActDataArray. </remarks>
         [MarshalAs(1, MarshalType.Union, "capability")]
         [DataMember()]
         public ICapabilitiesUnion data { get; set; }
@@ -6213,9 +6215,9 @@ namespace Tpm2Lib {
         public CapabilityData(CapabilityData src) { data = src.data; }
 
         /// <param name = "_data"> The capability data
-        ///        (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, PcrSelectionArray,
+        ///        One of: AlgPropertyArray, HandleArray, CcaArray, CcArray, PcrSelectionArray,
         ///        TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray,
-        ///        ActDataArray]) </param>
+        ///        ActDataArray. </param>
         public CapabilityData(ICapabilitiesUnion _data) { data = _data; }
 
         new public CapabilityData Copy() { return CreateCopy<CapabilityData>(); }
@@ -6720,9 +6722,9 @@ namespace Tpm2Lib {
         [DataMember()]
         public ulong firmwareVersion { get; set; }
 
-        /// <summary> The type-specific attestation information
-        /// (One of [CertifyInfo, CreationInfo, QuoteInfo, CommandAuditInfo, SessionAuditInfo,
-        /// TimeAttestInfo, NvCertifyInfo, NvDigestCertifyInfo]) </summary>
+        /// <summary> The type-specific attestation information </summary>
+        /// <remarks> One of: CertifyInfo, CreationInfo, QuoteInfo, CommandAuditInfo,
+        /// SessionAuditInfo, TimeAttestInfo, NvCertifyInfo, NvDigestCertifyInfo. </remarks>
         [MarshalAs(6, MarshalType.Union, "type")]
         [DataMember()]
         public IAttestUnion attested { get; set; }
@@ -6750,8 +6752,8 @@ namespace Tpm2Lib {
         /// <param name = "_firmwareVersion"> TPM-vendor-specific value identifying the version number
         ///        of the firmware </param>
         /// <param name = "_attested"> The type-specific attestation information
-        ///        (One of [CertifyInfo, CreationInfo, QuoteInfo, CommandAuditInfo, SessionAuditInfo,
-        ///        TimeAttestInfo, NvCertifyInfo, NvDigestCertifyInfo]) </param>
+        ///        One of: CertifyInfo, CreationInfo, QuoteInfo, CommandAuditInfo, SessionAuditInfo,
+        ///        TimeAttestInfo, NvCertifyInfo, NvDigestCertifyInfo. </param>
         public Attest(Generated _magic, byte[] _qualifiedSigner, byte[] _extraData, ClockInfo _clockInfo, ulong _firmwareVersion, IAttestUnion _attested)
         {
             magic = _magic;
@@ -7496,8 +7498,8 @@ namespace Tpm2Lib {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The scheme parameters
-        /// (One of [SchemeHmac, SchemeXor, NullSchemeKeyedhash]) </summary>
+        /// <summary> The scheme parameters </summary>
+        /// <remarks> One of: SchemeHmac, SchemeXor, NullSchemeKeyedhash. </remarks>
         [MarshalAs(1, MarshalType.Union, "scheme")]
         [DataMember()]
         public ISchemeKeyedhashUnion details { get; set; }
@@ -7507,7 +7509,7 @@ namespace Tpm2Lib {
         public KeyedhashScheme(KeyedhashScheme src) { details = src.details; }
 
         /// <param name = "_details"> The scheme parameters
-        ///        (One of [SchemeHmac, SchemeXor, NullSchemeKeyedhash]) </param>
+        ///        One of: SchemeHmac, SchemeXor, NullSchemeKeyedhash. </param>
         public KeyedhashScheme(ISchemeKeyedhashUnion _details) { details = _details; }
 
         new public KeyedhashScheme Copy() { return CreateCopy<KeyedhashScheme>(); }
@@ -7681,9 +7683,9 @@ namespace Tpm2Lib {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Scheme parameters
-        /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
+        /// <summary> Scheme parameters </summary>
+        /// <remarks> One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </remarks>
         [MarshalAs(1, MarshalType.Union, "scheme")]
         [DataMember()]
         public ISigSchemeUnion details { get; set; }
@@ -7693,8 +7695,8 @@ namespace Tpm2Lib {
         public SigScheme(SigScheme src) { details = src.details; }
 
         /// <param name = "_details"> Scheme parameters
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         public SigScheme(ISigSchemeUnion _details) { details = _details; }
 
         new public SigScheme Copy() { return CreateCopy<SigScheme>(); }
@@ -7895,9 +7897,9 @@ namespace Tpm2Lib {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Scheme parameters
-        /// (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
-        /// SchemeHash, NullKdfScheme]) </summary>
+        /// <summary> Scheme parameters </summary>
+        /// <remarks> One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
+        /// KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme. </remarks>
         [MarshalAs(1, MarshalType.Union, "scheme")]
         [DataMember()]
         public IKdfSchemeUnion details { get; set; }
@@ -7907,8 +7909,8 @@ namespace Tpm2Lib {
         public KdfScheme(KdfScheme src) { details = src.details; }
 
         /// <param name = "_details"> Scheme parameters
-        ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
-        ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
+        ///        One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
+        ///        SchemeHash, NullKdfScheme. </param>
         public KdfScheme(IKdfSchemeUnion _details) { details = _details; }
 
         new public KdfScheme Copy() { return CreateCopy<KdfScheme>(); }
@@ -7961,10 +7963,10 @@ namespace Tpm2Lib {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Scheme parameters
-        /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        /// <summary> Scheme parameters </summary>
+        /// <remarks> One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
+        /// EncSchemeOaep, SchemeHash, NullAsymScheme. </remarks>
         [MarshalAs(1, MarshalType.Union, "scheme")]
         [DataMember()]
         public IAsymSchemeUnion details { get; set; }
@@ -7974,9 +7976,9 @@ namespace Tpm2Lib {
         public AsymScheme(AsymScheme src) { details = src.details; }
 
         /// <param name = "_details"> Scheme parameters
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         public AsymScheme(IAsymSchemeUnion _details) { details = _details; }
 
         new public AsymScheme Copy() { return CreateCopy<AsymScheme>(); }
@@ -8011,10 +8013,10 @@ namespace Tpm2Lib {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Scheme parameters
-        /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        /// <summary> Scheme parameters </summary>
+        /// <remarks> One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
+        /// EncSchemeOaep, SchemeHash, NullAsymScheme. </remarks>
         [MarshalAs(1, MarshalType.Union, "scheme")]
         [DataMember()]
         public IAsymSchemeUnion details { get; set; }
@@ -8024,9 +8026,9 @@ namespace Tpm2Lib {
         public RsaScheme(RsaScheme src) { details = src.details; }
 
         /// <param name = "_details"> Scheme parameters
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         public RsaScheme(IAsymSchemeUnion _details) { details = _details; }
 
         new public RsaScheme Copy() { return CreateCopy<RsaScheme>(); }
@@ -8061,10 +8063,10 @@ namespace Tpm2Lib {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Scheme parameters
-        /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        /// <summary> Scheme parameters </summary>
+        /// <remarks> One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
+        /// EncSchemeOaep, SchemeHash, NullAsymScheme. </remarks>
         [MarshalAs(1, MarshalType.Union, "scheme")]
         [DataMember()]
         public IAsymSchemeUnion details { get; set; }
@@ -8074,9 +8076,9 @@ namespace Tpm2Lib {
         public RsaDecrypt(RsaDecrypt src) { details = src.details; }
 
         /// <param name = "_details"> Scheme parameters
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         public RsaDecrypt(IAsymSchemeUnion _details) { details = _details; }
 
         new public RsaDecrypt Copy() { return CreateCopy<RsaDecrypt>(); }
@@ -8249,10 +8251,10 @@ namespace Tpm2Lib {
             get { return details != null ? details.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Scheme parameters
-        /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        /// <summary> Scheme parameters </summary>
+        /// <remarks> One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
+        /// EncSchemeOaep, SchemeHash, NullAsymScheme. </remarks>
         [MarshalAs(1, MarshalType.Union, "scheme")]
         [DataMember()]
         public IAsymSchemeUnion details { get; set; }
@@ -8262,9 +8264,9 @@ namespace Tpm2Lib {
         public EccScheme(EccScheme src) { details = src.details; }
 
         /// <param name = "_details"> Scheme parameters
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         public EccScheme(IAsymSchemeUnion _details) { details = _details; }
 
         new public EccScheme Copy() { return CreateCopy<EccScheme>(); }
@@ -8319,9 +8321,9 @@ namespace Tpm2Lib {
         }
 
         /// <summary> If not TPM_ALG_NULL, the required KDF and hash algorithm used in secret
-        /// sharing operations
-        /// (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
-        /// SchemeHash, NullKdfScheme]) </summary>
+        /// sharing operations </summary>
+        /// <remarks> One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
+        /// KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme. </remarks>
         [MarshalAs(3, MarshalType.Union, "kdfScheme")]
         [DataMember()]
         public IKdfSchemeUnion kdf { get; set; }
@@ -8333,10 +8335,10 @@ namespace Tpm2Lib {
         }
 
         /// <summary> If not TPM_ALG_NULL, this is the mandatory signature scheme that is required
-        /// to be used with this curve.
-        /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        /// to be used with this curve. </summary>
+        /// <remarks> One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
+        /// EncSchemeOaep, SchemeHash, NullAsymScheme. </remarks>
         [MarshalAs(5, MarshalType.Union, "signScheme")]
         [DataMember()]
         public IAsymSchemeUnion sign { get; set; }
@@ -8397,13 +8399,13 @@ namespace Tpm2Lib {
         /// <param name = "_keySize"> Size in bits of the key </param>
         /// <param name = "_kdf"> If not TPM_ALG_NULL, the required KDF and hash algorithm used in
         ///        secret sharing operations
-        ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
-        ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
+        ///        One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
+        ///        SchemeHash, NullKdfScheme. </param>
         /// <param name = "_sign"> If not TPM_ALG_NULL, this is the mandatory signature scheme that is
         ///        required to be used with this curve.
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         /// <param name = "_p"> Fp (the modulus) </param>
         /// <param name = "_a"> Coefficient of the linear term in the curve equation </param>
         /// <param name = "_b"> Constant term for curve equation </param>
@@ -8704,9 +8706,9 @@ namespace Tpm2Lib {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> This shall be the actual signature information.
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> This shall be the actual signature information. </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(1, MarshalType.Union, "sigAlg")]
         [DataMember()]
         public ISignatureUnion signature { get; set; }
@@ -8716,8 +8718,8 @@ namespace Tpm2Lib {
         public Signature(Signature src) { signature = src.signature; }
 
         /// <param name = "_signature"> This shall be the actual signature information.
-        ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
+        ///        One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </param>
         public Signature(ISignatureUnion _signature) { signature = _signature; }
 
         new public Signature Copy() { return CreateCopy<Signature>(); }
@@ -8768,8 +8770,8 @@ namespace Tpm2Lib {
 
         /// <summary> Indicates the signing method used for a keyedHash signing object. This field
         /// also determines the size of the data field for a data object created with
-        /// TPM2_Create() or TPM2_CreatePrimary().
-        /// (One of [SchemeHmac, SchemeXor, NullSchemeKeyedhash]) </summary>
+        /// TPM2_Create() or TPM2_CreatePrimary(). </summary>
+        /// <remarks> One of: SchemeHmac, SchemeXor, NullSchemeKeyedhash. </remarks>
         [MarshalAs(1, MarshalType.Union, "schemeScheme")]
         [DataMember()]
         public ISchemeKeyedhashUnion scheme { get; set; }
@@ -8781,7 +8783,7 @@ namespace Tpm2Lib {
         /// <param name = "_scheme"> Indicates the signing method used for a keyedHash signing object.
         ///        This field also determines the size of the data field for a data object created
         ///        with TPM2_Create() or TPM2_CreatePrimary().
-        ///        (One of [SchemeHmac, SchemeXor, NullSchemeKeyedhash]) </param>
+        ///        One of: SchemeHmac, SchemeXor, NullSchemeKeyedhash. </param>
         public KeyedhashParms(ISchemeKeyedhashUnion _scheme) { scheme = _scheme; }
 
         public virtual TpmAlgId GetUnionSelector() { return TpmAlgId.Keyedhash; }
@@ -8831,10 +8833,10 @@ namespace Tpm2Lib {
 
         /// <summary> For a key with the sign attribute SET, a valid signing scheme for the key type
         /// for a key with the decrypt attribute SET, a valid key exchange protocol
-        /// for a key with sign and decrypt attributes, shall be TPM_ALG_NULL
-        /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        /// for a key with sign and decrypt attributes, shall be TPM_ALG_NULL </summary>
+        /// <remarks> One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
+        /// EncSchemeOaep, SchemeHash, NullAsymScheme. </remarks>
         [MarshalAs(2, MarshalType.Union, "schemeScheme")]
         [DataMember()]
         public IAsymSchemeUnion scheme { get; set; }
@@ -8855,9 +8857,9 @@ namespace Tpm2Lib {
         ///        the key type
         ///        for a key with the decrypt attribute SET, a valid key exchange protocol
         ///        for a key with sign and decrypt attributes, shall be TPM_ALG_NULL
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         public AsymParms(SymDefObject _symmetric, IAsymSchemeUnion _scheme)
         {
             symmetric = _symmetric;
@@ -8918,10 +8920,10 @@ namespace Tpm2Lib {
         /// unless the object also has the sign attribute
         /// for a restricted decryption key, TPM_ALG_NULL
         /// NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be
-        /// TPM_ALG_NULL.
-        /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        /// TPM_ALG_NULL. </summary>
+        /// <remarks> One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
+        /// EncSchemeOaep, SchemeHash, NullAsymScheme. </remarks>
         [MarshalAs(2, MarshalType.Union, "schemeScheme")]
         [DataMember()]
         public IAsymSchemeUnion scheme { get; set; }
@@ -8959,9 +8961,9 @@ namespace Tpm2Lib {
         ///        for a restricted decryption key, TPM_ALG_NULL
         ///        NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall
         ///        be TPM_ALG_NULL.
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         /// <param name = "_keyBits"> Number of bits in the public modulus </param>
         /// <param name = "_exponent"> The public exponent
         ///        A prime number greater than 2. </param>
@@ -9029,10 +9031,10 @@ namespace Tpm2Lib {
         /// shall have the same value.
         /// If the decrypt attribute of the key is SET, then this shall be a valid key exchange
         /// scheme or TPM_ALG_NULL.
-        /// If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
-        /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        /// If the key is a Storage Key, then this field shall be TPM_ALG_NULL. </summary>
+        /// <remarks> One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
+        /// EncSchemeOaep, SchemeHash, NullAsymScheme. </remarks>
         [MarshalAs(2, MarshalType.Union, "schemeScheme")]
         [DataMember()]
         public IAsymSchemeUnion scheme { get; set; }
@@ -9052,9 +9054,9 @@ namespace Tpm2Lib {
         /// If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required
         /// to be NULL.
         /// NOTE There are currently no commands where this parameter has effect and, in the
-        /// reference code, this field needs to be set to TPM_ALG_NULL.
-        /// (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
-        /// SchemeHash, NullKdfScheme]) </summary>
+        /// reference code, this field needs to be set to TPM_ALG_NULL. </summary>
+        /// <remarks> One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
+        /// KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme. </remarks>
         [MarshalAs(5, MarshalType.Union, "kdfScheme")]
         [DataMember()]
         public IKdfSchemeUnion kdf { get; set; }
@@ -9080,9 +9082,9 @@ namespace Tpm2Lib {
         ///        If the decrypt attribute of the key is SET, then this shall be a valid key exchange
         ///        scheme or TPM_ALG_NULL.
         ///        If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         /// <param name = "_curveID"> ECC curve ID </param>
         /// <param name = "_kdf"> An optional key derivation scheme for generating a symmetric key
         ///        from a Z value
@@ -9090,8 +9092,8 @@ namespace Tpm2Lib {
         ///        required to be NULL.
         ///        NOTE There are currently no commands where this parameter has effect and, in the
         ///        reference code, this field needs to be set to TPM_ALG_NULL.
-        ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
-        ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
+        ///        One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
+        ///        SchemeHash, NullKdfScheme. </param>
         public EccParms(SymDefObject _symmetric, IAsymSchemeUnion _scheme, EccCurve _curveID, IKdfSchemeUnion _kdf)
         {
             symmetric = _symmetric;
@@ -9125,8 +9127,8 @@ namespace Tpm2Lib {
             get { return parameters.GetUnionSelector(); }
         }
 
-        /// <summary> The algorithm details
-        /// (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </summary>
+        /// <summary> The algorithm details </summary>
+        /// <remarks> One of: KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms. </remarks>
         [MarshalAs(1, MarshalType.Union, "type")]
         [DataMember()]
         public IPublicParmsUnion parameters { get; set; }
@@ -9136,7 +9138,7 @@ namespace Tpm2Lib {
         public PublicParms(PublicParms src) { parameters = src.parameters; }
 
         /// <param name = "_parameters"> The algorithm details
-        ///        (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </param>
+        ///        One of: KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms. </param>
         public PublicParms(IPublicParmsUnion _parameters) { parameters = _parameters; }
 
         new public PublicParms Copy() { return CreateCopy<PublicParms>(); }
@@ -9189,16 +9191,16 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] authPolicy;
 
-        /// <summary> The algorithm or structure details
-        /// (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </summary>
+        /// <summary> The algorithm or structure details </summary>
+        /// <remarks> One of: KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms. </remarks>
         [MarshalAs(4, MarshalType.Union, "type")]
         [DataMember()]
         public IPublicParmsUnion parameters { get; set; }
 
         /// <summary> The unique identifier of the structure
-        /// For an asymmetric key, this would be the public key.
-        /// (One of [Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint,
-        /// TpmDerive]) </summary>
+        /// For an asymmetric key, this would be the public key. </summary>
+        /// <remarks> One of: Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa,
+        /// EccPoint, TpmDerive. </remarks>
         [MarshalAs(5, MarshalType.Union, "type")]
         [DataMember()]
         public IPublicIdUnion unique { get; set; }
@@ -9223,11 +9225,11 @@ namespace Tpm2Lib {
         ///        The policy is computed using the nameAlg of the object.
         ///        NOTE Shall be the Empty Policy if no authorization policy is present. </param>
         /// <param name = "_parameters"> The algorithm or structure details
-        ///        (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </param>
+        ///        One of: KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms. </param>
         /// <param name = "_unique"> The unique identifier of the structure
         ///        For an asymmetric key, this would be the public key.
-        ///        (One of [Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint,
-        ///        TpmDerive]) </param>
+        ///        One of: Tpm2bDigestKeyedhash, Tpm2bDigestSymcipher, Tpm2bPublicKeyRsa, EccPoint,
+        ///        TpmDerive. </param>
         public TpmPublic(TpmAlgId _nameAlg, ObjectAttr _objectAttributes, byte[] _authPolicy, IPublicParmsUnion _parameters, IPublicIdUnion _unique)
         {
             nameAlg = _nameAlg;
@@ -9354,9 +9356,9 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] seedValue;
 
-        /// <summary> The type-specific private data
-        /// (One of [Tpm2bPrivateKeyRsa, Tpm2bEccParameter, Tpm2bSensitiveData, Tpm2bSymKey,
-        /// Tpm2bPrivateVendorSpecific]) </summary>
+        /// <summary> The type-specific private data </summary>
+        /// <remarks> One of: Tpm2bPrivateKeyRsa, Tpm2bEccParameter, Tpm2bSensitiveData,
+        /// Tpm2bSymKey, Tpm2bPrivateVendorSpecific. </remarks>
         [MarshalAs(3, MarshalType.Union, "sensitiveType")]
         [DataMember()]
         public ISensitiveCompositeUnion sensitive { get; set; }
@@ -9375,8 +9377,8 @@ namespace Tpm2Lib {
         /// <param name = "_seedValue"> For a parent object, the optional protection seed; for other
         ///        objects, the obfuscation value </param>
         /// <param name = "_sensitive"> The type-specific private data
-        ///        (One of [Tpm2bPrivateKeyRsa, Tpm2bEccParameter, Tpm2bSensitiveData, Tpm2bSymKey,
-        ///        Tpm2bPrivateVendorSpecific]) </param>
+        ///        One of: Tpm2bPrivateKeyRsa, Tpm2bEccParameter, Tpm2bSensitiveData, Tpm2bSymKey,
+        ///        Tpm2bPrivateVendorSpecific. </param>
         public Sensitive(byte[] _authValue, byte[] _seedValue, ISensitiveCompositeUnion _sensitive)
         {
             authValue = _authValue;
@@ -11401,10 +11403,11 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-        /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        /// <summary> The padding scheme to use if scheme associated with keyHandle is
+        /// TPM_ALG_NULL </summary>
+        /// <remarks> One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
+        /// EncSchemeOaep, SchemeHash, NullAsymScheme. </remarks>
         [MarshalAs(3, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public IAsymSchemeUnion inScheme { get; set; }
@@ -11426,9 +11429,9 @@ namespace Tpm2Lib {
         ///        allowed for keyHandle. </param>
         /// <param name = "_inScheme"> The padding scheme to use if scheme associated with keyHandle
         ///        is TPM_ALG_NULL
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         /// <param name = "_label"> Optional label L to be associated with the message
         ///        Size of the buffer is zero if no label is present
         ///        NOTE 2 See description of label above. </param>
@@ -11510,10 +11513,11 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-        /// (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        /// <summary> The padding scheme to use if scheme associated with keyHandle is
+        /// TPM_ALG_NULL </summary>
+        /// <remarks> One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         /// SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        /// EncSchemeOaep, SchemeHash, NullAsymScheme]) </summary>
+        /// EncSchemeOaep, SchemeHash, NullAsymScheme. </remarks>
         [MarshalAs(3, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public IAsymSchemeUnion inScheme { get; set; }
@@ -11532,9 +11536,9 @@ namespace Tpm2Lib {
         ///        NOTE An encrypted RSA data block is the size of the public modulus. </param>
         /// <param name = "_inScheme"> The padding scheme to use if scheme associated with keyHandle
         ///        is TPM_ALG_NULL
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         /// <param name = "_label"> Label whose association with the message is to be verified </param>
         public Tpm2RsaDecryptRequest(TpmHandle _keyHandle, byte[] _cipherText, IAsymSchemeUnion _inScheme, byte[] _label)
         {
@@ -11863,9 +11867,9 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-        /// (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
-        /// SchemeHash, NullKdfScheme]) </summary>
+        /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL </summary>
+        /// <remarks> One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
+        /// KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme. </remarks>
         [MarshalAs(3, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public IKdfSchemeUnion inScheme { get; set; }
@@ -11876,8 +11880,8 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "_plainText"> Plaintext to be encrypted </param>
         /// <param name = "_inScheme"> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-        ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
-        ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
+        ///        One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
+        ///        SchemeHash, NullKdfScheme. </param>
         public Tpm2EccEncryptRequest(TpmHandle _keyHandle, byte[] _plainText, IKdfSchemeUnion _inScheme)
         {
             keyHandle = _keyHandle;
@@ -11968,9 +11972,9 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-        /// (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
-        /// SchemeHash, NullKdfScheme]) </summary>
+        /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL </summary>
+        /// <remarks> One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
+        /// KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme. </remarks>
         [MarshalAs(5, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public IKdfSchemeUnion inScheme { get; set; }
@@ -11984,8 +11988,8 @@ namespace Tpm2Lib {
         /// <param name = "_C2"> The data block produced by the XOR process </param>
         /// <param name = "_C3"> The integrity value </param>
         /// <param name = "_inScheme"> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-        ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
-        ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
+        ///        One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
+        ///        SchemeHash, NullKdfScheme. </param>
         public Tpm2EccDecryptRequest(TpmHandle _keyHandle, EccPoint _C1, byte[] _C2, byte[] _C3, IKdfSchemeUnion _inScheme)
         {
             keyHandle = _keyHandle;
@@ -12915,9 +12919,9 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+        /// <remarks> One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </remarks>
         [MarshalAs(4, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
@@ -12935,8 +12939,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "_qualifyingData"> User provided qualifying data </param>
         /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         public Tpm2CertifyRequest(TpmHandle _objectHandle, TpmHandle _signHandle, byte[] _qualifyingData, ISigSchemeUnion _inScheme)
         {
             objectHandle = _objectHandle;
@@ -12984,9 +12988,10 @@ namespace Tpm2Lib {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The asymmetric signature over certifyInfo using the key referenced by signHandle
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> The asymmetric signature over certifyInfo using the key referenced by
+        /// signHandle </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
         [DataMember()]
         public ISignatureUnion signature { get; set; }
@@ -13055,9 +13060,9 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+        /// <remarks> One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </remarks>
         [MarshalAs(5, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
@@ -13081,8 +13086,8 @@ namespace Tpm2Lib {
         /// <param name = "_creationHash"> Hash of the creation data produced by TPM2_Create() or
         ///        TPM2_CreatePrimary() </param>
         /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <param name = "_creationTicket"> Ticket produced by TPM2_Create() or TPM2_CreatePrimary() </param>
         public Tpm2CertifyCreationRequest(TpmHandle _signHandle, TpmHandle _objectHandle, byte[] _qualifyingData, byte[] _creationHash, ISigSchemeUnion _inScheme, TkCreation _creationTicket)
         {
@@ -13132,9 +13137,9 @@ namespace Tpm2Lib {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The signature over certifyInfo
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> The signature over certifyInfo </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
         [DataMember()]
         public ISignatureUnion signature { get; set; }
@@ -13188,9 +13193,9 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+        /// <remarks> One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </remarks>
         [MarshalAs(3, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
@@ -13207,8 +13212,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "_qualifyingData"> Data supplied by the caller </param>
         /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <param name = "_PCRselect"> PCR set to quote </param>
         public Tpm2QuoteRequest(TpmHandle _signHandle, byte[] _qualifyingData, ISigSchemeUnion _inScheme, PcrSelection[] _PCRselect)
         {
@@ -13253,9 +13258,9 @@ namespace Tpm2Lib {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The signature over quoted
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> The signature over quoted </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
         [DataMember()]
         public ISignatureUnion signature { get; set; }
@@ -13322,9 +13327,9 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+        /// <remarks> One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </remarks>
         [MarshalAs(5, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
@@ -13345,8 +13350,8 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "_qualifyingData"> User-provided qualifying data may be zero-length </param>
         /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         public Tpm2GetSessionAuditDigestRequest(TpmHandle _privacyAdminHandle, TpmHandle _signHandle, TpmHandle _sessionHandle, byte[] _qualifyingData, ISigSchemeUnion _inScheme)
         {
             privacyAdminHandle = _privacyAdminHandle;
@@ -13391,9 +13396,9 @@ namespace Tpm2Lib {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The signature over auditInfo
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> The signature over auditInfo </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
         [DataMember()]
         public ISignatureUnion signature { get; set; }
@@ -13456,9 +13461,9 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+        /// <remarks> One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </remarks>
         [MarshalAs(4, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
@@ -13476,8 +13481,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "_qualifyingData"> Other data to associate with this audit digest </param>
         /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         public Tpm2GetCommandAuditDigestRequest(TpmHandle _privacyHandle, TpmHandle _signHandle, byte[] _qualifyingData, ISigSchemeUnion _inScheme)
         {
             privacyHandle = _privacyHandle;
@@ -13523,9 +13528,9 @@ namespace Tpm2Lib {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The signature over auditInfo
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> The signature over auditInfo </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
         [DataMember()]
         public ISignatureUnion signature { get; set; }
@@ -13586,9 +13591,9 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+        /// <remarks> One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </remarks>
         [MarshalAs(4, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
@@ -13607,8 +13612,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "_qualifyingData"> Data to tick stamp </param>
         /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         public Tpm2GetTimeRequest(TpmHandle _privacyAdminHandle, TpmHandle _signHandle, byte[] _qualifyingData, ISigSchemeUnion _inScheme)
         {
             privacyAdminHandle = _privacyAdminHandle;
@@ -13652,9 +13657,9 @@ namespace Tpm2Lib {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The signature over timeInfo
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> The signature over timeInfo </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
         [DataMember()]
         public ISignatureUnion signature { get; set; }
@@ -13720,9 +13725,9 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+        /// <remarks> One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </remarks>
         [MarshalAs(4, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
@@ -13745,8 +13750,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "_reserved"> Shall be an Empty Buffer </param>
         /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <param name = "_partialCertificate"> A DER encoded partial certificate </param>
         public Tpm2CertifyX509Request(TpmHandle _objectHandle, TpmHandle _signHandle, byte[] _reserved, ISigSchemeUnion _inScheme, byte[] _partialCertificate)
         {
@@ -13802,9 +13807,9 @@ namespace Tpm2Lib {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The signature over tbsDigest
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> The signature over tbsDigest </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(3, MarshalType.Union, "signatureSigAlg")]
         [DataMember()]
         public ISignatureUnion signature { get; set; }
@@ -14011,9 +14016,9 @@ namespace Tpm2Lib {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signature to be tested
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> Signature to be tested </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(3, MarshalType.Union, "signatureSigAlg")]
         [DataMember()]
         public ISignatureUnion signature { get; set; }
@@ -14024,8 +14029,8 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "_digest"> Digest of the signed message </param>
         /// <param name = "_signature"> Signature to be tested
-        ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
+        ///        One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </param>
         public Tpm2VerifySignatureRequest(TpmHandle _keyHandle, byte[] _digest, ISignatureUnion _signature)
         {
             keyHandle = _keyHandle;
@@ -14096,9 +14101,9 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
-        /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
+        /// <summary> Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL </summary>
+        /// <remarks> One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </remarks>
         [MarshalAs(3, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
@@ -14117,8 +14122,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "_digest"> Digest to be signed </param>
         /// <param name = "_inScheme"> Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <param name = "_validation"> Proof that digest was created by the TPM
         ///        If keyHandle is not a restricted signing key, then this may be a NULL Ticket with
         ///        tag = TPM_ST_CHECKHASH. </param>
@@ -14160,9 +14165,9 @@ namespace Tpm2Lib {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The signature
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> The signature </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(1, MarshalType.Union, "signatureSigAlg")]
         [DataMember()]
         public ISignatureUnion signature { get; set; }
@@ -14641,9 +14646,9 @@ namespace Tpm2Lib {
             get { return auth != null ? auth.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signed authorization (not optional)
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> Signed authorization (not optional) </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(7, MarshalType.Union, "authSigAlg")]
         [DataMember()]
         public ISignatureUnion auth { get; set; }
@@ -14670,8 +14675,8 @@ namespace Tpm2Lib {
         ///        the time that nonceTPM was generated
         ///        If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
         /// <param name = "_auth"> Signed authorization (not optional)
-        ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
+        ///        One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </param>
         public Tpm2PolicySignedRequest(TpmHandle _authObject, TpmHandle _policySession, byte[] _nonceTPM, byte[] _cpHashA, byte[] _policyRef, int _expiration, ISignatureUnion _auth)
         {
             authObject = _authObject;
@@ -16211,9 +16216,10 @@ namespace Tpm2Lib {
             get { return manifestSignature != null ? manifestSignature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signature over fuDigest using the key associated with keyHandle (not optional)
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> Signature over fuDigest using the key associated with keyHandle (not
+        /// optional) </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(4, MarshalType.Union, "manifestSignatureSigAlg")]
         [DataMember()]
         public ISignatureUnion manifestSignature { get; set; }
@@ -16232,8 +16238,8 @@ namespace Tpm2Lib {
         /// <param name = "_fuDigest"> Digest of the first block in the field upgrade sequence </param>
         /// <param name = "_manifestSignature"> Signature over fuDigest using the key associated with
         ///        keyHandle (not optional)
-        ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
+        ///        One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </param>
         public Tpm2FieldUpgradeStartRequest(TpmHandle _authorization, TpmHandle _keyHandle, byte[] _fuDigest, ISignatureUnion _manifestSignature)
         {
             authorization = _authorization;
@@ -16691,10 +16697,10 @@ namespace Tpm2Lib {
             get { return capabilityData.GetUnionSelector(); }
         }
 
-        /// <summary> The capability data
-        /// (One of [AlgPropertyArray, HandleArray, CcaArray, CcArray, PcrSelectionArray,
+        /// <summary> The capability data </summary>
+        /// <remarks> One of: AlgPropertyArray, HandleArray, CcaArray, CcArray, PcrSelectionArray,
         /// TaggedTpmPropertyArray, TaggedPcrPropertyArray, EccCurveArray, TaggedPolicyArray,
-        /// ActDataArray]) </summary>
+        /// ActDataArray. </remarks>
         [MarshalAs(2, MarshalType.Union, "capabilityDataCapability")]
         [DataMember()]
         public ICapabilitiesUnion capabilityData { get; set; }
@@ -16730,8 +16736,8 @@ namespace Tpm2Lib {
             get { return parameters.GetUnionSelector(); }
         }
 
-        /// <summary> Algorithm parameters to be validated
-        /// (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </summary>
+        /// <summary> Algorithm parameters to be validated </summary>
+        /// <remarks> One of: KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms. </remarks>
         [MarshalAs(1, MarshalType.Union, "parametersType")]
         [DataMember()]
         public IPublicParmsUnion parameters { get; set; }
@@ -16739,7 +16745,7 @@ namespace Tpm2Lib {
         public Tpm2TestParmsRequest() {}
 
         /// <param name = "_parameters"> Algorithm parameters to be validated
-        ///        (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </param>
+        ///        One of: KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms. </param>
         public Tpm2TestParmsRequest(IPublicParmsUnion _parameters) { parameters = _parameters; }
 
         new public Tpm2TestParmsRequest Copy() { return CreateCopy<Tpm2TestParmsRequest>(); }
@@ -17395,9 +17401,9 @@ namespace Tpm2Lib {
             get { return inScheme != null ? inScheme.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        /// (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </summary>
+        /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+        /// <remarks> One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        /// SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </remarks>
         [MarshalAs(5, MarshalType.Union, "inSchemeScheme")]
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
@@ -17430,8 +17436,8 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "_qualifyingData"> User-provided qualifying data </param>
         /// <param name = "_inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <param name = "_size"> Number of octets to certify </param>
         /// <param name = "_offset"> Octet offset into the NV area
         ///        This value shall be less than or equal to the size of the nvIndex data. </param>
@@ -17482,9 +17488,10 @@ namespace Tpm2Lib {
             get { return signature != null ? signature.GetUnionSelector() : TpmAlgId.Null; }
         }
 
-        /// <summary> The asymmetric signature over certifyInfo using the key referenced by signHandle
-        /// (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </summary>
+        /// <summary> The asymmetric signature over certifyInfo using the key referenced by
+        /// signHandle </summary>
+        /// <remarks> One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        /// SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </remarks>
         [MarshalAs(2, MarshalType.Union, "signatureSigAlg")]
         [DataMember()]
         public ISignatureUnion signature { get; set; }
@@ -18784,9 +18791,9 @@ namespace Tpm2Lib {
         ///        allowed for keyHandle. </param>
         /// <param name = "inScheme"> The padding scheme to use if scheme associated with keyHandle is
         ///        TPM_ALG_NULL
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         /// <param name = "label"> Optional label L to be associated with the message
         ///        Size of the buffer is zero if no label is present
         ///        NOTE 2 See description of label above. </param>
@@ -18813,9 +18820,9 @@ namespace Tpm2Lib {
         ///        NOTE An encrypted RSA data block is the size of the public modulus. </param>
         /// <param name = "inScheme"> The padding scheme to use if scheme associated with keyHandle is
         ///        TPM_ALG_NULL
-        ///        (One of [KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
+        ///        One of: KeySchemeEcdh, KeySchemeEcmqv, SigSchemeRsassa, SigSchemeRsapss,
         ///        SigSchemeEcdsa, SigSchemeEcdaa, SigSchemeSm2, SigSchemeEcschnorr, EncSchemeRsaes,
-        ///        EncSchemeOaep, SchemeHash, NullAsymScheme]) </param>
+        ///        EncSchemeOaep, SchemeHash, NullAsymScheme. </param>
         /// <param name = "label"> Label whose association with the message is to be verified </param>
         /// <returns> message - Decrypted output </returns>
         [TpmCommand]
@@ -18916,8 +18923,8 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "plainText"> Plaintext to be encrypted </param>
         /// <param name = "inScheme"> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-        ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
-        ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
+        ///        One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
+        ///        SchemeHash, NullKdfScheme. </param>
         /// <returns> C1 - The public ephemeral key used for ECDH
         ///           C2 - The data block produced by the XOR process
         ///           C3 - The integrity value </returns>
@@ -18946,8 +18953,8 @@ namespace Tpm2Lib {
         /// <param name = "C2"> The data block produced by the XOR process </param>
         /// <param name = "C3"> The integrity value </param>
         /// <param name = "inScheme"> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-        ///        (One of [KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2,
-        ///        KdfSchemeKdf1Sp800108, SchemeHash, NullKdfScheme]) </param>
+        ///        One of: KdfSchemeMgf1, KdfSchemeKdf1Sp80056a, KdfSchemeKdf2, KdfSchemeKdf1Sp800108,
+        ///        SchemeHash, NullKdfScheme. </param>
         /// <returns> plainText - Decrypted output </returns>
         [TpmCommand]
         public byte[] EccDecrypt(
@@ -19241,8 +19248,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "qualifyingData"> User provided qualifying data </param>
         /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <returns> certifyInfo - The structure that was signed
         ///           signature - The asymmetric signature over certifyInfo using the key referenced
         ///                       by signHandle </returns>
@@ -19272,8 +19279,8 @@ namespace Tpm2Lib {
         /// <param name = "creationHash"> Hash of the creation data produced by TPM2_Create() or
         ///        TPM2_CreatePrimary() </param>
         /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <param name = "creationTicket"> Ticket produced by TPM2_Create() or TPM2_CreatePrimary() </param>
         /// <returns> certifyInfo - The structure that was signed
         ///           signature - The signature over certifyInfo </returns>
@@ -19301,8 +19308,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "qualifyingData"> Data supplied by the caller </param>
         /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <param name = "PCRselect"> PCR set to quote </param>
         /// <returns> quoted - The quoted information
         ///           signature - The signature over quoted </returns>
@@ -19333,8 +19340,8 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "qualifyingData"> User-provided qualifying data may be zero-length </param>
         /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <returns> auditInfo - The audit information that was signed
         ///           signature - The signature over auditInfo </returns>
         [TpmCommand]
@@ -19363,8 +19370,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "qualifyingData"> Other data to associate with this audit digest </param>
         /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <returns> auditInfo - The auditInfo that was signed
         ///           signature - The signature over auditInfo </returns>
         [TpmCommand]
@@ -19393,8 +19400,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "qualifyingData"> Data to tick stamp </param>
         /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <returns> timeInfo - Standard TPM-generated attestation block
         ///           signature - The signature over timeInfo </returns>
         [TpmCommand]
@@ -19422,8 +19429,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "reserved"> Shall be an Empty Buffer </param>
         /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <param name = "partialCertificate"> A DER encoded partial certificate </param>
         /// <returns> addedToCertificate - A DER encoded SEQUENCE containing the DER encoded fields
         ///                                added to partialCertificate to make it a complete RFC5280
@@ -19502,8 +19509,8 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "digest"> Digest of the signed message </param>
         /// <param name = "signature"> Signature to be tested
-        ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
+        ///        One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </param>
         /// <returns> validation - This ticket is produced by TPM2_VerifySignature(). This formulation
         ///                        is used for multiple ticket uses. The ticket provides evidence that
         ///                        the TPM has validated that a digest was signed by a key with the
@@ -19527,8 +19534,8 @@ namespace Tpm2Lib {
         ///        Auth Role: USER </param>
         /// <param name = "digest"> Digest to be signed </param>
         /// <param name = "inScheme"> Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <param name = "validation"> Proof that digest was created by the TPM
         ///        If keyHandle is not a restricted signing key, then this may be a NULL Ticket with
         ///        tag = TPM_ST_CHECKHASH. </param>
@@ -19722,8 +19729,8 @@ namespace Tpm2Lib {
         ///        the time that nonceTPM was generated
         ///        If expiration is non-negative, a NULL Ticket is returned. See 23.2.5. </param>
         /// <param name = "auth"> Signed authorization (not optional)
-        ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
+        ///        One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </param>
         /// <returns> timeout - Implementation-specific time value, used to indicate to the TPM when
         ///                     the ticket expires
         ///                     NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
@@ -20345,8 +20352,8 @@ namespace Tpm2Lib {
         /// <param name = "fuDigest"> Digest of the first block in the field upgrade sequence </param>
         /// <param name = "manifestSignature"> Signature over fuDigest using the key associated with
         ///        keyHandle (not optional)
-        ///        (One of [SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
-        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature]) </param>
+        ///        One of: SignatureRsassa, SignatureRsapss, SignatureEcdsa, SignatureEcdaa,
+        ///        SignatureSm2, SignatureEcschnorr, TpmHash, SchemeHash, NullSignature. </param>
         [TpmCommand]
         public void FieldUpgradeStart(
             TpmHandle authorization,
@@ -20529,7 +20536,7 @@ namespace Tpm2Lib {
         /// This command is used to check to see if specific combinations of algorithm parameters are supported.
         /// 
         /// <param name = "parameters"> Algorithm parameters to be validated
-        ///        (One of [KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms]) </param>
+        ///        One of: KeyedhashParms, SymcipherParms, RsaParms, EccParms, AsymParms. </param>
         [TpmCommand]
         public void TestParms(
             IPublicParmsUnion parameters)
@@ -20787,8 +20794,8 @@ namespace Tpm2Lib {
         ///        Auth Index: None </param>
         /// <param name = "qualifyingData"> User-provided qualifying data </param>
         /// <param name = "inScheme"> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-        ///        (One of [SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
-        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme]) </param>
+        ///        One of: SigSchemeRsassa, SigSchemeRsapss, SigSchemeEcdsa, SigSchemeEcdaa,
+        ///        SigSchemeSm2, SigSchemeEcschnorr, SchemeHmac, SchemeHash, NullSigScheme. </param>
         /// <param name = "size"> Number of octets to certify </param>
         /// <param name = "offset"> Octet offset into the NV area
         ///        This value shall be less than or equal to the size of the nvIndex data. </param>

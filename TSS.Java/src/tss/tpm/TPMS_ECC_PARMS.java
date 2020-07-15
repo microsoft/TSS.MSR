@@ -25,6 +25,10 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      *  If the decrypt attribute of the key is SET, then this shall be a valid key exchange
      *  scheme or TPM_ALG_NULL.
      *  If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
+     *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      */
     public TPMU_ASYM_SCHEME scheme;
     
@@ -39,6 +43,8 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      *  to be NULL.
      *  NOTE There are currently no commands where this parameter has effect and, in the
      *  reference code, this field needs to be set to TPM_ALG_NULL.
+     *  One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+     *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
      */
     public TPMU_KDF_SCHEME kdf;
     
@@ -54,19 +60,18 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      *         If the decrypt attribute of the key is SET, then this shall be a valid key exchange
      *         scheme or TPM_ALG_NULL.
      *         If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
-     *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+     *         One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
      *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
      *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      *  @param _curveID ECC curve ID
      *  @param _kdf An optional key derivation scheme for generating a symmetric key from a Z value
      *         If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is
      *         required to be NULL.
      *         NOTE There are currently no commands where this parameter has effect and, in the
      *         reference code, this field needs to be set to TPM_ALG_NULL.
-     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
-     *         TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
-     *  TPMS_NULL_KDF_SCHEME])
+     *         One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+     *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
      */
     public TPMS_ECC_PARMS(TPMT_SYM_DEF_OBJECT _symmetric, TPMU_ASYM_SCHEME _scheme, TPM_ECC_CURVE _curveID, TPMU_KDF_SCHEME _kdf)
     {

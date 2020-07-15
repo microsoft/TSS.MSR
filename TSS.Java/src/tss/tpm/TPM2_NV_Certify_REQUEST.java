@@ -35,7 +35,11 @@ public class TPM2_NV_Certify_REQUEST extends ReqStructure
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL  */
+    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+     *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
+     */
     public TPMU_SIG_SCHEME inScheme;
     
     /** Number of octets to certify  */
@@ -63,9 +67,9 @@ public class TPM2_NV_Certify_REQUEST extends ReqStructure
      *         Auth Index: None
      *  @param _qualifyingData User-provided qualifying data
      *  @param _inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      *  @param _size Number of octets to certify
      *  @param _offset Octet offset into the NV area
      *         This value shall be less than or equal to the size of the nvIndex data.

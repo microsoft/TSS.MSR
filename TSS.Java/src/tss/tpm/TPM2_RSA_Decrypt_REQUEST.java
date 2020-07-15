@@ -26,7 +26,12 @@ public class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL  */
+    /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
+     *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
+     */
     public TPMU_ASYM_SCHEME inScheme;
     
     /** Label whose association with the message is to be verified  */
@@ -40,10 +45,10 @@ public class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
      *  @param _cipherText Cipher text to be decrypted
      *         NOTE An encrypted RSA data block is the size of the public modulus.
      *  @param _inScheme The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+     *         One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
      *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
      *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      *  @param _label Label whose association with the message is to be verified
      */
     public TPM2_RSA_Decrypt_REQUEST(TPM_HANDLE _keyHandle, byte[] _cipherText, TPMU_ASYM_SCHEME _inScheme, byte[] _label)

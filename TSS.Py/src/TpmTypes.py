@@ -4968,10 +4968,10 @@ class TPMS_CAPABILITY_DATA (TpmStructure):
         
         Attributes:
             data (TPMU_CAPABILITIES): The capability data
-                (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC,
+                One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC,
                 TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY,
                 TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY,
-                TPML_ACT_DATA])
+                TPML_ACT_DATA.
         """
         self.data = data
     
@@ -5462,10 +5462,10 @@ class TPMS_ATTEST (TpmStructure):
             firmwareVersion (int): TPM-vendor-specific value identifying the
                 version number of the firmware
             attested (TPMU_ATTEST): The type-specific attestation information
-                (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
+                One of: TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
                 TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO,
                 TPMS_TIME_ATTEST_INFO, TPMS_NV_CERTIFY_INFO,
-                TPMS_NV_DIGEST_CERTIFY_INFO])
+                TPMS_NV_DIGEST_CERTIFY_INFO.
         """
         self.magic = magic
         self.qualifiedSigner = qualifiedSigner
@@ -6398,8 +6398,7 @@ class TPMT_KEYEDHASH_SCHEME (TpmStructure):
         
         Attributes:
             details (TPMU_SCHEME_KEYEDHASH): The scheme parameters
-                (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR,
-                TPMS_NULL_SCHEME_KEYEDHASH])
+                One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
         """
         self.details = details
     
@@ -6653,10 +6652,10 @@ class TPMT_SIG_SCHEME (TpmStructure):
         
         Attributes:
             details (TPMU_SIG_SCHEME): Scheme parameters
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
         """
         self.details = details
     
@@ -6959,9 +6958,9 @@ class TPMT_KDF_SCHEME (TpmStructure):
         
         Attributes:
             details (TPMU_KDF_SCHEME): Scheme parameters
-                (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+                One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
                 TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108,
-                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
         """
         self.details = details
     
@@ -7034,12 +7033,12 @@ class TPMT_ASYM_SCHEME (TpmStructure):
         
         Attributes:
             details (TPMU_ASYM_SCHEME): Scheme parameters
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
         """
         self.details = details
     
@@ -7081,12 +7080,12 @@ class TPMT_RSA_SCHEME (TpmStructure):
         
         Attributes:
             details (TPMU_ASYM_SCHEME): Scheme parameters
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
         """
         self.details = details
     
@@ -7128,12 +7127,12 @@ class TPMT_RSA_DECRYPT (TpmStructure):
         
         Attributes:
             details (TPMU_ASYM_SCHEME): Scheme parameters
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
         """
         self.details = details
     
@@ -7359,12 +7358,12 @@ class TPMT_ECC_SCHEME (TpmStructure):
         
         Attributes:
             details (TPMU_ASYM_SCHEME): Scheme parameters
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
         """
         self.details = details
     
@@ -7410,17 +7409,17 @@ class TPMS_ALGORITHM_DETAIL_ECC (TpmStructure):
             keySize (int): Size in bits of the key
             kdf (TPMU_KDF_SCHEME): If not TPM_ALG_NULL, the required KDF and
                 hash algorithm used in secret sharing operations
-                (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+                One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
                 TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108,
-                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
             sign (TPMU_ASYM_SCHEME): If not TPM_ALG_NULL, this is the mandatory
                 signature scheme that is required to be used with this curve.
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
             p (int): Fp (the modulus)
             a (int): Coefficient of the linear term in the curve equation
             b (int): Constant term for curve equation
@@ -7809,10 +7808,10 @@ class TPMT_SIGNATURE (TpmStructure):
         
         Attributes:
             signature (TPMU_SIGNATURE): This shall be the actual signature information.
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.signature = signature
     
@@ -7890,8 +7889,7 @@ class TPMS_KEYEDHASH_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
                 for a keyedHash signing object. This field also determines the
                 size of the data field for a data object created with
                 TPM2_Create() or TPM2_CreatePrimary().
-                (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR,
-                TPMS_NULL_SCHEME_KEYEDHASH])
+                One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
         """
         self.scheme = scheme
     
@@ -7947,12 +7945,12 @@ class TPMS_ASYM_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
                 valid signing scheme for the key type
                 for a key with the decrypt attribute SET, a valid key exchange protocol
                 for a key with sign and decrypt attributes, shall be TPM_ALG_NULL
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
         """
         self.symmetric = symmetric
         self.scheme = scheme
@@ -8017,12 +8015,12 @@ class TPMS_RSA_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
                 for a restricted decryption key, TPM_ALG_NULL
                 NOTE When both sign and decrypt are SET, restricted shall be
                 CLEAR and scheme shall be TPM_ALG_NULL.
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
             keyBits (int): Number of bits in the public modulus
             exponent (int): The public exponent
                 A prime number greater than 2.
@@ -8089,12 +8087,12 @@ class TPMS_ECC_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
                 If the decrypt attribute of the key is SET, then this shall be a
                 valid key exchange scheme or TPM_ALG_NULL.
                 If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
             curveID (TPM_ECC_CURVE): ECC curve ID
             kdf (TPMU_KDF_SCHEME): An optional key derivation scheme for
                 generating a symmetric key from a Z value
@@ -8103,9 +8101,9 @@ class TPMS_ECC_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
                 NOTE There are currently no commands where this parameter has
                 effect and, in the reference code, this field needs to be set to
                 TPM_ALG_NULL.
-                (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+                One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
                 TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108,
-                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
         """
         self.symmetric = symmetric
         self.scheme = scheme
@@ -8168,8 +8166,8 @@ class TPMT_PUBLIC_PARMS (TpmStructure):
         
         Attributes:
             parameters (TPMU_PUBLIC_PARMS): The algorithm details
-                (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
-                TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
+                One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
+                TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS.
         """
         self.parameters = parameters
     
@@ -8220,12 +8218,12 @@ class TPMT_PUBLIC (TpmStructure):
                 The policy is computed using the nameAlg of the object.
                 NOTE Shall be the Empty Policy if no authorization policy is present.
             parameters (TPMU_PUBLIC_PARMS): The algorithm or structure details
-                (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
-                TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
+                One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
+                TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS.
             unique (TPMU_PUBLIC_ID): The unique identifier of the structure
                 For an asymmetric key, this would be the public key.
-                (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER,
-                TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE])
+                One of: TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER,
+                TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE.
         """
         self.nameAlg = nameAlg
         self.objectAttributes = objectAttributes
@@ -8403,8 +8401,8 @@ class TPMT_SENSITIVE (TpmStructure):
             seedValue (int): For a parent object, the optional protection seed;
                 for other objects, the obfuscation value
             sensitive (TPMU_SENSITIVE_COMPOSITE): The type-specific private data
-                (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER,
-                TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC])
+                One of: TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER,
+                TPM2B_SENSITIVE_DATA, TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC.
         """
         self.authValue = authValue
         self.seedValue = seedValue
@@ -10652,12 +10650,12 @@ class TPM2_RSA_Encrypt_REQUEST (ReqStructure):
                 public key. This may be larger than allowed for keyHandle.
             inScheme (TPMU_ASYM_SCHEME): The padding scheme to use if scheme
                 associated with keyHandle is TPM_ALG_NULL
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
             label (int): Optional label L to be associated with the message
                 Size of the buffer is zero if no label is present
                 NOTE 2 See description of label above.
@@ -10761,12 +10759,12 @@ class TPM2_RSA_Decrypt_REQUEST (ReqStructure):
                 NOTE An encrypted RSA data block is the size of the public modulus.
             inScheme (TPMU_ASYM_SCHEME): The padding scheme to use if scheme
                 associated with keyHandle is TPM_ALG_NULL
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
             label (int): Label whose association with the message is to be verified
         """
         self.keyHandle = keyHandle
@@ -11197,9 +11195,9 @@ class TPM2_ECC_Encrypt_REQUEST (ReqStructure):
             plainText (int): Plaintext to be encrypted
             inScheme (TPMU_KDF_SCHEME): The KDF to use if scheme associated with
                 keyHandle is TPM_ALG_NULL
-                (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+                One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
                 TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108,
-                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
         """
         self.keyHandle = keyHandle
         self.plainText = plainText
@@ -11301,9 +11299,9 @@ class TPM2_ECC_Decrypt_REQUEST (ReqStructure):
             C3 (int): The integrity value
             inScheme (TPMU_KDF_SCHEME): The KDF to use if scheme associated with
                 keyHandle is TPM_ALG_NULL
-                (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+                One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
                 TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108,
-                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
         """
         self.keyHandle = keyHandle
         self.C1 = C1
@@ -12435,10 +12433,10 @@ class TPM2_Certify_REQUEST (ReqStructure):
             qualifyingData (int): User provided qualifying data
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
         """
         self.objectHandle = objectHandle
         self.signHandle = signHandle
@@ -12499,10 +12497,10 @@ class CertifyResponse (RespStructure):
             certifyInfo (TPMS_ATTEST): The structure that was signed
             signature (TPMU_SIGNATURE): The asymmetric signature over
                 certifyInfo using the key referenced by signHandle
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.certifyInfo = certifyInfo
         self.signature = signature
@@ -12561,10 +12559,10 @@ class TPM2_CertifyCreation_REQUEST (ReqStructure):
                 TPM2_Create() or TPM2_CreatePrimary()
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             creationTicket (TPMT_TK_CREATION): Ticket produced by TPM2_Create()
                 or TPM2_CreatePrimary()
         """
@@ -12630,10 +12628,10 @@ class CertifyCreationResponse (RespStructure):
         Attributes:
             certifyInfo (TPMS_ATTEST): The structure that was signed
             signature (TPMU_SIGNATURE): The signature over certifyInfo
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.certifyInfo = certifyInfo
         self.signature = signature
@@ -12684,10 +12682,10 @@ class TPM2_Quote_REQUEST (ReqStructure):
             qualifyingData (int): Data supplied by the caller
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             PCRselect (TPMS_PCR_SELECTION): PCR set to quote
         """
         self.signHandle = signHandle
@@ -12745,10 +12743,10 @@ class QuoteResponse (RespStructure):
         Attributes:
             quoted (TPMS_ATTEST): The quoted information
             signature (TPMU_SIGNATURE): The signature over quoted
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.quoted = quoted
         self.signature = signature
@@ -12805,10 +12803,10 @@ class TPM2_GetSessionAuditDigest_REQUEST (ReqStructure):
             qualifyingData (int): User-provided qualifying data may be zero-length
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
         """
         self.privacyAdminHandle = privacyAdminHandle
         self.signHandle = signHandle
@@ -12864,10 +12862,10 @@ class GetSessionAuditDigestResponse (RespStructure):
         Attributes:
             auditInfo (TPMS_ATTEST): The audit information that was signed
             signature (TPMU_SIGNATURE): The signature over auditInfo
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.auditInfo = auditInfo
         self.signature = signature
@@ -12925,10 +12923,10 @@ class TPM2_GetCommandAuditDigest_REQUEST (ReqStructure):
             qualifyingData (int): Other data to associate with this audit digest
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
         """
         self.privacyHandle = privacyHandle
         self.signHandle = signHandle
@@ -12986,10 +12984,10 @@ class GetCommandAuditDigestResponse (RespStructure):
         Attributes:
             auditInfo (TPMS_ATTEST): The auditInfo that was signed
             signature (TPMU_SIGNATURE): The signature over auditInfo
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.auditInfo = auditInfo
         self.signature = signature
@@ -13045,10 +13043,10 @@ class TPM2_GetTime_REQUEST (ReqStructure):
             qualifyingData (int): Data to tick stamp
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
         """
         self.privacyAdminHandle = privacyAdminHandle
         self.signHandle = signHandle
@@ -13103,10 +13101,10 @@ class GetTimeResponse (RespStructure):
         Attributes:
             timeInfo (TPMS_ATTEST): Standard TPM-generated attestation block
             signature (TPMU_SIGNATURE): The signature over timeInfo
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.timeInfo = timeInfo
         self.signature = signature
@@ -13167,10 +13165,10 @@ class TPM2_CertifyX509_REQUEST (ReqStructure):
             reserved (int): Shall be an Empty Buffer
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             partialCertificate (int): A DER encoded partial certificate
         """
         self.objectHandle = objectHandle
@@ -13238,10 +13236,10 @@ class CertifyX509Response (RespStructure):
                 RFC5280 TBSCertificate.
             tbsDigest (int): The digest that was signed
             signature (TPMU_SIGNATURE): The signature over tbsDigest
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.addedToCertificate = addedToCertificate
         self.tbsDigest = tbsDigest
@@ -13474,10 +13472,10 @@ class TPM2_VerifySignature_REQUEST (ReqStructure):
                 Auth Index: None
             digest (int): Digest of the signed message
             signature (TPMU_SIGNATURE): Signature to be tested
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.keyHandle = keyHandle
         self.digest = digest
@@ -13569,10 +13567,10 @@ class TPM2_Sign_REQUEST (ReqStructure):
             digest (int): Digest to be signed
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 keyHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             validation (TPMT_TK_HASHCHECK): Proof that digest was created by the
                 TPM
                 If keyHandle is not a restricted signing key, then this may be a
@@ -13633,10 +13631,10 @@ class SignResponse (RespStructure):
         
         Attributes:
             signature (TPMU_SIGNATURE): The signature
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.signature = signature
     
@@ -14177,10 +14175,10 @@ class TPM2_PolicySigned_REQUEST (ReqStructure):
                 seconds from the time that nonceTPM was generated
                 If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
             auth (TPMU_SIGNATURE): Signed authorization (not optional)
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.authObject = authObject
         self.policySession = policySession
@@ -15899,10 +15897,10 @@ class TPM2_FieldUpgradeStart_REQUEST (ReqStructure):
             fuDigest (int): Digest of the first block in the field upgrade sequence
             manifestSignature (TPMU_SIGNATURE): Signature over fuDigest using
                 the key associated with keyHandle (not optional)
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.authorization = authorization
         self.keyHandle = keyHandle
@@ -16508,10 +16506,10 @@ class GetCapabilityResponse (RespStructure):
         Attributes:
             moreData (int): Flag to indicate if there are more values of this type
             capabilityData (TPMU_CAPABILITIES): The capability data
-                (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC,
+                One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC,
                 TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY,
                 TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE, TPML_TAGGED_POLICY,
-                TPML_ACT_DATA])
+                TPML_ACT_DATA.
         """
         self.moreData = moreData
         self.capabilityData = capabilityData
@@ -16556,8 +16554,8 @@ class TPM2_TestParms_REQUEST (ReqStructure):
         
         Attributes:
             parameters (TPMU_PUBLIC_PARMS): Algorithm parameters to be validated
-                (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
-                TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
+                One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
+                TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS.
         """
         self.parameters = parameters
     
@@ -17238,10 +17236,10 @@ class TPM2_NV_Certify_REQUEST (ReqStructure):
             qualifyingData (int): User-provided qualifying data
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             size (int): Number of octets to certify
             offset (int): Octet offset into the NV area
                 This value shall be less than or equal to the size of the
@@ -17309,10 +17307,10 @@ class NV_CertifyResponse (RespStructure):
             certifyInfo (TPMS_ATTEST): The structure that was signed
             signature (TPMU_SIGNATURE): The asymmetric signature over
                 certifyInfo using the key referenced by signHandle
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         self.certifyInfo = certifyInfo
         self.signature = signature

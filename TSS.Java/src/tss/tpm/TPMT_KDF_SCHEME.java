@@ -13,15 +13,17 @@ public class TPMT_KDF_SCHEME extends TpmStructure
     /** Scheme selector  */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** Scheme parameters  */
+    /** Scheme parameters
+     *  One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+     *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
+     */
     public TPMU_KDF_SCHEME details;
     
     public TPMT_KDF_SCHEME() {}
     
     /** @param _details Scheme parameters
-     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
-     *         TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
-     *  TPMS_NULL_KDF_SCHEME])
+     *         One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+     *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
      */
     public TPMT_KDF_SCHEME(TPMU_KDF_SCHEME _details) { details = _details; }
     

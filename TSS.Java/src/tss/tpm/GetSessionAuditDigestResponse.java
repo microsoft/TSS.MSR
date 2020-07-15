@@ -16,7 +16,11 @@ public class GetSessionAuditDigestResponse extends RespStructure
     /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** The signature over auditInfo  */
+    /** The signature over auditInfo
+     *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
+     */
     public TPMU_SIGNATURE signature;
     
     public GetSessionAuditDigestResponse() {}

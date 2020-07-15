@@ -446,10 +446,10 @@ export class Tpm extends TpmBase
      *         no greater than the size of the largest RSA public key. This may be larger than
      *         allowed for keyHandle.
      *  @param inScheme The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+     *         One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
      *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
      *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      *  @param label Optional label L to be associated with the message
      *         Size of the buffer is zero if no label is present
      *         NOTE 2 See description of label above.
@@ -473,10 +473,10 @@ export class Tpm extends TpmBase
      *  @param cipherText Cipher text to be decrypted
      *         NOTE An encrypted RSA data block is the size of the public modulus.
      *  @param inScheme The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+     *         One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
      *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
      *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      *  @param label Label whose association with the message is to be verified
      *  @return message - Decrypted output
      */
@@ -573,9 +573,8 @@ export class Tpm extends TpmBase
      *         Auth Index: None
      *  @param plainText Plaintext to be encrypted
      *  @param inScheme The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
-     *         TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
-     *  TPMS_NULL_KDF_SCHEME])
+     *         One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+     *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
      *  @return C1 - The public ephemeral key used for ECDH<br>
      *          C2 - The data block produced by the XOR process<br>
      *          C3 - The integrity value
@@ -598,9 +597,8 @@ export class Tpm extends TpmBase
      *  @param C2 The data block produced by the XOR process
      *  @param C3 The integrity value
      *  @param inScheme The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
-     *         TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
-     *  TPMS_NULL_KDF_SCHEME])
+     *         One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+     *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
      *  @return plainText - Decrypted output
      */
     ECC_Decrypt(keyHandle: tt.TPM_HANDLE, C1: tt.TPMS_ECC_POINT, C2: Buffer, C3: Buffer, inScheme: tt.TPMU_KDF_SCHEME, 
@@ -878,9 +876,9 @@ export class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param qualifyingData User provided qualifying data
      *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      *  @return certifyInfo - The structure that was signed<br>
      *          signature - The asymmetric signature over certifyInfo using the key referenced
      *  by signHandle
@@ -907,9 +905,9 @@ export class Tpm extends TpmBase
      *  @param qualifyingData User-provided qualifying data
      *  @param creationHash Hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary()
      *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      *  @param creationTicket Ticket produced by TPM2_Create() or TPM2_CreatePrimary()
      *  @return certifyInfo - The structure that was signed<br>
      *          signature - The signature over certifyInfo
@@ -930,9 +928,9 @@ export class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param qualifyingData Data supplied by the caller
      *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      *  @param PCRselect PCR set to quote
      *  @return quoted - The quoted information<br>
      *          signature - The signature over quoted
@@ -958,9 +956,9 @@ export class Tpm extends TpmBase
      *         Auth Index: None
      *  @param qualifyingData User-provided qualifying data may be zero-length
      *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      *  @return auditInfo - The audit information that was signed<br>
      *          signature - The signature over auditInfo
      */
@@ -985,9 +983,9 @@ export class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param qualifyingData Other data to associate with this audit digest
      *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      *  @return auditInfo - The auditInfo that was signed<br>
      *          signature - The signature over auditInfo
      */
@@ -1010,9 +1008,9 @@ export class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param qualifyingData Data to tick stamp
      *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      *  @return timeInfo - Standard TPM-generated attestation block<br>
      *          signature - The signature over timeInfo
      */
@@ -1040,9 +1038,9 @@ export class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param reserved Shall be an Empty Buffer
      *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      *  @param partialCertificate A DER encoded partial certificate
      *  @return addedToCertificate - A DER encoded SEQUENCE containing the DER encoded fields
      *                               added to partialCertificate to make it a complete RFC5280
@@ -1106,9 +1104,9 @@ export class Tpm extends TpmBase
      *         Auth Index: None
      *  @param digest Digest of the signed message
      *  @param signature Signature to be tested
-     *         (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+     *         One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+     *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
      *  @return validation - This ticket is produced by TPM2_VerifySignature(). This formulation
      *                       is used for multiple ticket uses. The ticket provides evidence that
      *                       the TPM has validated that a digest was signed by a key with the Name
@@ -1131,9 +1129,9 @@ export class Tpm extends TpmBase
      *         Auth Role: USER
      *  @param digest Digest to be signed
      *  @param inScheme Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      *  @param validation Proof that digest was created by the TPM
      *         If keyHandle is not a restricted signing key, then this may be a NULL Ticket with
      *         tag = TPM_ST_CHECKHASH.
@@ -1320,9 +1318,9 @@ export class Tpm extends TpmBase
      *         that nonceTPM was generated
      *         If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
      *  @param auth Signed authorization (not optional)
-     *         (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+     *         One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+     *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
      *  @return timeout - Implementation-specific time value, used to indicate to the TPM when
      *  the
      *                    ticket expires
@@ -1950,9 +1948,9 @@ export class Tpm extends TpmBase
      *  @param fuDigest Digest of the first block in the field upgrade sequence
      *  @param manifestSignature Signature over fuDigest using the key associated with keyHandle
      *         (not optional)
-     *         (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+     *         One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+     *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
      */
     FieldUpgradeStart(authorization: tt.TPM_HANDLE, keyHandle: tt.TPM_HANDLE, fuDigest: Buffer, manifestSignature: tt.TPMU_SIGNATURE, 
                        continuation: (err: TpmError, res?: void) => void)
@@ -2139,8 +2137,8 @@ export class Tpm extends TpmBase
      *  are supported.
     
      *  @param parameters Algorithm parameters to be validated
-     *         (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
-     *         TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
+     *         One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+     *         TPMS_ASYM_PARMS.
      */
     TestParms(parameters: tt.TPMU_PUBLIC_PARMS, 
                continuation: (err: TpmError, res?: void) => void)
@@ -2402,9 +2400,9 @@ export class Tpm extends TpmBase
      *         Auth Index: None
      *  @param qualifyingData User-provided qualifying data
      *  @param inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      *  @param size Number of octets to certify
      *  @param offset Octet offset into the NV area
      *         This value shall be less than or equal to the size of the nvIndex data.

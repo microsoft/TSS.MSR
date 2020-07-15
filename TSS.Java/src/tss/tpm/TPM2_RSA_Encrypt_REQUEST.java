@@ -29,7 +29,12 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL  */
+    /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
+     *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+     *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+     *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+     *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
+     */
     public TPMU_ASYM_SCHEME inScheme;
     
     /** Optional label L to be associated with the message
@@ -48,10 +53,10 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
      *         no greater than the size of the largest RSA public key. This may be larger than
      *         allowed for keyHandle.
      *  @param _inScheme The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *         (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+     *         One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
      *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
      *         TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+     *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      *  @param _label Optional label L to be associated with the message
      *         Size of the buffer is zero if no label is present
      *         NOTE 2 See description of label above.

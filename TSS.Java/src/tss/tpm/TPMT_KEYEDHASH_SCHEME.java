@@ -13,13 +13,15 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
     /** Selects the scheme  */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** The scheme parameters  */
+    /** The scheme parameters
+     *  One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
+     */
     public TPMU_SCHEME_KEYEDHASH details;
     
     public TPMT_KEYEDHASH_SCHEME() {}
     
     /** @param _details The scheme parameters
-     *         (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
+     *         One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
      */
     public TPMT_KEYEDHASH_SCHEME(TPMU_SCHEME_KEYEDHASH _details) { details = _details; }
     

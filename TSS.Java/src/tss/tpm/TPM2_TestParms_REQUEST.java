@@ -15,14 +15,17 @@ public class TPM2_TestParms_REQUEST extends ReqStructure
     /** The algorithm to be tested  */
     public TPM_ALG_ID parametersType() { return parameters.GetUnionSelector(); }
     
-    /** Algorithm parameters to be validated  */
+    /** Algorithm parameters to be validated
+     *  One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+     *  TPMS_ASYM_PARMS.
+     */
     public TPMU_PUBLIC_PARMS parameters;
     
     public TPM2_TestParms_REQUEST() {}
     
     /** @param _parameters Algorithm parameters to be validated
-     *         (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
-     *         TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
+     *         One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+     *         TPMS_ASYM_PARMS.
      */
     public TPM2_TestParms_REQUEST(TPMU_PUBLIC_PARMS _parameters) { parameters = _parameters; }
     

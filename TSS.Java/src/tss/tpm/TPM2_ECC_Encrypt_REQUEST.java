@@ -21,7 +21,10 @@ public class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL  */
+    /** The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
+     *  One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+     *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
+     */
     public TPMU_KDF_SCHEME inScheme;
     
     public TPM2_ECC_Encrypt_REQUEST() { keyHandle = new TPM_HANDLE(); }
@@ -30,9 +33,8 @@ public class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
      *         Auth Index: None
      *  @param _plainText Plaintext to be encrypted
      *  @param _inScheme The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-     *         (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
-     *         TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
-     *  TPMS_NULL_KDF_SCHEME])
+     *         One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+     *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
      */
     public TPM2_ECC_Encrypt_REQUEST(TPM_HANDLE _keyHandle, byte[] _plainText, TPMU_KDF_SCHEME _inScheme)
     {

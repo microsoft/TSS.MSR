@@ -477,12 +477,12 @@ class Tpm(TpmBase):
                 public key. This may be larger than allowed for keyHandle.
             inScheme (TPMU_ASYM_SCHEME): The padding scheme to use if scheme
                 associated with keyHandle is TPM_ALG_NULL
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
             label (int): Optional label L to be associated with the message
                 Size of the buffer is zero if no label is present
                 NOTE 2 See description of label above.
@@ -508,12 +508,12 @@ class Tpm(TpmBase):
                 NOTE An encrypted RSA data block is the size of the public modulus.
             inScheme (TPMU_ASYM_SCHEME): The padding scheme to use if scheme
                 associated with keyHandle is TPM_ALG_NULL
-                (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
+                One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
                 TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
-                TPMS_NULL_ASYM_SCHEME])
+                TPMS_NULL_ASYM_SCHEME.
             label (int): Label whose association with the message is to be verified
         
         Returns:
@@ -620,9 +620,9 @@ class Tpm(TpmBase):
             plainText (int): Plaintext to be encrypted
             inScheme (TPMU_KDF_SCHEME): The KDF to use if scheme associated with
                 keyHandle is TPM_ALG_NULL
-                (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+                One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
                 TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108,
-                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
         
         Returns:
             C1 - The public ephemeral key used for ECDH
@@ -646,9 +646,9 @@ class Tpm(TpmBase):
             C3 (int): The integrity value
             inScheme (TPMU_KDF_SCHEME): The KDF to use if scheme associated with
                 keyHandle is TPM_ALG_NULL
-                (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+                One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
                 TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108,
-                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+                TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
         
         Returns:
             plainText - Decrypted output
@@ -945,10 +945,10 @@ class Tpm(TpmBase):
             qualifyingData (int): User provided qualifying data
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
         
         Returns:
             certifyInfo - The structure that was signed
@@ -978,10 +978,10 @@ class Tpm(TpmBase):
                 TPM2_Create() or TPM2_CreatePrimary()
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             creationTicket (TPMT_TK_CREATION): Ticket produced by TPM2_Create()
                 or TPM2_CreatePrimary()
         
@@ -1004,10 +1004,10 @@ class Tpm(TpmBase):
             qualifyingData (int): Data supplied by the caller
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             PCRselect (TPMS_PCR_SELECTION): PCR set to quote
         
         Returns:
@@ -1035,10 +1035,10 @@ class Tpm(TpmBase):
             qualifyingData (int): User-provided qualifying data may be zero-length
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
         
         Returns:
             auditInfo - The audit information that was signed
@@ -1066,10 +1066,10 @@ class Tpm(TpmBase):
             qualifyingData (int): Other data to associate with this audit digest
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
         
         Returns:
             auditInfo - The auditInfo that was signed
@@ -1095,10 +1095,10 @@ class Tpm(TpmBase):
             qualifyingData (int): Data to tick stamp
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
         
         Returns:
             timeInfo - Standard TPM-generated attestation block
@@ -1129,10 +1129,10 @@ class Tpm(TpmBase):
             reserved (int): Shall be an Empty Buffer
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             partialCertificate (int): A DER encoded partial certificate
         
         Returns:
@@ -1200,10 +1200,10 @@ class Tpm(TpmBase):
                 Auth Index: None
             digest (int): Digest of the signed message
             signature (TPMU_SIGNATURE): Signature to be tested
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         
         Returns:
             validation - This ticket is produced by TPM2_VerifySignature(). This
@@ -1229,10 +1229,10 @@ class Tpm(TpmBase):
             digest (int): Digest to be signed
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 keyHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             validation (TPMT_TK_HASHCHECK): Proof that digest was created by the
                 TPM
                 If keyHandle is not a restricted signing key, then this may be a
@@ -1417,10 +1417,10 @@ class Tpm(TpmBase):
                 seconds from the time that nonceTPM was generated
                 If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
             auth (TPMU_SIGNATURE): Signed authorization (not optional)
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         
         Returns:
             timeout - Implementation-specific time value, used to indicate to
@@ -2028,10 +2028,10 @@ class Tpm(TpmBase):
             fuDigest (int): Digest of the first block in the field upgrade sequence
             manifestSignature (TPMU_SIGNATURE): Signature over fuDigest using
                 the key associated with keyHandle (not optional)
-                (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
+                One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
-                TPMS_NULL_SIGNATURE])
+                TPMS_NULL_SIGNATURE.
         """
         req = TPM2_FieldUpgradeStart_REQUEST(authorization, keyHandle, fuDigest, manifestSignature)
         respBuf = self.dispatchCommand(TPM_CC.FieldUpgradeStart, req)
@@ -2220,8 +2220,8 @@ class Tpm(TpmBase):
         
         Args:
             parameters (TPMU_PUBLIC_PARMS): Algorithm parameters to be validated
-                (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
-                TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS])
+                One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
+                TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS.
         """
         req = TPM2_TestParms_REQUEST(parameters)
         respBuf = self.dispatchCommand(TPM_CC.TestParms, req)
@@ -2478,10 +2478,10 @@ class Tpm(TpmBase):
             qualifyingData (int): User-provided qualifying data
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
-                (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+                One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+                TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             size (int): Number of octets to certify
             offset (int): Octet offset into the NV area
                 This value shall be less than or equal to the size of the

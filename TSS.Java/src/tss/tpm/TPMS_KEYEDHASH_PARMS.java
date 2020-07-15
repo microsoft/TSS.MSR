@@ -18,6 +18,7 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
     /** Indicates the signing method used for a keyedHash signing object. This field also
      *  determines the size of the data field for a data object created with TPM2_Create() or
      *  TPM2_CreatePrimary().
+     *  One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
      */
     public TPMU_SCHEME_KEYEDHASH scheme;
     
@@ -26,7 +27,7 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
     /** @param _scheme Indicates the signing method used for a keyedHash signing object. This
      *         field also determines the size of the data field for a data object created with
      *         TPM2_Create() or TPM2_CreatePrimary().
-     *         (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
+     *         One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
      */
     public TPMS_KEYEDHASH_PARMS(TPMU_SCHEME_KEYEDHASH _scheme) { scheme = _scheme; }
     

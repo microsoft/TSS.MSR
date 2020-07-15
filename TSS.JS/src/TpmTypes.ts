@@ -4800,9 +4800,9 @@ export class TPMS_CAPABILITY_DATA extends TpmStructure
 {
     constructor(
         /** The capability data
-         *  (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
+         *  One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
          *  TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
-         *  TPML_TAGGED_POLICY, TPML_ACT_DATA])
+         *  TPML_TAGGED_POLICY, TPML_ACT_DATA.
          */
         public data: TPMU_CAPABILITIES = null
     ) { super(); }
@@ -5324,9 +5324,9 @@ export class TPMS_ATTEST extends TpmStructure
         public firmwareVersion: number = 0, 
         
         /** The type-specific attestation information
-         *  (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
+         *  One of: TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
          *  TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO,
-         *  TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO])
+         *  TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO.
          */
         public attested: TPMU_ATTEST = null
     ) { super(); }
@@ -6214,7 +6214,7 @@ export class TPMT_KEYEDHASH_SCHEME extends TpmStructure
 {
     constructor(
         /** The scheme parameters
-         *  (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
+         *  One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
          */
         public details: TPMU_SCHEME_KEYEDHASH = null
     ) { super(); }
@@ -6446,9 +6446,9 @@ export class TPMT_SIG_SCHEME extends TpmStructure
 {
     constructor(
         /** Scheme parameters
-         *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+         *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
          *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
          */
         public details: TPMU_SIG_SCHEME = null
     ) { super(); }
@@ -6724,8 +6724,8 @@ export class TPMT_KDF_SCHEME extends TpmStructure
 {
     constructor(
         /** Scheme parameters
-         *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-         *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+         *  One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+         *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
          */
         public details: TPMU_KDF_SCHEME = null
     ) { super(); }
@@ -6795,10 +6795,10 @@ export class TPMT_ASYM_SCHEME extends TpmStructure
 {
     constructor(
         /** Scheme parameters
-         *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+         *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
          *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
          *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
          */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
@@ -6841,10 +6841,10 @@ export class TPMT_RSA_SCHEME extends TpmStructure
 {
     constructor(
         /** Scheme parameters
-         *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+         *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
          *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
          *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
          */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
@@ -6887,10 +6887,10 @@ export class TPMT_RSA_DECRYPT extends TpmStructure
 {
     constructor(
         /** Scheme parameters
-         *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+         *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
          *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
          *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
          */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
@@ -7097,10 +7097,10 @@ export class TPMT_ECC_SCHEME extends TpmStructure
 {
     constructor(
         /** Scheme parameters
-         *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+         *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
          *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
          *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
          */
         public details: TPMU_ASYM_SCHEME = null
     ) { super(); }
@@ -7151,17 +7151,17 @@ export class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         public keySize: number = 0, 
         
         /** If not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations
-         *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-         *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+         *  One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+         *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
          */
         public kdf: TPMU_KDF_SCHEME = null, 
         
         /** If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be
          *  used with this curve.
-         *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+         *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
          *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
          *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
          */
         public sign: TPMU_ASYM_SCHEME = null, 
         
@@ -7554,9 +7554,9 @@ export class TPMT_SIGNATURE extends TpmStructure
 {
     constructor(
         /** This shall be the actual signature information.
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -7631,7 +7631,7 @@ export class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
         /** Indicates the signing method used for a keyedHash signing object. This field also
          *  determines the size of the data field for a data object created with TPM2_Create() or
          *  TPM2_CreatePrimary().
-         *  (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH])
+         *  One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
          */
         public scheme: TPMU_SCHEME_KEYEDHASH = null
     ) { super(); }
@@ -7689,10 +7689,10 @@ export class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         /** For a key with the sign attribute SET, a valid signing scheme for the key type
          *  for a key with the decrypt attribute SET, a valid key exchange protocol
          *  for a key with sign and decrypt attributes, shall be TPM_ALG_NULL
-         *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+         *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
          *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
          *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
          */
         public scheme: TPMU_ASYM_SCHEME = null
     ) { super(); }
@@ -7757,10 +7757,10 @@ export class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
          *  for a restricted decryption key, TPM_ALG_NULL
          *  NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be
          *  TPM_ALG_NULL.
-         *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+         *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
          *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
          *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
          */
         public scheme: TPMU_ASYM_SCHEME = null, 
         
@@ -7830,10 +7830,10 @@ export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
          *  If the decrypt attribute of the key is SET, then this shall be a valid key exchange
          *  scheme or TPM_ALG_NULL.
          *  If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
-         *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+         *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
          *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
          *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
          */
         public scheme: TPMU_ASYM_SCHEME = null, 
         
@@ -7845,8 +7845,8 @@ export class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
          *  to be NULL.
          *  NOTE There are currently no commands where this parameter has effect and, in the
          *  reference code, this field needs to be set to TPM_ALG_NULL.
-         *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-         *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+         *  One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+         *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
          */
         public kdf: TPMU_KDF_SCHEME = null
     ) { super(); }
@@ -7905,8 +7905,8 @@ export class TPMT_PUBLIC_PARMS extends TpmStructure
 {
     constructor(
         /** The algorithm details
-         *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
-         *  TPMS_ASYM_PARMS])
+         *  One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+         *  TPMS_ASYM_PARMS.
          */
         public parameters: TPMU_PUBLIC_PARMS = null
     ) { super(); }
@@ -7966,15 +7966,15 @@ export class TPMT_PUBLIC extends TpmStructure
         public authPolicy: Buffer = null, 
         
         /** The algorithm or structure details
-         *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
-         *  TPMS_ASYM_PARMS])
+         *  One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+         *  TPMS_ASYM_PARMS.
          */
         public parameters: TPMU_PUBLIC_PARMS = null, 
         
         /** The unique identifier of the structure
          *  For an asymmetric key, this would be the public key.
-         *  (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
-         *  TPMS_ECC_POINT, TPMS_DERIVE])
+         *  One of: TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
+         *  TPMS_ECC_POINT, TPMS_DERIVE.
          */
         public unique: TPMU_PUBLIC_ID = null
     ) { super(); }
@@ -8143,8 +8143,8 @@ export class TPMT_SENSITIVE extends TpmStructure
         public seedValue: Buffer = null, 
         
         /** The type-specific private data
-         *  (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
-         *  TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC])
+         *  One of: TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
+         *  TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC.
          */
         public sensitive: TPMU_SENSITIVE_COMPOSITE = null
     ) { super(); }
@@ -10368,10 +10368,10 @@ export class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
         public message: Buffer = null, 
         
         /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-         *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+         *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
          *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
          *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
          */
         public inScheme: TPMU_ASYM_SCHEME = null, 
         
@@ -10474,10 +10474,10 @@ export class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
         public cipherText: Buffer = null, 
         
         /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-         *  (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+         *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
          *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
          *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME])
+         *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
          */
         public inScheme: TPMU_ASYM_SCHEME = null, 
         
@@ -10884,8 +10884,8 @@ export class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
         public plainText: Buffer = null, 
         
         /** The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-         *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-         *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+         *  One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+         *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
          */
         public inScheme: TPMU_KDF_SCHEME = null
     ) { super(); }
@@ -10994,8 +10994,8 @@ export class TPM2_ECC_Decrypt_REQUEST extends ReqStructure
         public C3: Buffer = null, 
         
         /** The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-         *  (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-         *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME])
+         *  One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+         *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
          */
         public inScheme: TPMU_KDF_SCHEME = null
     ) { super(); }
@@ -12102,9 +12102,9 @@ export class TPM2_Certify_REQUEST extends ReqStructure
         public qualifyingData: Buffer = null, 
         
         /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-         *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+         *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
          *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
          */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
@@ -12161,9 +12161,9 @@ export class CertifyResponse extends RespStructure
         public certifyInfo: TPMS_ATTEST = null, 
         
         /** The asymmetric signature over certifyInfo using the key referenced by signHandle
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -12229,9 +12229,9 @@ export class TPM2_CertifyCreation_REQUEST extends ReqStructure
         public creationHash: Buffer = null, 
         
         /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-         *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+         *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
          *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
          */
         public inScheme: TPMU_SIG_SCHEME = null, 
         
@@ -12294,9 +12294,9 @@ export class CertifyCreationResponse extends RespStructure
         public certifyInfo: TPMS_ATTEST = null, 
         
         /** The signature over certifyInfo
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -12350,9 +12350,9 @@ export class TPM2_Quote_REQUEST extends ReqStructure
         public qualifyingData: Buffer = null, 
         
         /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-         *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+         *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
          *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
          */
         public inScheme: TPMU_SIG_SCHEME = null, 
         
@@ -12409,9 +12409,9 @@ export class QuoteResponse extends RespStructure
         public quoted: TPMS_ATTEST = null, 
         
         /** The signature over quoted
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -12476,9 +12476,9 @@ export class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
         public qualifyingData: Buffer = null, 
         
         /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-         *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+         *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
          *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
          */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
@@ -12530,9 +12530,9 @@ export class GetSessionAuditDigestResponse extends RespStructure
         public auditInfo: TPMS_ATTEST = null, 
         
         /** The signature over auditInfo
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -12595,9 +12595,9 @@ export class TPM2_GetCommandAuditDigest_REQUEST extends ReqStructure
         public qualifyingData: Buffer = null, 
         
         /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-         *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+         *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
          *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
          */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
@@ -12652,9 +12652,9 @@ export class GetCommandAuditDigestResponse extends RespStructure
         public auditInfo: TPMS_ATTEST = null, 
         
         /** The signature over auditInfo
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -12714,9 +12714,9 @@ export class TPM2_GetTime_REQUEST extends ReqStructure
         public qualifyingData: Buffer = null, 
         
         /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-         *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+         *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
          *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
          */
         public inScheme: TPMU_SIG_SCHEME = null
     ) { super(); }
@@ -12768,9 +12768,9 @@ export class GetTimeResponse extends RespStructure
         public timeInfo: TPMS_ATTEST = null, 
         
         /** The signature over timeInfo
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -12836,9 +12836,9 @@ export class TPM2_CertifyX509_REQUEST extends ReqStructure
         public reserved: Buffer = null, 
         
         /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-         *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+         *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
          *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
          */
         public inScheme: TPMU_SIG_SCHEME = null, 
         
@@ -12906,9 +12906,9 @@ export class CertifyX509Response extends RespStructure
         public tbsDigest: Buffer = null, 
         
         /** The signature over tbsDigest
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -13146,9 +13146,9 @@ export class TPM2_VerifySignature_REQUEST extends ReqStructure
         public digest: Buffer = null, 
         
         /** Signature to be tested
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -13237,9 +13237,9 @@ export class TPM2_Sign_REQUEST extends ReqStructure
         public digest: Buffer = null, 
         
         /** Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
-         *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+         *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
          *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
          */
         public inScheme: TPMU_SIG_SCHEME = null, 
         
@@ -13298,9 +13298,9 @@ export class SignResponse extends RespStructure
 {
     constructor(
         /** The signature
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -13835,9 +13835,9 @@ export class TPM2_PolicySigned_REQUEST extends ReqStructure
         public expiration: number = 0, 
         
         /** Signed authorization (not optional)
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public auth: TPMU_SIGNATURE = null
     ) { super(); }
@@ -15507,9 +15507,9 @@ export class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
         public fuDigest: Buffer = null, 
         
         /** Signature over fuDigest using the key associated with keyHandle (not optional)
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public manifestSignature: TPMU_SIGNATURE = null
     ) { super(); }
@@ -16063,9 +16063,9 @@ export class GetCapabilityResponse extends RespStructure
         public moreData: number = 0, 
         
         /** The capability data
-         *  (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
+         *  One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
          *  TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
-         *  TPML_TAGGED_POLICY, TPML_ACT_DATA])
+         *  TPML_TAGGED_POLICY, TPML_ACT_DATA.
          */
         public capabilityData: TPMU_CAPABILITIES = null
     ) { super(); }
@@ -16111,8 +16111,8 @@ export class TPM2_TestParms_REQUEST extends ReqStructure
 {
     constructor(
         /** Algorithm parameters to be validated
-         *  (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
-         *  TPMS_ASYM_PARMS])
+         *  One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+         *  TPMS_ASYM_PARMS.
          */
         public parameters: TPMU_PUBLIC_PARMS = null
     ) { super(); }
@@ -16776,9 +16776,9 @@ export class TPM2_NV_Certify_REQUEST extends ReqStructure
         public qualifyingData: Buffer = null, 
         
         /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-         *  (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+         *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
          *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+         *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
          */
         public inScheme: TPMU_SIG_SCHEME = null, 
         
@@ -16844,9 +16844,9 @@ export class NV_CertifyResponse extends RespStructure
         public certifyInfo: TPMS_ATTEST = null, 
         
         /** The asymmetric signature over certifyInfo using the key referenced by signHandle
-         *  (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+         *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
          *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+         *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
          */
         public signature: TPMU_SIGNATURE = null
     ) { super(); }

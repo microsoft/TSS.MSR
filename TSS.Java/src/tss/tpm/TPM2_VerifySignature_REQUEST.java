@@ -23,7 +23,11 @@ public class TPM2_VerifySignature_REQUEST extends ReqStructure
     /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** Signature to be tested  */
+    /** Signature to be tested
+     *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
+     */
     public TPMU_SIGNATURE signature;
     
     public TPM2_VerifySignature_REQUEST() { keyHandle = new TPM_HANDLE(); }
@@ -32,9 +36,9 @@ public class TPM2_VerifySignature_REQUEST extends ReqStructure
      *         Auth Index: None
      *  @param _digest Digest of the signed message
      *  @param _signature Signature to be tested
-     *         (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+     *         One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+     *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
      */
     public TPM2_VerifySignature_REQUEST(TPM_HANDLE _keyHandle, byte[] _digest, TPMU_SIGNATURE _signature)
     {

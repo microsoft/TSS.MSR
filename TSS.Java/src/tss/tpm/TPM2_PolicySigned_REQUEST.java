@@ -47,7 +47,11 @@ public class TPM2_PolicySigned_REQUEST extends ReqStructure
     /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID authSigAlg() { return auth != null ? auth.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** Signed authorization (not optional)  */
+    /** Signed authorization (not optional)
+     *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+     *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+     *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
+     */
     public TPMU_SIGNATURE auth;
     
     public TPM2_PolicySigned_REQUEST()
@@ -73,9 +77,9 @@ public class TPM2_PolicySigned_REQUEST extends ReqStructure
      *         that nonceTPM was generated
      *         If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
      *  @param _auth Signed authorization (not optional)
-     *         (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+     *         One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *         TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-     *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE])
+     *         TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
      */
     public TPM2_PolicySigned_REQUEST(TPM_HANDLE _authObject, TPM_HANDLE _policySession, byte[] _nonceTPM, byte[] _cpHashA, byte[] _policyRef, int _expiration, TPMU_SIGNATURE _auth)
     {

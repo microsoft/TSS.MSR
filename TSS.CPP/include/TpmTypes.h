@@ -3047,20 +3047,20 @@ struct TPMA_NV : public TpmEnum<UINT32>
 /// <summary> Base class for TPM union interfaces </summary>
 class _DLLEXP_ TpmUnion: public virtual TpmStructure {};
 
-/// <summary> Table 119 Definition of TPMU_CAPABILITIES Union [OUT]
-/// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
-/// TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
-/// TPML_TAGGED_POLICY, TPML_ACT_DATA]) </summary>
+/// <summary> Table 119 Definition of TPMU_CAPABILITIES Union [OUT] </summary>
+/// <remarks> One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC,
+/// TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY,
+/// TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA. </remarks>
 class _DLLEXP_ TPMU_CAPABILITIES: public virtual TpmUnion
 {
     public: virtual TPM_CAP GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/// <summary> Table 132 Definition of TPMU_ATTEST Union [OUT]
-/// (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
+/// <summary> Table 132 Definition of TPMU_ATTEST Union [OUT] </summary>
+/// <remarks> One of: TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
 /// TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO,
-/// TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO]) </summary>
+/// TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO. </remarks>
 class _DLLEXP_ TPMU_ATTEST: public virtual TpmUnion
 {
     public: virtual TPM_ST GetUnionSelector() const = 0;
@@ -3068,10 +3068,10 @@ class _DLLEXP_ TPMU_ATTEST: public virtual TpmUnion
 };
 
 /// <summary> This union allows additional parameters to be added for a symmetric cipher.
-/// Currently, no additional parameters are required for any of the symmetric algorithms.
-/// (One of [TPMS_TDES_SYM_DETAILS, TPMS_AES_SYM_DETAILS, TPMS_SM4_SYM_DETAILS,
+/// Currently, no additional parameters are required for any of the symmetric algorithms. </summary>
+/// <remarks> One of: TPMS_TDES_SYM_DETAILS, TPMS_AES_SYM_DETAILS, TPMS_SM4_SYM_DETAILS,
 /// TPMS_CAMELLIA_SYM_DETAILS, TPMS_ANY_SYM_DETAILS, TPMS_XOR_SYM_DETAILS,
-/// TPMS_NULL_SYM_DETAILS]) </summary>
+/// TPMS_NULL_SYM_DETAILS. </remarks>
 class _DLLEXP_ TPMU_SYM_DETAILS: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
@@ -3080,35 +3080,37 @@ class _DLLEXP_ TPMU_SYM_DETAILS: public virtual TpmUnion
 
 /// <summary> This structure allows a TPM2B_SENSITIVE_CREATE structure to carry either a
 /// TPM2B_SENSITVE_DATA or a TPM2B_DERIVE structure. The contents of the union are
-/// determined by context. When an object is being derived, the derivation values are present.
-/// (One of [BYTE, TPMS_DERIVE]) </summary>
+/// determined by context. When an object is being derived, the derivation values are
+/// present. </summary>
+/// <remarks> One of: BYTE, TPMS_DERIVE. </remarks>
 class _DLLEXP_ TPMU_SENSITIVE_CREATE: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/// <summary> Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT]
-/// (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH]) </summary>
+/// <summary> Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT] </summary>
+/// <remarks> One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH. </remarks>
 class _DLLEXP_ TPMU_SCHEME_KEYEDHASH: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/// <summary> This is the union of all of the signature schemes.
-/// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-/// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-/// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
+/// <summary> This is the union of all of the signature schemes. </summary>
+/// <remarks> One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+/// TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
+/// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME. </remarks>
 class _DLLEXP_ TPMU_SIG_SCHEME: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/// <summary> Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT]
-/// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-/// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
+/// <summary> Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT] </summary>
+/// <remarks> One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+/// TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
+/// TPMS_NULL_KDF_SCHEME. </remarks>
 class _DLLEXP_ TPMU_KDF_SCHEME: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
@@ -3117,11 +3119,11 @@ class _DLLEXP_ TPMU_KDF_SCHEME: public virtual TpmUnion
 
 /// <summary> This union of all asymmetric schemes is used in each of the asymmetric
 /// scheme structures. The actual scheme structure is defined by the interface type used
-/// for the selector (TPMI_ALG_ASYM_SCHEME).
-/// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+/// for the selector (TPMI_ALG_ASYM_SCHEME). </summary>
+/// <remarks> One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
 /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
 /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-/// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
+/// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME. </remarks>
 class _DLLEXP_ TPMU_ASYM_SCHEME: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
@@ -3130,19 +3132,20 @@ class _DLLEXP_ TPMU_ASYM_SCHEME: public virtual TpmUnion
 
 /// <summary> A TPMU_SIGNATURE_COMPOSITE is a union of the various signatures that are
 /// supported by a particular TPM implementation. The union allows substitution of any
-/// signature algorithm wherever a signature is required in a structure.
-/// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+/// signature algorithm wherever a signature is required in a structure. </summary>
+/// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
 /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-/// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+/// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
 class _DLLEXP_ TPMU_SIGNATURE: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/// <summary> This is the union of all values allowed in in the unique field of a TPMT_PUBLIC.
-/// (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
-/// TPMS_ECC_POINT, TPMS_DERIVE]) </summary>
+/// <summary> This is the union of all values allowed in in the unique field of a
+/// TPMT_PUBLIC. </summary>
+/// <remarks> One of: TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER,
+/// TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE. </remarks>
 class _DLLEXP_ TPMU_PUBLIC_ID: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
@@ -3151,18 +3154,18 @@ class _DLLEXP_ TPMU_PUBLIC_ID: public virtual TpmUnion
 
 /// <summary> Table 199 defines the possible parameter definition structures that may be
 /// contained in the public portion of a key. If the Object can be a parent, the first
-/// field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7.
-/// (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
-/// TPMS_ASYM_PARMS]) </summary>
+/// field must be a TPMT_SYM_DEF_OBJECT. See 11.1.7. </summary>
+/// <remarks> One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
+/// TPMS_ECC_PARMS, TPMS_ASYM_PARMS. </remarks>
 class _DLLEXP_ TPMU_PUBLIC_PARMS: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
     public: virtual TpmStructure*  Clone() const { _ASSERT(FALSE); return NULL; };
 };
 
-/// <summary> Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT]
-/// (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
-/// TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC]) </summary>
+/// <summary> Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT] </summary>
+/// <remarks> One of: TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
+/// TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC. </remarks>
 class _DLLEXP_ TPMU_SENSITIVE_COMPOSITE: public virtual TpmUnion
 {
     public: virtual TPM_ALG_ID GetUnionSelector() const = 0;
@@ -4642,10 +4645,10 @@ public:
     /// <summary> The capability </summary>
     public: TPM_CAP capability() const { return data->GetUnionSelector(); }
     
-    /// <summary> The capability data
-    /// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
-    /// TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
-    /// TPML_TAGGED_POLICY, TPML_ACT_DATA]) </summary>
+    /// <summary> The capability data </summary>
+    /// <remarks> One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC,
+    /// TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY,
+    /// TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA. </remarks>
     shared_ptr<TPMU_CAPABILITIES> data;
 
 public:
@@ -5103,10 +5106,10 @@ public:
     /// <summary> TPM-vendor-specific value identifying the version number of the firmware </summary>
     UINT64 firmwareVersion;
     
-    /// <summary> The type-specific attestation information
-    /// (One of [TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
+    /// <summary> The type-specific attestation information </summary>
+    /// <remarks> One of: TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
     /// TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO,
-    /// TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO]) </summary>
+    /// TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO. </remarks>
     shared_ptr<TPMU_ATTEST> attested;
 
 public:
@@ -5988,8 +5991,8 @@ public:
     /// <summary> Selects the scheme </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The scheme parameters
-    /// (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH]) </summary>
+    /// <summary> The scheme parameters </summary>
+    /// <remarks> One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH. </remarks>
     shared_ptr<TPMU_SCHEME_KEYEDHASH> details;
 
 public:
@@ -6221,10 +6224,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Scheme parameters
-    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
+    /// <summary> Scheme parameters </summary>
+    /// <remarks> One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+    /// TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
+    /// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME. </remarks>
     shared_ptr<TPMU_SIG_SCHEME> details;
 
 public:
@@ -6509,9 +6512,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Scheme parameters
-    /// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-    /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
+    /// <summary> Scheme parameters </summary>
+    /// <remarks> One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+    /// TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
+    /// TPMS_NULL_KDF_SCHEME. </remarks>
     shared_ptr<TPMU_KDF_SCHEME> details;
 
 public:
@@ -6574,11 +6578,11 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Scheme parameters
-    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// <summary> Scheme parameters </summary>
+    /// <remarks> One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
     /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
     /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME. </remarks>
     shared_ptr<TPMU_ASYM_SCHEME> details;
 
 public:
@@ -6613,11 +6617,11 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Scheme parameters
-    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// <summary> Scheme parameters </summary>
+    /// <remarks> One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
     /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
     /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME. </remarks>
     shared_ptr<TPMU_ASYM_SCHEME> details;
 
 public:
@@ -6652,11 +6656,11 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Scheme parameters
-    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// <summary> Scheme parameters </summary>
+    /// <remarks> One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
     /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
     /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME. </remarks>
     shared_ptr<TPMU_ASYM_SCHEME> details;
 
 public:
@@ -6868,11 +6872,11 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID scheme() const { return details ? details->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Scheme parameters
-    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// <summary> Scheme parameters </summary>
+    /// <remarks> One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
     /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
     /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME. </remarks>
     shared_ptr<TPMU_ASYM_SCHEME> details;
 
 public:
@@ -6915,20 +6919,21 @@ public:
     public: TPM_ALG_ID kdfScheme() const { return kdf ? kdf->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> If not TPM_ALG_NULL, the required KDF and hash algorithm used in secret
-    /// sharing operations
-    /// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-    /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
+    /// sharing operations </summary>
+    /// <remarks> One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+    /// TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
+    /// TPMS_NULL_KDF_SCHEME. </remarks>
     shared_ptr<TPMU_KDF_SCHEME> kdf;
     
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID signScheme() const { return sign ? sign->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
     /// <summary> If not TPM_ALG_NULL, this is the mandatory signature scheme that is required
-    /// to be used with this curve.
-    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// to be used with this curve. </summary>
+    /// <remarks> One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
     /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
     /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME. </remarks>
     shared_ptr<TPMU_ASYM_SCHEME> sign;
     
     /// <summary> Fp (the modulus) </summary>
@@ -7254,10 +7259,10 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID sigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> This shall be the actual signature information.
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> This shall be the actual signature information. </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -7327,8 +7332,8 @@ public:
     
     /// <summary> Indicates the signing method used for a keyedHash signing object. This field
     /// also determines the size of the data field for a data object created with
-    /// TPM2_Create() or TPM2_CreatePrimary().
-    /// (One of [TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH]) </summary>
+    /// TPM2_Create() or TPM2_CreatePrimary(). </summary>
+    /// <remarks> One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH. </remarks>
     shared_ptr<TPMU_SCHEME_KEYEDHASH> scheme;
 
 public:
@@ -7376,11 +7381,11 @@ public:
     
     /// <summary> For a key with the sign attribute SET, a valid signing scheme for the key type
     /// for a key with the decrypt attribute SET, a valid key exchange protocol
-    /// for a key with sign and decrypt attributes, shall be TPM_ALG_NULL
-    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// for a key with sign and decrypt attributes, shall be TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
     /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
     /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME. </remarks>
     shared_ptr<TPMU_ASYM_SCHEME> scheme;
 
 public:
@@ -7435,11 +7440,11 @@ public:
     /// unless the object also has the sign attribute
     /// for a restricted decryption key, TPM_ALG_NULL
     /// NOTE When both sign and decrypt are SET, restricted shall be CLEAR and scheme shall be
-    /// TPM_ALG_NULL.
-    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// TPM_ALG_NULL. </summary>
+    /// <remarks> One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
     /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
     /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME. </remarks>
     shared_ptr<TPMU_ASYM_SCHEME> scheme;
     
     /// <summary> Number of bits in the public modulus </summary>
@@ -7495,11 +7500,11 @@ public:
     /// shall have the same value.
     /// If the decrypt attribute of the key is SET, then this shall be a valid key exchange
     /// scheme or TPM_ALG_NULL.
-    /// If the key is a Storage Key, then this field shall be TPM_ALG_NULL.
-    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// If the key is a Storage Key, then this field shall be TPM_ALG_NULL. </summary>
+    /// <remarks> One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
     /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
     /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME. </remarks>
     shared_ptr<TPMU_ASYM_SCHEME> scheme;
     
     /// <summary> ECC curve ID </summary>
@@ -7512,9 +7517,10 @@ public:
     /// If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required
     /// to be NULL.
     /// NOTE There are currently no commands where this parameter has effect and, in the
-    /// reference code, this field needs to be set to TPM_ALG_NULL.
-    /// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-    /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
+    /// reference code, this field needs to be set to TPM_ALG_NULL. </summary>
+    /// <remarks> One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+    /// TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
+    /// TPMS_NULL_KDF_SCHEME. </remarks>
     shared_ptr<TPMU_KDF_SCHEME> kdf;
 
 public:
@@ -7553,9 +7559,9 @@ public:
     /// <summary> The algorithm to be tested </summary>
     public: TPM_ALG_ID type() const { return parameters->GetUnionSelector(); }
     
-    /// <summary> The algorithm details
-    /// (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
-    /// TPMS_ASYM_PARMS]) </summary>
+    /// <summary> The algorithm details </summary>
+    /// <remarks> One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
+    /// TPMS_ECC_PARMS, TPMS_ASYM_PARMS. </remarks>
     shared_ptr<TPMU_PUBLIC_PARMS> parameters;
 
 public:
@@ -7605,15 +7611,15 @@ public:
     /// NOTE Shall be the Empty Policy if no authorization policy is present. </summary>
     ByteVec authPolicy;
     
-    /// <summary> The algorithm or structure details
-    /// (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
-    /// TPMS_ASYM_PARMS]) </summary>
+    /// <summary> The algorithm or structure details </summary>
+    /// <remarks> One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
+    /// TPMS_ECC_PARMS, TPMS_ASYM_PARMS. </remarks>
     shared_ptr<TPMU_PUBLIC_PARMS> parameters;
     
     /// <summary> The unique identifier of the structure
-    /// For an asymmetric key, this would be the public key.
-    /// (One of [TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
-    /// TPMS_ECC_POINT, TPMS_DERIVE]) </summary>
+    /// For an asymmetric key, this would be the public key. </summary>
+    /// <remarks> One of: TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER,
+    /// TPM2B_PUBLIC_KEY_RSA, TPMS_ECC_POINT, TPMS_DERIVE. </remarks>
     shared_ptr<TPMU_PUBLIC_ID> unique;
 
 public:
@@ -7821,9 +7827,9 @@ public:
     /// obfuscation value </summary>
     ByteVec seedValue;
     
-    /// <summary> The type-specific private data
-    /// (One of [TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
-    /// TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC]) </summary>
+    /// <summary> The type-specific private data </summary>
+    /// <remarks> One of: TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
+    /// TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC. </remarks>
     shared_ptr<TPMU_SENSITIVE_COMPOSITE> sensitive;
 
 public:
@@ -9934,11 +9940,12 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// <summary> The padding scheme to use if scheme associated with keyHandle is
+    /// TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
     /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
     /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME. </remarks>
     shared_ptr<TPMU_ASYM_SCHEME> inScheme;
     
     /// <summary> Optional label L to be associated with the message
@@ -10031,11 +10038,12 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
-    /// (One of [TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+    /// <summary> The padding scheme to use if scheme associated with keyHandle is
+    /// TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
     /// TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
     /// TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
-    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME]) </summary>
+    /// TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME. </remarks>
     shared_ptr<TPMU_ASYM_SCHEME> inScheme;
     
     /// <summary> Label whose association with the message is to be verified </summary>
@@ -10435,9 +10443,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-    /// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-    /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
+    /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+    /// TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
+    /// TPMS_NULL_KDF_SCHEME. </remarks>
     shared_ptr<TPMU_KDF_SCHEME> inScheme;
 
 public:
@@ -10531,9 +10540,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
-    /// (One of [TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
-    /// TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME]) </summary>
+    /// <summary> The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
+    /// TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH,
+    /// TPMS_NULL_KDF_SCHEME. </remarks>
     shared_ptr<TPMU_KDF_SCHEME> inScheme;
 
 public:
@@ -11611,10 +11621,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+    /// TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
+    /// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME. </remarks>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
 
 public:
@@ -11663,10 +11673,11 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The asymmetric signature over certifyInfo using the key referenced by signHandle
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> The asymmetric signature over certifyInfo using the key referenced by
+    /// signHandle </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -11719,10 +11730,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+    /// TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
+    /// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME. </remarks>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
     
     /// <summary> Ticket produced by TPM2_Create() or TPM2_CreatePrimary() </summary>
@@ -11773,10 +11784,10 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The signature over certifyInfo
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> The signature over certifyInfo </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -11819,10 +11830,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+    /// TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
+    /// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME. </remarks>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
     
     /// <summary> PCR set to quote </summary>
@@ -11870,10 +11881,10 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The signature over quoted
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> The signature over quoted </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -11925,10 +11936,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+    /// TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
+    /// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME. </remarks>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
 
 public:
@@ -11973,10 +11984,10 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The signature over auditInfo
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> The signature over auditInfo </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12026,10 +12037,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+    /// TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
+    /// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME. </remarks>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
 
 public:
@@ -12076,10 +12087,10 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The signature over auditInfo
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> The signature over auditInfo </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12127,10 +12138,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+    /// TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
+    /// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME. </remarks>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
 
 public:
@@ -12175,10 +12186,10 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The signature over timeInfo
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> The signature over timeInfo </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12231,10 +12242,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+    /// TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
+    /// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME. </remarks>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
     
     /// <summary> A DER encoded partial certificate </summary>
@@ -12291,10 +12302,10 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The signature over tbsDigest
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> The signature over tbsDigest </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12503,10 +12514,10 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signature to be tested
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> Signature to be tested </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -12586,10 +12597,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
-    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
+    /// <summary> Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+    /// TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
+    /// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME. </remarks>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
     
     /// <summary> Proof that digest was created by the TPM
@@ -12637,10 +12648,10 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The signature
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> The signature </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:
@@ -13163,10 +13174,10 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID authSigAlg() const { return auth ? auth->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signed authorization (not optional)
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> Signed authorization (not optional) </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> auth;
 
 public:
@@ -14831,10 +14842,11 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID manifestSignatureSigAlg() const { return manifestSignature ? manifestSignature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signature over fuDigest using the key associated with keyHandle (not optional)
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> Signature over fuDigest using the key associated with keyHandle (not
+    /// optional) </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> manifestSignature;
 
 public:
@@ -15416,10 +15428,10 @@ public:
     /// <summary> The capability </summary>
     public: TPM_CAP capabilityDataCapability() const { return capabilityData->GetUnionSelector(); }
     
-    /// <summary> The capability data
-    /// (One of [TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
-    /// TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
-    /// TPML_TAGGED_POLICY, TPML_ACT_DATA]) </summary>
+    /// <summary> The capability data </summary>
+    /// <remarks> One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC,
+    /// TPML_PCR_SELECTION, TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY,
+    /// TPML_ECC_CURVE, TPML_TAGGED_POLICY, TPML_ACT_DATA. </remarks>
     shared_ptr<TPMU_CAPABILITIES> capabilityData;
 
 public:
@@ -15452,9 +15464,9 @@ public:
     /// <summary> The algorithm to be tested </summary>
     public: TPM_ALG_ID parametersType() const { return parameters->GetUnionSelector(); }
     
-    /// <summary> Algorithm parameters to be validated
-    /// (One of [TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
-    /// TPMS_ASYM_PARMS]) </summary>
+    /// <summary> Algorithm parameters to be validated </summary>
+    /// <remarks> One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS,
+    /// TPMS_ECC_PARMS, TPMS_ASYM_PARMS. </remarks>
     shared_ptr<TPMU_PUBLIC_PARMS> parameters;
 
 public:
@@ -16150,10 +16162,10 @@ public:
     /// <summary> Scheme selector </summary>
     public: TPM_ALG_ID inSchemeScheme() const { return inScheme ? inScheme->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-    /// (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
-    /// TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-    /// TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME]) </summary>
+    /// <summary> Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL </summary>
+    /// <remarks> One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
+    /// TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2,
+    /// TPMS_SIG_SCHEME_ECSCHNORR, TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME. </remarks>
     shared_ptr<TPMU_SIG_SCHEME> inScheme;
     
     /// <summary> Number of octets to certify </summary>
@@ -16206,10 +16218,11 @@ public:
     /// <summary> Selector of the algorithm used to construct the signature </summary>
     public: TPM_ALG_ID signatureSigAlg() const { return signature ? signature->GetUnionSelector() : TPM_ALG_ID::_NULL; }
     
-    /// <summary> The asymmetric signature over certifyInfo using the key referenced by signHandle
-    /// (One of [TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+    /// <summary> The asymmetric signature over certifyInfo using the key referenced by
+    /// signHandle </summary>
+    /// <remarks> One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
     /// TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
-    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE]) </summary>
+    /// TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE. </remarks>
     shared_ptr<TPMU_SIGNATURE> signature;
 
 public:

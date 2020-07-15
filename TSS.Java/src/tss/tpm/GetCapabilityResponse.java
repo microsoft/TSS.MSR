@@ -16,7 +16,11 @@ public class GetCapabilityResponse extends RespStructure
     /** The capability  */
     public TPM_CAP capabilityDataCapability() { return capabilityData.GetUnionSelector(); }
     
-    /** The capability data  */
+    /** The capability data
+     *  One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
+     *  TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
+     *  TPML_TAGGED_POLICY, TPML_ACT_DATA.
+     */
     public TPMU_CAPABILITIES capabilityData;
     
     public GetCapabilityResponse() {}

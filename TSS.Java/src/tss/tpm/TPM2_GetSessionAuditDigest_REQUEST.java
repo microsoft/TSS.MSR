@@ -33,7 +33,11 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL  */
+    /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
+     *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
+     */
     public TPMU_SIG_SCHEME inScheme;
     
     public TPM2_GetSessionAuditDigest_REQUEST()
@@ -53,9 +57,9 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
      *         Auth Index: None
      *  @param _qualifyingData User-provided qualifying data may be zero-length
      *  @param _inScheme Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      */
     public TPM2_GetSessionAuditDigest_REQUEST(TPM_HANDLE _privacyAdminHandle, TPM_HANDLE _signHandle, TPM_HANDLE _sessionHandle, byte[] _qualifyingData, TPMU_SIG_SCHEME _inScheme)
     {

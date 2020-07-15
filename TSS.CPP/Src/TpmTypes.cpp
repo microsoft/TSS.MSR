@@ -587,13 +587,12 @@ map<size_t, map<string, uint32_t>> Str2EnumMap {
             {"READ_STCLEAR",0x80000000} } }
 };
 
-/// <summary> Holds static factory method for instantiating TPM unions.
+/// Holds static factory method for instantiating TPM unions.
 /// Note: A wrapper class is used instead of simply static function solely for the sake of
-/// uniformity with languages like C# and Java. </summary>
+/// uniformity with languages like C# and Java.
 struct UnionFactory
 {
-    /// <summary> Creates specific TPM union member based on the union type and selector (tag)
-    /// value </summary>
+    /// Creates specific TPM union member based on the union type and selector (tag) value
     template<class U, typename S>
     static void Create(shared_ptr<U>& u, S selector) // S = TPM_ALG_ID | TPM_CAP | TPM_ST
     {

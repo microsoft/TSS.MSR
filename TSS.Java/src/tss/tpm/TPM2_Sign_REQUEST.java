@@ -24,7 +24,11 @@ public class TPM2_Sign_REQUEST extends ReqStructure
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
     
-    /** Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL  */
+    /** Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
+     *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+     *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
+     */
     public TPMU_SIG_SCHEME inScheme;
     
     /** Proof that digest was created by the TPM
@@ -40,9 +44,9 @@ public class TPM2_Sign_REQUEST extends ReqStructure
      *         Auth Role: USER
      *  @param _digest Digest to be signed
      *  @param _inScheme Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
-     *         (One of [TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+     *         One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *         TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
-     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME])
+     *         TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      *  @param _validation Proof that digest was created by the TPM
      *         If keyHandle is not a restricted signing key, then this may be a NULL Ticket with
      *         tag = TPM_ST_CHECKHASH.
