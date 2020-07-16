@@ -1327,7 +1327,7 @@ namespace Tpm2Lib
 
     public partial class SymDef : TpmStructureBase
     {
-        [Obsolete("Use 'new SymDef(TpmAlgId alg, ushort keyBits, TpmAlgId mode)' instead")]
+        [Obsolete("Use 'new SymDef()' for TpmAlgId.Null params or 'new SymDef(TpmAlgId alg, ushort keyBits, TpmAlgId mode)' otherwise")]
         public SymDef(TpmAlgId theAlg, TpmAlgId hmacHash)
         {
             Algorithm = theAlg;
@@ -1387,7 +1387,7 @@ namespace Tpm2Lib
 
     public partial class SymDefObject : IPublicParmsUnion
     {
-        [Obsolete("Use default ctor instead")]
+        [Obsolete("Use 'new SymDefObject()' instead")]
         public static SymDefObject NullObject()
         {
             return new SymDefObject();
