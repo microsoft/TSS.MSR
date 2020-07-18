@@ -10038,7 +10038,7 @@ namespace Tpm2Lib {
     /// required, the TPM shall return TPM_RC_INITIALIZE. </summary>
     [DataContract]
     [KnownType(typeof(Su))]
-    [SpecTypeName("TPM2_Startup_REQUEST")]
+    [SpecTypeName("Startup_In")]
     public partial class Tpm2StartupRequest: TpmStructureBase
     {
         /// <summary> TPM_SU_CLEAR or TPM_SU_STATE </summary>
@@ -10060,7 +10060,7 @@ namespace Tpm2Lib {
     /// parameter indicates how the subsequent TPM2_Startup() will be processed. </summary>
     [DataContract]
     [KnownType(typeof(Su))]
-    [SpecTypeName("TPM2_Shutdown_REQUEST")]
+    [SpecTypeName("Shutdown_In")]
     public partial class Tpm2ShutdownRequest: TpmStructureBase
     {
         /// <summary> TPM_SU_CLEAR or TPM_SU_STATE </summary>
@@ -10082,7 +10082,7 @@ namespace Tpm2Lib {
     /// fullTest is YES, the TPM will test all functions. If fullTest = NO, the TPM will only
     /// test those functions that have not previously been tested. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_SelfTest_REQUEST")]
+    [SpecTypeName("SelfTest_In")]
     public partial class Tpm2SelfTestRequest: TpmStructureBase
     {
         /// <summary> YES if full test to be performed
@@ -10104,7 +10104,7 @@ namespace Tpm2Lib {
 
     /// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_IncrementalSelfTest_REQUEST")]
+    [SpecTypeName("IncrementalSelfTest_In")]
     public partial class Tpm2IncrementalSelfTestRequest: TpmStructureBase
     {
         /// <summary> List of algorithms that should be tested </summary>
@@ -10124,7 +10124,7 @@ namespace Tpm2Lib {
 
     /// <summary> This command causes the TPM to perform a test of the selected algorithms. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_IncrementalSelfTest_RESPONSE")]
+    [SpecTypeName("IncrementalSelfTest_Out")]
     public partial class Tpm2IncrementalSelfTestResponse: TpmStructureBase
     {
         /// <summary> List of algorithms that need testing </summary>
@@ -10144,7 +10144,7 @@ namespace Tpm2Lib {
     /// <summary> This command returns manufacturer-specific information regarding the results
     /// of a self-test and an indication of the test status. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_GetTestResult_REQUEST")]
+    [SpecTypeName("GetTestResult_In")]
     public partial class Tpm2GetTestResultRequest: TpmStructureBase
     {
         public Tpm2GetTestResultRequest() {}
@@ -10158,7 +10158,7 @@ namespace Tpm2Lib {
     /// of a self-test and an indication of the test status. </summary>
     [DataContract]
     [KnownType(typeof(TpmRc))]
-    [SpecTypeName("TPM2_GetTestResult_RESPONSE")]
+    [SpecTypeName("GetTestResult_Out")]
     public partial class Tpm2GetTestResultResponse: TpmStructureBase
     {
         /// <summary> Test result data
@@ -10192,7 +10192,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(TpmSe))]
     [KnownType(typeof(SymDef))]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_StartAuthSession_REQUEST")]
+    [SpecTypeName("StartAuthSession_In")]
     public partial class Tpm2StartAuthSessionRequest: TpmStructureBase
     {
         /// <summary> Handle of a loaded decrypt key used to encrypt salt
@@ -10282,7 +10282,7 @@ namespace Tpm2Lib {
     /// derive values used for authorization and for encrypting parameters. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_StartAuthSession_RESPONSE")]
+    [SpecTypeName("StartAuthSession_Out")]
     public partial class Tpm2StartAuthSessionResponse: TpmStructureBase
     {
         /// <summary> Handle for the newly created session </summary>
@@ -10316,7 +10316,7 @@ namespace Tpm2Lib {
     /// the policy, the policy may then succeed. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyRestart_REQUEST")]
+    [SpecTypeName("PolicyRestart_In")]
     public partial class Tpm2PolicyRestartRequest: TpmStructureBase
     {
         /// <summary> The handle for the policy session </summary>
@@ -10345,7 +10345,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(SensitiveCreate))]
     [KnownType(typeof(TpmPublic))]
-    [SpecTypeName("TPM2_Create_REQUEST")]
+    [SpecTypeName("Create_In")]
     public partial class Tpm2CreateRequest: TpmStructureBase
     {
         /// <summary> Handle of parent for new object
@@ -10413,7 +10413,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(CreationData))]
     [KnownType(typeof(TkCreation))]
-    [SpecTypeName("TPM2_Create_RESPONSE")]
+    [SpecTypeName("Create_Out")]
     public partial class Tpm2CreateResponse: TpmStructureBase
     {
         /// <summary> The private portion of the object </summary>
@@ -10465,7 +10465,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmPrivate))]
     [KnownType(typeof(TpmPublic))]
-    [SpecTypeName("TPM2_Load_REQUEST")]
+    [SpecTypeName("Load_In")]
     public partial class Tpm2LoadRequest: TpmStructureBase
     {
         /// <summary> TPM handle of parent key; shall not be a reserved handle
@@ -10509,7 +10509,7 @@ namespace Tpm2Lib {
     /// be loaded, the TPM2_LoadExternal command is used. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_Load_RESPONSE")]
+    [SpecTypeName("Load_Out")]
     public partial class Tpm2LoadResponse: TpmStructureBase
     {
         /// <summary> Handle of type TPM_HT_TRANSIENT for the loaded object </summary>
@@ -10542,7 +10542,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(Sensitive))]
     [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_LoadExternal_REQUEST")]
+    [SpecTypeName("LoadExternal_In")]
     public partial class Tpm2LoadExternalRequest: TpmStructureBase
     {
         /// <summary> The sensitive portion of the object (optional) </summary>
@@ -10582,7 +10582,7 @@ namespace Tpm2Lib {
     /// area. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_LoadExternal_RESPONSE")]
+    [SpecTypeName("LoadExternal_Out")]
     public partial class Tpm2LoadExternalResponse: TpmStructureBase
     {
         /// <summary> Handle of type TPM_HT_TRANSIENT for the loaded object </summary>
@@ -10611,7 +10611,7 @@ namespace Tpm2Lib {
     /// <summary> This command allows access to the public area of a loaded object. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_ReadPublic_REQUEST")]
+    [SpecTypeName("ReadPublic_In")]
     public partial class Tpm2ReadPublicRequest: TpmStructureBase
     {
         /// <summary> TPM handle of an object
@@ -10634,7 +10634,7 @@ namespace Tpm2Lib {
     /// <summary> This command allows access to the public area of a loaded object. </summary>
     [DataContract]
     [KnownType(typeof(TpmPublic))]
-    [SpecTypeName("TPM2_ReadPublic_RESPONSE")]
+    [SpecTypeName("ReadPublic_Out")]
     public partial class Tpm2ReadPublicResponse: TpmStructureBase
     {
         /// <summary> Structure containing the public area of an object </summary>
@@ -10671,7 +10671,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(IdObject))]
-    [SpecTypeName("TPM2_ActivateCredential_REQUEST")]
+    [SpecTypeName("ActivateCredential_In")]
     public partial class Tpm2ActivateCredentialRequest: TpmStructureBase
     {
         /// <summary> Handle of the object associated with certificate in credentialBlob
@@ -10728,7 +10728,7 @@ namespace Tpm2Lib {
     /// <summary> This command enables the association of a credential with an object in a way
     /// that ensures that the TPM has validated the parameters of the credentialed object. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_ActivateCredential_RESPONSE")]
+    [SpecTypeName("ActivateCredential_Out")]
     public partial class Tpm2ActivateCredentialResponse: TpmStructureBase
     {
         /// <summary> The decrypted certificate information
@@ -10751,7 +10751,7 @@ namespace Tpm2Lib {
     /// Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_MakeCredential_REQUEST")]
+    [SpecTypeName("MakeCredential_In")]
     public partial class Tpm2MakeCredentialRequest: TpmStructureBase
     {
         /// <summary> Loaded public area, used to encrypt the sensitive area containing the
@@ -10794,7 +10794,7 @@ namespace Tpm2Lib {
     /// Authority (CA) in creating a TPM2B_ID_OBJECT containing an activation credential. </summary>
     [DataContract]
     [KnownType(typeof(IdObject))]
-    [SpecTypeName("TPM2_MakeCredential_RESPONSE")]
+    [SpecTypeName("MakeCredential_Out")]
     public partial class Tpm2MakeCredentialResponse: TpmStructureBase
     {
         /// <summary> The credential </summary>
@@ -10824,7 +10824,7 @@ namespace Tpm2Lib {
     /// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_Unseal_REQUEST")]
+    [SpecTypeName("Unseal_In")]
     public partial class Tpm2UnsealRequest: TpmStructureBase
     {
         /// <summary> Handle of a loaded data object
@@ -10848,7 +10848,7 @@ namespace Tpm2Lib {
 
     /// <summary> This command returns the data in a loaded Sealed Data Object. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_Unseal_RESPONSE")]
+    [SpecTypeName("Unseal_Out")]
     public partial class Tpm2UnsealResponse: TpmStructureBase
     {
         /// <summary> Unsealed data
@@ -10870,7 +10870,7 @@ namespace Tpm2Lib {
     /// object. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_ObjectChangeAuth_REQUEST")]
+    [SpecTypeName("ObjectChangeAuth_In")]
     public partial class Tpm2ObjectChangeAuthRequest: TpmStructureBase
     {
         /// <summary> Handle of the object
@@ -10918,7 +10918,7 @@ namespace Tpm2Lib {
     /// object. </summary>
     [DataContract]
     [KnownType(typeof(TpmPrivate))]
-    [SpecTypeName("TPM2_ObjectChangeAuth_RESPONSE")]
+    [SpecTypeName("ObjectChangeAuth_Out")]
     public partial class Tpm2ObjectChangeAuthResponse: TpmStructureBase
     {
         /// <summary> Private area containing the new authorization value </summary>
@@ -10944,7 +10944,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(SensitiveCreate))]
-    [SpecTypeName("TPM2_CreateLoaded_REQUEST")]
+    [SpecTypeName("CreateLoaded_In")]
     public partial class Tpm2CreateLoadedRequest: TpmStructureBase
     {
         /// <summary> Handle of a transient storage key, a persistent storage key,
@@ -10995,7 +10995,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmPrivate))]
     [KnownType(typeof(TpmPublic))]
-    [SpecTypeName("TPM2_CreateLoaded_RESPONSE")]
+    [SpecTypeName("CreateLoaded_Out")]
     public partial class Tpm2CreateLoadedResponse: TpmStructureBase
     {
         /// <summary> Handle of type TPM_HT_TRANSIENT for created object </summary>
@@ -11040,7 +11040,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(SymDefObject))]
-    [SpecTypeName("TPM2_Duplicate_REQUEST")]
+    [SpecTypeName("Duplicate_In")]
     public partial class Tpm2DuplicateRequest: TpmStructureBase
     {
         /// <summary> Loaded object to duplicate
@@ -11104,7 +11104,7 @@ namespace Tpm2Lib {
     /// be loaded. </summary>
     [DataContract]
     [KnownType(typeof(TpmPrivate))]
-    [SpecTypeName("TPM2_Duplicate_RESPONSE")]
+    [SpecTypeName("Duplicate_Out")]
     public partial class Tpm2DuplicateResponse: TpmStructureBase
     {
         /// <summary> If the caller provided an encryption key or if symmetricAlg was
@@ -11149,7 +11149,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmPrivate))]
-    [SpecTypeName("TPM2_Rewrap_REQUEST")]
+    [SpecTypeName("Rewrap_In")]
     public partial class Tpm2RewrapRequest: TpmStructureBase
     {
         /// <summary> Parent of object
@@ -11219,7 +11219,7 @@ namespace Tpm2Lib {
     /// returned in outSymKey. </summary>
     [DataContract]
     [KnownType(typeof(TpmPrivate))]
-    [SpecTypeName("TPM2_Rewrap_RESPONSE")]
+    [SpecTypeName("Rewrap_Out")]
     public partial class Tpm2RewrapResponse: TpmStructureBase
     {
         /// <summary> An object encrypted using symmetric key derived from outSymSeed </summary>
@@ -11254,7 +11254,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(TpmPrivate))]
     [KnownType(typeof(SymDefObject))]
-    [SpecTypeName("TPM2_Import_REQUEST")]
+    [SpecTypeName("Import_In")]
     public partial class Tpm2ImportRequest: TpmStructureBase
     {
         /// <summary> The handle of the new parent for the object
@@ -11340,7 +11340,7 @@ namespace Tpm2Lib {
     /// encrypted, or unencrypted. </summary>
     [DataContract]
     [KnownType(typeof(TpmPrivate))]
-    [SpecTypeName("TPM2_Import_RESPONSE")]
+    [SpecTypeName("Import_Out")]
     public partial class Tpm2ImportResponse: TpmStructureBase
     {
         /// <summary> The sensitive area encrypted with the symmetric key of parentHandle </summary>
@@ -11380,7 +11380,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
-    [SpecTypeName("TPM2_RSA_Encrypt_REQUEST")]
+    [SpecTypeName("RSA_Encrypt_In")]
     public partial class Tpm2RsaEncryptRequest: TpmStructureBase
     {
         /// <summary> Reference to public portion of RSA key to use for encryption
@@ -11454,7 +11454,7 @@ namespace Tpm2Lib {
     /// TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme
     /// (TPM_RC_SCHEME). </summary>
     [DataContract]
-    [SpecTypeName("TPM2_RSA_Encrypt_RESPONSE")]
+    [SpecTypeName("RSA_Encrypt_Out")]
     public partial class Tpm2RsaEncryptResponse: TpmStructureBase
     {
         /// <summary> Encrypted output </summary>
@@ -11491,7 +11491,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
-    [SpecTypeName("TPM2_RSA_Decrypt_REQUEST")]
+    [SpecTypeName("RSA_Decrypt_In")]
     public partial class Tpm2RsaDecryptRequest: TpmStructureBase
     {
         /// <summary> RSA key to use for decryption
@@ -11556,7 +11556,7 @@ namespace Tpm2Lib {
     /// <summary> This command performs RSA decryption using the indicated padding scheme
     /// according to IETF RFC 8017 ((PKCS#1). </summary>
     [DataContract]
-    [SpecTypeName("TPM2_RSA_Decrypt_RESPONSE")]
+    [SpecTypeName("RSA_Decrypt_Out")]
     public partial class Tpm2RsaDecryptResponse: TpmStructureBase
     {
         /// <summary> Decrypted output </summary>
@@ -11578,7 +11578,7 @@ namespace Tpm2Lib {
     /// shared secret value (P [hde]QS). </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_ECDH_KeyGen_REQUEST")]
+    [SpecTypeName("ECDH_KeyGen_In")]
     public partial class Tpm2EcdhKeyGenRequest: TpmStructureBase
     {
         /// <summary> Handle of a loaded ECC key public area.
@@ -11604,7 +11604,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(EccPoint))]
-    [SpecTypeName("TPM2_ECDH_KeyGen_RESPONSE")]
+    [SpecTypeName("ECDH_KeyGen_Out")]
     public partial class Tpm2EcdhKeyGenResponse: TpmStructureBase
     {
         /// <summary> Results of P h[de]Qs </summary>
@@ -11637,7 +11637,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(EccPoint))]
-    [SpecTypeName("TPM2_ECDH_ZGen_REQUEST")]
+    [SpecTypeName("ECDH_ZGen_In")]
     public partial class Tpm2EcdhZGenRequest: TpmStructureBase
     {
         /// <summary> Handle of a loaded ECC key
@@ -11675,7 +11675,7 @@ namespace Tpm2Lib {
     /// (xZ , yZ) [hds]QB; where h is the cofactor of the curve). </summary>
     [DataContract]
     [KnownType(typeof(EccPoint))]
-    [SpecTypeName("TPM2_ECDH_ZGen_RESPONSE")]
+    [SpecTypeName("ECDH_ZGen_Out")]
     public partial class Tpm2EcdhZGenResponse: TpmStructureBase
     {
         /// <summary> X and Y coordinates of the product of the multiplication Z = (xZ , yZ)
@@ -11697,7 +11697,7 @@ namespace Tpm2Lib {
     /// TCG-assigned curveID. </summary>
     [DataContract]
     [KnownType(typeof(EccCurve))]
-    [SpecTypeName("TPM2_ECC_Parameters_REQUEST")]
+    [SpecTypeName("ECC_Parameters_In")]
     public partial class Tpm2EccParametersRequest: TpmStructureBase
     {
         /// <summary> Parameter set selector </summary>
@@ -11719,7 +11719,7 @@ namespace Tpm2Lib {
     /// TCG-assigned curveID. </summary>
     [DataContract]
     [KnownType(typeof(AlgorithmDetailEcc))]
-    [SpecTypeName("TPM2_ECC_Parameters_RESPONSE")]
+    [SpecTypeName("ECC_Parameters_Out")]
     public partial class Tpm2EccParametersResponse: TpmStructureBase
     {
         /// <summary> ECC parameters for the selected curve </summary>
@@ -11745,7 +11745,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_ZGen_2Phase_REQUEST")]
+    [SpecTypeName("ZGen_2Phase_In")]
     public partial class Tpm2ZGen2PhaseRequest: TpmStructureBase
     {
         /// <summary> Handle of an unrestricted decryption key ECC
@@ -11810,7 +11810,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(EccPoint))]
-    [SpecTypeName("TPM2_ZGen_2Phase_RESPONSE")]
+    [SpecTypeName("ZGen_2Phase_Out")]
     public partial class Tpm2ZGen2PhaseResponse: TpmStructureBase
     {
         /// <summary> X and Y coordinates of the computed value (scheme dependent) </summary>
@@ -11847,7 +11847,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(KdfSchemeKdf2))]
     [KnownType(typeof(KdfSchemeKdf1Sp800108))]
     [KnownType(typeof(NullKdfScheme))]
-    [SpecTypeName("TPM2_ECC_Encrypt_REQUEST")]
+    [SpecTypeName("ECC_Encrypt_In")]
     public partial class Tpm2EccEncryptRequest: TpmStructureBase
     {
         /// <summary> Reference to public portion of ECC key to use for encryption
@@ -11897,7 +11897,7 @@ namespace Tpm2Lib {
     /// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
     [DataContract]
     [KnownType(typeof(EccPoint))]
-    [SpecTypeName("TPM2_ECC_Encrypt_RESPONSE")]
+    [SpecTypeName("ECC_Encrypt_Out")]
     public partial class Tpm2EccEncryptResponse: TpmStructureBase
     {
         /// <summary> The public ephemeral key used for ECDH </summary>
@@ -11941,7 +11941,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(KdfSchemeKdf2))]
     [KnownType(typeof(KdfSchemeKdf1Sp800108))]
     [KnownType(typeof(NullKdfScheme))]
-    [SpecTypeName("TPM2_ECC_Decrypt_REQUEST")]
+    [SpecTypeName("ECC_Decrypt_In")]
     public partial class Tpm2EccDecryptRequest: TpmStructureBase
     {
         /// <summary> ECC key to use for decryption
@@ -12006,7 +12006,7 @@ namespace Tpm2Lib {
 
     /// <summary> This command performs ECC decryption. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_ECC_Decrypt_RESPONSE")]
+    [SpecTypeName("ECC_Decrypt_Out")]
     public partial class Tpm2EccDecryptResponse: TpmStructureBase
     {
         /// <summary> Decrypted output </summary>
@@ -12028,7 +12028,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_EncryptDecrypt_REQUEST")]
+    [SpecTypeName("EncryptDecrypt_In")]
     public partial class Tpm2EncryptDecryptRequest: TpmStructureBase
     {
         /// <summary> The symmetric key used for the operation
@@ -12091,7 +12091,7 @@ namespace Tpm2Lib {
     /// <summary> NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred.
     /// This should be reflected in platform-specific specifications. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_EncryptDecrypt_RESPONSE")]
+    [SpecTypeName("EncryptDecrypt_Out")]
     public partial class Tpm2EncryptDecryptResponse: TpmStructureBase
     {
         /// <summary> Encrypted or decrypted output </summary>
@@ -12122,7 +12122,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_EncryptDecrypt2_REQUEST")]
+    [SpecTypeName("EncryptDecrypt2_In")]
     public partial class Tpm2EncryptDecrypt2Request: TpmStructureBase
     {
         /// <summary> The symmetric key used for the operation
@@ -12185,7 +12185,7 @@ namespace Tpm2Lib {
     /// <summary> This command is identical to TPM2_EncryptDecrypt(), except that the inData
     /// parameter is the first parameter. This permits inData to be parameter encrypted. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_EncryptDecrypt2_RESPONSE")]
+    [SpecTypeName("EncryptDecrypt2_Out")]
     public partial class Tpm2EncryptDecrypt2Response: TpmStructureBase
     {
         /// <summary> Encrypted or decrypted output </summary>
@@ -12216,7 +12216,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_Hash_REQUEST")]
+    [SpecTypeName("Hash_In")]
     public partial class Tpm2HashRequest: TpmStructureBase
     {
         /// <summary> Data to be hashed </summary>
@@ -12258,7 +12258,7 @@ namespace Tpm2Lib {
     /// results. </summary>
     [DataContract]
     [KnownType(typeof(TkHashcheck))]
-    [SpecTypeName("TPM2_Hash_RESPONSE")]
+    [SpecTypeName("Hash_Out")]
     public partial class Tpm2HashResponse: TpmStructureBase
     {
         /// <summary> Results </summary>
@@ -12291,7 +12291,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_HMAC_REQUEST")]
+    [SpecTypeName("HMAC_In")]
     public partial class Tpm2HmacRequest: TpmStructureBase
     {
         /// <summary> Handle for the symmetric signing key providing the HMAC key
@@ -12336,7 +12336,7 @@ namespace Tpm2Lib {
     /// <summary> This command performs an HMAC on the supplied data using the indicated hash
     /// algorithm. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_HMAC_RESPONSE")]
+    [SpecTypeName("HMAC_Out")]
     public partial class Tpm2HmacResponse: TpmStructureBase
     {
         /// <summary> The returned HMAC in a sized buffer </summary>
@@ -12358,7 +12358,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_MAC_REQUEST")]
+    [SpecTypeName("MAC_In")]
     public partial class Tpm2MacRequest: TpmStructureBase
     {
         /// <summary> Handle for the symmetric signing key providing the MAC key
@@ -12403,7 +12403,7 @@ namespace Tpm2Lib {
     /// <summary> This command performs an HMAC or a block cipher MAC on the supplied data
     /// using the indicated algorithm. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_MAC_RESPONSE")]
+    [SpecTypeName("MAC_Out")]
     public partial class Tpm2MacResponse: TpmStructureBase
     {
         /// <summary> The returned MAC in a sized buffer </summary>
@@ -12423,7 +12423,7 @@ namespace Tpm2Lib {
     /// <summary> This command returns the next bytesRequested octets from the random number
     /// generator (RNG). </summary>
     [DataContract]
-    [SpecTypeName("TPM2_GetRandom_REQUEST")]
+    [SpecTypeName("GetRandom_In")]
     public partial class Tpm2GetRandomRequest: TpmStructureBase
     {
         /// <summary> Number of octets to return </summary>
@@ -12444,7 +12444,7 @@ namespace Tpm2Lib {
     /// <summary> This command returns the next bytesRequested octets from the random number
     /// generator (RNG). </summary>
     [DataContract]
-    [SpecTypeName("TPM2_GetRandom_RESPONSE")]
+    [SpecTypeName("GetRandom_Out")]
     public partial class Tpm2GetRandomResponse: TpmStructureBase
     {
         /// <summary> The random octets </summary>
@@ -12463,7 +12463,7 @@ namespace Tpm2Lib {
 
     /// <summary> This command is used to add "additional information" to the RNG state. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_StirRandom_REQUEST")]
+    [SpecTypeName("StirRandom_In")]
     public partial class Tpm2StirRandomRequest: TpmStructureBase
     {
         /// <summary> Additional information </summary>
@@ -12487,7 +12487,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_HMAC_Start_REQUEST")]
+    [SpecTypeName("HMAC_Start_In")]
     public partial class Tpm2HmacStartRequest: TpmStructureBase
     {
         /// <summary> Handle of an HMAC key
@@ -12534,7 +12534,7 @@ namespace Tpm2Lib {
     /// sequence object to the value in auth. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_HMAC_Start_RESPONSE")]
+    [SpecTypeName("HMAC_Start_Out")]
     public partial class Tpm2HmacStartResponse: TpmStructureBase
     {
         /// <summary> A handle to reference the sequence </summary>
@@ -12557,7 +12557,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_MAC_Start_REQUEST")]
+    [SpecTypeName("MAC_Start_In")]
     public partial class Tpm2MacStartRequest: TpmStructureBase
     {
         /// <summary> Handle of a MAC key
@@ -12604,7 +12604,7 @@ namespace Tpm2Lib {
     /// sequence object to the value in auth. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_MAC_Start_RESPONSE")]
+    [SpecTypeName("MAC_Start_Out")]
     public partial class Tpm2MacStartResponse: TpmStructureBase
     {
         /// <summary> A handle to reference the sequence </summary>
@@ -12627,7 +12627,7 @@ namespace Tpm2Lib {
     /// TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH. </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_HashSequenceStart_REQUEST")]
+    [SpecTypeName("HashSequenceStart_In")]
     public partial class Tpm2HashSequenceStartRequest: TpmStructureBase
     {
         /// <summary> Authorization value for subsequent use of the sequence </summary>
@@ -12663,7 +12663,7 @@ namespace Tpm2Lib {
     /// TPM_ALG_NULL, then the TPM shall return TPM_RC_HASH. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_HashSequenceStart_RESPONSE")]
+    [SpecTypeName("HashSequenceStart_Out")]
     public partial class Tpm2HashSequenceStartResponse: TpmStructureBase
     {
         /// <summary> A handle to reference the sequence </summary>
@@ -12684,7 +12684,7 @@ namespace Tpm2Lib {
     /// data in buffer may be any size up to the limits of the TPM. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_SequenceUpdate_REQUEST")]
+    [SpecTypeName("SequenceUpdate_In")]
     public partial class Tpm2SequenceUpdateRequest: TpmStructureBase
     {
         /// <summary> Handle for the sequence object
@@ -12720,7 +12720,7 @@ namespace Tpm2Lib {
     /// returns the result. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_SequenceComplete_REQUEST")]
+    [SpecTypeName("SequenceComplete_In")]
     public partial class Tpm2SequenceCompleteRequest: TpmStructureBase
     {
         /// <summary> Authorization for the sequence
@@ -12766,7 +12766,7 @@ namespace Tpm2Lib {
     /// returns the result. </summary>
     [DataContract]
     [KnownType(typeof(TkHashcheck))]
-    [SpecTypeName("TPM2_SequenceComplete_RESPONSE")]
+    [SpecTypeName("SequenceComplete_Out")]
     public partial class Tpm2SequenceCompleteResponse: TpmStructureBase
     {
         /// <summary> The returned HMAC or digest in a sized buffer </summary>
@@ -12802,7 +12802,7 @@ namespace Tpm2Lib {
     /// list. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_EventSequenceComplete_REQUEST")]
+    [SpecTypeName("EventSequenceComplete_In")]
     public partial class Tpm2EventSequenceCompleteRequest: TpmStructureBase
     {
         /// <summary> PCR to be extended with the Event data
@@ -12855,7 +12855,7 @@ namespace Tpm2Lib {
     /// associated with pcrHandle, it is extended with the associated digest value from the
     /// list. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_EventSequenceComplete_RESPONSE")]
+    [SpecTypeName("EventSequenceComplete_Out")]
     public partial class Tpm2EventSequenceCompleteResponse: TpmStructureBase
     {
         /// <summary> List of digests computed for the PCR </summary>
@@ -12891,7 +12891,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SigSchemeEcschnorr))]
     [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(NullSigScheme))]
-    [SpecTypeName("TPM2_Certify_REQUEST")]
+    [SpecTypeName("Certify_In")]
     public partial class Tpm2CertifyRequest: TpmStructureBase
     {
         /// <summary> Handle of the object to be certified
@@ -12974,7 +12974,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_Certify_RESPONSE")]
+    [SpecTypeName("Certify_Out")]
     public partial class Tpm2CertifyResponse: TpmStructureBase
     {
         /// <summary> The structure that was signed </summary>
@@ -13028,7 +13028,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(NullSigScheme))]
     [KnownType(typeof(TkCreation))]
-    [SpecTypeName("TPM2_CertifyCreation_REQUEST")]
+    [SpecTypeName("CertifyCreation_In")]
     public partial class Tpm2CertifyCreationRequest: TpmStructureBase
     {
         /// <summary> Handle of the key that will sign the attestation block
@@ -13123,7 +13123,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_CertifyCreation_RESPONSE")]
+    [SpecTypeName("CertifyCreation_Out")]
     public partial class Tpm2CertifyCreationResponse: TpmStructureBase
     {
         /// <summary> The structure that was signed </summary>
@@ -13172,7 +13172,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SigSchemeEcschnorr))]
     [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(NullSigScheme))]
-    [SpecTypeName("TPM2_Quote_REQUEST")]
+    [SpecTypeName("Quote_In")]
     public partial class Tpm2QuoteRequest: TpmStructureBase
     {
         /// <summary> Handle of key that will perform signature
@@ -13244,7 +13244,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_Quote_RESPONSE")]
+    [SpecTypeName("Quote_Out")]
     public partial class Tpm2QuoteResponse: TpmStructureBase
     {
         /// <summary> The quoted information </summary>
@@ -13293,7 +13293,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SigSchemeEcschnorr))]
     [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(NullSigScheme))]
-    [SpecTypeName("TPM2_GetSessionAuditDigest_REQUEST")]
+    [SpecTypeName("GetSessionAuditDigest_In")]
     public partial class Tpm2GetSessionAuditDigestRequest: TpmStructureBase
     {
         /// <summary> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
@@ -13382,7 +13382,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_GetSessionAuditDigest_RESPONSE")]
+    [SpecTypeName("GetSessionAuditDigest_Out")]
     public partial class Tpm2GetSessionAuditDigestResponse: TpmStructureBase
     {
         /// <summary> The audit information that was signed </summary>
@@ -13433,7 +13433,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SigSchemeEcschnorr))]
     [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(NullSigScheme))]
-    [SpecTypeName("TPM2_GetCommandAuditDigest_REQUEST")]
+    [SpecTypeName("GetCommandAuditDigest_In")]
     public partial class Tpm2GetCommandAuditDigestRequest: TpmStructureBase
     {
         /// <summary> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
@@ -13514,7 +13514,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_GetCommandAuditDigest_RESPONSE")]
+    [SpecTypeName("GetCommandAuditDigest_Out")]
     public partial class Tpm2GetCommandAuditDigestResponse: TpmStructureBase
     {
         /// <summary> The auditInfo that was signed </summary>
@@ -13563,7 +13563,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SigSchemeEcschnorr))]
     [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(NullSigScheme))]
-    [SpecTypeName("TPM2_GetTime_REQUEST")]
+    [SpecTypeName("GetTime_In")]
     public partial class Tpm2GetTimeRequest: TpmStructureBase
     {
         /// <summary> Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
@@ -13643,7 +13643,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_GetTime_RESPONSE")]
+    [SpecTypeName("GetTime_Out")]
     public partial class Tpm2GetTimeResponse: TpmStructureBase
     {
         /// <summary> Standard TPM-generated attestation block </summary>
@@ -13697,7 +13697,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SigSchemeEcschnorr))]
     [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(NullSigScheme))]
-    [SpecTypeName("TPM2_CertifyX509_REQUEST")]
+    [SpecTypeName("CertifyX509_In")]
     public partial class Tpm2CertifyX509Request: TpmStructureBase
     {
         /// <summary> Handle of the object to be certified
@@ -13787,7 +13787,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_CertifyX509_RESPONSE")]
+    [SpecTypeName("CertifyX509_Out")]
     public partial class Tpm2CertifyX509Response: TpmStructureBase
     {
         /// <summary> A DER encoded SEQUENCE containing the DER encoded fields added to
@@ -13835,7 +13835,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(EccPoint))]
-    [SpecTypeName("TPM2_Commit_REQUEST")]
+    [SpecTypeName("Commit_In")]
     public partial class Tpm2CommitRequest: TpmStructureBase
     {
         /// <summary> Handle of the key that will be used in the signing operation
@@ -13889,7 +13889,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(EccPoint))]
-    [SpecTypeName("TPM2_Commit_RESPONSE")]
+    [SpecTypeName("Commit_Out")]
     public partial class Tpm2CommitResponse: TpmStructureBase
     {
         /// <summary> ECC point K [ds](x2, y2) </summary>
@@ -13931,7 +13931,7 @@ namespace Tpm2Lib {
     /// exchange protocol. </summary>
     [DataContract]
     [KnownType(typeof(EccCurve))]
-    [SpecTypeName("TPM2_EC_Ephemeral_REQUEST")]
+    [SpecTypeName("EC_Ephemeral_In")]
     public partial class Tpm2EcEphemeralRequest: TpmStructureBase
     {
         /// <summary> The curve for the computed ephemeral point </summary>
@@ -13953,7 +13953,7 @@ namespace Tpm2Lib {
     /// exchange protocol. </summary>
     [DataContract]
     [KnownType(typeof(EccPoint))]
-    [SpecTypeName("TPM2_EC_Ephemeral_RESPONSE")]
+    [SpecTypeName("EC_Ephemeral_Out")]
     public partial class Tpm2EcEphemeralResponse: TpmStructureBase
     {
         /// <summary> Ephemeral public key Q [r]G </summary>
@@ -13996,7 +13996,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_VerifySignature_REQUEST")]
+    [SpecTypeName("VerifySignature_In")]
     public partial class Tpm2VerifySignatureRequest: TpmStructureBase
     {
         /// <summary> Handle of public key that will be used in the validation
@@ -14047,7 +14047,7 @@ namespace Tpm2Lib {
     /// message digest passed to the TPM. </summary>
     [DataContract]
     [KnownType(typeof(TkVerified))]
-    [SpecTypeName("TPM2_VerifySignature_RESPONSE")]
+    [SpecTypeName("VerifySignature_Out")]
     public partial class Tpm2VerifySignatureResponse: TpmStructureBase
     {
         [MarshalAs(0)]
@@ -14080,7 +14080,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(NullSigScheme))]
     [KnownType(typeof(TkHashcheck))]
-    [SpecTypeName("TPM2_Sign_REQUEST")]
+    [SpecTypeName("Sign_In")]
     public partial class Tpm2SignRequest: TpmStructureBase
     {
         /// <summary> Handle of key that will perform signing
@@ -14156,7 +14156,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_Sign_RESPONSE")]
+    [SpecTypeName("Sign_Out")]
     public partial class Tpm2SignResponse: TpmStructureBase
     {
         /// <summary> Selector of the algorithm used to construct the signature </summary>
@@ -14187,7 +14187,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_SetCommandCodeAuditStatus_REQUEST")]
+    [SpecTypeName("SetCommandCodeAuditStatus_In")]
     public partial class Tpm2SetCommandCodeAuditStatusRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -14245,7 +14245,7 @@ namespace Tpm2Lib {
     /// the tag (hashAlg). </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PCR_Extend_REQUEST")]
+    [SpecTypeName("PCR_Extend_In")]
     public partial class Tpm2PcrExtendRequest: TpmStructureBase
     {
         /// <summary> Handle of the PCR
@@ -14280,7 +14280,7 @@ namespace Tpm2Lib {
     /// <summary> This command is used to cause an update to the indicated PCR. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PCR_Event_REQUEST")]
+    [SpecTypeName("PCR_Event_In")]
     public partial class Tpm2PcrEventRequest: TpmStructureBase
     {
         /// <summary> Handle of the PCR
@@ -14314,7 +14314,7 @@ namespace Tpm2Lib {
 
     /// <summary> This command is used to cause an update to the indicated PCR. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_PCR_Event_RESPONSE")]
+    [SpecTypeName("PCR_Event_Out")]
     public partial class Tpm2PcrEventResponse: TpmStructureBase
     {
         [MarshalAs(0, MarshalType.VariableLengthArray, "digestsCount", 4)]
@@ -14332,7 +14332,7 @@ namespace Tpm2Lib {
 
     /// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_PCR_Read_REQUEST")]
+    [SpecTypeName("PCR_Read_In")]
     public partial class Tpm2PcrReadRequest: TpmStructureBase
     {
         /// <summary> The selection of PCR to read </summary>
@@ -14352,7 +14352,7 @@ namespace Tpm2Lib {
 
     /// <summary> This command returns the values of all PCR specified in pcrSelectionIn. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_PCR_Read_RESPONSE")]
+    [SpecTypeName("PCR_Read_Out")]
     public partial class Tpm2PcrReadResponse: TpmStructureBase
     {
         /// <summary> The current value of the PCR update counter </summary>
@@ -14389,7 +14389,7 @@ namespace Tpm2Lib {
     /// algorithms. This command requires Platform Authorization. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PCR_Allocate_REQUEST")]
+    [SpecTypeName("PCR_Allocate_In")]
     public partial class Tpm2PcrAllocateRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_PLATFORM+{PP}
@@ -14424,7 +14424,7 @@ namespace Tpm2Lib {
     /// <summary> This command is used to set the desired PCR allocation of PCR and
     /// algorithms. This command requires Platform Authorization. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_PCR_Allocate_RESPONSE")]
+    [SpecTypeName("PCR_Allocate_Out")]
     public partial class Tpm2PcrAllocateResponse: TpmStructureBase
     {
         /// <summary> YES if the allocation succeeded </summary>
@@ -14467,7 +14467,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_PCR_SetAuthPolicy_REQUEST")]
+    [SpecTypeName("PCR_SetAuthPolicy_In")]
     public partial class Tpm2PcrSetAuthPolicyRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_PLATFORM+{PP}
@@ -14520,7 +14520,7 @@ namespace Tpm2Lib {
     /// <summary> This command changes the authValue of a PCR or group of PCR. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PCR_SetAuthValue_REQUEST")]
+    [SpecTypeName("PCR_SetAuthValue_In")]
     public partial class Tpm2PcrSetAuthValueRequest: TpmStructureBase
     {
         /// <summary> Handle for a PCR that may have an authorization value set
@@ -14558,7 +14558,7 @@ namespace Tpm2Lib {
     /// reset operation. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PCR_Reset_REQUEST")]
+    [SpecTypeName("PCR_Reset_In")]
     public partial class Tpm2PcrResetRequest: TpmStructureBase
     {
         /// <summary> The PCR to reset
@@ -14598,7 +14598,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_PolicySigned_REQUEST")]
+    [SpecTypeName("PolicySigned_In")]
     public partial class Tpm2PolicySignedRequest: TpmStructureBase
     {
         /// <summary> Handle for a key that will validate the signature
@@ -14698,7 +14698,7 @@ namespace Tpm2Lib {
     /// policyDigest </summary>
     [DataContract]
     [KnownType(typeof(TkAuth))]
-    [SpecTypeName("TPM2_PolicySigned_RESPONSE")]
+    [SpecTypeName("PolicySigned_Out")]
     public partial class Tpm2PolicySignedResponse: TpmStructureBase
     {
         /// <summary> Implementation-specific time value, used to indicate to the TPM when the
@@ -14734,7 +14734,7 @@ namespace Tpm2Lib {
     /// requirement. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicySecret_REQUEST")]
+    [SpecTypeName("PolicySecret_In")]
     public partial class Tpm2PolicySecretRequest: TpmStructureBase
     {
         /// <summary> Handle for an entity providing the authorization
@@ -14821,7 +14821,7 @@ namespace Tpm2Lib {
     /// requirement. </summary>
     [DataContract]
     [KnownType(typeof(TkAuth))]
-    [SpecTypeName("TPM2_PolicySecret_RESPONSE")]
+    [SpecTypeName("PolicySecret_Out")]
     public partial class Tpm2PolicySecretResponse: TpmStructureBase
     {
         /// <summary> Implementation-specific time value used to indicate to the TPM when the
@@ -14855,7 +14855,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TkAuth))]
-    [SpecTypeName("TPM2_PolicyTicket_REQUEST")]
+    [SpecTypeName("PolicyTicket_In")]
     public partial class Tpm2PolicyTicketRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -14928,7 +14928,7 @@ namespace Tpm2Lib {
     /// will indicate that one of the required sets of conditions has been satisfied. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyOR_REQUEST")]
+    [SpecTypeName("PolicyOR_In")]
     public partial class Tpm2PolicyORRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -14964,7 +14964,7 @@ namespace Tpm2Lib {
     /// different state. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyPCR_REQUEST")]
+    [SpecTypeName("PolicyPCR_In")]
     public partial class Tpm2PolicyPCRRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15008,7 +15008,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(LocalityAttr))]
-    [SpecTypeName("TPM2_PolicyLocality_REQUEST")]
+    [SpecTypeName("PolicyLocality_In")]
     public partial class Tpm2PolicyLocalityRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15044,7 +15044,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(Eo))]
-    [SpecTypeName("TPM2_PolicyNV_REQUEST")]
+    [SpecTypeName("PolicyNV_In")]
     public partial class Tpm2PolicyNVRequest: TpmStructureBase
     {
         /// <summary> Handle indicating the source of the authorization value
@@ -15117,7 +15117,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(Eo))]
-    [SpecTypeName("TPM2_PolicyCounterTimer_REQUEST")]
+    [SpecTypeName("PolicyCounterTimer_In")]
     public partial class Tpm2PolicyCounterTimerRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15167,7 +15167,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmCc))]
-    [SpecTypeName("TPM2_PolicyCommandCode_REQUEST")]
+    [SpecTypeName("PolicyCommandCode_In")]
     public partial class Tpm2PolicyCommandCodeRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15201,7 +15201,7 @@ namespace Tpm2Lib {
     /// the time the authorization is performed. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyPhysicalPresence_REQUEST")]
+    [SpecTypeName("PolicyPhysicalPresence_In")]
     public partial class Tpm2PolicyPhysicalPresenceRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15225,7 +15225,7 @@ namespace Tpm2Lib {
     /// command parameters. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyCpHash_REQUEST")]
+    [SpecTypeName("PolicyCpHash_In")]
     public partial class Tpm2PolicyCpHashRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15261,7 +15261,7 @@ namespace Tpm2Lib {
     /// policy. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyNameHash_REQUEST")]
+    [SpecTypeName("PolicyNameHash_In")]
     public partial class Tpm2PolicyNameHashRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15295,7 +15295,7 @@ namespace Tpm2Lib {
     /// selected new parent. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyDuplicationSelect_REQUEST")]
+    [SpecTypeName("PolicyDuplicationSelect_In")]
     public partial class Tpm2PolicyDuplicationSelectRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15347,7 +15347,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TkVerified))]
-    [SpecTypeName("TPM2_PolicyAuthorize_REQUEST")]
+    [SpecTypeName("PolicyAuthorize_In")]
     public partial class Tpm2PolicyAuthorizeRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15403,7 +15403,7 @@ namespace Tpm2Lib {
     /// authorized entity. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyAuthValue_REQUEST")]
+    [SpecTypeName("PolicyAuthValue_In")]
     public partial class Tpm2PolicyAuthValueRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15427,7 +15427,7 @@ namespace Tpm2Lib {
     /// authorized object. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyPassword_REQUEST")]
+    [SpecTypeName("PolicyPassword_In")]
     public partial class Tpm2PolicyPasswordRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15452,7 +15452,7 @@ namespace Tpm2Lib {
     /// authPolicy for an object. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyGetDigest_REQUEST")]
+    [SpecTypeName("PolicyGetDigest_In")]
     public partial class Tpm2PolicyGetDigestRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session
@@ -15476,7 +15476,7 @@ namespace Tpm2Lib {
     /// allows the TPM to be used to perform the actions required to pre-compute the
     /// authPolicy for an object. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_PolicyGetDigest_RESPONSE")]
+    [SpecTypeName("PolicyGetDigest_Out")]
     public partial class Tpm2PolicyGetDigestResponse: TpmStructureBase
     {
         /// <summary> The current value of the policySessionpolicyDigest </summary>
@@ -15498,7 +15498,7 @@ namespace Tpm2Lib {
     /// checked when the policy is used for authorization. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyNvWritten_REQUEST")]
+    [SpecTypeName("PolicyNvWritten_In")]
     public partial class Tpm2PolicyNvWrittenRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15535,7 +15535,7 @@ namespace Tpm2Lib {
     /// TPM2_CreatePrimary(), or TPM2_CreateLoaded(). </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyTemplate_REQUEST")]
+    [SpecTypeName("PolicyTemplate_In")]
     public partial class Tpm2PolicyTemplateRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -15572,7 +15572,7 @@ namespace Tpm2Lib {
     /// policy unusable. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PolicyAuthorizeNV_REQUEST")]
+    [SpecTypeName("PolicyAuthorizeNV_In")]
     public partial class Tpm2PolicyAuthorizeNVRequest: TpmStructureBase
     {
         /// <summary> Handle indicating the source of the authorization value
@@ -15628,7 +15628,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(SensitiveCreate))]
     [KnownType(typeof(TpmPublic))]
-    [SpecTypeName("TPM2_CreatePrimary_REQUEST")]
+    [SpecTypeName("CreatePrimary_In")]
     public partial class Tpm2CreatePrimaryRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
@@ -15695,7 +15695,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(CreationData))]
     [KnownType(typeof(TkCreation))]
-    [SpecTypeName("TPM2_CreatePrimary_RESPONSE")]
+    [SpecTypeName("CreatePrimary_Out")]
     public partial class Tpm2CreatePrimaryResponse: TpmStructureBase
     {
         /// <summary> Handle of type TPM_HT_TRANSIENT for created Primary Object </summary>
@@ -15751,7 +15751,7 @@ namespace Tpm2Lib {
     /// when the proper authorization is provided. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_HierarchyControl_REQUEST")]
+    [SpecTypeName("HierarchyControl_In")]
     public partial class Tpm2HierarchyControlRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -15803,7 +15803,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [SpecTypeName("TPM2_SetPrimaryPolicy_REQUEST")]
+    [SpecTypeName("SetPrimaryPolicy_In")]
     public partial class Tpm2SetPrimaryPolicyRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
@@ -15854,7 +15854,7 @@ namespace Tpm2Lib {
     /// RNG and sets platformPolicy to the default initialization value (the Empty Buffer). </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_ChangePPS_REQUEST")]
+    [SpecTypeName("ChangePPS_In")]
     public partial class Tpm2ChangePPSRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_PLATFORM+{PP}
@@ -15884,7 +15884,7 @@ namespace Tpm2Lib {
     /// previous EPS to be loaded. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_ChangeEPS_REQUEST")]
+    [SpecTypeName("ChangeEPS_In")]
     public partial class Tpm2ChangeEPSRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_PLATFORM+{PP}
@@ -15909,7 +15909,7 @@ namespace Tpm2Lib {
     /// <summary> This command removes all TPM context associated with a specific Owner. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_Clear_REQUEST")]
+    [SpecTypeName("Clear_In")]
     public partial class Tpm2ClearRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
@@ -15934,7 +15934,7 @@ namespace Tpm2Lib {
     /// <summary> TPM2_ClearControl() disables and enables the execution of TPM2_Clear(). </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_ClearControl_REQUEST")]
+    [SpecTypeName("ClearControl_In")]
     public partial class Tpm2ClearControlRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
@@ -15972,7 +15972,7 @@ namespace Tpm2Lib {
     /// be changed using the current authorization value as the command authorization. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_HierarchyChangeAuth_REQUEST")]
+    [SpecTypeName("HierarchyChangeAuth_In")]
     public partial class Tpm2HierarchyChangeAuthRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16009,7 +16009,7 @@ namespace Tpm2Lib {
     /// counter is set to zero. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_DictionaryAttackLockReset_REQUEST")]
+    [SpecTypeName("DictionaryAttackLockReset_In")]
     public partial class Tpm2DictionaryAttackLockResetRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_LOCKOUT
@@ -16034,7 +16034,7 @@ namespace Tpm2Lib {
     /// <summary> This command changes the lockout parameters. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_DictionaryAttackParameters_REQUEST")]
+    [SpecTypeName("DictionaryAttackParameters_In")]
     public partial class Tpm2DictionaryAttackParametersRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_LOCKOUT
@@ -16091,7 +16091,7 @@ namespace Tpm2Lib {
     /// Physical Presence (PP) in addition to platformAuth/platformPolicy. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_PP_Commands_REQUEST")]
+    [SpecTypeName("PP_Commands_In")]
     public partial class Tpm2PpCommandsRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_PLATFORM+PP
@@ -16138,7 +16138,7 @@ namespace Tpm2Lib {
     /// used by the TPM. The algorithmSet setting is a vendor-dependent value. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_SetAlgorithmSet_REQUEST")]
+    [SpecTypeName("SetAlgorithmSet_In")]
     public partial class Tpm2SetAlgorithmSetRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_PLATFORM
@@ -16188,7 +16188,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_FieldUpgradeStart_REQUEST")]
+    [SpecTypeName("FieldUpgradeStart_In")]
     public partial class Tpm2FieldUpgradeStartRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_PLATFORM+{PP}
@@ -16259,7 +16259,7 @@ namespace Tpm2Lib {
     /// properly authorized TPM2_FieldUpgradeStart(), then the TPM shall return
     /// TPM_RC_FIELDUPGRADE. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_FieldUpgradeData_REQUEST")]
+    [SpecTypeName("FieldUpgradeData_In")]
     public partial class Tpm2FieldUpgradeDataRequest: TpmStructureBase
     {
         /// <summary> Field upgrade image data </summary>
@@ -16285,7 +16285,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHash))]
     [KnownType(typeof(TpmHash))]
-    [SpecTypeName("TPM2_FieldUpgradeData_RESPONSE")]
+    [SpecTypeName("FieldUpgradeData_Out")]
     public partial class Tpm2FieldUpgradeDataResponse: TpmStructureBase
     {
         /// <summary> Tagged digest of the next block
@@ -16315,7 +16315,7 @@ namespace Tpm2Lib {
     /// <summary> This command is used to read a copy of the current firmware installed in the
     /// TPM. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_FirmwareRead_REQUEST")]
+    [SpecTypeName("FirmwareRead_In")]
     public partial class Tpm2FirmwareReadRequest: TpmStructureBase
     {
         /// <summary> The number of previous calls to this command in this sequence
@@ -16338,7 +16338,7 @@ namespace Tpm2Lib {
     /// <summary> This command is used to read a copy of the current firmware installed in the
     /// TPM. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_FirmwareRead_RESPONSE")]
+    [SpecTypeName("FirmwareRead_Out")]
     public partial class Tpm2FirmwareReadResponse: TpmStructureBase
     {
         /// <summary> Field upgrade image data </summary>
@@ -16359,7 +16359,7 @@ namespace Tpm2Lib {
     /// context outside the TPM. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_ContextSave_REQUEST")]
+    [SpecTypeName("ContextSave_In")]
     public partial class Tpm2ContextSaveRequest: TpmStructureBase
     {
         /// <summary> Handle of the resource to save
@@ -16383,7 +16383,7 @@ namespace Tpm2Lib {
     /// context outside the TPM. </summary>
     [DataContract]
     [KnownType(typeof(Context))]
-    [SpecTypeName("TPM2_ContextSave_RESPONSE")]
+    [SpecTypeName("ContextSave_Out")]
     public partial class Tpm2ContextSaveResponse: TpmStructureBase
     {
         [MarshalAs(0)]
@@ -16403,7 +16403,7 @@ namespace Tpm2Lib {
     /// TPM2_ContextSave(). </summary>
     [DataContract]
     [KnownType(typeof(Context))]
-    [SpecTypeName("TPM2_ContextLoad_REQUEST")]
+    [SpecTypeName("ContextLoad_In")]
     public partial class Tpm2ContextLoadRequest: TpmStructureBase
     {
         /// <summary> The context blob </summary>
@@ -16425,7 +16425,7 @@ namespace Tpm2Lib {
     /// TPM2_ContextSave(). </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_ContextLoad_RESPONSE")]
+    [SpecTypeName("ContextLoad_Out")]
     public partial class Tpm2ContextLoadResponse: TpmStructureBase
     {
         /// <summary> The handle assigned to the resource after it has been successfully loaded </summary>
@@ -16446,7 +16446,7 @@ namespace Tpm2Lib {
     /// object, or session to be removed from TPM memory. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_FlushContext_REQUEST")]
+    [SpecTypeName("FlushContext_In")]
     public partial class Tpm2FlushContextRequest: TpmStructureBase
     {
         /// <summary> The handle of the item to flush
@@ -16470,7 +16470,7 @@ namespace Tpm2Lib {
     /// persistent object to be evicted. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_EvictControl_REQUEST")]
+    [SpecTypeName("EvictControl_In")]
     public partial class Tpm2EvictControlRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16524,7 +16524,7 @@ namespace Tpm2Lib {
     /// <summary> This command reads the current TPMS_TIME_INFO structure that contains the
     /// current setting of Time, Clock, resetCount, and restartCount. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_ReadClock_REQUEST")]
+    [SpecTypeName("ReadClock_In")]
     public partial class Tpm2ReadClockRequest: TpmStructureBase
     {
         public Tpm2ReadClockRequest() {}
@@ -16538,7 +16538,7 @@ namespace Tpm2Lib {
     /// current setting of Time, Clock, resetCount, and restartCount. </summary>
     [DataContract]
     [KnownType(typeof(TimeInfo))]
-    [SpecTypeName("TPM2_ReadClock_RESPONSE")]
+    [SpecTypeName("ReadClock_Out")]
     public partial class Tpm2ReadClockResponse: TpmStructureBase
     {
         [MarshalAs(0)]
@@ -16561,7 +16561,7 @@ namespace Tpm2Lib {
     /// no change to Clock. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_ClockSet_REQUEST")]
+    [SpecTypeName("ClockSet_In")]
     public partial class Tpm2ClockSetRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16598,7 +16598,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(ClockAdjust))]
-    [SpecTypeName("TPM2_ClockRateAdjust_REQUEST")]
+    [SpecTypeName("ClockRateAdjust_In")]
     public partial class Tpm2ClockRateAdjustRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16634,7 +16634,7 @@ namespace Tpm2Lib {
     /// state. </summary>
     [DataContract]
     [KnownType(typeof(Cap))]
-    [SpecTypeName("TPM2_GetCapability_REQUEST")]
+    [SpecTypeName("GetCapability_In")]
     public partial class Tpm2GetCapabilityRequest: TpmStructureBase
     {
         /// <summary> Group selection; determines the format of the response </summary>
@@ -16683,7 +16683,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(EccCurveArray))]
     [KnownType(typeof(TaggedPolicyArray))]
     [KnownType(typeof(ActDataArray))]
-    [SpecTypeName("TPM2_GetCapability_RESPONSE")]
+    [SpecTypeName("GetCapability_Out")]
     public partial class Tpm2GetCapabilityResponse: TpmStructureBase
     {
         /// <summary> Flag to indicate if there are more values of this type </summary>
@@ -16727,7 +16727,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(AsymParms))]
     [KnownType(typeof(RsaParms))]
     [KnownType(typeof(EccParms))]
-    [SpecTypeName("TPM2_TestParms_REQUEST")]
+    [SpecTypeName("TestParms_In")]
     public partial class Tpm2TestParmsRequest: TpmStructureBase
     {
         /// <summary> The algorithm to be tested </summary>
@@ -16759,7 +16759,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NvPublic))]
-    [SpecTypeName("TPM2_NV_DefineSpace_REQUEST")]
+    [SpecTypeName("NV_DefineSpace_In")]
     public partial class Tpm2NvDefineSpaceRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16801,7 +16801,7 @@ namespace Tpm2Lib {
     /// <summary> This command removes an Index from the TPM. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_UndefineSpace_REQUEST")]
+    [SpecTypeName("NV_UndefineSpace_In")]
     public partial class Tpm2NvUndefineSpaceRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -16842,7 +16842,7 @@ namespace Tpm2Lib {
     /// TPMA_NV_POLICY_DELETE SET. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_UndefineSpaceSpecial_REQUEST")]
+    [SpecTypeName("NV_UndefineSpaceSpecial_In")]
     public partial class Tpm2NvUndefineSpaceSpecialRequest: TpmStructureBase
     {
         /// <summary> Index to be deleted
@@ -16886,7 +16886,7 @@ namespace Tpm2Lib {
     /// read this data. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_ReadPublic_REQUEST")]
+    [SpecTypeName("NV_ReadPublic_In")]
     public partial class Tpm2NvReadPublicRequest: TpmStructureBase
     {
         /// <summary> The NV Index
@@ -16911,7 +16911,7 @@ namespace Tpm2Lib {
     /// read this data. </summary>
     [DataContract]
     [KnownType(typeof(NvPublic))]
-    [SpecTypeName("TPM2_NV_ReadPublic_RESPONSE")]
+    [SpecTypeName("NV_ReadPublic_Out")]
     public partial class Tpm2NvReadPublicResponse: TpmStructureBase
     {
         /// <summary> The public area of the NV Index </summary>
@@ -16941,7 +16941,7 @@ namespace Tpm2Lib {
     /// defined by TPM2_NV_DefineSpace(). </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_Write_REQUEST")]
+    [SpecTypeName("NV_Write_In")]
     public partial class Tpm2NvWriteRequest: TpmStructureBase
     {
         /// <summary> Handle indicating the source of the authorization value
@@ -16996,7 +16996,7 @@ namespace Tpm2Lib {
     /// TPM_NT_COUNTER attribute. The data value of the NV Index is incremented by one. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_Increment_REQUEST")]
+    [SpecTypeName("NV_Increment_In")]
     public partial class Tpm2NvIncrementRequest: TpmStructureBase
     {
         /// <summary> Handle indicating the source of the authorization value
@@ -17037,7 +17037,7 @@ namespace Tpm2Lib {
     /// defined by TPM2_NV_DefineSpace. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_Extend_REQUEST")]
+    [SpecTypeName("NV_Extend_In")]
     public partial class Tpm2NvExtendRequest: TpmStructureBase
     {
         /// <summary> Handle indicating the source of the authorization value
@@ -17086,7 +17086,7 @@ namespace Tpm2Lib {
     /// the current contents of the NV Index. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_SetBits_REQUEST")]
+    [SpecTypeName("NV_SetBits_In")]
     public partial class Tpm2NvSetBitsRequest: TpmStructureBase
     {
         /// <summary> Handle indicating the source of the authorization value
@@ -17135,7 +17135,7 @@ namespace Tpm2Lib {
     /// Index. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_WriteLock_REQUEST")]
+    [SpecTypeName("NV_WriteLock_In")]
     public partial class Tpm2NvWriteLockRequest: TpmStructureBase
     {
         /// <summary> Handle indicating the source of the authorization value
@@ -17176,7 +17176,7 @@ namespace Tpm2Lib {
     /// TPMA_NV_GLOBALLOCK attribute SET. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_GlobalWriteLock_REQUEST")]
+    [SpecTypeName("NV_GlobalWriteLock_In")]
     public partial class Tpm2NvGlobalWriteLockRequest: TpmStructureBase
     {
         /// <summary> TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -17202,7 +17202,7 @@ namespace Tpm2Lib {
     /// TPM2_NV_DefineSpace(). </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_Read_REQUEST")]
+    [SpecTypeName("NV_Read_In")]
     public partial class Tpm2NvReadRequest: TpmStructureBase
     {
         /// <summary> The handle indicating the source of the authorization value
@@ -17258,7 +17258,7 @@ namespace Tpm2Lib {
     /// <summary> This command reads a value from an area in NV memory previously defined by
     /// TPM2_NV_DefineSpace(). </summary>
     [DataContract]
-    [SpecTypeName("TPM2_NV_Read_RESPONSE")]
+    [SpecTypeName("NV_Read_Out")]
     public partial class Tpm2NvReadResponse: TpmStructureBase
     {
         /// <summary> The data read </summary>
@@ -17279,7 +17279,7 @@ namespace Tpm2Lib {
     /// prevent further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR). </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_ReadLock_REQUEST")]
+    [SpecTypeName("NV_ReadLock_In")]
     public partial class Tpm2NvReadLockRequest: TpmStructureBase
     {
         /// <summary> The handle indicating the source of the authorization value
@@ -17319,7 +17319,7 @@ namespace Tpm2Lib {
     /// <summary> This command allows the authorization secret for an NV Index to be changed. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_NV_ChangeAuth_REQUEST")]
+    [SpecTypeName("NV_ChangeAuth_In")]
     public partial class Tpm2NvChangeAuthRequest: TpmStructureBase
     {
         /// <summary> Handle of the entity
@@ -17367,7 +17367,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SigSchemeEcschnorr))]
     [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(NullSigScheme))]
-    [SpecTypeName("TPM2_NV_Certify_REQUEST")]
+    [SpecTypeName("NV_Certify_In")]
     public partial class Tpm2NvCertifyRequest: TpmStructureBase
     {
         /// <summary> Handle of the key used to sign the attestation structure
@@ -17474,7 +17474,7 @@ namespace Tpm2Lib {
     [KnownType(typeof(SignatureSm2))]
     [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
-    [SpecTypeName("TPM2_NV_Certify_RESPONSE")]
+    [SpecTypeName("NV_Certify_Out")]
     public partial class Tpm2NvCertifyResponse: TpmStructureBase
     {
         /// <summary> The structure that was signed </summary>
@@ -17514,7 +17514,7 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(At))]
-    [SpecTypeName("TPM2_AC_GetCapability_REQUEST")]
+    [SpecTypeName("AC_GetCapability_In")]
     public partial class Tpm2AcGetCapabilityRequest: TpmStructureBase
     {
         /// <summary> Handle indicating the Attached Component
@@ -17554,7 +17554,7 @@ namespace Tpm2Lib {
     /// <summary> The purpose of this command is to obtain information about an Attached
     /// Component referenced by an AC handle. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_AC_GetCapability_RESPONSE")]
+    [SpecTypeName("AC_GetCapability_Out")]
     public partial class Tpm2AcGetCapabilityResponse: TpmStructureBase
     {
         /// <summary> Flag to indicate whether there are more values </summary>
@@ -17584,7 +17584,7 @@ namespace Tpm2Lib {
     /// to an Attached Component. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_AC_Send_REQUEST")]
+    [SpecTypeName("AC_Send_In")]
     public partial class Tpm2AcSendRequest: TpmStructureBase
     {
         /// <summary> Handle of the object being sent to ac
@@ -17644,7 +17644,7 @@ namespace Tpm2Lib {
     /// to an Attached Component. </summary>
     [DataContract]
     [KnownType(typeof(AcOutput))]
-    [SpecTypeName("TPM2_AC_Send_RESPONSE")]
+    [SpecTypeName("AC_Send_Out")]
     public partial class Tpm2AcSendResponse: TpmStructureBase
     {
         /// <summary> May include AC specific data or information about an error. </summary>
@@ -17667,7 +17667,7 @@ namespace Tpm2Lib {
     /// be sent may be specified. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_Policy_AC_SendSelect_REQUEST")]
+    [SpecTypeName("Policy_AC_SendSelect_In")]
     public partial class Tpm2PolicyAcSendSelectRequest: TpmStructureBase
     {
         /// <summary> Handle for the policy session being extended
@@ -17726,7 +17726,7 @@ namespace Tpm2Lib {
     /// Countdown Timer (ACT) expires. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [SpecTypeName("TPM2_ACT_SetTimeout_REQUEST")]
+    [SpecTypeName("ACT_SetTimeout_In")]
     public partial class Tpm2ActSetTimeoutRequest: TpmStructureBase
     {
         /// <summary> Handle of the selected ACT
@@ -17760,7 +17760,7 @@ namespace Tpm2Lib {
 
     /// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_Vendor_TCG_Test_REQUEST")]
+    [SpecTypeName("Vendor_TCG_Test_In")]
     public partial class Tpm2VendorTcgTestRequest: TpmStructureBase
     {
         /// <summary> Dummy data </summary>
@@ -17780,7 +17780,7 @@ namespace Tpm2Lib {
 
     /// <summary> This is a placeholder to allow testing of the dispatch code. </summary>
     [DataContract]
-    [SpecTypeName("TPM2_Vendor_TCG_Test_RESPONSE")]
+    [SpecTypeName("Vendor_TCG_Test_Out")]
     public partial class Tpm2VendorTcgTestResponse: TpmStructureBase
     {
         /// <summary> Dummy data </summary>
