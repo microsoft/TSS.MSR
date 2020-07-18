@@ -68,7 +68,7 @@ public class CreateLoadedResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_CreateLoaded_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("CreateLoadedResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

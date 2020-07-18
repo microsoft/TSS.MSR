@@ -44,7 +44,7 @@ public class ObjectChangeAuthResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_ObjectChangeAuth_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("ObjectChangeAuthResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

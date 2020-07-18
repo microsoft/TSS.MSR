@@ -57,7 +57,7 @@ public class AC_GetCapabilityResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_AC_GetCapability_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("AC_GetCapabilityResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

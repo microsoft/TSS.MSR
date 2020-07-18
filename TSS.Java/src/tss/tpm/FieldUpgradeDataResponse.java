@@ -61,7 +61,7 @@ public class FieldUpgradeDataResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_FieldUpgradeData_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("FieldUpgradeDataResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

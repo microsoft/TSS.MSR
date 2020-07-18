@@ -60,7 +60,7 @@ public class ECC_EncryptResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_ECC_Encrypt_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("ECC_EncryptResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

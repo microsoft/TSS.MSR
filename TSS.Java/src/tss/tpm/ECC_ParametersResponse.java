@@ -44,7 +44,7 @@ public class ECC_ParametersResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_ECC_Parameters_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("ECC_ParametersResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

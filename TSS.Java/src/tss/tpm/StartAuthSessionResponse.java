@@ -50,7 +50,7 @@ public class StartAuthSessionResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_StartAuthSession_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("StartAuthSessionResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

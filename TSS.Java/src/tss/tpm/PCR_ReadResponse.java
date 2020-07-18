@@ -60,7 +60,7 @@ public class PCR_ReadResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_PCR_Read_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("PCR_ReadResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

@@ -80,7 +80,7 @@ public class CreatePrimaryResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_CreatePrimary_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("CreatePrimaryResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

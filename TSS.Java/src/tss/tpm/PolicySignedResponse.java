@@ -61,7 +61,7 @@ public class PolicySignedResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_PolicySigned_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("PolicySignedResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

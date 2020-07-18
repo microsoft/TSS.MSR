@@ -48,7 +48,7 @@ public class ECDH_ZGenResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_ECDH_ZGen_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("ECDH_ZGenResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

@@ -24,6 +24,17 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
     
     public TPMS_AUTH_RESPONSE() {}
     
+    /** @param _nonce The session nonce, may be the Empty Buffer
+     *  @param _sessionAttributes The session attributes
+     *  @param _hmac Either an HMAC or an EmptyAuth
+     */
+    public TPMS_AUTH_RESPONSE(byte[] _nonce, TPMA_SESSION _sessionAttributes, byte[] _hmac)
+    {
+        nonce = _nonce;
+        sessionAttributes = _sessionAttributes;
+        hmac = _hmac;
+    }
+    
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)

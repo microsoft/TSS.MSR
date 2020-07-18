@@ -44,7 +44,7 @@ public class HMACResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_HMAC_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("HMACResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

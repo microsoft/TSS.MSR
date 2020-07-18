@@ -59,7 +59,7 @@ public class ZGen_2PhaseResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_ZGen_2Phase_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("ZGen_2PhaseResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

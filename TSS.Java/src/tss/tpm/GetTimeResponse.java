@@ -65,7 +65,7 @@ public class GetTimeResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_GetTime_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("GetTimeResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

@@ -44,7 +44,7 @@ public class FirmwareReadResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_FirmwareRead_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("FirmwareReadResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

@@ -48,7 +48,7 @@ public class RSA_EncryptResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_RSA_Encrypt_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("RSA_EncryptResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

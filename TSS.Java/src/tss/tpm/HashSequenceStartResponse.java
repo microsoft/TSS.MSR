@@ -40,7 +40,7 @@ public class HashSequenceStartResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_HashSequenceStart_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("HashSequenceStartResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

@@ -50,7 +50,7 @@ public class LoadResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_Load_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("LoadResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

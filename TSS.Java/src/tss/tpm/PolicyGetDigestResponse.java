@@ -46,7 +46,7 @@ public class PolicyGetDigestResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_PolicyGetDigest_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("PolicyGetDigestResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

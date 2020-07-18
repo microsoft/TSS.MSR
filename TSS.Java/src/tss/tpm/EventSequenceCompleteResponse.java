@@ -49,7 +49,7 @@ public class EventSequenceCompleteResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_EventSequenceComplete_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("EventSequenceCompleteResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

@@ -44,7 +44,7 @@ public class ECC_DecryptResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_ECC_Decrypt_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("ECC_DecryptResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();

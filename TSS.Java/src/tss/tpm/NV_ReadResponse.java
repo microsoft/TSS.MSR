@@ -44,7 +44,7 @@ public class NV_ReadResponse extends RespStructure
     @Override
     public String toString()
     {
-        TpmStructurePrinter _p = new TpmStructurePrinter("TPM2_NV_Read_RESPONSE");
+        TpmStructurePrinter _p = new TpmStructurePrinter("NV_ReadResponse");
         toStringInternal(_p, 1);
         _p.endStruct();
         return _p.toString();
