@@ -139,5 +139,45 @@ namespace Tpm2TestSuite
 
             // Alternatively the key can be persisted in the TPM using the EvictControl() command
         } // ExternalKeyImportSample
+
+        [Test(Profile.TPM20, Privileges.Admin, Category.Asym | Category.Rsa)]
+        void LoadExternalFullRsaKeySample(Tpm2 tpm, TestContext testCtx)
+        {
+            var hashAlg = TpmAlgId.Sha256;
+            var inPub = new TpmPublic(hashAlg,
+                ObjectAttr.Decrypt | ObjectAttr.UserWithAuth | ObjectAttr.SensitiveDataOrigin,
+                null,
+                new RsaParms(new SymDefObject(), new SchemeOaep(hashAlg), 2048, 0),
+                new Tpm2bPublicKeyRsa());
+
+            // Create a software RSA key 
+            var swKey = new AsymCryptoSystem(inPub);
+
+            // The crucial point in loading a software key is preparing the TPM-formatted private part of the key
+            Sensitive sens = swKey.GetSensitive();
+
+            TpmHandle extKey = tpm.LoadExternal(sens, swKey.GetPublicParms(), TpmRh.Null);
+
+            //
+            // Make sure that the key was loaded correctly
+            //
+
+            // This particular label is used by the TPM while doing OAEP for its internal protocols
+            // (though in n general any label can be used).
+            byte[] label = RawRsa.GetLabel("OaepLabel");
+            byte[] origMsg = Substrate.RandomBytes(64);
+
+            // Encrypt using software key (the paublic part is used)
+            byte[] encMsg = swKey.EncryptOaep(origMsg, label);
+
+            testCtx.AssertNotEqual("SwEnc", origMsg, encMsg);
+
+            // Decrypt using the TPM (the private part is used)
+            byte[] decMsg = tpm.RsaDecrypt(extKey, encMsg, null, label);
+
+            testCtx.AssertEqual("CrossEncDec", origMsg, decMsg);
+
+            tpm.FlushContext(extKey);
+        }
     }
 }
