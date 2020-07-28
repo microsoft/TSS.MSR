@@ -1453,10 +1453,10 @@ namespace Tpm2Lib
         }
     } // class SymDefObject
 
-    [Obsolete("The only method defined by this class is obsolete")]
+    //[Obsolete("The only method defined by this class is obsolete")]
     public class TpmHashCheck
     {
-        [Obsolete("Use 'new TkHashcheck()' instead")]
+        //[Obsolete("Use 'new TkHashcheck()' instead")]
         public static TkHashcheck Null()
         {
             return new TkHashcheck();
