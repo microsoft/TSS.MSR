@@ -30,7 +30,7 @@ public class TPMS_NV_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     public TPMS_NV_CERTIFY_INFO(byte[] _indexName, int _offset, byte[] _nvContents)
     {
         indexName = _indexName;
-        offset = (short)_offset;
+        offset = _offset;
         nvContents = _nvContents;
     }
     

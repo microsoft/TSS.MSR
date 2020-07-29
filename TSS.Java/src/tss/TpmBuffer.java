@@ -103,10 +103,10 @@ public class TpmBuffer
                 buf.put((byte) val);
                 return;
             case 2:
-                writeByteBuf(Helpers.hostToNet((short) val));
+                writeByteBuf(Helpers.hostToNet((short)val));
                 return;
             case 4:
-                writeByteBuf(Helpers.hostToNet((int) val));
+                writeByteBuf(Helpers.hostToNet((int)val));
                 return;
             case 8:
                 writeByteBuf(Helpers.hostToNet(val));

@@ -48,8 +48,8 @@ public class TPM2_NV_Read_REQUEST extends ReqStructure
     {
         authHandle = _authHandle;
         nvIndex = _nvIndex;
-        size = (short)_size;
-        offset = (short)_offset;
+        size = _size;
+        offset = _offset;
     }
     
     /** TpmMarshaller method  */

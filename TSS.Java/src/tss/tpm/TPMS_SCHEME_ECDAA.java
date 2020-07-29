@@ -24,7 +24,7 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
     public TPMS_SCHEME_ECDAA(TPM_ALG_ID _hashAlg, int _count)
     {
         hashAlg = _hashAlg;
-        count = (short)_count;
+        count = _count;
     }
     
     /** TpmUnion method  */

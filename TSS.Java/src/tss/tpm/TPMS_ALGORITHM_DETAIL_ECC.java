@@ -85,7 +85,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
     public TPMS_ALGORITHM_DETAIL_ECC(TPM_ECC_CURVE _curveID, int _keySize, TPMU_KDF_SCHEME _kdf, TPMU_ASYM_SCHEME _sign, byte[] _p, byte[] _a, byte[] _b, byte[] _gX, byte[] _gY, byte[] _n, byte[] _h)
     {
         curveID = _curveID;
-        keySize = (short)_keySize;
+        keySize = _keySize;
         kdf = _kdf;
         sign = _sign;
         p = _p;

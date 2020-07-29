@@ -39,7 +39,7 @@ public class TPM2_PolicyCounterTimer_REQUEST extends ReqStructure
     {
         policySession = _policySession;
         operandB = _operandB;
-        offset = (short)_offset;
+        offset = _offset;
         operation = _operation;
     }
     

@@ -93,22 +93,22 @@ public class DrsServer {
         TpmBuffer actBlob = new TpmBuffer();
         
         byte[] credBlob = cred.credentialBlob.toBytes();
-        actBlob.writeShort((short)credBlob.length);
+        actBlob.writeShort(credBlob.length);
         actBlob.writeByteBuf(credBlob);
 
-        actBlob.writeShort((short)cred.secret.length);
+        actBlob.writeShort(cred.secret.length);
         actBlob.writeByteBuf(cred.secret);
         
         dupResp.duplicate.toTpm(actBlob);
         
-        actBlob.writeShort((short)dupResp.outSymSeed.length);
+        actBlob.writeShort(dupResp.outSymSeed.length);
         actBlob.writeByteBuf(dupResp.outSymSeed);
         
         byte[] idKeyPub = idKey.outPublic.toBytes();
-        actBlob.writeShort((short)idKeyPub.length);
+        actBlob.writeShort(idKeyPub.length);
         actBlob.writeByteBuf(idKeyPub);
         
-        actBlob.writeShort((short)encryptedUri.length);
+        actBlob.writeShort(encryptedUri.length);
         actBlob.writeByteBuf(encryptedUri);
         
         System.arraycopy(actBlob.buffer(), 0, actBlobBuffer, 0, actBlob.curPos());

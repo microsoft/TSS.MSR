@@ -16,7 +16,7 @@ public class TPM2_GetRandom_REQUEST extends ReqStructure
     public TPM2_GetRandom_REQUEST() {}
     
     /** @param _bytesRequested Number of octets to return  */
-    public TPM2_GetRandom_REQUEST(int _bytesRequested) { bytesRequested = (short)_bytesRequested; }
+    public TPM2_GetRandom_REQUEST(int _bytesRequested) { bytesRequested = _bytesRequested; }
     
     /** TpmMarshaller method  */
     @Override

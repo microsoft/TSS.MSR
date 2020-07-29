@@ -54,7 +54,7 @@ public class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
         inQsB = _inQsB;
         inQeB = _inQeB;
         inScheme = _inScheme;
-        counter = (short)_counter;
+        counter = _counter;
     }
     
     /** TpmMarshaller method  */

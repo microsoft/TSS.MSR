@@ -48,7 +48,7 @@ public class TPM2_NV_Write_REQUEST extends ReqStructure
         authHandle = _authHandle;
         nvIndex = _nvIndex;
         data = _data;
-        offset = (short)_offset;
+        offset = _offset;
     }
     
     /** TpmMarshaller method  */

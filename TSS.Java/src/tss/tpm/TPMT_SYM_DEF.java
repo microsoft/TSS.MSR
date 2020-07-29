@@ -34,7 +34,7 @@ public class TPMT_SYM_DEF extends TpmStructure
     public TPMT_SYM_DEF(TPM_ALG_ID _algorithm, int _keyBits, TPM_ALG_ID _mode)
     {
         algorithm = _algorithm;
-        keyBits = (short)_keyBits;
+        keyBits = _keyBits;
         mode = _mode;
     }
     

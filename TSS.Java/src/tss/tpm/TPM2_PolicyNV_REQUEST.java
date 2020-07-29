@@ -62,7 +62,7 @@ public class TPM2_PolicyNV_REQUEST extends ReqStructure
         nvIndex = _nvIndex;
         policySession = _policySession;
         operandB = _operandB;
-        offset = (short)_offset;
+        offset = _offset;
         operation = _operation;
     }
     

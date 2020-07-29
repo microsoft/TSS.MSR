@@ -55,7 +55,7 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         nameAlg = _nameAlg;
         attributes = _attributes;
         authPolicy = _authPolicy;
-        dataSize = (short)_dataSize;
+        dataSize = _dataSize;
     }
     
     /** TpmMarshaller method  */

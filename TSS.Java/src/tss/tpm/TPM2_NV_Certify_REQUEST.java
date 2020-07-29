@@ -81,8 +81,8 @@ public class TPM2_NV_Certify_REQUEST extends ReqStructure
         nvIndex = _nvIndex;
         qualifyingData = _qualifyingData;
         inScheme = _inScheme;
-        size = (short)_size;
-        offset = (short)_offset;
+        size = _size;
+        offset = _offset;
     }
     
     /** TpmMarshaller method  */
