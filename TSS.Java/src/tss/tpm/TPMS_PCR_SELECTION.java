@@ -131,7 +131,6 @@ public class TPMS_PCR_SELECTION extends TpmStructure
             pcrSelect[pcrIndices[j] / 8] |= (byte)(1 << (pcrIndices[j] % 8));
         }
     }
-    
 }
 
 //<<<

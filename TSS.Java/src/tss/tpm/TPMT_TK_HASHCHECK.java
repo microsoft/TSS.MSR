@@ -90,7 +90,6 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
         t.hierarchy = TPM_HANDLE.from(TPM_RH.OWNER);
         return t;
     }
-    
 }
 
 //<<<

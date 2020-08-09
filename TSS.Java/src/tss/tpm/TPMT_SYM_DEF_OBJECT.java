@@ -98,7 +98,6 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
 
     @Deprecated
     public static TPMT_SYM_DEF_OBJECT nullObject() { return new TPMT_SYM_DEF_OBJECT(); }
-    
 }
 
 //<<<

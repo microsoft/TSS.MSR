@@ -149,7 +149,6 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
     {
         return new TPMT_HA(alg, new byte[Crypto.digestSize(alg)]);
     }
-    
 }
 
 //<<<

@@ -173,7 +173,6 @@ public class TPM_HANDLE extends TpmStructure
                 throw new RuntimeException("Unknown handle type");
         }
     }
-    
 }
 
 //<<<

@@ -3454,7 +3454,6 @@ export class TPM_HANDLE extends TpmStructure
                 throw new Error("TPM_HANDLE.getName(): Unknown handle type");
         }
     }
-    
 } // TPM_HANDLE
 
 /** Base class for empty union elements.
@@ -4159,7 +4158,6 @@ export class TPMT_TK_HASHCHECK extends TpmStructure
     {
         return new TPMT_TK_HASHCHECK(new TPM_HANDLE(TPM_RH.OWNER));
     }
-    
 } // TPMT_TK_HASHCHECK
 
 /** This structure is used to report the properties of an algorithm identifier. It is
@@ -5718,7 +5716,6 @@ export class TPMT_SYM_DEF extends TpmStructure
     {
      	return new TPMT_SYM_DEF(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL);
     }
-    
 } // TPMT_SYM_DEF
 
 /** This structure is used when different symmetric block cipher (not XOR) algorithms may
@@ -5773,7 +5770,6 @@ export class TPMT_SYM_DEF_OBJECT extends TpmStructure
     {
      	return new TPMT_SYM_DEF_OBJECT(TPM_ALG_ID.NULL, 0, TPM_ALG_ID.NULL);
     }
-    
 } // TPMT_SYM_DEF_OBJECT
 
 /** This structure is used to hold a symmetric key in the sensitive area of an asymmetric object.  */
@@ -8028,7 +8024,6 @@ export class TPMT_PUBLIC extends TpmStructure
     	algBuf.writeInt16BE(this.nameAlg, 0);
         return Buffer.concat([algBuf, pubHash]);
     }
-    
 } // TPMT_PUBLIC
 
 /** This sized buffer is used to embed a TPMT_PUBLIC in a load command and in any response

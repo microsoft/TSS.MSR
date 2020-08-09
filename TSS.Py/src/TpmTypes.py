@@ -3563,7 +3563,6 @@ class TPM_HANDLE (TpmStructure):
     
     def __str__(self):
         return str(self.getType()) + ':0x' + hex(self.handle)
-    
 # TPM_HANDLE
 
 class TPMS_NULL_UNION (TpmStructure, TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TPMU_KDF_SCHEME, TPMU_ASYM_SCHEME, TPMU_SIGNATURE):
@@ -8277,7 +8276,6 @@ class TPMT_PUBLIC (TpmStructure):
         pubHash = Crypto.hash(self.nameAlg, pub)
         algBuf = intToTpm(self.nameAlg, 2)
         return algBuf + bytes(pubHash)
-    
 # TPMT_PUBLIC
 
 class TPM2B_PUBLIC (TpmStructure):

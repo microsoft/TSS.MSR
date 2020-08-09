@@ -178,7 +178,6 @@ public class TPMT_PUBLIC extends TpmStructure
     {
         return Crypto.validateQuote(this, expectedPcrs, nonce, quote);
     }
-    
 }
 
 //<<<
