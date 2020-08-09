@@ -1,14 +1,21 @@
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
+
 #include "stdafx.h"
 #include "TpmConfig.h"
 #include <algorithm>
 
-std::vector<TPM_ALG_ID> TpmConfig::ImplementedAlgs;
+using namespace std;
+
+vector<TPM_ALG_ID> TpmConfig::ImplementedAlgs;
 
 // Implemented hash algorithms
-std::vector<TPM_ALG_ID> TpmConfig::HashAlgs;
+vector<TPM_ALG_ID> TpmConfig::HashAlgs;
 
 // All commands implemented by the TPM
-std::vector<TPM_CC> TpmConfig::ImplementedCommands;
+vector<TPM_CC> TpmConfig::ImplementedCommands;
 
 
 void TpmConfig::Init(Tpm2& tpm)
@@ -60,11 +67,11 @@ void TpmConfig::Init(Tpm2& tpm)
 
 bool TpmConfig::Implements(TPM_CC cmd)
 {
-    return std::find(ImplementedCommands.begin(), ImplementedCommands.end(), cmd)
+    return find(ImplementedCommands.begin(), ImplementedCommands.end(), cmd)
             != ImplementedCommands.end();
 }
 
 bool TpmConfig::Implements(TPM_ALG_ID alg)
 {
-    return std::find(ImplementedAlgs.begin(), ImplementedAlgs.end(), alg) != ImplementedAlgs.end();
+    return find(ImplementedAlgs.begin(), ImplementedAlgs.end(), alg) != ImplementedAlgs.end();
 }

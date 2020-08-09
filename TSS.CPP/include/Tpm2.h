@@ -1249,7 +1249,7 @@ public:
     ///        If keyHandle is not a restricted signing key, then this may be a NULL Ticket with
     ///        tag = TPM_ST_CHECKHASH. </param>
     /// <returns> signature - The signature </returns>
-    std::shared_ptr<TPMU_SIGNATURE> Sign
+    shared_ptr<TPMU_SIGNATURE> Sign
     (
         const TPM_HANDLE& keyHandle, 
         const ByteVec& digest, 
@@ -4536,7 +4536,7 @@ public:
         /// <summary> This command causes the TPM to sign an externally provided hash with the
         /// specified symmetric or asymmetric signing key. </summary>
         /// <returns> signature - The signature </returns>
-        std::shared_ptr<TPMU_SIGNATURE> SignComplete();
+        shared_ptr<TPMU_SIGNATURE> SignComplete();
         
         /// <summary> This command may be used by the Privacy Administrator or platform to change the
         /// audit status of a command or to set the hash algorithm used for the audit digest, but not

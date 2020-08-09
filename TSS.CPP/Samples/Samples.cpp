@@ -2,6 +2,7 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
  */
+
 #include "stdafx.h"
 #include "Samples.h"
 #include "TpmConfig.h"
@@ -22,7 +23,7 @@ Samples::Samples()
     if (!device || !device->Connect())
     {
         device = nullptr;
-        throw std::runtime_error("Could not connect to TPM device.");
+        throw runtime_error("Could not connect to TPM device.");
     }
 
     tpm._SetDevice(*device);
@@ -180,7 +181,7 @@ void AssertNoHandlesOfType(Tpm2& tpm, TPM_HT handleType, UINT32 rangeBegin = 0, 
         string errMsg = "!!! " + to_string(handles.size()) + " dangling " + EnumToStr(handleType) + " handle"
                       + (handles.size() == 1 ? "" : "s") + " left";
         cerr << errMsg << endl;
-        throw std::runtime_error(errMsg);
+        throw runtime_error(errMsg);
     }
 }
 
@@ -419,7 +420,7 @@ void Samples::PCR()
 
     cout << "PCR after event:" << endl << afterEvent[0].ToString() << endl;
 
-    std::vector<TPMS_PCR_SELECTION> toReadArray = { {TPM_ALG_ID::SHA1, 0},
+    vector<TPMS_PCR_SELECTION> toReadArray = { {TPM_ALG_ID::SHA1, 0},
                                                     {TPM_ALG_ID::SHA256, 1} };
 
     // Get the initial values of two PCRs: one SHA1, and one SHA256
@@ -427,7 +428,7 @@ void Samples::PCR()
     cout << "Initial value:" << endl << initVals.ToString(false) << endl;
 
     // Used by PCR_Read to read PCR0 in the SHA1 bank
-    std::vector<TPMS_PCR_SELECTION> toReadPcr0 = { {TPM_ALG_ID::SHA1, 0} };
+    vector<TPMS_PCR_SELECTION> toReadPcr0 = { {TPM_ALG_ID::SHA1, 0} };
 
     // Modify PCR0 via event
     auto newVals = tpm.PCR_Event(TPM_HANDLE::Pcr(0), toEvent);
@@ -511,7 +512,7 @@ void Samples::Hash()
 {
     Announce("Hash");
 
-    std::vector<TPM_ALG_ID> hashAlgs = { TPM_ALG_ID::SHA1, TPM_ALG_ID::SHA256 };
+    vector<TPM_ALG_ID> hashAlgs = { TPM_ALG_ID::SHA1, TPM_ALG_ID::SHA256 };
     ByteVec accumulator;
     ByteVec data1 { 1, 2, 3, 4, 5, 6 };
 
@@ -1190,7 +1191,7 @@ void Samples::PolicySimplest()
     Announce("PolicySimplest");
 
     // A TPM policy is a list or tree of Policy Assertions represented as a
-    // std::vector<PABase*> in TSS.C++. The simplest policy tree is a single element.
+    // vector<PABase*> in TSS.C++. The simplest policy tree is a single element.
     // The following policy indicates that the only operation that can be
     // performed is TPM2_HMAC_Start.
     PolicyTree p(TpmCpp::PolicyCommandCode(TPM_CC::HMAC_Start, ""));
@@ -1242,7 +1243,7 @@ void Samples::PolicyLocalitySample()
 {
     Announce("PolicyLocality");
 
-    // A TPM policy is a list or tree of Policy Assertions represented as a std::vector<PABase*> in
+    // A TPM policy is a list or tree of Policy Assertions represented as a vector<PABase*> in
     // TSS.C++. The simplest policy tree is a single element. The following policy indicates that
     // actions may only be performed at locality 1.
     PolicyTree p(TpmCpp::PolicyLocality(TPMA_LOCALITY::LOC_ONE, "" ));
@@ -2149,10 +2150,10 @@ void Samples::Serializer()
 
     // Start by using the TPM to initialize some data structures, 
     // specifically, PCR-values and a key pair.
-    std::vector<TPMS_PCR_SELECTION> toReadArray = { {TPM_ALG_ID::SHA1, 0}, {TPM_ALG_ID::SHA256, 1} };
+    vector<TPMS_PCR_SELECTION> toReadArray = { {TPM_ALG_ID::SHA1, 0}, {TPM_ALG_ID::SHA256, 1} };
 
     // Used by PCR_Read to read PCR-0 in the SHA1 bank
-    std::vector<TPMS_PCR_SELECTION> toReadPcr0 = { {TPM_ALG_ID::SHA1, 0} };
+    vector<TPMS_PCR_SELECTION> toReadPcr0 = { {TPM_ALG_ID::SHA1, 0} };
 
     ByteVec toEvent { 1, 2, 3 };
     tpm.PCR_Event(TPM_HANDLE::Pcr(0), toEvent);
@@ -2570,8 +2571,8 @@ void Samples::MiscAdmin()
         cout << endl;
 
         // And put things back the way they were
-        std::vector<UINT32> standardPcr(24);
-        std::iota(standardPcr.begin(), standardPcr.end(), 0);
+        vector<UINT32> standardPcr(24);
+        iota(standardPcr.begin(), standardPcr.end(), 0);
         resp = tpm.PCR_Allocate(TPM_RH::PLATFORM, { {TPM_ALG_ID::SHA1, standardPcr},
                                                     {TPM_ALG_ID::SHA256, standardPcr} });
         _ASSERT(resp.allocationSuccess);
@@ -2663,11 +2664,11 @@ void Samples::Audit()
     // an audit, and (3) quoting the TPMaudit, and (4) checking it.
 
     TPM_ALG_ID auditAlg = TPM_ALG_ID::SHA1;
-    std::vector<TPM_CC> emptyVec;
+    vector<TPM_CC> emptyVec;
     tpm.SetCommandCodeAuditStatus(TPM_RH::OWNER, TPM_ALG_NULL, emptyVec, emptyVec);
 
     // Start the TPM auditing
-    std::vector<TPM_CC> toAudit { TPM_CC::GetRandom, TPM_CC::StirRandom };
+    vector<TPM_CC> toAudit { TPM_CC::GetRandom, TPM_CC::StirRandom };
     tpm.SetCommandCodeAuditStatus(TPM_RH::OWNER, auditAlg, emptyVec, emptyVec);
     tpm.SetCommandCodeAuditStatus(TPM_RH::OWNER, TPM_ALG_NULL, toAudit, emptyVec);
 
@@ -2942,7 +2943,7 @@ void Samples::PolicySigned()
     ByteVec actualDigest = tpm.PolicyGetDigest(s);
 
     if (policyDigest != actualDigest)
-        throw std::runtime_error("Bad policy digest");
+        throw runtime_error("Bad policy digest");
     cout << "PolicySigned policy digest is correct" << endl;
 
     // We could use the session at this point, but here we just delete it
@@ -2968,7 +2969,7 @@ void Samples::PolicySigned()
     actualDigest = tpm.PolicyGetDigest(s);
 
     if (actualDigest != policyDigest.digest) {
-        throw std::runtime_error("Bad policy digest");
+        throw runtime_error("Bad policy digest");
     }
 
     // We could use the session at this point...
@@ -2978,7 +2979,7 @@ void Samples::PolicySigned()
     auto digestIs = tpm.PolicyGetDigest(s);
 
     if (digestIs != TPM_HASH(TPM_ALG_ID::SHA1))
-        throw std::runtime_error("did not reset");
+        throw runtime_error("did not reset");
 
     tpm.FlushContext(s);
 } // PolicySigned()
@@ -3033,7 +3034,7 @@ void Samples::PolicyAuthorizeSample()
     expectedPolicyDigest.Extend(null);
 
     if (expectedPolicyDigest != policyDigest)
-        throw std::runtime_error("Incorrect policyHash");
+        throw runtime_error("Incorrect policyHash");
     cout << "PolicyAuthorize digest is correct" << endl;
 
     // We could now use the policy session, but for the sample we will just clean up.

@@ -3273,7 +3273,6 @@ public:
     protected:
     ByteVec AuthValue;
     mutable ByteVec Name;
-    
 }; // class TPM_HANDLE
 
 /// <summary> Base class for empty union elements.
@@ -3450,7 +3449,6 @@ public:
     
     /// <summary> Global equality operator overload for TPMT_HA </summary>
     friend bool operator!=(const ByteVec& digest, const TPMT_HA& hash) { return digest != hash.digest; }
-    
 }; // class TPMT_HA
 
 /// <summary> This structure is used for a sized buffer that cannot be larger than the
@@ -3466,9 +3464,6 @@ public:
     TPM2B_DIGEST(const ByteVec& _buffer)
       : buffer(_buffer)
     {}
-    
-    operator ByteVec&() { return buffer; }
-    operator const ByteVec&() const { return buffer; }
     
     /// <summary> TpmUnion method </summary>
     TPM_ALG_ID GetUnionSelector() const { return TPM_ALG_ID::KEYEDHASH; }
@@ -3490,6 +3485,9 @@ public:
     void Deserialize(Serializer& buf);
     
     virtual TpmStructure* Clone() const { return new TPM2B_DIGEST(*this); }
+    
+    operator ByteVec&() { return buffer; }
+    operator const ByteVec&() const { return buffer; }
 }; // class TPM2B_DIGEST
 
 /// <summary> This structure is used for a data buffer that is required to be no larger
@@ -3831,7 +3829,6 @@ public:
     {
         return vector<TPMS_PCR_SELECTION>();
     }
-    
 }; // class TPMS_PCR_SELECTION
 
 /// <summary> This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It is used
@@ -3986,7 +3983,6 @@ public:
     
     [[deprecated("Use default ctor instead")]]
     static TPMT_TK_HASHCHECK NullTicket() { return TPMT_TK_HASHCHECK(); }
-    
 }; // class TPMT_TK_HASHCHECK
 
 /// <summary> This structure is used to report the properties of an algorithm identifier.
@@ -5477,7 +5473,6 @@ public:
     
     [[deprecated("Use default ctor instead")]]
     static TPMT_SYM_DEF NullObject() { return TPMT_SYM_DEF(); }
-    
 }; // class TPMT_SYM_DEF
 
 /// <summary> This structure is used when different symmetric block cipher (not XOR)
@@ -5526,7 +5521,6 @@ public:
     
     [[deprecated("Use default ctor instead")]]
     static TPMT_SYM_DEF_OBJECT NullObject() { return TPMT_SYM_DEF_OBJECT(); }
-    
 }; // class TPMT_SYM_DEF_OBJECT
 
 /// <summary> This structure is used to hold a symmetric key in the sensitive area of an
@@ -7700,7 +7694,6 @@ public:
     /// <summary> Gets the algorithm of this key. </summary>
     [[deprecated("Use type() instead")]]
     TPM_ALG_ID GetAlg() const { return type(); }
-    
 }; // class TPMT_PUBLIC
 
 /// <summary> This sized buffer is used to embed a TPMT_PUBLIC in a load command and in
@@ -7859,7 +7852,6 @@ public:
     /// <summary> Create an object suitable when the TPM needs a NULL-object input. </summary>
     [[deprecated("Use default ctor instead")]]
     static TPMT_SENSITIVE NullObject() { return TPMT_SENSITIVE(); };
-    
 }; // class TPMT_SENSITIVE
 
 /// <summary> The TPM2B_SENSITIVE structure is used as a parameter in TPM2_LoadExternal().

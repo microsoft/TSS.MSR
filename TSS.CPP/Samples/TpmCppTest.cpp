@@ -1,9 +1,8 @@
-/*++
+/*
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See the LICENSE file in the project root for full license information.
+ */
 
-Copyright (c) 2013, 2014  Microsoft Corporation
-Microsoft Confidential
-
-*/
 #include "stdafx.h"
 #include "Tpm2.h"
 
@@ -15,6 +14,7 @@ Microsoft Confidential
 #define _T(s)   s
 #endif
 
+using namespace std;
 using namespace TpmCpp;
 
 bool UseSimulator = true;
@@ -33,7 +33,7 @@ CmdLine_IsOpt(
                 || (opt[0] == '-' && opt[1] == '-' && 0 == _tcscmp(opt + 2, optFull))));
 }
 
-void CmdLine_Help(std::ostream& ostr)
+void CmdLine_Help(ostream& ostr)
 {
     ostr << "One command line option can be specified." << endl
         << "An option can be in the short form (one letter preceded with '-' or '/')" << endl
@@ -48,8 +48,8 @@ int CmdLine_Parse(int argc, TCHAR *argv[])
 {
     if (argc > 2)
     {
-        std::cerr << "Too many command line option can be specified." << endl;
-        CmdLine_Help(std::cerr);
+        cerr << "Too many command line option can be specified." << endl;
+        CmdLine_Help(cerr);
         return -1;
     }
     if (argc == 1 || CmdLine_IsOpt(argv[1], _T("sim"), _T("s")))
@@ -66,12 +66,12 @@ int CmdLine_Parse(int argc, TCHAR *argv[])
     if (CmdLine_IsOpt(argv[1], _T("help"), _T("h")) ||
         CmdLine_IsOpt(argv[1], _T("?"), _T("?")))
     {
-        CmdLine_Help(std::cout);
+        CmdLine_Help(cout);
         return 1;
     }
 
-    std::cerr << "Unrecognized command line option: '" << argv[1] << "'" << endl;
-    CmdLine_Help(std::cerr);
+    cerr << "Unrecognized command line option: '" << argv[1] << "'" << endl;
+    CmdLine_Help(cerr);
     return -2;
 }
 
@@ -97,8 +97,8 @@ int main(int argc, char *argv[])
         Samples s;
         s.RunAllSamples();
     }
-    catch (const std::runtime_error& exc) {
-        std::cerr << "TpmCppTester: " << exc.what() << "\nExiting...\n";
+    catch (const runtime_error& exc) {
+        cerr << "TpmCppTester: " << exc.what() << "\nExiting...\n";
     }
 
 #ifdef WIN32

@@ -239,3 +239,7 @@ SignResponse Sign(const ByteVec& dataToSign) const
 {
     return Sign(dataToSign, TPMS_NULL_SIG_SCHEME());
 }
+
+>> TPM2B_DIGEST
+operator ByteVec&() { return buffer; }
+operator const ByteVec&() const { return buffer; }

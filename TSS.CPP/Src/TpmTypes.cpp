@@ -7296,7 +7296,7 @@ TPMT_TK_VERIFIED Tpm2::VerifySignature(
     return resp.validation;
 }
 
-std::shared_ptr<TPMU_SIGNATURE> Tpm2::Sign(
+shared_ptr<TPMU_SIGNATURE> Tpm2::Sign(
     const TPM_HANDLE& keyHandle, 
     const ByteVec& digest, 
     const TPMU_SIG_SCHEME& inScheme, 
@@ -9310,7 +9310,7 @@ TPMT_TK_VERIFIED Tpm2::AsyncMethods::VerifySignatureComplete()
     return resp.validation;
 }
 
-std::shared_ptr<TPMU_SIGNATURE> Tpm2::AsyncMethods::SignComplete()
+shared_ptr<TPMU_SIGNATURE> Tpm2::AsyncMethods::SignComplete()
 {
     SignResponse resp;
     theTpm.DispatchIn(TPM_CC::Sign, resp);
