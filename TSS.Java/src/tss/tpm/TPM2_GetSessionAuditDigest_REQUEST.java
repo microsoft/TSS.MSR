@@ -122,7 +122,7 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
         _p.add(d, "TPM_HANDLE", "privacyAdminHandle", privacyAdminHandle);
         _p.add(d, "TPM_HANDLE", "signHandle", signHandle);
         _p.add(d, "TPM_HANDLE", "sessionHandle", sessionHandle);
-        _p.add(d, "byte", "qualifyingData", qualifyingData);
+        _p.add(d, "byte[]", "qualifyingData", qualifyingData);
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
     }
 

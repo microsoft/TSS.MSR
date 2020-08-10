@@ -78,8 +78,8 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "indexName", indexName);
-        _p.add(d, "byte", "nvDigest", nvDigest);
+        _p.add(d, "byte[]", "indexName", indexName);
+        _p.add(d, "byte[]", "nvDigest", nvDigest);
     }
 }
 

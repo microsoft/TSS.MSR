@@ -86,7 +86,7 @@ public class TPM2_NV_Extend_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
-        _p.add(d, "byte", "data", data);
+        _p.add(d, "byte[]", "data", data);
     }
 
     @Override

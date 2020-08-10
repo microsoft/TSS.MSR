@@ -131,13 +131,13 @@ public class TPMS_CREATION_DATA extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMS_PCR_SELECTION", "pcrSelect", pcrSelect);
-        _p.add(d, "byte", "pcrDigest", pcrDigest);
+        _p.add(d, "TPMS_PCR_SELECTION[]", "pcrSelect", pcrSelect);
+        _p.add(d, "byte[]", "pcrDigest", pcrDigest);
         _p.add(d, "TPMA_LOCALITY", "locality", locality);
         _p.add(d, "TPM_ALG_ID", "parentNameAlg", parentNameAlg);
-        _p.add(d, "byte", "parentName", parentName);
-        _p.add(d, "byte", "parentQualifiedName", parentQualifiedName);
-        _p.add(d, "byte", "outsideInfo", outsideInfo);
+        _p.add(d, "byte[]", "parentName", parentName);
+        _p.add(d, "byte[]", "parentQualifiedName", parentQualifiedName);
+        _p.add(d, "byte[]", "outsideInfo", outsideInfo);
     }
 }
 

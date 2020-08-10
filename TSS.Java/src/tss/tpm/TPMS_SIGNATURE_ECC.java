@@ -85,8 +85,8 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "hash", hash);
-        _p.add(d, "byte", "signatureR", signatureR);
-        _p.add(d, "byte", "signatureS", signatureS);
+        _p.add(d, "byte[]", "signatureR", signatureR);
+        _p.add(d, "byte[]", "signatureS", signatureS);
     }
 }
 

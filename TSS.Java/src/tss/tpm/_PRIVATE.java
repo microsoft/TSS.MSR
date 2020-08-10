@@ -81,8 +81,8 @@ public class _PRIVATE extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "integrityOuter", integrityOuter);
-        _p.add(d, "byte", "integrityInner", integrityInner);
+        _p.add(d, "byte[]", "integrityOuter", integrityOuter);
+        _p.add(d, "byte[]", "integrityInner", integrityInner);
         _p.add(d, "TPMT_SENSITIVE", "sensitive", sensitive);
     }
 }

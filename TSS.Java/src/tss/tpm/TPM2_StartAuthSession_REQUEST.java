@@ -138,8 +138,8 @@ public class TPM2_StartAuthSession_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "tpmKey", tpmKey);
         _p.add(d, "TPM_HANDLE", "bind", bind);
-        _p.add(d, "byte", "nonceCaller", nonceCaller);
-        _p.add(d, "byte", "encryptedSalt", encryptedSalt);
+        _p.add(d, "byte[]", "nonceCaller", nonceCaller);
+        _p.add(d, "byte[]", "encryptedSalt", encryptedSalt);
         _p.add(d, "TPM_SE", "sessionType", sessionType);
         _p.add(d, "TPMT_SYM_DEF", "symmetric", symmetric);
         _p.add(d, "TPM_ALG_ID", "authHash", authHash);

@@ -111,7 +111,7 @@ public class TPM2_Sign_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "keyHandle", keyHandle);
-        _p.add(d, "byte", "digest", digest);
+        _p.add(d, "byte[]", "digest", digest);
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
         _p.add(d, "TPMT_TK_HASHCHECK", "validation", validation);
     }

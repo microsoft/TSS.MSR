@@ -92,7 +92,7 @@ public class TPM2_PolicyCounterTimer_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-        _p.add(d, "byte", "operandB", operandB);
+        _p.add(d, "byte[]", "operandB", operandB);
         _p.add(d, "int", "offset", offset);
         _p.add(d, "TPM_EO", "operation", operation);
     }

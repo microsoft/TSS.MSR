@@ -89,8 +89,8 @@ public class TPM2_PolicyPCR_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-        _p.add(d, "byte", "pcrDigest", pcrDigest);
-        _p.add(d, "TPMS_PCR_SELECTION", "pcrs", pcrs);
+        _p.add(d, "byte[]", "pcrDigest", pcrDigest);
+        _p.add(d, "TPMS_PCR_SELECTION[]", "pcrs", pcrs);
     }
 
     @Override

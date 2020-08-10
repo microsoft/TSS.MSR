@@ -55,7 +55,7 @@ public class MACResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "outMAC", outMAC);
+        _p.add(d, "byte[]", "outMAC", outMAC);
     }
 
     @Override

@@ -113,7 +113,7 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
         _p.add(d, "TPM_ALG_ID", "nameAlg", nameAlg);
         _p.add(d, "TPMA_NV", "attributes", attributes);
-        _p.add(d, "byte", "authPolicy", authPolicy);
+        _p.add(d, "byte[]", "authPolicy", authPolicy);
         _p.add(d, "int", "dataSize", dataSize);
     }
 }

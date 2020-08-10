@@ -117,7 +117,7 @@ public class TPM2_PolicyNV_REQUEST extends ReqStructure
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-        _p.add(d, "byte", "operandB", operandB);
+        _p.add(d, "byte[]", "operandB", operandB);
         _p.add(d, "int", "offset", offset);
         _p.add(d, "TPM_EO", "operation", operation);
     }

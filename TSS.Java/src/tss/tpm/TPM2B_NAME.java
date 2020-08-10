@@ -56,7 +56,7 @@ public class TPM2B_NAME extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "name", name);
+        _p.add(d, "byte[]", "name", name);
     }
 }
 

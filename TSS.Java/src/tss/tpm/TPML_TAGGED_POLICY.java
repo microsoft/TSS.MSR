@@ -62,7 +62,7 @@ public class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIE
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMS_TAGGED_POLICY", "policies", policies);
+        _p.add(d, "TPMS_TAGGED_POLICY[]", "policies", policies);
     }
 }
 

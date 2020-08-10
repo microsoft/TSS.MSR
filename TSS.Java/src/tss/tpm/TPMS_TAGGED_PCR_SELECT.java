@@ -74,7 +74,7 @@ public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_PT_PCR", "tag", tag);
-        _p.add(d, "byte", "pcrSelect", pcrSelect);
+        _p.add(d, "byte[]", "pcrSelect", pcrSelect);
     }
 }
 

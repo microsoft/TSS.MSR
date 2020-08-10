@@ -80,7 +80,7 @@ public class TPM2_HashSequenceStart_REQUEST extends ReqStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "auth", auth);
+        _p.add(d, "byte[]", "auth", auth);
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
     }
 

@@ -70,8 +70,8 @@ public class PCR_ReadResponse extends RespStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "int", "pcrUpdateCounter", pcrUpdateCounter);
-        _p.add(d, "TPMS_PCR_SELECTION", "pcrSelectionOut", pcrSelectionOut);
-        _p.add(d, "TPM2B_DIGEST", "pcrValues", pcrValues);
+        _p.add(d, "TPMS_PCR_SELECTION[]", "pcrSelectionOut", pcrSelectionOut);
+        _p.add(d, "TPM2B_DIGEST[]", "pcrValues", pcrValues);
     }
 }
 

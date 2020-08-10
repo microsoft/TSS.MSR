@@ -80,9 +80,9 @@ public class SessionOut extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "nonceTpm", nonceTpm);
+        _p.add(d, "byte[]", "nonceTpm", nonceTpm);
         _p.add(d, "TPMA_SESSION", "attributes", attributes);
-        _p.add(d, "byte", "auth", auth);
+        _p.add(d, "byte[]", "auth", auth);
     }
 }
 

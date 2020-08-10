@@ -101,9 +101,9 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-        _p.add(d, "byte", "objectName", objectName);
-        _p.add(d, "byte", "authHandleName", authHandleName);
-        _p.add(d, "byte", "acName", acName);
+        _p.add(d, "byte[]", "objectName", objectName);
+        _p.add(d, "byte[]", "authHandleName", authHandleName);
+        _p.add(d, "byte[]", "acName", acName);
         _p.add(d, "byte", "includeObject", includeObject);
     }
 

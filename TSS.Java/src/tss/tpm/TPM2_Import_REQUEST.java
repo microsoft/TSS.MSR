@@ -131,10 +131,10 @@ public class TPM2_Import_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "parentHandle", parentHandle);
-        _p.add(d, "byte", "encryptionKey", encryptionKey);
+        _p.add(d, "byte[]", "encryptionKey", encryptionKey);
         _p.add(d, "TPMT_PUBLIC", "objectPublic", objectPublic);
         _p.add(d, "TPM2B_PRIVATE", "duplicate", duplicate);
-        _p.add(d, "byte", "inSymSeed", inSymSeed);
+        _p.add(d, "byte[]", "inSymSeed", inSymSeed);
         _p.add(d, "TPMT_SYM_DEF_OBJECT", "symmetricAlg", symmetricAlg);
     }
 

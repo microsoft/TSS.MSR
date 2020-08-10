@@ -84,8 +84,8 @@ public class TPMS_ID_OBJECT extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "integrityHMAC", integrityHMAC);
-        _p.add(d, "byte", "encIdentity", encIdentity);
+        _p.add(d, "byte[]", "integrityHMAC", integrityHMAC);
+        _p.add(d, "byte[]", "encIdentity", encIdentity);
     }
 }
 

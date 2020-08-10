@@ -102,7 +102,7 @@ public class TPM2_ActivateCredential_REQUEST extends ReqStructure
         _p.add(d, "TPM_HANDLE", "activateHandle", activateHandle);
         _p.add(d, "TPM_HANDLE", "keyHandle", keyHandle);
         _p.add(d, "TPMS_ID_OBJECT", "credentialBlob", credentialBlob);
-        _p.add(d, "byte", "secret", secret);
+        _p.add(d, "byte[]", "secret", secret);
     }
 
     @Override

@@ -74,7 +74,7 @@ public class TPMS_PCR_SELECTION extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "hash", hash);
-        _p.add(d, "byte", "pcrSelect", pcrSelect);
+        _p.add(d, "byte[]", "pcrSelect", pcrSelect);
     }
     
     /** Create a PCR_SELECTION naming a single PCR

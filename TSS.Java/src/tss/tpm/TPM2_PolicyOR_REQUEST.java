@@ -73,7 +73,7 @@ public class TPM2_PolicyOR_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-        _p.add(d, "TPM2B_DIGEST", "pHashList", pHashList);
+        _p.add(d, "TPM2B_DIGEST[]", "pHashList", pHashList);
     }
 
     @Override

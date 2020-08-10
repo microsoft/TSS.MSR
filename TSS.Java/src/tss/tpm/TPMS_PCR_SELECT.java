@@ -56,7 +56,7 @@ public class TPMS_PCR_SELECT extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "pcrSelect", pcrSelect);
+        _p.add(d, "byte[]", "pcrSelect", pcrSelect);
     }
 }
 

@@ -98,7 +98,7 @@ public class TPM2_AC_Send_REQUEST extends ReqStructure
         _p.add(d, "TPM_HANDLE", "sendObject", sendObject);
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "ac", ac);
-        _p.add(d, "byte", "acDataIn", acDataIn);
+        _p.add(d, "byte[]", "acDataIn", acDataIn);
     }
 
     @Override

@@ -76,8 +76,8 @@ public class TPMS_CREATION_INFO extends TpmStructure implements TPMU_ATTEST
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "objectName", objectName);
-        _p.add(d, "byte", "creationHash", creationHash);
+        _p.add(d, "byte[]", "objectName", objectName);
+        _p.add(d, "byte[]", "creationHash", creationHash);
     }
 }
 

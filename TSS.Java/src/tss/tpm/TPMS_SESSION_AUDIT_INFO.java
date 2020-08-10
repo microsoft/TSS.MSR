@@ -83,7 +83,7 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "exclusiveSession", exclusiveSession);
-        _p.add(d, "byte", "sessionDigest", sessionDigest);
+        _p.add(d, "byte[]", "sessionDigest", sessionDigest);
     }
 }
 

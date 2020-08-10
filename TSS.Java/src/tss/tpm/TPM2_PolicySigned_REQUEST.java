@@ -149,9 +149,9 @@ public class TPM2_PolicySigned_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "authObject", authObject);
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-        _p.add(d, "byte", "nonceTPM", nonceTPM);
-        _p.add(d, "byte", "cpHashA", cpHashA);
-        _p.add(d, "byte", "policyRef", policyRef);
+        _p.add(d, "byte[]", "nonceTPM", nonceTPM);
+        _p.add(d, "byte[]", "cpHashA", cpHashA);
+        _p.add(d, "byte[]", "policyRef", policyRef);
         _p.add(d, "int", "expiration", expiration);
         _p.add(d, "TPMU_SIGNATURE", "auth", auth);
     }

@@ -125,9 +125,9 @@ public class TPM2_CertifyX509_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "objectHandle", objectHandle);
         _p.add(d, "TPM_HANDLE", "signHandle", signHandle);
-        _p.add(d, "byte", "reserved", reserved);
+        _p.add(d, "byte[]", "reserved", reserved);
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
-        _p.add(d, "byte", "partialCertificate", partialCertificate);
+        _p.add(d, "byte[]", "partialCertificate", partialCertificate);
     }
 
     @Override

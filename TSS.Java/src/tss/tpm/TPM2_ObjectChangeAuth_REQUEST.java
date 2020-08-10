@@ -84,7 +84,7 @@ public class TPM2_ObjectChangeAuth_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "objectHandle", objectHandle);
         _p.add(d, "TPM_HANDLE", "parentHandle", parentHandle);
-        _p.add(d, "byte", "newAuth", newAuth);
+        _p.add(d, "byte[]", "newAuth", newAuth);
     }
 
     @Override

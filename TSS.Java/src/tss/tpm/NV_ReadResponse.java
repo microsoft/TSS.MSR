@@ -53,7 +53,7 @@ public class NV_ReadResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "data", data);
+        _p.add(d, "byte[]", "data", data);
     }
 
     @Override

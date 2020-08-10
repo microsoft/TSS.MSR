@@ -100,8 +100,8 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "auth", auth);
         _p.add(d, "TPM_ALG_ID", "auditAlg", auditAlg);
-        _p.add(d, "TPM_CC", "setList", setList);
-        _p.add(d, "TPM_CC", "clearList", clearList);
+        _p.add(d, "TPM_CC[]", "setList", setList);
+        _p.add(d, "TPM_CC[]", "clearList", clearList);
     }
 
     @Override

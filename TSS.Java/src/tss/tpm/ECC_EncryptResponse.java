@@ -70,8 +70,8 @@ public class ECC_EncryptResponse extends RespStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ECC_POINT", "C1", C1);
-        _p.add(d, "byte", "C2", C2);
-        _p.add(d, "byte", "C3", C3);
+        _p.add(d, "byte[]", "C2", C2);
+        _p.add(d, "byte[]", "C3", C3);
     }
 
     @Override

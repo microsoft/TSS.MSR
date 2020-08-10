@@ -88,7 +88,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
-        _p.add(d, "byte", "digest", digest);
+        _p.add(d, "byte[]", "digest", digest);
     }
     
     /** Create a TPMT_HA from the hash of data

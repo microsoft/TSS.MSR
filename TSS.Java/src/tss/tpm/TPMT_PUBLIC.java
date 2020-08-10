@@ -130,7 +130,7 @@ public class TPMT_PUBLIC extends TpmStructure
     {
         _p.add(d, "TPM_ALG_ID", "nameAlg", nameAlg);
         _p.add(d, "TPMA_OBJECT", "objectAttributes", objectAttributes);
-        _p.add(d, "byte", "authPolicy", authPolicy);
+        _p.add(d, "byte[]", "authPolicy", authPolicy);
         _p.add(d, "TPMU_PUBLIC_PARMS", "parameters", parameters);
         _p.add(d, "TPMU_PUBLIC_ID", "unique", unique);
     }

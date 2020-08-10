@@ -61,7 +61,7 @@ public class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPAB
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMS_TAGGED_PCR_SELECT", "pcrProperty", pcrProperty);
+        _p.add(d, "TPMS_TAGGED_PCR_SELECT[]", "pcrProperty", pcrProperty);
     }
 }
 

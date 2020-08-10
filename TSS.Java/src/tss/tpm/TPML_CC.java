@@ -68,7 +68,7 @@ public class TPML_CC extends TpmStructure implements TPMU_CAPABILITIES
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPM_CC", "commandCodes", commandCodes);
+        _p.add(d, "TPM_CC[]", "commandCodes", commandCodes);
     }
 }
 

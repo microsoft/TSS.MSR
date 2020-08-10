@@ -70,8 +70,8 @@ public class ReadPublicResponse extends RespStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMT_PUBLIC", "outPublic", outPublic);
-        _p.add(d, "byte", "name", name);
-        _p.add(d, "byte", "qualifiedName", qualifiedName);
+        _p.add(d, "byte[]", "name", name);
+        _p.add(d, "byte[]", "qualifiedName", qualifiedName);
     }
 
     @Override

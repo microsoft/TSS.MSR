@@ -88,9 +88,9 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "sessionHandle", sessionHandle);
-        _p.add(d, "byte", "nonce", nonce);
+        _p.add(d, "byte[]", "nonce", nonce);
         _p.add(d, "TPMA_SESSION", "sessionAttributes", sessionAttributes);
-        _p.add(d, "byte", "hmac", hmac);
+        _p.add(d, "byte[]", "hmac", hmac);
     }
 }
 

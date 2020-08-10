@@ -109,8 +109,8 @@ public class TPM2_CreatePrimary_REQUEST extends ReqStructure
         _p.add(d, "TPM_HANDLE", "primaryHandle", primaryHandle);
         _p.add(d, "TPMS_SENSITIVE_CREATE", "inSensitive", inSensitive);
         _p.add(d, "TPMT_PUBLIC", "inPublic", inPublic);
-        _p.add(d, "byte", "outsideInfo", outsideInfo);
-        _p.add(d, "TPMS_PCR_SELECTION", "creationPCR", creationPCR);
+        _p.add(d, "byte[]", "outsideInfo", outsideInfo);
+        _p.add(d, "TPMS_PCR_SELECTION[]", "creationPCR", creationPCR);
     }
 
     @Override

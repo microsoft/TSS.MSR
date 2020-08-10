@@ -96,8 +96,8 @@ public class TPM2_Commit_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "signHandle", signHandle);
         _p.add(d, "TPMS_ECC_POINT", "P1", P1);
-        _p.add(d, "byte", "s2", s2);
-        _p.add(d, "byte", "y2", y2);
+        _p.add(d, "byte[]", "s2", s2);
+        _p.add(d, "byte[]", "y2", y2);
     }
 
     @Override

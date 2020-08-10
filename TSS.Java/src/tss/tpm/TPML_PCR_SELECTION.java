@@ -61,7 +61,7 @@ public class TPML_PCR_SELECTION extends TpmStructure implements TPMU_CAPABILITIE
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMS_PCR_SELECTION", "pcrSelections", pcrSelections);
+        _p.add(d, "TPMS_PCR_SELECTION[]", "pcrSelections", pcrSelections);
     }
 }
 

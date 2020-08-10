@@ -92,8 +92,8 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-        _p.add(d, "byte", "objectName", objectName);
-        _p.add(d, "byte", "newParentName", newParentName);
+        _p.add(d, "byte[]", "objectName", objectName);
+        _p.add(d, "byte[]", "newParentName", newParentName);
         _p.add(d, "byte", "includeObject", includeObject);
     }
 

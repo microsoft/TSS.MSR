@@ -60,7 +60,7 @@ public class TPM2_FieldUpgradeData_REQUEST extends ReqStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "fuData", fuData);
+        _p.add(d, "byte[]", "fuData", fuData);
     }
 
     @Override

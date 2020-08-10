@@ -78,7 +78,7 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
-        _p.add(d, "byte", "digest", digest);
+        _p.add(d, "byte[]", "digest", digest);
     }
     
     /** Create a NULL ticket (e.g. used for signing data with non-restricted keys)

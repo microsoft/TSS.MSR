@@ -61,7 +61,7 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "buffer", buffer);
+        _p.add(d, "byte[]", "buffer", buffer);
     }
 }
 

@@ -58,7 +58,7 @@ public class TPML_DIGEST_VALUES extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMT_HA", "digests", digests);
+        _p.add(d, "TPMT_HA[]", "digests", digests);
     }
 }
 

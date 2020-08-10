@@ -59,7 +59,7 @@ public class LoadExternalResponse extends RespStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
-        _p.add(d, "byte", "name", name);
+        _p.add(d, "byte[]", "name", name);
     }
 
     @Override

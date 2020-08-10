@@ -115,7 +115,7 @@ public class TPM2_GetCommandAuditDigest_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "privacyHandle", privacyHandle);
         _p.add(d, "TPM_HANDLE", "signHandle", signHandle);
-        _p.add(d, "byte", "qualifyingData", qualifyingData);
+        _p.add(d, "byte[]", "qualifyingData", qualifyingData);
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
     }
 

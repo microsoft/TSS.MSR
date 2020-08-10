@@ -76,8 +76,8 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "x", x);
-        _p.add(d, "byte", "y", y);
+        _p.add(d, "byte[]", "x", x);
+        _p.add(d, "byte[]", "y", y);
     }
 }
 

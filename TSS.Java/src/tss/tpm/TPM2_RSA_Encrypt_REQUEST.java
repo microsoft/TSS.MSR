@@ -121,9 +121,9 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "keyHandle", keyHandle);
-        _p.add(d, "byte", "message", message);
+        _p.add(d, "byte[]", "message", message);
         _p.add(d, "TPMU_ASYM_SCHEME", "inScheme", inScheme);
-        _p.add(d, "byte", "label", label);
+        _p.add(d, "byte[]", "label", label);
     }
 
     @Override

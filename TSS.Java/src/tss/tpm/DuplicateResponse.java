@@ -75,9 +75,9 @@ public class DuplicateResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "encryptionKeyOut", encryptionKeyOut);
+        _p.add(d, "byte[]", "encryptionKeyOut", encryptionKeyOut);
         _p.add(d, "TPM2B_PRIVATE", "duplicate", duplicate);
-        _p.add(d, "byte", "outSymSeed", outSymSeed);
+        _p.add(d, "byte[]", "outSymSeed", outSymSeed);
     }
 
     @Override

@@ -85,8 +85,8 @@ public class TPM2_MakeCredential_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
-        _p.add(d, "byte", "credential", credential);
-        _p.add(d, "byte", "objectName", objectName);
+        _p.add(d, "byte[]", "credential", credential);
+        _p.add(d, "byte[]", "objectName", objectName);
     }
 
     @Override

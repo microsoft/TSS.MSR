@@ -67,7 +67,7 @@ public class NV_ReadPublicResponse extends RespStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_NV_PUBLIC", "nvPublic", nvPublic);
-        _p.add(d, "byte", "nvName", nvName);
+        _p.add(d, "byte[]", "nvName", nvName);
     }
 
     @Override

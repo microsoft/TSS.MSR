@@ -71,7 +71,7 @@ public class TPM2_PCR_Event_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "pcrHandle", pcrHandle);
-        _p.add(d, "byte", "eventData", eventData);
+        _p.add(d, "byte[]", "eventData", eventData);
     }
 
     @Override

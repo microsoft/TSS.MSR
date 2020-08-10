@@ -100,7 +100,7 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
-        _p.add(d, "byte", "authPolicy", authPolicy);
+        _p.add(d, "byte[]", "authPolicy", authPolicy);
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
     }
 

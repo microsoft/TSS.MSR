@@ -53,7 +53,7 @@ public class FirmwareReadResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "fuData", fuData);
+        _p.add(d, "byte[]", "fuData", fuData);
     }
 
     @Override

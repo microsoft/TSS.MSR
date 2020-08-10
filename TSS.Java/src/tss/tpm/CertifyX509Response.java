@@ -87,8 +87,8 @@ public class CertifyX509Response extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "addedToCertificate", addedToCertificate);
-        _p.add(d, "byte", "tbsDigest", tbsDigest);
+        _p.add(d, "byte[]", "addedToCertificate", addedToCertificate);
+        _p.add(d, "byte[]", "tbsDigest", tbsDigest);
         _p.add(d, "TPMU_SIGNATURE", "signature", signature);
     }
 

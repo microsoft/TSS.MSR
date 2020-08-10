@@ -56,7 +56,7 @@ public class TPM2_StirRandom_REQUEST extends ReqStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "inData", inData);
+        _p.add(d, "byte[]", "inData", inData);
     }
 
     @Override

@@ -92,9 +92,9 @@ public class CreatePrimaryResponse extends RespStructure
         _p.add(d, "TPM_HANDLE", "handle", handle);
         _p.add(d, "TPMT_PUBLIC", "outPublic", outPublic);
         _p.add(d, "TPMS_CREATION_DATA", "creationData", creationData);
-        _p.add(d, "byte", "creationHash", creationHash);
+        _p.add(d, "byte[]", "creationHash", creationHash);
         _p.add(d, "TPMT_TK_CREATION", "creationTicket", creationTicket);
-        _p.add(d, "byte", "name", name);
+        _p.add(d, "byte[]", "name", name);
     }
 
     @Override

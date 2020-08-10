@@ -114,8 +114,8 @@ public class TPM2_Rewrap_REQUEST extends ReqStructure
         _p.add(d, "TPM_HANDLE", "oldParent", oldParent);
         _p.add(d, "TPM_HANDLE", "newParent", newParent);
         _p.add(d, "TPM2B_PRIVATE", "inDuplicate", inDuplicate);
-        _p.add(d, "byte", "name", name);
-        _p.add(d, "byte", "inSymSeed", inSymSeed);
+        _p.add(d, "byte[]", "name", name);
+        _p.add(d, "byte[]", "inSymSeed", inSymSeed);
     }
 
     @Override

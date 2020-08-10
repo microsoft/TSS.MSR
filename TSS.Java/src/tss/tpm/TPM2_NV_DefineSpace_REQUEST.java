@@ -87,7 +87,7 @@ public class TPM2_NV_DefineSpace_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
-        _p.add(d, "byte", "auth", auth);
+        _p.add(d, "byte[]", "auth", auth);
         _p.add(d, "TPMS_NV_PUBLIC", "publicInfo", publicInfo);
     }
 

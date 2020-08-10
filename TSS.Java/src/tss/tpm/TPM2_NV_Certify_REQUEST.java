@@ -141,7 +141,7 @@ public class TPM2_NV_Certify_REQUEST extends ReqStructure
         _p.add(d, "TPM_HANDLE", "signHandle", signHandle);
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
-        _p.add(d, "byte", "qualifyingData", qualifyingData);
+        _p.add(d, "byte[]", "qualifyingData", qualifyingData);
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
         _p.add(d, "int", "size", size);
         _p.add(d, "int", "offset", offset);

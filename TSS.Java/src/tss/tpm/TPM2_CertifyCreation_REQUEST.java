@@ -128,8 +128,8 @@ public class TPM2_CertifyCreation_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "signHandle", signHandle);
         _p.add(d, "TPM_HANDLE", "objectHandle", objectHandle);
-        _p.add(d, "byte", "qualifyingData", qualifyingData);
-        _p.add(d, "byte", "creationHash", creationHash);
+        _p.add(d, "byte[]", "qualifyingData", qualifyingData);
+        _p.add(d, "byte[]", "creationHash", creationHash);
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
         _p.add(d, "TPMT_TK_CREATION", "creationTicket", creationTicket);
     }

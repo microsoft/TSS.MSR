@@ -53,7 +53,7 @@ public class ECC_DecryptResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "plainText", plainText);
+        _p.add(d, "byte[]", "plainText", plainText);
     }
 
     @Override

@@ -104,9 +104,9 @@ public class TPM2_Quote_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "signHandle", signHandle);
-        _p.add(d, "byte", "qualifyingData", qualifyingData);
+        _p.add(d, "byte[]", "qualifyingData", qualifyingData);
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
-        _p.add(d, "TPMS_PCR_SELECTION", "PCRselect", PCRselect);
+        _p.add(d, "TPMS_PCR_SELECTION[]", "PCRselect", PCRselect);
     }
 
     @Override

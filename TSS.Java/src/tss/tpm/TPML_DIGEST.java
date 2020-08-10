@@ -67,7 +67,7 @@ public class TPML_DIGEST extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPM2B_DIGEST", "digests", digests);
+        _p.add(d, "TPM2B_DIGEST[]", "digests", digests);
     }
 }
 

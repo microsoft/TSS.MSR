@@ -52,7 +52,7 @@ public class PCR_EventResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMT_HA", "digests", digests);
+        _p.add(d, "TPMT_HA[]", "digests", digests);
     }
 
     @Override

@@ -56,7 +56,7 @@ public class TPM2_IncrementalSelfTest_REQUEST extends ReqStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPM_ALG_ID", "toTest", toTest);
+        _p.add(d, "TPM_ALG_ID[]", "toTest", toTest);
     }
 
     @Override

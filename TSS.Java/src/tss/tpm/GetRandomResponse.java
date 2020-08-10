@@ -53,7 +53,7 @@ public class GetRandomResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "randomBytes", randomBytes);
+        _p.add(d, "byte[]", "randomBytes", randomBytes);
     }
 
     @Override

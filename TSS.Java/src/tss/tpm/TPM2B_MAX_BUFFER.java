@@ -58,7 +58,7 @@ public class TPM2B_MAX_BUFFER extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "buffer", buffer);
+        _p.add(d, "byte[]", "buffer", buffer);
     }
 }
 

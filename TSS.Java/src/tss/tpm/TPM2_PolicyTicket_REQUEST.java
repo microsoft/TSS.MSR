@@ -116,10 +116,10 @@ public class TPM2_PolicyTicket_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-        _p.add(d, "byte", "timeout", timeout);
-        _p.add(d, "byte", "cpHashA", cpHashA);
-        _p.add(d, "byte", "policyRef", policyRef);
-        _p.add(d, "byte", "authName", authName);
+        _p.add(d, "byte[]", "timeout", timeout);
+        _p.add(d, "byte[]", "cpHashA", cpHashA);
+        _p.add(d, "byte[]", "policyRef", policyRef);
+        _p.add(d, "byte[]", "authName", authName);
         _p.add(d, "TPMT_TK_AUTH", "ticket", ticket);
     }
 

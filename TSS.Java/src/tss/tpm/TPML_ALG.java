@@ -62,7 +62,7 @@ public class TPML_ALG extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPM_ALG_ID", "algorithms", algorithms);
+        _p.add(d, "TPM_ALG_ID[]", "algorithms", algorithms);
     }
 }
 

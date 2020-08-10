@@ -91,7 +91,7 @@ public class TPM2_MAC_Start_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
-        _p.add(d, "byte", "auth", auth);
+        _p.add(d, "byte[]", "auth", auth);
         _p.add(d, "TPM_ALG_ID", "inScheme", inScheme);
     }
 

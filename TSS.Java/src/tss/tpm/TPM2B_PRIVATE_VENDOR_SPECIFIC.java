@@ -64,7 +64,7 @@ public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "buffer", buffer);
+        _p.add(d, "byte[]", "buffer", buffer);
     }
 }
 

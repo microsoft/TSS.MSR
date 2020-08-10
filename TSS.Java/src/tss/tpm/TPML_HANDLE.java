@@ -61,7 +61,7 @@ public class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPM_HANDLE", "handle", handle);
+        _p.add(d, "TPM_HANDLE[]", "handle", handle);
     }
 }
 

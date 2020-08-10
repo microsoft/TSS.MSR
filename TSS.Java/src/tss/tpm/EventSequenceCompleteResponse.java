@@ -58,7 +58,7 @@ public class EventSequenceCompleteResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMT_HA", "results", results);
+        _p.add(d, "TPMT_HA[]", "results", results);
     }
 
     @Override

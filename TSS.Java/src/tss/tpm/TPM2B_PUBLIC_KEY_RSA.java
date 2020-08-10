@@ -59,7 +59,7 @@ public class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "buffer", buffer);
+        _p.add(d, "byte[]", "buffer", buffer);
     }
 }
 

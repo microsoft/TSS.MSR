@@ -76,8 +76,8 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMS_PCR_SELECTION", "pcrSelect", pcrSelect);
-        _p.add(d, "byte", "pcrDigest", pcrDigest);
+        _p.add(d, "TPMS_PCR_SELECTION[]", "pcrSelect", pcrSelect);
+        _p.add(d, "byte[]", "pcrDigest", pcrDigest);
     }
 }
 

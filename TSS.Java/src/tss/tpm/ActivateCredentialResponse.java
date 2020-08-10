@@ -58,7 +58,7 @@ public class ActivateCredentialResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "certInfo", certInfo);
+        _p.add(d, "byte[]", "certInfo", certInfo);
     }
 
     @Override

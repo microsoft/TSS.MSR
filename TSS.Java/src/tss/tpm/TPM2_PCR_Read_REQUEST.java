@@ -56,7 +56,7 @@ public class TPM2_PCR_Read_REQUEST extends ReqStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMS_PCR_SELECTION", "pcrSelectionIn", pcrSelectionIn);
+        _p.add(d, "TPMS_PCR_SELECTION[]", "pcrSelectionIn", pcrSelectionIn);
     }
 
     @Override

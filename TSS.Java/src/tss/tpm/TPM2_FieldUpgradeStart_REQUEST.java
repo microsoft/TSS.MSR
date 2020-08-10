@@ -115,7 +115,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "authorization", authorization);
         _p.add(d, "TPM_HANDLE", "keyHandle", keyHandle);
-        _p.add(d, "byte", "fuDigest", fuDigest);
+        _p.add(d, "byte[]", "fuDigest", fuDigest);
         _p.add(d, "TPMU_SIGNATURE", "manifestSignature", manifestSignature);
     }
 

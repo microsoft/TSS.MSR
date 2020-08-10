@@ -56,7 +56,7 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends ReqStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "inputData", inputData);
+        _p.add(d, "byte[]", "inputData", inputData);
     }
 
     @Override

@@ -69,7 +69,7 @@ public class SequenceCompleteResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "result", result);
+        _p.add(d, "byte[]", "result", result);
         _p.add(d, "TPMT_TK_HASHCHECK", "validation", validation);
     }
 

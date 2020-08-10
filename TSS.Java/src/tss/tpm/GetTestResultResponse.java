@@ -67,7 +67,7 @@ public class GetTestResultResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "outData", outData);
+        _p.add(d, "byte[]", "outData", outData);
         _p.add(d, "TPM_RC", "testResult", testResult);
     }
 

@@ -70,7 +70,7 @@ public class PolicySignedResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "timeout", timeout);
+        _p.add(d, "byte[]", "timeout", timeout);
         _p.add(d, "TPMT_TK_AUTH", "policyTicket", policyTicket);
     }
 

@@ -67,7 +67,7 @@ public class AC_GetCapabilityResponse extends RespStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "byte", "moreData", moreData);
-        _p.add(d, "TPMS_AC_OUTPUT", "capabilitiesData", capabilitiesData);
+        _p.add(d, "TPMS_AC_OUTPUT[]", "capabilitiesData", capabilitiesData);
     }
 }
 

@@ -74,7 +74,7 @@ public class TSS_KEY extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMT_PUBLIC", "publicPart", publicPart);
-        _p.add(d, "byte", "privatePart", privatePart);
+        _p.add(d, "byte[]", "privatePart", privatePart);
     }
 }
 

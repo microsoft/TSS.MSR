@@ -93,7 +93,7 @@ public class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "keyHandle", keyHandle);
-        _p.add(d, "byte", "plainText", plainText);
+        _p.add(d, "byte[]", "plainText", plainText);
         _p.add(d, "TPMU_KDF_SCHEME", "inScheme", inScheme);
     }
 

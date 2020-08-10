@@ -61,7 +61,7 @@ public class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMS_ACT_DATA", "actData", actData);
+        _p.add(d, "TPMS_ACT_DATA[]", "actData", actData);
     }
 }
 

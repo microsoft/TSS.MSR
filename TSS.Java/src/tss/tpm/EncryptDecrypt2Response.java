@@ -66,8 +66,8 @@ public class EncryptDecrypt2Response extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "outData", outData);
-        _p.add(d, "byte", "ivOut", ivOut);
+        _p.add(d, "byte[]", "outData", outData);
+        _p.add(d, "byte[]", "ivOut", ivOut);
     }
 
     @Override

@@ -80,7 +80,7 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_ALG_ID", "hash", hash);
-        _p.add(d, "byte", "sig", sig);
+        _p.add(d, "byte[]", "sig", sig);
     }
 }
 

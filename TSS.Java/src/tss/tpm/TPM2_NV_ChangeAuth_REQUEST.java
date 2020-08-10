@@ -71,7 +71,7 @@ public class TPM2_NV_ChangeAuth_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "nvIndex", nvIndex);
-        _p.add(d, "byte", "newAuth", newAuth);
+        _p.add(d, "byte[]", "newAuth", newAuth);
     }
 
     @Override

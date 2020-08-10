@@ -75,7 +75,7 @@ public class TPM2_PCR_Extend_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "pcrHandle", pcrHandle);
-        _p.add(d, "TPMT_HA", "digests", digests);
+        _p.add(d, "TPMT_HA[]", "digests", digests);
     }
 
     @Override

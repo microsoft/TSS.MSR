@@ -53,7 +53,7 @@ public class HMACResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "outHMAC", outHMAC);
+        _p.add(d, "byte[]", "outHMAC", outHMAC);
     }
 
     @Override

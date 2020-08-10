@@ -75,8 +75,8 @@ public class TPMS_SENSITIVE_CREATE extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "userAuth", userAuth);
-        _p.add(d, "byte", "data", data);
+        _p.add(d, "byte[]", "userAuth", userAuth);
+        _p.add(d, "byte[]", "data", data);
     }
 }
 

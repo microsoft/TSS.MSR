@@ -53,7 +53,7 @@ public class IncrementalSelfTestResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPM_ALG_ID", "toDoList", toDoList);
+        _p.add(d, "TPM_ALG_ID[]", "toDoList", toDoList);
     }
 
     @Override

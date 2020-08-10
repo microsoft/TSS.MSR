@@ -90,7 +90,7 @@ public class TPM2_SequenceComplete_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "sequenceHandle", sequenceHandle);
-        _p.add(d, "byte", "buffer", buffer);
+        _p.add(d, "byte[]", "buffer", buffer);
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
     }
 

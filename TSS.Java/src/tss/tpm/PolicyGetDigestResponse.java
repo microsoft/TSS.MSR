@@ -55,7 +55,7 @@ public class PolicyGetDigestResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "policyDigest", policyDigest);
+        _p.add(d, "byte[]", "policyDigest", policyDigest);
     }
 
     @Override

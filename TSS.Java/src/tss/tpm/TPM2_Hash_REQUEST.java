@@ -84,7 +84,7 @@ public class TPM2_Hash_REQUEST extends ReqStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "data", data);
+        _p.add(d, "byte[]", "data", data);
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
     }

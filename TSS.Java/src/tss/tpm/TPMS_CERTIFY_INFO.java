@@ -76,8 +76,8 @@ public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "name", name);
-        _p.add(d, "byte", "qualifiedName", qualifiedName);
+        _p.add(d, "byte[]", "name", name);
+        _p.add(d, "byte[]", "qualifiedName", qualifiedName);
     }
 }
 

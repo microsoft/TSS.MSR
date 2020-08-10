@@ -108,7 +108,7 @@ public class TPM2_Duplicate_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "objectHandle", objectHandle);
         _p.add(d, "TPM_HANDLE", "newParentHandle", newParentHandle);
-        _p.add(d, "byte", "encryptionKeyIn", encryptionKeyIn);
+        _p.add(d, "byte[]", "encryptionKeyIn", encryptionKeyIn);
         _p.add(d, "TPMT_SYM_DEF_OBJECT", "symmetricAlg", symmetricAlg);
     }
 

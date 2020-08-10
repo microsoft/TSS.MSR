@@ -59,7 +59,7 @@ public class TPM2B_SYM_KEY extends TpmStructure implements TPMU_SENSITIVE_COMPOS
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "buffer", buffer);
+        _p.add(d, "byte[]", "buffer", buffer);
     }
 }
 

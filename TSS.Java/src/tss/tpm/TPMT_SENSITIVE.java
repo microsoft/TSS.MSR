@@ -100,8 +100,8 @@ public class TPMT_SENSITIVE extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "authValue", authValue);
-        _p.add(d, "byte", "seedValue", seedValue);
+        _p.add(d, "byte[]", "authValue", authValue);
+        _p.add(d, "byte[]", "seedValue", seedValue);
         _p.add(d, "TPMU_SENSITIVE_COMPOSITE", "sensitive", sensitive);
     }
 }

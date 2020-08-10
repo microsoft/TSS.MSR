@@ -91,7 +91,7 @@ public class CreateResponse extends RespStructure
         _p.add(d, "TPM2B_PRIVATE", "outPrivate", outPrivate);
         _p.add(d, "TPMT_PUBLIC", "outPublic", outPublic);
         _p.add(d, "TPMS_CREATION_DATA", "creationData", creationData);
-        _p.add(d, "byte", "creationHash", creationHash);
+        _p.add(d, "byte[]", "creationHash", creationHash);
         _p.add(d, "TPMT_TK_CREATION", "creationTicket", creationTicket);
     }
 }

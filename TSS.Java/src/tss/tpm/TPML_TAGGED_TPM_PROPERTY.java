@@ -61,7 +61,7 @@ public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMS_TAGGED_PROPERTY", "tpmProperty", tpmProperty);
+        _p.add(d, "TPMS_TAGGED_PROPERTY[]", "tpmProperty", tpmProperty);
     }
 }
 

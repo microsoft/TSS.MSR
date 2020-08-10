@@ -67,7 +67,7 @@ public class MakeCredentialResponse extends RespStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPMS_ID_OBJECT", "credentialBlob", credentialBlob);
-        _p.add(d, "byte", "secret", secret);
+        _p.add(d, "byte[]", "secret", secret);
     }
 
     @Override

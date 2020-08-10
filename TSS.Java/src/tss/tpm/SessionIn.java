@@ -88,9 +88,9 @@ public class SessionIn extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
-        _p.add(d, "byte", "nonceCaller", nonceCaller);
+        _p.add(d, "byte[]", "nonceCaller", nonceCaller);
         _p.add(d, "TPMA_SESSION", "attributes", attributes);
-        _p.add(d, "byte", "auth", auth);
+        _p.add(d, "byte[]", "auth", auth);
     }
 }
 

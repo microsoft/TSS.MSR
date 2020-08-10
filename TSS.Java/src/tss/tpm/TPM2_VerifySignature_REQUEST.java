@@ -97,7 +97,7 @@ public class TPM2_VerifySignature_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "keyHandle", keyHandle);
-        _p.add(d, "byte", "digest", digest);
+        _p.add(d, "byte[]", "digest", digest);
         _p.add(d, "TPMU_SIGNATURE", "signature", signature);
     }
 

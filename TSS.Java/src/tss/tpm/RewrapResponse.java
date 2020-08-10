@@ -71,7 +71,7 @@ public class RewrapResponse extends RespStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM2B_PRIVATE", "outDuplicate", outDuplicate);
-        _p.add(d, "byte", "outSymSeed", outSymSeed);
+        _p.add(d, "byte[]", "outSymSeed", outSymSeed);
     }
 }
 

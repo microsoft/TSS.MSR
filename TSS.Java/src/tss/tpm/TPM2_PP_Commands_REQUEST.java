@@ -88,8 +88,8 @@ public class TPM2_PP_Commands_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "auth", auth);
-        _p.add(d, "TPM_CC", "setList", setList);
-        _p.add(d, "TPM_CC", "clearList", clearList);
+        _p.add(d, "TPM_CC[]", "setList", setList);
+        _p.add(d, "TPM_CC[]", "clearList", clearList);
     }
 
     @Override

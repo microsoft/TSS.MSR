@@ -88,7 +88,7 @@ public class TPM2_HMAC_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
-        _p.add(d, "byte", "buffer", buffer);
+        _p.add(d, "byte[]", "buffer", buffer);
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
     }
 

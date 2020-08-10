@@ -72,7 +72,7 @@ public class TPM2_PolicyNameHash_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-        _p.add(d, "byte", "nameHash", nameHash);
+        _p.add(d, "byte[]", "nameHash", nameHash);
     }
 
     @Override

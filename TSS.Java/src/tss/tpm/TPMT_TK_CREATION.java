@@ -78,7 +78,7 @@ public class TPMT_TK_CREATION extends TpmStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
-        _p.add(d, "byte", "digest", digest);
+        _p.add(d, "byte[]", "digest", digest);
     }
 }
 

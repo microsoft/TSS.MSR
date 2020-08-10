@@ -53,7 +53,7 @@ public class Vendor_TCG_TestResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "outputData", outputData);
+        _p.add(d, "byte[]", "outputData", outputData);
     }
 
     @Override

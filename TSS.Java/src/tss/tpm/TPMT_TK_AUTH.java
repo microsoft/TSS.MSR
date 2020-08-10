@@ -85,7 +85,7 @@ public class TPMT_TK_AUTH extends TpmStructure
     {
         _p.add(d, "TPM_ST", "tag", tag);
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
-        _p.add(d, "byte", "digest", digest);
+        _p.add(d, "byte[]", "digest", digest);
     }
 }
 

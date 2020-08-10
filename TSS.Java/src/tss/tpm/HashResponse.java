@@ -67,7 +67,7 @@ public class HashResponse extends RespStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "outHash", outHash);
+        _p.add(d, "byte[]", "outHash", outHash);
         _p.add(d, "TPMT_TK_HASHCHECK", "validation", validation);
     }
 

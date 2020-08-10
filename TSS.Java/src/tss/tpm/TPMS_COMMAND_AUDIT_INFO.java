@@ -92,8 +92,8 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
     {
         _p.add(d, "long", "auditCounter", auditCounter);
         _p.add(d, "TPM_ALG_ID", "digestAlg", digestAlg);
-        _p.add(d, "byte", "auditDigest", auditDigest);
-        _p.add(d, "byte", "commandDigest", commandDigest);
+        _p.add(d, "byte[]", "auditDigest", auditDigest);
+        _p.add(d, "byte[]", "commandDigest", commandDigest);
     }
 }
 

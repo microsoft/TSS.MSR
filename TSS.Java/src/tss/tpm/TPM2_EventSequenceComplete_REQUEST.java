@@ -91,7 +91,7 @@ public class TPM2_EventSequenceComplete_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "pcrHandle", pcrHandle);
         _p.add(d, "TPM_HANDLE", "sequenceHandle", sequenceHandle);
-        _p.add(d, "byte", "buffer", buffer);
+        _p.add(d, "byte[]", "buffer", buffer);
     }
 
     @Override

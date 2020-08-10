@@ -60,7 +60,7 @@ public class StartAuthSessionResponse extends RespStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "handle", handle);
-        _p.add(d, "byte", "nonceTPM", nonceTPM);
+        _p.add(d, "byte[]", "nonceTPM", nonceTPM);
     }
 
     @Override

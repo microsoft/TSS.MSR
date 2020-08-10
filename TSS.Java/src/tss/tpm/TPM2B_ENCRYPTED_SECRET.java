@@ -56,7 +56,7 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "secret", secret);
+        _p.add(d, "byte[]", "secret", secret);
     }
 }
 

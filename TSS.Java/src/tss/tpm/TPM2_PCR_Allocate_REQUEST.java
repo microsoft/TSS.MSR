@@ -73,7 +73,7 @@ public class TPM2_PCR_Allocate_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
-        _p.add(d, "TPMS_PCR_SELECTION", "pcrAllocation", pcrAllocation);
+        _p.add(d, "TPMS_PCR_SELECTION[]", "pcrAllocation", pcrAllocation);
     }
 
     @Override

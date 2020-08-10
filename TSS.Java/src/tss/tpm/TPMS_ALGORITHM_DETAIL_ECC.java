@@ -171,13 +171,13 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         _p.add(d, "int", "keySize", keySize);
         _p.add(d, "TPMU_KDF_SCHEME", "kdf", kdf);
         _p.add(d, "TPMU_ASYM_SCHEME", "sign", sign);
-        _p.add(d, "byte", "p", p);
-        _p.add(d, "byte", "a", a);
-        _p.add(d, "byte", "b", b);
-        _p.add(d, "byte", "gX", gX);
-        _p.add(d, "byte", "gY", gY);
-        _p.add(d, "byte", "n", n);
-        _p.add(d, "byte", "h", h);
+        _p.add(d, "byte[]", "p", p);
+        _p.add(d, "byte[]", "a", a);
+        _p.add(d, "byte[]", "b", b);
+        _p.add(d, "byte[]", "gX", gX);
+        _p.add(d, "byte[]", "gY", gY);
+        _p.add(d, "byte[]", "n", n);
+        _p.add(d, "byte[]", "h", h);
     }
 }
 

@@ -61,7 +61,7 @@ public class TPML_ALG_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMS_ALG_PROPERTY", "algProperties", algProperties);
+        _p.add(d, "TPMS_ALG_PROPERTY[]", "algProperties", algProperties);
     }
 }
 

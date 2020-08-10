@@ -100,9 +100,9 @@ public class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "policySession", policySession);
-        _p.add(d, "byte", "approvedPolicy", approvedPolicy);
-        _p.add(d, "byte", "policyRef", policyRef);
-        _p.add(d, "byte", "keySign", keySign);
+        _p.add(d, "byte[]", "approvedPolicy", approvedPolicy);
+        _p.add(d, "byte[]", "policyRef", policyRef);
+        _p.add(d, "byte[]", "keySign", keySign);
         _p.add(d, "TPMT_TK_VERIFIED", "checkTicket", checkTicket);
     }
 

@@ -73,7 +73,7 @@ public class TPM2_HierarchyChangeAuth_REQUEST extends ReqStructure
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
         _p.add(d, "TPM_HANDLE", "authHandle", authHandle);
-        _p.add(d, "byte", "newAuth", newAuth);
+        _p.add(d, "byte[]", "newAuth", newAuth);
     }
 
     @Override

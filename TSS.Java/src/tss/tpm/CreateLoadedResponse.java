@@ -80,7 +80,7 @@ public class CreateLoadedResponse extends RespStructure
         _p.add(d, "TPM_HANDLE", "handle", handle);
         _p.add(d, "TPM2B_PRIVATE", "outPrivate", outPrivate);
         _p.add(d, "TPMT_PUBLIC", "outPublic", outPublic);
-        _p.add(d, "byte", "name", name);
+        _p.add(d, "byte[]", "name", name);
     }
 
     @Override

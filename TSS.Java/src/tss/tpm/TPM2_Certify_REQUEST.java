@@ -117,7 +117,7 @@ public class TPM2_Certify_REQUEST extends ReqStructure
     {
         _p.add(d, "TPM_HANDLE", "objectHandle", objectHandle);
         _p.add(d, "TPM_HANDLE", "signHandle", signHandle);
-        _p.add(d, "byte", "qualifyingData", qualifyingData);
+        _p.add(d, "byte[]", "qualifyingData", qualifyingData);
         _p.add(d, "TPMU_SIG_SCHEME", "inScheme", inScheme);
     }
 

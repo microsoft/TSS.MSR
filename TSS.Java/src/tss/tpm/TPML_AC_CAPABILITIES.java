@@ -56,7 +56,7 @@ public class TPML_AC_CAPABILITIES extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "TPMS_AC_OUTPUT", "acCapabilities", acCapabilities);
+        _p.add(d, "TPMS_AC_OUTPUT[]", "acCapabilities", acCapabilities);
     }
 }
 

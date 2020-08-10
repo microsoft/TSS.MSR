@@ -73,8 +73,8 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
     @Override
     public void toStringInternal(TpmStructurePrinter _p, int d)
     {
-        _p.add(d, "byte", "integrity", integrity);
-        _p.add(d, "byte", "encrypted", encrypted);
+        _p.add(d, "byte[]", "integrity", integrity);
+        _p.add(d, "byte[]", "encrypted", encrypted);
     }
 }
 
