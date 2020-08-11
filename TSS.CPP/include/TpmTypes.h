@@ -37,6 +37,7 @@ class _DLLEXP_ Tpm2;
 // DO NOT MODIFY any code below this point - all manual changes will be lost!
 // ------------------------------------------------------------------------------------------------
 
+
 /// <summary> Table 2 is the list of algorithms to which the TCG has assigned an algorithm
 /// identifier along with its numeric identifier. </summary>
 struct TPM_ALG_ID : public TpmEnum<UINT16>

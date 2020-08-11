@@ -12,9 +12,11 @@ import java.util.*;
  */
 public final class TPM_SU extends TpmEnum<TPM_SU>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_SU. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_SU. qualifier.
+     */
     public enum _N {
         /** On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save
          *  state required for an orderly startup (TPM Reset).

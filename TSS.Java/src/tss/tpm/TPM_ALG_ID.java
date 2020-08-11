@@ -12,9 +12,11 @@ import java.util.*;
  */
 public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_ALG_ID. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_ALG_ID. qualifier.
+     */
     public enum _N {
         /** Should not occur  */
         ERROR, 

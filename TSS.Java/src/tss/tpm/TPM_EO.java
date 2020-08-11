@@ -10,9 +10,11 @@ import java.util.*;
 /** Table 18 Definition of (UINT16) TPM_EO Constants [IN/OUT]  */
 public final class TPM_EO extends TpmEnum<TPM_EO>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_EO. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_EO. qualifier.
+     */
     public enum _N {
         /** A = B  */
         EQ, 

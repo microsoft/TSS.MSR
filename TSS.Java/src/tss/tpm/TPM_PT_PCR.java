@@ -14,9 +14,11 @@ import java.util.*;
  */
 public final class TPM_PT_PCR extends TpmEnum<TPM_PT_PCR>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_PT_PCR. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_PT_PCR. qualifier.
+     */
     public enum _N {
         /** Bottom of the range of TPM_PT_PCR properties  */
         FIRST, 

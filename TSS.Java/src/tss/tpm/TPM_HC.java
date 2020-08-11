@@ -10,9 +10,11 @@ import java.util.*;
 /** The definitions in Table 29 are used to define many of the interface data types.  */
 public final class TPM_HC extends TpmEnum<TPM_HC>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_HC. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_HC. qualifier.
+     */
     public enum _N {
         /** To mask off the HR  */
         HR_HANDLE_MASK, 

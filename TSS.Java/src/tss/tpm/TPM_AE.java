@@ -10,9 +10,11 @@ import java.util.*;
 /** These constants are the TCG-defined error values returned by an AC.  */
 public final class TPM_AE extends TpmEnum<TPM_AE>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_AE. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_AE. qualifier.
+     */
     public enum _N {
         /** In a command, a non-specific request for AC information; in a response, indicates that
          *  outputData is not meaningful

@@ -10,9 +10,11 @@ import java.util.*;
 /** This constant value differentiates TPM-generated structures from non-TPM structures.  */
 public final class TPM_GENERATED extends TpmEnum<TPM_GENERATED>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_GENERATED. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_GENERATED. qualifier.
+     */
     public enum _N {
         /** 0xFF TCG (FF 54 43 4716)  */
         VALUE

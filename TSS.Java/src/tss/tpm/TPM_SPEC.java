@@ -10,9 +10,11 @@ import java.util.*;
 /** These values are readable with TPM2_GetCapability() (see 6.13 for the format).  */
 public final class TPM_SPEC extends TpmEnum<TPM_SPEC>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_SPEC. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_SPEC. qualifier.
+     */
     public enum _N {
         /** ASCII 2.0 with null terminator  */
         FAMILY, 

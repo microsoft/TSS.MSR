@@ -17,9 +17,11 @@ import java.util.*;
  */
 public final class TPM_ST extends TpmEnum<TPM_ST>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_ST. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_ST. qualifier.
+     */
     public enum _N {
         /** Tag value for a response; used when there is an error in the tag. This is also the
          *  value returned from a TPM 1.2 when an error occurs. This value is used in this

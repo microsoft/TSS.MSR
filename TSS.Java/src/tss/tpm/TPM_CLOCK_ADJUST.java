@@ -13,9 +13,11 @@ import java.util.*;
  */
 public final class TPM_CLOCK_ADJUST extends TpmEnum<TPM_CLOCK_ADJUST>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_CLOCK_ADJUST. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_CLOCK_ADJUST. qualifier.
+     */
     public enum _N {
         /** Slow the Clock update rate by one coarse adjustment step.  */
         COARSE_SLOWER, 

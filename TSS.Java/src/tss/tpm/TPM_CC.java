@@ -9,9 +9,11 @@ import java.util.*;
 
 public final class TPM_CC extends TpmEnum<TPM_CC>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_CC. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_CC. qualifier.
+     */
     public enum _N {
         /** Compile variable. May decrease based on implementation.  */
         FIRST, 

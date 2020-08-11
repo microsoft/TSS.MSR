@@ -10,9 +10,11 @@ import java.util.*;
 /** Architecturally defined constants  */
 public final class ImplementationConstants extends TpmEnum<ImplementationConstants>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the ImplementationConstants. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the ImplementationConstants. qualifier.
+     */
     public enum _N {
         Ossl, 
         

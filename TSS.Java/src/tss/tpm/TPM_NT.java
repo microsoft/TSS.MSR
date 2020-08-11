@@ -10,9 +10,11 @@ import java.util.*;
 /** This table lists the values of the TPM_NT field of a TPMA_NV. See Table 215 for usage.  */
 public final class TPM_NT extends TpmEnum<TPM_NT>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_NT. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_NT. qualifier.
+     */
     public enum _N {
         /** Ordinary contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write().  */
         ORDINARY, 

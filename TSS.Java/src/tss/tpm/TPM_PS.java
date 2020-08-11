@@ -10,9 +10,11 @@ import java.util.*;
 /** The platform values in Table 25 are used for the TPM_PT_PS_FAMILY_INDICATOR.  */
 public final class TPM_PS extends TpmEnum<TPM_PS>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_PS. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_PS. qualifier.
+     */
     public enum _N {
         /** Not platform specific  */
         MAIN, 

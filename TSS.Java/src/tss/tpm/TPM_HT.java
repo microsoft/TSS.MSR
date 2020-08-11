@@ -12,9 +12,11 @@ import java.util.*;
  */
 public final class TPM_HT extends TpmEnum<TPM_HT>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the TPM_HT. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPM_HT. qualifier.
+     */
     public enum _N {
         /** PCR consecutive numbers, starting at 0, that reference the PCR registers
          *  A platform-specific specification will set the minimum number of PCR and an

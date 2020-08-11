@@ -10,9 +10,11 @@ import java.util.*;
 /** These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values.  */
 public final class PLATFORM extends TpmEnum<PLATFORM>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the PLATFORM. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the PLATFORM. qualifier.
+     */
     public enum _N {
         FAMILY, 
         

@@ -10,9 +10,11 @@ import java.util.*;
 /** Table 17 Defines for SM3_256 Hash Values  */
 public final class SM3_256 extends TpmEnum<SM3_256>
 {
-    // Values from enum _N are only intended to be used in case labels of a switch statement using the result of this.asEnum() method as the switch condition.
-    // However, their Java names are identical to those of the constants defined in this class further below,
-    // so for any other usage just prepend them with the SM3_256. qualifier.
+    /** Values from enum _N are only intended to be used in case labels of a switch statement
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the SM3_256. qualifier.
+     */
     public enum _N {
         /** Size of digest in octets  */
         DIGEST_SIZE, 
