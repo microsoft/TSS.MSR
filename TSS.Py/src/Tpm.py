@@ -61,7 +61,7 @@ class Tpm(TpmBase):
         """ This command causes the TPM to perform a test of the selected algorithms.
         
         Args:
-            toTest (TPM_ALG_ID): List of algorithms that should be tested
+            toTest (TPM_ALG_ID[]): List of algorithms that should be tested
         
         Returns:
             toDoList - List of algorithms that need testing
@@ -99,9 +99,10 @@ class Tpm(TpmBase):
             bind (TPM_HANDLE): Entity providing the authValue
                 may be TPM_RH_NULL
                 Auth Index: None
-            nonceCaller (int): Initial nonceCaller, sets nonceTPM size for the session
+            nonceCaller (bytes): Initial nonceCaller, sets nonceTPM size for the
+                session
                 shall be at least 16 octets
-            encryptedSalt (int): Value encrypted according to the type of tpmKey
+            encryptedSalt (bytes): Value encrypted according to the type of tpmKey
                 If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.
             sessionType (TPM_SE): Indicates the type of the session; simple HMAC
                 or policy (including a trial policy)
@@ -155,10 +156,11 @@ class Tpm(TpmBase):
                 Auth Role: USER
             inSensitive (TPMS_SENSITIVE_CREATE): The sensitive data
             inPublic (TPMT_PUBLIC): The public template
-            outsideInfo (int): Data that will be included in the creation data
+            outsideInfo (bytes): Data that will be included in the creation data
                 for this object to provide permanent, verifiable linkage between
                 this object and some object owner data
-            creationPCR (TPMS_PCR_SELECTION): PCR that will be used in creation data
+            creationPCR (TPMS_PCR_SELECTION[]): PCR that will be used in
+                creation data
         
         Returns:
             outPrivate - The private portion of the object
@@ -246,7 +248,7 @@ class Tpm(TpmBase):
                 Auth Index: 2
                 Auth Role: USER
             credentialBlob (TPMS_ID_OBJECT): The credential
-            secret (int): KeyHandle algorithm-dependent encrypted seed that
+            secret (bytes): KeyHandle algorithm-dependent encrypted seed that
                 protects credentialBlob
         
         Returns:
@@ -269,8 +271,8 @@ class Tpm(TpmBase):
             handle (TPM_HANDLE): Loaded public area, used to encrypt the
                 sensitive area containing the credential key
                 Auth Index: None
-            credential (int): The credential information
-            objectName (int): Name of the object to which the credential applies
+            credential (bytes): The credential information
+            objectName (bytes): Name of the object to which the credential applies
         
         Returns:
             credentialBlob - The credential
@@ -310,7 +312,7 @@ class Tpm(TpmBase):
                 Auth Role: ADMIN
             parentHandle (TPM_HANDLE): Handle of the parent
                 Auth Index: None
-            newAuth (int): New authorization value
+            newAuth (bytes): New authorization value
         
         Returns:
             outPrivate - Private area containing the new authorization value
@@ -338,7 +340,7 @@ class Tpm(TpmBase):
                 Auth Role: USER
             inSensitive (TPMS_SENSITIVE_CREATE): The sensitive data, see TPM 2.0
                 Part 1 Sensitive Values
-            inPublic (int): The public template
+            inPublic (bytes): The public template
         
         Returns:
             handle - Handle of type TPM_HT_TRANSIENT for created object
@@ -364,7 +366,7 @@ class Tpm(TpmBase):
             newParentHandle (TPM_HANDLE): Shall reference the public area of an
                 asymmetric key
                 Auth Index: None
-            encryptionKeyIn (int): Optional symmetric encryption key
+            encryptionKeyIn (bytes): Optional symmetric encryption key
                 The size for this key is set to zero when the TPM is to generate
                 the key. This parameter may be encrypted.
             symmetricAlg (TPMT_SYM_DEF_OBJECT): Definition for the symmetric
@@ -405,8 +407,8 @@ class Tpm(TpmBase):
                 Auth Index: None
             inDuplicate (TPM2B_PRIVATE): An object encrypted using symmetric key
                 derived from inSymSeed
-            name (int): The Name of the object being rewrapped
-            inSymSeed (int): The seed for the symmetric key and HMAC key
+            name (bytes): The Name of the object being rewrapped
+            inSymSeed (bytes): The seed for the symmetric key and HMAC key
                 needs oldParent private key to recover the seed and generate the
                 symmetric key
         
@@ -431,7 +433,7 @@ class Tpm(TpmBase):
             parentHandle (TPM_HANDLE): The handle of the new parent for the object
                 Auth Index: 1
                 Auth Role: USER
-            encryptionKey (int): The optional symmetric encryption key used as
+            encryptionKey (bytes): The optional symmetric encryption key used as
                 the inner wrapper for duplicate
                 If symmetricAlg is TPM_ALG_NULL, then this parameter shall be
                 the Empty Buffer.
@@ -443,7 +445,7 @@ class Tpm(TpmBase):
                 for the imported object.
             duplicate (TPM2B_PRIVATE): The symmetrically encrypted duplicate
                 object that may contain an inner symmetric wrapper
-            inSymSeed (int): The seed for the symmetric key and HMAC key
+            inSymSeed (bytes): The seed for the symmetric key and HMAC key
                 inSymSeed is encrypted/encoded using the algorithms of newParent.
             symmetricAlg (TPMT_SYM_DEF_OBJECT): Definition for the symmetric
                 algorithm to use for the inner wrapper
@@ -471,7 +473,7 @@ class Tpm(TpmBase):
             keyHandle (TPM_HANDLE): Reference to public portion of RSA key to
                 use for encryption
                 Auth Index: None
-            message (int): Message to be encrypted
+            message (bytes): Message to be encrypted
                 NOTE 1 The data type was chosen because it limits the overall
                 size of the input to no greater than the size of the largest RSA
                 public key. This may be larger than allowed for keyHandle.
@@ -483,7 +485,7 @@ class Tpm(TpmBase):
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
                 TPMS_NULL_ASYM_SCHEME.
-            label (int): Optional label L to be associated with the message
+            label (bytes): Optional label L to be associated with the message
                 Size of the buffer is zero if no label is present
                 NOTE 2 See description of label above.
         
@@ -504,7 +506,7 @@ class Tpm(TpmBase):
             keyHandle (TPM_HANDLE): RSA key to use for decryption
                 Auth Index: 1
                 Auth Role: USER
-            cipherText (int): Cipher text to be decrypted
+            cipherText (bytes): Cipher text to be decrypted
                 NOTE An encrypted RSA data block is the size of the public modulus.
             inScheme (TPMU_ASYM_SCHEME): The padding scheme to use if scheme
                 associated with keyHandle is TPM_ALG_NULL
@@ -514,7 +516,7 @@ class Tpm(TpmBase):
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
                 TPMS_NULL_ASYM_SCHEME.
-            label (int): Label whose association with the message is to be verified
+            label (bytes): Label whose association with the message is to be verified
         
         Returns:
             message - Decrypted output
@@ -617,7 +619,7 @@ class Tpm(TpmBase):
             keyHandle (TPM_HANDLE): Reference to public portion of ECC key to
                 use for encryption
                 Auth Index: None
-            plainText (int): Plaintext to be encrypted
+            plainText (bytes): Plaintext to be encrypted
             inScheme (TPMU_KDF_SCHEME): The KDF to use if scheme associated with
                 keyHandle is TPM_ALG_NULL
                 One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
@@ -642,8 +644,8 @@ class Tpm(TpmBase):
                 Auth Index: 1
                 Auth Role: USER
             C1 (TPMS_ECC_POINT): The public ephemeral key used for ECDH
-            C2 (int): The data block produced by the XOR process
-            C3 (int): The integrity value
+            C2 (bytes): The data block produced by the XOR process
+            C3 (bytes): The integrity value
             inScheme (TPMU_KDF_SCHEME): The KDF to use if scheme associated with
                 keyHandle is TPM_ALG_NULL
                 One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
@@ -671,8 +673,8 @@ class Tpm(TpmBase):
                 operation is encryption
             mode (TPM_ALG_ID): Symmetric encryption/decryption mode
                 this field shall match the default mode of the key or be TPM_ALG_NULL.
-            ivIn (int): An initial value as required by the algorithm
-            inData (int): The data to be encrypted/decrypted
+            ivIn (bytes): An initial value as required by the algorithm
+            inData (bytes): The data to be encrypted/decrypted
         
         Returns:
             outData - Encrypted or decrypted output
@@ -692,12 +694,12 @@ class Tpm(TpmBase):
             keyHandle (TPM_HANDLE): The symmetric key used for the operation
                 Auth Index: 1
                 Auth Role: USER
-            inData (int): The data to be encrypted/decrypted
+            inData (bytes): The data to be encrypted/decrypted
             decrypt (int): If YES, then the operation is decryption; if NO, the
                 operation is encryption
             mode (TPM_ALG_ID): Symmetric mode
                 this field shall match the default mode of the key or be TPM_ALG_NULL.
-            ivIn (int): An initial value as required by the algorithm
+            ivIn (bytes): An initial value as required by the algorithm
         
         Returns:
             outData - Encrypted or decrypted output
@@ -713,7 +715,7 @@ class Tpm(TpmBase):
         the results.
         
         Args:
-            data (int): Data to be hashed
+            data (bytes): Data to be hashed
             hashAlg (TPM_ALG_ID): Algorithm for the hash being computed shall
                 not be TPM_ALG_NULL
             hierarchy (TPM_HANDLE): Hierarchy to use for the ticket (TPM_RH_NULL
@@ -740,7 +742,7 @@ class Tpm(TpmBase):
                 the HMAC key
                 Auth Index: 1
                 Auth Role: USER
-            buffer (int): HMAC data
+            buffer (bytes): HMAC data
             hashAlg (TPM_ALG_ID): Algorithm to use for HMAC
         
         Returns:
@@ -761,7 +763,7 @@ class Tpm(TpmBase):
                 the MAC key
                 Auth Index: 1
                 Auth Role: USER
-            buffer (int): MAC data
+            buffer (bytes): MAC data
             inScheme (TPM_ALG_ID): Algorithm to use for MAC
         
         Returns:
@@ -793,7 +795,7 @@ class Tpm(TpmBase):
         """ This command is used to add "additional information" to the RNG state.
         
         Args:
-            inData (int): Additional information
+            inData (bytes): Additional information
         """
         req = TPM2_StirRandom_REQUEST(inData)
         respBuf = self.dispatchCommand(TPM_CC.StirRandom, req)
@@ -809,7 +811,7 @@ class Tpm(TpmBase):
             handle (TPM_HANDLE): Handle of an HMAC key
                 Auth Index: 1
                 Auth Role: USER
-            auth (int): Authorization value for subsequent use of the sequence
+            auth (bytes): Authorization value for subsequent use of the sequence
             hashAlg (TPM_ALG_ID): The hash algorithm to use for the HMAC
         
         Returns:
@@ -830,7 +832,7 @@ class Tpm(TpmBase):
             handle (TPM_HANDLE): Handle of a MAC key
                 Auth Index: 1
                 Auth Role: USER
-            auth (int): Authorization value for subsequent use of the sequence
+            auth (bytes): Authorization value for subsequent use of the sequence
             inScheme (TPM_ALG_ID): The algorithm to use for the MAC
         
         Returns:
@@ -850,7 +852,7 @@ class Tpm(TpmBase):
         TPM_RC_HASH.
         
         Args:
-            auth (int): Authorization value for subsequent use of the sequence
+            auth (bytes): Authorization value for subsequent use of the sequence
             hashAlg (TPM_ALG_ID): The hash algorithm to use for the hash sequence
                 An Event Sequence starts if this is TPM_ALG_NULL.
         
@@ -871,7 +873,7 @@ class Tpm(TpmBase):
             sequenceHandle (TPM_HANDLE): Handle for the sequence object
                 Auth Index: 1
                 Auth Role: USER
-            buffer (int): Data to be added to hash
+            buffer (bytes): Data to be added to hash
         """
         req = TPM2_SequenceUpdate_REQUEST(sequenceHandle, buffer)
         respBuf = self.dispatchCommand(TPM_CC.SequenceUpdate, req)
@@ -886,7 +888,7 @@ class Tpm(TpmBase):
             sequenceHandle (TPM_HANDLE): Authorization for the sequence
                 Auth Index: 1
                 Auth Role: USER
-            buffer (int): Data to be added to the hash/HMAC
+            buffer (bytes): Data to be added to the hash/HMAC
             hierarchy (TPM_HANDLE): Hierarchy of the ticket for a hash
         
         Returns:
@@ -915,7 +917,7 @@ class Tpm(TpmBase):
             sequenceHandle (TPM_HANDLE): Authorization for the sequence
                 Auth Index: 2
                 Auth Role: USER
-            buffer (int): Data to be added to the Event
+            buffer (bytes): Data to be added to the Event
         
         Returns:
             results - List of digests computed for the PCR
@@ -942,7 +944,7 @@ class Tpm(TpmBase):
                 attestation structure
                 Auth Index: 2
                 Auth Role: USER
-            qualifyingData (int): User provided qualifying data
+            qualifyingData (bytes): User provided qualifying data
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
                 One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
@@ -973,8 +975,8 @@ class Tpm(TpmBase):
                 Auth Role: USER
             objectHandle (TPM_HANDLE): The object associated with the creation data
                 Auth Index: None
-            qualifyingData (int): User-provided qualifying data
-            creationHash (int): Hash of the creation data produced by
+            qualifyingData (bytes): User-provided qualifying data
+            creationHash (bytes): Hash of the creation data produced by
                 TPM2_Create() or TPM2_CreatePrimary()
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
@@ -1001,14 +1003,14 @@ class Tpm(TpmBase):
             signHandle (TPM_HANDLE): Handle of key that will perform signature
                 Auth Index: 1
                 Auth Role: USER
-            qualifyingData (int): Data supplied by the caller
+            qualifyingData (bytes): Data supplied by the caller
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
                 One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
-            PCRselect (TPMS_PCR_SELECTION): PCR set to quote
+            PCRselect (TPMS_PCR_SELECTION[]): PCR set to quote
         
         Returns:
             quoted - The quoted information
@@ -1032,7 +1034,7 @@ class Tpm(TpmBase):
                 Auth Role: USER
             sessionHandle (TPM_HANDLE): Handle of the audit session
                 Auth Index: None
-            qualifyingData (int): User-provided qualifying data may be zero-length
+            qualifyingData (bytes): User-provided qualifying data may be zero-length
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
                 One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
@@ -1063,7 +1065,7 @@ class Tpm(TpmBase):
             signHandle (TPM_HANDLE): The handle of the signing key
                 Auth Index: 2
                 Auth Role: USER
-            qualifyingData (int): Other data to associate with this audit digest
+            qualifyingData (bytes): Other data to associate with this audit digest
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
                 One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
@@ -1092,7 +1094,7 @@ class Tpm(TpmBase):
                 that can perform digital signatures
                 Auth Index: 2
                 Auth Role: USER
-            qualifyingData (int): Data to tick stamp
+            qualifyingData (bytes): Data to tick stamp
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
                 One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
@@ -1126,14 +1128,14 @@ class Tpm(TpmBase):
                 attestation structure
                 Auth Index: 2
                 Auth Role: USER
-            reserved (int): Shall be an Empty Buffer
+            reserved (bytes): Shall be an Empty Buffer
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
                 One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
-            partialCertificate (int): A DER encoded partial certificate
+            partialCertificate (bytes): A DER encoded partial certificate
         
         Returns:
             addedToCertificate - A DER encoded SEQUENCE containing the DER
@@ -1160,8 +1162,8 @@ class Tpm(TpmBase):
                 Auth Index: 1
                 Auth Role: USER
             P1 (TPMS_ECC_POINT): A point (M) on the curve used by signHandle
-            s2 (int): Octet array used to derive x-coordinate of a base point
-            y2 (int): Y coordinate of the point associated with s2
+            s2 (bytes): Octet array used to derive x-coordinate of a base point
+            y2 (bytes): Y coordinate of the point associated with s2
         
         Returns:
             K - ECC point K [ds](x2, y2)
@@ -1198,7 +1200,7 @@ class Tpm(TpmBase):
             keyHandle (TPM_HANDLE): Handle of public key that will be used in
                 the validation
                 Auth Index: None
-            digest (int): Digest of the signed message
+            digest (bytes): Digest of the signed message
             signature (TPMU_SIGNATURE): Signature to be tested
                 One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
@@ -1226,7 +1228,7 @@ class Tpm(TpmBase):
             keyHandle (TPM_HANDLE): Handle of key that will perform signing
                 Auth Index: 1
                 Auth Role: USER
-            digest (int): Digest to be signed
+            digest (bytes): Digest to be signed
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 keyHandle is TPM_ALG_NULL
                 One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
@@ -1258,9 +1260,9 @@ class Tpm(TpmBase):
                 Auth Role: USER
             auditAlg (TPM_ALG_ID): Hash algorithm for the audit digest; if
                 TPM_ALG_NULL, then the hash is not changed
-            setList (TPM_CC): List of commands that will be added to those that
-                will be audited
-            clearList (TPM_CC): List of commands that will no longer be audited
+            setList (TPM_CC[]): List of commands that will be added to those
+                that will be audited
+            clearList (TPM_CC[]): List of commands that will no longer be audited
         """
         req = TPM2_SetCommandCodeAuditStatus_REQUEST(auth, auditAlg, setList, clearList)
         respBuf = self.dispatchCommand(TPM_CC.SetCommandCodeAuditStatus, req)
@@ -1277,7 +1279,7 @@ class Tpm(TpmBase):
             pcrHandle (TPM_HANDLE): Handle of the PCR
                 Auth Handle: 1
                 Auth Role: USER
-            digests (TPMT_HA): List of tagged digest values to be extended
+            digests (TPMT_HA[]): List of tagged digest values to be extended
         """
         req = TPM2_PCR_Extend_REQUEST(pcrHandle, digests)
         respBuf = self.dispatchCommand(TPM_CC.PCR_Extend, req)
@@ -1291,7 +1293,7 @@ class Tpm(TpmBase):
             pcrHandle (TPM_HANDLE): Handle of the PCR
                 Auth Handle: 1
                 Auth Role: USER
-            eventData (int): Event data in sized buffer
+            eventData (bytes): Event data in sized buffer
         
         Returns:
             digests - Table 80 shows the basic hash-agile structure used in this
@@ -1309,7 +1311,7 @@ class Tpm(TpmBase):
         """ This command returns the values of all PCR specified in pcrSelectionIn.
         
         Args:
-            pcrSelectionIn (TPMS_PCR_SELECTION): The selection of PCR to read
+            pcrSelectionIn (TPMS_PCR_SELECTION[]): The selection of PCR to read
         
         Returns:
             pcrUpdateCounter - The current value of the PCR update counter
@@ -1330,7 +1332,7 @@ class Tpm(TpmBase):
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
                 Auth Role: USER
-            pcrAllocation (TPMS_PCR_SELECTION): The requested allocation
+            pcrAllocation (TPMS_PCR_SELECTION[]): The requested allocation
         
         Returns:
             allocationSuccess - YES if the allocation succeeded
@@ -1352,7 +1354,7 @@ class Tpm(TpmBase):
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
                 Auth Role: USER
-            authPolicy (int): The desired authPolicy
+            authPolicy (bytes): The desired authPolicy
             hashAlg (TPM_ALG_ID): The hash algorithm of the policy
             pcrNum (TPM_HANDLE): The PCR for which the policy is to be set
         """
@@ -1369,7 +1371,7 @@ class Tpm(TpmBase):
                 authorization value set
                 Auth Index: 1
                 Auth Role: USER
-            auth (int): The desired authorization value
+            auth (bytes): The desired authorization value
         """
         req = TPM2_PCR_SetAuthValue_REQUEST(pcrHandle, auth)
         respBuf = self.dispatchCommand(TPM_CC.PCR_SetAuthValue, req)
@@ -1402,14 +1404,14 @@ class Tpm(TpmBase):
                 Auth Index: None
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            nonceTPM (int): The policy nonce for the session
+            nonceTPM (bytes): The policy nonce for the session
                 This can be the Empty Buffer.
-            cpHashA (int): Digest of the command parameters to which this
+            cpHashA (bytes): Digest of the command parameters to which this
                 authorization is limited
                 This is not the cpHash for this command but the cpHash for the
                 command to which this policy session will be applied. If it is
                 not limited, the parameter will be the Empty Buffer.
-            policyRef (int): A reference to a policy relating to the
+            policyRef (bytes): A reference to a policy relating to the
                 authorization may be the Empty Buffer
                 Size is limited to be no larger than the nonce size supported on
                 the TPM.
@@ -1449,14 +1451,14 @@ class Tpm(TpmBase):
                 Auth Role: USER
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            nonceTPM (int): The policy nonce for the session
+            nonceTPM (bytes): The policy nonce for the session
                 This can be the Empty Buffer.
-            cpHashA (int): Digest of the command parameters to which this
+            cpHashA (bytes): Digest of the command parameters to which this
                 authorization is limited
                 This not the cpHash for this command but the cpHash for the
                 command to which this policy session will be applied. If it is
                 not limited, the parameter will be the Empty Buffer.
-            policyRef (int): A reference to a policy relating to the
+            policyRef (bytes): A reference to a policy relating to the
                 authorization may be the Empty Buffer
                 Size is limited to be no larger than the nonce size supported on
                 the TPM.
@@ -1484,15 +1486,15 @@ class Tpm(TpmBase):
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            timeout (int): Time when authorization will expire
+            timeout (bytes): Time when authorization will expire
                 The contents are TPM specific. This shall be the value returned
                 when ticket was produced.
-            cpHashA (int): Digest of the command parameters to which this
+            cpHashA (bytes): Digest of the command parameters to which this
                 authorization is limited
                 If it is not limited, the parameter will be the Empty Buffer.
-            policyRef (int): Reference to a qualifier for the policy may be the
-                Empty Buffer
-            authName (int): Name of the object that provided the authorization
+            policyRef (bytes): Reference to a qualifier for the policy may be
+                the Empty Buffer
+            authName (bytes): Name of the object that provided the authorization
             ticket (TPMT_TK_AUTH): An authorization ticket returned by the TPM
                 in response to a TPM2_PolicySigned() or TPM2_PolicySecret()
         """
@@ -1511,7 +1513,7 @@ class Tpm(TpmBase):
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            pHashList (TPM2B_DIGEST): The list of hashes to check for a match
+            pHashList (TPM2B_DIGEST[]): The list of hashes to check for a match
         """
         req = TPM2_PolicyOR_REQUEST(policySession, pHashList)
         respBuf = self.dispatchCommand(TPM_CC.PolicyOR, req)
@@ -1527,9 +1529,9 @@ class Tpm(TpmBase):
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            pcrDigest (int): Expected digest value of the selected PCR using the
-                hash algorithm of the session; may be zero length
-            pcrs (TPMS_PCR_SELECTION): The PCR to include in the check digest
+            pcrDigest (bytes): Expected digest value of the selected PCR using
+                the hash algorithm of the session; may be zero length
+            pcrs (TPMS_PCR_SELECTION[]): The PCR to include in the check digest
         """
         req = TPM2_PolicyPCR_REQUEST(policySession, pcrDigest, pcrs)
         respBuf = self.dispatchCommand(TPM_CC.PolicyPCR, req)
@@ -1565,7 +1567,7 @@ class Tpm(TpmBase):
                 Auth Index: None
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            operandB (int): The second operand
+            operandB (bytes): The second operand
             offset (int): The octet offset in the NV Index for the start of
                 operand A
             operation (TPM_EO): The comparison to make
@@ -1582,7 +1584,7 @@ class Tpm(TpmBase):
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            operandB (int): The second operand
+            operandB (bytes): The second operand
             offset (int): The octet offset in the TPMS_TIME_INFO structure for
                 the start of operand A
             operation (TPM_EO): The comparison to make
@@ -1626,7 +1628,7 @@ class Tpm(TpmBase):
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            cpHashA (int): The cpHash added to the policy
+            cpHashA (bytes): The cpHash added to the policy
         """
         req = TPM2_PolicyCpHash_REQUEST(policySession, cpHashA)
         respBuf = self.dispatchCommand(TPM_CC.PolicyCpHash, req)
@@ -1642,7 +1644,7 @@ class Tpm(TpmBase):
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            nameHash (int): The digest to be added to the policy
+            nameHash (bytes): The digest to be added to the policy
         """
         req = TPM2_PolicyNameHash_REQUEST(policySession, nameHash)
         respBuf = self.dispatchCommand(TPM_CC.PolicyNameHash, req)
@@ -1656,8 +1658,8 @@ class Tpm(TpmBase):
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            objectName (int): The Name of the object to be duplicated
-            newParentName (int): The Name of the new parent
+            objectName (bytes): The Name of the object to be duplicated
+            newParentName (bytes): The Name of the new parent
             includeObject (int): If YES, the objectName will be included in the
                 value in policySessionpolicyDigest
         """
@@ -1675,9 +1677,9 @@ class Tpm(TpmBase):
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            approvedPolicy (int): Digest of the policy being approved
-            policyRef (int): A policy qualifier
-            keySign (int): Name of a key that can sign a policy addition
+            approvedPolicy (bytes): Digest of the policy being approved
+            policyRef (bytes): A policy qualifier
+            keySign (bytes): Name of a key that can sign a policy addition
             checkTicket (TPMT_TK_VERIFIED): Ticket validating that
                 approvedPolicy and policyRef were signed by keySign
         """
@@ -1754,7 +1756,7 @@ class Tpm(TpmBase):
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            templateHash (int): The digest to be added to the policy
+            templateHash (bytes): The digest to be added to the policy
         """
         req = TPM2_PolicyTemplate_REQUEST(policySession, templateHash)
         respBuf = self.dispatchCommand(TPM_CC.PolicyTemplate, req)
@@ -1799,10 +1801,11 @@ class Tpm(TpmBase):
             inSensitive (TPMS_SENSITIVE_CREATE): The sensitive data, see TPM 2.0
                 Part 1 Sensitive Values
             inPublic (TPMT_PUBLIC): The public template
-            outsideInfo (int): Data that will be included in the creation data
+            outsideInfo (bytes): Data that will be included in the creation data
                 for this object to provide permanent, verifiable linkage between
                 this object and some object owner data
-            creationPCR (TPMS_PCR_SELECTION): PCR that will be used in creation data
+            creationPCR (TPMS_PCR_SELECTION[]): PCR that will be used in
+                creation data
         
         Returns:
             handle - Handle of type TPM_HT_TRANSIENT for created Primary Object
@@ -1852,7 +1855,8 @@ class Tpm(TpmBase):
                 TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
                 Auth Role: USER
-            authPolicy (int): An authorization policy digest; may be the Empty Buffer
+            authPolicy (bytes): An authorization policy digest; may be the Empty
+                Buffer
                 If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer.
             hashAlg (TPM_ALG_ID): The hash algorithm to use for the policy
                 If the authPolicy is an Empty Buffer, then this field shall be
@@ -1935,7 +1939,7 @@ class Tpm(TpmBase):
                 TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
                 Auth Role: USER
-            newAuth (int): New authorization value
+            newAuth (bytes): New authorization value
         """
         req = TPM2_HierarchyChangeAuth_REQUEST(authHandle, newAuth)
         respBuf = self.dispatchCommand(TPM_CC.HierarchyChangeAuth, req)
@@ -1986,9 +1990,9 @@ class Tpm(TpmBase):
             auth (TPM_HANDLE): TPM_RH_PLATFORM+PP
                 Auth Index: 1
                 Auth Role: USER + Physical Presence
-            setList (TPM_CC): List of commands to be added to those that will
+            setList (TPM_CC[]): List of commands to be added to those that will
                 require that Physical Presence be asserted
-            clearList (TPM_CC): List of commands that will no longer require
+            clearList (TPM_CC[]): List of commands that will no longer require
                 that Physical Presence be asserted
         """
         req = TPM2_PP_Commands_REQUEST(auth, setList, clearList)
@@ -2025,7 +2029,7 @@ class Tpm(TpmBase):
                 TPM Vendor Authorization Key that will be used to validate
                 manifestSignature
                 Auth Index: None
-            fuDigest (int): Digest of the first block in the field upgrade sequence
+            fuDigest (bytes): Digest of the first block in the field upgrade sequence
             manifestSignature (TPMU_SIGNATURE): Signature over fuDigest using
                 the key associated with keyHandle (not optional)
                 One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
@@ -2047,7 +2051,7 @@ class Tpm(TpmBase):
         TPM_RC_FIELDUPGRADE.
         
         Args:
-            fuData (int): Field upgrade image data
+            fuData (bytes): Field upgrade image data
         
         Returns:
             nextDigest - Tagged digest of the next block
@@ -2238,7 +2242,7 @@ class Tpm(TpmBase):
             authHandle (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
                 Auth Role: USER
-            auth (int): The authorization value
+            auth (bytes): The authorization value
             publicInfo (TPMS_NV_PUBLIC): The public parameters of the NV area
         """
         req = TPM2_NV_DefineSpace_REQUEST(authHandle, auth, publicInfo)
@@ -2307,7 +2311,7 @@ class Tpm(TpmBase):
                 Auth Role: USER
             nvIndex (TPM_HANDLE): The NV Index of the area to write
                 Auth Index: None
-            data (int): The data to write
+            data (bytes): The data to write
             offset (int): The octet offset into the NV Area
         """
         req = TPM2_NV_Write_REQUEST(authHandle, nvIndex, data, offset)
@@ -2344,7 +2348,7 @@ class Tpm(TpmBase):
                 Auth Role: USER
             nvIndex (TPM_HANDLE): The NV Index to extend
                 Auth Index: None
-            data (int): The data to extend
+            data (bytes): The data to extend
         """
         req = TPM2_NV_Extend_REQUEST(authHandle, nvIndex, data)
         respBuf = self.dispatchCommand(TPM_CC.NV_Extend, req)
@@ -2453,7 +2457,7 @@ class Tpm(TpmBase):
             nvIndex (TPM_HANDLE): Handle of the entity
                 Auth Index: 1
                 Auth Role: ADMIN
-            newAuth (int): New authorization value
+            newAuth (bytes): New authorization value
         """
         req = TPM2_NV_ChangeAuth_REQUEST(nvIndex, newAuth)
         respBuf = self.dispatchCommand(TPM_CC.NV_ChangeAuth, req)
@@ -2475,7 +2479,7 @@ class Tpm(TpmBase):
                 Auth Role: USER
             nvIndex (TPM_HANDLE): Index for the area to be certified
                 Auth Index: None
-            qualifyingData (int): User-provided qualifying data
+            qualifyingData (bytes): User-provided qualifying data
             inScheme (TPMU_SIG_SCHEME): Signing scheme to use if the scheme for
                 signHandle is TPM_ALG_NULL
                 One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
@@ -2531,7 +2535,7 @@ class Tpm(TpmBase):
             ac (TPM_HANDLE): Handle indicating the Attached Component to which
                 the object will be sent
                 Auth Index: None
-            acDataIn (int): Optional non sensitive information related to the object
+            acDataIn (bytes): Optional non sensitive information related to the object
         
         Returns:
             acDataOut - May include AC specific data or information about an error.
@@ -2551,11 +2555,11 @@ class Tpm(TpmBase):
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
-            objectName (int): The Name of the Object to be sent
-            authHandleName (int): The Name associated with authHandle used in
+            objectName (bytes): The Name of the Object to be sent
+            authHandleName (bytes): The Name associated with authHandle used in
                 the TPM2_AC_Send() command
-            acName (int): The Name of the Attached Component to which the Object
-                will be sent
+            acName (bytes): The Name of the Attached Component to which the
+                Object will be sent
             includeObject (int): If SET, objectName will be included in the
                 value in policySessionpolicyDigest
         """
@@ -2583,7 +2587,7 @@ class Tpm(TpmBase):
         """ This is a placeholder to allow testing of the dispatch code.
         
         Args:
-            inputData (int): Dummy data
+            inputData (bytes): Dummy data
         
         Returns:
             outputData - Dummy data
