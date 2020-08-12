@@ -1238,13 +1238,6 @@ namespace Tpm2Lib
 
     public class ByteArrayComparer : IEqualityComparer<byte[]>
     {
-        Tpm2 my_tpm;
-
-        public ByteArrayComparer(Tpm2 tpm)
-        {
-            my_tpm = tpm;
-        }
-
         bool IEqualityComparer<byte[]>.Equals(byte[] x, byte[] y)
         {
             bool res = x.IsEqual(y);
@@ -1253,8 +1246,7 @@ namespace Tpm2Lib
 
         int IEqualityComparer<byte[]>.GetHashCode(byte[] obj)
         {
-            TkHashcheck validation;
-            return BitConverter.ToInt32(my_tpm.Hash(obj as byte[], TpmAlgId.Sha1, TpmRh.Owner, out validation), 0);
+            return BitConverter.ToInt32(CryptoLib.HashData(TpmAlgId.Sha1, obj), 0);
         }
     } // class ByteArrayComparer
 
