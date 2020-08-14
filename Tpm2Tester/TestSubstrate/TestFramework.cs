@@ -959,11 +959,47 @@ namespace Tpm2Tester
             var keySizes = new List<ushort>();
             var symDef = new SymDefObject(TpmAlgId.Aes, 128, TpmAlgId.Cfb);
             var rsaParms = new RsaParms(symDef, null, 1024, 0);
-            IPublicParmsUnion parms = rsaParms;
+            IPublicParmsUnion parms = null;
 
-            if (!TpmCfg.IsImplemented(TpmAlgId.Rsa))
+            if (TpmCfg.IsImplemented(TpmAlgId.Rsa))
             {
-                parms = new EccParms(symDef, null, EccCurve.NistP256, new NullKdfScheme());
+                // Find the smallest supported RSA size (currently checks only 1024 and 2048)
+                tpm._AllowErrors().TestParms(rsaParms);
+                if (!tpm._LastCommandSucceeded())
+                {
+                    rsaParms.keyBits = 2048;
+                    tpm._AllowErrors().TestParms(rsaParms);
+                    if (!tpm._LastCommandSucceeded())
+                    {
+                        symDef.KeyBits = 256;
+                        tpm._AllowErrors().TestParms(rsaParms);
+                        if (!tpm._LastCommandSucceeded())
+                        {
+                            WriteToLog("WARNING: Unrecognized TPM algorithm configuration.\n" +
+                                       "         No standard RSA/AES combinations found.\n" +
+                                       "         Attempting to continue...", ConsoleColor.Cyan);
+                        }
+                    }
+                }
+                parms = rsaParms;
+            }
+            else
+            {
+                var curve = TpmCfg.IsImplemented(EccCurve.NistP256) ? EccCurve.NistP256 : TpmCfg.EccCurves.Keys.First();
+                parms = new EccParms(symDef, null, curve, new NullKdfScheme());
+                tpm._AllowErrors().TestParms(parms);
+                if (!tpm._LastCommandSucceeded())
+                {
+                    symDef.KeyBits = 256;
+                    parms = new EccParms(symDef, null, curve, new NullKdfScheme());
+                    tpm._AllowErrors().TestParms(parms);
+                    if (!tpm._LastCommandSucceeded())
+                    {
+                        WriteToLog("WARNING: Unrecognized TPM algorithm configuration.\n" +
+                                    "        No RSA is supported and, no working ECC/AES combination found.\n" +
+                                    "        Attempting to continue...", ConsoleColor.Cyan);
+                    }
+                }
             }
 
             var allModes = new TpmAlgId[] { TpmAlgId.Cfb, TpmAlgId.Ctr,
@@ -978,7 +1014,7 @@ namespace Tpm2Tester
                     continue;
 
                 symDef.Algorithm = alg;
-                for (ushort n = 128; n <= 512; n += 64)
+                for (ushort n = symDef.KeyBits; n <= 256; n += 64)
                 {
                     symDef.KeyBits = n;
                     foreach (TpmAlgId mode in allModes)
@@ -1028,7 +1064,7 @@ namespace Tpm2Tester
             if (TpmCfg.IsImplemented(TpmAlgId.Rsa))
             {
                 rsaParms.symmetric = TpmCfg.SymDefs[0];
-                for (ushort n = 1024; n <= 4096; n += 512)
+                for (ushort n = rsaParms.keyBits; n <= 4096; n += 1024)
                 {
                     rsaParms.keyBits = n;
                     tpm._AllowErrors().TestParms(rsaParms);

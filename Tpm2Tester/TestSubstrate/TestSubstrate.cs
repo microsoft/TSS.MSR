@@ -1464,7 +1464,7 @@ namespace Tpm2Tester
                 ObjectAttr.Decrypt | ObjectAttr.UserWithAuth | ObjectAttr.AdminWithPolicy
                      | ObjectAttr.SensitiveDataOrigin,
                 null,
-                new RsaParms(new SymDefObject(), new SchemeOaep(nameAlg), 2048, 0),
+                new RsaParms(new SymDefObject(), new SchemeOaep(nameAlg), TpmCfg.RsaKeySizes.Last(), 0),
                 new Tpm2bPublicKeyRsa());
 
             TpmPublic pub;
