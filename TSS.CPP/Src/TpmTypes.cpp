@@ -1223,7 +1223,7 @@ void TPMS_CAPABILITY_DATA::toTpm(TpmBuffer& buf) const
 
 void TPMS_CAPABILITY_DATA::initFromTpm(TpmBuffer& buf)
 {
-    auto capability = (TPM_CAP)buf.readInt();
+    TPM_CAP capability = buf.readInt();
     UnionFactory::Create(data, capability);
     data->initFromTpm(buf);
 }
@@ -1517,7 +1517,7 @@ void TPMS_ATTEST::toTpm(TpmBuffer& buf) const
 void TPMS_ATTEST::initFromTpm(TpmBuffer& buf)
 {
     magic = buf.readInt();
-    auto type = (TPM_ST)buf.readShort();
+    TPM_ST type = buf.readShort();
     qualifiedSigner = buf.readSizedByteBuf();
     extraData = buf.readSizedByteBuf();
     clockInfo.initFromTpm(buf);
@@ -1840,7 +1840,7 @@ void TPMT_KEYEDHASH_SCHEME::toTpm(TpmBuffer& buf) const
 
 void TPMT_KEYEDHASH_SCHEME::initFromTpm(TpmBuffer& buf)
 {
-    auto scheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID scheme = buf.readShort();
     UnionFactory::Create(details, scheme);
     details->initFromTpm(buf);
 }
@@ -1869,7 +1869,7 @@ void TPMT_SIG_SCHEME::toTpm(TpmBuffer& buf) const
 
 void TPMT_SIG_SCHEME::initFromTpm(TpmBuffer& buf)
 {
-    auto scheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID scheme = buf.readShort();
     UnionFactory::Create(details, scheme);
     details->initFromTpm(buf);
 }
@@ -1898,7 +1898,7 @@ void TPMT_KDF_SCHEME::toTpm(TpmBuffer& buf) const
 
 void TPMT_KDF_SCHEME::initFromTpm(TpmBuffer& buf)
 {
-    auto scheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID scheme = buf.readShort();
     UnionFactory::Create(details, scheme);
     details->initFromTpm(buf);
 }
@@ -1927,7 +1927,7 @@ void TPMT_ASYM_SCHEME::toTpm(TpmBuffer& buf) const
 
 void TPMT_ASYM_SCHEME::initFromTpm(TpmBuffer& buf)
 {
-    auto scheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID scheme = buf.readShort();
     UnionFactory::Create(details, scheme);
     details->initFromTpm(buf);
 }
@@ -1956,7 +1956,7 @@ void TPMT_RSA_SCHEME::toTpm(TpmBuffer& buf) const
 
 void TPMT_RSA_SCHEME::initFromTpm(TpmBuffer& buf)
 {
-    auto scheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID scheme = buf.readShort();
     UnionFactory::Create(details, scheme);
     details->initFromTpm(buf);
 }
@@ -1985,7 +1985,7 @@ void TPMT_RSA_DECRYPT::toTpm(TpmBuffer& buf) const
 
 void TPMT_RSA_DECRYPT::initFromTpm(TpmBuffer& buf)
 {
-    auto scheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID scheme = buf.readShort();
     UnionFactory::Create(details, scheme);
     details->initFromTpm(buf);
 }
@@ -2070,7 +2070,7 @@ void TPMT_ECC_SCHEME::toTpm(TpmBuffer& buf) const
 
 void TPMT_ECC_SCHEME::initFromTpm(TpmBuffer& buf)
 {
-    auto scheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID scheme = buf.readShort();
     UnionFactory::Create(details, scheme);
     details->initFromTpm(buf);
 }
@@ -2111,10 +2111,10 @@ void TPMS_ALGORITHM_DETAIL_ECC::initFromTpm(TpmBuffer& buf)
 {
     curveID = buf.readShort();
     keySize = buf.readShort();
-    auto kdfScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID kdfScheme = buf.readShort();
     UnionFactory::Create(kdf, kdfScheme);
     kdf->initFromTpm(buf);
-    auto signScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID signScheme = buf.readShort();
     UnionFactory::Create(sign, signScheme);
     sign->initFromTpm(buf);
     p = buf.readSizedByteBuf();
@@ -2227,7 +2227,7 @@ void TPMT_SIGNATURE::toTpm(TpmBuffer& buf) const
 
 void TPMT_SIGNATURE::initFromTpm(TpmBuffer& buf)
 {
-    auto sigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID sigAlg = buf.readShort();
     UnionFactory::Create(signature, sigAlg);
     signature->initFromTpm(buf);
 }
@@ -2264,7 +2264,7 @@ void TPMS_KEYEDHASH_PARMS::toTpm(TpmBuffer& buf) const
 
 void TPMS_KEYEDHASH_PARMS::initFromTpm(TpmBuffer& buf)
 {
-    auto schemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID schemeScheme = buf.readShort();
     UnionFactory::Create(scheme, schemeScheme);
     scheme->initFromTpm(buf);
 }
@@ -2294,7 +2294,7 @@ void TPMS_ASYM_PARMS::toTpm(TpmBuffer& buf) const
 void TPMS_ASYM_PARMS::initFromTpm(TpmBuffer& buf)
 {
     symmetric.initFromTpm(buf);
-    auto schemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID schemeScheme = buf.readShort();
     UnionFactory::Create(scheme, schemeScheme);
     scheme->initFromTpm(buf);
 }
@@ -2328,7 +2328,7 @@ void TPMS_RSA_PARMS::toTpm(TpmBuffer& buf) const
 void TPMS_RSA_PARMS::initFromTpm(TpmBuffer& buf)
 {
     symmetric.initFromTpm(buf);
-    auto schemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID schemeScheme = buf.readShort();
     UnionFactory::Create(scheme, schemeScheme);
     scheme->initFromTpm(buf);
     keyBits = buf.readShort();
@@ -2369,11 +2369,11 @@ void TPMS_ECC_PARMS::toTpm(TpmBuffer& buf) const
 void TPMS_ECC_PARMS::initFromTpm(TpmBuffer& buf)
 {
     symmetric.initFromTpm(buf);
-    auto schemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID schemeScheme = buf.readShort();
     UnionFactory::Create(scheme, schemeScheme);
     scheme->initFromTpm(buf);
     curveID = buf.readShort();
-    auto kdfScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID kdfScheme = buf.readShort();
     UnionFactory::Create(kdf, kdfScheme);
     kdf->initFromTpm(buf);
 }
@@ -2413,7 +2413,7 @@ void TPMT_PUBLIC_PARMS::toTpm(TpmBuffer& buf) const
 
 void TPMT_PUBLIC_PARMS::initFromTpm(TpmBuffer& buf)
 {
-    auto type = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID type = buf.readShort();
     UnionFactory::Create(parameters, type);
     parameters->initFromTpm(buf);
 }
@@ -2446,7 +2446,7 @@ void TPMT_PUBLIC::toTpm(TpmBuffer& buf) const
 
 void TPMT_PUBLIC::initFromTpm(TpmBuffer& buf)
 {
-    auto type = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID type = buf.readShort();
     nameAlg = buf.readShort();
     objectAttributes = buf.readInt();
     authPolicy = buf.readSizedByteBuf();
@@ -2516,7 +2516,7 @@ void TPMT_SENSITIVE::toTpm(TpmBuffer& buf) const
 
 void TPMT_SENSITIVE::initFromTpm(TpmBuffer& buf)
 {
-    auto sensitiveType = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID sensitiveType = buf.readShort();
     authValue = buf.readSizedByteBuf();
     seedValue = buf.readSizedByteBuf();
     UnionFactory::Create(sensitive, sensitiveType);
@@ -3503,7 +3503,7 @@ void TPM2_RSA_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_RSA_Encrypt_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     message = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
     label = buf.readSizedByteBuf();
@@ -3549,7 +3549,7 @@ void TPM2_RSA_Decrypt_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_RSA_Decrypt_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     cipherText = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
     label = buf.readSizedByteBuf();
@@ -3720,7 +3720,7 @@ void TPM2_ECC_Encrypt_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_ECC_Encrypt_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     plainText = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
 }
@@ -3786,7 +3786,7 @@ void TPM2_ECC_Decrypt_REQUEST::initFromTpm(TpmBuffer& buf)
     buf.readSizedObj(C1);
     C2 = buf.readSizedByteBuf();
     C3 = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
 }
@@ -4272,7 +4272,7 @@ void TPM2_Certify_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_Certify_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     qualifyingData = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
 }
@@ -4308,7 +4308,7 @@ void CertifyResponse::toTpm(TpmBuffer& buf) const
 void CertifyResponse::initFromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(certifyInfo);
-    auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID signatureSigAlg = buf.readShort();
     UnionFactory::Create(signature, signatureSigAlg);
     signature->initFromTpm(buf);
 }
@@ -4343,7 +4343,7 @@ void TPM2_CertifyCreation_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     qualifyingData = buf.readSizedByteBuf();
     creationHash = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
     creationTicket.initFromTpm(buf);
@@ -4384,7 +4384,7 @@ void CertifyCreationResponse::toTpm(TpmBuffer& buf) const
 void CertifyCreationResponse::initFromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(certifyInfo);
-    auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID signatureSigAlg = buf.readShort();
     UnionFactory::Create(signature, signatureSigAlg);
     signature->initFromTpm(buf);
 }
@@ -4417,7 +4417,7 @@ void TPM2_Quote_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_Quote_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     qualifyingData = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
     buf.readObjArr(PCRselect);
@@ -4454,7 +4454,7 @@ void QuoteResponse::toTpm(TpmBuffer& buf) const
 void QuoteResponse::initFromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(quoted);
-    auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID signatureSigAlg = buf.readShort();
     UnionFactory::Create(signature, signatureSigAlg);
     signature->initFromTpm(buf);
 }
@@ -4486,7 +4486,7 @@ void TPM2_GetSessionAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_GetSessionAuditDigest_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     qualifyingData = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
 }
@@ -4524,7 +4524,7 @@ void GetSessionAuditDigestResponse::toTpm(TpmBuffer& buf) const
 void GetSessionAuditDigestResponse::initFromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(auditInfo);
-    auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID signatureSigAlg = buf.readShort();
     UnionFactory::Create(signature, signatureSigAlg);
     signature->initFromTpm(buf);
 }
@@ -4556,7 +4556,7 @@ void TPM2_GetCommandAuditDigest_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_GetCommandAuditDigest_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     qualifyingData = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
 }
@@ -4592,7 +4592,7 @@ void GetCommandAuditDigestResponse::toTpm(TpmBuffer& buf) const
 void GetCommandAuditDigestResponse::initFromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(auditInfo);
-    auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID signatureSigAlg = buf.readShort();
     UnionFactory::Create(signature, signatureSigAlg);
     signature->initFromTpm(buf);
 }
@@ -4624,7 +4624,7 @@ void TPM2_GetTime_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_GetTime_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     qualifyingData = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
 }
@@ -4660,7 +4660,7 @@ void GetTimeResponse::toTpm(TpmBuffer& buf) const
 void GetTimeResponse::initFromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(timeInfo);
-    auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID signatureSigAlg = buf.readShort();
     UnionFactory::Create(signature, signatureSigAlg);
     signature->initFromTpm(buf);
 }
@@ -4693,7 +4693,7 @@ void TPM2_CertifyX509_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_CertifyX509_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     reserved = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
     partialCertificate = buf.readSizedByteBuf();
@@ -4734,7 +4734,7 @@ void CertifyX509Response::initFromTpm(TpmBuffer& buf)
 {
     addedToCertificate = buf.readSizedByteBuf();
     tbsDigest = buf.readSizedByteBuf();
-    auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID signatureSigAlg = buf.readShort();
     UnionFactory::Create(signature, signatureSigAlg);
     signature->initFromTpm(buf);
 }
@@ -4862,7 +4862,7 @@ void TPM2_VerifySignature_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_VerifySignature_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     digest = buf.readSizedByteBuf();
-    auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID signatureSigAlg = buf.readShort();
     UnionFactory::Create(signature, signatureSigAlg);
     signature->initFromTpm(buf);
 }
@@ -4905,7 +4905,7 @@ void TPM2_Sign_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_Sign_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     digest = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
     validation.initFromTpm(buf);
@@ -4941,7 +4941,7 @@ void SignResponse::toTpm(TpmBuffer& buf) const
 
 void SignResponse::initFromTpm(TpmBuffer& buf)
 {
-    auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID signatureSigAlg = buf.readShort();
     UnionFactory::Create(signature, signatureSigAlg);
     signature->initFromTpm(buf);
 }
@@ -5181,7 +5181,7 @@ void TPM2_PolicySigned_REQUEST::initFromTpm(TpmBuffer& buf)
     cpHashA = buf.readSizedByteBuf();
     policyRef = buf.readSizedByteBuf();
     expiration = buf.readInt();
-    auto authSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID authSigAlg = buf.readShort();
     UnionFactory::Create(auth, authSigAlg);
     auth->initFromTpm(buf);
 }
@@ -5893,7 +5893,7 @@ void TPM2_FieldUpgradeStart_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_FieldUpgradeStart_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     fuDigest = buf.readSizedByteBuf();
-    auto manifestSignatureSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID manifestSignatureSigAlg = buf.readShort();
     UnionFactory::Create(manifestSignature, manifestSignatureSigAlg);
     manifestSignature->initFromTpm(buf);
 }
@@ -6095,7 +6095,7 @@ void GetCapabilityResponse::toTpm(TpmBuffer& buf) const
 void GetCapabilityResponse::initFromTpm(TpmBuffer& buf)
 {
     moreData = buf.readByte();
-    auto capabilityDataCapability = (TPM_CAP)buf.readInt();
+    TPM_CAP capabilityDataCapability = buf.readInt();
     UnionFactory::Create(capabilityData, capabilityDataCapability);
     capabilityData->initFromTpm(buf);
 }
@@ -6126,7 +6126,7 @@ void TPM2_TestParms_REQUEST::toTpm(TpmBuffer& buf) const
 
 void TPM2_TestParms_REQUEST::initFromTpm(TpmBuffer& buf)
 {
-    auto parametersType = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID parametersType = buf.readShort();
     UnionFactory::Create(parameters, parametersType);
     parameters->initFromTpm(buf);
 }
@@ -6392,7 +6392,7 @@ void TPM2_NV_Certify_REQUEST::toTpm(TpmBuffer& buf) const
 void TPM2_NV_Certify_REQUEST::initFromTpm(TpmBuffer& buf)
 {
     qualifyingData = buf.readSizedByteBuf();
-    auto inSchemeScheme = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID inSchemeScheme = buf.readShort();
     UnionFactory::Create(inScheme, inSchemeScheme);
     inScheme->initFromTpm(buf);
     size = buf.readShort();
@@ -6436,7 +6436,7 @@ void NV_CertifyResponse::toTpm(TpmBuffer& buf) const
 void NV_CertifyResponse::initFromTpm(TpmBuffer& buf)
 {
     buf.readSizedObj(certifyInfo);
-    auto signatureSigAlg = (TPM_ALG_ID)buf.readShort();
+    TPM_ALG_ID signatureSigAlg = buf.readShort();
     UnionFactory::Create(signature, signatureSigAlg);
     signature->initFromTpm(buf);
 }
