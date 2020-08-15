@@ -364,11 +364,11 @@ void Samples::FinishCallbacks()
 
     cout << "Commands invoked:" << endl;
     for (auto it = commandsInvoked.begin(); it != commandsInvoked.end(); ++it)
-        cout << dec << setfill(' ') << setw(32) << EnumToStr(it->first) << ": count = " << it->second << endl;;
+        cout << dec << setfill(' ') << setw(32) << EnumToStr(it->first) << ": count = " << it->second << endl;
 
     cout << endl << "Responses received:" << endl;
     for (auto it = responses.begin(); it != responses.end(); ++it)
-        cout << dec << setfill(' ') << setw(32) << EnumToStr(it->first) << ": count = " << it->second << endl;;
+        cout << dec << setfill(' ') << setw(32) << EnumToStr(it->first) << ": count = " << it->second << endl;
 
     cout << endl << "Commands not exercised:" << endl;
     for (auto it = commandsImplemented.begin(); it != commandsImplemented.end(); ++it)
