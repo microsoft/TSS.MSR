@@ -5540,8 +5540,8 @@ namespace Tpm2Lib {
     /// the authorization has an expiration time. If nonceTPM was provided in the policy
     /// command, the ticket is computed by </summary>
     [DataContract]
-    [KnownType(typeof(TpmSt))]
     [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(TpmSt))]
     [SpecTypeName("TPMT_TK_AUTH")]
     public partial class TkAuth: TpmStructureBase
     {
@@ -6183,16 +6183,16 @@ namespace Tpm2Lib {
     /// <summary> This data area is returned in response to a TPM2_GetCapability(). </summary>
     [DataContract]
     [KnownType(typeof(Cap))]
+    [KnownType(typeof(ActDataArray))]
+    [KnownType(typeof(AlgPropertyArray))]
     [KnownType(typeof(CcArray))]
     [KnownType(typeof(CcaArray))]
+    [KnownType(typeof(EccCurveArray))]
     [KnownType(typeof(HandleArray))]
     [KnownType(typeof(PcrSelectionArray))]
-    [KnownType(typeof(AlgPropertyArray))]
-    [KnownType(typeof(TaggedTpmPropertyArray))]
     [KnownType(typeof(TaggedPcrPropertyArray))]
-    [KnownType(typeof(EccCurveArray))]
     [KnownType(typeof(TaggedPolicyArray))]
-    [KnownType(typeof(ActDataArray))]
+    [KnownType(typeof(TaggedTpmPropertyArray))]
     [SpecTypeName("TPMS_CAPABILITY_DATA")]
     public partial class CapabilityData: TpmStructureBase
     {
@@ -6675,15 +6675,15 @@ namespace Tpm2Lib {
     [DataContract]
     [KnownType(typeof(Generated))]
     [KnownType(typeof(TpmSt))]
-    [KnownType(typeof(ClockInfo))]
-    [KnownType(typeof(TimeAttestInfo))]
     [KnownType(typeof(CertifyInfo))]
-    [KnownType(typeof(QuoteInfo))]
+    [KnownType(typeof(ClockInfo))]
     [KnownType(typeof(CommandAuditInfo))]
-    [KnownType(typeof(SessionAuditInfo))]
     [KnownType(typeof(CreationInfo))]
     [KnownType(typeof(NvCertifyInfo))]
     [KnownType(typeof(NvDigestCertifyInfo))]
+    [KnownType(typeof(QuoteInfo))]
+    [KnownType(typeof(SessionAuditInfo))]
+    [KnownType(typeof(TimeAttestInfo))]
     [SpecTypeName("TPMS_ATTEST")]
     public partial class Attest: TpmStructureBase
     {
@@ -7484,11 +7484,9 @@ namespace Tpm2Lib {
     /// <summary> This structure is used for a hash signing object. </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(NullSchemeKeyedhash))]
     [KnownType(typeof(SchemeHmac))]
     [KnownType(typeof(SchemeXor))]
-    [KnownType(typeof(NullSchemeKeyedhash))]
     [SpecTypeName("TPMT_KEYEDHASH_SCHEME")]
     public partial class KeyedhashScheme: TpmStructureBase
     {
@@ -7663,17 +7661,15 @@ namespace Tpm2Lib {
     /// <summary> Table 162 Definition of TPMT_SIG_SCHEME Structure </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SchemeHmac))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(NullSigScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SchemeHmac))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("TPMT_SIG_SCHEME")]
     public partial class SigScheme: TpmStructureBase
     {
@@ -7881,13 +7877,12 @@ namespace Tpm2Lib {
     /// <summary> Table 167 Definition of TPMT_KDF_SCHEME Structure </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(KdfSchemeMgf1))]
+    [KnownType(typeof(KdfSchemeKdf1Sp800108))]
     [KnownType(typeof(KdfSchemeKdf1Sp80056a))]
     [KnownType(typeof(KdfSchemeKdf2))]
-    [KnownType(typeof(KdfSchemeKdf1Sp800108))]
+    [KnownType(typeof(KdfSchemeMgf1))]
     [KnownType(typeof(NullKdfScheme))]
+    [KnownType(typeof(SchemeHash))]
     [SpecTypeName("TPMT_KDF_SCHEME")]
     public partial class KdfScheme: TpmStructureBase
     {
@@ -7939,21 +7934,18 @@ namespace Tpm2Lib {
     /// common functions may operate on any similar scheme structure. </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(Empty))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(EncSchemeOaep))]
     [KnownType(typeof(EncSchemeRsaes))]
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("TPMT_ASYM_SCHEME")]
     public partial class AsymScheme: TpmStructureBase
     {
@@ -7989,21 +7981,18 @@ namespace Tpm2Lib {
     /// <summary> Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(Empty))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(EncSchemeOaep))]
     [KnownType(typeof(EncSchemeRsaes))]
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("TPMT_RSA_SCHEME")]
     public partial class RsaScheme: TpmStructureBase
     {
@@ -8039,21 +8028,18 @@ namespace Tpm2Lib {
     /// <summary> Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(Empty))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(EncSchemeOaep))]
     [KnownType(typeof(EncSchemeRsaes))]
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("TPMT_RSA_DECRYPT")]
     public partial class RsaDecrypt: TpmStructureBase
     {
@@ -8227,21 +8213,18 @@ namespace Tpm2Lib {
     /// <summary> Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(Empty))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(EncSchemeOaep))]
     [KnownType(typeof(EncSchemeRsaes))]
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("TPMT_ECC_SCHEME")]
     public partial class EccScheme: TpmStructureBase
     {
@@ -8277,30 +8260,25 @@ namespace Tpm2Lib {
     /// <summary> This structure is used to report on the curve parameters of an ECC curve. It
     /// is returned by TPM2_ECC_Parameters(). </summary>
     [DataContract]
-    [KnownType(typeof(EccCurve))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(KdfSchemeMgf1))]
-    [KnownType(typeof(KdfSchemeKdf1Sp80056a))]
-    [KnownType(typeof(KdfSchemeKdf2))]
-    [KnownType(typeof(KdfSchemeKdf1Sp800108))]
-    [KnownType(typeof(NullKdfScheme))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(Empty))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(EccCurve))]
     [KnownType(typeof(EncSchemeOaep))]
     [KnownType(typeof(EncSchemeRsaes))]
+    [KnownType(typeof(KdfSchemeKdf1Sp800108))]
+    [KnownType(typeof(KdfSchemeKdf1Sp80056a))]
+    [KnownType(typeof(KdfSchemeKdf2))]
+    [KnownType(typeof(KdfSchemeMgf1))]
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
+    [KnownType(typeof(NullKdfScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("TPMS_ALGORITHM_DETAIL_ECC")]
     public partial class AlgorithmDetailEcc: TpmStructureBase
     {
@@ -8685,18 +8663,15 @@ namespace Tpm2Lib {
     /// TPM2_PolicySigned(), and TPM2_FieldUpgradeStart(). </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("TPMT_SIGNATURE")]
     public partial class Signature: TpmStructureBase
     {
@@ -8754,11 +8729,9 @@ namespace Tpm2Lib {
     /// of a KEYEDHASH object. </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(NullSchemeKeyedhash))]
     [KnownType(typeof(SchemeHmac))]
     [KnownType(typeof(SchemeXor))]
-    [KnownType(typeof(NullSchemeKeyedhash))]
     [SpecTypeName("TPMS_KEYEDHASH_PARMS")]
     public partial class KeyedhashParms: TpmStructureBase, IPublicParmsUnion
     {
@@ -8797,23 +8770,20 @@ namespace Tpm2Lib {
     /// key. The first two parameters of the parameter definition structures of an asymmetric
     /// key shall have the same two first components. </summary>
     [DataContract]
-    [KnownType(typeof(SymDefObject))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(Empty))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(EncSchemeOaep))]
     [KnownType(typeof(EncSchemeRsaes))]
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
+    [KnownType(typeof(SymDefObject))]
     [SpecTypeName("TPMS_ASYM_PARMS")]
     public partial class AsymParms: TpmStructureBase, IPublicParmsUnion
     {
@@ -8879,23 +8849,20 @@ namespace Tpm2Lib {
     /// in duplicated keys is not recommended because the resulting keys would not be
     /// interoperable with other TPMs. </summary>
     [DataContract]
-    [KnownType(typeof(SymDefObject))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(Empty))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
     [KnownType(typeof(EncSchemeOaep))]
     [KnownType(typeof(EncSchemeRsaes))]
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
+    [KnownType(typeof(SymDefObject))]
     [SpecTypeName("TPMS_RSA_PARMS")]
     public partial class RsaParms: TpmStructureBase, IPublicParmsUnion
     {
@@ -8984,31 +8951,26 @@ namespace Tpm2Lib {
 
     /// <summary> This structure contains the parameters for prime modulus ECC. </summary>
     [DataContract]
-    [KnownType(typeof(SymDefObject))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(Empty))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(EccCurve))]
     [KnownType(typeof(EncSchemeOaep))]
     [KnownType(typeof(EncSchemeRsaes))]
+    [KnownType(typeof(KdfSchemeKdf1Sp800108))]
+    [KnownType(typeof(KdfSchemeKdf1Sp80056a))]
+    [KnownType(typeof(KdfSchemeKdf2))]
+    [KnownType(typeof(KdfSchemeMgf1))]
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
-    [KnownType(typeof(EccCurve))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(KdfSchemeMgf1))]
-    [KnownType(typeof(KdfSchemeKdf1Sp80056a))]
-    [KnownType(typeof(KdfSchemeKdf2))]
-    [KnownType(typeof(KdfSchemeKdf1Sp800108))]
     [KnownType(typeof(NullKdfScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
+    [KnownType(typeof(SymDefObject))]
     [SpecTypeName("TPMS_ECC_PARMS")]
     public partial class EccParms: TpmStructureBase, IPublicParmsUnion
     {
@@ -9113,11 +9075,11 @@ namespace Tpm2Lib {
     /// algorithm parameters is supported by the TPM. </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(SymcipherParms))]
-    [KnownType(typeof(KeyedhashParms))]
     [KnownType(typeof(AsymParms))]
-    [KnownType(typeof(RsaParms))]
     [KnownType(typeof(EccParms))]
+    [KnownType(typeof(KeyedhashParms))]
+    [KnownType(typeof(RsaParms))]
+    [KnownType(typeof(SymcipherParms))]
     [SpecTypeName("TPMT_PUBLIC_PARMS")]
     public partial class PublicParms: TpmStructureBase
     {
@@ -9150,18 +9112,17 @@ namespace Tpm2Lib {
     /// nameAlg concatenated with the digest of this structure using nameAlg. </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(ObjectAttr))]
-    [KnownType(typeof(SymcipherParms))]
-    [KnownType(typeof(KeyedhashParms))]
-    [KnownType(typeof(AsymParms))]
-    [KnownType(typeof(RsaParms))]
-    [KnownType(typeof(EccParms))]
-    [KnownType(typeof(Tpm2bDigest))]
-    [KnownType(typeof(TpmDerive))]
-    [KnownType(typeof(Tpm2bPublicKeyRsa))]
-    [KnownType(typeof(EccPoint))]
-    [KnownType(typeof(Tpm2bDigestSymcipher))]
     [KnownType(typeof(Tpm2bDigestKeyedhash))]
+    [KnownType(typeof(Tpm2bDigestSymcipher))]
+    [KnownType(typeof(Tpm2bPublicKeyRsa))]
+    [KnownType(typeof(ObjectAttr))]
+    [KnownType(typeof(AsymParms))]
+    [KnownType(typeof(TpmDerive))]
+    [KnownType(typeof(EccParms))]
+    [KnownType(typeof(EccPoint))]
+    [KnownType(typeof(KeyedhashParms))]
+    [KnownType(typeof(RsaParms))]
+    [KnownType(typeof(SymcipherParms))]
     [SpecTypeName("TPMT_PUBLIC")]
     public partial class TpmPublic: TpmStructureBase
     {
@@ -9329,11 +9290,11 @@ namespace Tpm2Lib {
     /// nameAlg of the object. </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(Tpm2bSymKey))]
-    [KnownType(typeof(Tpm2bSensitiveData))]
-    [KnownType(typeof(Tpm2bPrivateKeyRsa))]
     [KnownType(typeof(Tpm2bEccParameter))]
+    [KnownType(typeof(Tpm2bPrivateKeyRsa))]
     [KnownType(typeof(Tpm2bPrivateVendorSpecific))]
+    [KnownType(typeof(Tpm2bSensitiveData))]
+    [KnownType(typeof(Tpm2bSymKey))]
     [SpecTypeName("TPMT_SENSITIVE")]
     public partial class Sensitive: TpmStructureBase
     {
@@ -9602,8 +9563,8 @@ namespace Tpm2Lib {
 
     /// <summary> This structure describes an NV Index. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NvAttr))]
     [SpecTypeName("TPMS_NV_PUBLIC")]
     public partial class NvPublic: TpmStructureBase
@@ -9854,8 +9815,8 @@ namespace Tpm2Lib {
     /// created. Creation data allows a relying party to determine if an object was created
     /// when some appropriate protections were present. </summary>
     [DataContract]
-    [KnownType(typeof(LocalityAttr))]
     [KnownType(typeof(TpmAlgId))]
+    [KnownType(typeof(LocalityAttr))]
     [SpecTypeName("TPMS_CREATION_DATA")]
     public partial class CreationData: TpmStructureBase
     {
@@ -10188,10 +10149,10 @@ namespace Tpm2Lib {
     /// methods of establishing the session key (sessionKey). The session key is then used to
     /// derive values used for authorization and for encrypting parameters. </summary>
     [DataContract]
+    [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmSe))]
     [KnownType(typeof(SymDef))]
-    [KnownType(typeof(TpmAlgId))]
     [SpecTypeName("StartAuthSession_In")]
     public partial class Tpm2StartAuthSessionRequest: TpmStructureBase
     {
@@ -10410,8 +10371,8 @@ namespace Tpm2Lib {
     /// outPublic TPMT_PUBLIC object is in the unique field. </summary>
     [DataContract]
     [KnownType(typeof(TpmPrivate))]
-    [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(CreationData))]
+    [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(TkCreation))]
     [SpecTypeName("Create_Out")]
     public partial class Tpm2CreateResponse: TpmStructureBase
@@ -10539,9 +10500,9 @@ namespace Tpm2Lib {
     /// the TPM. The command allows loading of a public area or both a public and sensitive
     /// area. </summary>
     [DataContract]
-    [KnownType(typeof(Sensitive))]
-    [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(TpmPublic))]
+    [KnownType(typeof(Sensitive))]
     [SpecTypeName("LoadExternal_In")]
     public partial class Tpm2LoadExternalRequest: TpmStructureBase
     {
@@ -11251,8 +11212,8 @@ namespace Tpm2Lib {
     /// encrypted, or unencrypted. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(TpmPrivate))]
+    [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(SymDefObject))]
     [SpecTypeName("Import_In")]
     public partial class Tpm2ImportRequest: TpmStructureBase
@@ -11363,23 +11324,20 @@ namespace Tpm2Lib {
     /// TPM_ALG_NULL, then inScheme shall either be TPM_ALG_NULL or be the same as scheme
     /// (TPM_RC_SCHEME). </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(Empty))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(EncSchemeOaep))]
     [KnownType(typeof(EncSchemeRsaes))]
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("RSA_Encrypt_In")]
     public partial class Tpm2RsaEncryptRequest: TpmStructureBase
     {
@@ -11474,23 +11432,20 @@ namespace Tpm2Lib {
     /// <summary> This command performs RSA decryption using the indicated padding scheme
     /// according to IETF RFC 8017 ((PKCS#1). </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(Empty))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(EncSchemeOaep))]
     [KnownType(typeof(EncSchemeRsaes))]
     [KnownType(typeof(KeySchemeEcdh))]
     [KnownType(typeof(KeySchemeEcmqv))]
     [KnownType(typeof(NullAsymScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("RSA_Decrypt_In")]
     public partial class Tpm2RsaDecryptRequest: TpmStructureBase
     {
@@ -11741,10 +11696,10 @@ namespace Tpm2Lib {
     /// key and returns the public point of that ephemeral key along with a numeric value that
     /// allows the TPM to regenerate the associated private key. </summary>
     [DataContract]
+    [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(EccPoint))]
     [KnownType(typeof(EccPoint))]
-    [KnownType(typeof(TpmAlgId))]
     [SpecTypeName("ZGen_2Phase_In")]
     public partial class Tpm2ZGen2PhaseRequest: TpmStructureBase
     {
@@ -11838,15 +11793,14 @@ namespace Tpm2Lib {
 
     /// <summary> This command performs ECC encryption as described in Part 1, Annex D. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(KdfSchemeMgf1))]
+    [KnownType(typeof(TpmHandle))]
+    [KnownType(typeof(KdfSchemeKdf1Sp800108))]
     [KnownType(typeof(KdfSchemeKdf1Sp80056a))]
     [KnownType(typeof(KdfSchemeKdf2))]
-    [KnownType(typeof(KdfSchemeKdf1Sp800108))]
+    [KnownType(typeof(KdfSchemeMgf1))]
     [KnownType(typeof(NullKdfScheme))]
+    [KnownType(typeof(SchemeHash))]
     [SpecTypeName("ECC_Encrypt_In")]
     public partial class Tpm2EccEncryptRequest: TpmStructureBase
     {
@@ -11931,16 +11885,15 @@ namespace Tpm2Lib {
 
     /// <summary> This command performs ECC decryption. </summary>
     [DataContract]
+    [KnownType(typeof(TpmAlgId))]
     [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(EccPoint))]
-    [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(KdfSchemeMgf1))]
+    [KnownType(typeof(KdfSchemeKdf1Sp800108))]
     [KnownType(typeof(KdfSchemeKdf1Sp80056a))]
     [KnownType(typeof(KdfSchemeKdf2))]
-    [KnownType(typeof(KdfSchemeKdf1Sp800108))]
+    [KnownType(typeof(KdfSchemeMgf1))]
     [KnownType(typeof(NullKdfScheme))]
+    [KnownType(typeof(SchemeHash))]
     [SpecTypeName("ECC_Decrypt_In")]
     public partial class Tpm2EccDecryptRequest: TpmStructureBase
     {
@@ -12026,8 +11979,8 @@ namespace Tpm2Lib {
     /// <summary> NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred.
     /// This should be reflected in platform-specific specifications. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("EncryptDecrypt_In")]
     public partial class Tpm2EncryptDecryptRequest: TpmStructureBase
     {
@@ -12120,8 +12073,8 @@ namespace Tpm2Lib {
     /// <summary> This command is identical to TPM2_EncryptDecrypt(), except that the inData
     /// parameter is the first parameter. This permits inData to be parameter encrypted. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("EncryptDecrypt2_In")]
     public partial class Tpm2EncryptDecrypt2Request: TpmStructureBase
     {
@@ -12289,8 +12242,8 @@ namespace Tpm2Lib {
     /// <summary> This command performs an HMAC on the supplied data using the indicated hash
     /// algorithm. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("HMAC_In")]
     public partial class Tpm2HmacRequest: TpmStructureBase
     {
@@ -12356,8 +12309,8 @@ namespace Tpm2Lib {
     /// <summary> This command performs an HMAC or a block cipher MAC on the supplied data
     /// using the indicated algorithm. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("MAC_In")]
     public partial class Tpm2MacRequest: TpmStructureBase
     {
@@ -12485,8 +12438,8 @@ namespace Tpm2Lib {
     /// HMAC sequence structure, assign a handle to the sequence, and set the authValue of the
     /// sequence object to the value in auth. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("HMAC_Start_In")]
     public partial class Tpm2HmacStartRequest: TpmStructureBase
     {
@@ -12555,8 +12508,8 @@ namespace Tpm2Lib {
     /// sequence structure, assign a handle to the sequence, and set the authValue of the
     /// sequence object to the value in auth. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("MAC_Start_In")]
     public partial class Tpm2MacStartRequest: TpmStructureBase
     {
@@ -12878,19 +12831,17 @@ namespace Tpm2Lib {
     /// area. If a relying party has a public area that has the same Name as a Name certified
     /// with this command, then the values in that public area are correct. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SchemeHmac))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSigScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SchemeHmac))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("Certify_In")]
     public partial class Tpm2CertifyRequest: TpmStructureBase
     {
@@ -12960,20 +12911,17 @@ namespace Tpm2Lib {
     /// area. If a relying party has a public area that has the same Name as a Name certified
     /// with this command, then the values in that public area are correct. </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("Certify_Out")]
     public partial class Tpm2CertifyResponse: TpmStructureBase
     {
@@ -13014,19 +12962,17 @@ namespace Tpm2Lib {
     /// the ticket validates the association between a loaded public area and the provided
     /// hash of the creation data (creationHash). </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SchemeHmac))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSigScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SchemeHmac))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [KnownType(typeof(TkCreation))]
     [SpecTypeName("CertifyCreation_In")]
     public partial class Tpm2CertifyCreationRequest: TpmStructureBase
@@ -13109,20 +13055,17 @@ namespace Tpm2Lib {
     /// the ticket validates the association between a loaded public area and the provided
     /// hash of the creation data (creationHash). </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("CertifyCreation_Out")]
     public partial class Tpm2CertifyCreationResponse: TpmStructureBase
     {
@@ -13159,19 +13102,17 @@ namespace Tpm2Lib {
 
     /// <summary> This command is used to quote PCR values. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SchemeHmac))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSigScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SchemeHmac))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("Quote_In")]
     public partial class Tpm2QuoteRequest: TpmStructureBase
     {
@@ -13230,20 +13171,17 @@ namespace Tpm2Lib {
 
     /// <summary> This command is used to quote PCR values. </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("Quote_Out")]
     public partial class Tpm2QuoteResponse: TpmStructureBase
     {
@@ -13280,19 +13218,17 @@ namespace Tpm2Lib {
 
     /// <summary> This command returns a digital signature of the audit session digest. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SchemeHmac))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSigScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SchemeHmac))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("GetSessionAuditDigest_In")]
     public partial class Tpm2GetSessionAuditDigestRequest: TpmStructureBase
     {
@@ -13368,20 +13304,17 @@ namespace Tpm2Lib {
 
     /// <summary> This command returns a digital signature of the audit session digest. </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("GetSessionAuditDigest_Out")]
     public partial class Tpm2GetSessionAuditDigestResponse: TpmStructureBase
     {
@@ -13420,19 +13353,17 @@ namespace Tpm2Lib {
     /// of the commands being audited, and the audit hash algorithm. These values are placed
     /// in an attestation structure and signed with the key referenced by signHandle. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SchemeHmac))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSigScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SchemeHmac))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("GetCommandAuditDigest_In")]
     public partial class Tpm2GetCommandAuditDigestRequest: TpmStructureBase
     {
@@ -13500,20 +13431,17 @@ namespace Tpm2Lib {
     /// of the commands being audited, and the audit hash algorithm. These values are placed
     /// in an attestation structure and signed with the key referenced by signHandle. </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("GetCommandAuditDigest_Out")]
     public partial class Tpm2GetCommandAuditDigestResponse: TpmStructureBase
     {
@@ -13550,19 +13478,17 @@ namespace Tpm2Lib {
 
     /// <summary> This command returns the current values of Time and Clock. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SchemeHmac))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSigScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SchemeHmac))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("GetTime_In")]
     public partial class Tpm2GetTimeRequest: TpmStructureBase
     {
@@ -13629,20 +13555,17 @@ namespace Tpm2Lib {
 
     /// <summary> This command returns the current values of Time and Clock. </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("GetTime_Out")]
     public partial class Tpm2GetTimeResponse: TpmStructureBase
     {
@@ -13684,19 +13607,17 @@ namespace Tpm2Lib {
     /// X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key
     /// Infrastructure Certificate and Certificate Revocation List (CRL) Profile. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SchemeHmac))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSigScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SchemeHmac))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("CertifyX509_In")]
     public partial class Tpm2CertifyX509Request: TpmStructureBase
     {
@@ -13775,18 +13696,15 @@ namespace Tpm2Lib {
     /// Infrastructure Certificate and Certificate Revocation List (CRL) Profile. </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("CertifyX509_Out")]
     public partial class Tpm2CertifyX509Response: TpmStructureBase
     {
@@ -13982,20 +13900,17 @@ namespace Tpm2Lib {
     /// <summary> This command uses loaded keys to validate a signature on a message with the
     /// message digest passed to the TPM. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("VerifySignature_In")]
     public partial class Tpm2VerifySignatureRequest: TpmStructureBase
     {
@@ -14066,19 +13981,17 @@ namespace Tpm2Lib {
     /// <summary> This command causes the TPM to sign an externally provided hash with the
     /// specified symmetric or asymmetric signing key. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SchemeHmac))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSigScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SchemeHmac))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [KnownType(typeof(TkHashcheck))]
     [SpecTypeName("Sign_In")]
     public partial class Tpm2SignRequest: TpmStructureBase
@@ -14144,18 +14057,15 @@ namespace Tpm2Lib {
     /// specified symmetric or asymmetric signing key. </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("Sign_Out")]
     public partial class Tpm2SignResponse: TpmStructureBase
     {
@@ -14185,8 +14095,8 @@ namespace Tpm2Lib {
     /// the audit status of a command or to set the hash algorithm used for the audit digest,
     /// but not both at the same time. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("SetCommandCodeAuditStatus_In")]
     public partial class Tpm2SetCommandCodeAuditStatusRequest: TpmStructureBase
     {
@@ -14465,8 +14375,8 @@ namespace Tpm2Lib {
     /// <summary> This command is used to associate a policy with a PCR or group of PCR. The
     /// policy determines the conditions under which a PCR may be extended or reset. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("PCR_SetAuthPolicy_In")]
     public partial class Tpm2PcrSetAuthPolicyRequest: TpmStructureBase
     {
@@ -14584,20 +14494,17 @@ namespace Tpm2Lib {
     /// the policy to a signing key by including the Name of the signing key in the
     /// policyDigest </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("PolicySigned_In")]
     public partial class Tpm2PolicySignedRequest: TpmStructureBase
     {
@@ -15042,8 +14949,8 @@ namespace Tpm2Lib {
     /// contents of an NV Index. It is an immediate assertion. The NV index is validated
     /// during the TPM2_PolicyNV() command, not when the session is used for authorization. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(Eo))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("PolicyNV_In")]
     public partial class Tpm2PolicyNVRequest: TpmStructureBase
     {
@@ -15115,8 +15022,8 @@ namespace Tpm2Lib {
     /// <summary> This command is used to cause conditional gating of a policy based on the
     /// contents of the TPMS_TIME_INFO structure. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(Eo))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("PolicyCounterTimer_In")]
     public partial class Tpm2PolicyCounterTimerRequest: TpmStructureBase
     {
@@ -15165,8 +15072,8 @@ namespace Tpm2Lib {
     /// <summary> This command indicates that the authorization will be limited to a specific
     /// command code. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmCc))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("PolicyCommandCode_In")]
     public partial class Tpm2PolicyCommandCodeRequest: TpmStructureBase
     {
@@ -15692,8 +15599,8 @@ namespace Tpm2Lib {
     /// load a Primary Object. The sensitive area is not returned. </summary>
     [DataContract]
     [KnownType(typeof(TpmHandle))]
-    [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(CreationData))]
+    [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(TkCreation))]
     [SpecTypeName("CreatePrimary_Out")]
     public partial class Tpm2CreatePrimaryResponse: TpmStructureBase
@@ -15801,8 +15708,8 @@ namespace Tpm2Lib {
     /// Authenticated Countdown Timers (ACT), this command may also be used to set the
     /// authorization policy for an ACT. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("SetPrimaryPolicy_In")]
     public partial class Tpm2SetPrimaryPolicyRequest: TpmStructureBase
     {
@@ -16174,20 +16081,17 @@ namespace Tpm2Lib {
     /// <summary> This command uses platformPolicy and a TPM Vendor Authorization Key to
     /// authorize a Field Upgrade Manifest. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("FieldUpgradeStart_In")]
     public partial class Tpm2FieldUpgradeStartRequest: TpmStructureBase
     {
@@ -16596,8 +16500,8 @@ namespace Tpm2Lib {
     /// <summary> This command adjusts the rate of advance of Clock and Time to provide a
     /// better approximation to real time. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(ClockAdjust))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("ClockRateAdjust_In")]
     public partial class Tpm2ClockRateAdjustRequest: TpmStructureBase
     {
@@ -16673,16 +16577,16 @@ namespace Tpm2Lib {
     /// state. </summary>
     [DataContract]
     [KnownType(typeof(Cap))]
+    [KnownType(typeof(ActDataArray))]
+    [KnownType(typeof(AlgPropertyArray))]
     [KnownType(typeof(CcArray))]
     [KnownType(typeof(CcaArray))]
+    [KnownType(typeof(EccCurveArray))]
     [KnownType(typeof(HandleArray))]
     [KnownType(typeof(PcrSelectionArray))]
-    [KnownType(typeof(AlgPropertyArray))]
-    [KnownType(typeof(TaggedTpmPropertyArray))]
     [KnownType(typeof(TaggedPcrPropertyArray))]
-    [KnownType(typeof(EccCurveArray))]
     [KnownType(typeof(TaggedPolicyArray))]
-    [KnownType(typeof(ActDataArray))]
+    [KnownType(typeof(TaggedTpmPropertyArray))]
     [SpecTypeName("GetCapability_Out")]
     public partial class Tpm2GetCapabilityResponse: TpmStructureBase
     {
@@ -16722,11 +16626,11 @@ namespace Tpm2Lib {
     /// parameters are supported. </summary>
     [DataContract]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(SymcipherParms))]
-    [KnownType(typeof(KeyedhashParms))]
     [KnownType(typeof(AsymParms))]
-    [KnownType(typeof(RsaParms))]
     [KnownType(typeof(EccParms))]
+    [KnownType(typeof(KeyedhashParms))]
+    [KnownType(typeof(RsaParms))]
+    [KnownType(typeof(SymcipherParms))]
     [SpecTypeName("TestParms_In")]
     public partial class Tpm2TestParmsRequest: TpmStructureBase
     {
@@ -17354,19 +17258,17 @@ namespace Tpm2Lib {
     /// <summary> The purpose of this command is to certify the contents of an NV Index or
     /// portion of an NV Index. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SchemeEcdaa))]
-    [KnownType(typeof(SchemeHmac))]
-    [KnownType(typeof(SigSchemeRsassa))]
-    [KnownType(typeof(SigSchemeRsapss))]
-    [KnownType(typeof(SigSchemeEcdsa))]
-    [KnownType(typeof(SigSchemeSm2))]
-    [KnownType(typeof(SigSchemeEcschnorr))]
-    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(NullSigScheme))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SchemeHmac))]
+    [KnownType(typeof(SigSchemeEcdaa))]
+    [KnownType(typeof(SigSchemeEcdsa))]
+    [KnownType(typeof(SigSchemeEcschnorr))]
+    [KnownType(typeof(SigSchemeRsapss))]
+    [KnownType(typeof(SigSchemeRsassa))]
+    [KnownType(typeof(SigSchemeSm2))]
     [SpecTypeName("NV_Certify_In")]
     public partial class Tpm2NvCertifyRequest: TpmStructureBase
     {
@@ -17460,20 +17362,17 @@ namespace Tpm2Lib {
     /// <summary> The purpose of this command is to certify the contents of an NV Index or
     /// portion of an NV Index. </summary>
     [DataContract]
-    [KnownType(typeof(Attest))]
     [KnownType(typeof(TpmAlgId))]
-    [KnownType(typeof(NullUnion))]
-    [KnownType(typeof(TpmHash))]
-    [KnownType(typeof(SchemeHash))]
-    [KnownType(typeof(SignatureRsa))]
-    [KnownType(typeof(SignatureRsassa))]
-    [KnownType(typeof(SignatureRsapss))]
-    [KnownType(typeof(SignatureEcc))]
-    [KnownType(typeof(SignatureEcdsa))]
-    [KnownType(typeof(SignatureEcdaa))]
-    [KnownType(typeof(SignatureSm2))]
-    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(Attest))]
     [KnownType(typeof(NullSignature))]
+    [KnownType(typeof(SchemeHash))]
+    [KnownType(typeof(SignatureEcdaa))]
+    [KnownType(typeof(SignatureEcdsa))]
+    [KnownType(typeof(SignatureEcschnorr))]
+    [KnownType(typeof(SignatureRsapss))]
+    [KnownType(typeof(SignatureRsassa))]
+    [KnownType(typeof(SignatureSm2))]
+    [KnownType(typeof(TpmHash))]
     [SpecTypeName("NV_Certify_Out")]
     public partial class Tpm2NvCertifyResponse: TpmStructureBase
     {
@@ -17512,8 +17411,8 @@ namespace Tpm2Lib {
     /// <summary> The purpose of this command is to obtain information about an Attached
     /// Component referenced by an AC handle. </summary>
     [DataContract]
-    [KnownType(typeof(TpmHandle))]
     [KnownType(typeof(At))]
+    [KnownType(typeof(TpmHandle))]
     [SpecTypeName("AC_GetCapability_In")]
     public partial class Tpm2AcGetCapabilityRequest: TpmStructureBase
     {
@@ -18036,9 +17935,9 @@ namespace Tpm2Lib {
     /// <summary> Contains the public and the plaintext-sensitive and/or encrypted private
     /// part of a TPM key (or other object) </summary>
     [DataContract]
+    [KnownType(typeof(TpmPrivate))]
     [KnownType(typeof(TpmPublic))]
     [KnownType(typeof(Sensitive))]
-    [KnownType(typeof(TpmPrivate))]
     [SpecTypeName("TssObject")]
     public partial class TssObject: TpmStructureBase
     {
@@ -18219,8 +18118,8 @@ namespace Tpm2Lib {
 
     /// <summary> Command header [TSS] </summary>
     [DataContract]
-    [KnownType(typeof(TpmSt))]
     [KnownType(typeof(TpmCc))]
+    [KnownType(typeof(TpmSt))]
     [SpecTypeName("CommandHeader")]
     public partial class CommandHeader: TpmStructureBase
     {
