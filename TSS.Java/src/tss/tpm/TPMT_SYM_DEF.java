@@ -12,13 +12,13 @@ import tss.*;
  */
 public class TPMT_SYM_DEF extends TpmStructure
 {
-    /** symmetric algorithm  */
+    /** Indicates a symmetric algorithm  */
     public TPM_ALG_ID algorithm;
     
-    /** key size in bits  */
+    /** A supported key size  */
     public int keyBits;
     
-    /** encryption mode  */
+    /** The mode for the key  */
     public TPM_ALG_ID mode;
     
     public TPMT_SYM_DEF()
@@ -27,9 +27,9 @@ public class TPMT_SYM_DEF extends TpmStructure
         mode = TPM_ALG_ID.NULL;
     }
     
-    /** @param _algorithm symmetric algorithm
-     *  @param _keyBits key size in bits
-     *  @param _mode encryption mode
+    /** @param _algorithm Indicates a symmetric algorithm
+     *  @param _keyBits A supported key size
+     *  @param _mode The mode for the key
      */
     public TPMT_SYM_DEF(TPM_ALG_ID _algorithm, int _keyBits, TPM_ALG_ID _mode)
     {

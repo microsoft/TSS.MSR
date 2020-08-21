@@ -5434,13 +5434,13 @@ public:
 class _DLLEXP_ TPMT_SYM_DEF : public TpmStructure
 {
 public:
-    /// <summary> symmetric algorithm </summary>
+    /// <summary> Indicates a symmetric algorithm </summary>
     TPM_ALG_ID algorithm;
     
-    /// <summary> key size in bits </summary>
+    /// <summary> A supported key size </summary>
     UINT16 keyBits;
     
-    /// <summary> encryption mode </summary>
+    /// <summary> The mode for the key </summary>
     TPM_ALG_ID mode;
 
 public:
@@ -5482,13 +5482,16 @@ public:
 class _DLLEXP_ TPMT_SYM_DEF_OBJECT : public TpmStructure
 {
 public:
-    /// <summary> symmetric algorithm </summary>
+    /// <summary> Selects a symmetric block cipher
+    /// When used in the parameter area of a parent object, this shall be a supported block
+    /// cipher and not TPM_ALG_NULL </summary>
     TPM_ALG_ID algorithm;
     
-    /// <summary> key size in bits </summary>
+    /// <summary> The key size </summary>
     UINT16 keyBits;
     
-    /// <summary> encryption mode </summary>
+    /// <summary> Default mode
+    /// When used in the parameter area of a parent object, this shall be TPM_ALG_CFB. </summary>
     TPM_ALG_ID mode;
 
 public:

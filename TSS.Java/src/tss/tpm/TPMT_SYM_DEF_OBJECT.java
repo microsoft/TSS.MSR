@@ -13,13 +13,18 @@ import tss.*;
  */
 public class TPMT_SYM_DEF_OBJECT extends TpmStructure
 {
-    /** symmetric algorithm  */
+    /** Selects a symmetric block cipher
+     *  When used in the parameter area of a parent object, this shall be a supported block
+     *  cipher and not TPM_ALG_NULL
+     */
     public TPM_ALG_ID algorithm;
     
-    /** key size in bits  */
+    /** The key size  */
     public int keyBits;
     
-    /** encryption mode  */
+    /** Default mode
+     *  When used in the parameter area of a parent object, this shall be TPM_ALG_CFB.
+     */
     public TPM_ALG_ID mode;
     
     public TPMT_SYM_DEF_OBJECT()
@@ -28,9 +33,12 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
         mode = TPM_ALG_ID.NULL;
     }
     
-    /** @param _algorithm symmetric algorithm
-     *  @param _keyBits key size in bits
-     *  @param _mode encryption mode
+    /** @param _algorithm Selects a symmetric block cipher
+     *         When used in the parameter area of a parent object, this shall be a supported block
+     *         cipher and not TPM_ALG_NULL
+     *  @param _keyBits The key size
+     *  @param _mode Default mode
+     *         When used in the parameter area of a parent object, this shall be TPM_ALG_CFB.
      */
     public TPMT_SYM_DEF_OBJECT(TPM_ALG_ID _algorithm, int _keyBits, TPM_ALG_ID _mode)
     {

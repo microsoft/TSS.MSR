@@ -7013,17 +7013,17 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_SYM_DEF")]
     public partial class SymDef: TpmStructureBase
     {
-        /// <summary> symmetric algorithm </summary>
+        /// <summary> Indicates a symmetric algorithm </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmAlgId Algorithm { get; set; }
 
-        /// <summary> key size in bits </summary>
+        /// <summary> A supported key size </summary>
         [MarshalAs(1)]
         [DataMember()]
         public ushort KeyBits { get; set; }
 
-        /// <summary> encryption mode </summary>
+        /// <summary> The mode for the key </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmAlgId Mode { get; set; }
@@ -7040,9 +7040,9 @@ namespace Tpm2Lib {
             Mode = src.Mode;
         }
 
-        /// <param name = "_Algorithm"> symmetric algorithm </param>
-        /// <param name = "_KeyBits"> key size in bits </param>
-        /// <param name = "_Mode"> encryption mode </param>
+        /// <param name = "_Algorithm"> Indicates a symmetric algorithm </param>
+        /// <param name = "_KeyBits"> A supported key size </param>
+        /// <param name = "_Mode"> The mode for the key </param>
         public SymDef(TpmAlgId _Algorithm, ushort _KeyBits, TpmAlgId _Mode)
         {
             Algorithm = _Algorithm;
@@ -7063,17 +7063,20 @@ namespace Tpm2Lib {
     [SpecTypeName("TPMT_SYM_DEF_OBJECT")]
     public partial class SymDefObject: TpmStructureBase
     {
-        /// <summary> symmetric algorithm </summary>
+        /// <summary> Selects a symmetric block cipher
+        /// When used in the parameter area of a parent object, this shall be a supported block
+        /// cipher and not TPM_ALG_NULL </summary>
         [MarshalAs(0)]
         [DataMember()]
         public TpmAlgId Algorithm { get; set; }
 
-        /// <summary> key size in bits </summary>
+        /// <summary> The key size </summary>
         [MarshalAs(1)]
         [DataMember()]
         public ushort KeyBits { get; set; }
 
-        /// <summary> encryption mode </summary>
+        /// <summary> Default mode
+        /// When used in the parameter area of a parent object, this shall be TPM_ALG_CFB. </summary>
         [MarshalAs(2)]
         [DataMember()]
         public TpmAlgId Mode { get; set; }
@@ -7090,9 +7093,12 @@ namespace Tpm2Lib {
             Mode = src.Mode;
         }
 
-        /// <param name = "_Algorithm"> symmetric algorithm </param>
-        /// <param name = "_KeyBits"> key size in bits </param>
-        /// <param name = "_Mode"> encryption mode </param>
+        /// <param name = "_Algorithm"> Selects a symmetric block cipher
+        ///        When used in the parameter area of a parent object, this shall be a supported block
+        ///        cipher and not TPM_ALG_NULL </param>
+        /// <param name = "_KeyBits"> The key size </param>
+        /// <param name = "_Mode"> Default mode
+        ///        When used in the parameter area of a parent object, this shall be TPM_ALG_CFB. </param>
         public SymDefObject(TpmAlgId _Algorithm, ushort _KeyBits, TpmAlgId _Mode)
         {
             Algorithm = _Algorithm;

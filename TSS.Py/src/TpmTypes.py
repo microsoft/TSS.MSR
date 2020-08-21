@@ -5839,9 +5839,9 @@ class TPMT_SYM_DEF (TpmStructure):
         algorithms may be selected.
         
         Attributes:
-            algorithm (TPM_ALG_ID): symmetric algorithm
-            keyBits (int): key size in bits
-            mode (TPM_ALG_ID): encryption mode
+            algorithm (TPM_ALG_ID): Indicates a symmetric algorithm
+            keyBits (int): A supported key size
+            mode (TPM_ALG_ID): The mode for the key
         """
         self.algorithm = algorithm
         self.keyBits = keyBits
@@ -5884,9 +5884,13 @@ class TPMT_SYM_DEF_OBJECT (TpmStructure):
         parameter (see 12.2.3.7) field.
         
         Attributes:
-            algorithm (TPM_ALG_ID): symmetric algorithm
-            keyBits (int): key size in bits
-            mode (TPM_ALG_ID): encryption mode
+            algorithm (TPM_ALG_ID): Selects a symmetric block cipher
+                When used in the parameter area of a parent object, this shall
+                be a supported block cipher and not TPM_ALG_NULL
+            keyBits (int): The key size
+            mode (TPM_ALG_ID): Default mode
+                When used in the parameter area of a parent object, this shall
+                be TPM_ALG_CFB.
         """
         self.algorithm = algorithm
         self.keyBits = keyBits

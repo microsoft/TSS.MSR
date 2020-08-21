@@ -5671,13 +5671,13 @@ export class TPMS_NULL_SYM_DETAILS extends TPMS_NULL_UNION
 export class TPMT_SYM_DEF extends TpmStructure
 {
     constructor(
-        /** symmetric algorithm  */
+        /** Indicates a symmetric algorithm  */
         public algorithm: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** key size in bits  */
+        /** A supported key size  */
         public keyBits: number = 0, 
         
-        /** encryption mode  */
+        /** The mode for the key  */
         public mode: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
@@ -5725,13 +5725,18 @@ export class TPMT_SYM_DEF extends TpmStructure
 export class TPMT_SYM_DEF_OBJECT extends TpmStructure
 {
     constructor(
-        /** symmetric algorithm  */
+        /** Selects a symmetric block cipher
+         *  When used in the parameter area of a parent object, this shall be a supported block
+         *  cipher and not TPM_ALG_NULL
+         */
         public algorithm: TPM_ALG_ID = TPM_ALG_ID.NULL, 
         
-        /** key size in bits  */
+        /** The key size  */
         public keyBits: number = 0, 
         
-        /** encryption mode  */
+        /** Default mode
+         *  When used in the parameter area of a parent object, this shall be TPM_ALG_CFB.
+         */
         public mode: TPM_ALG_ID = TPM_ALG_ID.NULL
     ) { super(); }
     
