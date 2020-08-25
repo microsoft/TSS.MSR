@@ -27,95 +27,100 @@ _TPMCPP_BEGIN
 
 // TODO: Better encapsulation and better constructors
 
-/// <summary> AUTH_SESSION encapsulates state + methods for TPM authorization sessions. </summary>
+/// <summary> AUTH_SESSION represents authorization sessions. </summary>
+/// <remarks> This class in instantiated using either AUTH_SESSION::PWAP() static method 
+/// or one of the Tpm2::StartAuthSession() command overloads. </remarks>
 class _DLLEXP_ AUTH_SESSION
 {
-        friend class Tpm2;
-    public:
-        AUTH_SESSION() {}
+    friend class Tpm2;
+
+    AUTH_SESSION() = default;
+public:
                      
-        AUTH_SESSION(const TPM_HANDLE& sessionHandle, TPM_SE type, TPM_ALG_ID hashAlg,           
-                     const ByteVec& nonceCaller, const ByteVec& nonceTpm,   
-                     TPMA_SESSION attributes,
-                     const TPMT_SYM_DEF& symDef,       // OPT
-                     const ByteVec& salt,              // OPT
-                     const TPM_HANDLE& boundObject);   // OPT
+    AUTH_SESSION(const TPM_HANDLE& sessionHandle, TPM_SE type, TPM_ALG_ID hashAlg,           
+                    const ByteVec& nonceCaller, const ByteVec& nonceTpm,   
+                    TPMA_SESSION attributes,
+                    const TPMT_SYM_DEF& symDef,       // OPT
+                    const ByteVec& salt,              // OPT
+                    const TPM_HANDLE& boundObject);   // OPT
 
-        static AUTH_SESSION PWAP()
-        {
-            AUTH_SESSION s;
-            s.handle = TPM_RH::PW;
-            return s;
-        }
+    /// <summary> Instantiates a placeholder object that tells the Tpm2 object to use 
+    /// the password session (with the auth value supplied by the corresponding
+    /// handle parameter). </summary>
+    static AUTH_SESSION PWAP()
+    {
+        AUTH_SESSION s;
+        s.handle = TPM_RH::PW;
+        return s;
+    }
 
-        /// <summary> Casting operator so that sessions can be used in place of handles </summary>
-        operator const TPM_HANDLE& () const { return handle; }
+    /// <summary> Casting operator so that sessions can be used in place of handles </summary>
+    operator const TPM_HANDLE& () const { return handle; }
 
-        bool IsPWAP() const { return handle.handle == TPM_RH::PW; }
+    bool IsPWAP() const { return handle.handle == TPM_RH::PW; }
 
-        void IncludePassword() { NeedsPassword = true; }
+    void IncludePassword() { NeedsPassword = true; }
 
-        void ForceHmac() { NeedsHmac = true; }
+    void ForceHmac() { NeedsHmac = true; }
 
-        TPM_ALG_ID GetHashAlg() { return HashAlg; }
+    TPM_ALG_ID GetHashAlg() { return HashAlg; }
 
-        ByteVec GetNonceTpm() { return NonceTpm; }
+    ByteVec GetNonceTpm() { return NonceTpm; }
 
-    protected:
-        void Init();
-        void CalcSessionKey();
+protected:
+    void Init();
+    void CalcSessionKey();
 
-        ByteVec ParamXcrypt(ByteVec& parm, bool request /*false == response*/);
+    ByteVec ParamXcrypt(ByteVec& parm, bool request /*false == response*/);
 
-        bool CanEncrypt();
+    bool CanEncrypt();
 
-        bool HasSymmetricCipher() {
+    bool HasSymmetricCipher() {
 
-            return (Symmetric.algorithm != TPM_ALG_ID::_NULL);
-        }
+        return (Symmetric.algorithm != TPM_ALG_ID::_NULL);
+    }
 
-        ByteVec GetAuthHmac(const ByteVec& parmHash, bool directionIn,
-                            const ByteVec& nonceDec, const ByteVec& nonceEnc,
-                            const TPM_HANDLE *associatedHandle);
+    ByteVec GetAuthHmac(const ByteVec& parmHash, bool directionIn,
+                        const ByteVec& nonceDec, const ByteVec& nonceEnc,
+                        const TPM_HANDLE *associatedHandle);
 
-        bool SessionInitted = false;
+    bool SessionInitted = false;
 
-        /// <summary> Set the auth-value to be used for the next use of this session. </summary>
-        void SetAuthValue(const ByteVec& _authVal) { AuthValue = _authVal; }
+    /// <summary> Set the auth-value to be used for the next use of this session. </summary>
+    void SetAuthValue(const ByteVec& _authVal) { AuthValue = _authVal; }
 
-        /// <summary> Session handle </summary>
-        TPM_HANDLE handle;
+    /// <summary> Session handle </summary>
+    TPM_HANDLE handle;
 
-        /// <summary> Type of session (HMAC, policly or trial-policy). </summary>
-        TPM_SE SessionType;
+    /// <summary> Type of session (HMAC, policly or trial-policy). </summary>
+    TPM_SE SessionType;
 
-        /// <summary> Most recent nonce returned by TPM. </summary>
-        ByteVec NonceTpm;
+    /// <summary> Most recent nonce returned by TPM. </summary>
+    ByteVec NonceTpm;
 
-        /// <summary> TSS.C++ library nonce. </summary>
-        ByteVec NonceCaller;
+    /// <summary> TSS.C++ library nonce. </summary>
+    ByteVec NonceCaller;
 
-        /// <summary> Session hash algorithm (HMAC or policy-hash). </summary>
-        TPM_ALG_ID HashAlg;
+    /// <summary> Session hash algorithm (HMAC or policy-hash). </summary>
+    TPM_ALG_ID HashAlg;
 
-        /// <summary> Attribues </summary>
-        TPMA_SESSION SessionAttributes;
+    /// <summary> Attribues </summary>
+    TPMA_SESSION SessionAttributes;
 
-        /// <summary> Algorithm-info for encrypt/decrypt sessions. </summary>
-        TPMT_SYM_DEF Symmetric;
+    /// <summary> Algorithm-info for encrypt/decrypt sessions. </summary>
+    TPMT_SYM_DEF Symmetric;
 
-        ByteVec SessionKey;
-        ByteVec AuthValue;
-        ByteVec Salt;
+    ByteVec SessionKey;
+    ByteVec AuthValue;
+    ByteVec Salt;
 
-        /// <summary> Object to which the session is bound (needed for AuthValue). </summary>
-        TPM_HANDLE BindObject;
+    /// <summary> Object to which the session is bound (needed for AuthValue). </summary>
+    TPM_HANDLE BindObject;
 
-        bool NeedsHmac = false;
-        // Include plain text password in the policy session
-        bool NeedsPassword = false;
-
-};
+    bool NeedsHmac = false;
+    // Include plain text password in the policy session
+    bool NeedsPassword = false;
+}; // class _DLLEXP_ AUTH_SESSION
 
 /// <summary> This class encapsulates the data needed to call Activate(). </summary>
 class ActivationData {
