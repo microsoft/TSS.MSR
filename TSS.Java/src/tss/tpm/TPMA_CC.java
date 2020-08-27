@@ -20,37 +20,11 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
      */
     public enum _N {
         /** Indicates the command being selected  */
-        commandIndex_BIT_0,
+        commandIndex_BIT_MASK,
         
-        commandIndex_BIT_1,
+        commandIndex_BIT_OFFSET,
         
-        commandIndex_BIT_2,
-        
-        commandIndex_BIT_3,
-        
-        commandIndex_BIT_4,
-        
-        commandIndex_BIT_5,
-        
-        commandIndex_BIT_6,
-        
-        commandIndex_BIT_7,
-        
-        commandIndex_BIT_8,
-        
-        commandIndex_BIT_9,
-        
-        commandIndex_BIT_10,
-        
-        commandIndex_BIT_11,
-        
-        commandIndex_BIT_12,
-        
-        commandIndex_BIT_13,
-        
-        commandIndex_BIT_14,
-        
-        commandIndex_BIT_15,
+        commandIndex_BIT_LENGTH,
         
         /** SET (1): indicates that the command may write to NV
          *  CLEAR (0): indicates that the command does not write to NV
@@ -69,11 +43,11 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
         flushed,
         
         /** Indicates the number of the handles in the handle area for this command  */
-        cHandles_BIT_0,
+        cHandles_BIT_MASK,
         
-        cHandles_BIT_1,
+        cHandles_BIT_OFFSET,
         
-        cHandles_BIT_2,
+        cHandles_BIT_LENGTH,
         
         /** SET (1): indicates the presence of the handle area in the response  */
         rHandle,
@@ -84,41 +58,31 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
         V,
         
         /** Allocated for software; shall be zero  */
-        Res_BIT_0,
+        Res_BIT_MASK,
         
-        Res_BIT_1
+        Res_BIT_OFFSET,
+        
+        Res_BIT_LENGTH
     }
     
     private static ValueMap<TPMA_CC> _ValueMap = new ValueMap<TPMA_CC>();
     
     /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_CC
-        commandIndex_BIT_0 = new TPMA_CC(0x1, _N.commandIndex_BIT_0),
-        commandIndex_BIT_1 = new TPMA_CC(0x2, _N.commandIndex_BIT_1),
-        commandIndex_BIT_2 = new TPMA_CC(0x4, _N.commandIndex_BIT_2),
-        commandIndex_BIT_3 = new TPMA_CC(0x8, _N.commandIndex_BIT_3),
-        commandIndex_BIT_4 = new TPMA_CC(0x10, _N.commandIndex_BIT_4),
-        commandIndex_BIT_5 = new TPMA_CC(0x20, _N.commandIndex_BIT_5),
-        commandIndex_BIT_6 = new TPMA_CC(0x40, _N.commandIndex_BIT_6),
-        commandIndex_BIT_7 = new TPMA_CC(0x80, _N.commandIndex_BIT_7),
-        commandIndex_BIT_8 = new TPMA_CC(0x100, _N.commandIndex_BIT_8),
-        commandIndex_BIT_9 = new TPMA_CC(0x200, _N.commandIndex_BIT_9),
-        commandIndex_BIT_10 = new TPMA_CC(0x400, _N.commandIndex_BIT_10),
-        commandIndex_BIT_11 = new TPMA_CC(0x800, _N.commandIndex_BIT_11),
-        commandIndex_BIT_12 = new TPMA_CC(0x1000, _N.commandIndex_BIT_12),
-        commandIndex_BIT_13 = new TPMA_CC(0x2000, _N.commandIndex_BIT_13),
-        commandIndex_BIT_14 = new TPMA_CC(0x4000, _N.commandIndex_BIT_14),
-        commandIndex_BIT_15 = new TPMA_CC(0x8000, _N.commandIndex_BIT_15),
+        commandIndex_BIT_MASK = new TPMA_CC(0xFFFF, _N.commandIndex_BIT_MASK),
+        commandIndex_BIT_OFFSET = new TPMA_CC(0, _N.commandIndex_BIT_OFFSET),
+        commandIndex_BIT_LENGTH = new TPMA_CC(16, _N.commandIndex_BIT_LENGTH),
         nv = new TPMA_CC(0x400000, _N.nv),
         extensive = new TPMA_CC(0x800000, _N.extensive),
         flushed = new TPMA_CC(0x1000000, _N.flushed),
-        cHandles_BIT_0 = new TPMA_CC(0x2000000, _N.cHandles_BIT_0, true),
-        cHandles_BIT_1 = new TPMA_CC(0x4000000, _N.cHandles_BIT_1, true),
-        cHandles_BIT_2 = new TPMA_CC(0x8000000, _N.cHandles_BIT_2, true),
+        cHandles_BIT_MASK = new TPMA_CC(0xE000000, _N.cHandles_BIT_MASK),
+        cHandles_BIT_OFFSET = new TPMA_CC(25, _N.cHandles_BIT_OFFSET),
+        cHandles_BIT_LENGTH = new TPMA_CC(3, _N.cHandles_BIT_LENGTH),
         rHandle = new TPMA_CC(0x10000000, _N.rHandle),
         V = new TPMA_CC(0x20000000, _N.V),
-        Res_BIT_0 = new TPMA_CC(0x40000000, _N.Res_BIT_0, true),
-        Res_BIT_1 = new TPMA_CC(0x80000000, _N.Res_BIT_1, true);
+        Res_BIT_MASK = new TPMA_CC(0xC0000000, _N.Res_BIT_MASK),
+        Res_BIT_OFFSET = new TPMA_CC(30, _N.Res_BIT_OFFSET),
+        Res_BIT_LENGTH = new TPMA_CC(2, _N.Res_BIT_LENGTH);
     
     public TPMA_CC () { super(0, _ValueMap); }
     public TPMA_CC (int value) { super(value, _ValueMap); }

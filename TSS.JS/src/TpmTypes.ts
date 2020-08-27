@@ -2583,11 +2583,11 @@ export enum TPMA_LOCALITY // UINT8
     LOC_FOUR = 0x10,
     
     /** If any of these bits is set, an extended locality is indicated  */
-    Extended_BIT_0 = 0x20,
+    Extended_BIT_MASK = 0xE0,
     
-    Extended_BIT_1 = 0x40,
+    Extended_BIT_OFFSET = 5,
     
-    Extended_BIT_2 = 0x80
+    Extended_BIT_LENGTH = 3
     
 }; // bitfield TPMA_LOCALITY
 
@@ -2724,37 +2724,11 @@ export enum TPMA_MEMORY // UINT32
 export enum TPMA_CC // TPM_CC
 {
     /** Indicates the command being selected  */
-    commandIndex_BIT_0 = 0x1,
+    commandIndex_BIT_MASK = 0xFFFF,
     
-    commandIndex_BIT_1 = 0x2,
+    commandIndex_BIT_OFFSET = 0,
     
-    commandIndex_BIT_2 = 0x4,
-    
-    commandIndex_BIT_3 = 0x8,
-    
-    commandIndex_BIT_4 = 0x10,
-    
-    commandIndex_BIT_5 = 0x20,
-    
-    commandIndex_BIT_6 = 0x40,
-    
-    commandIndex_BIT_7 = 0x80,
-    
-    commandIndex_BIT_8 = 0x100,
-    
-    commandIndex_BIT_9 = 0x200,
-    
-    commandIndex_BIT_10 = 0x400,
-    
-    commandIndex_BIT_11 = 0x800,
-    
-    commandIndex_BIT_12 = 0x1000,
-    
-    commandIndex_BIT_13 = 0x2000,
-    
-    commandIndex_BIT_14 = 0x4000,
-    
-    commandIndex_BIT_15 = 0x8000,
+    commandIndex_BIT_LENGTH = 16,
     
     /** SET (1): indicates that the command may write to NV
      *  CLEAR (0): indicates that the command does not write to NV
@@ -2773,11 +2747,11 @@ export enum TPMA_CC // TPM_CC
     flushed = 0x1000000,
     
     /** Indicates the number of the handles in the handle area for this command  */
-    cHandles_BIT_0 = 0x2000000,
+    cHandles_BIT_MASK = 0xE000000,
     
-    cHandles_BIT_1 = 0x4000000,
+    cHandles_BIT_OFFSET = 25,
     
-    cHandles_BIT_2 = 0x8000000,
+    cHandles_BIT_LENGTH = 3,
     
     /** SET (1): indicates the presence of the handle area in the response  */
     rHandle = 0x10000000,
@@ -2788,9 +2762,11 @@ export enum TPMA_CC // TPM_CC
     V = 0x20000000,
     
     /** Allocated for software; shall be zero  */
-    Res_BIT_0 = 0x40000000,
+    Res_BIT_MASK = 0xC0000000,
     
-    Res_BIT_1 = 0x80000000
+    Res_BIT_OFFSET = 30,
+    
+    Res_BIT_LENGTH = 2
     
 }; // bitfield TPMA_CC
 
@@ -2872,70 +2848,18 @@ export enum TPMA_ACT // UINT32
 export enum TPM_NV_INDEX // UINT32
 {
     /** The Index of the NV location  */
-    index_BIT_0 = 0x1,
+    index_BIT_MASK = 0xFFFFFF,
     
-    index_BIT_1 = 0x2,
+    index_BIT_OFFSET = 0,
     
-    index_BIT_2 = 0x4,
-    
-    index_BIT_3 = 0x8,
-    
-    index_BIT_4 = 0x10,
-    
-    index_BIT_5 = 0x20,
-    
-    index_BIT_6 = 0x40,
-    
-    index_BIT_7 = 0x80,
-    
-    index_BIT_8 = 0x100,
-    
-    index_BIT_9 = 0x200,
-    
-    index_BIT_10 = 0x400,
-    
-    index_BIT_11 = 0x800,
-    
-    index_BIT_12 = 0x1000,
-    
-    index_BIT_13 = 0x2000,
-    
-    index_BIT_14 = 0x4000,
-    
-    index_BIT_15 = 0x8000,
-    
-    index_BIT_16 = 0x10000,
-    
-    index_BIT_17 = 0x20000,
-    
-    index_BIT_18 = 0x40000,
-    
-    index_BIT_19 = 0x80000,
-    
-    index_BIT_20 = 0x100000,
-    
-    index_BIT_21 = 0x200000,
-    
-    index_BIT_22 = 0x400000,
-    
-    index_BIT_23 = 0x800000,
+    index_BIT_LENGTH = 24,
     
     /** Constant value of TPM_HT_NV_INDEX indicating the NV Index range  */
-    RhNv_BIT_0 = 0x1000000,
+    RhNv_BIT_MASK = 0xFF000000,
     
-    RhNv_BIT_1 = 0x2000000,
+    RhNv_BIT_OFFSET = 24,
     
-    RhNv_BIT_2 = 0x4000000,
-    
-    RhNv_BIT_3 = 0x8000000,
-    
-    RhNv_BIT_4 = 0x10000000,
-    
-    RhNv_BIT_5 = 0x20000000,
-    
-    RhNv_BIT_6 = 0x40000000,
-    
-    RhNv_BIT_7 = 0x80000000
+    RhNv_BIT_LENGTH = 8
     
 }; // bitfield TPM_NV_INDEX
 
@@ -2996,13 +2920,11 @@ export enum TPMA_NV // UINT32
     /** The type of the index.
      *  NOTE A TPM is not required to support all TPM_NT values
      */
-    TpmNt_BIT_0 = 0x10,
+    TpmNt_BIT_MASK = 0xF0,
     
-    TpmNt_BIT_1 = 0x20,
+    TpmNt_BIT_OFFSET = 4,
     
-    TpmNt_BIT_2 = 0x40,
-    
-    TpmNt_BIT_3 = 0x80,
+    TpmNt_BIT_LENGTH = 4,
     
     /** SET (1): Index may not be deleted unless the authPolicy is satisfied using
      *  TPM2_NV_UndefineSpaceSpecial().
@@ -3114,13 +3036,21 @@ export enum TPMA_NV // UINT32
 /** Base class for TPM union interfaces  */
 export interface TpmUnion extends TpmMarshaller {}
 
-/** Table 119 Definition of TPMU_CAPABILITIES Union [OUT]  */
+/** Table 119 Definition of TPMU_CAPABILITIES Union [OUT]
+ *  One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
+ *  TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
+ *  TPML_TAGGED_POLICY, TPML_ACT_DATA.
+ */
 export interface TPMU_CAPABILITIES extends TpmUnion
 {
     GetUnionSelector(): TPM_CAP;
 }
 
-/** Table 132 Definition of TPMU_ATTEST Union [OUT]  */
+/** Table 132 Definition of TPMU_ATTEST Union [OUT]
+ *  One of: TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
+ *  TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO,
+ *  TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO.
+ */
 export interface TPMU_ATTEST extends TpmUnion
 {
     GetUnionSelector(): TPM_ST;
@@ -3128,6 +3058,8 @@ export interface TPMU_ATTEST extends TpmUnion
 
 /** This union allows additional parameters to be added for a symmetric cipher. Currently,
  *  no additional parameters are required for any of the symmetric algorithms.
+ *  One of: TPMS_TDES_SYM_DETAILS, TPMS_AES_SYM_DETAILS, TPMS_SM4_SYM_DETAILS,
+ *  TPMS_CAMELLIA_SYM_DETAILS, TPMS_ANY_SYM_DETAILS, TPMS_XOR_SYM_DETAILS, TPMS_NULL_SYM_DETAILS.
  */
 export interface TPMU_SYM_DETAILS extends TpmUnion
 {
@@ -3137,25 +3069,35 @@ export interface TPMU_SYM_DETAILS extends TpmUnion
 /** This structure allows a TPM2B_SENSITIVE_CREATE structure to carry either a
  *  TPM2B_SENSITVE_DATA or a TPM2B_DERIVE structure. The contents of the union are
  *  determined by context. When an object is being derived, the derivation values are present.
+ *  One of: number, TPMS_DERIVE.
  */
 export interface TPMU_SENSITIVE_CREATE extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/** Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT]  */
+/** Table 157 Definition of TPMU_SCHEME_KEYEDHASH Union [IN/OUT]
+ *  One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
+ */
 export interface TPMU_SCHEME_KEYEDHASH extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/** This is the union of all of the signature schemes.  */
+/** This is the union of all of the signature schemes.
+ *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
+ *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
+ *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
+ */
 export interface TPMU_SIG_SCHEME extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/** Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT]  */
+/** Table 166 Definition of TPMU_KDF_SCHEME Union [IN/OUT]
+ *  One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
+ *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
+ */
 export interface TPMU_KDF_SCHEME extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
@@ -3164,6 +3106,10 @@ export interface TPMU_KDF_SCHEME extends TpmUnion
 /** This union of all asymmetric schemes is used in each of the asymmetric scheme
  *  structures. The actual scheme structure is defined by the interface type used for the
  *  selector (TPMI_ALG_ASYM_SCHEME).
+ *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
+ *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
+ *  TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR, TPMS_ENC_SCHEME_RSAES,
+ *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
  */
 export interface TPMU_ASYM_SCHEME extends TpmUnion
 {
@@ -3173,13 +3119,19 @@ export interface TPMU_ASYM_SCHEME extends TpmUnion
 /** A TPMU_SIGNATURE_COMPOSITE is a union of the various signatures that are supported by
  *  a particular TPM implementation. The union allows substitution of any signature
  *  algorithm wherever a signature is required in a structure.
+ *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
+ *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
+ *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
  */
 export interface TPMU_SIGNATURE extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/** This is the union of all values allowed in in the unique field of a TPMT_PUBLIC.  */
+/** This is the union of all values allowed in in the unique field of a TPMT_PUBLIC.
+ *  One of: TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
+ *  TPMS_ECC_POINT, TPMS_DERIVE.
+ */
 export interface TPMU_PUBLIC_ID extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
@@ -3188,13 +3140,18 @@ export interface TPMU_PUBLIC_ID extends TpmUnion
 /** Table 199 defines the possible parameter definition structures that may be contained
  *  in the public portion of a key. If the Object can be a parent, the first field must be
  *  a TPMT_SYM_DEF_OBJECT. See 11.1.7.
+ *  One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
+ *  TPMS_ASYM_PARMS.
  */
 export interface TPMU_PUBLIC_PARMS extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;
 }
 
-/** Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT]  */
+/** Table 205 Definition of TPMU_SENSITIVE_COMPOSITE Union [IN/OUT]
+ *  One of: TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
+ *  TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC.
+ */
 export interface TPMU_SENSITIVE_COMPOSITE extends TpmUnion
 {
     GetUnionSelector(): TPM_ALG_ID;

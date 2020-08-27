@@ -10,6 +10,7 @@ import tss.*;
 /** This structure allows a TPM2B_SENSITIVE_CREATE structure to carry either a
  *  TPM2B_SENSITVE_DATA or a TPM2B_DERIVE structure. The contents of the union are
  *  determined by context. When an object is being derived, the derivation values are present.
+ *  One of: byte, TPMS_DERIVE.
  */
 public interface TPMU_SENSITIVE_CREATE extends TpmUnion
 {

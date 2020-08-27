@@ -30,11 +30,11 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
         LOC_FOUR,
         
         /** If any of these bits is set, an extended locality is indicated  */
-        Extended_BIT_0,
+        Extended_BIT_MASK,
         
-        Extended_BIT_1,
+        Extended_BIT_OFFSET,
         
-        Extended_BIT_2
+        Extended_BIT_LENGTH
     }
     
     private static ValueMap<TPMA_LOCALITY> _ValueMap = new ValueMap<TPMA_LOCALITY>();
@@ -46,9 +46,9 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
         LOC_TWO = new TPMA_LOCALITY(0x4, _N.LOC_TWO),
         LOC_THREE = new TPMA_LOCALITY(0x8, _N.LOC_THREE),
         LOC_FOUR = new TPMA_LOCALITY(0x10, _N.LOC_FOUR),
-        Extended_BIT_0 = new TPMA_LOCALITY(0x20, _N.Extended_BIT_0),
-        Extended_BIT_1 = new TPMA_LOCALITY(0x40, _N.Extended_BIT_1),
-        Extended_BIT_2 = new TPMA_LOCALITY(0x80, _N.Extended_BIT_2);
+        Extended_BIT_MASK = new TPMA_LOCALITY(0xE0, _N.Extended_BIT_MASK),
+        Extended_BIT_OFFSET = new TPMA_LOCALITY(5, _N.Extended_BIT_OFFSET),
+        Extended_BIT_LENGTH = new TPMA_LOCALITY(3, _N.Extended_BIT_LENGTH);
     
     public TPMA_LOCALITY () { super(0, _ValueMap); }
     public TPMA_LOCALITY (int value) { super(value, _ValueMap); }

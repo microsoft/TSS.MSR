@@ -70,13 +70,11 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
         /** The type of the index.
          *  NOTE A TPM is not required to support all TPM_NT values
          */
-        TpmNt_BIT_0,
+        TpmNt_BIT_MASK,
         
-        TpmNt_BIT_1,
+        TpmNt_BIT_OFFSET,
         
-        TpmNt_BIT_2,
-        
-        TpmNt_BIT_3,
+        TpmNt_BIT_LENGTH,
         
         /** SET (1): Index may not be deleted unless the authPolicy is satisfied using
          *  TPM2_NV_UndefineSpaceSpecial().
@@ -198,10 +196,9 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
         EXTEND = new TPMA_NV(0x40, _N.EXTEND),
         PIN_FAIL = new TPMA_NV(0x80, _N.PIN_FAIL),
         PIN_PASS = new TPMA_NV(0x90, _N.PIN_PASS),
-        TpmNt_BIT_0 = new TPMA_NV(0x10, _N.TpmNt_BIT_0, true),
-        TpmNt_BIT_1 = new TPMA_NV(0x20, _N.TpmNt_BIT_1, true),
-        TpmNt_BIT_2 = new TPMA_NV(0x40, _N.TpmNt_BIT_2, true),
-        TpmNt_BIT_3 = new TPMA_NV(0x80, _N.TpmNt_BIT_3, true),
+        TpmNt_BIT_MASK = new TPMA_NV(0xF0, _N.TpmNt_BIT_MASK),
+        TpmNt_BIT_OFFSET = new TPMA_NV(4, _N.TpmNt_BIT_OFFSET),
+        TpmNt_BIT_LENGTH = new TPMA_NV(4, _N.TpmNt_BIT_LENGTH),
         POLICY_DELETE = new TPMA_NV(0x400, _N.POLICY_DELETE),
         WRITELOCKED = new TPMA_NV(0x800, _N.WRITELOCKED),
         WRITEALL = new TPMA_NV(0x1000, _N.WRITEALL),
