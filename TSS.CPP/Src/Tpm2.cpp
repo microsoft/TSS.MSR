@@ -718,6 +718,8 @@ void Tpm2::PrepareParmEncryptionSessions()
     for (size_t j = 0; j < Sessions.size(); j++)
     {
         AUTH_SESSION *s = Sessions[j];
+        if (s->IsPWAP())
+            continue;
         if (s->SessionAttributes & TPMA_SESSION::decrypt)
             DecSession = s;
         if (s->SessionAttributes & TPMA_SESSION::encrypt)
