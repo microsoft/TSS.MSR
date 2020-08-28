@@ -14,12 +14,12 @@ public class TPMT_TK_CREATION extends TpmStructure
 {
     /** The hierarchy containing name  */
     public TPM_HANDLE hierarchy;
-    
+
     /** This shall be the HMAC produced using a proof value of hierarchy.  */
     public byte[] digest;
-    
+
     public TPMT_TK_CREATION() { hierarchy = new TPM_HANDLE(); }
-    
+
     /** @param _hierarchy The hierarchy containing name
      *  @param _digest This shall be the HMAC produced using a proof value of hierarchy.
      */
@@ -28,7 +28,7 @@ public class TPMT_TK_CREATION extends TpmStructure
         hierarchy = _hierarchy;
         digest = _digest;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -37,7 +37,7 @@ public class TPMT_TK_CREATION extends TpmStructure
         hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(digest);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -46,25 +46,25 @@ public class TPMT_TK_CREATION extends TpmStructure
         hierarchy = TPM_HANDLE.fromTpm(buf);
         digest = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_TK_CREATION fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_TK_CREATION.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_TK_CREATION fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_TK_CREATION fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_TK_CREATION.class);
     }
-    
+
     @Override
     public String toString()
     {

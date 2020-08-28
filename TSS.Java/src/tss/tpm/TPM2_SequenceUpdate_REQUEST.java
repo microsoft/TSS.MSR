@@ -17,12 +17,12 @@ public class TPM2_SequenceUpdate_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE sequenceHandle;
-    
+
     /** Data to be added to hash  */
     public byte[] buffer;
-    
+
     public TPM2_SequenceUpdate_REQUEST() { sequenceHandle = new TPM_HANDLE(); }
-    
+
     /** @param _sequenceHandle Handle for the sequence object
      *         Auth Index: 1
      *         Auth Role: USER
@@ -33,33 +33,33 @@ public class TPM2_SequenceUpdate_REQUEST extends ReqStructure
         sequenceHandle = _sequenceHandle;
         buffer = _buffer;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_SequenceUpdate_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_SequenceUpdate_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_SequenceUpdate_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_SequenceUpdate_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_SequenceUpdate_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

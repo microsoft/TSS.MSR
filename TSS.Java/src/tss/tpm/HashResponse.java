@@ -12,15 +12,15 @@ public class HashResponse extends RespStructure
 {
     /** Results  */
     public byte[] outHash;
-    
+
     /** Ticket indicating that the sequence of octets used to compute outDigest did not start
      *  with TPM_GENERATED_VALUE
      *  will be a NULL ticket if the digest may not be signed with a restricted key
      */
     public TPMT_TK_HASHCHECK validation;
-    
+
     public HashResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -28,7 +28,7 @@ public class HashResponse extends RespStructure
         buf.writeSizedByteBuf(outHash);
         validation.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -36,25 +36,25 @@ public class HashResponse extends RespStructure
         outHash = buf.readSizedByteBuf();
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static HashResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(HashResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static HashResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static HashResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(HashResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -16,38 +16,38 @@ public class TPM2_FieldUpgradeData_REQUEST extends ReqStructure
 {
     /** Field upgrade image data  */
     public byte[] fuData;
-    
+
     public TPM2_FieldUpgradeData_REQUEST() {}
-    
+
     /** @param _fuData Field upgrade image data  */
     public TPM2_FieldUpgradeData_REQUEST(byte[] _fuData) { fuData = _fuData; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(fuData); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { fuData = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_FieldUpgradeData_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_FieldUpgradeData_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_FieldUpgradeData_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_FieldUpgradeData_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_FieldUpgradeData_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

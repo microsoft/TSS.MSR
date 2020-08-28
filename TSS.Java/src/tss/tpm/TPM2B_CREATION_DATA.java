@@ -13,38 +13,38 @@ import tss.*;
 public class TPM2B_CREATION_DATA extends TpmStructure
 {
     public TPMS_CREATION_DATA creationData;
-    
+
     public TPM2B_CREATION_DATA() {}
-    
+
     /** @param _creationData TBD  */
     public TPM2B_CREATION_DATA(TPMS_CREATION_DATA _creationData) { creationData = _creationData; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedObj(creationData); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { creationData = buf.createSizedObj(TPMS_CREATION_DATA.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_CREATION_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_CREATION_DATA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_CREATION_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_CREATION_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_CREATION_DATA.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -21,15 +21,15 @@ public class TPM2_CreateLoaded_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE parentHandle;
-    
+
     /** The sensitive data, see TPM 2.0 Part 1 Sensitive Values  */
     public TPMS_SENSITIVE_CREATE inSensitive;
-    
+
     /** The public template  */
     public byte[] inPublic;
-    
+
     public TPM2_CreateLoaded_REQUEST() { parentHandle = new TPM_HANDLE(); }
-    
+
     /** @param _parentHandle Handle of a transient storage key, a persistent storage key,
      *         TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
      *         Auth Index: 1
@@ -43,7 +43,7 @@ public class TPM2_CreateLoaded_REQUEST extends ReqStructure
         inSensitive = _inSensitive;
         inPublic = _inPublic;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -51,7 +51,7 @@ public class TPM2_CreateLoaded_REQUEST extends ReqStructure
         buf.writeSizedObj(inSensitive);
         buf.writeSizedByteBuf(inPublic);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -59,25 +59,25 @@ public class TPM2_CreateLoaded_REQUEST extends ReqStructure
         inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE.class);
         inPublic = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_CreateLoaded_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_CreateLoaded_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_CreateLoaded_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_CreateLoaded_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_CreateLoaded_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -18,38 +18,38 @@ public class TPM2_Startup_REQUEST extends ReqStructure
 {
     /** TPM_SU_CLEAR or TPM_SU_STATE  */
     public TPM_SU startupType;
-    
+
     public TPM2_Startup_REQUEST() {}
-    
+
     /** @param _startupType TPM_SU_CLEAR or TPM_SU_STATE  */
     public TPM2_Startup_REQUEST(TPM_SU _startupType) { startupType = _startupType; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { startupType.toTpm(buf); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { startupType = TPM_SU.fromTpm(buf); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Startup_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Startup_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Startup_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Startup_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Startup_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

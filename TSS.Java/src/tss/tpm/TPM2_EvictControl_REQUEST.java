@@ -17,26 +17,26 @@ public class TPM2_EvictControl_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE auth;
-    
+
     /** The handle of a loaded object
      *  Auth Index: None
      */
     public TPM_HANDLE objectHandle;
-    
+
     /** If objectHandle is a transient object handle, then this is the persistent handle for
      *  the object
      *  if objectHandle is a persistent object handle, then it shall be the same value as
      *  persistentHandle
      */
     public TPM_HANDLE persistentHandle;
-    
+
     public TPM2_EvictControl_REQUEST()
     {
         auth = new TPM_HANDLE();
         objectHandle = new TPM_HANDLE();
         persistentHandle = new TPM_HANDLE();
     }
-    
+
     /** @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -53,33 +53,33 @@ public class TPM2_EvictControl_REQUEST extends ReqStructure
         objectHandle = _objectHandle;
         persistentHandle = _persistentHandle;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { persistentHandle.toTpm(buf); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { persistentHandle = TPM_HANDLE.fromTpm(buf); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_EvictControl_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_EvictControl_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_EvictControl_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_EvictControl_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_EvictControl_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

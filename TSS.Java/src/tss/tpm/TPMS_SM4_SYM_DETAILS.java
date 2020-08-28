@@ -13,28 +13,28 @@ import tss.*;
 public class TPMS_SM4_SYM_DETAILS extends TPMS_NULL_UNION
 {
     public TPMS_SM4_SYM_DETAILS() {}
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.SM4; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SM4_SYM_DETAILS fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SM4_SYM_DETAILS.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SM4_SYM_DETAILS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SM4_SYM_DETAILS fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SM4_SYM_DETAILS.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -17,21 +17,21 @@ public class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     /** Digest of the policy being approved  */
     public byte[] approvedPolicy;
-    
+
     /** A policy qualifier  */
     public byte[] policyRef;
-    
+
     /** Name of a key that can sign a policy addition  */
     public byte[] keySign;
-    
+
     /** Ticket validating that approvedPolicy and policyRef were signed by keySign  */
     public TPMT_TK_VERIFIED checkTicket;
-    
+
     public TPM2_PolicyAuthorize_REQUEST() { policySession = new TPM_HANDLE(); }
-    
+
     /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param _approvedPolicy Digest of the policy being approved
@@ -48,7 +48,7 @@ public class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
         keySign = _keySign;
         checkTicket = _checkTicket;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -58,7 +58,7 @@ public class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(keySign);
         checkTicket.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -68,25 +68,25 @@ public class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
         keySign = buf.readSizedByteBuf();
         checkTicket = TPMT_TK_VERIFIED.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyAuthorize_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyAuthorize_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyAuthorize_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyAuthorize_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyAuthorize_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

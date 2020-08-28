@@ -18,15 +18,15 @@ public class DuplicateResponse extends RespStructure
      *  symmetric encryption key for the inner wrapper.
      */
     public byte[] encryptionKeyOut;
-    
+
     /** Private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted  */
     public TPM2B_PRIVATE duplicate;
-    
+
     /** Seed protected by the asymmetric algorithms of new parent (NP)  */
     public byte[] outSymSeed;
-    
+
     public DuplicateResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -35,7 +35,7 @@ public class DuplicateResponse extends RespStructure
         duplicate.toTpm(buf);
         buf.writeSizedByteBuf(outSymSeed);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -44,25 +44,25 @@ public class DuplicateResponse extends RespStructure
         duplicate = TPM2B_PRIVATE.fromTpm(buf);
         outSymSeed = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static DuplicateResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(DuplicateResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static DuplicateResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static DuplicateResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(DuplicateResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

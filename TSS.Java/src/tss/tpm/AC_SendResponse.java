@@ -14,35 +14,35 @@ public class AC_SendResponse extends RespStructure
 {
     /** May include AC specific data or information about an error.  */
     public TPMS_AC_OUTPUT acDataOut;
-    
+
     public AC_SendResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { acDataOut.toTpm(buf); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { acDataOut = TPMS_AC_OUTPUT.fromTpm(buf); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static AC_SendResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(AC_SendResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static AC_SendResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static AC_SendResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(AC_SendResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

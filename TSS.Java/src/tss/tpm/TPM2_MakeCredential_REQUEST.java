@@ -16,15 +16,15 @@ public class TPM2_MakeCredential_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE handle;
-    
+
     /** The credential information  */
     public byte[] credential;
-    
+
     /** Name of the object to which the credential applies  */
     public byte[] objectName;
-    
+
     public TPM2_MakeCredential_REQUEST() { handle = new TPM_HANDLE(); }
-    
+
     /** @param _handle Loaded public area, used to encrypt the sensitive area containing the
      *         credential key
      *         Auth Index: None
@@ -37,7 +37,7 @@ public class TPM2_MakeCredential_REQUEST extends ReqStructure
         credential = _credential;
         objectName = _objectName;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -45,7 +45,7 @@ public class TPM2_MakeCredential_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(credential);
         buf.writeSizedByteBuf(objectName);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -53,25 +53,25 @@ public class TPM2_MakeCredential_REQUEST extends ReqStructure
         credential = buf.readSizedByteBuf();
         objectName = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_MakeCredential_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_MakeCredential_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_MakeCredential_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_MakeCredential_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_MakeCredential_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

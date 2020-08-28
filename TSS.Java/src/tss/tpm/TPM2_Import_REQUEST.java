@@ -19,12 +19,12 @@ public class TPM2_Import_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE parentHandle;
-    
+
     /** The optional symmetric encryption key used as the inner wrapper for duplicate
      *  If symmetricAlg is TPM_ALG_NULL, then this parameter shall be the Empty Buffer.
      */
     public byte[] encryptionKey;
-    
+
     /** The public area of the object to be imported
      *  This is provided so that the integrity value for duplicate and the object attributes
      *  can be checked.
@@ -32,23 +32,23 @@ public class TPM2_Import_REQUEST extends ReqStructure
      *  Name is required to create the integrity value for the imported object.
      */
     public TPMT_PUBLIC objectPublic;
-    
+
     /** The symmetrically encrypted duplicate object that may contain an inner symmetric wrapper  */
     public TPM2B_PRIVATE duplicate;
-    
+
     /** The seed for the symmetric key and HMAC key
      *  inSymSeed is encrypted/encoded using the algorithms of newParent.
      */
     public byte[] inSymSeed;
-    
+
     /** Definition for the symmetric algorithm to use for the inner wrapper
      *  If this algorithm is TPM_ALG_NULL, no inner wrapper is present and encryptionKey shall
      *  be the Empty Buffer.
      */
     public TPMT_SYM_DEF_OBJECT symmetricAlg;
-    
+
     public TPM2_Import_REQUEST() { parentHandle = new TPM_HANDLE(); }
-    
+
     /** @param _parentHandle The handle of the new parent for the object
      *         Auth Index: 1
      *         Auth Role: USER
@@ -77,7 +77,7 @@ public class TPM2_Import_REQUEST extends ReqStructure
         inSymSeed = _inSymSeed;
         symmetricAlg = _symmetricAlg;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -88,7 +88,7 @@ public class TPM2_Import_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(inSymSeed);
         symmetricAlg.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -99,25 +99,25 @@ public class TPM2_Import_REQUEST extends ReqStructure
         inSymSeed = buf.readSizedByteBuf();
         symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Import_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Import_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Import_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Import_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Import_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

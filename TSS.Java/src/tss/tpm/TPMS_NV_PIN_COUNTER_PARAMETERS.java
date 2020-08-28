@@ -18,14 +18,14 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
      *  authorization attempts to access a TPM_NT_PIN_FAIL index.
      */
     public int pinCount;
-    
+
     /** This threshold is the value of pinCount at which the authValue authorization of the
      *  host TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL index is locked out.
      */
     public int pinLimit;
-    
+
     public TPMS_NV_PIN_COUNTER_PARAMETERS() {}
-    
+
     /** @param _pinCount This counter shows the current number of successful authValue
      *         authorization attempts to access a TPM_NT_PIN_PASS index or the current number of
      *         unsuccessful authValue authorization attempts to access a TPM_NT_PIN_FAIL index.
@@ -37,7 +37,7 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
         pinCount = _pinCount;
         pinLimit = _pinLimit;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -45,7 +45,7 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
         buf.writeInt(pinCount);
         buf.writeInt(pinLimit);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -53,25 +53,25 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
         pinCount = buf.readInt();
         pinLimit = buf.readInt();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_NV_PIN_COUNTER_PARAMETERS fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_NV_PIN_COUNTER_PARAMETERS.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_NV_PIN_COUNTER_PARAMETERS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_NV_PIN_COUNTER_PARAMETERS fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_NV_PIN_COUNTER_PARAMETERS.class);
     }
-    
+
     @Override
     public String toString()
     {

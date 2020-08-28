@@ -12,19 +12,19 @@ public class TPM2_Hash_REQUEST extends ReqStructure
 {
     /** Data to be hashed  */
     public byte[] data;
-    
+
     /** Algorithm for the hash being computed shall not be TPM_ALG_NULL  */
     public TPM_ALG_ID hashAlg;
-    
+
     /** Hierarchy to use for the ticket (TPM_RH_NULL allowed)  */
     public TPM_HANDLE hierarchy;
-    
+
     public TPM2_Hash_REQUEST()
     {
         hashAlg = TPM_ALG_ID.NULL;
         hierarchy = new TPM_HANDLE();
     }
-    
+
     /** @param _data Data to be hashed
      *  @param _hashAlg Algorithm for the hash being computed shall not be TPM_ALG_NULL
      *  @param _hierarchy Hierarchy to use for the ticket (TPM_RH_NULL allowed)
@@ -35,7 +35,7 @@ public class TPM2_Hash_REQUEST extends ReqStructure
         hashAlg = _hashAlg;
         hierarchy = _hierarchy;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -44,7 +44,7 @@ public class TPM2_Hash_REQUEST extends ReqStructure
         hashAlg.toTpm(buf);
         hierarchy.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -53,25 +53,25 @@ public class TPM2_Hash_REQUEST extends ReqStructure
         hashAlg = TPM_ALG_ID.fromTpm(buf);
         hierarchy = TPM_HANDLE.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Hash_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Hash_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Hash_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Hash_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Hash_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -17,32 +17,32 @@ public class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
      *  Auth Role: ADMIN
      */
     public TPM_HANDLE authorization;
-    
+
     /** Handle of a public area that contains the TPM Vendor Authorization Key that will be
      *  used to validate manifestSignature
      *  Auth Index: None
      */
     public TPM_HANDLE keyHandle;
-    
+
     /** Digest of the first block in the field upgrade sequence  */
     public byte[] fuDigest;
-    
+
     /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID manifestSignatureSigAlg() { return manifestSignature != null ? manifestSignature.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** Signature over fuDigest using the key associated with keyHandle (not optional)
      *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
      *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
      */
     public TPMU_SIGNATURE manifestSignature;
-    
+
     public TPM2_FieldUpgradeStart_REQUEST()
     {
         authorization = new TPM_HANDLE();
         keyHandle = new TPM_HANDLE();
     }
-    
+
     /** @param _authorization TPM_RH_PLATFORM+{PP}
      *         Auth Index:1
      *         Auth Role: ADMIN
@@ -63,7 +63,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
         fuDigest = _fuDigest;
         manifestSignature = _manifestSignature;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -72,7 +72,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
         buf.writeShort(manifestSignature.GetUnionSelector());
         manifestSignature.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -82,25 +82,25 @@ public class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
         manifestSignature = UnionFactory.create("TPMU_SIGNATURE", manifestSignatureSigAlg);
         manifestSignature.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_FieldUpgradeStart_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_FieldUpgradeStart_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_FieldUpgradeStart_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_FieldUpgradeStart_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_FieldUpgradeStart_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

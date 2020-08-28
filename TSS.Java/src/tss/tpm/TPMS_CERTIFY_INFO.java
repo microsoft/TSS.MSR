@@ -12,12 +12,12 @@ public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /** Name of the certified object  */
     public byte[] name;
-    
+
     /** Qualified Name of the certified object  */
     public byte[] qualifiedName;
-    
+
     public TPMS_CERTIFY_INFO() {}
-    
+
     /** @param _name Name of the certified object
      *  @param _qualifiedName Qualified Name of the certified object
      */
@@ -26,10 +26,10 @@ public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
         name = _name;
         qualifiedName = _qualifiedName;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_CERTIFY; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -37,7 +37,7 @@ public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeSizedByteBuf(name);
         buf.writeSizedByteBuf(qualifiedName);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -45,25 +45,25 @@ public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
         name = buf.readSizedByteBuf();
         qualifiedName = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_CERTIFY_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_CERTIFY_INFO.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_CERTIFY_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_CERTIFY_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_CERTIFY_INFO.class);
     }
-    
+
     @Override
     public String toString()
     {

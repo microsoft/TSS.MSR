@@ -14,12 +14,12 @@ public class TPMS_TAGGED_POLICY extends TpmStructure
 {
     /** A permanent handle  */
     public TPM_HANDLE handle;
-    
+
     /** The policy algorithm and hash  */
     public TPMT_HA policyHash;
-    
+
     public TPMS_TAGGED_POLICY() { handle = new TPM_HANDLE(); }
-    
+
     /** @param _handle A permanent handle
      *  @param _policyHash The policy algorithm and hash
      */
@@ -28,7 +28,7 @@ public class TPMS_TAGGED_POLICY extends TpmStructure
         handle = _handle;
         policyHash = _policyHash;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -36,7 +36,7 @@ public class TPMS_TAGGED_POLICY extends TpmStructure
         handle.toTpm(buf);
         policyHash.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -44,25 +44,25 @@ public class TPMS_TAGGED_POLICY extends TpmStructure
         handle = TPM_HANDLE.fromTpm(buf);
         policyHash = TPMT_HA.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_TAGGED_POLICY fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_TAGGED_POLICY.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_TAGGED_POLICY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_TAGGED_POLICY fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_TAGGED_POLICY.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -15,12 +15,12 @@ public class TPM2_PCR_SetAuthValue_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE pcrHandle;
-    
+
     /** The desired authorization value  */
     public byte[] auth;
-    
+
     public TPM2_PCR_SetAuthValue_REQUEST() { pcrHandle = new TPM_HANDLE(); }
-    
+
     /** @param _pcrHandle Handle for a PCR that may have an authorization value set
      *         Auth Index: 1
      *         Auth Role: USER
@@ -31,33 +31,33 @@ public class TPM2_PCR_SetAuthValue_REQUEST extends ReqStructure
         pcrHandle = _pcrHandle;
         auth = _auth;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(auth); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { auth = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PCR_SetAuthValue_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PCR_SetAuthValue_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PCR_SetAuthValue_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PCR_SetAuthValue_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PCR_SetAuthValue_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

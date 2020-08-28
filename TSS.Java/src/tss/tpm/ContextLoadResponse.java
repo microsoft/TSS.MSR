@@ -12,27 +12,27 @@ public class ContextLoadResponse extends RespStructure
 {
     /** The handle assigned to the resource after it has been successfully loaded  */
     public TPM_HANDLE handle;
-    
+
     public ContextLoadResponse() { handle = new TPM_HANDLE(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static ContextLoadResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ContextLoadResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ContextLoadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static ContextLoadResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ContextLoadResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

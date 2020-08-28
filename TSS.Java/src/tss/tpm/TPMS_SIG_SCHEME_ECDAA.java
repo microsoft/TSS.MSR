@@ -14,7 +14,7 @@ import tss.*;
 public class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA
 {
     public TPMS_SIG_SCHEME_ECDAA() {}
-    
+
     /** @param _hashAlg The hash algorithm used to digest the message
      *  @param _count The counter value that is used between TPM2_Commit() and the sign operation
      */
@@ -22,28 +22,28 @@ public class TPMS_SIG_SCHEME_ECDAA extends TPMS_SCHEME_ECDAA
     {
         super(_hashAlg, _count);
     }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDAA; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SIG_SCHEME_ECDAA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SIG_SCHEME_ECDAA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SIG_SCHEME_ECDAA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SIG_SCHEME_ECDAA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SIG_SCHEME_ECDAA.class);
     }
-    
+
     @Override
     public String toString()
     {

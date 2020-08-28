@@ -14,38 +14,38 @@ public class TPM2_Shutdown_REQUEST extends ReqStructure
 {
     /** TPM_SU_CLEAR or TPM_SU_STATE  */
     public TPM_SU shutdownType;
-    
+
     public TPM2_Shutdown_REQUEST() {}
-    
+
     /** @param _shutdownType TPM_SU_CLEAR or TPM_SU_STATE  */
     public TPM2_Shutdown_REQUEST(TPM_SU _shutdownType) { shutdownType = _shutdownType; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { shutdownType.toTpm(buf); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { shutdownType = TPM_SU.fromTpm(buf); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Shutdown_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Shutdown_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Shutdown_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Shutdown_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Shutdown_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

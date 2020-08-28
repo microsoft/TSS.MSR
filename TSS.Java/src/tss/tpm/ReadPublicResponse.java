@@ -12,15 +12,15 @@ public class ReadPublicResponse extends RespStructure
 {
     /** Structure containing the public area of an object  */
     public TPMT_PUBLIC outPublic;
-    
+
     /** Name of the object  */
     public byte[] name;
-    
+
     /** The Qualified Name of the object  */
     public byte[] qualifiedName;
-    
+
     public ReadPublicResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -29,7 +29,7 @@ public class ReadPublicResponse extends RespStructure
         buf.writeSizedByteBuf(name);
         buf.writeSizedByteBuf(qualifiedName);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -38,25 +38,25 @@ public class ReadPublicResponse extends RespStructure
         name = buf.readSizedByteBuf();
         qualifiedName = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static ReadPublicResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ReadPublicResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ReadPublicResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static ReadPublicResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ReadPublicResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

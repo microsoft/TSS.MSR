@@ -23,7 +23,7 @@ public final class TPM_SU extends TpmEnum<TPM_SU>
          *  on TPM2_Startup(), indicates that the TPM should perform TPM Reset or TPM Restart
          */
         CLEAR, 
-        
+
         /** On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save
          *  state required for an orderly startup (TPM Restart or TPM Resume)
          *  on TPM2_Startup(), indicates that the TPM should restore the state saved by
@@ -31,9 +31,9 @@ public final class TPM_SU extends TpmEnum<TPM_SU>
          */
         STATE
     }
-    
+
     private static ValueMap<TPM_SU> _ValueMap = new ValueMap<TPM_SU>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_SU
         CLEAR = new TPM_SU(0x0000, _N.CLEAR),

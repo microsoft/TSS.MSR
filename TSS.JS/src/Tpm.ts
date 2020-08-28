@@ -23,7 +23,7 @@ export class Tpm extends TpmBase
      *  completed successfully. If a TPM requires TPM2_Startup() and another command is
      *  received, or if the TPM receives TPM2_Startup() when it is not required, the TPM shall
      *  return TPM_RC_INITIALIZE.
-    
+
      *  @param startupType TPM_SU_CLEAR or TPM_SU_STATE
      */
     Startup(startupType: tt.TPM_SU, 
@@ -34,10 +34,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // Startup()
-    
+
     /** This command is used to prepare the TPM for a power cycle. The shutdownType parameter
      *  indicates how the subsequent TPM2_Startup() will be processed.
-    
+
      *  @param shutdownType TPM_SU_CLEAR or TPM_SU_STATE
      */
     Shutdown(shutdownType: tt.TPM_SU, 
@@ -48,11 +48,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // Shutdown()
-    
+
     /** This command causes the TPM to perform a test of its capabilities. If the fullTest is
      *  YES, the TPM will test all functions. If fullTest = NO, the TPM will only test those
      *  functions that have not previously been tested.
-    
+
      *  @param fullTest YES if full test to be performed
      *         NO if only test of untested functions required
      */
@@ -64,9 +64,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // SelfTest()
-    
+
     /** This command causes the TPM to perform a test of the selected algorithms.
-    
+
      *  @param toTest List of algorithms that should be tested
      *  @return toDoList - List of algorithms that need testing
      */
@@ -78,10 +78,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.IncrementalSelfTestResponse);
         setImmediate(continuation, this.lastError, res?.toDoList);  });
     } // IncrementalSelfTest()
-    
+
     /** This command returns manufacturer-specific information regarding the results of a
      *  self-test and an indication of the test status.
-    
+
      *  @return outData - Test result data
      *                    contains manufacturer-specific information<br>
      *          testResult - TBD
@@ -93,11 +93,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.GetTestResultResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // GetTestResult()
-    
+
     /** This command is used to start an authorization session using alternative methods of
      *  establishing the session key (sessionKey). The session key is then used to derive
      *  values used for authorization and for encrypting parameters.
-    
+
      *  @param tpmKey Handle of a loaded decrypt key used to encrypt salt
      *         may be TPM_RH_NULL
      *         Auth Index: None
@@ -126,14 +126,14 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.StartAuthSessionResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // StartAuthSession()
-    
+
     /** This command allows a policy authorization session to be returned to its initial
      *  state. This command is used after the TPM returns TPM_RC_PCR_CHANGED. That response
      *  code indicates that a policy will fail because the PCR have changed after
      *  TPM2_PolicyPCR() was executed. Restarting the session allows the authorizations to be
      *  replayed because the session restarts with the same nonceTPM. If the PCR are valid for
      *  the policy, the policy may then succeed.
-    
+
      *  @param sessionHandle The handle for the policy session
      */
     PolicyRestart(sessionHandle: tt.TPM_HANDLE, 
@@ -144,7 +144,7 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyRestart()
-    
+
     /** This command is used to create an object that can be loaded into a TPM using
      *  TPM2_Load(). If the command completes successfully, the TPM will create the new object
      *  and return the objects creation data (creationData), its public area (outPublic), and
@@ -152,7 +152,7 @@ export class Tpm extends TpmBase
      *  responsibility of the caller. The object will need to be loaded (TPM2_Load()) before
      *  it may be used. The only difference between the inPublic TPMT_PUBLIC template and the
      *  outPublic TPMT_PUBLIC object is in the unique field.
-    
+
      *  @param parentHandle Handle of parent for new object
      *         Auth Index: 1
      *         Auth Role: USER
@@ -177,11 +177,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.CreateResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Create()
-    
+
     /** This command is used to load objects into the TPM. This command is used when both a
      *  TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If only a TPM2B_PUBLIC is to be
      *  loaded, the TPM2_LoadExternal command is used.
-    
+
      *  @param parentHandle TPM handle of parent key; shall not be a reserved handle
      *         Auth Index: 1
      *         Auth Role: USER
@@ -197,10 +197,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.LoadResponse);
         setImmediate(continuation, this.lastError, res?.handle);  });
     } // Load()
-    
+
     /** This command is used to load an object that is not a Protected Object into the TPM.
      *  The command allows loading of a public area or both a public and sensitive area.
-    
+
      *  @param inPrivate The sensitive portion of the object (optional)
      *  @param inPublic The public portion of the object
      *  @param hierarchy Hierarchy with which the object area is associated
@@ -214,9 +214,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.LoadExternalResponse);
         setImmediate(continuation, this.lastError, res?.handle);  });
     } // LoadExternal()
-    
+
     /** This command allows access to the public area of a loaded object.
-    
+
      *  @param objectHandle TPM handle of an object
      *         Auth Index: None
      *  @return outPublic - Structure containing the public area of an object<br>
@@ -231,10 +231,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ReadPublicResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // ReadPublic()
-    
+
     /** This command enables the association of a credential with an object in a way that
      *  ensures that the TPM has validated the parameters of the credentialed object.
-    
+
      *  @param activateHandle Handle of the object associated with certificate in credentialBlob
      *         Auth Index: 1
      *         Auth Role: ADMIN
@@ -255,10 +255,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ActivateCredentialResponse);
         setImmediate(continuation, this.lastError, res?.certInfo);  });
     } // ActivateCredential()
-    
+
     /** This command allows the TPM to perform the actions required of a Certificate Authority
      *  (CA) in creating a TPM2B_ID_OBJECT containing an activation credential.
-    
+
      *  @param handle Loaded public area, used to encrypt the sensitive area containing the
      *         credential key
      *         Auth Index: None
@@ -275,9 +275,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.MakeCredentialResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // MakeCredential()
-    
+
     /** This command returns the data in a loaded Sealed Data Object.
-    
+
      *  @param itemHandle Handle of a loaded data object
      *         Auth Index: 1
      *         Auth Role: USER
@@ -292,9 +292,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.UnsealResponse);
         setImmediate(continuation, this.lastError, res?.outData);  });
     } // Unseal()
-    
+
     /** This command is used to change the authorization secret for a TPM-resident object.
-    
+
      *  @param objectHandle Handle of the object
      *         Auth Index: 1
      *         Auth Role: ADMIN
@@ -311,13 +311,13 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ObjectChangeAuthResponse);
         setImmediate(continuation, this.lastError, res?.outPrivate);  });
     } // ObjectChangeAuth()
-    
+
     /** This command creates an object and loads it in the TPM. This command allows creation
      *  of any type of object (Primary, Ordinary, or Derived) depending on the type of
      *  parentHandle. If parentHandle references a Primary Seed, then a Primary Object is
      *  created; if parentHandle references a Storage Parent, then an Ordinary Object is
      *  created; and if parentHandle references a Derivation Parent, then a Derived Object is generated.
-    
+
      *  @param parentHandle Handle of a transient storage key, a persistent storage key,
      *         TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
      *         Auth Index: 1
@@ -337,11 +337,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.CreateLoadedResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // CreateLoaded()
-    
+
     /** This command duplicates a loaded object so that it may be used in a different
      *  hierarchy. The new parent key for the duplicate may be on the same or different TPM or
      *  TPM_RH_NULL. Only the public area of newParentHandle is required to be loaded.
-    
+
      *  @param objectHandle Loaded object to duplicate
      *         Auth Index: 1
      *         Auth Role: DUP
@@ -370,14 +370,14 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.DuplicateResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Duplicate()
-    
+
     /** This command allows the TPM to serve in the role as a Duplication Authority. If proper
      *  authorization for use of the oldParent is provided, then an HMAC key and a symmetric
      *  key are recovered from inSymSeed and used to integrity check and decrypt inDuplicate.
      *  A new protection seed value is generated according to the methods appropriate for
      *  newParent and the blob is re-encrypted and a new integrity value is computed. The
      *  re-encrypted blob is returned in outDuplicate and the symmetric key returned in outSymKey.
-    
+
      *  @param oldParent Parent of object
      *         Auth Index: 1
      *         Auth Role: User
@@ -398,12 +398,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.RewrapResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Rewrap()
-    
+
     /** This command allows an object to be encrypted using the symmetric encryption values of
      *  a Storage Key. After encryption, the object may be loaded and used in the new
      *  hierarchy. The imported object (duplicate) may be singly encrypted, multiply
      *  encrypted, or unencrypted.
-    
+
      *  @param parentHandle The handle of the new parent for the object
      *         Auth Index: 1
      *         Auth Role: USER
@@ -432,12 +432,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ImportResponse);
         setImmediate(continuation, this.lastError, res?.outPrivate);  });
     } // Import()
-    
+
     /** This command performs RSA encryption using the indicated padding scheme according to
      *  IETF RFC 8017. If the scheme of keyHandle is TPM_ALG_NULL, then the caller may use
      *  inScheme to specify the padding scheme. If scheme of keyHandle is not TPM_ALG_NULL,
      *  then inScheme shall either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
-    
+
      *  @param keyHandle Reference to public portion of RSA key to use for encryption
      *         Auth Index: None
      *  @param message Message to be encrypted
@@ -463,10 +463,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.RSA_EncryptResponse);
         setImmediate(continuation, this.lastError, res?.outData);  });
     } // RSA_Encrypt()
-    
+
     /** This command performs RSA decryption using the indicated padding scheme according to
      *  IETF RFC 8017 ((PKCS#1).
-    
+
      *  @param keyHandle RSA key to use for decryption
      *         Auth Index: 1
      *         Auth Role: USER
@@ -488,11 +488,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.RSA_DecryptResponse);
         setImmediate(continuation, this.lastError, res?.message);  });
     } // RSA_Decrypt()
-    
+
     /** This command uses the TPM to generate an ephemeral key pair (de, Qe where Qe [de]G).
      *  It uses the private ephemeral key and a loaded public key (QS) to compute the shared
      *  secret value (P [hde]QS).
-    
+
      *  @param keyHandle Handle of a loaded ECC key public area.
      *         Auth Index: None
      *  @return zPoint - Results of P h[de]Qs<br>
@@ -506,12 +506,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ECDH_KeyGenResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // ECDH_KeyGen()
-    
+
     /** This command uses the TPM to recover the Z value from a public point (QB) and a
      *  private key (ds). It will perform the multiplication of the provided inPoint (QB) with
      *  the private key (ds) and return the coordinates of the resultant point (Z = (xZ , yZ)
      *  [hds]QB; where h is the cofactor of the curve).
-    
+
      *  @param keyHandle Handle of a loaded ECC key
      *         Auth Index: 1
      *         Auth Role: USER
@@ -527,9 +527,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ECDH_ZGenResponse);
         setImmediate(continuation, this.lastError, res?.outPoint);  });
     } // ECDH_ZGen()
-    
+
     /** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.
-    
+
      *  @param curveID Parameter set selector
      *  @return parameters - ECC parameters for the selected curve
      */
@@ -541,12 +541,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ECC_ParametersResponse);
         setImmediate(continuation, this.lastError, res?.parameters);  });
     } // ECC_Parameters()
-    
+
     /** This command supports two-phase key exchange protocols. The command is used in
      *  combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral() generates an ephemeral key
      *  and returns the public point of that ephemeral key along with a numeric value that
      *  allows the TPM to regenerate the associated private key.
-    
+
      *  @param keyA Handle of an unrestricted decryption key ECC
      *         The private key referenced by this handle is used as dS,A
      *         Auth Index: 1
@@ -566,9 +566,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ZGen_2PhaseResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // ZGen_2Phase()
-    
+
     /** This command performs ECC encryption as described in Part 1, Annex D.
-    
+
      *  @param keyHandle Reference to public portion of ECC key to use for encryption
      *         Auth Index: None
      *  @param plainText Plaintext to be encrypted
@@ -587,9 +587,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ECC_EncryptResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // ECC_Encrypt()
-    
+
     /** This command performs ECC decryption.
-    
+
      *  @param keyHandle ECC key to use for decryption
      *         Auth Index: 1
      *         Auth Role: USER
@@ -609,10 +609,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ECC_DecryptResponse);
         setImmediate(continuation, this.lastError, res?.plainText);  });
     } // ECC_Decrypt()
-    
+
     /** NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is preferred. This
      *  should be reflected in platform-specific specifications.
-    
+
      *  @param keyHandle The symmetric key used for the operation
      *         Auth Index: 1
      *         Auth Role: USER
@@ -632,10 +632,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.EncryptDecryptResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // EncryptDecrypt()
-    
+
     /** This command is identical to TPM2_EncryptDecrypt(), except that the inData parameter
      *  is the first parameter. This permits inData to be parameter encrypted.
-    
+
      *  @param keyHandle The symmetric key used for the operation
      *         Auth Index: 1
      *         Auth Role: USER
@@ -655,9 +655,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.EncryptDecrypt2Response);
         setImmediate(continuation, this.lastError, res);  });
     } // EncryptDecrypt2()
-    
+
     /** This command performs a hash operation on a data buffer and returns the results.
-    
+
      *  @param data Data to be hashed
      *  @param hashAlg Algorithm for the hash being computed shall not be TPM_ALG_NULL
      *  @param hierarchy Hierarchy to use for the ticket (TPM_RH_NULL allowed)
@@ -675,9 +675,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.HashResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Hash()
-    
+
     /** This command performs an HMAC on the supplied data using the indicated hash algorithm.
-    
+
      *  @param handle Handle for the symmetric signing key providing the HMAC key
      *         Auth Index: 1
      *         Auth Role: USER
@@ -693,10 +693,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.HMACResponse);
         setImmediate(continuation, this.lastError, res?.outHMAC);  });
     } // HMAC()
-    
+
     /** This command performs an HMAC or a block cipher MAC on the supplied data using the
      *  indicated algorithm.
-    
+
      *  @param handle Handle for the symmetric signing key providing the MAC key
      *         Auth Index: 1
      *         Auth Role: USER
@@ -712,9 +712,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.MACResponse);
         setImmediate(continuation, this.lastError, res?.outMAC);  });
     } // MAC()
-    
+
     /** This command returns the next bytesRequested octets from the random number generator (RNG).
-    
+
      *  @param bytesRequested Number of octets to return
      *  @return randomBytes - The random octets
      */
@@ -726,9 +726,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.GetRandomResponse);
         setImmediate(continuation, this.lastError, res?.randomBytes);  });
     } // GetRandom()
-    
+
     /** This command is used to add "additional information" to the RNG state.
-    
+
      *  @param inData Additional information
      */
     StirRandom(inData: Buffer, 
@@ -739,11 +739,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // StirRandom()
-    
+
     /** This command starts an HMAC sequence. The TPM will create and initialize an HMAC
      *  sequence structure, assign a handle to the sequence, and set the authValue of the
      *  sequence object to the value in auth.
-    
+
      *  @param handle Handle of an HMAC key
      *         Auth Index: 1
      *         Auth Role: USER
@@ -759,11 +759,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.HMAC_StartResponse);
         setImmediate(continuation, this.lastError, res?.handle);  });
     } // HMAC_Start()
-    
+
     /** This command starts a MAC sequence. The TPM will create and initialize a MAC sequence
      *  structure, assign a handle to the sequence, and set the authValue of the sequence
      *  object to the value in auth.
-    
+
      *  @param handle Handle of a MAC key
      *         Auth Index: 1
      *         Auth Role: USER
@@ -779,12 +779,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.MAC_StartResponse);
         setImmediate(continuation, this.lastError, res?.handle);  });
     } // MAC_Start()
-    
+
     /** This command starts a hash or an Event Sequence. If hashAlg is an implemented hash,
      *  then a hash sequence is started. If hashAlg is TPM_ALG_NULL, then an Event Sequence is
      *  started. If hashAlg is neither an implemented algorithm nor TPM_ALG_NULL, then the TPM
      *  shall return TPM_RC_HASH.
-    
+
      *  @param auth Authorization value for subsequent use of the sequence
      *  @param hashAlg The hash algorithm to use for the hash sequence
      *         An Event Sequence starts if this is TPM_ALG_NULL.
@@ -798,10 +798,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.HashSequenceStartResponse);
         setImmediate(continuation, this.lastError, res?.handle);  });
     } // HashSequenceStart()
-    
+
     /** This command is used to add data to a hash or HMAC sequence. The amount of data in
      *  buffer may be any size up to the limits of the TPM.
-    
+
      *  @param sequenceHandle Handle for the sequence object
      *         Auth Index: 1
      *         Auth Role: USER
@@ -815,10 +815,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // SequenceUpdate()
-    
+
     /** This command adds the last part of data, if any, to a hash/HMAC sequence and returns
      *  the result.
-    
+
      *  @param sequenceHandle Authorization for the sequence
      *         Auth Index: 1
      *         Auth Role: USER
@@ -837,13 +837,13 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.SequenceCompleteResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // SequenceComplete()
-    
+
     /** This command adds the last part of data, if any, to an Event Sequence and returns the
      *  result in a digest list. If pcrHandle references a PCR and not TPM_RH_NULL, then the
      *  returned digest list is processed in the same manner as the digest list input
      *  parameter to TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with
      *  pcrHandle, it is extended with the associated digest value from the list.
-    
+
      *  @param pcrHandle PCR to be extended with the Event data
      *         Auth Index: 1
      *         Auth Role: USER
@@ -861,13 +861,13 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.EventSequenceCompleteResponse);
         setImmediate(continuation, this.lastError, res?.results);  });
     } // EventSequenceComplete()
-    
+
     /** The purpose of this command is to prove that an object with a specific Name is loaded
      *  in the TPM. By certifying that the object is loaded, the TPM warrants that a public
      *  area with a given Name is self-consistent and associated with a valid sensitive area.
      *  If a relying party has a public area that has the same Name as a Name certified with
      *  this command, then the values in that public area are correct.
-    
+
      *  @param objectHandle Handle of the object to be certified
      *         Auth Index: 1
      *         Auth Role: ADMIN
@@ -891,12 +891,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.CertifyResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Certify()
-    
+
     /** This command is used to prove the association between an object and its creation data.
      *  The TPM will validate that the ticket was produced by the TPM and that the ticket
      *  validates the association between a loaded public area and the provided hash of the
      *  creation data (creationHash).
-    
+
      *  @param signHandle Handle of the key that will sign the attestation block
      *         Auth Index: 1
      *         Auth Role: USER
@@ -920,9 +920,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.CertifyCreationResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // CertifyCreation()
-    
+
     /** This command is used to quote PCR values.
-    
+
      *  @param signHandle Handle of key that will perform signature
      *         Auth Index: 1
      *         Auth Role: USER
@@ -943,9 +943,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.QuoteResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Quote()
-    
+
     /** This command returns a digital signature of the audit session digest.
-    
+
      *  @param privacyAdminHandle Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
      *         Auth Index: 1
      *         Auth Role: USER
@@ -970,11 +970,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.GetSessionAuditDigestResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // GetSessionAuditDigest()
-    
+
     /** This command returns the current value of the command audit digest, a digest of the
      *  commands being audited, and the audit hash algorithm. These values are placed in an
      *  attestation structure and signed with the key referenced by signHandle.
-    
+
      *  @param privacyHandle Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
      *         Auth Index: 1
      *         Auth Role: USER
@@ -997,9 +997,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.GetCommandAuditDigestResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // GetCommandAuditDigest()
-    
+
     /** This command returns the current values of Time and Clock.
-    
+
      *  @param privacyAdminHandle Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1022,14 +1022,14 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.GetTimeResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // GetTime()
-    
+
     /** The purpose of this command is to generate an X.509 certificate that proves an object
      *  with a specific public key and attributes is loaded in the TPM. In contrast to
      *  TPM2_Certify, which uses a TCG-defined data structure to convey attestation
      *  information, TPM2_CertifyX509 encodes the attestation information in a DER-encoded
      *  X.509 certificate that is compliant with RFC5280 Internet X.509 Public Key
      *  Infrastructure Certificate and Certificate Revocation List (CRL) Profile.
-    
+
      *  @param objectHandle Handle of the object to be certified
      *         Auth Index: 1
      *         Auth Role: ADMIN
@@ -1056,12 +1056,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.CertifyX509Response);
         setImmediate(continuation, this.lastError, res);  });
     } // CertifyX509()
-    
+
     /** TPM2_Commit() performs the first part of an ECC anonymous signing operation. The TPM
      *  will perform the point multiplications on the provided points and return intermediate
      *  signing values. The signHandle parameter shall refer to an ECC key and the signing
      *  scheme must be anonymous (TPM_RC_SCHEME).
-    
+
      *  @param signHandle Handle of the key that will be used in the signing operation
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1081,9 +1081,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.CommitResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // Commit()
-    
+
     /** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.
-    
+
      *  @param curveID The curve for the computed ephemeral point
      *  @return Q - Ephemeral public key Q [r]G<br>
      *          counter - Least-significant 16 bits of commitCount
@@ -1096,10 +1096,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.EC_EphemeralResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // EC_Ephemeral()
-    
+
     /** This command uses loaded keys to validate a signature on a message with the message
      *  digest passed to the TPM.
-    
+
      *  @param keyHandle Handle of public key that will be used in the validation
      *         Auth Index: None
      *  @param digest Digest of the signed message
@@ -1120,10 +1120,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.VerifySignatureResponse);
         setImmediate(continuation, this.lastError, res?.validation);  });
     } // VerifySignature()
-    
+
     /** This command causes the TPM to sign an externally provided hash with the specified
      *  symmetric or asymmetric signing key.
-    
+
      *  @param keyHandle Handle of key that will perform signing
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1145,11 +1145,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.SignResponse);
         setImmediate(continuation, this.lastError, res?.signature);  });
     } // Sign()
-    
+
     /** This command may be used by the Privacy Administrator or platform to change the audit
      *  status of a command or to set the hash algorithm used for the audit digest, but not
      *  both at the same time.
-    
+
      *  @param auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1167,12 +1167,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // SetCommandCodeAuditStatus()
-    
+
     /** This command is used to cause an update to the indicated PCR. The digests parameter
      *  contains one or more tagged digest values identified by an algorithm ID. For each
      *  digest, the PCR associated with pcrHandle is Extended into the bank identified by the
      *  tag (hashAlg).
-    
+
      *  @param pcrHandle Handle of the PCR
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -1186,9 +1186,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PCR_Extend()
-    
+
     /** This command is used to cause an update to the indicated PCR.
-    
+
      *  @param pcrHandle Handle of the PCR
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -1206,9 +1206,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.PCR_EventResponse);
         setImmediate(continuation, this.lastError, res?.digests);  });
     } // PCR_Event()
-    
+
     /** This command returns the values of all PCR specified in pcrSelectionIn.
-    
+
      *  @param pcrSelectionIn The selection of PCR to read
      *  @return pcrUpdateCounter - The current value of the PCR update counter<br>
      *          pcrSelectionOut - The PCR in the returned list<br>
@@ -1224,10 +1224,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.PCR_ReadResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // PCR_Read()
-    
+
     /** This command is used to set the desired PCR allocation of PCR and algorithms. This
      *  command requires Platform Authorization.
-    
+
      *  @param authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1245,10 +1245,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.PCR_AllocateResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // PCR_Allocate()
-    
+
     /** This command is used to associate a policy with a PCR or group of PCR. The policy
      *  determines the conditions under which a PCR may be extended or reset.
-    
+
      *  @param authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1264,9 +1264,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PCR_SetAuthPolicy()
-    
+
     /** This command changes the authValue of a PCR or group of PCR.
-    
+
      *  @param pcrHandle Handle for a PCR that may have an authorization value set
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1280,11 +1280,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PCR_SetAuthValue()
-    
+
     /** If the attribute of a PCR allows the PCR to be reset and proper authorization is
      *  provided, then this command may be used to set the PCR in all banks to zero. The
      *  attributes of the PCR may restrict the locality that can perform the reset operation.
-    
+
      *  @param pcrHandle The PCR to reset
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1297,10 +1297,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PCR_Reset()
-    
+
     /** This command includes a signed authorization in a policy. The command ties the policy
      *  to a signing key by including the Name of the signing key in the policyDigest
-    
+
      *  @param authObject Handle for a key that will validate the signature
      *         Auth Index: None
      *  @param policySession Handle for the policy session being extended
@@ -1337,12 +1337,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.PolicySignedResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // PolicySigned()
-    
+
     /** This command includes a secret-based authorization to a policy. The caller proves
      *  knowledge of the secret value using an authorization session using the authValue
      *  associated with authHandle. A password session, an HMAC session, or a policy session
      *  containing TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-    
+
      *  @param authHandle Handle for an entity providing the authorization
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1374,11 +1374,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.PolicySecretResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // PolicySecret()
-    
+
     /** This command is similar to TPM2_PolicySigned() except that it takes a ticket instead
      *  of a signed authorization. The ticket represents a validated authorization that had an
      *  expiration time associated with it.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param timeout Time when authorization will expire
@@ -1399,12 +1399,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyTicket()
-    
+
     /** This command allows options in authorizations without requiring that the TPM evaluate
      *  all of the options. If a policy may be satisfied by different sets of conditions, the
      *  TPM need only evaluate one set that satisfies the policy. This command will indicate
      *  that one of the required sets of conditions has been satisfied.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param pHashList The list of hashes to check for a match
@@ -1417,12 +1417,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyOR()
-    
+
     /** This command is used to cause conditional gating of a policy based on PCR. This
      *  command together with TPM2_PolicyOR() allows one group of authorizations to occur when
      *  PCR are in one state and a different set of authorizations when the PCR are in a
      *  different state.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param pcrDigest Expected digest value of the selected PCR using the hash algorithm of
@@ -1438,9 +1438,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyPCR()
-    
+
     /** This command indicates that the authorization will be limited to a specific locality.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param locality The allowed localities for the policy
@@ -1453,11 +1453,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyLocality()
-    
+
     /** This command is used to cause conditional gating of a policy based on the contents of
      *  an NV Index. It is an immediate assertion. The NV index is validated during the
      *  TPM2_PolicyNV() command, not when the session is used for authorization.
-    
+
      *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1477,10 +1477,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyNV()
-    
+
     /** This command is used to cause conditional gating of a policy based on the contents of
      *  the TPMS_TIME_INFO structure.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param operandB The second operand
@@ -1496,9 +1496,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyCounterTimer()
-    
+
     /** This command indicates that the authorization will be limited to a specific command code.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param code The allowed commandCode
@@ -1511,10 +1511,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyCommandCode()
-    
+
     /** This command indicates that physical presence will need to be asserted at the time the
      *  authorization is performed.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      */
@@ -1526,9 +1526,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyPhysicalPresence()
-    
+
     /** This command is used to allow a policy to be bound to a specific command and command parameters.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param cpHashA The cpHash added to the policy
@@ -1541,11 +1541,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyCpHash()
-    
+
     /** This command allows a policy to be bound to a specific set of TPM entities without
      *  being bound to the parameters of the command. This is most useful for commands such as
      *  TPM2_Duplicate() and for TPM2_PCR_Event() when the referenced PCR requires a policy.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param nameHash The digest to be added to the policy
@@ -1558,10 +1558,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyNameHash()
-    
+
     /** This command allows qualification of duplication to allow duplication to a selected
      *  new parent.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param objectName The Name of the object to be duplicated
@@ -1577,11 +1577,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyDuplicationSelect()
-    
+
     /** This command allows policies to change. If a policy were static, then it would be
      *  difficult to add users to a policy. This command lets a policy authority sign a new
      *  policy so that it may be used in an existing policy.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param approvedPolicy Digest of the policy being approved
@@ -1597,9 +1597,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyAuthorize()
-    
+
     /** This command allows a policy to be bound to the authorization value of the authorized entity.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      */
@@ -1611,9 +1611,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyAuthValue()
-    
+
     /** This command allows a policy to be bound to the authorization value of the authorized object.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      */
@@ -1625,10 +1625,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyPassword()
-    
+
     /** This command returns the current policyDigest of the session. This command allows the
      *  TPM to be used to perform the actions required to pre-compute the authPolicy for an object.
-    
+
      *  @param policySession Handle for the policy session
      *         Auth Index: None
      *  @return policyDigest - The current value of the policySessionpolicyDigest
@@ -1641,11 +1641,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.PolicyGetDigestResponse);
         setImmediate(continuation, this.lastError, res?.policyDigest);  });
     } // PolicyGetDigest()
-    
+
     /** This command allows a policy to be bound to the TPMA_NV_WRITTEN attributes. This is a
      *  deferred assertion. Values are stored in the policy session context and checked when
      *  the policy is used for authorization.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param writtenSet YES if NV Index is required to have been written
@@ -1659,11 +1659,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyNvWritten()
-    
+
     /** This command allows a policy to be bound to a specific creation template. This is most
      *  useful for an object creation command such as TPM2_Create(), TPM2_CreatePrimary(), or
      *  TPM2_CreateLoaded().
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param templateHash The digest to be added to the policy
@@ -1676,12 +1676,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyTemplate()
-    
+
     /** This command provides a capability that is the equivalent of a revocable policy. With
      *  TPM2_PolicyAuthorize(), the authorization ticket never expires, so the authorization
      *  may not be withdrawn. With this command, the approved policy is kept in an NV Index
      *  location so that the policy may be changed as needed to render the old policy unusable.
-    
+
      *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1698,13 +1698,13 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PolicyAuthorizeNV()
-    
+
     /** This command is used to create a Primary Object under one of the Primary Seeds or a
      *  Temporary Object under TPM_RH_NULL. The command uses a TPM2B_PUBLIC as a template for
      *  the object to be created. The size of the unique field shall not be checked for
      *  consistency with the other object parameters. The command will create and load a
      *  Primary Object. The sensitive area is not returned.
-    
+
      *  @param primaryHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1730,11 +1730,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.CreatePrimaryResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // CreatePrimary()
-    
+
     /** This command enables and disables use of a hierarchy and its associated NV storage.
      *  The command allows phEnable, phEnableNV, shEnable, and ehEnable to be changed when the
      *  proper authorization is provided.
-    
+
      *  @param authHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1750,13 +1750,13 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // HierarchyControl()
-    
+
     /** This command allows setting of the authorization policy for the lockout
      *  (lockoutPolicy), the platform hierarchy (platformPolicy), the storage hierarchy
      *  (ownerPolicy), and the endorsement hierarchy (endorsementPolicy). On TPMs implementing
      *  Authenticated Countdown Timers (ACT), this command may also be used to set the
      *  authorization policy for an ACT.
-    
+
      *  @param authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or
      *         TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
@@ -1774,10 +1774,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // SetPrimaryPolicy()
-    
+
     /** This replaces the current platform primary seed (PPS) with a value from the RNG and
      *  sets platformPolicy to the default initialization value (the Empty Buffer).
-    
+
      *  @param authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1790,14 +1790,14 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // ChangePPS()
-    
+
     /** This replaces the current endorsement primary seed (EPS) with a value from the RNG and
      *  sets the Endorsement hierarchy controls to their default initialization values:
      *  ehEnable is SET, endorsementAuth and endorsementPolicy are both set to the Empty
      *  Buffer. It will flush any resident objects (transient or persistent) in the
      *  Endorsement hierarchy and not allow objects in the hierarchy associated with the
      *  previous EPS to be loaded.
-    
+
      *  @param authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -1810,9 +1810,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // ChangeEPS()
-    
+
     /** This command removes all TPM context associated with a specific Owner.
-    
+
      *  @param authHandle TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -1825,9 +1825,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // Clear()
-    
+
     /** TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
-    
+
      *  @param auth TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -1842,10 +1842,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // ClearControl()
-    
+
     /** This command allows the authorization secret for a hierarchy or lockout to be changed
      *  using the current authorization value as the command authorization.
-    
+
      *  @param authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1859,11 +1859,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // HierarchyChangeAuth()
-    
+
     /** This command cancels the effect of a TPM lockout due to a number of successive
      *  authorization failures. If this command is properly authorized, the lockout counter is
      *  set to zero.
-    
+
      *  @param lockHandle TPM_RH_LOCKOUT
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1876,9 +1876,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // DictionaryAttackLockReset()
-    
+
     /** This command changes the lockout parameters.
-    
+
      *  @param lockHandle TPM_RH_LOCKOUT
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1898,10 +1898,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // DictionaryAttackParameters()
-    
+
     /** This command is used to determine which commands require assertion of Physical
      *  Presence (PP) in addition to platformAuth/platformPolicy.
-    
+
      *  @param auth TPM_RH_PLATFORM+PP
      *         Auth Index: 1
      *         Auth Role: USER + Physical Presence
@@ -1918,10 +1918,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // PP_Commands()
-    
+
     /** This command allows the platform to change the set of algorithms that are used by the
      *  TPM. The algorithmSet setting is a vendor-dependent value.
-    
+
      *  @param authHandle TPM_RH_PLATFORM
      *         Auth Index: 1
      *         Auth Role: USER
@@ -1935,10 +1935,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // SetAlgorithmSet()
-    
+
     /** This command uses platformPolicy and a TPM Vendor Authorization Key to authorize a
      *  Field Upgrade Manifest.
-    
+
      *  @param authorization TPM_RH_PLATFORM+{PP}
      *         Auth Index:1
      *         Auth Role: ADMIN
@@ -1960,12 +1960,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // FieldUpgradeStart()
-    
+
     /** This command will take the actual field upgrade image to be installed on the TPM. The
      *  exact format of fuData is vendor-specific. This command is only possible following a
      *  successful TPM2_FieldUpgradeStart(). If the TPM has not received a properly authorized
      *  TPM2_FieldUpgradeStart(), then the TPM shall return TPM_RC_FIELDUPGRADE.
-    
+
      *  @param fuData Field upgrade image data
      *  @return nextDigest - Tagged digest of the next block
      *                       TPM_ALG_NULL if field update is complete<br>
@@ -1979,9 +1979,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.FieldUpgradeDataResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // FieldUpgradeData()
-    
+
     /** This command is used to read a copy of the current firmware installed in the TPM.
-    
+
      *  @param sequenceNumber The number of previous calls to this command in this sequence
      *         set to 0 on the first call
      *  @return fuData - Field upgrade image data
@@ -1994,10 +1994,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.FirmwareReadResponse);
         setImmediate(continuation, this.lastError, res?.fuData);  });
     } // FirmwareRead()
-    
+
     /** This command saves a session context, object context, or sequence object context
      *  outside the TPM.
-    
+
      *  @param saveHandle Handle of the resource to save
      *         Auth Index: None
      *  @return context - This structure is used in TPM2_ContextLoad() and TPM2_ContextSave().
@@ -2014,9 +2014,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ContextSaveResponse);
         setImmediate(continuation, this.lastError, res?.context);  });
     } // ContextSave()
-    
+
     /** This command is used to reload a context that has been saved by TPM2_ContextSave().
-    
+
      *  @param context The context blob
      *  @return handle - The handle assigned to the resource after it has been successfully loaded
      */
@@ -2028,10 +2028,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ContextLoadResponse);
         setImmediate(continuation, this.lastError, res?.handle);  });
     } // ContextLoad()
-    
+
     /** This command causes all context associated with a loaded object, sequence object, or
      *  session to be removed from TPM memory.
-    
+
      *  @param flushHandle The handle of the item to flush
      *         NOTE This is a use of a handle as a parameter.
      */
@@ -2043,10 +2043,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // FlushContext()
-    
+
     /** This command allows certain Transient Objects to be made persistent or a persistent
      *  object to be evicted.
-    
+
      *  @param auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -2065,10 +2065,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // EvictControl()
-    
+
     /** This command reads the current TPMS_TIME_INFO structure that contains the current
      *  setting of Time, Clock, resetCount, and restartCount.
-    
+
      *  @return currentTime - This structure is used in, e.g., the TPM2_GetTime() attestation and
      *                        TPM2_ReadClock().
      */
@@ -2079,12 +2079,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.ReadClockResponse);
         setImmediate(continuation, this.lastError, res?.currentTime);  });
     } // ReadClock()
-    
+
     /** This command is used to advance the value of the TPMs Clock. The command will fail if
      *  newTime is less than the current value of Clock or if the new time is greater than
      *  FFFF00000000000016. If both of these checks succeed, Clock is set to newTime. If
      *  either of these checks fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
-    
+
      *  @param auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -2098,10 +2098,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // ClockSet()
-    
+
     /** This command adjusts the rate of advance of Clock and Time to provide a better
      *  approximation to real time.
-    
+
      *  @param auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -2115,9 +2115,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // ClockRateAdjust()
-    
+
     /** This command returns various information regarding the TPM and its current state.
-    
+
      *  @param capability Group selection; determines the format of the response
      *  @param property Further definition of information
      *  @param propertyCount Number of properties of the indicated type to return
@@ -2132,10 +2132,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.GetCapabilityResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // GetCapability()
-    
+
     /** This command is used to check to see if specific combinations of algorithm parameters
      *  are supported.
-    
+
      *  @param parameters Algorithm parameters to be validated
      *         One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
      *         TPMS_ASYM_PARMS.
@@ -2148,11 +2148,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // TestParms()
-    
+
     /** This command defines the attributes of an NV Index and causes the TPM to reserve space
      *  to hold the data associated with the NV Index. If a definition already exists at the
      *  NV Index, the TPM will return TPM_RC_NV_DEFINED.
-    
+
      *  @param authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2167,9 +2167,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // NV_DefineSpace()
-    
+
     /** This command removes an Index from the TPM.
-    
+
      *  @param authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2184,10 +2184,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // NV_UndefineSpace()
-    
+
     /** This command allows removal of a platform-created NV Index that has
      *  TPMA_NV_POLICY_DELETE SET.
-    
+
      *  @param nvIndex Index to be deleted
      *         Auth Index: 1
      *         Auth Role: ADMIN
@@ -2203,10 +2203,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // NV_UndefineSpaceSpecial()
-    
+
     /** This command is used to read the public area and Name of an NV Index. The public area
      *  of an Index is not privacy-sensitive and no authorization is required to read this data.
-    
+
      *  @param nvIndex The NV Index
      *         Auth Index: None
      *  @return nvPublic - The public area of the NV Index<br>
@@ -2220,10 +2220,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.NV_ReadPublicResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // NV_ReadPublic()
-    
+
     /** This command writes a value to an area in NV memory that was previously defined by
      *  TPM2_NV_DefineSpace().
-    
+
      *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2240,10 +2240,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // NV_Write()
-    
+
     /** This command is used to increment the value in an NV Index that has the TPM_NT_COUNTER
      *  attribute. The data value of the NV Index is incremented by one.
-    
+
      *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2258,10 +2258,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // NV_Increment()
-    
+
     /** This command extends a value to an area in NV memory that was previously defined by
      *  TPM2_NV_DefineSpace.
-    
+
      *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2277,11 +2277,11 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // NV_Extend()
-    
+
     /** This command is used to SET bits in an NV Index that was created as a bit field. Any
      *  number of bits from 0 to 64 may be SET. The contents of bits are ORed with the current
      *  contents of the NV Index.
-    
+
      *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2297,10 +2297,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // NV_SetBits()
-    
+
     /** If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an NV location are
      *  SET, then this command may be used to inhibit further writes of the NV Index.
-    
+
      *  @param authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2315,10 +2315,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // NV_WriteLock()
-    
+
     /** The command will SET TPMA_NV_WRITELOCKED for all indexes that have their
      *  TPMA_NV_GLOBALLOCK attribute SET.
-    
+
      *  @param authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2331,9 +2331,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // NV_GlobalWriteLock()
-    
+
     /** This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().
-    
+
      *  @param authHandle The handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2352,10 +2352,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.NV_ReadResponse);
         setImmediate(continuation, this.lastError, res?.data);  });
     } // NV_Read()
-    
+
     /** If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be used to prevent
      *  further reads of the NV Index until the next TPM2_Startup (TPM_SU_CLEAR).
-    
+
      *  @param authHandle The handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2370,9 +2370,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // NV_ReadLock()
-    
+
     /** This command allows the authorization secret for an NV Index to be changed.
-    
+
      *  @param nvIndex Handle of the entity
      *         Auth Index: 1
      *         Auth Role: ADMIN
@@ -2386,10 +2386,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // NV_ChangeAuth()
-    
+
     /** The purpose of this command is to certify the contents of an NV Index or portion of an
      *  NV Index.
-    
+
      *  @param signHandle Handle of the key used to sign the attestation structure
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2418,10 +2418,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.NV_CertifyResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // NV_Certify()
-    
+
     /** The purpose of this command is to obtain information about an Attached Component
      *  referenced by an AC handle.
-    
+
      *  @param ac Handle indicating the Attached Component
      *         Auth Index: None
      *  @param capability Starting info type
@@ -2437,10 +2437,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.AC_GetCapabilityResponse);
         setImmediate(continuation, this.lastError, res);  });
     } // AC_GetCapability()
-    
+
     /** The purpose of this command is to send (copy) a loaded object from the TPM to an
      *  Attached Component.
-    
+
      *  @param sendObject Handle of the object being sent to ac
      *         Auth Index: 1
      *         Auth Role: DUP
@@ -2460,12 +2460,12 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.AC_SendResponse);
         setImmediate(continuation, this.lastError, res?.acDataOut);  });
     } // AC_Send()
-    
+
     /** This command allows qualification of the sending (copying) of an Object to an Attached
      *  Component (AC). Qualification includes selection of the receiving AC and the method of
      *  authentication for the AC, and, in certain circumstances, the Object to be sent may be
      *  specified.
-    
+
      *  @param policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param objectName The Name of the Object to be sent
@@ -2482,10 +2482,10 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // Policy_AC_SendSelect()
-    
+
     /** This command is used to set the time remaining before an Authenticated Countdown Timer
      *  (ACT) expires.
-    
+
      *  @param actHandle Handle of the selected ACT
      *         Auth Index: 1
      *         Auth Role: USER
@@ -2499,9 +2499,9 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf);
         setImmediate(continuation, this.lastError);  });
     } // ACT_SetTimeout()
-    
+
     /** This is a placeholder to allow testing of the dispatch code.
-    
+
      *  @param inputData Dummy data
      *  @return outputData - Dummy data
      */
@@ -2513,5 +2513,5 @@ export class Tpm extends TpmBase
         let res = this.processResponse(respBuf, tt.Vendor_TCG_TestResponse);
         setImmediate(continuation, this.lastError, res?.outputData);  });
     } // Vendor_TCG_Test()
-    
+
 } // class Tpm

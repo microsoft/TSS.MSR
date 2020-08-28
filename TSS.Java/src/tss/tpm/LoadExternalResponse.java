@@ -14,38 +14,38 @@ public class LoadExternalResponse extends RespStructure
 {
     /** Handle of type TPM_HT_TRANSIENT for the loaded object  */
     public TPM_HANDLE handle;
-    
+
     /** Name of the loaded object  */
     public byte[] name;
-    
+
     public LoadExternalResponse() { handle = new TPM_HANDLE(); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(name); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { name = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static LoadExternalResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(LoadExternalResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static LoadExternalResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static LoadExternalResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(LoadExternalResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

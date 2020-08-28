@@ -21,29 +21,29 @@ public class TPM2_Rewrap_REQUEST extends ReqStructure
      *  Auth Role: User
      */
     public TPM_HANDLE oldParent;
-    
+
     /** New parent of the object
      *  Auth Index: None
      */
     public TPM_HANDLE newParent;
-    
+
     /** An object encrypted using symmetric key derived from inSymSeed  */
     public TPM2B_PRIVATE inDuplicate;
-    
+
     /** The Name of the object being rewrapped  */
     public byte[] name;
-    
+
     /** The seed for the symmetric key and HMAC key
      *  needs oldParent private key to recover the seed and generate the symmetric key
      */
     public byte[] inSymSeed;
-    
+
     public TPM2_Rewrap_REQUEST()
     {
         oldParent = new TPM_HANDLE();
         newParent = new TPM_HANDLE();
     }
-    
+
     /** @param _oldParent Parent of object
      *         Auth Index: 1
      *         Auth Role: User
@@ -62,7 +62,7 @@ public class TPM2_Rewrap_REQUEST extends ReqStructure
         name = _name;
         inSymSeed = _inSymSeed;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -71,7 +71,7 @@ public class TPM2_Rewrap_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(name);
         buf.writeSizedByteBuf(inSymSeed);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -80,25 +80,25 @@ public class TPM2_Rewrap_REQUEST extends ReqStructure
         name = buf.readSizedByteBuf();
         inSymSeed = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Rewrap_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Rewrap_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Rewrap_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Rewrap_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Rewrap_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

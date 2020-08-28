@@ -15,12 +15,12 @@ public class TPM2_NV_ChangeAuth_REQUEST extends ReqStructure
      *  Auth Role: ADMIN
      */
     public TPM_HANDLE nvIndex;
-    
+
     /** New authorization value  */
     public byte[] newAuth;
-    
+
     public TPM2_NV_ChangeAuth_REQUEST() { nvIndex = new TPM_HANDLE(); }
-    
+
     /** @param _nvIndex Handle of the entity
      *         Auth Index: 1
      *         Auth Role: ADMIN
@@ -31,33 +31,33 @@ public class TPM2_NV_ChangeAuth_REQUEST extends ReqStructure
         nvIndex = _nvIndex;
         newAuth = _newAuth;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(newAuth); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { newAuth = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_NV_ChangeAuth_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_NV_ChangeAuth_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_NV_ChangeAuth_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_NV_ChangeAuth_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_NV_ChangeAuth_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -18,102 +18,102 @@ public final class TPM_HC extends TpmEnum<TPM_HC>
     public enum _N {
         /** To mask off the HR  */
         HR_HANDLE_MASK, 
-        
+
         /** To mask off the variable part  */
         HR_RANGE_MASK, 
-        
+
         HR_SHIFT, 
-        
+
         HR_PCR, 
-        
+
         HR_HMAC_SESSION, 
-        
+
         HR_POLICY_SESSION, 
-        
+
         HR_TRANSIENT, 
-        
+
         HR_PERSISTENT, 
-        
+
         HR_NV_INDEX, 
-        
+
         HR_PERMANENT, 
-        
+
         /** First PCR  */
         PCR_FIRST, 
-        
+
         /** Last PCR  */
         PCR_LAST, 
-        
+
         /** First HMAC session  */
         HMAC_SESSION_FIRST, 
-        
+
         /** Last HMAC session  */
         HMAC_SESSION_LAST, 
-        
+
         /** Used in GetCapability  */
         LOADED_SESSION_FIRST, 
-        
+
         /** Used in GetCapability  */
         LOADED_SESSION_LAST, 
-        
+
         /** First policy session  */
         POLICY_SESSION_FIRST, 
-        
+
         /** Last policy session  */
         POLICY_SESSION_LAST, 
-        
+
         /** First transient object  */
         TRANSIENT_FIRST, 
-        
+
         /** Used in GetCapability  */
         ACTIVE_SESSION_FIRST, 
-        
+
         /** Used in GetCapability  */
         ACTIVE_SESSION_LAST, 
-        
+
         /** Last transient object  */
         TRANSIENT_LAST, 
-        
+
         /** First persistent object  */
         PERSISTENT_FIRST, 
-        
+
         /** Last persistent object  */
         PERSISTENT_LAST, 
-        
+
         /** First platform persistent object  */
         PLATFORM_PERSISTENT, 
-        
+
         /** First allowed NV Index  */
         NV_INDEX_FIRST, 
-        
+
         /** Last allowed NV Index  */
         NV_INDEX_LAST, 
-        
+
         PERMANENT_FIRST, 
-        
+
         PERMANENT_LAST, 
-        
+
         /** AC aliased NV Index  */
         HR_NV_AC, 
-        
+
         /** First NV Index aliased to Attached Component  */
         NV_AC_FIRST, 
-        
+
         /** Last NV Index aliased to Attached Component  */
         NV_AC_LAST, 
-        
+
         /** AC Handle  */
         HR_AC, 
-        
+
         /** First Attached Component  */
         AC_FIRST, 
-        
+
         /** Last Attached Component  */
         AC_LAST
     }
-    
+
     private static ValueMap<TPM_HC> _ValueMap = new ValueMap<TPM_HC>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_HC
         HR_HANDLE_MASK = new TPM_HC(0x00FFFFFF, _N.HR_HANDLE_MASK),

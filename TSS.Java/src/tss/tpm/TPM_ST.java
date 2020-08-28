@@ -34,10 +34,10 @@ public final class TPM_ST extends TpmEnum<TPM_ST>
          *  return the old value instead of the new value.
          */
         RSP_COMMAND, 
-        
+
         /** No structure type specified  */
         NULL, 
-        
+
         /** Tag value for a command/response for a command defined in this specification;
          *  indicating that the command/response has no attached sessions and no
          *  authorizationSize/parameterSize value is present
@@ -45,58 +45,58 @@ public final class TPM_ST extends TpmEnum<TPM_ST>
          *  have this value.
          */
         NO_SESSIONS, 
-        
+
         /** Tag value for a command/response for a command defined in this specification;
          *  indicating that the command/response has one or more attached sessions and the
          *  authorizationSize/parameterSize field is present
          */
         SESSIONS, 
-        
+
         /** Tag for an attestation structure  */
         ATTEST_NV, 
-        
+
         /** Tag for an attestation structure  */
         ATTEST_COMMAND_AUDIT, 
-        
+
         /** Tag for an attestation structure  */
         ATTEST_SESSION_AUDIT, 
-        
+
         /** Tag for an attestation structure  */
         ATTEST_CERTIFY, 
-        
+
         /** Tag for an attestation structure  */
         ATTEST_QUOTE, 
-        
+
         /** Tag for an attestation structure  */
         ATTEST_TIME, 
-        
+
         /** Tag for an attestation structure  */
         ATTEST_CREATION, 
-        
+
         /** Tag for an attestation structure  */
         ATTEST_NV_DIGEST, 
-        
+
         /** Tag for a ticket type  */
         CREATION, 
-        
+
         /** Tag for a ticket type  */
         VERIFIED, 
-        
+
         /** Tag for a ticket type  */
         AUTH_SECRET, 
-        
+
         /** Tag for a ticket type  */
         HASHCHECK, 
-        
+
         /** Tag for a ticket type  */
         AUTH_SIGNED, 
-        
+
         /** Tag for a structure describing a Field Upgrade Policy  */
         FU_MANIFEST
     }
-    
+
     private static ValueMap<TPM_ST> _ValueMap = new ValueMap<TPM_ST>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_ST
         RSP_COMMAND = new TPM_ST(0x00C4, _N.RSP_COMMAND),

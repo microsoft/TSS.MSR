@@ -17,37 +17,37 @@ public class TPMS_CREATION_DATA extends TpmStructure
 {
     /** List indicating the PCR included in pcrDigest  */
     public TPMS_PCR_SELECTION[] pcrSelect;
-    
+
     /** Digest of the selected PCR using nameAlg of the object for which this structure is
      *  being created
      *  pcrDigest.size shall be zero if the pcrSelect list is empty.
      */
     public byte[] pcrDigest;
-    
+
     /** The locality at which the object was created  */
     public TPMA_LOCALITY locality;
-    
+
     /** NameAlg of the parent  */
     public TPM_ALG_ID parentNameAlg;
-    
+
     /** Name of the parent at time of creation
      *  The size will match digest size associated with parentNameAlg unless it is
      *  TPM_ALG_NULL, in which case the size will be 4 and parentName will be the hierarchy handle.
      */
     public byte[] parentName;
-    
+
     /** Qualified Name of the parent at the time of creation
      *  Size is the same as parentName.
      */
     public byte[] parentQualifiedName;
-    
+
     /** Association with additional information added by the key creator
      *  This will be the contents of the outsideInfo parameter in TPM2_Create() or TPM2_CreatePrimary().
      */
     public byte[] outsideInfo;
-    
+
     public TPMS_CREATION_DATA() { parentNameAlg = TPM_ALG_ID.NULL; }
-    
+
     /** @param _pcrSelect List indicating the PCR included in pcrDigest
      *  @param _pcrDigest Digest of the selected PCR using nameAlg of the object for which this
      *         structure is being created
@@ -74,7 +74,7 @@ public class TPMS_CREATION_DATA extends TpmStructure
         parentQualifiedName = _parentQualifiedName;
         outsideInfo = _outsideInfo;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -87,7 +87,7 @@ public class TPMS_CREATION_DATA extends TpmStructure
         buf.writeSizedByteBuf(parentQualifiedName);
         buf.writeSizedByteBuf(outsideInfo);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -100,25 +100,25 @@ public class TPMS_CREATION_DATA extends TpmStructure
         parentQualifiedName = buf.readSizedByteBuf();
         outsideInfo = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_CREATION_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_CREATION_DATA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_CREATION_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_CREATION_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_CREATION_DATA.class);
     }
-    
+
     @Override
     public String toString()
     {

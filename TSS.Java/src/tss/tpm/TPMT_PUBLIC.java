@@ -14,37 +14,37 @@ public class TPMT_PUBLIC extends TpmStructure
 {
     /** Algorithm associated with this object  */
     public TPM_ALG_ID type() { return parameters.GetUnionSelector(); }
-    
+
     /** Algorithm used for computing the Name of the object
      *  NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to indicate
      *  that the nameAlg may be TPM_ALG_NULL.
      */
     public TPM_ALG_ID nameAlg;
-    
+
     /** Attributes that, along with type, determine the manipulations of this object  */
     public TPMA_OBJECT objectAttributes;
-    
+
     /** Optional policy for using this key
      *  The policy is computed using the nameAlg of the object.
      *  NOTE Shall be the Empty Policy if no authorization policy is present.
      */
     public byte[] authPolicy;
-    
+
     /** The algorithm or structure details
      *  One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
      *  TPMS_ASYM_PARMS.
      */
     public TPMU_PUBLIC_PARMS parameters;
-    
+
     /** The unique identifier of the structure
      *  For an asymmetric key, this would be the public key.
      *  One of: TPM2B_DIGEST_KEYEDHASH, TPM2B_DIGEST_SYMCIPHER, TPM2B_PUBLIC_KEY_RSA,
      *  TPMS_ECC_POINT, TPMS_DERIVE.
      */
     public TPMU_PUBLIC_ID unique;
-    
+
     public TPMT_PUBLIC() { nameAlg = TPM_ALG_ID.NULL; }
-    
+
     /** @param _nameAlg Algorithm used for computing the Name of the object
      *         NOTE The "+" indicates that the instance of a TPMT_PUBLIC may have a "+" to
      *         indicate that the nameAlg may be TPM_ALG_NULL.
@@ -70,7 +70,7 @@ public class TPMT_PUBLIC extends TpmStructure
         parameters = _parameters;
         unique = _unique;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -83,7 +83,7 @@ public class TPMT_PUBLIC extends TpmStructure
         parameters.toTpm(buf);
         unique.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -97,25 +97,25 @@ public class TPMT_PUBLIC extends TpmStructure
         unique = UnionFactory.create("TPMU_PUBLIC_ID", type);
         unique.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_PUBLIC fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_PUBLIC.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_PUBLIC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_PUBLIC fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_PUBLIC.class);
     }
-    
+
     @Override
     public String toString()
     {
@@ -134,7 +134,7 @@ public class TPMT_PUBLIC extends TpmStructure
         _p.add(d, "TPMU_PUBLIC_PARMS", "parameters", parameters);
         _p.add(d, "TPMU_PUBLIC_ID", "unique", unique);
     }
-    
+
     /**
      * Validate a TPM signature.  Note that this function hashes dataThatWasSigned before
      * verifying the signature.
@@ -147,12 +147,12 @@ public class TPMT_PUBLIC extends TpmStructure
     {
         return Crypto.validateSignature(this, _dataThatWasSigned, _signature);
     }
-    
+
     public byte[] encrypt(byte[] inData, String label)
     {
         return Crypto.asymEncrypt(this, inData, label);
     }
-    
+
     /**
      * Returns the TPM name of this object.  The name is the alg-prepended hash of the public area.
      *

@@ -25,7 +25,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
          *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
          */
         phEnable,
-        
+
         /** SET (1): The Storage hierarchy is enabled and ownerAuth or ownerPolicy may be used for
          *  authorization. NV indices defined using owner authorization are accessible.
          *  CLEAR (0): ownerAuth and ownerPolicy may not be used for authorizations, and objects
@@ -34,7 +34,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
          *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
          */
         shEnable,
-        
+
         /** SET (1): The EPS hierarchy is enabled and Endorsement Authorization may be used to
          *  authorize commands.
          *  CLEAR (0): Endorsement Authorization may not be used for authorizations, and objects
@@ -42,7 +42,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
          *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
          */
         ehEnable,
-        
+
         /** SET (1): NV indices that have TPMA_NV_PLATFORMCREATE SET may be read or written. The
          *  platform can create define and undefine indices.
          *  CLEAR (0): NV indices that have TPMA_NV_PLATFORMCREATE SET may not be read or written
@@ -58,7 +58,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
          *  the TPM would leak the existence of an index even when disabled.
          */
         phEnableNV,
-        
+
         /** SET (1): The TPM received a TPM2_Shutdown() and a matching TPM2_Startup().
          *  CLEAR (0): TPM2_Startup(TPM_SU_CLEAR) was not preceded by a TPM2_Shutdown() of any type.
          *  NOTE A shutdown is orderly if the TPM receives a TPM2_Shutdown() of any type followed
@@ -67,9 +67,9 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
          */
         orderly
     }
-    
+
     private static ValueMap<TPMA_STARTUP_CLEAR> _ValueMap = new ValueMap<TPMA_STARTUP_CLEAR>();
-    
+
     /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_STARTUP_CLEAR
         phEnable = new TPMA_STARTUP_CLEAR(0x1, _N.phEnable),
@@ -77,7 +77,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
         ehEnable = new TPMA_STARTUP_CLEAR(0x4, _N.ehEnable),
         phEnableNV = new TPMA_STARTUP_CLEAR(0x8, _N.phEnableNV),
         orderly = new TPMA_STARTUP_CLEAR(0x80000000, _N.orderly);
-    
+
     public TPMA_STARTUP_CLEAR () { super(0, _ValueMap); }
     public TPMA_STARTUP_CLEAR (int value) { super(value, _ValueMap); }
     public TPMA_STARTUP_CLEAR (TPMA_STARTUP_CLEAR...attrs) { super(_ValueMap, attrs); }

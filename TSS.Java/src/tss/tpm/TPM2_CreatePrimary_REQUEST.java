@@ -20,23 +20,23 @@ public class TPM2_CreatePrimary_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE primaryHandle;
-    
+
     /** The sensitive data, see TPM 2.0 Part 1 Sensitive Values  */
     public TPMS_SENSITIVE_CREATE inSensitive;
-    
+
     /** The public template  */
     public TPMT_PUBLIC inPublic;
-    
+
     /** Data that will be included in the creation data for this object to provide permanent,
      *  verifiable linkage between this object and some object owner data
      */
     public byte[] outsideInfo;
-    
+
     /** PCR that will be used in creation data  */
     public TPMS_PCR_SELECTION[] creationPCR;
-    
+
     public TPM2_CreatePrimary_REQUEST() { primaryHandle = new TPM_HANDLE(); }
-    
+
     /** @param _primaryHandle TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
      *         Auth Index: 1
      *         Auth Role: USER
@@ -55,7 +55,7 @@ public class TPM2_CreatePrimary_REQUEST extends ReqStructure
         outsideInfo = _outsideInfo;
         creationPCR = _creationPCR;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -65,7 +65,7 @@ public class TPM2_CreatePrimary_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(outsideInfo);
         buf.writeObjArr(creationPCR);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -75,25 +75,25 @@ public class TPM2_CreatePrimary_REQUEST extends ReqStructure
         outsideInfo = buf.readSizedByteBuf();
         creationPCR = buf.readObjArr(TPMS_PCR_SELECTION.class);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_CreatePrimary_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_CreatePrimary_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_CreatePrimary_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_CreatePrimary_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_CreatePrimary_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

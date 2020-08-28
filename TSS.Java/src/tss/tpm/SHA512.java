@@ -18,13 +18,13 @@ public final class SHA512 extends TpmEnum<SHA512>
     public enum _N {
         /** Size of digest in octets  */
         DIGEST_SIZE, 
-        
+
         /** Size of hash block in octets  */
         BLOCK_SIZE
     }
-    
+
     private static ValueMap<SHA512> _ValueMap = new ValueMap<SHA512>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final SHA512
         DIGEST_SIZE = new SHA512(64, _N.DIGEST_SIZE),

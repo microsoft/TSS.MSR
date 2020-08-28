@@ -19,24 +19,24 @@ public class TPM2_PolicyAuthorizeNV_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
-    
+
     /** The NV Index of the area to read
      *  Auth Index: None
      */
     public TPM_HANDLE nvIndex;
-    
+
     /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     public TPM2_PolicyAuthorizeNV_REQUEST()
     {
         authHandle = new TPM_HANDLE();
         nvIndex = new TPM_HANDLE();
         policySession = new TPM_HANDLE();
     }
-    
+
     /** @param _authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -51,25 +51,25 @@ public class TPM2_PolicyAuthorizeNV_REQUEST extends ReqStructure
         nvIndex = _nvIndex;
         policySession = _policySession;
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyAuthorizeNV_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyAuthorizeNV_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyAuthorizeNV_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyAuthorizeNV_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyAuthorizeNV_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -18,33 +18,33 @@ public class TPM2_PCR_Reset_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE pcrHandle;
-    
+
     public TPM2_PCR_Reset_REQUEST() { pcrHandle = new TPM_HANDLE(); }
-    
+
     /** @param _pcrHandle The PCR to reset
      *         Auth Index: 1
      *         Auth Role: USER
      */
     public TPM2_PCR_Reset_REQUEST(TPM_HANDLE _pcrHandle) { pcrHandle = _pcrHandle; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PCR_Reset_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PCR_Reset_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PCR_Reset_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PCR_Reset_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PCR_Reset_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -15,15 +15,15 @@ public class TPMT_TK_AUTH extends TpmStructure
 {
     /** Ticket structure tag  */
     public TPM_ST tag;
-    
+
     /** The hierarchy of the object used to produce the ticket  */
     public TPM_HANDLE hierarchy;
-    
+
     /** This shall be the HMAC produced using a proof value of hierarchy.  */
     public byte[] digest;
-    
+
     public TPMT_TK_AUTH() { hierarchy = new TPM_HANDLE(); }
-    
+
     /** @param _tag Ticket structure tag
      *  @param _hierarchy The hierarchy of the object used to produce the ticket
      *  @param _digest This shall be the HMAC produced using a proof value of hierarchy.
@@ -34,7 +34,7 @@ public class TPMT_TK_AUTH extends TpmStructure
         hierarchy = _hierarchy;
         digest = _digest;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -43,7 +43,7 @@ public class TPMT_TK_AUTH extends TpmStructure
         hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(digest);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -52,25 +52,25 @@ public class TPMT_TK_AUTH extends TpmStructure
         hierarchy = TPM_HANDLE.fromTpm(buf);
         digest = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_TK_AUTH fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_TK_AUTH.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_TK_AUTH fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_TK_AUTH fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_TK_AUTH.class);
     }
-    
+
     @Override
     public String toString()
     {

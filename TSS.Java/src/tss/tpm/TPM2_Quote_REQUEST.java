@@ -15,25 +15,25 @@ public class TPM2_Quote_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE signHandle;
-    
+
     /** Data supplied by the caller  */
     public byte[] qualifyingData;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
      *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      */
     public TPMU_SIG_SCHEME inScheme;
-    
+
     /** PCR set to quote  */
     public TPMS_PCR_SELECTION[] PCRselect;
-    
+
     public TPM2_Quote_REQUEST() { signHandle = new TPM_HANDLE(); }
-    
+
     /** @param _signHandle Handle of key that will perform signature
      *         Auth Index: 1
      *         Auth Role: USER
@@ -51,7 +51,7 @@ public class TPM2_Quote_REQUEST extends ReqStructure
         inScheme = _inScheme;
         PCRselect = _PCRselect;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -61,7 +61,7 @@ public class TPM2_Quote_REQUEST extends ReqStructure
         inScheme.toTpm(buf);
         buf.writeObjArr(PCRselect);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -72,25 +72,25 @@ public class TPM2_Quote_REQUEST extends ReqStructure
         inScheme.initFromTpm(buf);
         PCRselect = buf.readObjArr(TPMS_PCR_SELECTION.class);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Quote_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Quote_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Quote_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Quote_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Quote_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

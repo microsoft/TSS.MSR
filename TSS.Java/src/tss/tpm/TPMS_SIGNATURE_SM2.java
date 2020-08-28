@@ -11,7 +11,7 @@ import tss.*;
 public class TPMS_SIGNATURE_SM2 extends TPMS_SIGNATURE_ECC
 {
     public TPMS_SIGNATURE_SM2() {}
-    
+
     /** @param _hash The hash algorithm used in the signature process
      *         TPM_ALG_NULL is not allowed.
      *  @param _signatureR TBD
@@ -21,28 +21,28 @@ public class TPMS_SIGNATURE_SM2 extends TPMS_SIGNATURE_ECC
     {
         super(_hash, _signatureR, _signatureS);
     }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.SM2; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SIGNATURE_SM2 fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SIGNATURE_SM2.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SIGNATURE_SM2 fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SIGNATURE_SM2 fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SIGNATURE_SM2.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -19,12 +19,12 @@ public class TPM2_ClockSet_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE auth;
-    
+
     /** New Clock setting in milliseconds  */
     public long newTime;
-    
+
     public TPM2_ClockSet_REQUEST() { auth = new TPM_HANDLE(); }
-    
+
     /** @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -35,33 +35,33 @@ public class TPM2_ClockSet_REQUEST extends ReqStructure
         auth = _auth;
         newTime = _newTime;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeInt64(newTime); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { newTime = buf.readInt64(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ClockSet_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ClockSet_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ClockSet_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ClockSet_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ClockSet_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

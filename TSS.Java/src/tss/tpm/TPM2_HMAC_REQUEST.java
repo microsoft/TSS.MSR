@@ -15,19 +15,19 @@ public class TPM2_HMAC_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE handle;
-    
+
     /** HMAC data  */
     public byte[] buffer;
-    
+
     /** Algorithm to use for HMAC  */
     public TPM_ALG_ID hashAlg;
-    
+
     public TPM2_HMAC_REQUEST()
     {
         handle = new TPM_HANDLE();
         hashAlg = TPM_ALG_ID.NULL;
     }
-    
+
     /** @param _handle Handle for the symmetric signing key providing the HMAC key
      *         Auth Index: 1
      *         Auth Role: USER
@@ -40,7 +40,7 @@ public class TPM2_HMAC_REQUEST extends ReqStructure
         buffer = _buffer;
         hashAlg = _hashAlg;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -48,7 +48,7 @@ public class TPM2_HMAC_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(buffer);
         hashAlg.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -56,25 +56,25 @@ public class TPM2_HMAC_REQUEST extends ReqStructure
         buffer = buf.readSizedByteBuf();
         hashAlg = TPM_ALG_ID.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_HMAC_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_HMAC_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_HMAC_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_HMAC_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_HMAC_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

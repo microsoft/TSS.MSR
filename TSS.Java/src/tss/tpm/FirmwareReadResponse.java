@@ -12,35 +12,35 @@ public class FirmwareReadResponse extends RespStructure
 {
     /** Field upgrade image data  */
     public byte[] fuData;
-    
+
     public FirmwareReadResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(fuData); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { fuData = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static FirmwareReadResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(FirmwareReadResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static FirmwareReadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static FirmwareReadResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(FirmwareReadResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

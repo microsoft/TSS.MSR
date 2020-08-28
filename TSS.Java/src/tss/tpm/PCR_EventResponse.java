@@ -11,35 +11,35 @@ import tss.*;
 public class PCR_EventResponse extends RespStructure
 {
     public TPMT_HA[] digests;
-    
+
     public PCR_EventResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(digests); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { digests = buf.readObjArr(TPMT_HA.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static PCR_EventResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(PCR_EventResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static PCR_EventResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static PCR_EventResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(PCR_EventResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

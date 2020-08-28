@@ -16,14 +16,14 @@ public class PolicySignedResponse extends RespStructure
      *  NOTE If policyTicket is a NULL Ticket, then this shall be the Empty Buffer.
      */
     public byte[] timeout;
-    
+
     /** Produced if the command succeeds and expiration in the command was non-zero; this
      *  ticket will use the TPMT_ST_AUTH_SIGNED structure tag. See 23.2.5
      */
     public TPMT_TK_AUTH policyTicket;
-    
+
     public PolicySignedResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -31,7 +31,7 @@ public class PolicySignedResponse extends RespStructure
         buf.writeSizedByteBuf(timeout);
         policyTicket.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -39,25 +39,25 @@ public class PolicySignedResponse extends RespStructure
         timeout = buf.readSizedByteBuf();
         policyTicket = TPMT_TK_AUTH.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static PolicySignedResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(PolicySignedResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static PolicySignedResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static PolicySignedResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(PolicySignedResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

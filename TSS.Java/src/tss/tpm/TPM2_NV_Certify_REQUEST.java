@@ -17,46 +17,46 @@ public class TPM2_NV_Certify_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE signHandle;
-    
+
     /** Handle indicating the source of the authorization value for the NV Index
      *  Auth Index: 2
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
-    
+
     /** Index for the area to be certified
      *  Auth Index: None
      */
     public TPM_HANDLE nvIndex;
-    
+
     /** User-provided qualifying data  */
     public byte[] qualifyingData;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
      *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      */
     public TPMU_SIG_SCHEME inScheme;
-    
+
     /** Number of octets to certify  */
     public int size;
-    
+
     /** Octet offset into the NV area
      *  This value shall be less than or equal to the size of the nvIndex data.
      */
     public int offset;
-    
+
     public TPM2_NV_Certify_REQUEST()
     {
         signHandle = new TPM_HANDLE();
         authHandle = new TPM_HANDLE();
         nvIndex = new TPM_HANDLE();
     }
-    
+
     /** @param _signHandle Handle of the key used to sign the attestation structure
      *         Auth Index: 1
      *         Auth Role: USER
@@ -84,7 +84,7 @@ public class TPM2_NV_Certify_REQUEST extends ReqStructure
         size = _size;
         offset = _offset;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -95,7 +95,7 @@ public class TPM2_NV_Certify_REQUEST extends ReqStructure
         buf.writeShort(size);
         buf.writeShort(offset);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -107,25 +107,25 @@ public class TPM2_NV_Certify_REQUEST extends ReqStructure
         size = buf.readShort();
         offset = buf.readShort();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_NV_Certify_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_NV_Certify_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_NV_Certify_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_NV_Certify_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_NV_Certify_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

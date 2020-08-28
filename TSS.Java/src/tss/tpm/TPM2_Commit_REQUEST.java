@@ -19,18 +19,18 @@ public class TPM2_Commit_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE signHandle;
-    
+
     /** A point (M) on the curve used by signHandle  */
     public TPMS_ECC_POINT P1;
-    
+
     /** Octet array used to derive x-coordinate of a base point  */
     public byte[] s2;
-    
+
     /** Y coordinate of the point associated with s2  */
     public byte[] y2;
-    
+
     public TPM2_Commit_REQUEST() { signHandle = new TPM_HANDLE(); }
-    
+
     /** @param _signHandle Handle of the key that will be used in the signing operation
      *         Auth Index: 1
      *         Auth Role: USER
@@ -45,7 +45,7 @@ public class TPM2_Commit_REQUEST extends ReqStructure
         s2 = _s2;
         y2 = _y2;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -54,7 +54,7 @@ public class TPM2_Commit_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(s2);
         buf.writeSizedByteBuf(y2);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -63,25 +63,25 @@ public class TPM2_Commit_REQUEST extends ReqStructure
         s2 = buf.readSizedByteBuf();
         y2 = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Commit_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Commit_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Commit_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Commit_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Commit_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

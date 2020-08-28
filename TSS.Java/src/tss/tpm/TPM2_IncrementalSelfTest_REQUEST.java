@@ -12,38 +12,38 @@ public class TPM2_IncrementalSelfTest_REQUEST extends ReqStructure
 {
     /** List of algorithms that should be tested  */
     public TPM_ALG_ID[] toTest;
-    
+
     public TPM2_IncrementalSelfTest_REQUEST() {}
-    
+
     /** @param _toTest List of algorithms that should be tested  */
     public TPM2_IncrementalSelfTest_REQUEST(TPM_ALG_ID[] _toTest) { toTest = _toTest; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(toTest); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { toTest = buf.readObjArr(TPM_ALG_ID.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_IncrementalSelfTest_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_IncrementalSelfTest_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_IncrementalSelfTest_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_IncrementalSelfTest_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_IncrementalSelfTest_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

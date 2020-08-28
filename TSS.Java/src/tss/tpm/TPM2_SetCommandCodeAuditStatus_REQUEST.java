@@ -18,22 +18,22 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE auth;
-    
+
     /** Hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed  */
     public TPM_ALG_ID auditAlg;
-    
+
     /** List of commands that will be added to those that will be audited  */
     public TPM_CC[] setList;
-    
+
     /** List of commands that will no longer be audited  */
     public TPM_CC[] clearList;
-    
+
     public TPM2_SetCommandCodeAuditStatus_REQUEST()
     {
         auth = new TPM_HANDLE();
         auditAlg = TPM_ALG_ID.NULL;
     }
-    
+
     /** @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -49,7 +49,7 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends ReqStructure
         setList = _setList;
         clearList = _clearList;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -58,7 +58,7 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends ReqStructure
         buf.writeObjArr(setList);
         buf.writeObjArr(clearList);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -67,25 +67,25 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends ReqStructure
         setList = buf.readObjArr(TPM_CC.class);
         clearList = buf.readObjArr(TPM_CC.class);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_SetCommandCodeAuditStatus_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_SetCommandCodeAuditStatus_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_SetCommandCodeAuditStatus_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

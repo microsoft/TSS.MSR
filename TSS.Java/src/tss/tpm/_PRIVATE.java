@@ -13,15 +13,15 @@ import tss.*;
 public class _PRIVATE extends TpmStructure
 {
     public byte[] integrityOuter;
-    
+
     /** Could also be a TPM2B_IV  */
     public byte[] integrityInner;
-    
+
     /** The sensitive area  */
     public TPMT_SENSITIVE sensitive;
-    
+
     public _PRIVATE() {}
-    
+
     /** @param _integrityOuter TBD
      *  @param _integrityInner Could also be a TPM2B_IV
      *  @param _sensitive The sensitive area
@@ -32,7 +32,7 @@ public class _PRIVATE extends TpmStructure
         integrityInner = _integrityInner;
         sensitive = _sensitive;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -41,7 +41,7 @@ public class _PRIVATE extends TpmStructure
         buf.writeSizedByteBuf(integrityInner);
         buf.writeSizedObj(sensitive);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -50,25 +50,25 @@ public class _PRIVATE extends TpmStructure
         integrityInner = buf.readSizedByteBuf();
         sensitive = buf.createSizedObj(TPMT_SENSITIVE.class);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static _PRIVATE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(_PRIVATE.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static _PRIVATE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static _PRIVATE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(_PRIVATE.class);
     }
-    
+
     @Override
     public String toString()
     {

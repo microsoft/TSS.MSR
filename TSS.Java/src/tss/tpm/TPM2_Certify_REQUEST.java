@@ -20,32 +20,32 @@ public class TPM2_Certify_REQUEST extends ReqStructure
      *  Auth Role: ADMIN
      */
     public TPM_HANDLE objectHandle;
-    
+
     /** Handle of the key used to sign the attestation structure
      *  Auth Index: 2
      *  Auth Role: USER
      */
     public TPM_HANDLE signHandle;
-    
+
     /** User provided qualifying data  */
     public byte[] qualifyingData;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
      *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      */
     public TPMU_SIG_SCHEME inScheme;
-    
+
     public TPM2_Certify_REQUEST()
     {
         objectHandle = new TPM_HANDLE();
         signHandle = new TPM_HANDLE();
     }
-    
+
     /** @param _objectHandle Handle of the object to be certified
      *         Auth Index: 1
      *         Auth Role: ADMIN
@@ -65,7 +65,7 @@ public class TPM2_Certify_REQUEST extends ReqStructure
         qualifyingData = _qualifyingData;
         inScheme = _inScheme;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -74,7 +74,7 @@ public class TPM2_Certify_REQUEST extends ReqStructure
         buf.writeShort(inScheme.GetUnionSelector());
         inScheme.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -84,25 +84,25 @@ public class TPM2_Certify_REQUEST extends ReqStructure
         inScheme = UnionFactory.create("TPMU_SIG_SCHEME", inSchemeScheme);
         inScheme.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Certify_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Certify_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Certify_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Certify_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Certify_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

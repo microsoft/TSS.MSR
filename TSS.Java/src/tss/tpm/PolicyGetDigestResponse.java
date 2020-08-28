@@ -14,35 +14,35 @@ public class PolicyGetDigestResponse extends RespStructure
 {
     /** The current value of the policySessionpolicyDigest  */
     public byte[] policyDigest;
-    
+
     public PolicyGetDigestResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(policyDigest); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { policyDigest = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static PolicyGetDigestResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(PolicyGetDigestResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static PolicyGetDigestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static PolicyGetDigestResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(PolicyGetDigestResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

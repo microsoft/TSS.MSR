@@ -16,23 +16,23 @@ public class TPMT_SENSITIVE extends TpmStructure
      *  This shall be the same as the type parameter of the associated public area.
      */
     public TPM_ALG_ID sensitiveType() { return sensitive.GetUnionSelector(); }
-    
+
     /** User authorization data
      *  The authValue may be a zero-length string.
      */
     public byte[] authValue;
-    
+
     /** For a parent object, the optional protection seed; for other objects, the obfuscation value  */
     public byte[] seedValue;
-    
+
     /** The type-specific private data
      *  One of: TPM2B_PRIVATE_KEY_RSA, TPM2B_ECC_PARAMETER, TPM2B_SENSITIVE_DATA,
      *  TPM2B_SYM_KEY, TPM2B_PRIVATE_VENDOR_SPECIFIC.
      */
     public TPMU_SENSITIVE_COMPOSITE sensitive;
-    
+
     public TPMT_SENSITIVE() {}
-    
+
     /** @param _authValue User authorization data
      *         The authValue may be a zero-length string.
      *  @param _seedValue For a parent object, the optional protection seed; for other objects,
@@ -47,7 +47,7 @@ public class TPMT_SENSITIVE extends TpmStructure
         seedValue = _seedValue;
         sensitive = _sensitive;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -58,7 +58,7 @@ public class TPMT_SENSITIVE extends TpmStructure
         buf.writeSizedByteBuf(seedValue);
         sensitive.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -69,25 +69,25 @@ public class TPMT_SENSITIVE extends TpmStructure
         sensitive = UnionFactory.create("TPMU_SENSITIVE_COMPOSITE", sensitiveType);
         sensitive.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_SENSITIVE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_SENSITIVE.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_SENSITIVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_SENSITIVE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_SENSITIVE.class);
     }
-    
+
     @Override
     public String toString()
     {

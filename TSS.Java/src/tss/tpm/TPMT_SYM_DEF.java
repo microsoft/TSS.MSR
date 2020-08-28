@@ -14,19 +14,19 @@ public class TPMT_SYM_DEF extends TpmStructure
 {
     /** Indicates a symmetric algorithm  */
     public TPM_ALG_ID algorithm;
-    
+
     /** A supported key size  */
     public int keyBits;
-    
+
     /** The mode for the key  */
     public TPM_ALG_ID mode;
-    
+
     public TPMT_SYM_DEF()
     {
         algorithm = TPM_ALG_ID.NULL;
         mode = TPM_ALG_ID.NULL;
     }
-    
+
     /** @param _algorithm Indicates a symmetric algorithm
      *  @param _keyBits A supported key size
      *  @param _mode The mode for the key
@@ -37,7 +37,7 @@ public class TPMT_SYM_DEF extends TpmStructure
         keyBits = _keyBits;
         mode = _mode;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -47,7 +47,7 @@ public class TPMT_SYM_DEF extends TpmStructure
         buf.writeShort(keyBits);
         mode.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -57,25 +57,25 @@ public class TPMT_SYM_DEF extends TpmStructure
         keyBits = buf.readShort();
         mode = TPM_ALG_ID.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_SYM_DEF fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_SYM_DEF.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_SYM_DEF fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_SYM_DEF fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_SYM_DEF.class);
     }
-    
+
     @Override
     public String toString()
     {
@@ -92,7 +92,7 @@ public class TPMT_SYM_DEF extends TpmStructure
         _p.add(d, "int", "keyBits", keyBits);
         _p.add(d, "TPM_ALG_ID", "mode", mode);
     }
-    
+
     /** @deprecated Use default constructor instead */
 
     @Deprecated

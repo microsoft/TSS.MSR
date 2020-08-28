@@ -19,40 +19,40 @@ public class TPM2_PolicySecret_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
-    
+
     /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     /** The policy nonce for the session
      *  This can be the Empty Buffer.
      */
     public byte[] nonceTPM;
-    
+
     /** Digest of the command parameters to which this authorization is limited
      *  This not the cpHash for this command but the cpHash for the command to which this
      *  policy session will be applied. If it is not limited, the parameter will be the Empty Buffer.
      */
     public byte[] cpHashA;
-    
+
     /** A reference to a policy relating to the authorization may be the Empty Buffer
      *  Size is limited to be no larger than the nonce size supported on the TPM.
      */
     public byte[] policyRef;
-    
+
     /** Time when authorization will expire, measured in seconds from the time that nonceTPM
      *  was generated
      *  If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
      */
     public int expiration;
-    
+
     public TPM2_PolicySecret_REQUEST()
     {
         authHandle = new TPM_HANDLE();
         policySession = new TPM_HANDLE();
     }
-    
+
     /** @param _authHandle Handle for an entity providing the authorization
      *         Auth Index: 1
      *         Auth Role: USER
@@ -80,7 +80,7 @@ public class TPM2_PolicySecret_REQUEST extends ReqStructure
         policyRef = _policyRef;
         expiration = _expiration;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -90,7 +90,7 @@ public class TPM2_PolicySecret_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(policyRef);
         buf.writeInt(expiration);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -100,25 +100,25 @@ public class TPM2_PolicySecret_REQUEST extends ReqStructure
         policyRef = buf.readSizedByteBuf();
         expiration = buf.readInt();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicySecret_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicySecret_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicySecret_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicySecret_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicySecret_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -12,12 +12,12 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
 {
     /** The hash algorithm used to digest the message  */
     public TPM_ALG_ID hashAlg;
-    
+
     /** The counter value that is used between TPM2_Commit() and the sign operation  */
     public int count;
-    
+
     public TPMS_SCHEME_ECDAA() { hashAlg = TPM_ALG_ID.NULL; }
-    
+
     /** @param _hashAlg The hash algorithm used to digest the message
      *  @param _count The counter value that is used between TPM2_Commit() and the sign operation
      */
@@ -26,10 +26,10 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
         hashAlg = _hashAlg;
         count = _count;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDAA; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -37,7 +37,7 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
         hashAlg.toTpm(buf);
         buf.writeShort(count);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -45,25 +45,25 @@ public class TPMS_SCHEME_ECDAA extends TpmStructure implements TPMU_SIG_SCHEME, 
         hashAlg = TPM_ALG_ID.fromTpm(buf);
         count = buf.readShort();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SCHEME_ECDAA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SCHEME_ECDAA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SCHEME_ECDAA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SCHEME_ECDAA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SCHEME_ECDAA.class);
     }
-    
+
     @Override
     public String toString()
     {

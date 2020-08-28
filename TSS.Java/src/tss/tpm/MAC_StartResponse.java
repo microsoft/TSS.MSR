@@ -15,27 +15,27 @@ public class MAC_StartResponse extends RespStructure
 {
     /** A handle to reference the sequence  */
     public TPM_HANDLE handle;
-    
+
     public MAC_StartResponse() { handle = new TPM_HANDLE(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static MAC_StartResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(MAC_StartResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static MAC_StartResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static MAC_StartResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(MAC_StartResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

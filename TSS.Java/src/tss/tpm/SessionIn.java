@@ -12,18 +12,18 @@ public class SessionIn extends TpmStructure
 {
     /** Session handle  */
     public TPM_HANDLE handle;
-    
+
     /** Caller nonce  */
     public byte[] nonceCaller;
-    
+
     /** Session attributes  */
     public TPMA_SESSION attributes;
-    
+
     /** AuthValue (or HMAC)  */
     public byte[] auth;
-    
+
     public SessionIn() { handle = new TPM_HANDLE(); }
-    
+
     /** @param _handle Session handle
      *  @param _nonceCaller Caller nonce
      *  @param _attributes Session attributes
@@ -36,7 +36,7 @@ public class SessionIn extends TpmStructure
         attributes = _attributes;
         auth = _auth;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -46,7 +46,7 @@ public class SessionIn extends TpmStructure
         attributes.toTpm(buf);
         buf.writeSizedByteBuf(auth);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -56,25 +56,25 @@ public class SessionIn extends TpmStructure
         attributes = TPMA_SESSION.fromTpm(buf);
         auth = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static SessionIn fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(SessionIn.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static SessionIn fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static SessionIn fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(SessionIn.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -14,12 +14,12 @@ public class TPMS_TAGGED_PROPERTY extends TpmStructure
 {
     /** A property identifier  */
     public TPM_PT property;
-    
+
     /** The value of the property  */
     public int value;
-    
+
     public TPMS_TAGGED_PROPERTY() {}
-    
+
     /** @param _property A property identifier
      *  @param _value The value of the property
      */
@@ -28,7 +28,7 @@ public class TPMS_TAGGED_PROPERTY extends TpmStructure
         property = _property;
         value = _value;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -36,7 +36,7 @@ public class TPMS_TAGGED_PROPERTY extends TpmStructure
         property.toTpm(buf);
         buf.writeInt(value);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -44,25 +44,25 @@ public class TPMS_TAGGED_PROPERTY extends TpmStructure
         property = TPM_PT.fromTpm(buf);
         value = buf.readInt();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_TAGGED_PROPERTY fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_TAGGED_PROPERTY.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_TAGGED_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_TAGGED_PROPERTY fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_TAGGED_PROPERTY.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Tpm2Lib {
-
     //-----------------------------------------------------------------------------
     //------------------------- CONSTANTS -----------------------------------------
     //-----------------------------------------------------------------------------
@@ -259,7 +258,6 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM_ECC_CURVE")]
     public enum EccCurve : ushort
     {
-
         [EnumMember]
         [SpecTypeName("TPM_ECC_NONE")]
         None = 0x0000,
@@ -2409,7 +2407,6 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM_PT")]
     public enum Pt : uint
     {
-
         /// <summary> Indicates no property type </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NONE")]
@@ -3345,7 +3342,6 @@ namespace Tpm2Lib {
     [SpecTypeName("TPM_AE")]
     public enum Ae : uint
     {
-
         /// <summary> In a command, a non-specific request for AC information; in a response,
         /// indicates that outputData is not meaningful </summary>
         [EnumMember]
@@ -4821,7 +4817,7 @@ namespace Tpm2Lib {
         {
             if (unionInterface == typeof(ICapabilitiesUnion))
             {
-                switch((Cap)selector)
+                switch ((Cap)selector)
                 {
                     case Cap.Algs: return typeof(AlgPropertyArray);
                     case Cap.Handles: return typeof(HandleArray);
@@ -4838,7 +4834,7 @@ namespace Tpm2Lib {
             }
             else if (unionInterface == typeof(IAttestUnion))
             {
-                switch((TpmSt)selector)
+                switch ((TpmSt)selector)
                 {
                     case TpmSt.AttestCertify: return typeof(CertifyInfo);
                     case TpmSt.AttestCreation: return typeof(CreationInfo);
@@ -4852,7 +4848,7 @@ namespace Tpm2Lib {
             }
             else if (unionInterface == typeof(ISymDetailsUnion))
             {
-                switch((TpmAlgId)selector)
+                switch ((TpmAlgId)selector)
                 {
                     case TpmAlgId.Tdes: return typeof(TdesSymDetails);
                     case TpmAlgId.Aes: return typeof(AesSymDetails);
@@ -4865,7 +4861,7 @@ namespace Tpm2Lib {
             }
             else if (unionInterface == typeof(ISensitiveCreateUnion))
             {
-                switch((TpmAlgId)selector)
+                switch ((TpmAlgId)selector)
                 {
                     case TpmAlgId.Any: return typeof(byte);
                     case TpmAlgId.Any2: return typeof(TpmDerive);
@@ -4873,7 +4869,7 @@ namespace Tpm2Lib {
             }
             else if (unionInterface == typeof(ISchemeKeyedhashUnion))
             {
-                switch((TpmAlgId)selector)
+                switch ((TpmAlgId)selector)
                 {
                     case TpmAlgId.Hmac: return typeof(SchemeHmac);
                     case TpmAlgId.Xor: return typeof(SchemeXor);
@@ -4882,7 +4878,7 @@ namespace Tpm2Lib {
             }
             else if (unionInterface == typeof(ISigSchemeUnion))
             {
-                switch((TpmAlgId)selector)
+                switch ((TpmAlgId)selector)
                 {
                     case TpmAlgId.Rsassa: return typeof(SigSchemeRsassa);
                     case TpmAlgId.Rsapss: return typeof(SigSchemeRsapss);
@@ -4897,7 +4893,7 @@ namespace Tpm2Lib {
             }
             else if (unionInterface == typeof(IKdfSchemeUnion))
             {
-                switch((TpmAlgId)selector)
+                switch ((TpmAlgId)selector)
                 {
                     case TpmAlgId.Mgf1: return typeof(KdfSchemeMgf1);
                     case TpmAlgId.Kdf1Sp80056a: return typeof(KdfSchemeKdf1Sp80056a);
@@ -4909,7 +4905,7 @@ namespace Tpm2Lib {
             }
             else if (unionInterface == typeof(IAsymSchemeUnion))
             {
-                switch((TpmAlgId)selector)
+                switch ((TpmAlgId)selector)
                 {
                     case TpmAlgId.Ecdh: return typeof(KeySchemeEcdh);
                     case TpmAlgId.Ecmqv: return typeof(KeySchemeEcmqv);
@@ -4927,7 +4923,7 @@ namespace Tpm2Lib {
             }
             else if (unionInterface == typeof(ISignatureUnion))
             {
-                switch((TpmAlgId)selector)
+                switch ((TpmAlgId)selector)
                 {
                     case TpmAlgId.Rsassa: return typeof(SignatureRsassa);
                     case TpmAlgId.Rsapss: return typeof(SignatureRsapss);
@@ -4942,7 +4938,7 @@ namespace Tpm2Lib {
             }
             else if (unionInterface == typeof(IPublicIdUnion))
             {
-                switch((TpmAlgId)selector)
+                switch ((TpmAlgId)selector)
                 {
                     case TpmAlgId.Keyedhash: return typeof(Tpm2bDigestKeyedhash);
                     case TpmAlgId.Symcipher: return typeof(Tpm2bDigestSymcipher);
@@ -4953,7 +4949,7 @@ namespace Tpm2Lib {
             }
             else if (unionInterface == typeof(IPublicParmsUnion))
             {
-                switch((TpmAlgId)selector)
+                switch ((TpmAlgId)selector)
                 {
                     case TpmAlgId.Keyedhash: return typeof(KeyedhashParms);
                     case TpmAlgId.Symcipher: return typeof(SymcipherParms);
@@ -4964,7 +4960,7 @@ namespace Tpm2Lib {
             }
             else if (unionInterface == typeof(ISensitiveCompositeUnion))
             {
-                switch((TpmAlgId)selector)
+                switch ((TpmAlgId)selector)
                 {
                     case TpmAlgId.Rsa: return typeof(Tpm2bPrivateKeyRsa);
                     case TpmAlgId.Ecc: return typeof(Tpm2bEccParameter);
@@ -4979,7 +4975,6 @@ namespace Tpm2Lib {
             }
             throw new Exception("Unknown selector value" + selector + " for " + unionInterface.Name +  " union");
         }
-
     }
 
     //-----------------------------------------------------------------------------
@@ -7028,7 +7023,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmAlgId Mode { get; set; }
 
-        public SymDef(){
+        public SymDef()
+        {
             Algorithm = TpmAlgId.Null;
             Mode = TpmAlgId.Null;
         }
@@ -7081,7 +7077,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmAlgId Mode { get; set; }
 
-        public SymDefObject(){
+        public SymDefObject()
+        {
             Algorithm = TpmAlgId.Null;
             Mode = TpmAlgId.Null;
         }
@@ -7445,7 +7442,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmAlgId kdf { get; set; }
 
-        public SchemeXor(){
+        public SchemeXor()
+        {
             hashAlg = TpmAlgId.Null;
             kdf = TpmAlgId.Null;
         }
@@ -9606,7 +9604,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ushort dataSize { get; set; }
 
-        public NvPublic(){
+        public NvPublic()
+        {
             nvIndex = new TpmHandle();
             nameAlg = TpmAlgId.Null;
         }
@@ -9783,7 +9782,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ContextData contextBlob { get; set; }
 
-        public Context(){
+        public Context()
+        {
             savedHandle = new TpmHandle();
             hierarchy = new TpmHandle();
         }
@@ -10206,7 +10206,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmAlgId authHash { get; set; }
 
-        public Tpm2StartAuthSessionRequest(){
+        public Tpm2StartAuthSessionRequest()
+        {
             tpmKey = new TpmHandle();
             bind = new TpmHandle();
             authHash = TpmAlgId.Null;
@@ -10665,7 +10666,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] secret;
 
-        public Tpm2ActivateCredentialRequest(){
+        public Tpm2ActivateCredentialRequest()
+        {
             activateHandle = new TpmHandle();
             keyHandle = new TpmHandle();
         }
@@ -10858,7 +10860,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] newAuth;
 
-        public Tpm2ObjectChangeAuthRequest(){
+        public Tpm2ObjectChangeAuthRequest()
+        {
             objectHandle = new TpmHandle();
             parentHandle = new TpmHandle();
         }
@@ -11036,7 +11039,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public SymDefObject symmetricAlg { get; set; }
 
-        public Tpm2DuplicateRequest(){
+        public Tpm2DuplicateRequest()
+        {
             objectHandle = new TpmHandle();
             newParentHandle = new TpmHandle();
         }
@@ -11148,7 +11152,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] inSymSeed;
 
-        public Tpm2RewrapRequest(){
+        public Tpm2RewrapRequest()
+        {
             oldParent = new TpmHandle();
             newParent = new TpmHandle();
         }
@@ -11737,7 +11742,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ushort counter { get; set; }
 
-        public Tpm2ZGen2PhaseRequest(){
+        public Tpm2ZGen2PhaseRequest()
+        {
             keyA = new TpmHandle();
             inScheme = TpmAlgId.Null;
         }
@@ -12019,7 +12025,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] inData;
 
-        public Tpm2EncryptDecryptRequest(){
+        public Tpm2EncryptDecryptRequest()
+        {
             keyHandle = new TpmHandle();
             mode = TpmAlgId.Null;
         }
@@ -12113,7 +12120,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] ivIn;
 
-        public Tpm2EncryptDecrypt2Request(){
+        public Tpm2EncryptDecrypt2Request()
+        {
             keyHandle = new TpmHandle();
             mode = TpmAlgId.Null;
         }
@@ -12193,7 +12201,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle hierarchy { get; set; }
 
-        public Tpm2HashRequest(){
+        public Tpm2HashRequest()
+        {
             hashAlg = TpmAlgId.Null;
             hierarchy = new TpmHandle();
         }
@@ -12270,7 +12279,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmAlgId hashAlg { get; set; }
 
-        public Tpm2HmacRequest(){
+        public Tpm2HmacRequest()
+        {
             handle = new TpmHandle();
             hashAlg = TpmAlgId.Null;
         }
@@ -12337,7 +12347,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmAlgId inScheme { get; set; }
 
-        public Tpm2MacRequest(){
+        public Tpm2MacRequest()
+        {
             handle = new TpmHandle();
             inScheme = TpmAlgId.Null;
         }
@@ -12466,7 +12477,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmAlgId hashAlg { get; set; }
 
-        public Tpm2HmacStartRequest(){
+        public Tpm2HmacStartRequest()
+        {
             handle = new TpmHandle();
             hashAlg = TpmAlgId.Null;
         }
@@ -12536,7 +12548,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmAlgId inScheme { get; set; }
 
-        public Tpm2MacStartRequest(){
+        public Tpm2MacStartRequest()
+        {
             handle = new TpmHandle();
             inScheme = TpmAlgId.Null;
         }
@@ -12699,7 +12712,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle hierarchy { get; set; }
 
-        public Tpm2SequenceCompleteRequest(){
+        public Tpm2SequenceCompleteRequest()
+        {
             sequenceHandle = new TpmHandle();
             hierarchy = new TpmHandle();
         }
@@ -12783,7 +12797,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] buffer;
 
-        public Tpm2EventSequenceCompleteRequest(){
+        public Tpm2EventSequenceCompleteRequest()
+        {
             pcrHandle = new TpmHandle();
             sequenceHandle = new TpmHandle();
         }
@@ -12883,7 +12898,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
 
-        public Tpm2CertifyRequest(){
+        public Tpm2CertifyRequest()
+        {
             objectHandle = new TpmHandle();
             signHandle = new TpmHandle();
         }
@@ -13024,7 +13040,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TkCreation creationTicket { get; set; }
 
-        public Tpm2CertifyCreationRequest(){
+        public Tpm2CertifyCreationRequest()
+        {
             signHandle = new TpmHandle();
             objectHandle = new TpmHandle();
         }
@@ -13276,7 +13293,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
 
-        public Tpm2GetSessionAuditDigestRequest(){
+        public Tpm2GetSessionAuditDigestRequest()
+        {
             privacyAdminHandle = new TpmHandle();
             signHandle = new TpmHandle();
             sessionHandle = new TpmHandle();
@@ -13405,7 +13423,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
 
-        public Tpm2GetCommandAuditDigestRequest(){
+        public Tpm2GetCommandAuditDigestRequest()
+        {
             privacyHandle = new TpmHandle();
             signHandle = new TpmHandle();
         }
@@ -13530,7 +13549,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ISigSchemeUnion inScheme { get; set; }
 
-        public Tpm2GetTimeRequest(){
+        public Tpm2GetTimeRequest()
+        {
             privacyAdminHandle = new TpmHandle();
             signHandle = new TpmHandle();
         }
@@ -13664,7 +13684,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] partialCertificate;
 
-        public Tpm2CertifyX509Request(){
+        public Tpm2CertifyX509Request()
+        {
             objectHandle = new TpmHandle();
             signHandle = new TpmHandle();
         }
@@ -14129,7 +14150,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmCc[] clearList;
 
-        public Tpm2SetCommandCodeAuditStatusRequest(){
+        public Tpm2SetCommandCodeAuditStatusRequest()
+        {
             auth = new TpmHandle();
             auditAlg = TpmAlgId.Null;
         }
@@ -14408,7 +14430,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle pcrNum { get; set; }
 
-        public Tpm2PcrSetAuthPolicyRequest(){
+        public Tpm2PcrSetAuthPolicyRequest()
+        {
             authHandle = new TpmHandle();
             hashAlg = TpmAlgId.Null;
             pcrNum = new TpmHandle();
@@ -14566,7 +14589,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ISignatureUnion auth { get; set; }
 
-        public Tpm2PolicySignedRequest(){
+        public Tpm2PolicySignedRequest()
+        {
             authObject = new TpmHandle();
             policySession = new TpmHandle();
         }
@@ -14690,7 +14714,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public int expiration { get; set; }
 
-        public Tpm2PolicySecretRequest(){
+        public Tpm2PolicySecretRequest()
+        {
             authHandle = new TpmHandle();
             policySession = new TpmHandle();
         }
@@ -14994,7 +15019,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public Eo operation { get; set; }
 
-        public Tpm2PolicyNVRequest(){
+        public Tpm2PolicyNVRequest()
+        {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
             policySession = new TpmHandle();
@@ -15507,7 +15533,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle policySession { get; set; }
 
-        public Tpm2PolicyAuthorizeNVRequest(){
+        public Tpm2PolicyAuthorizeNVRequest()
+        {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
             policySession = new TpmHandle();
@@ -15685,7 +15712,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte state { get; set; }
 
-        public Tpm2HierarchyControlRequest(){
+        public Tpm2HierarchyControlRequest()
+        {
             authHandle = new TpmHandle();
             enable = new TpmHandle();
         }
@@ -15738,7 +15766,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmAlgId hashAlg { get; set; }
 
-        public Tpm2SetPrimaryPolicyRequest(){
+        public Tpm2SetPrimaryPolicyRequest()
+        {
             authHandle = new TpmHandle();
             hashAlg = TpmAlgId.Null;
         }
@@ -16134,7 +16163,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ISignatureUnion manifestSignature { get; set; }
 
-        public Tpm2FieldUpgradeStartRequest(){
+        public Tpm2FieldUpgradeStartRequest()
+        {
             authorization = new TpmHandle();
             keyHandle = new TpmHandle();
         }
@@ -16404,7 +16434,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle persistentHandle { get; set; }
 
-        public Tpm2EvictControlRequest(){
+        public Tpm2EvictControlRequest()
+        {
             auth = new TpmHandle();
             objectHandle = new TpmHandle();
             persistentHandle = new TpmHandle();
@@ -16727,7 +16758,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        public Tpm2NvUndefineSpaceRequest(){
+        public Tpm2NvUndefineSpaceRequest()
+        {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
         }
@@ -16769,7 +16801,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle platform { get; set; }
 
-        public Tpm2NvUndefineSpaceSpecialRequest(){
+        public Tpm2NvUndefineSpaceSpecialRequest()
+        {
             nvIndex = new TpmHandle();
             platform = new TpmHandle();
         }
@@ -16877,7 +16910,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ushort offset { get; set; }
 
-        public Tpm2NvWriteRequest(){
+        public Tpm2NvWriteRequest()
+        {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
         }
@@ -16922,7 +16956,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        public Tpm2NvIncrementRequest(){
+        public Tpm2NvIncrementRequest()
+        {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
         }
@@ -16968,7 +17003,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] data;
 
-        public Tpm2NvExtendRequest(){
+        public Tpm2NvExtendRequest()
+        {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
         }
@@ -17017,7 +17053,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ulong bits { get; set; }
 
-        public Tpm2NvSetBitsRequest(){
+        public Tpm2NvSetBitsRequest()
+        {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
         }
@@ -17061,7 +17098,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        public Tpm2NvWriteLockRequest(){
+        public Tpm2NvWriteLockRequest()
+        {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
         }
@@ -17139,7 +17177,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ushort offset { get; set; }
 
-        public Tpm2NvReadRequest(){
+        public Tpm2NvReadRequest()
+        {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
         }
@@ -17205,7 +17244,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public TpmHandle nvIndex { get; set; }
 
-        public Tpm2NvReadLockRequest(){
+        public Tpm2NvReadLockRequest()
+        {
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
         }
@@ -17327,7 +17367,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public ushort offset { get; set; }
 
-        public Tpm2NvCertifyRequest(){
+        public Tpm2NvCertifyRequest()
+        {
             signHandle = new TpmHandle();
             authHandle = new TpmHandle();
             nvIndex = new TpmHandle();
@@ -17517,7 +17558,8 @@ namespace Tpm2Lib {
         [DataMember()]
         public byte[] acDataIn;
 
-        public Tpm2AcSendRequest(){
+        public Tpm2AcSendRequest()
+        {
             sendObject = new TpmHandle();
             authHandle = new TpmHandle();
             ac = new TpmHandle();
@@ -20831,8 +20873,10 @@ namespace Tpm2Lib {
     //-----------------------------------------------------------------------------
     //------------------------- COMMAND INFO -----------------------------------
     //-----------------------------------------------------------------------------
-    public static class CommandInformation {
-        public static CommandInfo[] Info = new CommandInfo[]{
+    public static class CommandInformation
+    {
+        public static CommandInfo[] Info = new CommandInfo[]
+        {
             new CommandInfo(TpmCc.Startup, 0, 0, 0, typeof(Tpm2StartupRequest), typeof(EmptyResponse), 0, ""),
             new CommandInfo(TpmCc.Shutdown, 0, 0, 0, typeof(Tpm2ShutdownRequest), typeof(EmptyResponse), 0, ""),
             new CommandInfo(TpmCc.SelfTest, 0, 0, 0, typeof(Tpm2SelfTestRequest), typeof(EmptyResponse), 0, ""),
@@ -20954,8 +20998,8 @@ namespace Tpm2Lib {
             new CommandInfo(TpmCc.AcSend, 3, 0, 2, typeof(Tpm2AcSendRequest), typeof(Tpm2AcSendResponse), 1, "TPMI_DH_OBJECT TPMI_RH_NV_AUTH TPMI_RH_AC"),
             new CommandInfo(TpmCc.PolicyAcSendSelect, 1, 0, 0, typeof(Tpm2PolicyAcSendSelectRequest), typeof(EmptyResponse), 1, "TPMI_SH_POLICY"),
             new CommandInfo(TpmCc.ActSetTimeout, 1, 0, 1, typeof(Tpm2ActSetTimeoutRequest), typeof(EmptyResponse), 0, "TPMI_RH_ACT"),
-            new CommandInfo(TpmCc.VendorTcgTest, 0, 0, 0, typeof(Tpm2VendorTcgTestRequest), typeof(Tpm2VendorTcgTestResponse), 5, "")
-        };
+            new CommandInfo(TpmCc.VendorTcgTest, 0, 0, 0, typeof(Tpm2VendorTcgTestRequest), typeof(Tpm2VendorTcgTestResponse), 5, "")};
+
     }
 
 }

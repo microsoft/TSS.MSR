@@ -16,18 +16,18 @@ public class TPM2_PolicyCounterTimer_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     /** The second operand  */
     public byte[] operandB;
-    
+
     /** The octet offset in the TPMS_TIME_INFO structure for the start of operand A  */
     public int offset;
-    
+
     /** The comparison to make  */
     public TPM_EO operation;
-    
+
     public TPM2_PolicyCounterTimer_REQUEST() { policySession = new TPM_HANDLE(); }
-    
+
     /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param _operandB The second operand
@@ -42,7 +42,7 @@ public class TPM2_PolicyCounterTimer_REQUEST extends ReqStructure
         offset = _offset;
         operation = _operation;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -51,7 +51,7 @@ public class TPM2_PolicyCounterTimer_REQUEST extends ReqStructure
         buf.writeShort(offset);
         operation.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -60,25 +60,25 @@ public class TPM2_PolicyCounterTimer_REQUEST extends ReqStructure
         offset = buf.readShort();
         operation = TPM_EO.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyCounterTimer_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyCounterTimer_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyCounterTimer_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyCounterTimer_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyCounterTimer_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

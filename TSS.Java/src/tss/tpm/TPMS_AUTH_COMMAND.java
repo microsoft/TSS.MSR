@@ -12,18 +12,18 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
 {
     /** The session handle  */
     public TPM_HANDLE sessionHandle;
-    
+
     /** The session nonce, may be the Empty Buffer  */
     public byte[] nonce;
-    
+
     /** The session attributes  */
     public TPMA_SESSION sessionAttributes;
-    
+
     /** Either an HMAC, a password, or an EmptyAuth  */
     public byte[] hmac;
-    
+
     public TPMS_AUTH_COMMAND() { sessionHandle = new TPM_HANDLE(); }
-    
+
     /** @param _sessionHandle The session handle
      *  @param _nonce The session nonce, may be the Empty Buffer
      *  @param _sessionAttributes The session attributes
@@ -36,7 +36,7 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
         sessionAttributes = _sessionAttributes;
         hmac = _hmac;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -46,7 +46,7 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
         sessionAttributes.toTpm(buf);
         buf.writeSizedByteBuf(hmac);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -56,25 +56,25 @@ public class TPMS_AUTH_COMMAND extends TpmStructure
         sessionAttributes = TPMA_SESSION.fromTpm(buf);
         hmac = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_AUTH_COMMAND fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_AUTH_COMMAND.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_AUTH_COMMAND fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_AUTH_COMMAND fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_AUTH_COMMAND.class);
     }
-    
+
     @Override
     public String toString()
     {

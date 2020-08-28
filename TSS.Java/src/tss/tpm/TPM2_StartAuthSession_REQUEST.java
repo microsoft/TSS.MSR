@@ -18,43 +18,43 @@ public class TPM2_StartAuthSession_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE tpmKey;
-    
+
     /** Entity providing the authValue
      *  may be TPM_RH_NULL
      *  Auth Index: None
      */
     public TPM_HANDLE bind;
-    
+
     /** Initial nonceCaller, sets nonceTPM size for the session
      *  shall be at least 16 octets
      */
     public byte[] nonceCaller;
-    
+
     /** Value encrypted according to the type of tpmKey
      *  If tpmKey is TPM_RH_NULL, this shall be the Empty Buffer.
      */
     public byte[] encryptedSalt;
-    
+
     /** Indicates the type of the session; simple HMAC or policy (including a trial policy)  */
     public TPM_SE sessionType;
-    
+
     /** The algorithm and key size for parameter encryption
      *  may select TPM_ALG_NULL
      */
     public TPMT_SYM_DEF symmetric;
-    
+
     /** Hash algorithm to use for the session
      *  Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL
      */
     public TPM_ALG_ID authHash;
-    
+
     public TPM2_StartAuthSession_REQUEST()
     {
         tpmKey = new TPM_HANDLE();
         bind = new TPM_HANDLE();
         authHash = TPM_ALG_ID.NULL;
     }
-    
+
     /** @param _tpmKey Handle of a loaded decrypt key used to encrypt salt
      *         may be TPM_RH_NULL
      *         Auth Index: None
@@ -83,7 +83,7 @@ public class TPM2_StartAuthSession_REQUEST extends ReqStructure
         symmetric = _symmetric;
         authHash = _authHash;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -94,7 +94,7 @@ public class TPM2_StartAuthSession_REQUEST extends ReqStructure
         symmetric.toTpm(buf);
         authHash.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -105,25 +105,25 @@ public class TPM2_StartAuthSession_REQUEST extends ReqStructure
         symmetric = TPMT_SYM_DEF.fromTpm(buf);
         authHash = TPM_ALG_ID.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_StartAuthSession_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_StartAuthSession_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_StartAuthSession_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_StartAuthSession_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_StartAuthSession_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

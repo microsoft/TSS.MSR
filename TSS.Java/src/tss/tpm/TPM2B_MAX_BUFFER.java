@@ -14,38 +14,38 @@ public class TPM2B_MAX_BUFFER extends TpmStructure
 {
     /** The operand  */
     public byte[] buffer;
-    
+
     public TPM2B_MAX_BUFFER() {}
-    
+
     /** @param _buffer The operand  */
     public TPM2B_MAX_BUFFER(byte[] _buffer) { buffer = _buffer; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_MAX_BUFFER fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_MAX_BUFFER.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_MAX_BUFFER fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_MAX_BUFFER fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_MAX_BUFFER.class);
     }
-    
+
     @Override
     public String toString()
     {

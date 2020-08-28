@@ -12,12 +12,12 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
 {
     /** X coordinate  */
     public byte[] x;
-    
+
     /** Y coordinate  */
     public byte[] y;
-    
+
     public TPMS_ECC_POINT() {}
-    
+
     /** @param _x X coordinate
      *  @param _y Y coordinate
      */
@@ -26,10 +26,10 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         x = _x;
         y = _y;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -37,7 +37,7 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         buf.writeSizedByteBuf(x);
         buf.writeSizedByteBuf(y);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -45,25 +45,25 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         x = buf.readSizedByteBuf();
         y = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ECC_POINT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ECC_POINT.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ECC_POINT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ECC_POINT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ECC_POINT.class);
     }
-    
+
     @Override
     public String toString()
     {

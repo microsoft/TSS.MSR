@@ -17,28 +17,28 @@ public class TPM2_AC_Send_REQUEST extends ReqStructure
      *  Auth Role: DUP
      */
     public TPM_HANDLE sendObject;
-    
+
     /** The handle indicating the source of the authorization value
      *  Auth Index: 2
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
-    
+
     /** Handle indicating the Attached Component to which the object will be sent
      *  Auth Index: None
      */
     public TPM_HANDLE ac;
-    
+
     /** Optional non sensitive information related to the object  */
     public byte[] acDataIn;
-    
+
     public TPM2_AC_Send_REQUEST()
     {
         sendObject = new TPM_HANDLE();
         authHandle = new TPM_HANDLE();
         ac = new TPM_HANDLE();
     }
-    
+
     /** @param _sendObject Handle of the object being sent to ac
      *         Auth Index: 1
      *         Auth Role: DUP
@@ -56,33 +56,33 @@ public class TPM2_AC_Send_REQUEST extends ReqStructure
         ac = _ac;
         acDataIn = _acDataIn;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(acDataIn); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { acDataIn = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_AC_Send_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_AC_Send_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_AC_Send_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_AC_Send_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_AC_Send_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

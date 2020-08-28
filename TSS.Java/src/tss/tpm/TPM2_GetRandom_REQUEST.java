@@ -12,38 +12,38 @@ public class TPM2_GetRandom_REQUEST extends ReqStructure
 {
     /** Number of octets to return  */
     public int bytesRequested;
-    
+
     public TPM2_GetRandom_REQUEST() {}
-    
+
     /** @param _bytesRequested Number of octets to return  */
     public TPM2_GetRandom_REQUEST(int _bytesRequested) { bytesRequested = _bytesRequested; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeShort(bytesRequested); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { bytesRequested = buf.readShort(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_GetRandom_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_GetRandom_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_GetRandom_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_GetRandom_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_GetRandom_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

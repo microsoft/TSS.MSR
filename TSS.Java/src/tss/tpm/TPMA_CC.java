@@ -21,52 +21,52 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
     public enum _N {
         /** Indicates the command being selected  */
         commandIndex_BIT_MASK,
-        
+
         commandIndex_BIT_OFFSET,
-        
+
         commandIndex_BIT_LENGTH,
-        
+
         /** SET (1): indicates that the command may write to NV
          *  CLEAR (0): indicates that the command does not write to NV
          */
         nv,
-        
+
         /** SET (1): This command could flush any number of loaded contexts.
          *  CLEAR (0): no additional changes other than indicated by the flushed attribute
          */
         extensive,
-        
+
         /** SET (1): The context associated with any transient handle in the command will be
          *  flushed when this command completes.
          *  CLEAR (0): No context is flushed as a side effect of this command.
          */
         flushed,
-        
+
         /** Indicates the number of the handles in the handle area for this command  */
         cHandles_BIT_MASK,
-        
+
         cHandles_BIT_OFFSET,
-        
+
         cHandles_BIT_LENGTH,
-        
+
         /** SET (1): indicates the presence of the handle area in the response  */
         rHandle,
-        
+
         /** SET (1): indicates that the command is vendor-specific
          *  CLEAR (0): indicates that the command is defined in a version of this specification
          */
         V,
-        
+
         /** Allocated for software; shall be zero  */
         Res_BIT_MASK,
-        
+
         Res_BIT_OFFSET,
-        
+
         Res_BIT_LENGTH
     }
-    
+
     private static ValueMap<TPMA_CC> _ValueMap = new ValueMap<TPMA_CC>();
-    
+
     /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_CC
         commandIndex_BIT_MASK = new TPMA_CC(0xFFFF, _N.commandIndex_BIT_MASK),
@@ -83,7 +83,7 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
         Res_BIT_MASK = new TPMA_CC(0xC0000000, _N.Res_BIT_MASK),
         Res_BIT_OFFSET = new TPMA_CC(30, _N.Res_BIT_OFFSET),
         Res_BIT_LENGTH = new TPMA_CC(2, _N.Res_BIT_LENGTH);
-    
+
     public TPMA_CC () { super(0, _ValueMap); }
     public TPMA_CC (int value) { super(value, _ValueMap); }
     public TPMA_CC (TPMA_CC...attrs) { super(_ValueMap, attrs); }

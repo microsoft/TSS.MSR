@@ -16,14 +16,14 @@ public class TPM2_HashSequenceStart_REQUEST extends ReqStructure
 {
     /** Authorization value for subsequent use of the sequence  */
     public byte[] auth;
-    
+
     /** The hash algorithm to use for the hash sequence
      *  An Event Sequence starts if this is TPM_ALG_NULL.
      */
     public TPM_ALG_ID hashAlg;
-    
+
     public TPM2_HashSequenceStart_REQUEST() { hashAlg = TPM_ALG_ID.NULL; }
-    
+
     /** @param _auth Authorization value for subsequent use of the sequence
      *  @param _hashAlg The hash algorithm to use for the hash sequence
      *         An Event Sequence starts if this is TPM_ALG_NULL.
@@ -33,7 +33,7 @@ public class TPM2_HashSequenceStart_REQUEST extends ReqStructure
         auth = _auth;
         hashAlg = _hashAlg;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -41,7 +41,7 @@ public class TPM2_HashSequenceStart_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(auth);
         hashAlg.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -49,25 +49,25 @@ public class TPM2_HashSequenceStart_REQUEST extends ReqStructure
         auth = buf.readSizedByteBuf();
         hashAlg = TPM_ALG_ID.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_HashSequenceStart_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_HashSequenceStart_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_HashSequenceStart_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_HashSequenceStart_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_HashSequenceStart_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

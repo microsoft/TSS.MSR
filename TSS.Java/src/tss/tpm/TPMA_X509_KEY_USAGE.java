@@ -23,37 +23,37 @@ public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
     public enum _N {
         /** Attributes.Decrypt SET  */
         decipherOnly,
-        
+
         /** Attributes.Decrypt SET  */
         encipherOnly,
-        
+
         /** Attributes.sign SET  */
         cRLSign,
-        
+
         /** Attributes.sign SET  */
         keyCertSign,
-        
+
         /** Attributes.Decrypt SET  */
         keyAgreement,
-        
+
         /** Attributes.Decrypt SET  */
         dataEncipherment,
-        
+
         /** Asymmetric key with decrypt and restricted SET key has the attributes of a parent key  */
         keyEncipherment,
-        
+
         /** FixedTPM SET in Subject Key (objectHandle)  */
         nonrepudiation,
-        
+
         /** Alias to the nonrepudiation value.  */
         contentCommitment,
-        
+
         /** Sign SET in Subject Key (objectHandle)  */
         digitalSignature
     }
-    
+
     private static ValueMap<TPMA_X509_KEY_USAGE> _ValueMap = new ValueMap<TPMA_X509_KEY_USAGE>();
-    
+
     /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_X509_KEY_USAGE
         decipherOnly = new TPMA_X509_KEY_USAGE(0x800000, _N.decipherOnly),
@@ -66,7 +66,7 @@ public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
         nonrepudiation = new TPMA_X509_KEY_USAGE(0x40000000, _N.nonrepudiation),
         contentCommitment = new TPMA_X509_KEY_USAGE(0x40000000, _N.contentCommitment),
         digitalSignature = new TPMA_X509_KEY_USAGE(0x80000000, _N.digitalSignature);
-    
+
     public TPMA_X509_KEY_USAGE () { super(0, _ValueMap); }
     public TPMA_X509_KEY_USAGE (int value) { super(value, _ValueMap); }
     public TPMA_X509_KEY_USAGE (TPMA_X509_KEY_USAGE...attrs) { super(_ValueMap, attrs); }

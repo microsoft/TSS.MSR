@@ -20,25 +20,25 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
      */
     public enum _N {
         LOC_ZERO,
-        
+
         LOC_ONE,
-        
+
         LOC_TWO,
-        
+
         LOC_THREE,
-        
+
         LOC_FOUR,
-        
+
         /** If any of these bits is set, an extended locality is indicated  */
         Extended_BIT_MASK,
-        
+
         Extended_BIT_OFFSET,
-        
+
         Extended_BIT_LENGTH
     }
-    
+
     private static ValueMap<TPMA_LOCALITY> _ValueMap = new ValueMap<TPMA_LOCALITY>();
-    
+
     /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_LOCALITY
         LOC_ZERO = new TPMA_LOCALITY(0x1, _N.LOC_ZERO),
@@ -49,7 +49,7 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
         Extended_BIT_MASK = new TPMA_LOCALITY(0xE0, _N.Extended_BIT_MASK),
         Extended_BIT_OFFSET = new TPMA_LOCALITY(5, _N.Extended_BIT_OFFSET),
         Extended_BIT_LENGTH = new TPMA_LOCALITY(3, _N.Extended_BIT_LENGTH);
-    
+
     public TPMA_LOCALITY () { super(0, _ValueMap); }
     public TPMA_LOCALITY (int value) { super(value, _ValueMap); }
     public TPMA_LOCALITY (TPMA_LOCALITY...attrs) { super(_ValueMap, attrs); }

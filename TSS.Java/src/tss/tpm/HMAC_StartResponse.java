@@ -15,27 +15,27 @@ public class HMAC_StartResponse extends RespStructure
 {
     /** A handle to reference the sequence  */
     public TPM_HANDLE handle;
-    
+
     public HMAC_StartResponse() { handle = new TPM_HANDLE(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static HMAC_StartResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(HMAC_StartResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static HMAC_StartResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static HMAC_StartResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(HMAC_StartResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

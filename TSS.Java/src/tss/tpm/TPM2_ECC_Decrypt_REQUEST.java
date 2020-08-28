@@ -15,27 +15,27 @@ public class TPM2_ECC_Decrypt_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE keyHandle;
-    
+
     /** The public ephemeral key used for ECDH  */
     public TPMS_ECC_POINT C1;
-    
+
     /** The data block produced by the XOR process  */
     public byte[] C2;
-    
+
     /** The integrity value  */
     public byte[] C3;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
      *  One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
      *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
      */
     public TPMU_KDF_SCHEME inScheme;
-    
+
     public TPM2_ECC_Decrypt_REQUEST() { keyHandle = new TPM_HANDLE(); }
-    
+
     /** @param _keyHandle ECC key to use for decryption
      *         Auth Index: 1
      *         Auth Role: USER
@@ -54,7 +54,7 @@ public class TPM2_ECC_Decrypt_REQUEST extends ReqStructure
         C3 = _C3;
         inScheme = _inScheme;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -65,7 +65,7 @@ public class TPM2_ECC_Decrypt_REQUEST extends ReqStructure
         buf.writeShort(inScheme.GetUnionSelector());
         inScheme.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -77,25 +77,25 @@ public class TPM2_ECC_Decrypt_REQUEST extends ReqStructure
         inScheme = UnionFactory.create("TPMU_KDF_SCHEME", inSchemeScheme);
         inScheme.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ECC_Decrypt_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ECC_Decrypt_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ECC_Decrypt_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ECC_Decrypt_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ECC_Decrypt_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

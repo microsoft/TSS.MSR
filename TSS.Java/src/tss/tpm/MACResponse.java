@@ -14,35 +14,35 @@ public class MACResponse extends RespStructure
 {
     /** The returned MAC in a sized buffer  */
     public byte[] outMAC;
-    
+
     public MACResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(outMAC); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { outMAC = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static MACResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(MACResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static MACResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static MACResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(MACResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

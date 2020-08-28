@@ -20,160 +20,160 @@ public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
     public enum _N {
         /** Should not occur  */
         ERROR, 
-        
+
         /** An object type that contains an RSA key  */
         FIRST, 
-        
+
         /** An object type that contains an RSA key  */
         RSA, 
-        
+
         /** Block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called
          *  Triple Data Encryption Standard)
          */
         TDES, 
-        
+
         /** Hash algorithm producing a 160-bit digest  */
         SHA, 
-        
+
         /** Redefinition for documentation consistency  */
         SHA1, 
-        
+
         /** Hash Message Authentication Code (HMAC) algorithm  */
         HMAC, 
-        
+
         /** Block cipher with various key sizes  */
         AES, 
-        
+
         /** Hash-based mask-generation function  */
         MGF1, 
-        
+
         /** An object type that may use XOR for encryption or an HMAC for signing and may also
          *  refer to a data object that is neither signing nor encrypting
          */
         KEYEDHASH, 
-        
+
         /** Hash-based stream cipher  */
         XOR, 
-        
+
         /** Hash algorithm producing a 256-bit digest  */
         SHA256, 
-        
+
         /** Hash algorithm producing a 384-bit digest  */
         SHA384, 
-        
+
         /** Hash algorithm producing a 512-bit digest  */
         SHA512, 
-        
+
         /** Indication that no algorithm is selected  */
         NULL, 
-        
+
         /** Hash algorithm producing a 256-bit digest  */
         SM3_256, 
-        
+
         /** Symmetric block cipher with 128 bit key  */
         SM4, 
-        
+
         /** A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5)  */
         RSASSA, 
-        
+
         /** A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5)  */
         RSAES, 
-        
+
         /** A signature algorithm defined in section 8.1 (RSASSA-PSS)  */
         RSAPSS, 
-        
+
         /** A padding algorithm defined in Section 7.1 (RSAES_OAEP)  */
         OAEP, 
-        
+
         /** Signature algorithm using elliptic curve cryptography (ECC)  */
         ECDSA, 
-        
+
         /** Secret sharing using ECC Based on context, this can be either One-Pass Diffie-Hellman,
          *  C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC CDH) defined in 6.1.1.2
          */
         ECDH, 
-        
+
         /** Elliptic-curve based, anonymous signing scheme  */
         ECDAA, 
-        
+
         /** Depending on context, either an elliptic-curve-based signature algorithm, encryption
          *  algorithm, or key exchange protocol
          */
         SM2, 
-        
+
         /** Elliptic-curve based Schnorr signature  */
         ECSCHNORR, 
-        
+
         /** Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4  */
         ECMQV, 
-        
+
         /** Concatenation key derivation function (approved alternative 1) Section 5.8.1  */
         KDF1_SP800_56A, 
-        
+
         /** Key derivation function KDF2 Section 13.2  */
         KDF2, 
-        
+
         /** A key derivation method SP800-108, Section 5.1 KDF in Counter Mode  */
         KDF1_SP800_108, 
-        
+
         /** Prime field ECC  */
         ECC, 
-        
+
         /** The object type for a symmetric block cipher key  */
         SYMCIPHER, 
-        
+
         /** Symmetric block cipher with various key sizes  */
         CAMELLIA, 
-        
+
         /** Hash algorithm producing a 256-bit digest  */
         SHA3_256, 
-        
+
         /** Hash algorithm producing a 384-bit digest  */
         SHA3_384, 
-        
+
         /** Hash algorithm producing a 512-bit digest  */
         SHA3_512, 
-        
+
         CMAC, 
-        
+
         /** Counter mode if implemented, all symmetric block ciphers (S type) implemented shall be
          *  capable of using this mode.
          */
         CTR, 
-        
+
         /** Output Feedback mode if implemented, all symmetric block ciphers (S type) implemented
          *  shall be capable of using this mode.
          */
         OFB, 
-        
+
         /** Cipher Block Chaining mode if implemented, all symmetric block ciphers (S type)
          *  implemented shall be capable of using this mode.
          */
         CBC, 
-        
+
         /** Cipher Feedback mode if implemented, all symmetric block ciphers (S type) implemented
          *  shall be capable of using this mode.
          */
         CFB, 
-        
+
         /** Electronic Codebook mode if implemented, all implemented symmetric block ciphers (S
          *  type) shall be capable of using this mode.
          *  NOTE This mode is not recommended for uses unless the key is frequently rotated such
          *  as in video codecs
          */
         ECB, 
-        
+
         LAST, 
-        
+
         /** Phony alg ID to be used for the first union member with no selector  */
         ANY, 
-        
+
         /** Phony alg ID to be used for the second union member with no selector  */
         ANY2
     }
-    
+
     private static ValueMap<TPM_ALG_ID> _ValueMap = new ValueMap<TPM_ALG_ID>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_ALG_ID
         ERROR = new TPM_ALG_ID(0x0000, _N.ERROR),

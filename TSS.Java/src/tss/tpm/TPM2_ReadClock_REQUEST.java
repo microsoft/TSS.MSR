@@ -13,25 +13,25 @@ import tss.*;
 public class TPM2_ReadClock_REQUEST extends ReqStructure
 {
     public TPM2_ReadClock_REQUEST() {}
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ReadClock_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ReadClock_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ReadClock_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ReadClock_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ReadClock_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -12,19 +12,19 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
 {
     /** Selects the scheme  */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** The scheme parameters
      *  One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
      */
     public TPMU_SCHEME_KEYEDHASH details;
-    
+
     public TPMT_KEYEDHASH_SCHEME() {}
-    
+
     /** @param _details The scheme parameters
      *         One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
      */
     public TPMT_KEYEDHASH_SCHEME(TPMU_SCHEME_KEYEDHASH _details) { details = _details; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -33,7 +33,7 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
         buf.writeShort(details.GetUnionSelector());
         details.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -42,25 +42,25 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
         details = UnionFactory.create("TPMU_SCHEME_KEYEDHASH", scheme);
         details.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_KEYEDHASH_SCHEME fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_KEYEDHASH_SCHEME.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_KEYEDHASH_SCHEME fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_KEYEDHASH_SCHEME fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_KEYEDHASH_SCHEME.class);
     }
-    
+
     @Override
     public String toString()
     {

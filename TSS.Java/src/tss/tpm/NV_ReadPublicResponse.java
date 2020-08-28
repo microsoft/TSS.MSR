@@ -14,12 +14,12 @@ public class NV_ReadPublicResponse extends RespStructure
 {
     /** The public area of the NV Index  */
     public TPMS_NV_PUBLIC nvPublic;
-    
+
     /** The Name of the nvIndex  */
     public byte[] nvName;
-    
+
     public NV_ReadPublicResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -27,7 +27,7 @@ public class NV_ReadPublicResponse extends RespStructure
         buf.writeSizedObj(nvPublic);
         buf.writeSizedByteBuf(nvName);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -35,25 +35,25 @@ public class NV_ReadPublicResponse extends RespStructure
         nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC.class);
         nvName = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static NV_ReadPublicResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(NV_ReadPublicResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static NV_ReadPublicResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static NV_ReadPublicResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(NV_ReadPublicResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

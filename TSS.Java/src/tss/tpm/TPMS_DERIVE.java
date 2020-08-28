@@ -14,11 +14,11 @@ import tss.*;
 public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID
 {
     public byte[] label;
-    
+
     public byte[] context;
-    
+
     public TPMS_DERIVE() {}
-    
+
     /** @param _label TBD
      *  @param _context TBD
      */
@@ -27,10 +27,10 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
         label = _label;
         context = _context;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ANY2; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -38,7 +38,7 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
         buf.writeSizedByteBuf(label);
         buf.writeSizedByteBuf(context);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -46,25 +46,25 @@ public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
         label = buf.readSizedByteBuf();
         context = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_DERIVE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_DERIVE.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_DERIVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_DERIVE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_DERIVE.class);
     }
-    
+
     @Override
     public String toString()
     {

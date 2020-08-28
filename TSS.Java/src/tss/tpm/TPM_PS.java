@@ -18,55 +18,55 @@ public final class TPM_PS extends TpmEnum<TPM_PS>
     public enum _N {
         /** Not platform specific  */
         MAIN, 
-        
+
         /** PC Client  */
         PC, 
-        
+
         /** PDA (includes all mobile devices that are not specifically cell phones)  */
         PDA, 
-        
+
         /** Cell Phone  */
         CELL_PHONE, 
-        
+
         /** Server WG  */
         SERVER, 
-        
+
         /** Peripheral WG  */
         PERIPHERAL, 
-        
+
         /** TSS WG (deprecated)  */
         TSS, 
-        
+
         /** Storage WG  */
         STORAGE, 
-        
+
         /** Authentication WG  */
         AUTHENTICATION, 
-        
+
         /** Embedded WG  */
         EMBEDDED, 
-        
+
         /** Hardcopy WG  */
         HARDCOPY, 
-        
+
         /** Infrastructure WG (deprecated)  */
         INFRASTRUCTURE, 
-        
+
         /** Virtualization WG  */
         VIRTUALIZATION, 
-        
+
         /** Trusted Network Connect WG (deprecated)  */
         TNC, 
-        
+
         /** Multi-tenant WG (deprecated)  */
         MULTI_TENANT, 
-        
+
         /** Technical Committee (deprecated)  */
         TC
     }
-    
+
     private static ValueMap<TPM_PS> _ValueMap = new ValueMap<TPM_PS>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_PS
         MAIN = new TPM_PS(0x00000000, _N.MAIN),

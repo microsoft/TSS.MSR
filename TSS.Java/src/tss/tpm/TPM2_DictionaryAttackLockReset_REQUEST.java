@@ -18,33 +18,33 @@ public class TPM2_DictionaryAttackLockReset_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE lockHandle;
-    
+
     public TPM2_DictionaryAttackLockReset_REQUEST() { lockHandle = new TPM_HANDLE(); }
-    
+
     /** @param _lockHandle TPM_RH_LOCKOUT
      *         Auth Index: 1
      *         Auth Role: USER
      */
     public TPM2_DictionaryAttackLockReset_REQUEST(TPM_HANDLE _lockHandle) { lockHandle = _lockHandle; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_DictionaryAttackLockReset_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_DictionaryAttackLockReset_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_DictionaryAttackLockReset_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_DictionaryAttackLockReset_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_DictionaryAttackLockReset_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

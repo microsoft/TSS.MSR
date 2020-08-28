@@ -12,7 +12,7 @@ public class TPMS_ID_OBJECT extends TpmStructure
 {
     /** HMAC using the nameAlg of the storage key on the target TPM  */
     public byte[] integrityHMAC;
-    
+
     /** Credential protector information returned if name matches the referenced object
      *  All of the encIdentity is encrypted, including the size field.
      *  NOTE The TPM is not required to check that the size is not larger than the digest of
@@ -20,9 +20,9 @@ public class TPMS_ID_OBJECT extends TpmStructure
      *  that has no digest larger than produced by nameAlg.
      */
     public byte[] encIdentity;
-    
+
     public TPMS_ID_OBJECT() {}
-    
+
     /** @param _integrityHMAC HMAC using the nameAlg of the storage key on the target TPM
      *  @param _encIdentity Credential protector information returned if name matches the
      *         referenced object
@@ -37,7 +37,7 @@ public class TPMS_ID_OBJECT extends TpmStructure
         integrityHMAC = _integrityHMAC;
         encIdentity = _encIdentity;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -45,7 +45,7 @@ public class TPMS_ID_OBJECT extends TpmStructure
         buf.writeSizedByteBuf(integrityHMAC);
         buf.writeByteBuf(encIdentity);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -53,25 +53,25 @@ public class TPMS_ID_OBJECT extends TpmStructure
         integrityHMAC = buf.readSizedByteBuf();
         encIdentity = buf.readByteBuf(buf.getCurStuctRemainingSize());
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ID_OBJECT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ID_OBJECT.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ID_OBJECT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ID_OBJECT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ID_OBJECT.class);
     }
-    
+
     @Override
     public String toString()
     {

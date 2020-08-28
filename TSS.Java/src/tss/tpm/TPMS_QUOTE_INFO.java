@@ -12,12 +12,12 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /** Information on algID, PCR selected and digest  */
     public TPMS_PCR_SELECTION[] pcrSelect;
-    
+
     /** Digest of the selected PCR using the hash of the signing key  */
     public byte[] pcrDigest;
-    
+
     public TPMS_QUOTE_INFO() {}
-    
+
     /** @param _pcrSelect Information on algID, PCR selected and digest
      *  @param _pcrDigest Digest of the selected PCR using the hash of the signing key
      */
@@ -26,10 +26,10 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
         pcrSelect = _pcrSelect;
         pcrDigest = _pcrDigest;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_QUOTE; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -37,7 +37,7 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeObjArr(pcrSelect);
         buf.writeSizedByteBuf(pcrDigest);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -45,25 +45,25 @@ public class TPMS_QUOTE_INFO extends TpmStructure implements TPMU_ATTEST
         pcrSelect = buf.readObjArr(TPMS_PCR_SELECTION.class);
         pcrDigest = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_QUOTE_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_QUOTE_INFO.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_QUOTE_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_QUOTE_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_QUOTE_INFO.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -12,16 +12,16 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
 {
     /** The hash algorithm used to digest the message  */
     public TPM_ALG_ID hashAlg;
-    
+
     /** The key derivation function  */
     public TPM_ALG_ID kdf;
-    
+
     public TPMS_SCHEME_XOR()
     {
         hashAlg = TPM_ALG_ID.NULL;
         kdf = TPM_ALG_ID.NULL;
     }
-    
+
     /** @param _hashAlg The hash algorithm used to digest the message
      *  @param _kdf The key derivation function
      */
@@ -30,10 +30,10 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
         hashAlg = _hashAlg;
         kdf = _kdf;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.XOR; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -41,7 +41,7 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
         hashAlg.toTpm(buf);
         kdf.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -49,25 +49,25 @@ public class TPMS_SCHEME_XOR extends TpmStructure implements TPMU_SCHEME_KEYEDHA
         hashAlg = TPM_ALG_ID.fromTpm(buf);
         kdf = TPM_ALG_ID.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SCHEME_XOR fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SCHEME_XOR.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SCHEME_XOR fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SCHEME_XOR fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SCHEME_XOR.class);
     }
-    
+
     @Override
     public String toString()
     {

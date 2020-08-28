@@ -16,32 +16,32 @@ public class TPM2_ContextSave_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE saveHandle;
-    
+
     public TPM2_ContextSave_REQUEST() { saveHandle = new TPM_HANDLE(); }
-    
+
     /** @param _saveHandle Handle of the resource to save
      *         Auth Index: None
      */
     public TPM2_ContextSave_REQUEST(TPM_HANDLE _saveHandle) { saveHandle = _saveHandle; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ContextSave_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ContextSave_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ContextSave_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ContextSave_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ContextSave_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

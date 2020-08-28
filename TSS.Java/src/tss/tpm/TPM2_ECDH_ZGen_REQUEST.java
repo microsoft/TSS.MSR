@@ -19,12 +19,12 @@ public class TPM2_ECDH_ZGen_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE keyHandle;
-    
+
     /** A public key  */
     public TPMS_ECC_POINT inPoint;
-    
+
     public TPM2_ECDH_ZGen_REQUEST() { keyHandle = new TPM_HANDLE(); }
-    
+
     /** @param _keyHandle Handle of a loaded ECC key
      *         Auth Index: 1
      *         Auth Role: USER
@@ -35,33 +35,33 @@ public class TPM2_ECDH_ZGen_REQUEST extends ReqStructure
         keyHandle = _keyHandle;
         inPoint = _inPoint;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedObj(inPoint); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { inPoint = buf.createSizedObj(TPMS_ECC_POINT.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ECDH_ZGen_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ECDH_ZGen_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ECDH_ZGen_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ECDH_ZGen_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ECDH_ZGen_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

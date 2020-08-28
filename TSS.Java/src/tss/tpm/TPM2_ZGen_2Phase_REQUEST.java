@@ -20,25 +20,25 @@ public class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE keyA;
-    
+
     /** Other partys static public key (Qs,B = (Xs,B, Ys,B))  */
     public TPMS_ECC_POINT inQsB;
-    
+
     /** Other party's ephemeral public key (Qe,B = (Xe,B, Ye,B))  */
     public TPMS_ECC_POINT inQeB;
-    
+
     /** The key exchange scheme  */
     public TPM_ALG_ID inScheme;
-    
+
     /** Value returned by TPM2_EC_Ephemeral()  */
     public int counter;
-    
+
     public TPM2_ZGen_2Phase_REQUEST()
     {
         keyA = new TPM_HANDLE();
         inScheme = TPM_ALG_ID.NULL;
     }
-    
+
     /** @param _keyA Handle of an unrestricted decryption key ECC
      *         The private key referenced by this handle is used as dS,A
      *         Auth Index: 1
@@ -56,7 +56,7 @@ public class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
         inScheme = _inScheme;
         counter = _counter;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -66,7 +66,7 @@ public class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
         inScheme.toTpm(buf);
         buf.writeShort(counter);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -76,25 +76,25 @@ public class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
         inScheme = TPM_ALG_ID.fromTpm(buf);
         counter = buf.readShort();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ZGen_2Phase_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ZGen_2Phase_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ZGen_2Phase_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ZGen_2Phase_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ZGen_2Phase_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

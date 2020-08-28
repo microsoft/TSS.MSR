@@ -17,33 +17,33 @@ public class TPM2_ChangePPS_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
-    
+
     public TPM2_ChangePPS_REQUEST() { authHandle = new TPM_HANDLE(); }
-    
+
     /** @param _authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
      */
     public TPM2_ChangePPS_REQUEST(TPM_HANDLE _authHandle) { authHandle = _authHandle; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ChangePPS_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ChangePPS_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ChangePPS_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ChangePPS_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ChangePPS_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

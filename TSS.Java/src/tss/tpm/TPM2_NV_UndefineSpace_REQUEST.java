@@ -15,18 +15,18 @@ public class TPM2_NV_UndefineSpace_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
-    
+
     /** The NV Index to remove from NV space
      *  Auth Index: None
      */
     public TPM_HANDLE nvIndex;
-    
+
     public TPM2_NV_UndefineSpace_REQUEST()
     {
         authHandle = new TPM_HANDLE();
         nvIndex = new TPM_HANDLE();
     }
-    
+
     /** @param _authHandle TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -38,25 +38,25 @@ public class TPM2_NV_UndefineSpace_REQUEST extends ReqStructure
         authHandle = _authHandle;
         nvIndex = _nvIndex;
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_NV_UndefineSpace_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_NV_UndefineSpace_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_NV_UndefineSpace_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_NV_UndefineSpace_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_NV_UndefineSpace_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

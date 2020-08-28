@@ -17,28 +17,28 @@ public class TPM2_Sign_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE keyHandle;
-    
+
     /** Digest to be signed  */
     public byte[] digest;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** Signing scheme to use if the scheme for keyHandle is TPM_ALG_NULL
      *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
      *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      */
     public TPMU_SIG_SCHEME inScheme;
-    
+
     /** Proof that digest was created by the TPM
      *  If keyHandle is not a restricted signing key, then this may be a NULL Ticket with tag
      *  = TPM_ST_CHECKHASH.
      */
     public TPMT_TK_HASHCHECK validation;
-    
+
     public TPM2_Sign_REQUEST() { keyHandle = new TPM_HANDLE(); }
-    
+
     /** @param _keyHandle Handle of key that will perform signing
      *         Auth Index: 1
      *         Auth Role: USER
@@ -58,7 +58,7 @@ public class TPM2_Sign_REQUEST extends ReqStructure
         inScheme = _inScheme;
         validation = _validation;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -68,7 +68,7 @@ public class TPM2_Sign_REQUEST extends ReqStructure
         inScheme.toTpm(buf);
         validation.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -79,25 +79,25 @@ public class TPM2_Sign_REQUEST extends ReqStructure
         inScheme.initFromTpm(buf);
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Sign_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Sign_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Sign_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Sign_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Sign_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

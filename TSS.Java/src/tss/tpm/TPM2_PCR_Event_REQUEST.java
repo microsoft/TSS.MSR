@@ -15,12 +15,12 @@ public class TPM2_PCR_Event_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE pcrHandle;
-    
+
     /** Event data in sized buffer  */
     public byte[] eventData;
-    
+
     public TPM2_PCR_Event_REQUEST() { pcrHandle = new TPM_HANDLE(); }
-    
+
     /** @param _pcrHandle Handle of the PCR
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -31,33 +31,33 @@ public class TPM2_PCR_Event_REQUEST extends ReqStructure
         pcrHandle = _pcrHandle;
         eventData = _eventData;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(eventData); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { eventData = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PCR_Event_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PCR_Event_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PCR_Event_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PCR_Event_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PCR_Event_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

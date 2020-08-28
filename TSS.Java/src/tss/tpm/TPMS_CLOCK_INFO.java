@@ -18,22 +18,22 @@ public class TPMS_CLOCK_INFO extends TpmStructure
      *  This value may be advanced by TPM2_ClockSet().
      */
     public long clock;
-    
+
     /** Number of occurrences of TPM Reset since the last TPM2_Clear()  */
     public int resetCount;
-    
+
     /** Number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since the last
      *  TPM Reset or TPM2_Clear().
      */
     public int restartCount;
-    
+
     /** No value of Clock greater than the current value of Clock has been previously reported
      *  by the TPM. Set to YES on TPM2_Clear().
      */
     public byte safe;
-    
+
     public TPMS_CLOCK_INFO() {}
-    
+
     /** @param _clock Time value in milliseconds that advances while the TPM is powered
      *         NOTE The interpretation of the time-origin (clock=0) is out of the scope of this
      *         specification, although Coordinated Universal Time (UTC) is expected to be a common
@@ -53,7 +53,7 @@ public class TPMS_CLOCK_INFO extends TpmStructure
         restartCount = _restartCount;
         safe = _safe;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -63,7 +63,7 @@ public class TPMS_CLOCK_INFO extends TpmStructure
         buf.writeInt(restartCount);
         buf.writeByte(safe);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -73,25 +73,25 @@ public class TPMS_CLOCK_INFO extends TpmStructure
         restartCount = buf.readInt();
         safe = buf.readByte();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_CLOCK_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_CLOCK_INFO.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_CLOCK_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_CLOCK_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_CLOCK_INFO.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -14,26 +14,26 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
 {
     /** Selects the scheme  */
     public TPM_ALG_ID schemeScheme() { return scheme != null ? scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** Indicates the signing method used for a keyedHash signing object. This field also
      *  determines the size of the data field for a data object created with TPM2_Create() or
      *  TPM2_CreatePrimary().
      *  One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
      */
     public TPMU_SCHEME_KEYEDHASH scheme;
-    
+
     public TPMS_KEYEDHASH_PARMS() {}
-    
+
     /** @param _scheme Indicates the signing method used for a keyedHash signing object. This
      *         field also determines the size of the data field for a data object created with
      *         TPM2_Create() or TPM2_CreatePrimary().
      *         One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
      */
     public TPMS_KEYEDHASH_PARMS(TPMU_SCHEME_KEYEDHASH _scheme) { scheme = _scheme; }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KEYEDHASH; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -42,7 +42,7 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
         buf.writeShort(scheme.GetUnionSelector());
         scheme.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -51,25 +51,25 @@ public class TPMS_KEYEDHASH_PARMS extends TpmStructure implements TPMU_PUBLIC_PA
         scheme = UnionFactory.create("TPMU_SCHEME_KEYEDHASH", schemeScheme);
         scheme.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_KEYEDHASH_PARMS fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_KEYEDHASH_PARMS.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_KEYEDHASH_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_KEYEDHASH_PARMS fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_KEYEDHASH_PARMS.class);
     }
-    
+
     @Override
     public String toString()
     {

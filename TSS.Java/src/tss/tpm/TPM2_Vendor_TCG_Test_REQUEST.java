@@ -12,38 +12,38 @@ public class TPM2_Vendor_TCG_Test_REQUEST extends ReqStructure
 {
     /** Dummy data  */
     public byte[] inputData;
-    
+
     public TPM2_Vendor_TCG_Test_REQUEST() {}
-    
+
     /** @param _inputData Dummy data  */
     public TPM2_Vendor_TCG_Test_REQUEST(byte[] _inputData) { inputData = _inputData; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(inputData); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { inputData = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Vendor_TCG_Test_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Vendor_TCG_Test_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Vendor_TCG_Test_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Vendor_TCG_Test_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Vendor_TCG_Test_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

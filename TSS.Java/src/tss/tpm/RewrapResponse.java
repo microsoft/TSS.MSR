@@ -18,12 +18,12 @@ public class RewrapResponse extends RespStructure
 {
     /** An object encrypted using symmetric key derived from outSymSeed  */
     public TPM2B_PRIVATE outDuplicate;
-    
+
     /** Seed for a symmetric key protected by newParent asymmetric key  */
     public byte[] outSymSeed;
-    
+
     public RewrapResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -31,7 +31,7 @@ public class RewrapResponse extends RespStructure
         outDuplicate.toTpm(buf);
         buf.writeSizedByteBuf(outSymSeed);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -39,25 +39,25 @@ public class RewrapResponse extends RespStructure
         outDuplicate = TPM2B_PRIVATE.fromTpm(buf);
         outSymSeed = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static RewrapResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(RewrapResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static RewrapResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static RewrapResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(RewrapResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

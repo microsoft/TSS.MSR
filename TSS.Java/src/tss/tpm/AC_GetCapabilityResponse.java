@@ -14,12 +14,12 @@ public class AC_GetCapabilityResponse extends RespStructure
 {
     /** Flag to indicate whether there are more values  */
     public byte moreData;
-    
+
     /** List of capabilities  */
     public TPMS_AC_OUTPUT[] capabilitiesData;
-    
+
     public AC_GetCapabilityResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -27,7 +27,7 @@ public class AC_GetCapabilityResponse extends RespStructure
         buf.writeByte(moreData);
         buf.writeObjArr(capabilitiesData);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -35,25 +35,25 @@ public class AC_GetCapabilityResponse extends RespStructure
         moreData = buf.readByte();
         capabilitiesData = buf.readObjArr(TPMS_AC_OUTPUT.class);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static AC_GetCapabilityResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(AC_GetCapabilityResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static AC_GetCapabilityResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static AC_GetCapabilityResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(AC_GetCapabilityResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

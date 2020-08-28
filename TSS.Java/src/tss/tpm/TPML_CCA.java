@@ -12,41 +12,41 @@ public class TPML_CCA extends TpmStructure implements TPMU_CAPABILITIES
 {
     /** A list of command codes attributes  */
     public TPMA_CC[] commandAttributes;
-    
+
     public TPML_CCA() {}
-    
+
     /** @param _commandAttributes A list of command codes attributes  */
     public TPML_CCA(TPMA_CC[] _commandAttributes) { commandAttributes = _commandAttributes; }
-    
+
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.COMMANDS; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(commandAttributes); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { commandAttributes = buf.readObjArr(TPMA_CC.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPML_CCA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_CCA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_CCA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPML_CCA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_CCA.class);
     }
-    
+
     @Override
     public String toString()
     {

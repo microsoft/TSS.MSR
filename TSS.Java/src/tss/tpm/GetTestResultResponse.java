@@ -16,11 +16,11 @@ public class GetTestResultResponse extends RespStructure
      *  contains manufacturer-specific information
      */
     public byte[] outData;
-    
+
     public TPM_RC testResult;
-    
+
     public GetTestResultResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -28,7 +28,7 @@ public class GetTestResultResponse extends RespStructure
         buf.writeSizedByteBuf(outData);
         testResult.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -36,25 +36,25 @@ public class GetTestResultResponse extends RespStructure
         outData = buf.readSizedByteBuf();
         testResult = TPM_RC.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static GetTestResultResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(GetTestResultResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static GetTestResultResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static GetTestResultResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(GetTestResultResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

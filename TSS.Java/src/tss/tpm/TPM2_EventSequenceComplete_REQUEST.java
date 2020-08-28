@@ -20,22 +20,22 @@ public class TPM2_EventSequenceComplete_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE pcrHandle;
-    
+
     /** Authorization for the sequence
      *  Auth Index: 2
      *  Auth Role: USER
      */
     public TPM_HANDLE sequenceHandle;
-    
+
     /** Data to be added to the Event  */
     public byte[] buffer;
-    
+
     public TPM2_EventSequenceComplete_REQUEST()
     {
         pcrHandle = new TPM_HANDLE();
         sequenceHandle = new TPM_HANDLE();
     }
-    
+
     /** @param _pcrHandle PCR to be extended with the Event data
      *         Auth Index: 1
      *         Auth Role: USER
@@ -50,33 +50,33 @@ public class TPM2_EventSequenceComplete_REQUEST extends ReqStructure
         sequenceHandle = _sequenceHandle;
         buffer = _buffer;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_EventSequenceComplete_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_EventSequenceComplete_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_EventSequenceComplete_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_EventSequenceComplete_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_EventSequenceComplete_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

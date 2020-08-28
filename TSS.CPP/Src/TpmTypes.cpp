@@ -719,7 +719,7 @@ struct UnionFactory
             throw runtime_error("UnionFactory::Create(): Unknown union type " + string(typeid(U).name()));
         throw runtime_error("Unknown selector value" + to_string(selector) + " for union " + string(typeid(U).name()));
     } // Create()
-    
+
 }; // class UnionFactory
 
 void TPM_HANDLE::toTpm(TpmBuffer& buf) const { buf.writeInt(handle); }

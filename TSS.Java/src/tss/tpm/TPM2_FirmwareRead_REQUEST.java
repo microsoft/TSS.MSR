@@ -14,40 +14,40 @@ public class TPM2_FirmwareRead_REQUEST extends ReqStructure
      *  set to 0 on the first call
      */
     public int sequenceNumber;
-    
+
     public TPM2_FirmwareRead_REQUEST() {}
-    
+
     /** @param _sequenceNumber The number of previous calls to this command in this sequence
      *         set to 0 on the first call
      */
     public TPM2_FirmwareRead_REQUEST(int _sequenceNumber) { sequenceNumber = _sequenceNumber; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeInt(sequenceNumber); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { sequenceNumber = buf.readInt(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_FirmwareRead_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_FirmwareRead_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_FirmwareRead_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_FirmwareRead_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_FirmwareRead_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

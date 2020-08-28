@@ -25,14 +25,14 @@ public final class TPMA_MEMORY extends TpmAttribute<TPMA_MEMORY>
          *  with memory used for transient objects
          */
         sharedRAM,
-        
+
         /** SET (1): indicates that the NV memory used for persistent objects is shared with the
          *  NV memory used for NV Index values
          *  CLEAR (0): indicates that the persistent objects and NV Index values are allocated
          *  from separate sections of NV
          */
         sharedNV,
-        
+
         /** SET (1): indicates that the TPM copies persistent objects to a transient-object slot
          *  in RAM when the persistent object is referenced in a command. The TRM is required to
          *  make sure that an object slot is available.
@@ -41,15 +41,15 @@ public final class TPMA_MEMORY extends TpmAttribute<TPMA_MEMORY>
          */
         objectCopiedToRam
     }
-    
+
     private static ValueMap<TPMA_MEMORY> _ValueMap = new ValueMap<TPMA_MEMORY>();
-    
+
     /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_MEMORY
         sharedRAM = new TPMA_MEMORY(0x1, _N.sharedRAM),
         sharedNV = new TPMA_MEMORY(0x2, _N.sharedNV),
         objectCopiedToRam = new TPMA_MEMORY(0x4, _N.objectCopiedToRam);
-    
+
     public TPMA_MEMORY () { super(0, _ValueMap); }
     public TPMA_MEMORY (int value) { super(value, _ValueMap); }
     public TPMA_MEMORY (TPMA_MEMORY...attrs) { super(_ValueMap, attrs); }

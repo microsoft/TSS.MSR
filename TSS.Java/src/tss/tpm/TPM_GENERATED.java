@@ -19,9 +19,9 @@ public final class TPM_GENERATED extends TpmEnum<TPM_GENERATED>
         /** 0xFF TCG (FF 54 43 4716)  */
         VALUE
     }
-    
+
     private static ValueMap<TPM_GENERATED> _ValueMap = new ValueMap<TPM_GENERATED>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_GENERATED
         VALUE = new TPM_GENERATED(0xff544347, _N.VALUE);

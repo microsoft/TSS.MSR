@@ -17,35 +17,35 @@ public class ActivateCredentialResponse extends RespStructure
      *  with keyHandle
      */
     public byte[] certInfo;
-    
+
     public ActivateCredentialResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(certInfo); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { certInfo = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static ActivateCredentialResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ActivateCredentialResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ActivateCredentialResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static ActivateCredentialResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ActivateCredentialResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

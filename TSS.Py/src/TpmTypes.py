@@ -16,161 +16,161 @@ class TPM_ALG_ID(TpmEnum): # UINT16
     """ Table 2 is the list of algorithms to which the TCG has assigned an
     algorithm identifier along with its numeric identifier.
     """
-    
+
     ERROR = 0x0000
     """ Should not occur """
-    
+
     FIRST = 0x0001
     """ An object type that contains an RSA key """
-    
+
     RSA = 0x0001
     """ An object type that contains an RSA key """
-    
+
     TDES = 0x0003
     """ Block cipher with various key sizes (Triple Data Encryption
     Algorithm, commonly called Triple Data Encryption Standard)
     """
-    
+
     SHA = 0x0004
     """ Hash algorithm producing a 160-bit digest """
-    
+
     SHA1 = 0x0004
     """ Redefinition for documentation consistency """
-    
+
     HMAC = 0x0005
     """ Hash Message Authentication Code (HMAC) algorithm """
-    
+
     AES = 0x0006
     """ Block cipher with various key sizes """
-    
+
     MGF1 = 0x0007
     """ Hash-based mask-generation function """
-    
+
     KEYEDHASH = 0x0008
     """ An object type that may use XOR for encryption or an HMAC for
     signing and may also refer to a data object that is neither signing nor
     encrypting
     """
-    
+
     XOR = 0x000A
     """ Hash-based stream cipher """
-    
+
     SHA256 = 0x000B
     """ Hash algorithm producing a 256-bit digest """
-    
+
     SHA384 = 0x000C
     """ Hash algorithm producing a 384-bit digest """
-    
+
     SHA512 = 0x000D
     """ Hash algorithm producing a 512-bit digest """
-    
+
     NULL = 0x0010
     """ Indication that no algorithm is selected """
-    
+
     SM3_256 = 0x0012
     """ Hash algorithm producing a 256-bit digest """
-    
+
     SM4 = 0x0013
     """ Symmetric block cipher with 128 bit key """
-    
+
     RSASSA = 0x0014
     """ A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5) """
-    
+
     RSAES = 0x0015
     """ A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5) """
-    
+
     RSAPSS = 0x0016
     """ A signature algorithm defined in section 8.1 (RSASSA-PSS) """
-    
+
     OAEP = 0x0017
     """ A padding algorithm defined in Section 7.1 (RSAES_OAEP) """
-    
+
     ECDSA = 0x0018
     """ Signature algorithm using elliptic curve cryptography (ECC) """
-    
+
     ECDH = 0x0019
     """ Secret sharing using ECC Based on context, this can be either
     One-Pass Diffie-Hellman, C(1, 1, ECC CDH) defined in 6.2.2.2 or Full
     Unified Model C(2, 2, ECC CDH) defined in 6.1.1.2
     """
-    
+
     ECDAA = 0x001A
     """ Elliptic-curve based, anonymous signing scheme """
-    
+
     SM2 = 0x001B
     """ Depending on context, either an elliptic-curve-based signature
     algorithm, encryption algorithm, or key exchange protocol
     """
-    
+
     ECSCHNORR = 0x001C
     """ Elliptic-curve based Schnorr signature """
-    
+
     ECMQV = 0x001D
     """ Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4 """
-    
+
     KDF1_SP800_56A = 0x0020
     """ Concatenation key derivation function (approved alternative 1)
     Section 5.8.1
     """
-    
+
     KDF2 = 0x0021
     """ Key derivation function KDF2 Section 13.2 """
-    
+
     KDF1_SP800_108 = 0x0022
     """ A key derivation method SP800-108, Section 5.1 KDF in Counter Mode """
-    
+
     ECC = 0x0023
     """ Prime field ECC """
-    
+
     SYMCIPHER = 0x0025
     """ The object type for a symmetric block cipher key """
-    
+
     CAMELLIA = 0x0026
     """ Symmetric block cipher with various key sizes """
-    
+
     SHA3_256 = 0x0027
     """ Hash algorithm producing a 256-bit digest """
-    
+
     SHA3_384 = 0x0028
     """ Hash algorithm producing a 384-bit digest """
-    
+
     SHA3_512 = 0x0029
     """ Hash algorithm producing a 512-bit digest """
-    
+
     CMAC = 0x003F
-    
+
     CTR = 0x0040
     """ Counter mode if implemented, all symmetric block ciphers (S type)
     implemented shall be capable of using this mode.
     """
-    
+
     OFB = 0x0041
     """ Output Feedback mode if implemented, all symmetric block ciphers (S
     type) implemented shall be capable of using this mode.
     """
-    
+
     CBC = 0x0042
     """ Cipher Block Chaining mode if implemented, all symmetric block
     ciphers (S type) implemented shall be capable of using this mode.
     """
-    
+
     CFB = 0x0043
     """ Cipher Feedback mode if implemented, all symmetric block ciphers (S
     type) implemented shall be capable of using this mode.
     """
-    
+
     ECB = 0x0044
     """ Electronic Codebook mode if implemented, all implemented symmetric
     block ciphers (S type) shall be capable of using this mode.
     NOTE This mode is not recommended for uses unless the key is frequently
     rotated such as in video codecs
     """
-    
+
     LAST = 0x0044
-    
+
     ANY = 0x7FFF
     """ Phony alg ID to be used for the first union member with no selector """
-    
+
     ANY2 = 0x7FFE
     """ Phony alg ID to be used for the second union member with no selector """
 # enum TPM_ALG_ID
@@ -179,123 +179,123 @@ class TPM_ECC_CURVE(TpmEnum): # UINT16
     """ Table 4 is the list of identifiers for TCG-registered curve ID
     values for elliptic curve cryptography.
     """
-    
+
     NONE = 0x0000
-    
+
     NIST_P192 = 0x0001
-    
+
     NIST_P224 = 0x0002
-    
+
     NIST_P256 = 0x0003
-    
+
     NIST_P384 = 0x0004
-    
+
     NIST_P521 = 0x0005
-    
+
     BN_P256 = 0x0010
     """ Curve to support ECDAA """
-    
+
     BN_P638 = 0x0011
     """ Curve to support ECDAA """
-    
+
     SM2_P256 = 0x0020
-    
+
     TEST_P192 = 0x0021
 # enum TPM_ECC_CURVE
 
 class SHA1(TpmEnum): # UINT32
     """ Table 13 Defines for SHA1 Hash Values """
-    
+
     DIGEST_SIZE = 20
     """ Size of digest in octets """
-    
+
     BLOCK_SIZE = 64
     """ Size of hash block in octets """
 # enum SHA1
 
 class SHA256(TpmEnum): # UINT32
     """ Table 14 Defines for SHA256 Hash Values """
-    
+
     DIGEST_SIZE = 32
     """ Size of digest """
-    
+
     BLOCK_SIZE = 64
     """ Size of hash block """
 # enum SHA256
 
 class SHA384(TpmEnum): # UINT32
     """ Table 15 Defines for SHA384 Hash Values """
-    
+
     DIGEST_SIZE = 48
     """ Size of digest in octets """
-    
+
     BLOCK_SIZE = 128
     """ Size of hash block in octets """
 # enum SHA384
 
 class SHA512(TpmEnum): # UINT32
     """ Table 16 Defines for SHA512 Hash Values """
-    
+
     DIGEST_SIZE = 64
     """ Size of digest in octets """
-    
+
     BLOCK_SIZE = 128
     """ Size of hash block in octets """
 # enum SHA512
 
 class SM3_256(TpmEnum): # UINT32
     """ Table 17 Defines for SM3_256 Hash Values """
-    
+
     DIGEST_SIZE = 32
     """ Size of digest in octets """
-    
+
     BLOCK_SIZE = 64
     """ Size of hash block in octets """
 # enum SM3_256
 
 class SHA3_256(TpmEnum): # UINT32
     """ Table 18 Defines for SHA3_256 Hash Values """
-    
+
     DIGEST_SIZE = 32
     """ Size of digest in octets """
-    
+
     BLOCK_SIZE = 136
     """ Size of hash block in octets """
 # enum SHA3_256
 
 class SHA3_384(TpmEnum): # UINT32
     """ Table 19 Defines for SHA3_384 Hash Values """
-    
+
     DIGEST_SIZE = 48
     """ Size of digest in octets """
-    
+
     BLOCK_SIZE = 104
     """ Size of hash block in octets """
 # enum SHA3_384
 
 class SHA3_512(TpmEnum): # UINT32
     """ Table 20 Defines for SHA3_512 Hash Values """
-    
+
     DIGEST_SIZE = 64
     """ Size of digest in octets """
-    
+
     BLOCK_SIZE = 72
     """ Size of hash block in octets """
 # enum SHA3_512
 
 class Logic(TpmEnum): # BYTE
     """ Table 4 Defines for Logic Values """
-    
+
     TRUE = 1
-    
+
     FALSE = 0
-    
+
     YES = 1
-    
+
     NO = 0
-    
+
     SET = 1
-    
+
     CLEAR = 0
 # enum Logic
 
@@ -303,19 +303,19 @@ class TPM_SPEC(TpmEnum): # UINT32
     """ These values are readable with TPM2_GetCapability() (see 6.13 for
     the format).
     """
-    
+
     FAMILY = 0x322E3000
     """ ASCII 2.0 with null terminator """
-    
+
     LEVEL = 0
     """ The level number for the specification """
-    
+
     VERSION = 162
     """ The version number of the spec (001.62 * 100) """
-    
+
     YEAR = 2019
     """ The year of the version """
-    
+
     DAY_OF_YEAR = 360
     """ The day of the year (December 26) """
 # enum TPM_SPEC
@@ -324,7 +324,7 @@ class TPM_GENERATED(TpmEnum): # UINT32
     """ This constant value differentiates TPM-generated structures from
     non-TPM structures.
     """
-    
+
     VALUE = 0xff544347
     """ 0xFF TCG (FF 54 43 4716) """
 # enum TPM_GENERATED
@@ -332,337 +332,337 @@ class TPM_GENERATED(TpmEnum): # UINT32
 class TPM_CC(TpmEnum): # UINT32
     FIRST = 0x0000011F
     """ Compile variable. May decrease based on implementation. """
-    
+
     NV_UndefineSpaceSpecial = 0x0000011F
-    
+
     EvictControl = 0x00000120
-    
+
     HierarchyControl = 0x00000121
-    
+
     NV_UndefineSpace = 0x00000122
-    
+
     ChangeEPS = 0x00000124
-    
+
     ChangePPS = 0x00000125
-    
+
     Clear = 0x00000126
-    
+
     ClearControl = 0x00000127
-    
+
     ClockSet = 0x00000128
-    
+
     HierarchyChangeAuth = 0x00000129
-    
+
     NV_DefineSpace = 0x0000012A
-    
+
     PCR_Allocate = 0x0000012B
-    
+
     PCR_SetAuthPolicy = 0x0000012C
-    
+
     PP_Commands = 0x0000012D
-    
+
     SetPrimaryPolicy = 0x0000012E
-    
+
     FieldUpgradeStart = 0x0000012F
-    
+
     ClockRateAdjust = 0x00000130
-    
+
     CreatePrimary = 0x00000131
-    
+
     NV_GlobalWriteLock = 0x00000132
-    
+
     GetCommandAuditDigest = 0x00000133
-    
+
     NV_Increment = 0x00000134
-    
+
     NV_SetBits = 0x00000135
-    
+
     NV_Extend = 0x00000136
-    
+
     NV_Write = 0x00000137
-    
+
     NV_WriteLock = 0x00000138
-    
+
     DictionaryAttackLockReset = 0x00000139
-    
+
     DictionaryAttackParameters = 0x0000013A
-    
+
     NV_ChangeAuth = 0x0000013B
-    
+
     PCR_Event = 0x0000013C
     """ PCR """
-    
+
     PCR_Reset = 0x0000013D
     """ PCR """
-    
+
     SequenceComplete = 0x0000013E
-    
+
     SetAlgorithmSet = 0x0000013F
-    
+
     SetCommandCodeAuditStatus = 0x00000140
-    
+
     FieldUpgradeData = 0x00000141
-    
+
     IncrementalSelfTest = 0x00000142
-    
+
     SelfTest = 0x00000143
-    
+
     Startup = 0x00000144
-    
+
     Shutdown = 0x00000145
-    
+
     StirRandom = 0x00000146
-    
+
     ActivateCredential = 0x00000147
-    
+
     Certify = 0x00000148
-    
+
     PolicyNV = 0x00000149
     """ Policy """
-    
+
     CertifyCreation = 0x0000014A
-    
+
     Duplicate = 0x0000014B
-    
+
     GetTime = 0x0000014C
-    
+
     GetSessionAuditDigest = 0x0000014D
-    
+
     NV_Read = 0x0000014E
-    
+
     NV_ReadLock = 0x0000014F
-    
+
     ObjectChangeAuth = 0x00000150
-    
+
     PolicySecret = 0x00000151
     """ Policy """
-    
+
     Rewrap = 0x00000152
-    
+
     Create = 0x00000153
-    
+
     ECDH_ZGen = 0x00000154
-    
+
     HMAC = 0x00000155
     """ See NOTE 1 """
-    
+
     MAC = 0x00000155
     """ See NOTE 1 """
-    
+
     Import = 0x00000156
-    
+
     Load = 0x00000157
-    
+
     Quote = 0x00000158
-    
+
     RSA_Decrypt = 0x00000159
-    
+
     HMAC_Start = 0x0000015B
     """ See NOTE 1 """
-    
+
     MAC_Start = 0x0000015B
     """ See NOTE 1 """
-    
+
     SequenceUpdate = 0x0000015C
-    
+
     Sign = 0x0000015D
-    
+
     Unseal = 0x0000015E
-    
+
     PolicySigned = 0x00000160
     """ Policy """
-    
+
     ContextLoad = 0x00000161
     """ Context """
-    
+
     ContextSave = 0x00000162
     """ Context """
-    
+
     ECDH_KeyGen = 0x00000163
-    
+
     EncryptDecrypt = 0x00000164
-    
+
     FlushContext = 0x00000165
     """ Context """
-    
+
     LoadExternal = 0x00000167
-    
+
     MakeCredential = 0x00000168
-    
+
     NV_ReadPublic = 0x00000169
     """ NV """
-    
+
     PolicyAuthorize = 0x0000016A
     """ Policy """
-    
+
     PolicyAuthValue = 0x0000016B
     """ Policy """
-    
+
     PolicyCommandCode = 0x0000016C
     """ Policy """
-    
+
     PolicyCounterTimer = 0x0000016D
     """ Policy """
-    
+
     PolicyCpHash = 0x0000016E
     """ Policy """
-    
+
     PolicyLocality = 0x0000016F
     """ Policy """
-    
+
     PolicyNameHash = 0x00000170
     """ Policy """
-    
+
     PolicyOR = 0x00000171
     """ Policy """
-    
+
     PolicyTicket = 0x00000172
     """ Policy """
-    
+
     ReadPublic = 0x00000173
-    
+
     RSA_Encrypt = 0x00000174
-    
+
     StartAuthSession = 0x00000176
-    
+
     VerifySignature = 0x00000177
-    
+
     ECC_Parameters = 0x00000178
-    
+
     FirmwareRead = 0x00000179
-    
+
     GetCapability = 0x0000017A
-    
+
     GetRandom = 0x0000017B
-    
+
     GetTestResult = 0x0000017C
-    
+
     Hash = 0x0000017D
-    
+
     PCR_Read = 0x0000017E
     """ PCR """
-    
+
     PolicyPCR = 0x0000017F
     """ Policy """
-    
+
     PolicyRestart = 0x00000180
-    
+
     ReadClock = 0x00000181
-    
+
     PCR_Extend = 0x00000182
-    
+
     PCR_SetAuthValue = 0x00000183
-    
+
     NV_Certify = 0x00000184
-    
+
     EventSequenceComplete = 0x00000185
-    
+
     HashSequenceStart = 0x00000186
-    
+
     PolicyPhysicalPresence = 0x00000187
     """ Policy """
-    
+
     PolicyDuplicationSelect = 0x00000188
     """ Policy """
-    
+
     PolicyGetDigest = 0x00000189
     """ Policy """
-    
+
     TestParms = 0x0000018A
-    
+
     Commit = 0x0000018B
-    
+
     PolicyPassword = 0x0000018C
     """ Policy """
-    
+
     ZGen_2Phase = 0x0000018D
-    
+
     EC_Ephemeral = 0x0000018E
-    
+
     PolicyNvWritten = 0x0000018F
     """ Policy """
-    
+
     PolicyTemplate = 0x00000190
     """ Policy """
-    
+
     CreateLoaded = 0x00000191
-    
+
     PolicyAuthorizeNV = 0x00000192
     """ Policy """
-    
+
     EncryptDecrypt2 = 0x00000193
-    
+
     AC_GetCapability = 0x00000194
-    
+
     AC_Send = 0x00000195
-    
+
     Policy_AC_SendSelect = 0x00000196
     """ Policy """
-    
+
     CertifyX509 = 0x00000197
-    
+
     ACT_SetTimeout = 0x00000198
-    
+
     ECC_Encrypt = 0x00000199
-    
+
     ECC_Decrypt = 0x0000019A
-    
+
     LAST = 0x0000019A
     """ Compile variable. May increase based on implementation. """
-    
+
     CC_VEND = 0x20000000
-    
+
     Vendor_TCG_Test = CC_VEND+0x0000
     """ Used for testing of command dispatch """
 # enum TPM_CC
 
 class ImplementationConstants(TpmEnum): # UINT32
     """ Architecturally defined constants """
-    
+
     Ossl = 1
-    
+
     Ltc = 2
-    
+
     Msbn = 3
-    
+
     Symcrypt = 4
-    
+
     HASH_COUNT = 3
-    
+
     MAX_SYM_KEY_BITS = 256
-    
+
     MAX_SYM_KEY_BYTES = ((MAX_SYM_KEY_BITS + 7) / 8)
-    
+
     MAX_SYM_BLOCK_SIZE = 16
-    
+
     MAX_CAP_CC = TPM_CC.LAST
-    
+
     MAX_RSA_KEY_BYTES = 256
-    
+
     MAX_AES_KEY_BYTES = 32
-    
+
     MAX_ECC_KEY_BYTES = 48
-    
+
     LABEL_MAX_BUFFER = 32
-    
+
     _TPM_CAP_SIZE = 0x4  # sizeof(UINT32)
-    
+
     MAX_CAP_DATA = (1024-_TPM_CAP_SIZE-0x4)  # (MAX_CAP_BUFFER-_TPM_CAP_SIZE-sizeof(UINT32))
-    
+
     MAX_CAP_ALGS = (MAX_CAP_DATA / 0x6)  # (MAX_CAP_DATA / sizeof(TPMS_ALG_PROPERTY))
-    
+
     MAX_CAP_HANDLES = (MAX_CAP_DATA / 0x4)  # (MAX_CAP_DATA / sizeof(TPM_HANDLE))
-    
+
     MAX_TPM_PROPERTIES = (MAX_CAP_DATA / 0x8)  # (MAX_CAP_DATA / sizeof(TPMS_TAGGED_PROPERTY))
-    
+
     MAX_PCR_PROPERTIES = (MAX_CAP_DATA / 0x5)  # (MAX_CAP_DATA / sizeof(TPMS_TAGGED_PCR_SELECT))
-    
+
     MAX_ECC_CURVES = (MAX_CAP_DATA / 0x2)  # (MAX_CAP_DATA / sizeof(TPM_ECC_CURVE))
-    
+
     MAX_TAGGED_POLICIES = (MAX_CAP_DATA / 0x46)  # (MAX_CAP_DATA / sizeof(TPMS_TAGGED_POLICY))
-    
+
     MAX_AC_CAPABILITIES = (MAX_CAP_DATA / 0x8)  # (MAX_CAP_DATA / sizeof(TPMS_AC_OUTPUT))
-    
+
     MAX_ACT_DATA = MAX_CAP_DATA / 0xC  # MAX_CAP_DATA / sizeof(TPMS_ACT_DATA)
 # enum ImplementationConstants
 
@@ -673,283 +673,283 @@ class TPM_RC(TpmEnum): # UINT32
     attribute will be SET to indicate that it is a TPM 2.0 response code.
     See Response Code Details in TPM 2.0 Part 1.
     """
-    
+
     SUCCESS = 0x000
-    
+
     BAD_TAG = 0x01E
     """ Defined for compatibility with TPM 1.2 """
-    
+
     RC_VER1 = 0x100
     """ Set for all format 0 response codes """
-    
+
     INITIALIZE = RC_VER1 + 0x000
     """ TPM not initialized by TPM2_Startup or already initialized """
-    
+
     FAILURE = RC_VER1 + 0x001
     """ Commands not being accepted because of a TPM failure
     NOTE This may be returned by TPM2_GetTestResult() as the testResult parameter.
     """
-    
+
     SEQUENCE = RC_VER1 + 0x003
     """ Improper use of a sequence handle """
-    
+
     PRIVATE = RC_VER1 + 0x00B
     """ Not currently used """
-    
+
     HMAC = RC_VER1 + 0x019
     """ Not currently used """
-    
+
     DISABLED = RC_VER1 + 0x020
     """ The command is disabled """
-    
+
     EXCLUSIVE = RC_VER1 + 0x021
     """ Command failed because audit sequence required exclusivity """
-    
+
     AUTH_TYPE = RC_VER1 + 0x024
     """ Authorization handle is not correct for command """
-    
+
     AUTH_MISSING = RC_VER1 + 0x025
     """ Command requires an authorization session for handle and it is not present. """
-    
+
     POLICY = RC_VER1 + 0x026
     """ Policy failure in math operation or an invalid authPolicy value """
-    
+
     PCR = RC_VER1 + 0x027
     """ PCR check fail """
-    
+
     PCR_CHANGED = RC_VER1 + 0x028
     """ PCR have changed since checked. """
-    
+
     UPGRADE = RC_VER1 + 0x02D
     """ For all commands other than TPM2_FieldUpgradeData(), this code
     indicates that the TPM is in field upgrade mode; for
     TPM2_FieldUpgradeData(), this code indicates that the TPM is not in
     field upgrade mode
     """
-    
+
     TOO_MANY_CONTEXTS = RC_VER1 + 0x02E
     """ Context ID counter is at maximum. """
-    
+
     AUTH_UNAVAILABLE = RC_VER1 + 0x02F
     """ AuthValue or authPolicy is not available for selected entity. """
-    
+
     REBOOT = RC_VER1 + 0x030
     """ A _TPM_Init and Startup(CLEAR) is required before the TPM can resume
     operation.
     """
-    
+
     UNBALANCED = RC_VER1 + 0x031
     """ The protection algorithms (hash and symmetric) are not reasonably
     balanced. The digest size of the hash must be larger than the key size
     of the symmetric algorithm.
     """
-    
+
     COMMAND_SIZE = RC_VER1 + 0x042
     """ Command commandSize value is inconsistent with contents of the
     command buffer; either the size is not the same as the octets loaded by
     the hardware interface layer or the value is not large enough to hold a
     command header
     """
-    
+
     COMMAND_CODE = RC_VER1 + 0x043
     """ Command code not supported """
-    
+
     AUTHSIZE = RC_VER1 + 0x044
     """ The value of authorizationSize is out of range or the number of
     octets in the Authorization Area is greater than required
     """
-    
+
     AUTH_CONTEXT = RC_VER1 + 0x045
     """ Use of an authorization session with a context command or another
     command that cannot have an authorization session.
     """
-    
+
     NV_RANGE = RC_VER1 + 0x046
     """ NV offset+size is out of range. """
-    
+
     NV_SIZE = RC_VER1 + 0x047
     """ Requested allocation size is larger than allowed. """
-    
+
     NV_LOCKED = RC_VER1 + 0x048
     """ NV access locked. """
-    
+
     NV_AUTHORIZATION = RC_VER1 + 0x049
     """ NV access authorization fails in command actions (this failure does
     not affect lockout.action)
     """
-    
+
     NV_UNINITIALIZED = RC_VER1 + 0x04A
     """ An NV Index is used before being initialized or the state saved by
     TPM2_Shutdown(STATE) could not be restored
     """
-    
+
     NV_SPACE = RC_VER1 + 0x04B
     """ Insufficient space for NV allocation """
-    
+
     NV_DEFINED = RC_VER1 + 0x04C
     """ NV Index or persistent object already defined """
-    
+
     BAD_CONTEXT = RC_VER1 + 0x050
     """ Context in TPM2_ContextLoad() is not valid """
-    
+
     CPHASH = RC_VER1 + 0x051
     """ CpHash value already set or not correct for use """
-    
+
     PARENT = RC_VER1 + 0x052
     """ Handle for parent is not a valid parent """
-    
+
     NEEDS_TEST = RC_VER1 + 0x053
     """ Some function needs testing. """
-    
+
     NO_RESULT = RC_VER1 + 0x054
     """ Returned when an internal function cannot process a request due to
     an unspecified problem. This code is usually related to invalid
     parameters that are not properly filtered by the input unmarshaling code.
     """
-    
+
     SENSITIVE = RC_VER1 + 0x055
     """ The sensitive area did not unmarshal correctly after decryption this
     code is used in lieu of the other unmarshaling errors so that an
     attacker cannot determine where the unmarshaling error occurred
     """
-    
+
     RC_MAX_FM0 = RC_VER1 + 0x07F
     """ Largest version 1 code that is not a warning """
-    
+
     RC_FMT1 = 0x080
     """ This bit is SET in all format 1 response codes
     The codes in this group may have a value added to them to indicate the
     handle, session, or parameter to which they apply.
     """
-    
+
     ASYMMETRIC = RC_FMT1 + 0x001
     """ Asymmetric algorithm not supported or not correct """
-    
+
     ATTRIBUTES = RC_FMT1 + 0x002
     """ Inconsistent attributes """
-    
+
     HASH = RC_FMT1 + 0x003
     """ Hash algorithm not supported or not appropriate """
-    
+
     VALUE = RC_FMT1 + 0x004
     """ Value is out of range or is not correct for the context """
-    
+
     HIERARCHY = RC_FMT1 + 0x005
     """ Hierarchy is not enabled or is not correct for the use """
-    
+
     KEY_SIZE = RC_FMT1 + 0x007
     """ Key size is not supported """
-    
+
     MGF = RC_FMT1 + 0x008
     """ Mask generation function not supported """
-    
+
     MODE = RC_FMT1 + 0x009
     """ Mode of operation not supported """
-    
+
     TYPE = RC_FMT1 + 0x00A
     """ The type of the value is not appropriate for the use """
-    
+
     HANDLE = RC_FMT1 + 0x00B
     """ The handle is not correct for the use """
-    
+
     KDF = RC_FMT1 + 0x00C
     """ Unsupported key derivation function or function not appropriate for use """
-    
+
     RANGE = RC_FMT1 + 0x00D
     """ Value was out of allowed range. """
-    
+
     AUTH_FAIL = RC_FMT1 + 0x00E
     """ The authorization HMAC check failed and DA counter incremented """
-    
+
     NONCE = RC_FMT1 + 0x00F
     """ Invalid nonce size or nonce value mismatch """
-    
+
     PP = RC_FMT1 + 0x010
     """ Authorization requires assertion of PP """
-    
+
     SCHEME = RC_FMT1 + 0x012
     """ Unsupported or incompatible scheme """
-    
+
     SIZE = RC_FMT1 + 0x015
     """ Structure is the wrong size """
-    
+
     SYMMETRIC = RC_FMT1 + 0x016
     """ Unsupported symmetric algorithm or key size, or not appropriate for
     instance
     """
-    
+
     TAG = RC_FMT1 + 0x017
     """ Incorrect structure tag """
-    
+
     SELECTOR = RC_FMT1 + 0x018
     """ Union selector is incorrect """
-    
+
     INSUFFICIENT = RC_FMT1 + 0x01A
     """ The TPM was unable to unmarshal a value because there were not
     enough octets in the input buffer
     """
-    
+
     SIGNATURE = RC_FMT1 + 0x01B
     """ The signature is not valid """
-    
+
     KEY = RC_FMT1 + 0x01C
     """ Key fields are not compatible with the selected use """
-    
+
     POLICY_FAIL = RC_FMT1 + 0x01D
     """ A policy check failed """
-    
+
     INTEGRITY = RC_FMT1 + 0x01F
     """ Integrity check failed """
-    
+
     TICKET = RC_FMT1 + 0x020
     """ Invalid ticket """
-    
+
     RESERVED_BITS = RC_FMT1 + 0x021
     """ Reserved bits not set to zero as required """
-    
+
     BAD_AUTH = RC_FMT1 + 0x022
     """ Authorization failure without DA implications """
-    
+
     EXPIRED = RC_FMT1 + 0x023
     """ The policy has expired """
-    
+
     POLICY_CC = RC_FMT1 + 0x024
     """ The commandCode in the policy is not the commandCode of the command
     or the command code in a policy command references a command that is not
     implemented
     """
-    
+
     BINDING = RC_FMT1 + 0x025
     """ Public and sensitive portions of an object are not cryptographically
     bound
     """
-    
+
     CURVE = RC_FMT1 + 0x026
     """ Curve not supported """
-    
+
     ECC_POINT = RC_FMT1 + 0x027
     """ Point is not on the required curve. """
-    
+
     RC_WARN = 0x900
     """ Set for warning response codes """
-    
+
     CONTEXT_GAP = RC_WARN + 0x001
     """ Gap for context ID is too large """
-    
+
     OBJECT_MEMORY = RC_WARN + 0x002
     """ Out of memory for object contexts """
-    
+
     SESSION_MEMORY = RC_WARN + 0x003
     """ Out of memory for session contexts """
-    
+
     MEMORY = RC_WARN + 0x004
     """ Out of shared object/session memory or need space for internal operations """
-    
+
     SESSION_HANDLES = RC_WARN + 0x005
     """ Out of session handles a session must be flushed before a new
     session may be created
     """
-    
+
     OBJECT_HANDLES = RC_WARN + 0x006
     """ Out of object handles the handle space for objects is depleted and a
     reboot is required
@@ -958,268 +958,268 @@ class TPM_RC(TpmEnum): # UINT32
     that would deplete handle space. Platform specifications are encouraged
     to forbid it.
     """
-    
+
     LOCALITY = RC_WARN + 0x007
     """ Bad locality """
-    
+
     YIELDED = RC_WARN + 0x008
     """ The TPM has suspended operation on the command; forward progress was
     made and the command may be retried
     See TPM 2.0 Part 1, Multi-tasking.
     NOTE This cannot occur on the reference implementation.
     """
-    
+
     CANCELED = RC_WARN + 0x009
     """ The command was canceled """
-    
+
     TESTING = RC_WARN + 0x00A
     """ TPM is performing self-tests """
-    
+
     REFERENCE_H0 = RC_WARN + 0x010
     """ The 1st handle in the handle area references a transient object or
     session that is not loaded
     """
-    
+
     REFERENCE_H1 = RC_WARN + 0x011
     """ The 2nd handle in the handle area references a transient object or
     session that is not loaded
     """
-    
+
     REFERENCE_H2 = RC_WARN + 0x012
     """ The 3rd handle in the handle area references a transient object or
     session that is not loaded
     """
-    
+
     REFERENCE_H3 = RC_WARN + 0x013
     """ The 4th handle in the handle area references a transient object or
     session that is not loaded
     """
-    
+
     REFERENCE_H4 = RC_WARN + 0x014
     """ The 5th handle in the handle area references a transient object or
     session that is not loaded
     """
-    
+
     REFERENCE_H5 = RC_WARN + 0x015
     """ The 6th handle in the handle area references a transient object or
     session that is not loaded
     """
-    
+
     REFERENCE_H6 = RC_WARN + 0x016
     """ The 7th handle in the handle area references a transient object or
     session that is not loaded
     """
-    
+
     REFERENCE_S0 = RC_WARN + 0x018
     """ The 1st authorization session handle references a session that is
     not loaded
     """
-    
+
     REFERENCE_S1 = RC_WARN + 0x019
     """ The 2nd authorization session handle references a session that is
     not loaded
     """
-    
+
     REFERENCE_S2 = RC_WARN + 0x01A
     """ The 3rd authorization session handle references a session that is
     not loaded
     """
-    
+
     REFERENCE_S3 = RC_WARN + 0x01B
     """ The 4th authorization session handle references a session that is
     not loaded
     """
-    
+
     REFERENCE_S4 = RC_WARN + 0x01C
     """ The 5th session handle references a session that is not loaded """
-    
+
     REFERENCE_S5 = RC_WARN + 0x01D
     """ The 6th session handle references a session that is not loaded """
-    
+
     REFERENCE_S6 = RC_WARN + 0x01E
     """ The 7th authorization session handle references a session that is
     not loaded
     """
-    
+
     NV_RATE = RC_WARN + 0x020
     """ The TPM is rate-limiting accesses to prevent wearout of NV """
-    
+
     LOCKOUT = RC_WARN + 0x021
     """ Authorizations for objects subject to DA protection are not allowed
     at this time because the TPM is in DA lockout mode
     """
-    
+
     RETRY = RC_WARN + 0x022
     """ The TPM was not able to start the command """
-    
+
     NV_UNAVAILABLE = RC_WARN + 0x023
     """ The command may require writing of NV and NV is not current accessible """
-    
+
     NOT_USED = RC_WARN + 0x7F
     """ This value is reserved and shall not be returned by the TPM """
-    
+
     P = 0x040
     """ Add to a parameter-related error """
-    
+
     S = 0x800
     """ Add to a session-related error """
-    
+
     _1 = 0x100
     """ Add to a parameter-, handle-, or session-related error """
-    
+
     _2 = 0x200
     """ Add to a parameter-, handle-, or session-related error """
-    
+
     _3 = 0x300
     """ Add to a parameter-, handle-, or session-related error """
-    
+
     _4 = 0x400
     """ Add to a parameter-, handle-, or session-related error """
-    
+
     _5 = 0x500
     """ Add to a parameter-, handle-, or session-related error """
-    
+
     _6 = 0x600
     """ Add to a parameter-, handle-, or session-related error """
-    
+
     _7 = 0x700
     """ Add to a parameter-, handle-, or session-related error """
-    
+
     _8 = 0x800
     """ Add to a parameter-related error """
-    
+
     _9 = 0x900
     """ Add to a parameter-related error """
-    
+
     A = 0xA00
     """ Add to a parameter-related error """
-    
+
     B = 0xB00
     """ Add to a parameter-related error """
-    
+
     C = 0xC00
     """ Add to a parameter-related error """
-    
+
     D = 0xD00
     """ Add to a parameter-related error """
-    
+
     E = 0xE00
     """ Add to a parameter-related error """
-    
+
     F = 0xF00
     """ Add to a parameter-related error """
-    
+
     N_MASK = 0xF00
     """ Number mask """
-    
+
     TSS_TCP_BAD_HANDSHAKE_RESP = 0x40280001
     """ Response buffer returned by the TPM is too short """
-    
+
     TSS_TCP_SERVER_TOO_OLD = 0x40280002
     """ Too old TCP server version """
-    
+
     TSS_TCP_BAD_ACK = 0x40280003
     """ Bad ack from the TCP end point """
-    
+
     TSS_TCP_BAD_RESP_LEN = 0x40280004
     """ Wrong length of the response buffer returned by the TPM """
-    
+
     TSS_TCP_UNEXPECTED_STARTUP_RESP = 0x40280005
     """ TPM2_Startup returned unexpected response code """
-    
+
     TSS_TCP_INVALID_SIZE_TAG = 0x40280006
     """ Invalid size tag in the TPM response TCP packet """
-    
+
     TSS_TCP_DISCONNECTED = 0x40280007
     """ TPM over TCP device is not connected """
-    
+
     TSS_DISPATCH_FAILED = 0x40280010
     """ General TPM command dispatch failure """
-    
+
     TSS_SEND_OP_FAILED = 0x40280011
     """ Sending data to TPM failed """
-    
+
     TSS_RESP_BUF_TOO_SHORT = 0x40280021
     """ Response buffer returned by the TPM is too short """
-    
+
     TSS_RESP_BUF_INVALID_SESSION_TAG = 0x40280022
     """ Invalid tag in the response buffer returned by the TPM """
-    
+
     TSS_RESP_BUF_INVALID_SIZE = 0x40280023
     """ Inconsistent TPM response parameters size """
-    
+
     TBS_COMMAND_BLOCKED = 0x80280400
     """ Windows TBS error TPM_E_COMMAND_BLOCKED """
-    
+
     TBS_INVALID_HANDLE = 0x80280401
     """ Windows TBS error TPM_E_INVALID_HANDLE """
-    
+
     TBS_DUPLICATE_V_HANDLE = 0x80280402
     """ Windows TBS error TPM_E_DUPLICATE_VHANDLE """
-    
+
     TBS_EMBEDDED_COMMAND_BLOCKED = 0x80280403
     """ Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED """
-    
+
     TBS_EMBEDDED_COMMAND_UNSUPPORTED = 0x80280404
     """ Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED """
-    
+
     TBS_UNKNOWN_ERROR = 0x80284000
     """ Windows TBS returned success but empty response buffer """
-    
+
     TBS_INTERNAL_ERROR = 0x80284001
     """ Windows TBS error TBS_E_INTERNAL_ERROR """
-    
+
     TBS_BAD_PARAMETER = 0x80284002
     """ Windows TBS error TBS_E_BAD_PARAMETER """
-    
+
     TBS_INVALID_OUTPUT_POINTER = 0x80284003
     """ Windows TBS error TBS_E_INVALID_OUTPUT_POINTER """
-    
+
     TBS_INVALID_CONTEXT = 0x80284004
     """ Windows TBS error TBS_E_INVALID_CONTEXT """
-    
+
     TBS_INSUFFICIENT_BUFFER = 0x80284005
     """ Windows TBS error TBS_E_INSUFFICIENT_BUFFER """
-    
+
     TBS_IO_ERROR = 0x80284006
     """ Windows TBS error TBS_E_IOERROR """
-    
+
     TBS_INVALID_CONTEXT_PARAM = 0x80284007
     """ Windows TBS error TBS_E_INVALID_CONTEXT_PARAM """
-    
+
     TBS_SERVICE_NOT_RUNNING = 0x80284008
     """ Windows TBS error TBS_E_SERVICE_NOT_RUNNING """
-    
+
     TBS_TOO_MANY_CONTEXTS = 0x80284009
     """ Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS """
-    
+
     TBS_TOO_MANY_RESOURCES = 0x8028400A
     """ Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES """
-    
+
     TBS_SERVICE_START_PENDING = 0x8028400B
     """ Windows TBS error TBS_E_SERVICE_START_PENDING """
-    
+
     TBS_PPI_NOT_SUPPORTED = 0x8028400C
     """ Windows TBS error TBS_E_PPI_NOT_SUPPORTED """
-    
+
     TBS_COMMAND_CANCELED = 0x8028400D
     """ Windows TBS error TBS_E_COMMAND_CANCELED """
-    
+
     TBS_BUFFER_TOO_LARGE = 0x8028400E
     """ Windows TBS error TBS_E_BUFFER_TOO_LARGE """
-    
+
     TBS_TPM_NOT_FOUND = 0x8028400F
     """ Windows TBS error TBS_E_TPM_NOT_FOUND """
-    
+
     TBS_SERVICE_DISABLED = 0x80284010
     """ Windows TBS error TBS_E_SERVICE_DISABLED """
-    
+
     TBS_ACCESS_DENIED = 0x80284012
     """ Windows TBS error TBS_E_ACCESS_DENIED """
-    
+
     TBS_PPI_FUNCTION_NOT_SUPPORTED = 0x80284014
     """ Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED """
-    
+
     TBS_OWNER_AUTH_NOT_FOUND = 0x80284015
     """ Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND """
 # enum TPM_RC
@@ -1229,65 +1229,65 @@ class TPM_CLOCK_ADJUST(TpmEnum): # INT8
     internal oscillator is divided. A change to the divider will change the
     rate at which Clock and Time change.
     """
-    
+
     COARSE_SLOWER = -3
     """ Slow the Clock update rate by one coarse adjustment step. """
-    
+
     MEDIUM_SLOWER = -2
     """ Slow the Clock update rate by one medium adjustment step. """
-    
+
     FINE_SLOWER = -1
     """ Slow the Clock update rate by one fine adjustment step. """
-    
+
     NO_CHANGE = 0
     """ No change to the Clock update rate. """
-    
+
     FINE_FASTER = 1
     """ Speed the Clock update rate by one fine adjustment step. """
-    
+
     MEDIUM_FASTER = 2
     """ Speed the Clock update rate by one medium adjustment step. """
-    
+
     COARSE_FASTER = 3
     """ Speed the Clock update rate by one coarse adjustment step. """
 # enum TPM_CLOCK_ADJUST
 
 class TPM_EO(TpmEnum): # UINT16
     """ Table 18 Definition of (UINT16) TPM_EO Constants [IN/OUT] """
-    
+
     EQ = 0x0000
     """ A = B """
-    
+
     NEQ = 0x0001
     """ A B """
-    
+
     SIGNED_GT = 0x0002
     """ A ˃ B signed """
-    
+
     UNSIGNED_GT = 0x0003
     """ A ˃ B unsigned """
-    
+
     SIGNED_LT = 0x0004
     """ A ˂ B signed """
-    
+
     UNSIGNED_LT = 0x0005
     """ A ˂ B unsigned """
-    
+
     SIGNED_GE = 0x0006
     """ A B signed """
-    
+
     UNSIGNED_GE = 0x0007
     """ A B unsigned """
-    
+
     SIGNED_LE = 0x0008
     """ A B signed """
-    
+
     UNSIGNED_LE = 0x0009
     """ A B unsigned """
-    
+
     BITSET = 0x000A
     """ All bits SET in B are SET in A. ((A∧B)=B) """
-    
+
     BITCLEAR = 0x000B
     """ All bits SET in B are CLEAR in A. ((A∧B)=0) """
 # enum TPM_EO
@@ -1302,7 +1302,7 @@ class TPM_ST(TpmEnum): # UINT16
     specification and the TPM cannot determine which family of response code
     to return because the command tag is not valid.
     """
-    
+
     RSP_COMMAND = 0x00C4
     """ Tag value for a response; used when there is an error in the tag.
     This is also the value returned from a TPM 1.2 when an error occurs.
@@ -1315,10 +1315,10 @@ class TPM_ST(TpmEnum): # UINT16
     (0x01e). Some implementations my return the old value instead of the new
     value.
     """
-    
+
     NULL = 0X8000
     """ No structure type specified """
-    
+
     NO_SESSIONS = 0x8001
     """ Tag value for a command/response for a command defined in this
     specification; indicating that the command/response has no attached
@@ -1326,52 +1326,52 @@ class TPM_ST(TpmEnum): # UINT16
     If the responseCode from the TPM is not TPM_RC_SUCCESS, then the
     response tag shall have this value.
     """
-    
+
     SESSIONS = 0x8002
     """ Tag value for a command/response for a command defined in this
     specification; indicating that the command/response has one or more
     attached sessions and the authorizationSize/parameterSize field is present
     """
-    
+
     ATTEST_NV = 0x8014
     """ Tag for an attestation structure """
-    
+
     ATTEST_COMMAND_AUDIT = 0x8015
     """ Tag for an attestation structure """
-    
+
     ATTEST_SESSION_AUDIT = 0x8016
     """ Tag for an attestation structure """
-    
+
     ATTEST_CERTIFY = 0x8017
     """ Tag for an attestation structure """
-    
+
     ATTEST_QUOTE = 0x8018
     """ Tag for an attestation structure """
-    
+
     ATTEST_TIME = 0x8019
     """ Tag for an attestation structure """
-    
+
     ATTEST_CREATION = 0x801A
     """ Tag for an attestation structure """
-    
+
     ATTEST_NV_DIGEST = 0x801C
     """ Tag for an attestation structure """
-    
+
     CREATION = 0x8021
     """ Tag for a ticket type """
-    
+
     VERIFIED = 0x8022
     """ Tag for a ticket type """
-    
+
     AUTH_SECRET = 0x8023
     """ Tag for a ticket type """
-    
+
     HASHCHECK = 0x8024
     """ Tag for a ticket type """
-    
+
     AUTH_SIGNED = 0x8025
     """ Tag for a ticket type """
-    
+
     FU_MANIFEST = 0x8029
     """ Tag for a structure describing a Field Upgrade Policy """
 # enum TPM_ST
@@ -1380,14 +1380,14 @@ class TPM_SU(TpmEnum): # UINT16
     """ These values are used in TPM2_Startup() to indicate the shutdown and
     startup mode. The defined startup sequences are:
     """
-    
+
     CLEAR = 0x0000
     """ On TPM2_Shutdown(), indicates that the TPM should prepare for loss
     of power and save state required for an orderly startup (TPM Reset).
     on TPM2_Startup(), indicates that the TPM should perform TPM Reset or
     TPM Restart
     """
-    
+
     STATE = 0x0001
     """ On TPM2_Shutdown(), indicates that the TPM should prepare for loss
     of power and save state required for an orderly startup (TPM Restart or
@@ -1401,11 +1401,11 @@ class TPM_SE(TpmEnum): # UINT8
     """ This type is used in TPM2_StartAuthSession() to indicate the type of
     the session to be created.
     """
-    
+
     HMAC = 0x00
-    
+
     POLICY = 0x01
-    
+
     TRIAL = 0x03
     """ The policy session is being used to compute the policyHash and not
     for command authorization.
@@ -1419,44 +1419,44 @@ class TPM_CAP(TpmEnum): # UINT32
     type of the value to be returned. The format of the response varies
     according to the type of the value.
     """
-    
+
     FIRST = 0x00000000
-    
+
     ALGS = 0x00000000
     """ TPML_ALG_PROPERTY """
-    
+
     HANDLES = 0x00000001
     """ TPML_HANDLE """
-    
+
     COMMANDS = 0x00000002
     """ TPML_CCA """
-    
+
     PP_COMMANDS = 0x00000003
     """ TPML_CC """
-    
+
     AUDIT_COMMANDS = 0x00000004
     """ TPML_CC """
-    
+
     PCRS = 0x00000005
     """ TPML_PCR_SELECTION """
-    
+
     TPM_PROPERTIES = 0x00000006
     """ TPML_TAGGED_TPM_PROPERTY """
-    
+
     PCR_PROPERTIES = 0x00000007
     """ TPML_TAGGED_PCR_PROPERTY """
-    
+
     ECC_CURVES = 0x00000008
     """ TPML_ECC_CURVE """
-    
+
     AUTH_POLICIES = 0x00000009
     """ TPML_TAGGED_POLICY """
-    
+
     ACT = 0x0000000A
     """ TPML_ACT_DATA """
-    
+
     LAST = 0x0000000A
-    
+
     VENDOR_PROPERTY = 0x00000100
     """ Manufacturer-specific values """
 # enum TPM_CAP
@@ -1465,56 +1465,56 @@ class TPM_PT(TpmEnum): # UINT32
     """ The TPM_PT constants are used in TPM2_GetCapability(capability =
     TPM_CAP_TPM_PROPERTIES) to indicate the property being selected or returned.
     """
-    
+
     NONE = 0x00000000
     """ Indicates no property type """
-    
+
     PT_GROUP = 0x00000100
     """ The number of properties in each group.
     NOTE The first group with any properties is group 1 (PT_GROUP * 1).
     Group 0 is reserved.
     """
-    
+
     PT_FIXED = PT_GROUP * 1
     """ The group of fixed properties returned as TPMS_TAGGED_PROPERTY
     The values in this group are only changed due to a firmware change in
     the TPM.
     """
-    
+
     FAMILY_INDICATOR = PT_FIXED + 0
     """ A 4-octet character string containing the TPM Family value
     (TPM_SPEC_FAMILY)
     """
-    
+
     LEVEL = PT_FIXED + 1
     """ The level of the specification
     NOTE 1 For this specification, the level is zero.
     NOTE 2 The level is on the title page of the specification.
     """
-    
+
     REVISION = PT_FIXED + 2
     """ The specification Revision times 100
     EXAMPLE Revision 01.01 would have a value of 101.
     NOTE The Revision value is on the title page of the specification.
     """
-    
+
     DAY_OF_YEAR = PT_FIXED + 3
     """ The specification day of year using TCG calendar
     EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
     NOTE The specification date is on the title page of the specification or
     errata (see 6.1).
     """
-    
+
     YEAR = PT_FIXED + 4
     """ The specification year using the CE
     EXAMPLE The year 2010 has a value of 000007DA16.
     NOTE The specification date is on the title page of the specification or
     errata (see 6.1).
     """
-    
+
     MANUFACTURER = PT_FIXED + 5
     """ The vendor ID unique to each TPM manufacturer """
-    
+
     VENDOR_STRING_1 = PT_FIXED + 6
     """ The first four characters of the vendor ID string
     NOTE When the vendor string is fewer than 16 octets, the additional
@@ -1522,51 +1522,51 @@ class TPM_PT(TpmEnum): # UINT32
     can be represented in one 32-bit value and no null terminating character
     is required.
     """
-    
+
     VENDOR_STRING_2 = PT_FIXED + 7
     """ The second four characters of the vendor ID string """
-    
+
     VENDOR_STRING_3 = PT_FIXED + 8
     """ The third four characters of the vendor ID string """
-    
+
     VENDOR_STRING_4 = PT_FIXED + 9
     """ The fourth four characters of the vendor ID sting """
-    
+
     VENDOR_TPM_TYPE = PT_FIXED + 10
     """ Vendor-defined value indicating the TPM model """
-    
+
     FIRMWARE_VERSION_1 = PT_FIXED + 11
     """ The most-significant 32 bits of a TPM vendor-specific value
     indicating the version number of the firmware. See 10.12.2 and 10.12.12.
     """
-    
+
     FIRMWARE_VERSION_2 = PT_FIXED + 12
     """ The least-significant 32 bits of a TPM vendor-specific value
     indicating the version number of the firmware. See 10.12.2 and 10.12.12.
     """
-    
+
     INPUT_BUFFER = PT_FIXED + 13
     """ The maximum size of a parameter (typically, a TPM2B_MAX_BUFFER) """
-    
+
     HR_TRANSIENT_MIN = PT_FIXED + 14
     """ The minimum number of transient objects that can be held in TPM RAM
     NOTE This minimum shall be no less than the minimum value required by
     the platform-specific specification to which the TPM is built.
     """
-    
+
     HR_PERSISTENT_MIN = PT_FIXED + 15
     """ The minimum number of persistent objects that can be held in TPM NV memory
     NOTE This minimum shall be no less than the minimum value required by
     the platform-specific specification to which the TPM is built.
     """
-    
+
     HR_LOADED_MIN = PT_FIXED + 16
     """ The minimum number of authorization sessions that can be held in TPM
     RAM
     NOTE This minimum shall be no less than the minimum value required by
     the platform-specific specification to which the TPM is built.
     """
-    
+
     ACTIVE_SESSIONS_MAX = PT_FIXED + 17
     """ The number of authorization sessions that may be active at a time
     A session is active when it has a context associated with its handle.
@@ -1574,13 +1574,13 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE This value shall be no less than the minimum value required by the
     platform-specific specification to which the TPM is built.
     """
-    
+
     PCR_COUNT = PT_FIXED + 18
     """ The number of PCR implemented
     NOTE This number is determined by the defined attributes, not the number
     of PCR that are populated.
     """
-    
+
     PCR_SELECT_MIN = PT_FIXED + 19
     """ The minimum number of octets in a TPMS_PCR_SELECT.sizeOfSelect
     NOTE This value is not determined by the number of PCR implemented but
@@ -1588,13 +1588,13 @@ class TPM_PT(TpmEnum): # UINT32
     with which the TPM is compliant or by the implementer if not adhering to
     a platform-specific specification.
     """
-    
+
     CONTEXT_GAP_MAX = PT_FIXED + 20
     """ The maximum allowed difference (unsigned) between the contextID
     values of two saved session contexts
     This value shall be 2n-1, where n is at least 16.
     """
-    
+
     NV_COUNTERS_MAX = PT_FIXED + 22
     """ The maximum number of NV Indexes that are allowed to have the
     TPM_NT_COUNTER attribute
@@ -1605,29 +1605,29 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE 2 The value zero indicates that there is no fixed maximum. The
     number of counter indexes is determined by the available NV memory pool.
     """
-    
+
     NV_INDEX_MAX = PT_FIXED + 23
     """ The maximum size of an NV Index data area """
-    
+
     MEMORY = PT_FIXED + 24
     """ A TPMA_MEMORY indicating the memory management method for the TPM """
-    
+
     CLOCK_UPDATE = PT_FIXED + 25
     """ Interval, in milliseconds, between updates to the copy of
     TPMS_CLOCK_INFO.clock in NV
     """
-    
+
     CONTEXT_HASH = PT_FIXED + 26
     """ The algorithm used for the integrity HMAC on saved contexts and for
     hashing the fuData of TPM2_FirmwareRead()
     """
-    
+
     CONTEXT_SYM = PT_FIXED + 27
     """ TPM_ALG_ID, the algorithm used for encryption of saved contexts """
-    
+
     CONTEXT_SYM_SIZE = PT_FIXED + 28
     """ TPM_KEY_BITS, the size of the key used for encryption of saved contexts """
-    
+
     ORDERLY_COUNT = PT_FIXED + 29
     """ The modulus - 1 of the count for NV update of an orderly counter
     The returned value is MAX_ORDERLY_COUNT.
@@ -1637,93 +1637,93 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE 2 When the low-order bits of a counter equal this value, an NV
     write occurs on the next increment.
     """
-    
+
     MAX_COMMAND_SIZE = PT_FIXED + 30
     """ The maximum value for commandSize in a command """
-    
+
     MAX_RESPONSE_SIZE = PT_FIXED + 31
     """ The maximum value for responseSize in a response """
-    
+
     MAX_DIGEST = PT_FIXED + 32
     """ The maximum size of a digest that can be produced by the TPM """
-    
+
     MAX_OBJECT_CONTEXT = PT_FIXED + 33
     """ The maximum size of an object context that will be returned by
     TPM2_ContextSave
     """
-    
+
     MAX_SESSION_CONTEXT = PT_FIXED + 34
     """ The maximum size of a session context that will be returned by
     TPM2_ContextSave
     """
-    
+
     PS_FAMILY_INDICATOR = PT_FIXED + 35
     """ Platform-specific family (a TPM_PS value)(see Table 25)
     NOTE The platform-specific values for the TPM_PT_PS parameters are in
     the relevant platform-specific specification. In the reference
     implementation, all of these values are 0.
     """
-    
+
     PS_LEVEL = PT_FIXED + 36
     """ The level of the platform-specific specification """
-    
+
     PS_REVISION = PT_FIXED + 37
     """ A platform specific value """
-    
+
     PS_DAY_OF_YEAR = PT_FIXED + 38
     """ The platform-specific TPM specification day of year using TCG calendar
     EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
     """
-    
+
     PS_YEAR = PT_FIXED + 39
     """ The platform-specific TPM specification year using the CE
     EXAMPLE The year 2010 has a value of 000007DA16.
     """
-    
+
     SPLIT_MAX = PT_FIXED + 40
     """ The number of split signing operations supported by the TPM """
-    
+
     TOTAL_COMMANDS = PT_FIXED + 41
     """ Total number of commands implemented in the TPM """
-    
+
     LIBRARY_COMMANDS = PT_FIXED + 42
     """ Number of commands from the TPM library that are implemented """
-    
+
     VENDOR_COMMANDS = PT_FIXED + 43
     """ Number of vendor commands that are implemented """
-    
+
     NV_BUFFER_MAX = PT_FIXED + 44
     """ The maximum data size in one NV write, NV read, NV extend, or NV
     certify command
     """
-    
+
     MODES = PT_FIXED + 45
     """ A TPMA_MODES value, indicating that the TPM is designed for these modes. """
-    
+
     MAX_CAP_BUFFER = PT_FIXED + 46
     """ The maximum size of a TPMS_CAPABILITY_DATA structure returned in
     TPM2_GetCapability().
     """
-    
+
     PT_VAR = PT_GROUP * 2
     """ The group of variable properties returned as TPMS_TAGGED_PROPERTY
     The properties in this group change because of a Protected Capability
     other than a firmware update. The values are not necessarily persistent
     across all power transitions.
     """
-    
+
     PERMANENT = PT_VAR + 0
     """ TPMA_PERMANENT """
-    
+
     STARTUP_CLEAR = PT_VAR + 1
     """ TPMA_STARTUP_CLEAR """
-    
+
     HR_NV_INDEX = PT_VAR + 2
     """ The number of NV Indexes currently defined """
-    
+
     HR_LOADED = PT_VAR + 3
     """ The number of authorization sessions currently loaded into TPM RAM """
-    
+
     HR_LOADED_AVAIL = PT_VAR + 4
     """ The number of additional authorization sessions, of any type, that
     could be loaded into TPM RAM
@@ -1733,13 +1733,13 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE A valid implementation may return 1 even if more than one
     authorization session would fit into RAM.
     """
-    
+
     HR_ACTIVE = PT_VAR + 5
     """ The number of active authorization sessions currently being tracked
     by the TPM
     This is the sum of the loaded and saved sessions.
     """
-    
+
     HR_ACTIVE_AVAIL = PT_VAR + 6
     """ The number of additional authorization sessions, of any type, that
     could be created
@@ -1749,7 +1749,7 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE A valid implementation may return 1 even if more than one
     authorization session could be created.
     """
-    
+
     HR_TRANSIENT_AVAIL = PT_VAR + 7
     """ Estimate of the number of additional transient objects that could be
     loaded into TPM RAM
@@ -1759,10 +1759,10 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE A valid implementation may return 1 even if more than one transient
     object would fit into RAM.
     """
-    
+
     HR_PERSISTENT = PT_VAR + 8
     """ The number of persistent objects currently loaded into TPM NV memory """
-    
+
     HR_PERSISTENT_AVAIL = PT_VAR + 9
     """ The number of additional persistent objects that could be loaded
     into NV memory
@@ -1772,10 +1772,10 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE A valid implementation may return 1 even if more than one
     persistent object would fit into NV memory.
     """
-    
+
     NV_COUNTERS = PT_VAR + 10
     """ The number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute """
-    
+
     NV_COUNTERS_AVAIL = PT_VAR + 11
     """ The number of additional NV Indexes that can be defined with their
     TPM_NT of TPM_NV_COUNTER and the TPMA_NV_ORDERLY attribute SET
@@ -1786,38 +1786,38 @@ class TPM_PT(TpmEnum): # UINT32
     NOTE A valid implementation may return 1 even if more than one NV
     counter could be defined.
     """
-    
+
     ALGORITHM_SET = PT_VAR + 12
     """ Code that limits the algorithms that may be used with the TPM """
-    
+
     LOADED_CURVES = PT_VAR + 13
     """ The number of loaded ECC curves """
-    
+
     LOCKOUT_COUNTER = PT_VAR + 14
     """ The current value of the lockout counter (failedTries) """
-    
+
     MAX_AUTH_FAIL = PT_VAR + 15
     """ The number of authorization failures before DA lockout is invoked """
-    
+
     LOCKOUT_INTERVAL = PT_VAR + 16
     """ The number of seconds before the value reported by
     TPM_PT_LOCKOUT_COUNTER is decremented
     """
-    
+
     LOCKOUT_RECOVERY = PT_VAR + 17
     """ The number of seconds after a lockoutAuth failure before use of
     lockoutAuth may be attempted again
     """
-    
+
     NV_WRITE_RECOVERY = PT_VAR + 18
     """ Number of milliseconds before the TPM will accept another command
     that will modify NV
     This value is an approximation and may go up or down over time.
     """
-    
+
     AUDIT_COUNTER_0 = PT_VAR + 19
     """ The high-order 32 bits of the command audit counter """
-    
+
     AUDIT_COUNTER_1 = PT_VAR + 20
     """ The low-order 32 bits of the command audit counter """
 # enum TPM_PT
@@ -1829,99 +1829,99 @@ class TPM_PT_PCR(TpmEnum): # UINT32
     property that corresponds to the value of property, the next higher
     value is returned, if it exists.
     """
-    
+
     FIRST = 0x00000000
     """ Bottom of the range of TPM_PT_PCR properties """
-    
+
     SAVE = 0x00000000
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and
     restored by TPM_SU_STATE
     """
-    
+
     EXTEND_L0 = 0x00000001
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be
     extended from locality 0
     This property is only present if a locality other than 0 is implemented.
     """
-    
+
     RESET_L0 = 0x00000002
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset
     by TPM2_PCR_Reset() from locality 0
     """
-    
+
     EXTEND_L1 = 0x00000003
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be
     extended from locality 1
     This property is only present if locality 1 is implemented.
     """
-    
+
     RESET_L1 = 0x00000004
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset
     by TPM2_PCR_Reset() from locality 1
     This property is only present if locality 1 is implemented.
     """
-    
+
     EXTEND_L2 = 0x00000005
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be
     extended from locality 2
     This property is only present if localities 1 and 2 are implemented.
     """
-    
+
     RESET_L2 = 0x00000006
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset
     by TPM2_PCR_Reset() from locality 2
     This property is only present if localities 1 and 2 are implemented.
     """
-    
+
     EXTEND_L3 = 0x00000007
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be
     extended from locality 3
     This property is only present if localities 1, 2, and 3 are implemented.
     """
-    
+
     RESET_L3 = 0x00000008
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset
     by TPM2_PCR_Reset() from locality 3
     This property is only present if localities 1, 2, and 3 are implemented.
     """
-    
+
     EXTEND_L4 = 0x00000009
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be
     extended from locality 4
     This property is only present if localities 1, 2, 3, and 4 are implemented.
     """
-    
+
     RESET_L4 = 0x0000000A
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset
     by TPM2_PCR_Reset() from locality 4
     This property is only present if localities 1, 2, 3, and 4 are implemented.
     """
-    
+
     NO_INCREMENT = 0x00000011
     """ A SET bit in the TPMS_PCR_SELECT indicates that modifications to
     this PCR (reset or Extend) will not increment the pcrUpdateCounter
     """
-    
+
     DRTM_RESET = 0x00000012
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR is reset by
     a D-RTM event
     These PCR are reset to -1 on TPM2_Startup() and reset to 0 on a
     _TPM_Hash_End event following a _TPM_Hash_Start event.
     """
-    
+
     POLICY = 0x00000013
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR is
     controlled by policy
     This property is only present if the TPM supports policy control of a PCR.
     """
-    
+
     AUTH = 0x00000014
     """ A SET bit in the TPMS_PCR_SELECT indicates that the PCR is
     controlled by an authorization value
     This property is only present if the TPM supports authorization control
     of a PCR.
     """
-    
+
     LAST = 0x00000014
     """ Top of the range of TPM_PT_PCR properties of the implementation
     If the TPM receives a request for a PCR property with a value larger
@@ -1936,52 +1936,52 @@ class TPM_PS(TpmEnum): # UINT32
     """ The platform values in Table 25 are used for the
     TPM_PT_PS_FAMILY_INDICATOR.
     """
-    
+
     MAIN = 0x00000000
     """ Not platform specific """
-    
+
     PC = 0x00000001
     """ PC Client """
-    
+
     PDA = 0x00000002
     """ PDA (includes all mobile devices that are not specifically cell phones) """
-    
+
     CELL_PHONE = 0x00000003
     """ Cell Phone """
-    
+
     SERVER = 0x00000004
     """ Server WG """
-    
+
     PERIPHERAL = 0x00000005
     """ Peripheral WG """
-    
+
     TSS = 0x00000006
     """ TSS WG (deprecated) """
-    
+
     STORAGE = 0x00000007
     """ Storage WG """
-    
+
     AUTHENTICATION = 0x00000008
     """ Authentication WG """
-    
+
     EMBEDDED = 0x00000009
     """ Embedded WG """
-    
+
     HARDCOPY = 0x0000000A
     """ Hardcopy WG """
-    
+
     INFRASTRUCTURE = 0x0000000B
     """ Infrastructure WG (deprecated) """
-    
+
     VIRTUALIZATION = 0x0000000C
     """ Virtualization WG """
-    
+
     TNC = 0x0000000D
     """ Trusted Network Connect WG (deprecated) """
-    
+
     MULTI_TENANT = 0x0000000E
     """ Multi-tenant WG (deprecated) """
-    
+
     TC = 0x0000000F
     """ Technical Committee (deprecated) """
 # enum TPM_PS
@@ -1990,49 +1990,49 @@ class TPM_HT(TpmEnum): # UINT8
     """ The 32-bit handle space is divided into 256 regions of equal size
     with 224 values in each. Each of these ranges represents a handle type.
     """
-    
+
     PCR = 0x00
     """ PCR consecutive numbers, starting at 0, that reference the PCR registers
     A platform-specific specification will set the minimum number of PCR and
     an implementation may have more.
     """
-    
+
     NV_INDEX = 0x01
     """ NV Index assigned by the caller """
-    
+
     HMAC_SESSION = 0x02
     """ HMAC Authorization Session assigned by the TPM when the session is created """
-    
+
     LOADED_SESSION = 0x02
     """ Loaded Authorization Session used only in the context of TPM2_GetCapability
     This type references both loaded HMAC and loaded policy authorization sessions.
     """
-    
+
     POLICY_SESSION = 0x03
     """ Policy Authorization Session assigned by the TPM when the session is
     created
     """
-    
+
     SAVED_SESSION = 0x03
     """ Saved Authorization Session used only in the context of TPM2_GetCapability
     This type references saved authorization session contexts for which the
     TPM is maintaining tracking information.
     """
-    
+
     PERMANENT = 0x40
     """ Permanent Values assigned by this specification in Table 28 """
-    
+
     TRANSIENT = 0x80
     """ Transient Objects assigned by the TPM when an object is loaded into
     transient-object memory or when a persistent object is converted to a
     transient object
     """
-    
+
     PERSISTENT = 0x81
     """ Persistent Objects assigned by the TPM when a loaded transient
     object is made persistent
     """
-    
+
     AC = 0x90
     """ Attached Component handle for an Attached Component. """
 # enum TPM_HT
@@ -2041,65 +2041,65 @@ class TPM_RH(TpmEnum): # TPM_HANDLE
     """ Table 28 lists the architecturally defined handles that cannot be
     changed. The handles include authorization handles, and special handles.
     """
-    
+
     FIRST = 0x40000000
-    
+
     SRK = 0x40000000
     """ Not used1 """
-    
+
     OWNER = 0x40000001
     """ Handle references the Storage Primary Seed (SPS), the ownerAuth, and
     the ownerPolicy
     """
-    
+
     REVOKE = 0x40000002
     """ Not used1 """
-    
+
     TRANSPORT = 0x40000003
     """ Not used1 """
-    
+
     OPERATOR = 0x40000004
     """ Not used1 """
-    
+
     ADMIN = 0x40000005
     """ Not used1 """
-    
+
     EK = 0x40000006
     """ Not used1 """
-    
+
     NULL = 0x40000007
     """ A handle associated with the null hierarchy, an EmptyAuth authValue,
     and an Empty Policy authPolicy.
     """
-    
+
     UNASSIGNED = 0x40000008
     """ Value reserved to the TPM to indicate a handle location that has not
     been initialized or assigned
     """
-    
+
     PW = 0x40000009
     """ Authorization value used to indicate a password authorization session """
     """ Deprecated: use PW instead """
     RS_PW = 0x40000009
-    
+
     LOCKOUT = 0x4000000A
     """ References the authorization associated with the dictionary attack
     lockout reset
     """
-    
+
     ENDORSEMENT = 0x4000000B
     """ References the Endorsement Primary Seed (EPS), endorsementAuth, and
     endorsementPolicy
     """
-    
+
     PLATFORM = 0x4000000C
     """ References the Platform Primary Seed (PPS), platformAuth, and
     platformPolicy
     """
-    
+
     PLATFORM_NV = 0x4000000D
     """ For phEnableNV """
-    
+
     AUTH_00 = 0x40000010
     """ Start of a range of authorization values that are vendor-specific. A
     TPM may support any of the values in this range as are needed for
@@ -2107,16 +2107,16 @@ class TPM_RH(TpmEnum): # TPM_HANDLE
     Disabled if ehEnable is CLEAR.
     NOTE Any includes none.
     """
-    
+
     AUTH_FF = 0x4000010F
     """ End of the range of vendor-specific authorization values. """
-    
+
     ACT_0 = 0x40000110
     """ Start of the range of authenticated timers """
-    
+
     ACT_F = 0x4000011F
     """ End of the range of authenticated timers """
-    
+
     LAST = 0x4000011F
     """ The top of the reserved handle area
     This is set to allow TPM2_GetCapability() to know where to stop. It may
@@ -2128,33 +2128,33 @@ class TPM_NT(TpmEnum): # UINT32
     """ This table lists the values of the TPM_NT field of a TPMA_NV. See
     Table 215 for usage.
     """
-    
+
     ORDINARY = 0x0
     """ Ordinary contains data that is opaque to the TPM that can only be
     modified using TPM2_NV_Write().
     """
-    
+
     COUNTER = 0x1
     """ Counter contains an 8-octet value that is to be used as a counter
     and can only be modified with TPM2_NV_Increment()
     """
-    
+
     BITS = 0x2
     """ Bit Field contains an 8-octet value to be used as a bit field and
     can only be modified with TPM2_NV_SetBits().
     """
-    
+
     EXTEND = 0x4
     """ Extend contains a digest-sized value used like a PCR. The Index can
     only be modified using TPM2_NV_Extend(). The extend will use the nameAlg
     of the Index.
     """
-    
+
     PIN_FAIL = 0x8
     """ PIN Fail - contains pinCount that increments on a PIN authorization
     failure and a pinLimit
     """
-    
+
     PIN_PASS = 0x9
     """ PIN Pass - contains pinCount that increments on a PIN authorization
     success and a pinLimit
@@ -2165,25 +2165,25 @@ class TPM_AT(TpmEnum): # UINT32
     """ These constants are used in TPM2_AC_GetCapability() to indicate the
     first tagged value returned from an attached component.
     """
-    
+
     ANY = 0x00000000
     """ In a command, a non-specific request for AC information; in a
     response, indicates that outputData is not meaningful
     """
-    
+
     ERROR = 0x00000001
     """ Indicates a TCG defined, device-specific error """
-    
+
     PV1 = 0x00000002
     """ Indicates the most significant 32 bits of a pairing value for the AC """
-    
+
     VEND = 0x80000000
     """ Value added to a TPM_AT to indicate a vendor-specific tag value """
 # enum TPM_AT
 
 class TPM_AE(TpmEnum): # UINT32
     """ These constants are the TCG-defined error values returned by an AC. """
-    
+
     NONE = 0x00000000
     """ In a command, a non-specific request for AC information; in a
     response, indicates that outputData is not meaningful
@@ -2194,15 +2194,15 @@ class PLATFORM(TpmEnum): # UINT32
     """ These values are readable with TPM2_GetCapability(). They are the
     TPM_PT_PS_xxx values.
     """
-    
+
     FAMILY = TPM_SPEC.FAMILY
-    
+
     LEVEL = TPM_SPEC.LEVEL
-    
+
     VERSION = TPM_SPEC.VERSION
-    
+
     YEAR = TPM_SPEC.YEAR
-    
+
     DAY_OF_YEAR = TPM_SPEC.DAY_OF_YEAR
 # enum PLATFORM
 
@@ -2210,169 +2210,169 @@ class Implementation(TpmEnum): # UINT32
     """ This table contains a collection of values used in various parts of
     the reference code. The values shown are illustrative.
     """
-    
+
     FIELD_UPGRADE_IMPLEMENTED = Logic.NO
     """ Temporary define """
-    
+
     HASH_LIB = ImplementationConstants.Ossl
     """ Selection of the library that provides the basic hashing functions. """
-    
+
     SYM_LIB = ImplementationConstants.Ossl
     """ Selection of the library that provides the low-level symmetric
     cryptography. Choices are determined by the vendor (See LibSupport.h for
     implications).
     """
-    
+
     MATH_LIB = ImplementationConstants.Ossl
     """ Selection of the library that provides the big number math including
     ECC. Choices are determined by the vendor (See LibSupport.h for implications).
     """
-    
+
     IMPLEMENTATION_PCR = 24
     """ The number of PCR in the TPM """
-    
+
     PCR_SELECT_MAX = ((IMPLEMENTATION_PCR+7)/8)
-    
+
     PLATFORM_PCR = 24
     """ The number of PCR required by the relevant platform specification """
-    
+
     PCR_SELECT_MIN = ((PLATFORM_PCR + 7) / 8)
-    
+
     DRTM_PCR = 17
     """ The D-RTM PCR
     NOTE This value is not defined when the TPM does not implement D-RTM
     """
-    
+
     HCRTM_PCR = 0
     """ The PCR that will receive the H-CRTM value at TPM2_Startup. This
     value should not be changed.
     """
-    
+
     NUM_LOCALITIES = 5
     """ The number of localities supported by the TPM
     This is expected to be either 5 for a PC, or 1 for just about everything
     else.
     """
-    
+
     MAX_HANDLE_NUM = 3
     """ The maximum number of handles in the handle area
     This should be produced by the Part 3 parser but is here for now.
     """
-    
+
     MAX_ACTIVE_SESSIONS = 64
     """ The number of simultaneously active sessions that are supported by
     the TPM implementation
     """
-    
+
     MAX_LOADED_SESSIONS = 3
     """ The number of sessions that the TPM may have in memory """
-    
+
     MAX_SESSION_NUM = 3
     """ This is the current maximum value """
-    
+
     MAX_LOADED_OBJECTS = 3
     """ The number of simultaneously loaded objects that are supported by
     the TPM; this number does not include the objects that may be placed in
     NV memory by TPM2_EvictControl().
     """
-    
+
     MIN_EVICT_OBJECTS = 2
     """ The minimum number of evict objects supported by the TPM """
-    
+
     NUM_POLICY_PCR_GROUP = 1
     """ Number of PCR groups that have individual policies """
-    
+
     NUM_AUTHVALUE_PCR_GROUP = 1
     """ Number of PCR groups that have individual authorization values """
-    
+
     MAX_CONTEXT_SIZE = 1264
-    
+
     MAX_DIGEST_BUFFER = 1024
-    
+
     MAX_NV_INDEX_SIZE = 2048
     """ Maximum data size allowed in an NV Index """
-    
+
     MAX_NV_BUFFER_SIZE = 1024
     """ Maximum data size in one NV read or write command """
-    
+
     MAX_CAP_BUFFER = 1024
     """ Maximum size of a capability buffer """
-    
+
     NV_MEMORY_SIZE = 16384
     """ Size of NV memory in octets """
-    
+
     MIN_COUNTER_INDICES = 8
     """ The TPM will not allocate a non-counter index if it would prevent
     allocation of this number of indices.
     """
-    
+
     NUM_STATIC_PCR = 16
-    
+
     MAX_ALG_LIST_SIZE = 64
     """ Number of algorithms that can be in a list """
-    
+
     PRIMARY_SEED_SIZE = 32
     """ Size of the Primary Seed in octets """
-    
+
     CONTEXT_ENCRYPT_ALGORITHM = TPM_ALG_ID.AES
     """ Context encryption algorithm
     Just use the root so that the macros in GpMacros.h will work correctly.
     """
-    
+
     NV_CLOCK_UPDATE_INTERVAL = 12
     """ The update interval expressed as a power of 2 seconds
     A value of 12 is 4,096 seconds (~68 minutes).
     """
-    
+
     NUM_POLICY_PCR = 1
     """ Number of PCR groups that allow policy/auth """
-    
+
     MAX_COMMAND_SIZE = 4096
     """ Maximum size of a command """
-    
+
     MAX_RESPONSE_SIZE = 4096
     """ Maximum size of a response """
-    
+
     ORDERLY_BITS = 8
     """ Number between 1 and 32 inclusive """
-    
+
     MAX_SYM_DATA = 128
     """ The maximum number of octets that may be in a sealed blob; 128 is
     the minimum allowed value
     """
-    
+
     MAX_RNG_ENTROPY_SIZE = 64
-    
+
     RAM_INDEX_SPACE = 512
     """ Number of bytes used for the RAM index space. If this is not large
     enough, it might not be possible to allocate orderly indices.
     """
-    
+
     RSA_DEFAULT_PUBLIC_EXPONENT = 0x00010001
     """ 216 + 1 """
-    
+
     ENABLE_PCR_NO_INCREMENT = Logic.YES
     """ Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented """
-    
+
     CRT_FORMAT_RSA = Logic.YES
-    
+
     VENDOR_COMMAND_COUNT = 0
-    
+
     MAX_VENDOR_BUFFER_SIZE = 1024
     """ Maximum size of the vendor-specific buffer """
-    
+
     MAX_DERIVATION_BITS = 8192
     """ L value for a derivation. This is the
     maximum number of bits allowed from an instantiation of a KDF-DRBG. This
     is size is OK because RSA keys are never derived keys
     """
-    
+
     RSA_MAX_PRIME = (ImplementationConstants.MAX_RSA_KEY_BYTES/2)
-    
+
     RSA_PRIVATE_SIZE = (RSA_MAX_PRIME * 5)
-    
+
     SIZE_OF_X509_SERIAL_NUMBER = 20
-    
+
     PRIVATE_VENDOR_SPECIFIC_BYTES = RSA_PRIVATE_SIZE
     """ This is a vendor-specific value so it is in this vendor-speific
     table. When this is used, RSA_PRIVATE_SIZE will have been defined
@@ -2383,139 +2383,139 @@ class TPM_HC(TpmEnum): # TPM_HANDLE
     """ The definitions in Table 29 are used to define many of the interface
     data types.
     """
-    
+
     HR_HANDLE_MASK = 0x00FFFFFF
     """ To mask off the HR """
-    
+
     HR_RANGE_MASK = 0xFF000000
     """ To mask off the variable part """
-    
+
     HR_SHIFT = 24
-    
+
     HR_PCR = (TPM_HT.PCR << HR_SHIFT)
-    
+
     HR_HMAC_SESSION = (TPM_HT.HMAC_SESSION << HR_SHIFT)
-    
+
     HR_POLICY_SESSION = (TPM_HT.POLICY_SESSION << HR_SHIFT)
-    
+
     HR_TRANSIENT = (TPM_HT.TRANSIENT << HR_SHIFT)
-    
+
     HR_PERSISTENT = (TPM_HT.PERSISTENT << HR_SHIFT)
-    
+
     HR_NV_INDEX = (TPM_HT.NV_INDEX << HR_SHIFT)
-    
+
     HR_PERMANENT = (TPM_HT.PERMANENT << HR_SHIFT)
-    
+
     PCR_FIRST = (HR_PCR + 0)
     """ First PCR """
-    
+
     PCR_LAST = (PCR_FIRST + Implementation.IMPLEMENTATION_PCR-1)
     """ Last PCR """
-    
+
     HMAC_SESSION_FIRST = (HR_HMAC_SESSION + 0)
     """ First HMAC session """
-    
+
     HMAC_SESSION_LAST = (HMAC_SESSION_FIRST+Implementation.MAX_ACTIVE_SESSIONS-1)
     """ Last HMAC session """
-    
+
     LOADED_SESSION_FIRST = HMAC_SESSION_FIRST
     """ Used in GetCapability """
-    
+
     LOADED_SESSION_LAST = HMAC_SESSION_LAST
     """ Used in GetCapability """
-    
+
     POLICY_SESSION_FIRST = (HR_POLICY_SESSION + 0)
     """ First policy session """
-    
+
     POLICY_SESSION_LAST = (POLICY_SESSION_FIRST + Implementation.MAX_ACTIVE_SESSIONS-1)
     """ Last policy session """
-    
+
     TRANSIENT_FIRST = (HR_TRANSIENT + 0)
     """ First transient object """
-    
+
     ACTIVE_SESSION_FIRST = POLICY_SESSION_FIRST
     """ Used in GetCapability """
-    
+
     ACTIVE_SESSION_LAST = POLICY_SESSION_LAST
     """ Used in GetCapability """
-    
+
     TRANSIENT_LAST = (TRANSIENT_FIRST+Implementation.MAX_LOADED_OBJECTS-1)
     """ Last transient object """
-    
+
     PERSISTENT_FIRST = (HR_PERSISTENT + 0)
     """ First persistent object """
-    
+
     PERSISTENT_LAST = (PERSISTENT_FIRST + 0x00FFFFFF)
     """ Last persistent object """
-    
+
     PLATFORM_PERSISTENT = (PERSISTENT_FIRST + 0x00800000)
     """ First platform persistent object """
-    
+
     NV_INDEX_FIRST = (HR_NV_INDEX + 0)
     """ First allowed NV Index """
-    
+
     NV_INDEX_LAST = (NV_INDEX_FIRST + 0x00FFFFFF)
     """ Last allowed NV Index """
-    
+
     PERMANENT_FIRST = TPM_RH.FIRST
-    
+
     PERMANENT_LAST = TPM_RH.LAST
-    
+
     HR_NV_AC = ((TPM_HT.NV_INDEX << HR_SHIFT) + 0xD00000)
     """ AC aliased NV Index """
-    
+
     NV_AC_FIRST = (HR_NV_AC + 0)
     """ First NV Index aliased to Attached Component """
-    
+
     NV_AC_LAST = (HR_NV_AC + 0x0000FFFF)
     """ Last NV Index aliased to Attached Component """
-    
+
     HR_AC = (TPM_HT.AC << HR_SHIFT)
     """ AC Handle """
-    
+
     AC_FIRST = (HR_AC + 0)
     """ First Attached Component """
-    
+
     AC_LAST = (HR_AC + 0x0000FFFF)
     """ Last Attached Component """
 # enum TPM_HC
 
 class TPMA_ALGORITHM(TpmEnum): # UINT32
     """ This structure defines the attributes of an algorithm. """
-    
+
     asymmetric = 0x1
     """ SET (1): an asymmetric algorithm with public and private portions
     CLEAR (0): not an asymmetric algorithm
     """
-    
+
     symmetric = 0x2
     """ SET (1): a symmetric block cipher
     CLEAR (0): not a symmetric block cipher
     """
-    
+
     hash = 0x4
     """ SET (1): a hash algorithm
     CLEAR (0): not a hash algorithm
     """
-    
+
     object = 0x8
     """ SET (1): an algorithm that may be used as an object type
     CLEAR (0): an algorithm that is not used as an object type
     """
-    
+
     signing = 0x100
     """ SET (1): a signing algorithm. The setting of asymmetric, symmetric,
     and hash will indicate the type of signing algorithm.
     CLEAR (0): not a signing algorithm
     """
-    
+
     encrypting = 0x200
     """ SET (1): an encryption/decryption algorithm. The setting of
     asymmetric, symmetric, and hash will indicate the type of
     encryption/decryption algorithm.
     CLEAR (0): not an encryption/decryption algorithm
     """
-    
+
     method = 0x400
     """ SET (1): a method such as a key derivative function (KDF)
     CLEAR (0): not a method
@@ -2526,7 +2526,7 @@ class TPMA_OBJECT(TpmEnum): # UINT32
     """ This attribute structure indicates an objects use, its authorization
     types, and its relationship to other objects.
     """
-    
+
     fixedTPM = 0x2
     """ SET (1): The hierarchy of the object, as indicated by its Qualified
     Name, may not change.
@@ -2535,20 +2535,20 @@ class TPMA_OBJECT(TpmEnum): # UINT32
     NOTE fixedTPM does not indicate that key material resides on a single
     TPM (see sensitiveDataOrigin).
     """
-    
+
     stClear = 0x4
     """ SET (1): Previously saved contexts of this object may not be loaded
     after Startup(CLEAR).
     CLEAR (0): Saved contexts of this object may be used after a
     Shutdown(STATE) and subsequent Startup().
     """
-    
+
     fixedParent = 0x10
     """ SET (1): The parent of the object may not change.
     CLEAR (0): The parent of the object may change as the result of a
     TPM2_Duplicate() of the object.
     """
-    
+
     sensitiveDataOrigin = 0x20
     """ SET (1): Indicates that, when the object was created with
     TPM2_Create() or TPM2_CreatePrimary(), the TPM generated all of the
@@ -2556,7 +2556,7 @@ class TPMA_OBJECT(TpmEnum): # UINT32
     CLEAR (0): A portion of the sensitive data, other than the authValue,
     was provided by the caller.
     """
-    
+
     userWithAuth = 0x40
     """ SET (1): Approval of USER role actions with this object may be with
     an HMAC session or with a password using the authValue of the object or
@@ -2564,7 +2564,7 @@ class TPMA_OBJECT(TpmEnum): # UINT32
     CLEAR (0): Approval of USER role actions with this object may only be
     done with a policy session.
     """
-    
+
     adminWithPolicy = 0x80
     """ SET (1): Approval of ADMIN role actions with this object may only be
     done with a policy session.
@@ -2572,40 +2572,40 @@ class TPMA_OBJECT(TpmEnum): # UINT32
     an HMAC session or with a password using the authValue of the object or
     a policy session.
     """
-    
+
     noDA = 0x400
     """ SET (1): The object is not subject to dictionary attack protections.
     CLEAR (0): The object is subject to dictionary attack protections.
     """
-    
+
     encryptedDuplication = 0x800
     """ SET (1): If the object is duplicated, then symmetricAlg shall not be
     TPM_ALG_NULL and newParentHandle shall not be TPM_RH_NULL.
     CLEAR (0): The object may be duplicated without an inner wrapper on the
     private portion of the object and the new parent may be TPM_RH_NULL.
     """
-    
+
     restricted = 0x10000
     """ SET (1): Key usage is restricted to manipulate structures of known
     format; the parent of this key shall have restricted SET.
     CLEAR (0): Key usage is not restricted to use on special formats.
     """
-    
+
     decrypt = 0x20000
     """ SET (1): The private portion of the key may be used to decrypt.
     CLEAR (0): The private portion of the key may not be used to decrypt.
     """
-    
+
     sign = 0x40000
     """ SET (1): For a symmetric cipher object, the private portion of the
     key may be used to encrypt. For other objects, the private portion of
     the key may be used to sign.
     CLEAR (0): The private portion of the key may not be used to sign or encrypt.
     """
-    
+
     encrypt = 0x40000
     """ Alias to the sign value. """
-    
+
     x509sign = 0x80000
     """ SET (1): An asymmetric key that may not be used to sign with TPM2_Sign()
     CLEAR (0): A key that may be used with TPM2_Sign() if sign is SET
@@ -2618,7 +2618,7 @@ class TPMA_SESSION(TpmEnum): # UINT8
     indicate its relationship to any handles in the command, and indicate
     its use in parameter encryption.
     """
-    
+
     continueSession = 0x1
     """ SET (1): In a command, this setting indicates that the session is to
     remain active after successful completion of the command. In a response,
@@ -2638,7 +2638,7 @@ class TPMA_SESSION(TpmEnum): # UINT8
     the same session.
     This attribute has no effect if the command does not complete successfully.
     """
-    
+
     auditExclusive = 0x2
     """ SET (1): In a command, this setting indicates that the command
     should only be executed if the session is exclusive at the start of the
@@ -2648,7 +2648,7 @@ class TPMA_SESSION(TpmEnum): # UINT8
     exclusive at the start of the command. In a response, indicates that the
     session is not exclusive.
     """
-    
+
     auditReset = 0x4
     """ SET (1): In a command, this setting indicates that the audit digest
     of the session should be initialized and the exclusive status of the
@@ -2658,7 +2658,7 @@ class TPMA_SESSION(TpmEnum): # UINT8
     initialized.
     This bit is always CLEAR in a response.
     """
-    
+
     decrypt = 0x20
     """ SET (1): In a command, this setting indicates that the first
     parameter in the command is symmetrically encrypted using the parameter
@@ -2674,7 +2674,7 @@ class TPMA_SESSION(TpmEnum): # UINT8
     parameter and not for authorization.
     This attribute may be SET in combination with any other session attributes.
     """
-    
+
     encrypt = 0x40
     """ SET (1): In a command, this setting indicates that the TPM should
     use this session to encrypt the first parameter in the response. In a
@@ -2689,7 +2689,7 @@ class TPMA_SESSION(TpmEnum): # UINT8
     command handle. Such a session is provided for purposes of encrypting a
     parameter and not for authorization.
     """
-    
+
     audit = 0x80
     """ SET (1): In a command or response, this setting indicates that the
     session is for audit and that auditExclusive and auditReset have
@@ -2705,22 +2705,22 @@ class TPMA_LOCALITY(TpmEnum): # UINT8
     indicate the locality of the command that created the object. No more
     than one of the locality attributes shall be set in the creation data.
     """
-    
+
     LOC_ZERO = 0x1
-    
+
     LOC_ONE = 0x2
-    
+
     LOC_TWO = 0x4
-    
+
     LOC_THREE = 0x8
-    
+
     LOC_FOUR = 0x10
-    
+
     Extended_BIT_MASK = 0xE0
     """ If any of these bits is set, an extended locality is indicated """
-    
+
     Extended_BIT_OFFSET = 5
-    
+
     Extended_BIT_LENGTH = 3
 # bitfield TPMA_LOCALITY
 
@@ -2732,35 +2732,35 @@ class TPMA_PERMANENT(TpmEnum): # UINT32
     TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property =
     TPM_PT_PERMANENT).
     """
-    
+
     ownerAuthSet = 0x1
     """ SET (1): TPM2_HierarchyChangeAuth() with ownerAuth has been executed
     since the last TPM2_Clear().
     CLEAR (0): ownerAuth has not been changed since TPM2_Clear().
     """
-    
+
     endorsementAuthSet = 0x2
     """ SET (1): TPM2_HierarchyChangeAuth() with endorsementAuth has been
     executed since the last TPM2_Clear().
     CLEAR (0): endorsementAuth has not been changed since TPM2_Clear().
     """
-    
+
     lockoutAuthSet = 0x4
     """ SET (1): TPM2_HierarchyChangeAuth() with lockoutAuth has been
     executed since the last TPM2_Clear().
     CLEAR (0): lockoutAuth has not been changed since TPM2_Clear().
     """
-    
+
     disableClear = 0x100
     """ SET (1): TPM2_Clear() is disabled.
     CLEAR (0): TPM2_Clear() is enabled.
     NOTE See TPM2_ClearControl in TPM 2.0 Part 3 for details on changing
     this attribute.
     """
-    
+
     inLockout = 0x200
     """ SET (1): The TPM is in lockout, when failedTries is equal to maxTries. """
-    
+
     tpmGeneratedEPS = 0x400
     """ SET (1): The EPS was created by the TPM.
     CLEAR (0): The EPS was created outside of the TPM using a
@@ -2772,7 +2772,7 @@ class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
     """ This structure may be read using TPM2_GetCapability(capability =
     TPM_CAP_TPM_PROPERTIES, property = TPM_PT_STARTUP_CLEAR).
     """
-    
+
     phEnable = 0x1
     """ SET (1): The platform hierarchy is enabled and platformAuth or
     platformPolicy may be used for authorization.
@@ -2782,7 +2782,7 @@ class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
     NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing
     this attribute.
     """
-    
+
     shEnable = 0x2
     """ SET (1): The Storage hierarchy is enabled and ownerAuth or
     ownerPolicy may be used for authorization. NV indices defined using
@@ -2793,7 +2793,7 @@ class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
     NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing
     this attribute.
     """
-    
+
     ehEnable = 0x4
     """ SET (1): The EPS hierarchy is enabled and Endorsement Authorization
     may be used to authorize commands.
@@ -2803,7 +2803,7 @@ class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
     NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing
     this attribute.
     """
-    
+
     phEnableNV = 0x8
     """ SET (1): NV indices that have TPMA_NV_PLATFORMCREATE SET may be read
     or written. The platform can create define and undefine indices.
@@ -2823,7 +2823,7 @@ class TPMA_STARTUP_CLEAR(TpmEnum): # UINT32
     code if the index is disabled. Otherwise, the TPM would leak the
     existence of an index even when disabled.
     """
-    
+
     orderly = 0x80000000
     """ SET (1): The TPM received a TPM2_Shutdown() and a matching TPM2_Startup().
     CLEAR (0): TPM2_Startup(TPM_SU_CLEAR) was not preceded by a
@@ -2842,21 +2842,21 @@ class TPMA_MEMORY(TpmEnum): # UINT32
     TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property =
     TPM_PT_MEMORY).
     """
-    
+
     sharedRAM = 0x1
     """ SET (1): indicates that the RAM memory used for authorization
     session contexts is shared with the memory used for transient objects
     CLEAR (0): indicates that the memory used for authorization sessions is
     not shared with memory used for transient objects
     """
-    
+
     sharedNV = 0x2
     """ SET (1): indicates that the NV memory used for persistent objects is
     shared with the NV memory used for NV Index values
     CLEAR (0): indicates that the persistent objects and NV Index values are
     allocated from separate sections of NV
     """
-    
+
     objectCopiedToRam = 0x4
     """ SET (1): indicates that the TPM copies persistent objects to a
     transient-object slot in RAM when the persistent object is referenced in
@@ -2872,51 +2872,51 @@ class TPMA_CC(TpmEnum): # TPM_CC
     Resource Manager (TRM) the number of resources required by a command and
     how the command affects the TPMs resources.
     """
-    
+
     commandIndex_BIT_MASK = 0xFFFF
     """ Indicates the command being selected """
-    
+
     commandIndex_BIT_OFFSET = 0
-    
+
     commandIndex_BIT_LENGTH = 16
-    
+
     nv = 0x400000
     """ SET (1): indicates that the command may write to NV
     CLEAR (0): indicates that the command does not write to NV
     """
-    
+
     extensive = 0x800000
     """ SET (1): This command could flush any number of loaded contexts.
     CLEAR (0): no additional changes other than indicated by the flushed attribute
     """
-    
+
     flushed = 0x1000000
     """ SET (1): The context associated with any transient handle in the
     command will be flushed when this command completes.
     CLEAR (0): No context is flushed as a side effect of this command.
     """
-    
+
     cHandles_BIT_MASK = 0xE000000
     """ Indicates the number of the handles in the handle area for this command """
-    
+
     cHandles_BIT_OFFSET = 25
-    
+
     cHandles_BIT_LENGTH = 3
-    
+
     rHandle = 0x10000000
     """ SET (1): indicates the presence of the handle area in the response """
-    
+
     V = 0x20000000
     """ SET (1): indicates that the command is vendor-specific
     CLEAR (0): indicates that the command is defined in a version of this
     specification
     """
-    
+
     Res_BIT_MASK = 0xC0000000
     """ Allocated for software; shall be zero """
-    
+
     Res_BIT_OFFSET = 30
-    
+
     Res_BIT_LENGTH = 2
 # bitfield TPMA_CC
 
@@ -2926,7 +2926,7 @@ class TPMA_MODES(TpmEnum): # UINT32
     TPM2_GetCapability(capability = TPM_CAP_TPM_PROPERTIES, property =
     TPM_PT_MODES).
     """
-    
+
     FIPS_140_2 = 0x1
     """ SET (1): indicates that the TPM is designed to comply with all of
     the FIPS 140-2 requirements at Level 1 or higher.
@@ -2940,36 +2940,36 @@ class TPMA_X509_KEY_USAGE(TpmEnum): # UINT32
     provides a DER encoded Key Usage in partialCertificate, the TPM will
     validate that the key to be certified meets the requirements of Key Usage.
     """
-    
+
     decipherOnly = 0x800000
     """ Attributes.Decrypt SET """
-    
+
     encipherOnly = 0x1000000
     """ Attributes.Decrypt SET """
-    
+
     cRLSign = 0x2000000
     """ Attributes.sign SET """
-    
+
     keyCertSign = 0x4000000
     """ Attributes.sign SET """
-    
+
     keyAgreement = 0x8000000
     """ Attributes.Decrypt SET """
-    
+
     dataEncipherment = 0x10000000
     """ Attributes.Decrypt SET """
-    
+
     keyEncipherment = 0x20000000
     """ Asymmetric key with decrypt and restricted SET key has the
     attributes of a parent key
     """
-    
+
     nonrepudiation = 0x40000000
     """ FixedTPM SET in Subject Key (objectHandle) """
-    
+
     contentCommitment = 0x40000000
     """ Alias to the nonrepudiation value. """
-    
+
     digitalSignature = 0x80000000
     """ Sign SET in Subject Key (objectHandle) """
 # bitfield TPMA_X509_KEY_USAGE
@@ -2981,12 +2981,12 @@ class TPMA_ACT(TpmEnum): # UINT32
     be preserved across TPM Resume or if the TPM has not lost power. The
     signaled value may be preserved over a power cycle of a TPM.
     """
-    
+
     signaled = 0x1
     """ SET (1): The ACT has signaled
     CLEAR (0): The ACT has not signaled
     """
-    
+
     preserveSignaled = 0x2
     """ Preserves the state of signaled, depending on the power cycle """
 # bitfield TPMA_ACT
@@ -2998,19 +2998,19 @@ class TPM_NV_INDEX(TpmEnum): # UINT32
     of the public area of the Index as the Name of the entity in
     authorization computations
     """
-    
+
     index_BIT_MASK = 0xFFFFFF
     """ The Index of the NV location """
-    
+
     index_BIT_OFFSET = 0
-    
+
     index_BIT_LENGTH = 24
-    
+
     RhNv_BIT_MASK = 0xFF000000
     """ Constant value of TPM_HT_NV_INDEX indicating the NV Index range """
-    
+
     RhNv_BIT_OFFSET = 24
-    
+
     RhNv_BIT_LENGTH = 8
 # bitfield TPM_NV_INDEX
 
@@ -3018,27 +3018,27 @@ class TPMA_NV(TpmEnum): # UINT32
     """ This structure allows the TPM to keep track of the data and
     permissions to manipulate an NV Index.
     """
-    
+
     PPWRITE = 0x1
     """ SET (1): The Index data can be written if Platform Authorization is
     provided.
     CLEAR (0): Writing of the Index data cannot be authorized with Platform
     Authorization.
     """
-    
+
     OWNERWRITE = 0x2
     """ SET (1): The Index data can be written if Owner Authorization is provided.
     CLEAR (0): Writing of the Index data cannot be authorized with Owner
     Authorization.
     """
-    
+
     AUTHWRITE = 0x4
     """ SET (1): Authorizations to change the Index contents that require
     USER role may be provided with an HMAC session or password.
     CLEAR (0): Authorizations to change the Index contents that require USER
     role may not be provided with an HMAC session or password.
     """
-    
+
     POLICYWRITE = 0x8
     """ SET (1): Authorizations to change the Index contents that require
     USER role may be provided with a policy session.
@@ -3047,47 +3047,47 @@ class TPMA_NV(TpmEnum): # UINT32
     NOTE TPM2_NV_ChangeAuth() always requires that authorization be provided
     in a policy session.
     """
-    
+
     ORDINARY = 0x0
     """ Ordinary contains data that is opaque to the TPM that can only be
     modified using TPM2_NV_Write().
     """
-    
+
     COUNTER = 0x10
     """ Counter contains an 8-octet value that is to be used as a counter
     and can only be modified with TPM2_NV_Increment()
     """
-    
+
     BITS = 0x20
     """ Bit Field contains an 8-octet value to be used as a bit field and
     can only be modified with TPM2_NV_SetBits().
     """
-    
+
     EXTEND = 0x40
     """ Extend contains a digest-sized value used like a PCR. The Index can
     only be modified using TPM2_NV_Extend(). The extend will use the nameAlg
     of the Index.
     """
-    
+
     PIN_FAIL = 0x80
     """ PIN Fail - contains pinCount that increments on a PIN authorization
     failure and a pinLimit
     """
-    
+
     PIN_PASS = 0x90
     """ PIN Pass - contains pinCount that increments on a PIN authorization
     success and a pinLimit
     """
-    
+
     TpmNt_BIT_MASK = 0xF0
     """ The type of the index.
     NOTE A TPM is not required to support all TPM_NT values
     """
-    
+
     TpmNt_BIT_OFFSET = 4
-    
+
     TpmNt_BIT_LENGTH = 4
-    
+
     POLICY_DELETE = 0x400
     """ SET (1): Index may not be deleted unless the authPolicy is satisfied
     using TPM2_NV_UndefineSpaceSpecial().
@@ -3096,12 +3096,12 @@ class TPMA_NV(TpmEnum): # UINT32
     NOTE An Index with this attribute and a policy that cannot be satisfied
     (e.g., an Empty Policy) cannot be deleted.
     """
-    
+
     WRITELOCKED = 0x800
     """ SET (1): Index cannot be written.
     CLEAR (0): Index can be written.
     """
-    
+
     WRITEALL = 0x1000
     """ SET (1): A partial write of the Index data is not allowed. The write
     size shall match the defined space size.
@@ -3109,52 +3109,52 @@ class TPMA_NV(TpmEnum): # UINT32
     .dataSize of the Index is larger than NV_MAX_BUFFER_SIZE for the
     implementation.
     """
-    
+
     WRITEDEFINE = 0x2000
     """ SET (1): TPM2_NV_WriteLock() may be used to prevent further writes
     to this location.
     CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if
     TPMA_NV_WRITE_STCLEAR is also CLEAR.
     """
-    
+
     WRITE_STCLEAR = 0x4000
     """ SET (1): TPM2_NV_WriteLock() may be used to prevent further writes
     to this location until the next TPM Reset or TPM Restart.
     CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if
     TPMA_NV_WRITEDEFINE is also CLEAR.
     """
-    
+
     GLOBALLOCK = 0x8000
     """ SET (1): If TPM2_NV_GlobalWriteLock() is successful,
     TPMA_NV_WRITELOCKED is set.
     CLEAR (0): TPM2_NV_GlobalWriteLock() has no effect on the writing of the
     data at this Index.
     """
-    
+
     PPREAD = 0x10000
     """ SET (1): The Index data can be read if Platform Authorization is provided.
     CLEAR (0): Reading of the Index data cannot be authorized with Platform
     Authorization.
     """
-    
+
     OWNERREAD = 0x20000
     """ SET (1): The Index data can be read if Owner Authorization is provided.
     CLEAR (0): Reading of the Index data cannot be authorized with Owner
     Authorization.
     """
-    
+
     AUTHREAD = 0x40000
     """ SET (1): The Index data may be read if the authValue is provided.
     CLEAR (0): Reading of the Index data cannot be authorized with the Index
     authValue.
     """
-    
+
     POLICYREAD = 0x80000
     """ SET (1): The Index data may be read if the authPolicy is satisfied.
     CLEAR (0): Reading of the Index data cannot be authorized with the Index
     authPolicy.
     """
-    
+
     NO_DA = 0x2000000
     """ SET (1): Authorization failures of the Index do not affect the DA
     logic and authorization of the Index is not blocked when the TPM is in
@@ -3163,7 +3163,7 @@ class TPMA_NV(TpmEnum): # UINT32
     authorization failure counter and authorizations of this Index are not
     allowed when the TPM is in Lockout mode.
     """
-    
+
     ORDERLY = 0x4000000
     """ SET (1): NV Index state is only required to be saved when the TPM
     performs an orderly shutdown (TPM2_Shutdown()).
@@ -3171,25 +3171,25 @@ class TPMA_NV(TpmEnum): # UINT32
     to update the Index completes successfully (that is, the NV update is
     synchronous with the update command).
     """
-    
+
     CLEAR_STCLEAR = 0x8000000
     """ SET (1): TPMA_NV_WRITTEN for the Index is CLEAR by TPM Reset or TPM
     Restart.
     CLEAR (0): TPMA_NV_WRITTEN is not changed by TPM Restart.
     NOTE This attribute may only be SET if TPM_NT is not TPM_NT_COUNTER.
     """
-    
+
     READLOCKED = 0x10000000
     """ SET (1): Reads of the Index are blocked until the next TPM Reset or
     TPM Restart.
     CLEAR (0): Reads of the Index are allowed if proper authorization is provided.
     """
-    
+
     WRITTEN = 0x20000000
     """ SET (1): Index has been written.
     CLEAR (0): Index has not been written.
     """
-    
+
     PLATFORMCREATE = 0x40000000
     """ SET (1): This Index may be undefined with Platform Authorization but
     not with Owner Authorization.
@@ -3199,7 +3199,7 @@ class TPMA_NV(TpmEnum): # UINT32
     defined using Platform Authorization and will validate that this
     attribute is CLEAR when the Index is defined using Owner Authorization.
     """
-    
+
     READ_STCLEAR = 0x80000000
     """ SET (1): TPM2_NV_ReadLock() may be used to SET TPMA_NV_READLOCKED
     for this Index.
@@ -3430,40 +3430,40 @@ class UnionFactory:
 class TPM_HANDLE (TpmStructure):
     def __init__(self, handle = TPM_RH.NULL):
         """ Handle of a loaded TPM key or other object [TSS]
-        
+
         Attributes:
             handle (int): Handle value
         """
         self.handle = handle
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.handle)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.handle = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM_HANDLE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM_HANDLE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM_HANDLE object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM_HANDLE)
-    
+
     # The following static members represent TPM_RH constants
     NULL = None
     OWNER = None
     PLATFORM = None
     ENDORSEMENT = None
-    
+
     @staticmethod
     def persistent(handleOffset):
         """ Creates a TPM_HANDLE for a persistent object
@@ -3473,7 +3473,7 @@ class TPM_HANDLE (TpmStructure):
             New TPM_HANDLE object
         """
         return TPM_HANDLE((TPM_HT.PERSISTENT << 24) + handleOffset)
-    
+
     @staticmethod
     def pcr(pcrIndex):
         """ Creates a TPM_HANDLE for a PCR
@@ -3483,7 +3483,7 @@ class TPM_HANDLE (TpmStructure):
             New TPM_HANDLE object
         """
         return TPM_HANDLE(pcrIndex)
-    
+
     @staticmethod
     def nv(nvIndex):
         """ Creates a TPM_HANDLE for an NV slot
@@ -3493,7 +3493,7 @@ class TPM_HANDLE (TpmStructure):
             New TPM_HANDLE object
         """
         return TPM_HANDLE((TPM_HT.NV_INDEX << 24) + nvIndex)
-    
+
     @staticmethod
     def pwSession(authValue):
         """ Creates a password session handle with the associated authorization value
@@ -3505,11 +3505,11 @@ class TPM_HANDLE (TpmStructure):
         pwapHandle = TPM_HANDLE(TPM_RH.RS_PW)
         pwapHandle.authValue = authValue
         return pwapHandle
-    
+
     def getType(self):
         """ Returns this handle type """
         return TPM_HT(self.handle >> 24)
-    
+
     def getName(self):
         """ Returns the TPM name of this handle """
         t = self.getType()
@@ -3520,7 +3520,7 @@ class TPM_HANDLE (TpmStructure):
             return self.name
         else:
             raise(Exception("TPM_HANDLE.getName(): Unknown handle type"))
-    
+
     def __str__(self):
         return str(self.getType()) + ':0x' + hex(self.handle)
 # TPM_HANDLE
@@ -3533,18 +3533,18 @@ class TPMS_NULL_UNION (TpmStructure, TPMU_SYM_DETAILS, TPMU_SCHEME_KEYEDHASH, TP
         initialized with its own empty element.
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.NULL
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_NULL_UNION object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_UNION)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_NULL_UNION object constructed from its marshaled
@@ -3560,18 +3560,18 @@ class TPMS_EMPTY (TpmStructure, TPMU_ASYM_SCHEME):
         selected. Rather than leave the entry empty, TPMS_EMPTY may be selected.
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.RSAES
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_EMPTY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_EMPTY)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_EMPTY object constructed from its marshaled
@@ -3584,31 +3584,31 @@ class TPMS_ALGORITHM_DESCRIPTION (TpmStructure):
     def __init__(self, alg = TPM_ALG_ID.NULL, attributes = 0):
         """ This structure is a return value for a TPM2_GetCapability() that
         reads the installed algorithms.
-        
+
         Attributes:
             alg (TPM_ALG_ID): An algorithm
             attributes (TPMA_ALGORITHM): The attributes of the algorithm
         """
         self.alg = alg
         self.attributes = attributes
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.alg)
         buf.writeInt(self.attributes)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.alg = buf.readShort()
         self.attributes = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ALGORITHM_DESCRIPTION object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ALGORITHM_DESCRIPTION)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ALGORITHM_DESCRIPTION object constructed from its
@@ -3623,7 +3623,7 @@ class TPMT_HA (TpmStructure, TPMU_SIGNATURE):
         specification. To handle hash agility, this structure uses the hashAlg
         parameter to indicate the algorithm used to compute the digest and, by
         implication, the size of the digest.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): Selector of the hash contained in the digest
                 that implies the size of the digest
@@ -3635,28 +3635,28 @@ class TPMT_HA (TpmStructure, TPMU_SIGNATURE):
         """
         self.hashAlg = hashAlg
         self.digest = digest
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.HMAC
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.hashAlg)
         buf.writeByteBuf(self.digest)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.hashAlg = buf.readShort()
         self.digest = buf.readByteBuf(Crypto.digestSize(self.hashAlg))
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_HA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_HA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_HA object constructed from its marshaled
@@ -3669,31 +3669,31 @@ class TPM2B_DIGEST (TpmStructure, TPMU_PUBLIC_ID):
     def __init__(self, buffer = None):
         """ This structure is used for a sized buffer that cannot be larger than
         the largest digest produced by any hash algorithm implemented on the TPM.
-        
+
         Attributes:
             buffer (bytes): The buffer area that can be no larger than a digest
         """
         self.buffer = buffer
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.KEYEDHASH
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_DIGEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_DIGEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_DIGEST object constructed from its marshaled
@@ -3706,27 +3706,27 @@ class TPM2B_DATA (TpmStructure):
     def __init__(self, buffer = None):
         """ This structure is used for a data buffer that is required to be no
         larger than the size of the Name of an object.
-        
+
         Attributes:
             buffer (bytes): TBD
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_DATA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_DATA object constructed from its marshaled
@@ -3738,19 +3738,19 @@ class TPM2B_DATA (TpmStructure):
 class TPM2B_NONCE (TPM2B_DIGEST):
     def __init__(self, buffer = None):
         """ Table 83 Definition of Types for TPM2B_NONCE
-        
+
         Attributes:
             buffer (bytes): The buffer area that can be no larger than a digest
         """
         super(TPM2B_NONCE, self).__init__(buffer)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_NONCE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_NONCE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_NONCE object constructed from its marshaled
@@ -3767,19 +3767,19 @@ class TPM2B_AUTH (TPM2B_DIGEST):
         larger than the size of the digest produced by the objects nameAlg. This
         ensures that any TPM that can load the object will be able to handle the
         authValue of the object.
-        
+
         Attributes:
             buffer (bytes): The buffer area that can be no larger than a digest
         """
         super(TPM2B_AUTH, self).__init__(buffer)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_AUTH object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_AUTH)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_AUTH object constructed from its marshaled
@@ -3795,19 +3795,19 @@ class TPM2B_OPERAND (TPM2B_DIGEST):
         implementation dependent but a TPM is required to support an operand
         size that is at least as big as the digest produced by any of the hash
         algorithms implemented on the TPM.
-        
+
         Attributes:
             buffer (bytes): The buffer area that can be no larger than a digest
         """
         super(TPM2B_OPERAND, self).__init__(buffer)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_OPERAND object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_OPERAND)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_OPERAND object constructed from its marshaled
@@ -3819,27 +3819,27 @@ class TPM2B_OPERAND (TPM2B_DIGEST):
 class TPM2B_EVENT (TpmStructure):
     def __init__(self, buffer = None):
         """ This type is a sized buffer that can hold event data.
-        
+
         Attributes:
             buffer (bytes): The operand
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_EVENT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_EVENT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_EVENT object constructed from its marshaled
@@ -3853,27 +3853,27 @@ class TPM2B_MAX_BUFFER (TpmStructure):
         """ This type is a sized buffer that can hold a maximally sized buffer
         for commands that use a large data buffer such as TPM2_Hash(),
         TPM2_SequenceUpdate(), or TPM2_FieldUpgradeData().
-        
+
         Attributes:
             buffer (bytes): The operand
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_MAX_BUFFER object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_MAX_BUFFER)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_MAX_BUFFER object constructed from its marshaled
@@ -3887,28 +3887,28 @@ class TPM2B_MAX_NV_BUFFER (TpmStructure):
         """ This type is a sized buffer that can hold a maximally sized buffer
         for NV data commands such as TPM2_NV_Read(), TPM2_NV_Write(), and
         TPM2_NV_Certify().
-        
+
         Attributes:
             buffer (bytes): The operand
                 NOTE MAX_NV_BUFFER_SIZE is TPM-dependent
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_MAX_NV_BUFFER object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_MAX_NV_BUFFER)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_MAX_NV_BUFFER object constructed from its
@@ -3921,27 +3921,27 @@ class TPM2B_TIMEOUT (TpmStructure):
     def __init__(self, buffer = None):
         """ This TPM-dependent structure is used to provide the timeout value
         for an authorization. The size shall be 8 or less.
-        
+
         Attributes:
             buffer (bytes): The timeout value
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_TIMEOUT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_TIMEOUT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_TIMEOUT object constructed from its marshaled
@@ -3955,27 +3955,27 @@ class TPM2B_IV (TpmStructure):
         """ This structure is used for passing an initial value for a symmetric
         block cipher to or from the TPM. The size is set to be the largest block
         size of any implemented symmetric cipher implemented on the TPM.
-        
+
         Attributes:
             buffer (bytes): The IV value
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_IV object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_IV)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_IV object constructed from its marshaled
@@ -3987,27 +3987,27 @@ class TPM2B_IV (TpmStructure):
 class TPM2B_NAME (TpmStructure):
     def __init__(self, name = None):
         """ This buffer holds a Name for any entity type.
-        
+
         Attributes:
             name (bytes): The Name structure
         """
         self.name = name
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.name)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.name = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_NAME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_NAME)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_NAME object constructed from its marshaled
@@ -4019,27 +4019,27 @@ class TPM2B_NAME (TpmStructure):
 class TPMS_PCR_SELECT (TpmStructure):
     def __init__(self, pcrSelect = None):
         """ This structure provides a standard method of specifying a list of PCR.
-        
+
         Attributes:
             pcrSelect (bytes): The bit map of selected PCR
         """
         self.pcrSelect = pcrSelect
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.pcrSelect, 1)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.pcrSelect = buf.readSizedByteBuf(1)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_PCR_SELECT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_PCR_SELECT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_PCR_SELECT object constructed from its marshaled
@@ -4051,31 +4051,31 @@ class TPMS_PCR_SELECT (TpmStructure):
 class TPMS_PCR_SELECTION (TpmStructure):
     def __init__(self, hash = TPM_ALG_ID.NULL, pcrSelect = None):
         """ Table 94 Definition of TPMS_PCR_SELECTION Structure
-        
+
         Attributes:
             hash (TPM_ALG_ID): The hash algorithm associated with the selection
             pcrSelect (bytes): The bit map of selected PCR
         """
         self.hash = hash
         self.pcrSelect = pcrSelect
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.hash)
         buf.writeSizedByteBuf(self.pcrSelect, 1)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.hash = buf.readShort()
         self.pcrSelect = buf.readSizedByteBuf(1)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_PCR_SELECTION object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_PCR_SELECTION)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_PCR_SELECTION object constructed from its marshaled
@@ -4089,7 +4089,7 @@ class TPMT_TK_CREATION (TpmStructure):
         """ This ticket is produced by TPM2_Create() or TPM2_CreatePrimary(). It
         is used to bind the creation data to the object to which it applies. The
         ticket is computed by
-        
+
         Attributes:
             hierarchy (TPM_HANDLE): The hierarchy containing name
             digest (bytes): This shall be the HMAC produced using a proof value
@@ -4097,26 +4097,26 @@ class TPMT_TK_CREATION (TpmStructure):
         """
         self.hierarchy = hierarchy
         self.digest = digest
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(TPM_ST.CREATION)
         self.hierarchy.toTpm(buf)
         buf.writeSizedByteBuf(self.digest)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         buf.readShort()
         self.hierarchy = TPM_HANDLE.fromTpm(buf)
         self.digest = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_TK_CREATION object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_TK_CREATION)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_TK_CREATION object constructed from its marshaled
@@ -4131,7 +4131,7 @@ class TPMT_TK_VERIFIED (TpmStructure):
         is used for multiple ticket uses. The ticket provides evidence that the
         TPM has validated that a digest was signed by a key with the Name of
         keyName. The ticket is computed by
-        
+
         Attributes:
             hierarchy (TPM_HANDLE): The hierarchy containing keyName
             digest (bytes): This shall be the HMAC produced using a proof value
@@ -4139,26 +4139,26 @@ class TPMT_TK_VERIFIED (TpmStructure):
         """
         self.hierarchy = hierarchy
         self.digest = digest
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(TPM_ST.VERIFIED)
         self.hierarchy.toTpm(buf)
         buf.writeSizedByteBuf(self.digest)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         buf.readShort()
         self.hierarchy = TPM_HANDLE.fromTpm(buf)
         self.digest = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_TK_VERIFIED object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_TK_VERIFIED)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_TK_VERIFIED object constructed from its marshaled
@@ -4172,7 +4172,7 @@ class TPMT_TK_AUTH (TpmStructure):
         """ This ticket is produced by TPM2_PolicySigned() and
         TPM2_PolicySecret() when the authorization has an expiration time. If
         nonceTPM was provided in the policy command, the ticket is computed by
-        
+
         Attributes:
             tag (TPM_ST): Ticket structure tag
             hierarchy (TPM_HANDLE): The hierarchy of the object used to produce
@@ -4183,26 +4183,26 @@ class TPMT_TK_AUTH (TpmStructure):
         self.tag = tag
         self.hierarchy = hierarchy
         self.digest = digest
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.tag)
         self.hierarchy.toTpm(buf)
         buf.writeSizedByteBuf(self.digest)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.tag = buf.readShort()
         self.hierarchy = TPM_HANDLE.fromTpm(buf)
         self.digest = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_TK_AUTH object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_TK_AUTH)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_TK_AUTH object constructed from its marshaled
@@ -4216,7 +4216,7 @@ class TPMT_TK_HASHCHECK (TpmStructure):
         """ This ticket is produced by TPM2_SequenceComplete() or TPM2_Hash()
         when the message that was digested did not start with
         TPM_GENERATED_VALUE. The ticket is computed by
-        
+
         Attributes:
             hierarchy (TPM_HANDLE): The hierarchy
             digest (bytes): This shall be the HMAC produced using a proof value
@@ -4224,26 +4224,26 @@ class TPMT_TK_HASHCHECK (TpmStructure):
         """
         self.hierarchy = hierarchy
         self.digest = digest
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(TPM_ST.HASHCHECK)
         self.hierarchy.toTpm(buf)
         buf.writeSizedByteBuf(self.digest)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         buf.readShort()
         self.hierarchy = TPM_HANDLE.fromTpm(buf)
         self.digest = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_TK_HASHCHECK object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_TK_HASHCHECK)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_TK_HASHCHECK object constructed from its marshaled
@@ -4257,31 +4257,31 @@ class TPMS_ALG_PROPERTY (TpmStructure):
         """ This structure is used to report the properties of an algorithm
         identifier. It is returned in response to a TPM2_GetCapability() with
         capability = TPM_CAP_ALG.
-        
+
         Attributes:
             alg (TPM_ALG_ID): An algorithm identifier
             algProperties (TPMA_ALGORITHM): The attributes of the algorithm
         """
         self.alg = alg
         self.algProperties = algProperties
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.alg)
         buf.writeInt(self.algProperties)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.alg = buf.readShort()
         self.algProperties = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ALG_PROPERTY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ALG_PROPERTY)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ALG_PROPERTY object constructed from its marshaled
@@ -4294,31 +4294,31 @@ class TPMS_TAGGED_PROPERTY (TpmStructure):
     def __init__(self, property = 0, value = 0):
         """ This structure is used to report the properties that are UINT32
         values. It is returned in response to a TPM2_GetCapability().
-        
+
         Attributes:
             property (TPM_PT): A property identifier
             value (int): The value of the property
         """
         self.property = property
         self.value = value
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.property)
         buf.writeInt(self.value)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.property = buf.readInt()
         self.value = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_TAGGED_PROPERTY object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TAGGED_PROPERTY)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_TAGGED_PROPERTY object constructed from its
@@ -4331,31 +4331,31 @@ class TPMS_TAGGED_PCR_SELECT (TpmStructure):
     def __init__(self, tag = 0, pcrSelect = None):
         """ This structure is used in TPM2_GetCapability() to return the
         attributes of the PCR.
-        
+
         Attributes:
             tag (TPM_PT_PCR): The property identifier
             pcrSelect (bytes): The bit map of PCR with the identified property
         """
         self.tag = tag
         self.pcrSelect = pcrSelect
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.tag)
         buf.writeSizedByteBuf(self.pcrSelect, 1)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.tag = buf.readInt()
         self.pcrSelect = buf.readSizedByteBuf(1)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_TAGGED_PCR_SELECT object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TAGGED_PCR_SELECT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_TAGGED_PCR_SELECT object constructed from its
@@ -4368,31 +4368,31 @@ class TPMS_TAGGED_POLICY (TpmStructure):
     def __init__(self, handle = TPM_HANDLE(), policyHash = None):
         """ This structure is used in TPM2_GetCapability() to return the policy
         associated with a permanent handle.
-        
+
         Attributes:
             handle (TPM_HANDLE): A permanent handle
             policyHash (TPMT_HA): The policy algorithm and hash
         """
         self.handle = handle
         self.policyHash = policyHash
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.handle.toTpm(buf)
         self.policyHash.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.handle = TPM_HANDLE.fromTpm(buf)
         self.policyHash = TPMT_HA.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_TAGGED_POLICY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TAGGED_POLICY)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_TAGGED_POLICY object constructed from its marshaled
@@ -4404,7 +4404,7 @@ class TPMS_TAGGED_POLICY (TpmStructure):
 class TPMS_ACT_DATA (TpmStructure):
     def __init__(self, handle = TPM_HANDLE(), timeout = 0, attributes = 0):
         """ This structure is used in TPM2_GetCapability() to return the ACT data.
-        
+
         Attributes:
             handle (TPM_HANDLE): A permanent handle
             timeout (int): The current timeout of the ACT
@@ -4413,26 +4413,26 @@ class TPMS_ACT_DATA (TpmStructure):
         self.handle = handle
         self.timeout = timeout
         self.attributes = attributes
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.handle.toTpm(buf)
         buf.writeInt(self.timeout)
         buf.writeInt(self.attributes)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.handle = TPM_HANDLE.fromTpm(buf)
         self.timeout = buf.readInt()
         self.attributes = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ACT_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ACT_DATA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ACT_DATA object constructed from its marshaled
@@ -4445,33 +4445,33 @@ class TPML_CC (TpmStructure, TPMU_CAPABILITIES):
     def __init__(self, commandCodes = None):
         """ A list of command codes may be input to the TPM or returned by the
         TPM depending on the command.
-        
+
         Attributes:
             commandCodes (TPM_CC[]): A list of command codes
                 The maximum only applies to a command code list in a command.
                 The response size is limited only by the size of the parameter buffer.
         """
         self.commandCodes = commandCodes
-    
+
     def GetUnionSelector(self): # TPM_CAP
         """ TpmUnion method """
         return TPM_CAP.PP_COMMANDS
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeValArr(self.commandCodes, 4)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.commandCodes = buf.readValArr(4)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_CC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_CC)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_CC object constructed from its marshaled
@@ -4484,31 +4484,31 @@ class TPML_CCA (TpmStructure, TPMU_CAPABILITIES):
     def __init__(self, commandAttributes = None):
         """ This list is only used in TPM2_GetCapability(capability =
         TPM_CAP_COMMANDS).
-        
+
         Attributes:
             commandAttributes (TPMA_CC[]): A list of command codes attributes
         """
         self.commandAttributes = commandAttributes
-    
+
     def GetUnionSelector(self): # TPM_CAP
         """ TpmUnion method """
         return TPM_CAP.COMMANDS
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeValArr(self.commandAttributes, 4)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.commandAttributes = buf.readValArr(4)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_CCA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_CCA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_CCA object constructed from its marshaled
@@ -4520,29 +4520,29 @@ class TPML_CCA (TpmStructure, TPMU_CAPABILITIES):
 class TPML_ALG (TpmStructure):
     def __init__(self, algorithms = None):
         """ This list is returned by TPM2_IncrementalSelfTest().
-        
+
         Attributes:
             algorithms (TPM_ALG_ID[]): A list of algorithm IDs
                 The maximum only applies to an algorithm list in a command. The
                 response size is limited only by the size of the parameter buffer.
         """
         self.algorithms = algorithms
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeValArr(self.algorithms, 2)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.algorithms = buf.readValArr(2)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_ALG object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_ALG)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_ALG object constructed from its marshaled
@@ -4555,31 +4555,31 @@ class TPML_HANDLE (TpmStructure, TPMU_CAPABILITIES):
     def __init__(self, handle = None):
         """ This structure is used when the TPM returns a list of loaded handles
         when the capability in TPM2_GetCapability() is TPM_CAP_HANDLE.
-        
+
         Attributes:
             handle (TPM_HANDLE[]): An array of handles
         """
         self.handle = handle
-    
+
     def GetUnionSelector(self): # TPM_CAP
         """ TpmUnion method """
         return TPM_CAP.HANDLES
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.handle)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.handle = buf.readObjArr(TPM_HANDLE)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_HANDLE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_HANDLE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_HANDLE object constructed from its marshaled
@@ -4592,7 +4592,7 @@ class TPML_DIGEST (TpmStructure):
     def __init__(self, digests = None):
         """ This list is used to convey a list of digest values. This type is
         used in TPM2_PolicyOR() and in TPM2_PCR_Read().
-        
+
         Attributes:
             digests (TPM2B_DIGEST[]): A list of digests
                 For TPM2_PolicyOR(), all digests will have been computed using
@@ -4601,22 +4601,22 @@ class TPML_DIGEST (TpmStructure):
                 the PCR.
         """
         self.digests = digests
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.digests)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.digests = buf.readObjArr(TPM2B_DIGEST)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_DIGEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_DIGEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_DIGEST object constructed from its marshaled
@@ -4630,27 +4630,27 @@ class TPML_DIGEST_VALUES (TpmStructure):
         """ This list is used to convey a list of digest values. This type is
         returned by TPM2_PCR_Event() and TPM2_EventSequenceComplete() and is an
         input for TPM2_PCR_Extend().
-        
+
         Attributes:
             digests (TPMT_HA[]): A list of tagged digests
         """
         self.digests = digests
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.digests)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.digests = buf.readObjArr(TPMT_HA)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_DIGEST_VALUES object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_DIGEST_VALUES)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_DIGEST_VALUES object constructed from its marshaled
@@ -4663,31 +4663,31 @@ class TPML_PCR_SELECTION (TpmStructure, TPMU_CAPABILITIES):
     def __init__(self, pcrSelections = None):
         """ This list is used to indicate the PCR that are included in a
         selection when more than one PCR value may be selected.
-        
+
         Attributes:
             pcrSelections (TPMS_PCR_SELECTION[]): List of selections
         """
         self.pcrSelections = pcrSelections
-    
+
     def GetUnionSelector(self): # TPM_CAP
         """ TpmUnion method """
         return TPM_CAP.PCRS
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.pcrSelections)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.pcrSelections = buf.readObjArr(TPMS_PCR_SELECTION)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_PCR_SELECTION object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_PCR_SELECTION)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_PCR_SELECTION object constructed from its marshaled
@@ -4700,31 +4700,31 @@ class TPML_ALG_PROPERTY (TpmStructure, TPMU_CAPABILITIES):
     def __init__(self, algProperties = None):
         """ This list is used to report on a list of algorithm attributes. It is
         returned in a TPM2_GetCapability().
-        
+
         Attributes:
             algProperties (TPMS_ALG_PROPERTY[]): List of properties
         """
         self.algProperties = algProperties
-    
+
     def GetUnionSelector(self): # TPM_CAP
         """ TpmUnion method """
         return TPM_CAP.ALGS
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.algProperties)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.algProperties = buf.readObjArr(TPMS_ALG_PROPERTY)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_ALG_PROPERTY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_ALG_PROPERTY)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_ALG_PROPERTY object constructed from its marshaled
@@ -4737,31 +4737,31 @@ class TPML_TAGGED_TPM_PROPERTY (TpmStructure, TPMU_CAPABILITIES):
     def __init__(self, tpmProperty = None):
         """ This list is used to report on a list of properties that are
         TPMS_TAGGED_PROPERTY values. It is returned by a TPM2_GetCapability().
-        
+
         Attributes:
             tpmProperty (TPMS_TAGGED_PROPERTY[]): An array of tagged properties
         """
         self.tpmProperty = tpmProperty
-    
+
     def GetUnionSelector(self): # TPM_CAP
         """ TpmUnion method """
         return TPM_CAP.TPM_PROPERTIES
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.tpmProperty)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.tpmProperty = buf.readObjArr(TPMS_TAGGED_PROPERTY)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_TAGGED_TPM_PROPERTY object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_TAGGED_TPM_PROPERTY)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_TAGGED_TPM_PROPERTY object constructed from its
@@ -4774,31 +4774,31 @@ class TPML_TAGGED_PCR_PROPERTY (TpmStructure, TPMU_CAPABILITIES):
     def __init__(self, pcrProperty = None):
         """ This list is used to report on a list of properties that are
         TPMS_PCR_SELECT values. It is returned by a TPM2_GetCapability().
-        
+
         Attributes:
             pcrProperty (TPMS_TAGGED_PCR_SELECT[]): A tagged PCR selection
         """
         self.pcrProperty = pcrProperty
-    
+
     def GetUnionSelector(self): # TPM_CAP
         """ TpmUnion method """
         return TPM_CAP.PCR_PROPERTIES
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.pcrProperty)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.pcrProperty = buf.readObjArr(TPMS_TAGGED_PCR_SELECT)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_TAGGED_PCR_PROPERTY object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_TAGGED_PCR_PROPERTY)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_TAGGED_PCR_PROPERTY object constructed from its
@@ -4811,31 +4811,31 @@ class TPML_ECC_CURVE (TpmStructure, TPMU_CAPABILITIES):
     def __init__(self, eccCurves = None):
         """ This list is used to report the ECC curve ID values supported by the
         TPM. It is returned by a TPM2_GetCapability().
-        
+
         Attributes:
             eccCurves (TPM_ECC_CURVE[]): Array of ECC curve identifiers
         """
         self.eccCurves = eccCurves
-    
+
     def GetUnionSelector(self): # TPM_CAP
         """ TpmUnion method """
         return TPM_CAP.ECC_CURVES
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeValArr(self.eccCurves, 2)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.eccCurves = buf.readValArr(2)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_ECC_CURVE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_ECC_CURVE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_ECC_CURVE object constructed from its marshaled
@@ -4850,31 +4850,31 @@ class TPML_TAGGED_POLICY (TpmStructure, TPMU_CAPABILITIES):
         permanent handles. This is list may be generated by
         TPM2_GetCapabiltiy(). A permanent handle that cannot have a policy is
         not included in the list.
-        
+
         Attributes:
             policies (TPMS_TAGGED_POLICY[]): Array of tagged policies
         """
         self.policies = policies
-    
+
     def GetUnionSelector(self): # TPM_CAP
         """ TpmUnion method """
         return TPM_CAP.AUTH_POLICIES
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.policies)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.policies = buf.readObjArr(TPMS_TAGGED_POLICY)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_TAGGED_POLICY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_TAGGED_POLICY)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_TAGGED_POLICY object constructed from its marshaled
@@ -4888,31 +4888,31 @@ class TPML_ACT_DATA (TpmStructure, TPMU_CAPABILITIES):
         """ This list is used to report the timeout and state for the ACT. This
         list may be generated by TPM2_GetCapabilty(). Only implemented ACT are
         present in the list
-        
+
         Attributes:
             actData (TPMS_ACT_DATA[]): Array of ACT data
         """
         self.actData = actData
-    
+
     def GetUnionSelector(self): # TPM_CAP
         """ TpmUnion method """
         return TPM_CAP.ACT
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.actData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.actData = buf.readObjArr(TPMS_ACT_DATA)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_ACT_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_ACT_DATA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_ACT_DATA object constructed from its marshaled
@@ -4924,7 +4924,7 @@ class TPML_ACT_DATA (TpmStructure, TPMU_CAPABILITIES):
 class TPMS_CAPABILITY_DATA (TpmStructure):
     def __init__(self, data = None):
         """ This data area is returned in response to a TPM2_GetCapability().
-        
+
         Attributes:
             data (TPMU_CAPABILITIES): The capability data
                 One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC,
@@ -4933,31 +4933,31 @@ class TPMS_CAPABILITY_DATA (TpmStructure):
                 TPML_ACT_DATA.
         """
         self.data = data
-    
+
     @property
     def capability(self): # TPM_CAP
         """ The capability """
         return data.GetUnionSelector()
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.data == None: return
         buf.writeInt(self.data.GetUnionSelector())
         self.data.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         capability = buf.readInt()
         self.data = UnionFactory.create('TPMU_CAPABILITIES', capability)
         self.data.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_CAPABILITY_DATA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CAPABILITY_DATA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_CAPABILITY_DATA object constructed from its
@@ -4969,7 +4969,7 @@ class TPMS_CAPABILITY_DATA (TpmStructure):
 class TPMS_CLOCK_INFO (TpmStructure):
     def __init__(self, clock = 0, resetCount = 0, restartCount = 0, safe = 0):
         """ This structure is used in each of the attestation commands.
-        
+
         Attributes:
             clock (int): Time value in milliseconds that advances while the TPM
                 is powered
@@ -4992,28 +4992,28 @@ class TPMS_CLOCK_INFO (TpmStructure):
         self.resetCount = resetCount
         self.restartCount = restartCount
         self.safe = safe
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt64(self.clock)
         buf.writeInt(self.resetCount)
         buf.writeInt(self.restartCount)
         buf.writeByte(self.safe)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.clock = buf.readInt64()
         self.resetCount = buf.readInt()
         self.restartCount = buf.readInt()
         self.safe = buf.readByte()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_CLOCK_INFO object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CLOCK_INFO)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_CLOCK_INFO object constructed from its marshaled
@@ -5026,7 +5026,7 @@ class TPMS_TIME_INFO (TpmStructure):
     def __init__(self, time = 0, clockInfo = None):
         """ This structure is used in, e.g., the TPM2_GetTime() attestation and
         TPM2_ReadClock().
-        
+
         Attributes:
             time (int): Time in milliseconds since the TIme circuit was last reset
                 This structure element is used to report on the TPM's Time value.
@@ -5034,24 +5034,24 @@ class TPMS_TIME_INFO (TpmStructure):
         """
         self.time = time
         self.clockInfo = clockInfo
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt64(self.time)
         self.clockInfo.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.time = buf.readInt64()
         self.clockInfo = TPMS_CLOCK_INFO.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_TIME_INFO object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TIME_INFO)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_TIME_INFO object constructed from its marshaled
@@ -5063,7 +5063,7 @@ class TPMS_TIME_INFO (TpmStructure):
 class TPMS_TIME_ATTEST_INFO (TpmStructure, TPMU_ATTEST):
     def __init__(self, time = None, firmwareVersion = 0):
         """ This structure is used when the TPM performs TPM2_GetTime.
-        
+
         Attributes:
             time (TPMS_TIME_INFO): The Time, Clock, resetCount, restartCount,
                 and Safe indicator
@@ -5072,28 +5072,28 @@ class TPMS_TIME_ATTEST_INFO (TpmStructure, TPMU_ATTEST):
         """
         self.time = time
         self.firmwareVersion = firmwareVersion
-    
+
     def GetUnionSelector(self): # TPM_ST
         """ TpmUnion method """
         return TPM_ST.ATTEST_TIME
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.time.toTpm(buf)
         buf.writeInt64(self.firmwareVersion)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.time = TPMS_TIME_INFO.fromTpm(buf)
         self.firmwareVersion = buf.readInt64()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_TIME_ATTEST_INFO object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TIME_ATTEST_INFO)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_TIME_ATTEST_INFO object constructed from its
@@ -5105,35 +5105,35 @@ class TPMS_TIME_ATTEST_INFO (TpmStructure, TPMU_ATTEST):
 class TPMS_CERTIFY_INFO (TpmStructure, TPMU_ATTEST):
     def __init__(self, name = None, qualifiedName = None):
         """ This is the attested data for TPM2_Certify().
-        
+
         Attributes:
             name (bytes): Name of the certified object
             qualifiedName (bytes): Qualified Name of the certified object
         """
         self.name = name
         self.qualifiedName = qualifiedName
-    
+
     def GetUnionSelector(self): # TPM_ST
         """ TpmUnion method """
         return TPM_ST.ATTEST_CERTIFY
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.name)
         buf.writeSizedByteBuf(self.qualifiedName)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.name = buf.readSizedByteBuf()
         self.qualifiedName = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_CERTIFY_INFO object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CERTIFY_INFO)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_CERTIFY_INFO object constructed from its marshaled
@@ -5145,7 +5145,7 @@ class TPMS_CERTIFY_INFO (TpmStructure, TPMU_ATTEST):
 class TPMS_QUOTE_INFO (TpmStructure, TPMU_ATTEST):
     def __init__(self, pcrSelect = None, pcrDigest = None):
         """ This is the attested data for TPM2_Quote().
-        
+
         Attributes:
             pcrSelect (TPMS_PCR_SELECTION[]): Information on algID, PCR selected
                 and digest
@@ -5154,28 +5154,28 @@ class TPMS_QUOTE_INFO (TpmStructure, TPMU_ATTEST):
         """
         self.pcrSelect = pcrSelect
         self.pcrDigest = pcrDigest
-    
+
     def GetUnionSelector(self): # TPM_ST
         """ TpmUnion method """
         return TPM_ST.ATTEST_QUOTE
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.pcrSelect)
         buf.writeSizedByteBuf(self.pcrDigest)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.pcrSelect = buf.readObjArr(TPMS_PCR_SELECTION)
         self.pcrDigest = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_QUOTE_INFO object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_QUOTE_INFO)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_QUOTE_INFO object constructed from its marshaled
@@ -5187,7 +5187,7 @@ class TPMS_QUOTE_INFO (TpmStructure, TPMU_ATTEST):
 class TPMS_COMMAND_AUDIT_INFO (TpmStructure, TPMU_ATTEST):
     def __init__(self, auditCounter = 0, digestAlg = TPM_ALG_ID.NULL, auditDigest = None, commandDigest = None):
         """ This is the attested data for TPM2_GetCommandAuditDigest().
-        
+
         Attributes:
             auditCounter (int): The monotonic audit counter
             digestAlg (TPM_ALG_ID): Hash algorithm used for the command audit
@@ -5199,32 +5199,32 @@ class TPMS_COMMAND_AUDIT_INFO (TpmStructure, TPMU_ATTEST):
         self.digestAlg = digestAlg
         self.auditDigest = auditDigest
         self.commandDigest = commandDigest
-    
+
     def GetUnionSelector(self): # TPM_ST
         """ TpmUnion method """
         return TPM_ST.ATTEST_COMMAND_AUDIT
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt64(self.auditCounter)
         buf.writeShort(self.digestAlg)
         buf.writeSizedByteBuf(self.auditDigest)
         buf.writeSizedByteBuf(self.commandDigest)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.auditCounter = buf.readInt64()
         self.digestAlg = buf.readShort()
         self.auditDigest = buf.readSizedByteBuf()
         self.commandDigest = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_COMMAND_AUDIT_INFO object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_COMMAND_AUDIT_INFO)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_COMMAND_AUDIT_INFO object constructed from its
@@ -5236,7 +5236,7 @@ class TPMS_COMMAND_AUDIT_INFO (TpmStructure, TPMU_ATTEST):
 class TPMS_SESSION_AUDIT_INFO (TpmStructure, TPMU_ATTEST):
     def __init__(self, exclusiveSession = 0, sessionDigest = None):
         """ This is the attested data for TPM2_GetSessionAuditDigest().
-        
+
         Attributes:
             exclusiveSession (int): Current exclusive status of the session
                 TRUE if all of the commands recorded in the sessionDigest were
@@ -5246,28 +5246,28 @@ class TPMS_SESSION_AUDIT_INFO (TpmStructure, TPMU_ATTEST):
         """
         self.exclusiveSession = exclusiveSession
         self.sessionDigest = sessionDigest
-    
+
     def GetUnionSelector(self): # TPM_ST
         """ TpmUnion method """
         return TPM_ST.ATTEST_SESSION_AUDIT
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeByte(self.exclusiveSession)
         buf.writeSizedByteBuf(self.sessionDigest)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.exclusiveSession = buf.readByte()
         self.sessionDigest = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SESSION_AUDIT_INFO object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SESSION_AUDIT_INFO)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SESSION_AUDIT_INFO object constructed from its
@@ -5279,35 +5279,35 @@ class TPMS_SESSION_AUDIT_INFO (TpmStructure, TPMU_ATTEST):
 class TPMS_CREATION_INFO (TpmStructure, TPMU_ATTEST):
     def __init__(self, objectName = None, creationHash = None):
         """ This is the attested data for TPM2_CertifyCreation().
-        
+
         Attributes:
             objectName (bytes): Name of the object
             creationHash (bytes): CreationHash
         """
         self.objectName = objectName
         self.creationHash = creationHash
-    
+
     def GetUnionSelector(self): # TPM_ST
         """ TpmUnion method """
         return TPM_ST.ATTEST_CREATION
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.objectName)
         buf.writeSizedByteBuf(self.creationHash)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.objectName = buf.readSizedByteBuf()
         self.creationHash = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_CREATION_INFO object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CREATION_INFO)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_CREATION_INFO object constructed from its marshaled
@@ -5320,7 +5320,7 @@ class TPMS_NV_CERTIFY_INFO (TpmStructure, TPMU_ATTEST):
     def __init__(self, indexName = None, offset = 0, nvContents = None):
         """ This structure contains the Name and contents of the selected NV
         Index that is certified by TPM2_NV_Certify().
-        
+
         Attributes:
             indexName (bytes): Name of the NV Index
             offset (int): The offset parameter of TPM2_NV_Certify()
@@ -5329,30 +5329,30 @@ class TPMS_NV_CERTIFY_INFO (TpmStructure, TPMU_ATTEST):
         self.indexName = indexName
         self.offset = offset
         self.nvContents = nvContents
-    
+
     def GetUnionSelector(self): # TPM_ST
         """ TpmUnion method """
         return TPM_ST.ATTEST_NV
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.indexName)
         buf.writeShort(self.offset)
         buf.writeSizedByteBuf(self.nvContents)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.indexName = buf.readSizedByteBuf()
         self.offset = buf.readShort()
         self.nvContents = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_NV_CERTIFY_INFO object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NV_CERTIFY_INFO)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_NV_CERTIFY_INFO object constructed from its
@@ -5366,35 +5366,35 @@ class TPMS_NV_DIGEST_CERTIFY_INFO (TpmStructure, TPMU_ATTEST):
         """ This structure contains the Name and hash of the contents of the
         selected NV Index that is certified by TPM2_NV_Certify(). The data is
         hashed using hash of the signing scheme.
-        
+
         Attributes:
             indexName (bytes): Name of the NV Index
             nvDigest (bytes): Hash of the contents of the index
         """
         self.indexName = indexName
         self.nvDigest = nvDigest
-    
+
     def GetUnionSelector(self): # TPM_ST
         """ TpmUnion method """
         return TPM_ST.ATTEST_NV_DIGEST
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.indexName)
         buf.writeSizedByteBuf(self.nvDigest)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.indexName = buf.readSizedByteBuf()
         self.nvDigest = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_NV_DIGEST_CERTIFY_INFO object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NV_DIGEST_CERTIFY_INFO)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_NV_DIGEST_CERTIFY_INFO object constructed from its
@@ -5407,7 +5407,7 @@ class TPMS_ATTEST (TpmStructure):
     def __init__(self, magic = 0, qualifiedSigner = None, extraData = None, clockInfo = None, firmwareVersion = 0, attested = None):
         """ This structure is used on each TPM-generated signed structure. The
         signature is over this structure.
-        
+
         Attributes:
             magic (TPM_GENERATED): The indication that this structure was
                 created by a TPM (always TPM_GENERATED_VALUE)
@@ -5432,12 +5432,12 @@ class TPMS_ATTEST (TpmStructure):
         self.clockInfo = clockInfo
         self.firmwareVersion = firmwareVersion
         self.attested = attested
-    
+
     @property
     def type(self): # TPM_ST
         """ Type of the attestation structure """
         return attested.GetUnionSelector()
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.magic)
@@ -5447,7 +5447,7 @@ class TPMS_ATTEST (TpmStructure):
         self.clockInfo.toTpm(buf)
         buf.writeInt64(self.firmwareVersion)
         self.attested.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.magic = buf.readInt()
@@ -5458,14 +5458,14 @@ class TPMS_ATTEST (TpmStructure):
         self.firmwareVersion = buf.readInt64()
         self.attested = UnionFactory.create('TPMU_ATTEST', type)
         self.attested.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ATTEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ATTEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ATTEST object constructed from its marshaled
@@ -5479,27 +5479,27 @@ class TPM2B_ATTEST (TpmStructure):
         """ This sized buffer to contain the signed structure. The
         attestationData is the signed portion of the structure. The size
         parameter is not signed.
-        
+
         Attributes:
             attestationData (TPMS_ATTEST): The signed structure
         """
         self.attestationData = attestationData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.attestationData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.attestationData = buf.createSizedObj(TPMS_ATTEST)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_ATTEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_ATTEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_ATTEST object constructed from its marshaled
@@ -5512,7 +5512,7 @@ class TPMS_AUTH_COMMAND (TpmStructure):
     def __init__(self, sessionHandle = TPM_HANDLE(), nonce = None, sessionAttributes = 0, hmac = None):
         """ This is the format used for each of the authorizations in the
         session area of a command.
-        
+
         Attributes:
             sessionHandle (TPM_HANDLE): The session handle
             nonce (bytes): The session nonce, may be the Empty Buffer
@@ -5523,28 +5523,28 @@ class TPMS_AUTH_COMMAND (TpmStructure):
         self.nonce = nonce
         self.sessionAttributes = sessionAttributes
         self.hmac = hmac
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.sessionHandle.toTpm(buf)
         buf.writeSizedByteBuf(self.nonce)
         buf.writeByte(self.sessionAttributes)
         buf.writeSizedByteBuf(self.hmac)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.sessionHandle = TPM_HANDLE.fromTpm(buf)
         self.nonce = buf.readSizedByteBuf()
         self.sessionAttributes = buf.readByte()
         self.hmac = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_AUTH_COMMAND object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_AUTH_COMMAND)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_AUTH_COMMAND object constructed from its marshaled
@@ -5559,7 +5559,7 @@ class TPMS_AUTH_RESPONSE (TpmStructure):
         area of the response. If the TPM returns TPM_RC_SUCCESS, then the
         session area of the response contains the same number of authorizations
         as the command and the authorizations are in the same order.
-        
+
         Attributes:
             nonce (bytes): The session nonce, may be the Empty Buffer
             sessionAttributes (TPMA_SESSION): The session attributes
@@ -5568,26 +5568,26 @@ class TPMS_AUTH_RESPONSE (TpmStructure):
         self.nonce = nonce
         self.sessionAttributes = sessionAttributes
         self.hmac = hmac
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.nonce)
         buf.writeByte(self.sessionAttributes)
         buf.writeSizedByteBuf(self.hmac)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.nonce = buf.readSizedByteBuf()
         self.sessionAttributes = buf.readByte()
         self.hmac = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_AUTH_RESPONSE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_AUTH_RESPONSE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_AUTH_RESPONSE object constructed from its marshaled
@@ -5604,18 +5604,18 @@ class TPMS_TDES_SYM_DETAILS (TPMS_NULL_UNION):
         TPMU_SYM_DETAILS
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.TDES
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_TDES_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_TDES_SYM_DETAILS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_TDES_SYM_DETAILS object constructed from its
@@ -5632,18 +5632,18 @@ class TPMS_AES_SYM_DETAILS (TPMS_NULL_UNION):
         TPMU_SYM_DETAILS
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.AES
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_AES_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_AES_SYM_DETAILS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_AES_SYM_DETAILS object constructed from its
@@ -5660,18 +5660,18 @@ class TPMS_SM4_SYM_DETAILS (TPMS_NULL_UNION):
         TPMU_SYM_DETAILS
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.SM4
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SM4_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SM4_SYM_DETAILS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SM4_SYM_DETAILS object constructed from its
@@ -5688,18 +5688,18 @@ class TPMS_CAMELLIA_SYM_DETAILS (TPMS_NULL_UNION):
         union TPMU_SYM_DETAILS
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.CAMELLIA
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_CAMELLIA_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CAMELLIA_SYM_DETAILS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_CAMELLIA_SYM_DETAILS object constructed from its
@@ -5716,18 +5716,18 @@ class TPMS_ANY_SYM_DETAILS (TPMS_NULL_UNION):
         TPMU_SYM_DETAILS
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ANY
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ANY_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ANY_SYM_DETAILS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ANY_SYM_DETAILS object constructed from its
@@ -5744,18 +5744,18 @@ class TPMS_XOR_SYM_DETAILS (TPMS_NULL_UNION):
         TPMU_SYM_DETAILS
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.XOR
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_XOR_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_XOR_SYM_DETAILS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_XOR_SYM_DETAILS object constructed from its
@@ -5772,18 +5772,18 @@ class TPMS_NULL_SYM_DETAILS (TPMS_NULL_UNION):
         TPMU_SYM_DETAILS
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.NULL
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_NULL_SYM_DETAILS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_SYM_DETAILS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_NULL_SYM_DETAILS object constructed from its
@@ -5797,7 +5797,7 @@ class TPMT_SYM_DEF (TpmStructure):
         """ The TPMT_SYM_DEF structure is used to select an algorithm to be used
         for parameter encryption in those cases when different symmetric
         algorithms may be selected.
-        
+
         Attributes:
             algorithm (TPM_ALG_ID): Indicates a symmetric algorithm
             keyBits (int): A supported key size
@@ -5806,28 +5806,28 @@ class TPMT_SYM_DEF (TpmStructure):
         self.algorithm = algorithm
         self.keyBits = keyBits
         self.mode = mode
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.algorithm)
         if self.algorithm == TPM_ALG_ID.NULL: return
         buf.writeShort(self.keyBits)
         buf.writeShort(self.mode)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.algorithm = buf.readShort()
         if self.algorithm == TPM_ALG_ID.NULL: return
         self.keyBits = buf.readShort()
         self.mode = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_SYM_DEF object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_SYM_DEF)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_SYM_DEF object constructed from its marshaled
@@ -5842,7 +5842,7 @@ class TPMT_SYM_DEF_OBJECT (TpmStructure):
         XOR) algorithms may be selected. If the Object can be an ordinary parent
         (not a derivation parent), this must be the first field in the Object's
         parameter (see 12.2.3.7) field.
-        
+
         Attributes:
             algorithm (TPM_ALG_ID): Selects a symmetric block cipher
                 When used in the parameter area of a parent object, this shall
@@ -5855,28 +5855,28 @@ class TPMT_SYM_DEF_OBJECT (TpmStructure):
         self.algorithm = algorithm
         self.keyBits = keyBits
         self.mode = mode
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.algorithm)
         if self.algorithm == TPM_ALG_ID.NULL: return
         buf.writeShort(self.keyBits)
         buf.writeShort(self.mode)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.algorithm = buf.readShort()
         if self.algorithm == TPM_ALG_ID.NULL: return
         self.keyBits = buf.readShort()
         self.mode = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_SYM_DEF_OBJECT object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_SYM_DEF_OBJECT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_SYM_DEF_OBJECT object constructed from its
@@ -5889,31 +5889,31 @@ class TPM2B_SYM_KEY (TpmStructure, TPMU_SENSITIVE_COMPOSITE):
     def __init__(self, buffer = None):
         """ This structure is used to hold a symmetric key in the sensitive area
         of an asymmetric object.
-        
+
         Attributes:
             buffer (bytes): The key
         """
         self.buffer = buffer
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.SYMCIPHER
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_SYM_KEY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_SYM_KEY)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_SYM_KEY object constructed from its marshaled
@@ -5925,31 +5925,31 @@ class TPM2B_SYM_KEY (TpmStructure, TPMU_SENSITIVE_COMPOSITE):
 class TPMS_SYMCIPHER_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
     def __init__(self, sym = None):
         """ This structure contains the parameters for a symmetric block cipher object.
-        
+
         Attributes:
             sym (TPMT_SYM_DEF_OBJECT): A symmetric block cipher
         """
         self.sym = sym
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.SYMCIPHER
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.sym.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.sym = TPMT_SYM_DEF_OBJECT.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SYMCIPHER_PARMS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SYMCIPHER_PARMS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SYMCIPHER_PARMS object constructed from its
@@ -5964,28 +5964,28 @@ class TPM2B_LABEL (TpmStructure):
         backwards compatibility, LABEL_MAX_BUFFER is the minimum of the largest
         digest on the device and the largest ECC parameter (MAX_ECC_KEY_BYTES)
         but no more than 32 bytes.
-        
+
         Attributes:
             buffer (bytes): Symmetric data for a created object or the label and
                 context for a derived object
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_LABEL object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_LABEL)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_LABEL object constructed from its marshaled
@@ -6000,35 +6000,35 @@ class TPMS_DERIVE (TpmStructure, TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID):
         object. These values are used in the derivation KDF. The values in the
         unique field of inPublic area template take precedence over the values
         in the inSensitive parameter.
-        
+
         Attributes:
             label (bytes): TBD
             context (bytes): TBD
         """
         self.label = label
         self.context = context
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ANY2
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.label)
         buf.writeSizedByteBuf(self.context)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.label = buf.readSizedByteBuf()
         self.context = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_DERIVE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_DERIVE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_DERIVE object constructed from its marshaled
@@ -6040,28 +6040,28 @@ class TPMS_DERIVE (TpmStructure, TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID):
 class TPM2B_DERIVE (TpmStructure):
     def __init__(self, buffer = None):
         """ Table 147 Definition of TPM2B_DERIVE Structure
-        
+
         Attributes:
             buffer (TPMS_DERIVE): Symmetric data for a created object or the
                 label and context for a derived object
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.createSizedObj(TPMS_DERIVE)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_DERIVE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_DERIVE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_DERIVE object constructed from its marshaled
@@ -6073,32 +6073,32 @@ class TPM2B_DERIVE (TpmStructure):
 class TPM2B_SENSITIVE_DATA (TpmStructure, TPMU_SENSITIVE_COMPOSITE):
     def __init__(self, buffer = None):
         """ This buffer wraps the TPMU_SENSITIVE_CREATE structure.
-        
+
         Attributes:
             buffer (bytes): Symmetric data for a created object or the label and
                 context for a derived object
         """
         self.buffer = buffer
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.KEYEDHASH
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_SENSITIVE_DATA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_SENSITIVE_DATA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_SENSITIVE_DATA object constructed from its
@@ -6112,31 +6112,31 @@ class TPMS_SENSITIVE_CREATE (TpmStructure):
         """ This structure defines the values to be placed in the sensitive area
         of a created object. This structure is only used within a
         TPM2B_SENSITIVE_CREATE structure.
-        
+
         Attributes:
             userAuth (bytes): The USER auth secret value
             data (bytes): Data to be sealed, a key, or derivation values
         """
         self.userAuth = userAuth
         self.data = data
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.userAuth)
         buf.writeSizedByteBuf(self.data)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.userAuth = buf.readSizedByteBuf()
         self.data = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SENSITIVE_CREATE object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SENSITIVE_CREATE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SENSITIVE_CREATE object constructed from its
@@ -6151,28 +6151,28 @@ class TPM2B_SENSITIVE_CREATE (TpmStructure):
         buffer. This structure is defined so that both the userAuth and data
         values of the TPMS_SENSITIVE_CREATE may be passed as a single parameter
         for parameter encryption purposes.
-        
+
         Attributes:
             sensitive (TPMS_SENSITIVE_CREATE): Data to be sealed or a symmetric
                 key value.
         """
         self.sensitive = sensitive
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.sensitive)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.sensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_SENSITIVE_CREATE object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_SENSITIVE_CREATE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_SENSITIVE_CREATE object constructed from its
@@ -6185,31 +6185,31 @@ class TPMS_SCHEME_HASH (TpmStructure, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TP
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ This structure is the scheme data for schemes that only require a
         hash to complete their definition.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         self.hashAlg = hashAlg
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.HMAC
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.hashAlg)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.hashAlg = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_HASH object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_HASH)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_HASH object constructed from its marshaled
@@ -6221,7 +6221,7 @@ class TPMS_SCHEME_HASH (TpmStructure, TPMU_SCHEME_KEYEDHASH, TPMU_SIG_SCHEME, TP
 class TPMS_SCHEME_ECDAA (TpmStructure, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL, count = 0):
         """ This definition is for split signing schemes that require a commit count.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
             count (int): The counter value that is used between TPM2_Commit()
@@ -6229,28 +6229,28 @@ class TPMS_SCHEME_ECDAA (TpmStructure, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME):
         """
         self.hashAlg = hashAlg
         self.count = count
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECDAA
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.hashAlg)
         buf.writeShort(self.count)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.hashAlg = buf.readShort()
         self.count = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_ECDAA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_ECDAA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_ECDAA object constructed from its marshaled
@@ -6262,23 +6262,23 @@ class TPMS_SCHEME_ECDAA (TpmStructure, TPMU_SIG_SCHEME, TPMU_ASYM_SCHEME):
 class TPMS_SCHEME_HMAC (TPMS_SCHEME_HASH):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ Table 155 Definition of Types for HMAC_SIG_SCHEME
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_HMAC, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.HMAC
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_HMAC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_HMAC)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_HMAC object constructed from its marshaled
@@ -6290,35 +6290,35 @@ class TPMS_SCHEME_HMAC (TPMS_SCHEME_HASH):
 class TPMS_SCHEME_XOR (TpmStructure, TPMU_SCHEME_KEYEDHASH):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL, kdf = TPM_ALG_ID.NULL):
         """ This structure is for the XOR encryption scheme.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
             kdf (TPM_ALG_ID): The key derivation function
         """
         self.hashAlg = hashAlg
         self.kdf = kdf
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.XOR
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.hashAlg)
         buf.writeShort(self.kdf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.hashAlg = buf.readShort()
         self.kdf = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_XOR object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_XOR)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_XOR object constructed from its marshaled
@@ -6335,18 +6335,18 @@ class TPMS_NULL_SCHEME_KEYEDHASH (TPMS_NULL_UNION):
         TPMU_SCHEME_KEYEDHASH
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.NULL
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_NULL_SCHEME_KEYEDHASH object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_SCHEME_KEYEDHASH)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_NULL_SCHEME_KEYEDHASH object constructed from its
@@ -6358,37 +6358,37 @@ class TPMS_NULL_SCHEME_KEYEDHASH (TPMS_NULL_UNION):
 class TPMT_KEYEDHASH_SCHEME (TpmStructure):
     def __init__(self, details = None):
         """ This structure is used for a hash signing object.
-        
+
         Attributes:
             details (TPMU_SCHEME_KEYEDHASH): The scheme parameters
                 One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
         """
         self.details = details
-    
+
     @property
     def scheme(self): # TPM_ALG_ID
         """ Selects the scheme """
         return details.GetUnionSelector() if details else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         scheme = buf.readShort()
         self.details = UnionFactory.create('TPMU_SCHEME_KEYEDHASH', scheme)
         self.details.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_KEYEDHASH_SCHEME object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_KEYEDHASH_SCHEME)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_KEYEDHASH_SCHEME object constructed from its
@@ -6401,23 +6401,23 @@ class TPMS_SIG_SCHEME_RSASSA (TPMS_SCHEME_HASH):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ These are the RSA schemes that only need a hash algorithm as a
         scheme parameter.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SIG_SCHEME_RSASSA, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.RSASSA
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIG_SCHEME_RSASSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_RSASSA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIG_SCHEME_RSASSA object constructed from its
@@ -6430,23 +6430,23 @@ class TPMS_SIG_SCHEME_RSAPSS (TPMS_SCHEME_HASH):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ These are the RSA schemes that only need a hash algorithm as a
         scheme parameter.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SIG_SCHEME_RSAPSS, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.RSAPSS
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIG_SCHEME_RSAPSS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_RSAPSS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIG_SCHEME_RSAPSS object constructed from its
@@ -6461,23 +6461,23 @@ class TPMS_SIG_SCHEME_ECDSA (TPMS_SCHEME_HASH):
         complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous
         algorithms also require a count value so they are typed to be
         TPMS_SCHEME_ECDAA.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SIG_SCHEME_ECDSA, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECDSA
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIG_SCHEME_ECDSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_ECDSA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIG_SCHEME_ECDSA object constructed from its
@@ -6492,23 +6492,23 @@ class TPMS_SIG_SCHEME_SM2 (TPMS_SCHEME_HASH):
         complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous
         algorithms also require a count value so they are typed to be
         TPMS_SCHEME_ECDAA.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SIG_SCHEME_SM2, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.SM2
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIG_SCHEME_SM2 object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_SM2)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIG_SCHEME_SM2 object constructed from its
@@ -6523,23 +6523,23 @@ class TPMS_SIG_SCHEME_ECSCHNORR (TPMS_SCHEME_HASH):
         complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous
         algorithms also require a count value so they are typed to be
         TPMS_SCHEME_ECDAA.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SIG_SCHEME_ECSCHNORR, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECSCHNORR
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIG_SCHEME_ECSCHNORR object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_ECSCHNORR)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIG_SCHEME_ECSCHNORR object constructed from its
@@ -6554,25 +6554,25 @@ class TPMS_SIG_SCHEME_ECDAA (TPMS_SCHEME_ECDAA):
         complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous
         algorithms also require a count value so they are typed to be
         TPMS_SCHEME_ECDAA.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
             count (int): The counter value that is used between TPM2_Commit()
                 and the sign operation
         """
         super(TPMS_SIG_SCHEME_ECDAA, self).__init__(hashAlg, count)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECDAA
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIG_SCHEME_ECDAA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIG_SCHEME_ECDAA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIG_SCHEME_ECDAA object constructed from its
@@ -6589,18 +6589,18 @@ class TPMS_NULL_SIG_SCHEME (TPMS_NULL_UNION):
         TPMU_SIG_SCHEME
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.NULL
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_NULL_SIG_SCHEME object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_SIG_SCHEME)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_NULL_SIG_SCHEME object constructed from its
@@ -6612,7 +6612,7 @@ class TPMS_NULL_SIG_SCHEME (TPMS_NULL_UNION):
 class TPMT_SIG_SCHEME (TpmStructure):
     def __init__(self, details = None):
         """ Table 162 Definition of TPMT_SIG_SCHEME Structure
-        
+
         Attributes:
             details (TPMU_SIG_SCHEME): Scheme parameters
                 One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS,
@@ -6621,31 +6621,31 @@ class TPMT_SIG_SCHEME (TpmStructure):
                 TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
         """
         self.details = details
-    
+
     @property
     def scheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return details.GetUnionSelector() if details else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         scheme = buf.readShort()
         self.details = UnionFactory.create('TPMU_SIG_SCHEME', scheme)
         self.details.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_SIG_SCHEME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_SIG_SCHEME)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_SIG_SCHEME object constructed from its marshaled
@@ -6658,23 +6658,23 @@ class TPMS_ENC_SCHEME_OAEP (TPMS_SCHEME_HASH):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ These are the RSA encryption schemes that only need a hash algorithm
         as a controlling parameter.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_ENC_SCHEME_OAEP, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.OAEP
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ENC_SCHEME_OAEP object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ENC_SCHEME_OAEP)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ENC_SCHEME_OAEP object constructed from its
@@ -6689,18 +6689,18 @@ class TPMS_ENC_SCHEME_RSAES (TPMS_EMPTY):
         as a controlling parameter.
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.RSAES
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ENC_SCHEME_RSAES object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ENC_SCHEME_RSAES)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ENC_SCHEME_RSAES object constructed from its
@@ -6713,23 +6713,23 @@ class TPMS_KEY_SCHEME_ECDH (TPMS_SCHEME_HASH):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ These are the ECC schemes that only need a hash algorithm as a
         controlling parameter.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_KEY_SCHEME_ECDH, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECDH
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_KEY_SCHEME_ECDH object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KEY_SCHEME_ECDH)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_KEY_SCHEME_ECDH object constructed from its
@@ -6742,23 +6742,23 @@ class TPMS_KEY_SCHEME_ECMQV (TPMS_SCHEME_HASH):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ These are the ECC schemes that only need a hash algorithm as a
         controlling parameter.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_KEY_SCHEME_ECMQV, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECMQV
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_KEY_SCHEME_ECMQV object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KEY_SCHEME_ECMQV)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_KEY_SCHEME_ECMQV object constructed from its
@@ -6772,23 +6772,23 @@ class TPMS_KDF_SCHEME_MGF1 (TPMS_SCHEME_HASH):
         """ These structures are used to define the key derivation for symmetric
         secret sharing using asymmetric methods. A secret sharing scheme is
         required in any asymmetric key with the decrypt attribute SET.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_KDF_SCHEME_MGF1, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.MGF1
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_KDF_SCHEME_MGF1 object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KDF_SCHEME_MGF1)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_KDF_SCHEME_MGF1 object constructed from its
@@ -6802,23 +6802,23 @@ class TPMS_KDF_SCHEME_KDF1_SP800_56A (TPMS_SCHEME_HASH):
         """ These structures are used to define the key derivation for symmetric
         secret sharing using asymmetric methods. A secret sharing scheme is
         required in any asymmetric key with the decrypt attribute SET.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_KDF_SCHEME_KDF1_SP800_56A, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.KDF1_SP800_56A
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_56A object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KDF_SCHEME_KDF1_SP800_56A)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_56A object constructed from
@@ -6832,23 +6832,23 @@ class TPMS_KDF_SCHEME_KDF2 (TPMS_SCHEME_HASH):
         """ These structures are used to define the key derivation for symmetric
         secret sharing using asymmetric methods. A secret sharing scheme is
         required in any asymmetric key with the decrypt attribute SET.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_KDF_SCHEME_KDF2, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.KDF2
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_KDF_SCHEME_KDF2 object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KDF_SCHEME_KDF2)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_KDF_SCHEME_KDF2 object constructed from its
@@ -6862,23 +6862,23 @@ class TPMS_KDF_SCHEME_KDF1_SP800_108 (TPMS_SCHEME_HASH):
         """ These structures are used to define the key derivation for symmetric
         secret sharing using asymmetric methods. A secret sharing scheme is
         required in any asymmetric key with the decrypt attribute SET.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_KDF_SCHEME_KDF1_SP800_108, self).__init__(hashAlg)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.KDF1_SP800_108
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_108 object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KDF_SCHEME_KDF1_SP800_108)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_KDF_SCHEME_KDF1_SP800_108 object constructed from
@@ -6895,18 +6895,18 @@ class TPMS_NULL_KDF_SCHEME (TPMS_NULL_UNION):
         TPMU_KDF_SCHEME
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.NULL
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_NULL_KDF_SCHEME object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_KDF_SCHEME)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_NULL_KDF_SCHEME object constructed from its
@@ -6918,7 +6918,7 @@ class TPMS_NULL_KDF_SCHEME (TPMS_NULL_UNION):
 class TPMT_KDF_SCHEME (TpmStructure):
     def __init__(self, details = None):
         """ Table 167 Definition of TPMT_KDF_SCHEME Structure
-        
+
         Attributes:
             details (TPMU_KDF_SCHEME): Scheme parameters
                 One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
@@ -6926,31 +6926,31 @@ class TPMT_KDF_SCHEME (TpmStructure):
                 TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
         """
         self.details = details
-    
+
     @property
     def scheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return details.GetUnionSelector() if details else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         scheme = buf.readShort()
         self.details = UnionFactory.create('TPMU_KDF_SCHEME', scheme)
         self.details.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_KDF_SCHEME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_KDF_SCHEME)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_KDF_SCHEME object constructed from its marshaled
@@ -6967,18 +6967,18 @@ class TPMS_NULL_ASYM_SCHEME (TPMS_NULL_UNION):
         TPMU_ASYM_SCHEME
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.NULL
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_NULL_ASYM_SCHEME object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_ASYM_SCHEME)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_NULL_ASYM_SCHEME object constructed from its
@@ -6993,7 +6993,7 @@ class TPMT_ASYM_SCHEME (TpmStructure):
         any asymmetric object. This structure is not sent on the interface. It
         is defined so that common functions may operate on any similar scheme
         structure.
-        
+
         Attributes:
             details (TPMU_ASYM_SCHEME): Scheme parameters
                 One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
@@ -7004,31 +7004,31 @@ class TPMT_ASYM_SCHEME (TpmStructure):
                 TPMS_NULL_ASYM_SCHEME.
         """
         self.details = details
-    
+
     @property
     def scheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return details.GetUnionSelector() if details else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         scheme = buf.readShort()
         self.details = UnionFactory.create('TPMU_ASYM_SCHEME', scheme)
         self.details.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_ASYM_SCHEME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_ASYM_SCHEME)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_ASYM_SCHEME object constructed from its marshaled
@@ -7040,7 +7040,7 @@ class TPMT_ASYM_SCHEME (TpmStructure):
 class TPMT_RSA_SCHEME (TpmStructure):
     def __init__(self, details = None):
         """ Table 172 Definition of {RSA} TPMT_RSA_SCHEME Structure
-        
+
         Attributes:
             details (TPMU_ASYM_SCHEME): Scheme parameters
                 One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
@@ -7051,31 +7051,31 @@ class TPMT_RSA_SCHEME (TpmStructure):
                 TPMS_NULL_ASYM_SCHEME.
         """
         self.details = details
-    
+
     @property
     def scheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return details.GetUnionSelector() if details else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         scheme = buf.readShort()
         self.details = UnionFactory.create('TPMU_ASYM_SCHEME', scheme)
         self.details.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_RSA_SCHEME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_RSA_SCHEME)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_RSA_SCHEME object constructed from its marshaled
@@ -7087,7 +7087,7 @@ class TPMT_RSA_SCHEME (TpmStructure):
 class TPMT_RSA_DECRYPT (TpmStructure):
     def __init__(self, details = None):
         """ Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure
-        
+
         Attributes:
             details (TPMU_ASYM_SCHEME): Scheme parameters
                 One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
@@ -7098,31 +7098,31 @@ class TPMT_RSA_DECRYPT (TpmStructure):
                 TPMS_NULL_ASYM_SCHEME.
         """
         self.details = details
-    
+
     @property
     def scheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return details.GetUnionSelector() if details else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         scheme = buf.readShort()
         self.details = UnionFactory.create('TPMU_ASYM_SCHEME', scheme)
         self.details.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_RSA_DECRYPT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_RSA_DECRYPT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_RSA_DECRYPT object constructed from its marshaled
@@ -7134,31 +7134,31 @@ class TPMT_RSA_DECRYPT (TpmStructure):
 class TPM2B_PUBLIC_KEY_RSA (TpmStructure, TPMU_PUBLIC_ID):
     def __init__(self, buffer = None):
         """ This sized buffer holds the largest RSA public key supported by the TPM.
-        
+
         Attributes:
             buffer (bytes): Value
         """
         self.buffer = buffer
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.RSA
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_PUBLIC_KEY_RSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_PUBLIC_KEY_RSA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_PUBLIC_KEY_RSA object constructed from its
@@ -7171,31 +7171,31 @@ class TPM2B_PRIVATE_KEY_RSA (TpmStructure, TPMU_SENSITIVE_COMPOSITE):
     def __init__(self, buffer = None):
         """ This sized buffer holds the largest RSA prime number supported by
         the TPM.
-        
+
         Attributes:
             buffer (bytes): TBD
         """
         self.buffer = buffer
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.RSA
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_PRIVATE_KEY_RSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_PRIVATE_KEY_RSA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_PRIVATE_KEY_RSA object constructed from its
@@ -7208,31 +7208,31 @@ class TPM2B_ECC_PARAMETER (TpmStructure, TPMU_SENSITIVE_COMPOSITE):
     def __init__(self, buffer = None):
         """ This sized buffer holds the largest ECC parameter (coordinate)
         supported by the TPM.
-        
+
         Attributes:
             buffer (bytes): The parameter data
         """
         self.buffer = buffer
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECC
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_ECC_PARAMETER object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_ECC_PARAMETER)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_ECC_PARAMETER object constructed from its
@@ -7245,35 +7245,35 @@ class TPMS_ECC_POINT (TpmStructure, TPMU_PUBLIC_ID):
     def __init__(self, x = None, y = None):
         """ This structure holds two ECC coordinates that, together, make up an
         ECC point.
-        
+
         Attributes:
             x (bytes): X coordinate
             y (bytes): Y coordinate
         """
         self.x = x
         self.y = y
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECC
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.x)
         buf.writeSizedByteBuf(self.y)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.x = buf.readSizedByteBuf()
         self.y = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ECC_POINT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ECC_POINT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ECC_POINT object constructed from its marshaled
@@ -7286,27 +7286,27 @@ class TPM2B_ECC_POINT (TpmStructure):
     def __init__(self, point = None):
         """ This structure is defined to allow a point to be a single sized
         parameter so that it may be encrypted.
-        
+
         Attributes:
             point (TPMS_ECC_POINT): Coordinates
         """
         self.point = point
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.point)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.point = buf.createSizedObj(TPMS_ECC_POINT)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_ECC_POINT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_ECC_POINT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_ECC_POINT object constructed from its marshaled
@@ -7318,7 +7318,7 @@ class TPM2B_ECC_POINT (TpmStructure):
 class TPMT_ECC_SCHEME (TpmStructure):
     def __init__(self, details = None):
         """ Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure
-        
+
         Attributes:
             details (TPMU_ASYM_SCHEME): Scheme parameters
                 One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV,
@@ -7329,31 +7329,31 @@ class TPMT_ECC_SCHEME (TpmStructure):
                 TPMS_NULL_ASYM_SCHEME.
         """
         self.details = details
-    
+
     @property
     def scheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return details.GetUnionSelector() if details else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.details == None: return
         buf.writeShort(self.details.GetUnionSelector())
         self.details.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         scheme = buf.readShort()
         self.details = UnionFactory.create('TPMU_ASYM_SCHEME', scheme)
         self.details.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_ECC_SCHEME object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_ECC_SCHEME)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_ECC_SCHEME object constructed from its marshaled
@@ -7366,7 +7366,7 @@ class TPMS_ALGORITHM_DETAIL_ECC (TpmStructure):
     def __init__(self, curveID = 0, keySize = 0, kdf = None, sign = None, p = None, a = None, b = None, gX = None, gY = None, n = None, h = None):
         """ This structure is used to report on the curve parameters of an ECC
         curve. It is returned by TPM2_ECC_Parameters().
-        
+
         Attributes:
             curveID (TPM_ECC_CURVE): Identifier for the curve
             keySize (int): Size in bits of the key
@@ -7402,17 +7402,17 @@ class TPMS_ALGORITHM_DETAIL_ECC (TpmStructure):
         self.gY = gY
         self.n = n
         self.h = h
-    
+
     @property
     def kdfScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return kdf.GetUnionSelector() if kdf else TPM_ALG_ID.NULL
-    
+
     @property
     def signScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return sign.GetUnionSelector() if sign else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.curveID)
@@ -7428,7 +7428,7 @@ class TPMS_ALGORITHM_DETAIL_ECC (TpmStructure):
         buf.writeSizedByteBuf(self.gY)
         buf.writeSizedByteBuf(self.n)
         buf.writeSizedByteBuf(self.h)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.curveID = buf.readShort()
@@ -7446,14 +7446,14 @@ class TPMS_ALGORITHM_DETAIL_ECC (TpmStructure):
         self.gY = buf.readSizedByteBuf()
         self.n = buf.readSizedByteBuf()
         self.h = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ALGORITHM_DETAIL_ECC object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ALGORITHM_DETAIL_ECC)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ALGORITHM_DETAIL_ECC object constructed from its
@@ -7465,7 +7465,7 @@ class TPMS_ALGORITHM_DETAIL_ECC (TpmStructure):
 class TPMS_SIGNATURE_RSA (TpmStructure, TPMU_SIGNATURE):
     def __init__(self, hash = TPM_ALG_ID.NULL, sig = None):
         """ Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure
-        
+
         Attributes:
             hash (TPM_ALG_ID): The hash algorithm used to digest the message
                 TPM_ALG_NULL is not allowed.
@@ -7473,28 +7473,28 @@ class TPMS_SIGNATURE_RSA (TpmStructure, TPMU_SIGNATURE):
         """
         self.hash = hash
         self.sig = sig
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.RSASSA
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.hash)
         buf.writeSizedByteBuf(self.sig)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.hash = buf.readShort()
         self.sig = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIGNATURE_RSA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_RSA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIGNATURE_RSA object constructed from its marshaled
@@ -7506,25 +7506,25 @@ class TPMS_SIGNATURE_RSA (TpmStructure, TPMU_SIGNATURE):
 class TPMS_SIGNATURE_RSASSA (TPMS_SIGNATURE_RSA):
     def __init__(self, hash = TPM_ALG_ID.NULL, sig = None):
         """ Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure
-        
+
         Attributes:
             hash (TPM_ALG_ID): The hash algorithm used to digest the message
                 TPM_ALG_NULL is not allowed.
             sig (bytes): The signature is the size of a public key.
         """
         super(TPMS_SIGNATURE_RSASSA, self).__init__(hash, sig)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.RSASSA
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIGNATURE_RSASSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_RSASSA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIGNATURE_RSASSA object constructed from its
@@ -7536,25 +7536,25 @@ class TPMS_SIGNATURE_RSASSA (TPMS_SIGNATURE_RSA):
 class TPMS_SIGNATURE_RSAPSS (TPMS_SIGNATURE_RSA):
     def __init__(self, hash = TPM_ALG_ID.NULL, sig = None):
         """ Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure
-        
+
         Attributes:
             hash (TPM_ALG_ID): The hash algorithm used to digest the message
                 TPM_ALG_NULL is not allowed.
             sig (bytes): The signature is the size of a public key.
         """
         super(TPMS_SIGNATURE_RSAPSS, self).__init__(hash, sig)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.RSAPSS
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIGNATURE_RSAPSS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_RSAPSS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIGNATURE_RSAPSS object constructed from its
@@ -7566,7 +7566,7 @@ class TPMS_SIGNATURE_RSAPSS (TPMS_SIGNATURE_RSA):
 class TPMS_SIGNATURE_ECC (TpmStructure, TPMU_SIGNATURE):
     def __init__(self, hash = TPM_ALG_ID.NULL, signatureR = None, signatureS = None):
         """ Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
-        
+
         Attributes:
             hash (TPM_ALG_ID): The hash algorithm used in the signature process
                 TPM_ALG_NULL is not allowed.
@@ -7576,30 +7576,30 @@ class TPMS_SIGNATURE_ECC (TpmStructure, TPMU_SIGNATURE):
         self.hash = hash
         self.signatureR = signatureR
         self.signatureS = signatureS
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECDSA
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.hash)
         buf.writeSizedByteBuf(self.signatureR)
         buf.writeSizedByteBuf(self.signatureS)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.hash = buf.readShort()
         self.signatureR = buf.readSizedByteBuf()
         self.signatureS = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIGNATURE_ECC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_ECC)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIGNATURE_ECC object constructed from its marshaled
@@ -7611,7 +7611,7 @@ class TPMS_SIGNATURE_ECC (TpmStructure, TPMU_SIGNATURE):
 class TPMS_SIGNATURE_ECDSA (TPMS_SIGNATURE_ECC):
     def __init__(self, hash = TPM_ALG_ID.NULL, signatureR = None, signatureS = None):
         """ Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
-        
+
         Attributes:
             hash (TPM_ALG_ID): The hash algorithm used in the signature process
                 TPM_ALG_NULL is not allowed.
@@ -7619,18 +7619,18 @@ class TPMS_SIGNATURE_ECDSA (TPMS_SIGNATURE_ECC):
             signatureS (bytes): TBD
         """
         super(TPMS_SIGNATURE_ECDSA, self).__init__(hash, signatureR, signatureS)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECDSA
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIGNATURE_ECDSA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_ECDSA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIGNATURE_ECDSA object constructed from its
@@ -7642,7 +7642,7 @@ class TPMS_SIGNATURE_ECDSA (TPMS_SIGNATURE_ECC):
 class TPMS_SIGNATURE_ECDAA (TPMS_SIGNATURE_ECC):
     def __init__(self, hash = TPM_ALG_ID.NULL, signatureR = None, signatureS = None):
         """ Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
-        
+
         Attributes:
             hash (TPM_ALG_ID): The hash algorithm used in the signature process
                 TPM_ALG_NULL is not allowed.
@@ -7650,18 +7650,18 @@ class TPMS_SIGNATURE_ECDAA (TPMS_SIGNATURE_ECC):
             signatureS (bytes): TBD
         """
         super(TPMS_SIGNATURE_ECDAA, self).__init__(hash, signatureR, signatureS)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECDAA
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIGNATURE_ECDAA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_ECDAA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIGNATURE_ECDAA object constructed from its
@@ -7673,7 +7673,7 @@ class TPMS_SIGNATURE_ECDAA (TPMS_SIGNATURE_ECC):
 class TPMS_SIGNATURE_SM2 (TPMS_SIGNATURE_ECC):
     def __init__(self, hash = TPM_ALG_ID.NULL, signatureR = None, signatureS = None):
         """ Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
-        
+
         Attributes:
             hash (TPM_ALG_ID): The hash algorithm used in the signature process
                 TPM_ALG_NULL is not allowed.
@@ -7681,18 +7681,18 @@ class TPMS_SIGNATURE_SM2 (TPMS_SIGNATURE_ECC):
             signatureS (bytes): TBD
         """
         super(TPMS_SIGNATURE_SM2, self).__init__(hash, signatureR, signatureS)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.SM2
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIGNATURE_SM2 object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_SM2)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIGNATURE_SM2 object constructed from its marshaled
@@ -7704,7 +7704,7 @@ class TPMS_SIGNATURE_SM2 (TPMS_SIGNATURE_ECC):
 class TPMS_SIGNATURE_ECSCHNORR (TPMS_SIGNATURE_ECC):
     def __init__(self, hash = TPM_ALG_ID.NULL, signatureR = None, signatureS = None):
         """ Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure
-        
+
         Attributes:
             hash (TPM_ALG_ID): The hash algorithm used in the signature process
                 TPM_ALG_NULL is not allowed.
@@ -7712,18 +7712,18 @@ class TPMS_SIGNATURE_ECSCHNORR (TPMS_SIGNATURE_ECC):
             signatureS (bytes): TBD
         """
         super(TPMS_SIGNATURE_ECSCHNORR, self).__init__(hash, signatureR, signatureS)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECSCHNORR
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SIGNATURE_ECSCHNORR object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SIGNATURE_ECSCHNORR)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SIGNATURE_ECSCHNORR object constructed from its
@@ -7740,18 +7740,18 @@ class TPMS_NULL_SIGNATURE (TPMS_NULL_UNION):
         TPMU_SIGNATURE
         """
         pass
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.NULL
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_NULL_SIGNATURE object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NULL_SIGNATURE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_NULL_SIGNATURE object constructed from its
@@ -7768,7 +7768,7 @@ class TPMT_SIGNATURE (TpmStructure):
         such as the attestation commands and TPM2_Sign, and is an input to
         commands such as TPM2_VerifySignature(), TPM2_PolicySigned(), and
         TPM2_FieldUpgradeStart().
-        
+
         Attributes:
             signature (TPMU_SIGNATURE): This shall be the actual signature information.
                 One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
@@ -7777,31 +7777,31 @@ class TPMT_SIGNATURE (TpmStructure):
                 TPMS_NULL_SIGNATURE.
         """
         self.signature = signature
-    
+
     @property
     def sigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return signature.GetUnionSelector() if signature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.signature == None: return
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         sigAlg = buf.readShort()
         self.signature = UnionFactory.create('TPMU_SIGNATURE', sigAlg)
         self.signature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_SIGNATURE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_SIGNATURE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_SIGNATURE object constructed from its marshaled
@@ -7813,27 +7813,27 @@ class TPMT_SIGNATURE (TpmStructure):
 class TPM2B_ENCRYPTED_SECRET (TpmStructure):
     def __init__(self, secret = None):
         """ Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure
-        
+
         Attributes:
             secret (bytes): Secret
         """
         self.secret = secret
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.secret)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.secret = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_ENCRYPTED_SECRET object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_ENCRYPTED_SECRET)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_ENCRYPTED_SECRET object constructed from its
@@ -7846,7 +7846,7 @@ class TPMS_KEYEDHASH_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
     def __init__(self, scheme = None):
         """ This structure describes the parameters that would appear in the
         public area of a KEYEDHASH object.
-        
+
         Attributes:
             scheme (TPMU_SCHEME_KEYEDHASH): Indicates the signing method used
                 for a keyedHash signing object. This field also determines the
@@ -7855,35 +7855,35 @@ class TPMS_KEYEDHASH_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
                 One of: TPMS_SCHEME_HMAC, TPMS_SCHEME_XOR, TPMS_NULL_SCHEME_KEYEDHASH.
         """
         self.scheme = scheme
-    
+
     @property
     def schemeScheme(self): # TPM_ALG_ID
         """ Selects the scheme """
         return scheme.GetUnionSelector() if scheme else TPM_ALG_ID.NULL
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.KEYEDHASH
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.scheme == None: return
         buf.writeShort(self.scheme.GetUnionSelector())
         self.scheme.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         schemeScheme = buf.readShort()
         self.scheme = UnionFactory.create('TPMU_SCHEME_KEYEDHASH', schemeScheme)
         self.scheme.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_KEYEDHASH_PARMS object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_KEYEDHASH_PARMS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_KEYEDHASH_PARMS object constructed from its
@@ -7897,7 +7897,7 @@ class TPMS_ASYM_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
         """ This structure contains the common public area parameters for an
         asymmetric key. The first two parameters of the parameter definition
         structures of an asymmetric key shall have the same two first components.
-        
+
         Attributes:
             symmetric (TPMT_SYM_DEF_OBJECT): The companion symmetric algorithm
                 for a restricted decryption key and shall be set to a supported
@@ -7917,36 +7917,36 @@ class TPMS_ASYM_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
         """
         self.symmetric = symmetric
         self.scheme = scheme
-    
+
     @property
     def schemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return scheme.GetUnionSelector() if scheme else TPM_ALG_ID.NULL
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ANY
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.symmetric.toTpm(buf)
         buf.writeShort(self.scheme.GetUnionSelector())
         self.scheme.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.symmetric = TPMT_SYM_DEF_OBJECT.fromTpm(buf)
         schemeScheme = buf.readShort()
         self.scheme = UnionFactory.create('TPMU_ASYM_SCHEME', schemeScheme)
         self.scheme.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ASYM_PARMS object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ASYM_PARMS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ASYM_PARMS object constructed from its marshaled
@@ -7963,7 +7963,7 @@ class TPMS_RSA_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
         values is optional. Use of other exponents in duplicated keys is not
         recommended because the resulting keys would not be interoperable with
         other TPMs.
-        
+
         Attributes:
             symmetric (TPMT_SYM_DEF_OBJECT): For a restricted decryption key,
                 shall be set to a supported symmetric algorithm, key size, and mode.
@@ -7992,16 +7992,16 @@ class TPMS_RSA_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
         self.scheme = scheme
         self.keyBits = keyBits
         self.exponent = exponent
-    
+
     @property
     def schemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return scheme.GetUnionSelector() if scheme else TPM_ALG_ID.NULL
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.RSA
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.symmetric.toTpm(buf)
@@ -8009,7 +8009,7 @@ class TPMS_RSA_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
         self.scheme.toTpm(buf)
         buf.writeShort(self.keyBits)
         buf.writeInt(self.exponent)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.symmetric = TPMT_SYM_DEF_OBJECT.fromTpm(buf)
@@ -8018,14 +8018,14 @@ class TPMS_RSA_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
         self.scheme.initFromTpm(buf)
         self.keyBits = buf.readShort()
         self.exponent = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_RSA_PARMS object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_RSA_PARMS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_RSA_PARMS object constructed from its marshaled
@@ -8037,7 +8037,7 @@ class TPMS_RSA_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
 class TPMS_ECC_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
     def __init__(self, symmetric = None, scheme = None, curveID = 0, kdf = None):
         """ This structure contains the parameters for prime modulus ECC.
-        
+
         Attributes:
             symmetric (TPMT_SYM_DEF_OBJECT): For a restricted decryption key,
                 shall be set to a supported symmetric algorithm, key size. and mode.
@@ -8072,21 +8072,21 @@ class TPMS_ECC_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
         self.scheme = scheme
         self.curveID = curveID
         self.kdf = kdf
-    
+
     @property
     def schemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return scheme.GetUnionSelector() if scheme else TPM_ALG_ID.NULL
-    
+
     @property
     def kdfScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return kdf.GetUnionSelector() if kdf else TPM_ALG_ID.NULL
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ECC
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.symmetric.toTpm(buf)
@@ -8095,7 +8095,7 @@ class TPMS_ECC_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
         buf.writeShort(self.curveID)
         buf.writeShort(self.kdf.GetUnionSelector())
         self.kdf.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.symmetric = TPMT_SYM_DEF_OBJECT.fromTpm(buf)
@@ -8106,14 +8106,14 @@ class TPMS_ECC_PARMS (TpmStructure, TPMU_PUBLIC_PARMS):
         kdfScheme = buf.readShort()
         self.kdf = UnionFactory.create('TPMU_KDF_SCHEME', kdfScheme)
         self.kdf.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ECC_PARMS object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ECC_PARMS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ECC_PARMS object constructed from its marshaled
@@ -8126,38 +8126,38 @@ class TPMT_PUBLIC_PARMS (TpmStructure):
     def __init__(self, parameters = None):
         """ This structure is used in TPM2_TestParms() to validate that a set of
         algorithm parameters is supported by the TPM.
-        
+
         Attributes:
             parameters (TPMU_PUBLIC_PARMS): The algorithm details
                 One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
                 TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS.
         """
         self.parameters = parameters
-    
+
     @property
     def type(self): # TPM_ALG_ID
         """ The algorithm to be tested """
         return parameters.GetUnionSelector()
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.parameters == None: return
         buf.writeShort(self.parameters.GetUnionSelector())
         self.parameters.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         type = buf.readShort()
         self.parameters = UnionFactory.create('TPMU_PUBLIC_PARMS', type)
         self.parameters.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_PUBLIC_PARMS object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_PUBLIC_PARMS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_PUBLIC_PARMS object constructed from its marshaled
@@ -8170,7 +8170,7 @@ class TPMT_PUBLIC (TpmStructure):
     def __init__(self, nameAlg = TPM_ALG_ID.NULL, objectAttributes = 0, authPolicy = None, parameters = None, unique = None):
         """ Table 201 defines the public area structure. The Name of the object
         is nameAlg concatenated with the digest of this structure using nameAlg.
-        
+
         Attributes:
             nameAlg (TPM_ALG_ID): Algorithm used for computing the Name of the object
                 NOTE The "+" indicates that the instance of a TPMT_PUBLIC may
@@ -8193,12 +8193,12 @@ class TPMT_PUBLIC (TpmStructure):
         self.authPolicy = authPolicy
         self.parameters = parameters
         self.unique = unique
-    
+
     @property
     def type(self): # TPM_ALG_ID
         """ Algorithm associated with this object """
         return parameters.GetUnionSelector()
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.parameters == None: return
@@ -8208,7 +8208,7 @@ class TPMT_PUBLIC (TpmStructure):
         buf.writeSizedByteBuf(self.authPolicy)
         self.parameters.toTpm(buf)
         self.unique.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         type = buf.readShort()
@@ -8219,21 +8219,21 @@ class TPMT_PUBLIC (TpmStructure):
         self.parameters.initFromTpm(buf)
         self.unique = UnionFactory.create('TPMU_PUBLIC_ID', type)
         self.unique.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_PUBLIC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_PUBLIC)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_PUBLIC object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPMT_PUBLIC)
-    
+
     # @return The TPM name (alg-prepended hash of the public area) of this object
     def getName(self):
         pub = self.toBytes()
@@ -8246,29 +8246,29 @@ class TPM2B_PUBLIC (TpmStructure):
     def __init__(self, publicArea = None):
         """ This sized buffer is used to embed a TPMT_PUBLIC in a load command
         and in any response that returns a public area.
-        
+
         Attributes:
             publicArea (TPMT_PUBLIC): The public area
                 NOTE The + indicates that the caller may specify that use of
                 TPM_ALG_NULL is allowed for nameAlg.
         """
         self.publicArea = publicArea
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.publicArea)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.publicArea = buf.createSizedObj(TPMT_PUBLIC)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_PUBLIC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_PUBLIC)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_PUBLIC object constructed from its marshaled
@@ -8280,27 +8280,27 @@ class TPM2B_PUBLIC (TpmStructure):
 class TPM2B_TEMPLATE (TpmStructure):
     def __init__(self, buffer = None):
         """ This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().
-        
+
         Attributes:
             buffer (bytes): The public area
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_TEMPLATE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_TEMPLATE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_TEMPLATE object constructed from its marshaled
@@ -8318,31 +8318,31 @@ class TPM2B_PRIVATE_VENDOR_SPECIFIC (TpmStructure, TPMU_SENSITIVE_COMPOSITE):
         computations using the private key will not need to start with just one
         prime factor. This structure can be used to store the results of such
         vendor-specific calculations.
-        
+
         Attributes:
             buffer (bytes): TBD
         """
         self.buffer = buffer
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.ANY
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_PRIVATE_VENDOR_SPECIFIC object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_PRIVATE_VENDOR_SPECIFIC)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_PRIVATE_VENDOR_SPECIFIC object constructed from
@@ -8356,7 +8356,7 @@ class TPMT_SENSITIVE (TpmStructure):
         """ AuthValue shall not be larger than the size of the digest produced
         by the nameAlg of the object. seedValue shall be the size of the digest
         produced by the nameAlg of the object.
-        
+
         Attributes:
             authValue (bytes): User authorization data
                 The authValue may be a zero-length string.
@@ -8369,14 +8369,14 @@ class TPMT_SENSITIVE (TpmStructure):
         self.authValue = authValue
         self.seedValue = seedValue
         self.sensitive = sensitive
-    
+
     @property
     def sensitiveType(self): # TPM_ALG_ID
         """ Identifier for the sensitive area
         This shall be the same as the type parameter of the associated public area.
         """
         return sensitive.GetUnionSelector()
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.sensitive == None: return
@@ -8384,7 +8384,7 @@ class TPMT_SENSITIVE (TpmStructure):
         buf.writeSizedByteBuf(self.authValue)
         buf.writeSizedByteBuf(self.seedValue)
         self.sensitive.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         sensitiveType = buf.readShort()
@@ -8392,14 +8392,14 @@ class TPMT_SENSITIVE (TpmStructure):
         self.seedValue = buf.readSizedByteBuf()
         self.sensitive = UnionFactory.create('TPMU_SENSITIVE_COMPOSITE', sensitiveType)
         self.sensitive.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMT_SENSITIVE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMT_SENSITIVE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMT_SENSITIVE object constructed from its marshaled
@@ -8413,27 +8413,27 @@ class TPM2B_SENSITIVE (TpmStructure):
         """ The TPM2B_SENSITIVE structure is used as a parameter in
         TPM2_LoadExternal(). It is an unencrypted sensitive area but it may be
         encrypted using parameter encryption.
-        
+
         Attributes:
             sensitiveArea (TPMT_SENSITIVE): An unencrypted sensitive area
         """
         self.sensitiveArea = sensitiveArea
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.sensitiveArea)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.sensitiveArea = buf.createSizedObj(TPMT_SENSITIVE)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_SENSITIVE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_SENSITIVE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_SENSITIVE object constructed from its marshaled
@@ -8446,7 +8446,7 @@ class _PRIVATE (TpmStructure):
     def __init__(self, integrityOuter = None, integrityInner = None, sensitive = None):
         """ This structure is defined to size the contents of a TPM2B_PRIVATE.
         This structure is not directly marshaled or unmarshaled.
-        
+
         Attributes:
             integrityOuter (bytes): TBD
             integrityInner (bytes): Could also be a TPM2B_IV
@@ -8455,26 +8455,26 @@ class _PRIVATE (TpmStructure):
         self.integrityOuter = integrityOuter
         self.integrityInner = integrityInner
         self.sensitive = sensitive
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.integrityOuter)
         buf.writeSizedByteBuf(self.integrityInner)
         buf.writeSizedObj(self.sensitive)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.integrityOuter = buf.readSizedByteBuf()
         self.integrityInner = buf.readSizedByteBuf()
         self.sensitive = buf.createSizedObj(TPMT_SENSITIVE)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new _PRIVATE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(_PRIVATE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new _PRIVATE object constructed from its marshaled
@@ -8487,27 +8487,27 @@ class TPM2B_PRIVATE (TpmStructure):
     def __init__(self, buffer = None):
         """ The TPM2B_PRIVATE structure is used as a parameter in multiple
         commands that create, load, and modify the sensitive area of an object.
-        
+
         Attributes:
             buffer (bytes): An encrypted private area
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_PRIVATE object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_PRIVATE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_PRIVATE object constructed from its marshaled
@@ -8519,7 +8519,7 @@ class TPM2B_PRIVATE (TpmStructure):
 class TPMS_ID_OBJECT (TpmStructure):
     def __init__(self, integrityHMAC = None, encIdentity = None):
         """ This structure is used for sizing the TPM2B_ID_OBJECT.
-        
+
         Attributes:
             integrityHMAC (bytes): HMAC using the nameAlg of the storage key on
                 the target TPM
@@ -8533,24 +8533,24 @@ class TPMS_ID_OBJECT (TpmStructure):
         """
         self.integrityHMAC = integrityHMAC
         self.encIdentity = encIdentity
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.integrityHMAC)
         buf.writeByteBuf(self.encIdentity)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.integrityHMAC = buf.readSizedByteBuf()
         self.encIdentity = buf.readByteBuf(buf.getCurStuctRemainingSize())
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_ID_OBJECT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_ID_OBJECT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_ID_OBJECT object constructed from its marshaled
@@ -8563,27 +8563,27 @@ class TPM2B_ID_OBJECT (TpmStructure):
     def __init__(self, credential = None):
         """ This structure is an output from TPM2_MakeCredential() and is an
         input to TPM2_ActivateCredential().
-        
+
         Attributes:
             credential (TPMS_ID_OBJECT): An encrypted credential area
         """
         self.credential = credential
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.credential)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.credential = buf.createSizedObj(TPMS_ID_OBJECT)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_ID_OBJECT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_ID_OBJECT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_ID_OBJECT object constructed from its marshaled
@@ -8597,7 +8597,7 @@ class TPMS_NV_PIN_COUNTER_PARAMETERS (TpmStructure):
         """ This is the data that can be written to and read from a
         TPM_NT_PIN_PASS or TPM_NT_PIN_FAIL non-volatile index. pinCount is the
         most significant octets. pinLimit is the least significant octets.
-        
+
         Attributes:
             pinCount (int): This counter shows the current number of successful
                 authValue authorization attempts to access a TPM_NT_PIN_PASS
@@ -8609,24 +8609,24 @@ class TPMS_NV_PIN_COUNTER_PARAMETERS (TpmStructure):
         """
         self.pinCount = pinCount
         self.pinLimit = pinLimit
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.pinCount)
         buf.writeInt(self.pinLimit)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.pinCount = buf.readInt()
         self.pinLimit = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_NV_PIN_COUNTER_PARAMETERS object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NV_PIN_COUNTER_PARAMETERS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_NV_PIN_COUNTER_PARAMETERS object constructed from
@@ -8638,7 +8638,7 @@ class TPMS_NV_PIN_COUNTER_PARAMETERS (TpmStructure):
 class TPMS_NV_PUBLIC (TpmStructure):
     def __init__(self, nvIndex = TPM_HANDLE(), nameAlg = TPM_ALG_ID.NULL, attributes = 0, authPolicy = None, dataSize = 0):
         """ This structure describes an NV Index.
-        
+
         Attributes:
             nvIndex (TPM_HANDLE): The handle of the data area
             nameAlg (TPM_ALG_ID): Hash algorithm used to compute the name of the
@@ -8657,7 +8657,7 @@ class TPMS_NV_PUBLIC (TpmStructure):
         self.attributes = attributes
         self.authPolicy = authPolicy
         self.dataSize = dataSize
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.nvIndex.toTpm(buf)
@@ -8665,7 +8665,7 @@ class TPMS_NV_PUBLIC (TpmStructure):
         buf.writeInt(self.attributes)
         buf.writeSizedByteBuf(self.authPolicy)
         buf.writeShort(self.dataSize)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.nvIndex = TPM_HANDLE.fromTpm(buf)
@@ -8673,14 +8673,14 @@ class TPMS_NV_PUBLIC (TpmStructure):
         self.attributes = buf.readInt()
         self.authPolicy = buf.readSizedByteBuf()
         self.dataSize = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_NV_PUBLIC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_NV_PUBLIC)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_NV_PUBLIC object constructed from its marshaled
@@ -8692,27 +8692,27 @@ class TPMS_NV_PUBLIC (TpmStructure):
 class TPM2B_NV_PUBLIC (TpmStructure):
     def __init__(self, nvPublic = None):
         """ This structure is used when a TPMS_NV_PUBLIC is sent on the TPM interface.
-        
+
         Attributes:
             nvPublic (TPMS_NV_PUBLIC): The public area
         """
         self.nvPublic = nvPublic
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.nvPublic)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_NV_PUBLIC object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_NV_PUBLIC)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_NV_PUBLIC object constructed from its marshaled
@@ -8725,27 +8725,27 @@ class TPM2B_CONTEXT_SENSITIVE (TpmStructure):
     def __init__(self, buffer = None):
         """ This structure holds the object or session context data. When saved,
         the full structure is encrypted.
-        
+
         Attributes:
             buffer (bytes): The sensitive data
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_CONTEXT_SENSITIVE object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_CONTEXT_SENSITIVE)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_CONTEXT_SENSITIVE object constructed from its
@@ -8758,31 +8758,31 @@ class TPMS_CONTEXT_DATA (TpmStructure):
     def __init__(self, integrity = None, encrypted = None):
         """ This structure holds the integrity value and the encrypted data for
         a context.
-        
+
         Attributes:
             integrity (bytes): The integrity value
             encrypted (bytes): The sensitive area
         """
         self.integrity = integrity
         self.encrypted = encrypted
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.integrity)
         buf.writeByteBuf(self.encrypted)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.integrity = buf.readSizedByteBuf()
         self.encrypted = buf.readByteBuf(buf.getCurStuctRemainingSize())
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_CONTEXT_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CONTEXT_DATA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_CONTEXT_DATA object constructed from its marshaled
@@ -8794,27 +8794,27 @@ class TPMS_CONTEXT_DATA (TpmStructure):
 class TPM2B_CONTEXT_DATA (TpmStructure):
     def __init__(self, buffer = None):
         """ This structure is used in a TPMS_CONTEXT.
-        
+
         Attributes:
             buffer (TPMS_CONTEXT_DATA): TBD
         """
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.createSizedObj(TPMS_CONTEXT_DATA)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_CONTEXT_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_CONTEXT_DATA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_CONTEXT_DATA object constructed from its marshaled
@@ -8829,7 +8829,7 @@ class TPMS_CONTEXT (TpmStructure):
         If the values of the TPMS_CONTEXT structure in TPM2_ContextLoad() are
         not the same as the values when the context was saved
         (TPM2_ContextSave()), then the TPM shall not load the context.
-        
+
         Attributes:
             sequence (int): The sequence number of the context
                 NOTE Transient object contexts and session contexts used
@@ -8844,28 +8844,28 @@ class TPMS_CONTEXT (TpmStructure):
         self.savedHandle = savedHandle
         self.hierarchy = hierarchy
         self.contextBlob = contextBlob
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt64(self.sequence)
         self.savedHandle.toTpm(buf)
         self.hierarchy.toTpm(buf)
         buf.writeSizedObj(self.contextBlob)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.sequence = buf.readInt64()
         self.savedHandle = TPM_HANDLE.fromTpm(buf)
         self.hierarchy = TPM_HANDLE.fromTpm(buf)
         self.contextBlob = buf.createSizedObj(TPMS_CONTEXT_DATA)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_CONTEXT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CONTEXT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_CONTEXT object constructed from its marshaled
@@ -8882,7 +8882,7 @@ class TPMS_CREATION_DATA (TpmStructure):
         represent the environment in which the object was created. Creation data
         allows a relying party to determine if an object was created when some
         appropriate protections were present.
-        
+
         Attributes:
             pcrSelect (TPMS_PCR_SELECTION[]): List indicating the PCR included
                 in pcrDigest
@@ -8910,7 +8910,7 @@ class TPMS_CREATION_DATA (TpmStructure):
         self.parentName = parentName
         self.parentQualifiedName = parentQualifiedName
         self.outsideInfo = outsideInfo
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.pcrSelect)
@@ -8920,7 +8920,7 @@ class TPMS_CREATION_DATA (TpmStructure):
         buf.writeSizedByteBuf(self.parentName)
         buf.writeSizedByteBuf(self.parentQualifiedName)
         buf.writeSizedByteBuf(self.outsideInfo)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.pcrSelect = buf.readObjArr(TPMS_PCR_SELECTION)
@@ -8930,14 +8930,14 @@ class TPMS_CREATION_DATA (TpmStructure):
         self.parentName = buf.readSizedByteBuf()
         self.parentQualifiedName = buf.readSizedByteBuf()
         self.outsideInfo = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_CREATION_DATA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_CREATION_DATA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_CREATION_DATA object constructed from its marshaled
@@ -8950,27 +8950,27 @@ class TPM2B_CREATION_DATA (TpmStructure):
     def __init__(self, creationData = None):
         """ This structure is created by TPM2_Create() and TPM2_CreatePrimary().
         It is never entered into the TPM and never has a size of zero.
-        
+
         Attributes:
             creationData (TPMS_CREATION_DATA): TBD
         """
         self.creationData = creationData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.creationData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.creationData = buf.createSizedObj(TPMS_CREATION_DATA)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_CREATION_DATA object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_CREATION_DATA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_CREATION_DATA object constructed from its
@@ -8983,31 +8983,31 @@ class TPMS_AC_OUTPUT (TpmStructure):
     def __init__(self, tag = 0, data = 0):
         """ TPMS_AC_OUTPUT is used to return information about an AC. The tag
         structure parameter indicates the type of the data value.
-        
+
         Attributes:
             tag (TPM_AT): Tag indicating the contents of data
             data (int): The data returned from the AC
         """
         self.tag = tag
         self.data = data
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.tag)
         buf.writeInt(self.data)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.tag = buf.readInt()
         self.data = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_AC_OUTPUT object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_AC_OUTPUT)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_AC_OUTPUT object constructed from its marshaled
@@ -9019,27 +9019,27 @@ class TPMS_AC_OUTPUT (TpmStructure):
 class TPML_AC_CAPABILITIES (TpmStructure):
     def __init__(self, acCapabilities = None):
         """ This list is only used in TPM2_AC_GetCapability().
-        
+
         Attributes:
             acCapabilities (TPMS_AC_OUTPUT[]): A list of AC values
         """
         self.acCapabilities = acCapabilities
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.acCapabilities)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.acCapabilities = buf.readObjArr(TPMS_AC_OUTPUT)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPML_AC_CAPABILITIES object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPML_AC_CAPABILITIES)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPML_AC_CAPABILITIES object constructed from its
@@ -9057,27 +9057,27 @@ class TPM2_Startup_REQUEST (ReqStructure):
         completed successfully. If a TPM requires TPM2_Startup() and another
         command is received, or if the TPM receives TPM2_Startup() when it is
         not required, the TPM shall return TPM_RC_INITIALIZE.
-        
+
         Attributes:
             startupType (TPM_SU): TPM_SU_CLEAR or TPM_SU_STATE
         """
         self.startupType = startupType
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.startupType)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.startupType = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Startup_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Startup_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Startup_REQUEST object constructed from its
@@ -9091,27 +9091,27 @@ class TPM2_Shutdown_REQUEST (ReqStructure):
         """ This command is used to prepare the TPM for a power cycle. The
         shutdownType parameter indicates how the subsequent TPM2_Startup() will
         be processed.
-        
+
         Attributes:
             shutdownType (TPM_SU): TPM_SU_CLEAR or TPM_SU_STATE
         """
         self.shutdownType = shutdownType
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.shutdownType)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.shutdownType = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Shutdown_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Shutdown_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Shutdown_REQUEST object constructed from its
@@ -9126,28 +9126,28 @@ class TPM2_SelfTest_REQUEST (ReqStructure):
         If the fullTest is YES, the TPM will test all functions. If fullTest =
         NO, the TPM will only test those functions that have not previously been
         tested.
-        
+
         Attributes:
             fullTest (int): YES if full test to be performed
                 NO if only test of untested functions required
         """
         self.fullTest = fullTest
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeByte(self.fullTest)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.fullTest = buf.readByte()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_SelfTest_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SelfTest_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_SelfTest_REQUEST object constructed from its
@@ -9159,68 +9159,68 @@ class TPM2_SelfTest_REQUEST (ReqStructure):
 class TPM2_IncrementalSelfTest_REQUEST (ReqStructure):
     def __init__(self, toTest = None):
         """ This command causes the TPM to perform a test of the selected algorithms.
-        
+
         Attributes:
             toTest (TPM_ALG_ID[]): List of algorithms that should be tested
         """
         self.toTest = toTest
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeValArr(self.toTest, 2)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.toTest = buf.readValArr(2)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_IncrementalSelfTest_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_IncrementalSelfTest_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_IncrementalSelfTest_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_IncrementalSelfTest_REQUEST)
-    
+
     def sessEncInfo(self): return SessEncInfo(4, 2)
 # TPM2_IncrementalSelfTest_REQUEST
 
 class IncrementalSelfTestResponse (RespStructure):
     def __init__(self, toDoList = None):
         """ This command causes the TPM to perform a test of the selected algorithms.
-        
+
         Attributes:
             toDoList (TPM_ALG_ID[]): List of algorithms that need testing
         """
         self.toDoList = toDoList
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeValArr(self.toDoList, 2)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.toDoList = buf.readValArr(2)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new IncrementalSelfTestResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(IncrementalSelfTestResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new IncrementalSelfTestResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(IncrementalSelfTestResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(4, 2)
 # IncrementalSelfTestResponse
 
@@ -9230,14 +9230,14 @@ class TPM2_GetTestResult_REQUEST (ReqStructure):
         results of a self-test and an indication of the test status.
         """
         pass
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_GetTestResult_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetTestResult_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_GetTestResult_REQUEST object constructed from its
@@ -9250,7 +9250,7 @@ class GetTestResultResponse (RespStructure):
     def __init__(self, outData = None, testResult = 0):
         """ This command returns manufacturer-specific information regarding the
         results of a self-test and an indication of the test status.
-        
+
         Attributes:
             outData (bytes): Test result data
                 contains manufacturer-specific information
@@ -9258,31 +9258,31 @@ class GetTestResultResponse (RespStructure):
         """
         self.outData = outData
         self.testResult = testResult
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.outData)
         buf.writeInt(self.testResult)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outData = buf.readSizedByteBuf()
         self.testResult = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new GetTestResultResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetTestResultResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new GetTestResultResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(GetTestResultResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # GetTestResultResponse
 
@@ -9292,7 +9292,7 @@ class TPM2_StartAuthSession_REQUEST (ReqStructure):
         alternative methods of establishing the session key (sessionKey). The
         session key is then used to derive values used for authorization and for
         encrypting parameters.
-        
+
         Attributes:
             tpmKey (TPM_HANDLE): Handle of a loaded decrypt key used to encrypt salt
                 may be TPM_RH_NULL
@@ -9320,7 +9320,7 @@ class TPM2_StartAuthSession_REQUEST (ReqStructure):
         self.sessionType = sessionType
         self.symmetric = symmetric
         self.authHash = authHash
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.nonceCaller)
@@ -9328,7 +9328,7 @@ class TPM2_StartAuthSession_REQUEST (ReqStructure):
         buf.writeByte(self.sessionType)
         self.symmetric.toTpm(buf)
         buf.writeShort(self.authHash)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.nonceCaller = buf.readSizedByteBuf()
@@ -9336,27 +9336,27 @@ class TPM2_StartAuthSession_REQUEST (ReqStructure):
         self.sessionType = buf.readByte()
         self.symmetric = TPMT_SYM_DEF.fromTpm(buf)
         self.authHash = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_StartAuthSession_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_StartAuthSession_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_StartAuthSession_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_StartAuthSession_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.tpmKey, self.bind]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_StartAuthSession_REQUEST
 
@@ -9366,7 +9366,7 @@ class StartAuthSessionResponse (RespStructure):
         alternative methods of establishing the session key (sessionKey). The
         session key is then used to derive values used for authorization and for
         encrypting parameters.
-        
+
         Attributes:
             handle (TPM_HANDLE): Handle for the newly created session
             nonceTPM (bytes): The initial nonce from the TPM, used in the
@@ -9374,35 +9374,35 @@ class StartAuthSessionResponse (RespStructure):
         """
         self.handle = handle
         self.nonceTPM = nonceTPM
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.nonceTPM)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.nonceTPM = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new StartAuthSessionResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(StartAuthSessionResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new StartAuthSessionResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(StartAuthSessionResponse)
-    
+
     def numHandles(self): return 1
-    
+
     def getHandle(self): return self.handle
-    
+
     def setHandle(self, h): self.handle = h
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # StartAuthSessionResponse
 
@@ -9415,30 +9415,30 @@ class TPM2_PolicyRestart_REQUEST (ReqStructure):
         Restarting the session allows the authorizations to be replayed because
         the session restarts with the same nonceTPM. If the PCR are valid for
         the policy, the policy may then succeed.
-        
+
         Attributes:
             sessionHandle (TPM_HANDLE): The handle for the policy session
         """
         self.sessionHandle = sessionHandle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyRestart_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyRestart_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyRestart_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyRestart_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.sessionHandle]
 # TPM2_PolicyRestart_REQUEST
 
@@ -9453,7 +9453,7 @@ class TPM2_Create_REQUEST (ReqStructure):
         (TPM2_Load()) before it may be used. The only difference between the
         inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in
         the unique field.
-        
+
         Attributes:
             parentHandle (TPM_HANDLE): Handle of parent for new object
                 Auth Index: 1
@@ -9471,41 +9471,41 @@ class TPM2_Create_REQUEST (ReqStructure):
         self.inPublic = inPublic
         self.outsideInfo = outsideInfo
         self.creationPCR = creationPCR
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.inSensitive)
         buf.writeSizedObj(self.inPublic)
         buf.writeSizedByteBuf(self.outsideInfo)
         buf.writeObjArr(self.creationPCR)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE)
         self.inPublic = buf.createSizedObj(TPMT_PUBLIC)
         self.outsideInfo = buf.readSizedByteBuf()
         self.creationPCR = buf.readObjArr(TPMS_PCR_SELECTION)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Create_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Create_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Create_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Create_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.parentHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_Create_REQUEST
 
@@ -9520,7 +9520,7 @@ class CreateResponse (RespStructure):
         (TPM2_Load()) before it may be used. The only difference between the
         inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in
         the unique field.
-        
+
         Attributes:
             outPrivate (TPM2B_PRIVATE): The private portion of the object
             outPublic (TPMT_PUBLIC): The public portion of the created object
@@ -9535,7 +9535,7 @@ class CreateResponse (RespStructure):
         self.creationData = creationData
         self.creationHash = creationHash
         self.creationTicket = creationTicket
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.outPrivate.toTpm(buf)
@@ -9543,7 +9543,7 @@ class CreateResponse (RespStructure):
         buf.writeSizedObj(self.creationData)
         buf.writeSizedByteBuf(self.creationHash)
         self.creationTicket.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outPrivate = TPM2B_PRIVATE.fromTpm(buf)
@@ -9551,14 +9551,14 @@ class CreateResponse (RespStructure):
         self.creationData = buf.createSizedObj(TPMS_CREATION_DATA)
         self.creationHash = buf.readSizedByteBuf()
         self.creationTicket = TPMT_TK_CREATION.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new CreateResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(CreateResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new CreateResponse object constructed from its marshaled
@@ -9572,7 +9572,7 @@ class TPM2_Load_REQUEST (ReqStructure):
         """ This command is used to load objects into the TPM. This command is
         used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If
         only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used.
-        
+
         Attributes:
             parentHandle (TPM_HANDLE): TPM handle of parent key; shall not be a
                 reserved handle
@@ -9584,35 +9584,35 @@ class TPM2_Load_REQUEST (ReqStructure):
         self.parentHandle = parentHandle
         self.inPrivate = inPrivate
         self.inPublic = inPublic
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.inPrivate.toTpm(buf)
         buf.writeSizedObj(self.inPublic)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.inPrivate = TPM2B_PRIVATE.fromTpm(buf)
         self.inPublic = buf.createSizedObj(TPMT_PUBLIC)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Load_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Load_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Load_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Load_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.parentHandle]
 # TPM2_Load_REQUEST
 
@@ -9621,42 +9621,42 @@ class LoadResponse (RespStructure):
         """ This command is used to load objects into the TPM. This command is
         used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If
         only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used.
-        
+
         Attributes:
             handle (TPM_HANDLE): Handle of type TPM_HT_TRANSIENT for the loaded object
             name (bytes): Name of the loaded object
         """
         self.handle = handle
         self.name = name
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.name)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.name = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new LoadResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(LoadResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new LoadResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(LoadResponse)
-    
+
     def numHandles(self): return 1
-    
+
     def getHandle(self): return self.handle
-    
+
     def setHandle(self, h): self.handle = h
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # LoadResponse
 
@@ -9665,7 +9665,7 @@ class TPM2_LoadExternal_REQUEST (ReqStructure):
         """ This command is used to load an object that is not a Protected
         Object into the TPM. The command allows loading of a public area or both
         a public and sensitive area.
-        
+
         Attributes:
             inPrivate (TPMT_SENSITIVE): The sensitive portion of the object (optional)
             inPublic (TPMT_PUBLIC): The public portion of the object
@@ -9674,33 +9674,33 @@ class TPM2_LoadExternal_REQUEST (ReqStructure):
         self.inPrivate = inPrivate
         self.inPublic = inPublic
         self.hierarchy = hierarchy
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.inPrivate)
         buf.writeSizedObj(self.inPublic)
         self.hierarchy.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.inPrivate = buf.createSizedObj(TPMT_SENSITIVE)
         self.inPublic = buf.createSizedObj(TPMT_PUBLIC)
         self.hierarchy = TPM_HANDLE.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_LoadExternal_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_LoadExternal_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_LoadExternal_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_LoadExternal_REQUEST)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_LoadExternal_REQUEST
 
@@ -9709,80 +9709,80 @@ class LoadExternalResponse (RespStructure):
         """ This command is used to load an object that is not a Protected
         Object into the TPM. The command allows loading of a public area or both
         a public and sensitive area.
-        
+
         Attributes:
             handle (TPM_HANDLE): Handle of type TPM_HT_TRANSIENT for the loaded object
             name (bytes): Name of the loaded object
         """
         self.handle = handle
         self.name = name
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.name)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.name = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new LoadExternalResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(LoadExternalResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new LoadExternalResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(LoadExternalResponse)
-    
+
     def numHandles(self): return 1
-    
+
     def getHandle(self): return self.handle
-    
+
     def setHandle(self, h): self.handle = h
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # LoadExternalResponse
 
 class TPM2_ReadPublic_REQUEST (ReqStructure):
     def __init__(self, objectHandle = TPM_HANDLE()):
         """ This command allows access to the public area of a loaded object.
-        
+
         Attributes:
             objectHandle (TPM_HANDLE): TPM handle of an object
                 Auth Index: None
         """
         self.objectHandle = objectHandle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ReadPublic_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ReadPublic_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ReadPublic_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ReadPublic_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.objectHandle]
 # TPM2_ReadPublic_REQUEST
 
 class ReadPublicResponse (RespStructure):
     def __init__(self, outPublic = None, name = None, qualifiedName = None):
         """ This command allows access to the public area of a loaded object.
-        
+
         Attributes:
             outPublic (TPMT_PUBLIC): Structure containing the public area of an object
             name (bytes): Name of the object
@@ -9791,33 +9791,33 @@ class ReadPublicResponse (RespStructure):
         self.outPublic = outPublic
         self.name = name
         self.qualifiedName = qualifiedName
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.outPublic)
         buf.writeSizedByteBuf(self.name)
         buf.writeSizedByteBuf(self.qualifiedName)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outPublic = buf.createSizedObj(TPMT_PUBLIC)
         self.name = buf.readSizedByteBuf()
         self.qualifiedName = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ReadPublicResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(ReadPublicResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ReadPublicResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ReadPublicResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # ReadPublicResponse
 
@@ -9826,7 +9826,7 @@ class TPM2_ActivateCredential_REQUEST (ReqStructure):
         """ This command enables the association of a credential with an object
         in a way that ensures that the TPM has validated the parameters of the
         credentialed object.
-        
+
         Attributes:
             activateHandle (TPM_HANDLE): Handle of the object associated with
                 certificate in credentialBlob
@@ -9844,37 +9844,37 @@ class TPM2_ActivateCredential_REQUEST (ReqStructure):
         self.keyHandle = keyHandle
         self.credentialBlob = credentialBlob
         self.secret = secret
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.credentialBlob)
         buf.writeSizedByteBuf(self.secret)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.credentialBlob = buf.createSizedObj(TPMS_ID_OBJECT)
         self.secret = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ActivateCredential_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ActivateCredential_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ActivateCredential_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ActivateCredential_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 2
-    
+
     def getHandles(self): return [self.activateHandle, self.keyHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_ActivateCredential_REQUEST
 
@@ -9883,36 +9883,36 @@ class ActivateCredentialResponse (RespStructure):
         """ This command enables the association of a credential with an object
         in a way that ensures that the TPM has validated the parameters of the
         credentialed object.
-        
+
         Attributes:
             certInfo (bytes): The decrypted certificate information
                 the data should be no larger than the size of the digest of the
                 nameAlg associated with keyHandle
         """
         self.certInfo = certInfo
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.certInfo)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.certInfo = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ActivateCredentialResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ActivateCredentialResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ActivateCredentialResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ActivateCredentialResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # ActivateCredentialResponse
 
@@ -9921,7 +9921,7 @@ class TPM2_MakeCredential_REQUEST (ReqStructure):
         """ This command allows the TPM to perform the actions required of a
         Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an
         activation credential.
-        
+
         Attributes:
             handle (TPM_HANDLE): Loaded public area, used to encrypt the
                 sensitive area containing the credential key
@@ -9932,37 +9932,37 @@ class TPM2_MakeCredential_REQUEST (ReqStructure):
         self.handle = handle
         self.credential = credential
         self.objectName = objectName
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.credential)
         buf.writeSizedByteBuf(self.objectName)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.credential = buf.readSizedByteBuf()
         self.objectName = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_MakeCredential_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_MakeCredential_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_MakeCredential_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_MakeCredential_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.handle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_MakeCredential_REQUEST
 
@@ -9971,7 +9971,7 @@ class MakeCredentialResponse (RespStructure):
         """ This command allows the TPM to perform the actions required of a
         Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an
         activation credential.
-        
+
         Attributes:
             credentialBlob (TPMS_ID_OBJECT): The credential
             secret (bytes): Handle algorithm-dependent data that wraps the key
@@ -9979,98 +9979,98 @@ class MakeCredentialResponse (RespStructure):
         """
         self.credentialBlob = credentialBlob
         self.secret = secret
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.credentialBlob)
         buf.writeSizedByteBuf(self.secret)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.credentialBlob = buf.createSizedObj(TPMS_ID_OBJECT)
         self.secret = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new MakeCredentialResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(MakeCredentialResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new MakeCredentialResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(MakeCredentialResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # MakeCredentialResponse
 
 class TPM2_Unseal_REQUEST (ReqStructure):
     def __init__(self, itemHandle = TPM_HANDLE()):
         """ This command returns the data in a loaded Sealed Data Object.
-        
+
         Attributes:
             itemHandle (TPM_HANDLE): Handle of a loaded data object
                 Auth Index: 1
                 Auth Role: USER
         """
         self.itemHandle = itemHandle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Unseal_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Unseal_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Unseal_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Unseal_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.itemHandle]
 # TPM2_Unseal_REQUEST
 
 class UnsealResponse (RespStructure):
     def __init__(self, outData = None):
         """ This command returns the data in a loaded Sealed Data Object.
-        
+
         Attributes:
             outData (bytes): Unsealed data
                 Size of outData is limited to be no more than 128 octets.
         """
         self.outData = outData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.outData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outData = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new UnsealResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(UnsealResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new UnsealResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(UnsealResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # UnsealResponse
 
@@ -10078,7 +10078,7 @@ class TPM2_ObjectChangeAuth_REQUEST (ReqStructure):
     def __init__(self, objectHandle = TPM_HANDLE(), parentHandle = TPM_HANDLE(), newAuth = None):
         """ This command is used to change the authorization secret for a
         TPM-resident object.
-        
+
         Attributes:
             objectHandle (TPM_HANDLE): Handle of the object
                 Auth Index: 1
@@ -10090,35 +10090,35 @@ class TPM2_ObjectChangeAuth_REQUEST (ReqStructure):
         self.objectHandle = objectHandle
         self.parentHandle = parentHandle
         self.newAuth = newAuth
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.newAuth)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.newAuth = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ObjectChangeAuth_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ObjectChangeAuth_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ObjectChangeAuth_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ObjectChangeAuth_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.objectHandle, self.parentHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_ObjectChangeAuth_REQUEST
 
@@ -10126,28 +10126,28 @@ class ObjectChangeAuthResponse (RespStructure):
     def __init__(self, outPrivate = None):
         """ This command is used to change the authorization secret for a
         TPM-resident object.
-        
+
         Attributes:
             outPrivate (TPM2B_PRIVATE): Private area containing the new
                 authorization value
         """
         self.outPrivate = outPrivate
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.outPrivate.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outPrivate = TPM2B_PRIVATE.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ObjectChangeAuthResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ObjectChangeAuthResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ObjectChangeAuthResponse object constructed from its
@@ -10165,7 +10165,7 @@ class TPM2_CreateLoaded_REQUEST (ReqStructure):
         references a Storage Parent, then an Ordinary Object is created; and if
         parentHandle references a Derivation Parent, then a Derived Object is
         generated.
-        
+
         Attributes:
             parentHandle (TPM_HANDLE): Handle of a transient storage key, a
                 persistent storage key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER,
@@ -10179,37 +10179,37 @@ class TPM2_CreateLoaded_REQUEST (ReqStructure):
         self.parentHandle = parentHandle
         self.inSensitive = inSensitive
         self.inPublic = inPublic
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.inSensitive)
         buf.writeSizedByteBuf(self.inPublic)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE)
         self.inPublic = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_CreateLoaded_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_CreateLoaded_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_CreateLoaded_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_CreateLoaded_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.parentHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_CreateLoaded_REQUEST
 
@@ -10222,7 +10222,7 @@ class CreateLoadedResponse (RespStructure):
         references a Storage Parent, then an Ordinary Object is created; and if
         parentHandle references a Derivation Parent, then a Derived Object is
         generated.
-        
+
         Attributes:
             handle (TPM_HANDLE): Handle of type TPM_HT_TRANSIENT for created object
             outPrivate (TPM2B_PRIVATE): The sensitive area of the object (optional)
@@ -10233,37 +10233,37 @@ class CreateLoadedResponse (RespStructure):
         self.outPrivate = outPrivate
         self.outPublic = outPublic
         self.name = name
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.outPrivate.toTpm(buf)
         buf.writeSizedObj(self.outPublic)
         buf.writeSizedByteBuf(self.name)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outPrivate = TPM2B_PRIVATE.fromTpm(buf)
         self.outPublic = buf.createSizedObj(TPMT_PUBLIC)
         self.name = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new CreateLoadedResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(CreateLoadedResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new CreateLoadedResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CreateLoadedResponse)
-    
+
     def numHandles(self): return 1
-    
+
     def getHandle(self): return self.handle
-    
+
     def setHandle(self, h): self.handle = h
 # CreateLoadedResponse
 
@@ -10273,7 +10273,7 @@ class TPM2_Duplicate_REQUEST (ReqStructure):
         different hierarchy. The new parent key for the duplicate may be on the
         same or different TPM or TPM_RH_NULL. Only the public area of
         newParentHandle is required to be loaded.
-        
+
         Attributes:
             objectHandle (TPM_HANDLE): Loaded object to duplicate
                 Auth Index: 1
@@ -10292,37 +10292,37 @@ class TPM2_Duplicate_REQUEST (ReqStructure):
         self.newParentHandle = newParentHandle
         self.encryptionKeyIn = encryptionKeyIn
         self.symmetricAlg = symmetricAlg
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.encryptionKeyIn)
         self.symmetricAlg.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.encryptionKeyIn = buf.readSizedByteBuf()
         self.symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Duplicate_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Duplicate_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Duplicate_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Duplicate_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.objectHandle, self.newParentHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_Duplicate_REQUEST
 
@@ -10332,7 +10332,7 @@ class DuplicateResponse (RespStructure):
         different hierarchy. The new parent key for the duplicate may be on the
         same or different TPM or TPM_RH_NULL. Only the public area of
         newParentHandle is required to be loaded.
-        
+
         Attributes:
             encryptionKeyOut (bytes): If the caller provided an encryption key
                 or if symmetricAlg was TPM_ALG_NULL, then this will be the Empty
@@ -10346,33 +10346,33 @@ class DuplicateResponse (RespStructure):
         self.encryptionKeyOut = encryptionKeyOut
         self.duplicate = duplicate
         self.outSymSeed = outSymSeed
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.encryptionKeyOut)
         self.duplicate.toTpm(buf)
         buf.writeSizedByteBuf(self.outSymSeed)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.encryptionKeyOut = buf.readSizedByteBuf()
         self.duplicate = TPM2B_PRIVATE.fromTpm(buf)
         self.outSymSeed = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new DuplicateResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(DuplicateResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new DuplicateResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(DuplicateResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # DuplicateResponse
 
@@ -10386,7 +10386,7 @@ class TPM2_Rewrap_REQUEST (ReqStructure):
         and the blob is re-encrypted and a new integrity value is computed. The
         re-encrypted blob is returned in outDuplicate and the symmetric key
         returned in outSymKey.
-        
+
         Attributes:
             oldParent (TPM_HANDLE): Parent of object
                 Auth Index: 1
@@ -10405,37 +10405,37 @@ class TPM2_Rewrap_REQUEST (ReqStructure):
         self.inDuplicate = inDuplicate
         self.name = name
         self.inSymSeed = inSymSeed
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.inDuplicate.toTpm(buf)
         buf.writeSizedByteBuf(self.name)
         buf.writeSizedByteBuf(self.inSymSeed)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.inDuplicate = TPM2B_PRIVATE.fromTpm(buf)
         self.name = buf.readSizedByteBuf()
         self.inSymSeed = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Rewrap_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Rewrap_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Rewrap_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Rewrap_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.oldParent, self.newParent]
 # TPM2_Rewrap_REQUEST
 
@@ -10449,7 +10449,7 @@ class RewrapResponse (RespStructure):
         and the blob is re-encrypted and a new integrity value is computed. The
         re-encrypted blob is returned in outDuplicate and the symmetric key
         returned in outSymKey.
-        
+
         Attributes:
             outDuplicate (TPM2B_PRIVATE): An object encrypted using symmetric
                 key derived from outSymSeed
@@ -10458,24 +10458,24 @@ class RewrapResponse (RespStructure):
         """
         self.outDuplicate = outDuplicate
         self.outSymSeed = outSymSeed
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.outDuplicate.toTpm(buf)
         buf.writeSizedByteBuf(self.outSymSeed)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outDuplicate = TPM2B_PRIVATE.fromTpm(buf)
         self.outSymSeed = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new RewrapResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(RewrapResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new RewrapResponse object constructed from its marshaled
@@ -10490,7 +10490,7 @@ class TPM2_Import_REQUEST (ReqStructure):
         encryption values of a Storage Key. After encryption, the object may be
         loaded and used in the new hierarchy. The imported object (duplicate)
         may be singly encrypted, multiply encrypted, or unencrypted.
-        
+
         Attributes:
             parentHandle (TPM_HANDLE): The handle of the new parent for the object
                 Auth Index: 1
@@ -10520,7 +10520,7 @@ class TPM2_Import_REQUEST (ReqStructure):
         self.duplicate = duplicate
         self.inSymSeed = inSymSeed
         self.symmetricAlg = symmetricAlg
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.encryptionKey)
@@ -10528,7 +10528,7 @@ class TPM2_Import_REQUEST (ReqStructure):
         self.duplicate.toTpm(buf)
         buf.writeSizedByteBuf(self.inSymSeed)
         self.symmetricAlg.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.encryptionKey = buf.readSizedByteBuf()
@@ -10536,27 +10536,27 @@ class TPM2_Import_REQUEST (ReqStructure):
         self.duplicate = TPM2B_PRIVATE.fromTpm(buf)
         self.inSymSeed = buf.readSizedByteBuf()
         self.symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Import_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Import_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Import_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Import_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.parentHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_Import_REQUEST
 
@@ -10566,28 +10566,28 @@ class ImportResponse (RespStructure):
         encryption values of a Storage Key. After encryption, the object may be
         loaded and used in the new hierarchy. The imported object (duplicate)
         may be singly encrypted, multiply encrypted, or unencrypted.
-        
+
         Attributes:
             outPrivate (TPM2B_PRIVATE): The sensitive area encrypted with the
                 symmetric key of parentHandle
         """
         self.outPrivate = outPrivate
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.outPrivate.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outPrivate = TPM2B_PRIVATE.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ImportResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(ImportResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ImportResponse object constructed from its marshaled
@@ -10603,7 +10603,7 @@ class TPM2_RSA_Encrypt_REQUEST (ReqStructure):
         TPM_ALG_NULL, then the caller may use inScheme to specify the padding
         scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall
         either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
-        
+
         Attributes:
             keyHandle (TPM_HANDLE): Reference to public portion of RSA key to
                 use for encryption
@@ -10628,19 +10628,19 @@ class TPM2_RSA_Encrypt_REQUEST (ReqStructure):
         self.message = message
         self.inScheme = inScheme
         self.label = label
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.message)
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
         buf.writeSizedByteBuf(self.label)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.message = buf.readSizedByteBuf()
@@ -10648,27 +10648,27 @@ class TPM2_RSA_Encrypt_REQUEST (ReqStructure):
         self.inScheme = UnionFactory.create('TPMU_ASYM_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
         self.label = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_RSA_Encrypt_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_RSA_Encrypt_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_RSA_Encrypt_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_RSA_Encrypt_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.keyHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_RSA_Encrypt_REQUEST
 
@@ -10679,34 +10679,34 @@ class RSA_EncryptResponse (RespStructure):
         TPM_ALG_NULL, then the caller may use inScheme to specify the padding
         scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall
         either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
-        
+
         Attributes:
             outData (bytes): Encrypted output
         """
         self.outData = outData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.outData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outData = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new RSA_EncryptResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(RSA_EncryptResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new RSA_EncryptResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(RSA_EncryptResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # RSA_EncryptResponse
 
@@ -10714,7 +10714,7 @@ class TPM2_RSA_Decrypt_REQUEST (ReqStructure):
     def __init__(self, keyHandle = TPM_HANDLE(), cipherText = None, inScheme = None, label = None):
         """ This command performs RSA decryption using the indicated padding
         scheme according to IETF RFC 8017 ((PKCS#1).
-        
+
         Attributes:
             keyHandle (TPM_HANDLE): RSA key to use for decryption
                 Auth Index: 1
@@ -10735,19 +10735,19 @@ class TPM2_RSA_Decrypt_REQUEST (ReqStructure):
         self.cipherText = cipherText
         self.inScheme = inScheme
         self.label = label
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.cipherText)
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
         buf.writeSizedByteBuf(self.label)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.cipherText = buf.readSizedByteBuf()
@@ -10755,27 +10755,27 @@ class TPM2_RSA_Decrypt_REQUEST (ReqStructure):
         self.inScheme = UnionFactory.create('TPMU_ASYM_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
         self.label = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_RSA_Decrypt_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_RSA_Decrypt_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_RSA_Decrypt_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_RSA_Decrypt_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.keyHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_RSA_Decrypt_REQUEST
 
@@ -10783,34 +10783,34 @@ class RSA_DecryptResponse (RespStructure):
     def __init__(self, message = None):
         """ This command performs RSA decryption using the indicated padding
         scheme according to IETF RFC 8017 ((PKCS#1).
-        
+
         Attributes:
             message (bytes): Decrypted output
         """
         self.message = message
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.message)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.message = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new RSA_DecryptResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(RSA_DecryptResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new RSA_DecryptResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(RSA_DecryptResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # RSA_DecryptResponse
 
@@ -10819,31 +10819,31 @@ class TPM2_ECDH_KeyGen_REQUEST (ReqStructure):
         """ This command uses the TPM to generate an ephemeral key pair (de, Qe
         where Qe [de]G). It uses the private ephemeral key and a loaded public
         key (QS) to compute the shared secret value (P [hde]QS).
-        
+
         Attributes:
             keyHandle (TPM_HANDLE): Handle of a loaded ECC key public area.
                 Auth Index: None
         """
         self.keyHandle = keyHandle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ECDH_KeyGen_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ECDH_KeyGen_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ECDH_KeyGen_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ECDH_KeyGen_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.keyHandle]
 # TPM2_ECDH_KeyGen_REQUEST
 
@@ -10852,38 +10852,38 @@ class ECDH_KeyGenResponse (RespStructure):
         """ This command uses the TPM to generate an ephemeral key pair (de, Qe
         where Qe [de]G). It uses the private ephemeral key and a loaded public
         key (QS) to compute the shared secret value (P [hde]QS).
-        
+
         Attributes:
             zPoint (TPMS_ECC_POINT): Results of P h[de]Qs
             pubPoint (TPMS_ECC_POINT): Generated ephemeral public point (Qe)
         """
         self.zPoint = zPoint
         self.pubPoint = pubPoint
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.zPoint)
         buf.writeSizedObj(self.pubPoint)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.zPoint = buf.createSizedObj(TPMS_ECC_POINT)
         self.pubPoint = buf.createSizedObj(TPMS_ECC_POINT)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ECDH_KeyGenResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ECDH_KeyGenResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ECDH_KeyGenResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ECDH_KeyGenResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # ECDH_KeyGenResponse
 
@@ -10894,7 +10894,7 @@ class TPM2_ECDH_ZGen_REQUEST (ReqStructure):
         provided inPoint (QB) with the private key (ds) and return the
         coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h is
         the cofactor of the curve).
-        
+
         Attributes:
             keyHandle (TPM_HANDLE): Handle of a loaded ECC key
                 Auth Index: 1
@@ -10903,35 +10903,35 @@ class TPM2_ECDH_ZGen_REQUEST (ReqStructure):
         """
         self.keyHandle = keyHandle
         self.inPoint = inPoint
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.inPoint)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.inPoint = buf.createSizedObj(TPMS_ECC_POINT)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ECDH_ZGen_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ECDH_ZGen_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ECDH_ZGen_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ECDH_ZGen_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.keyHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_ECDH_ZGen_REQUEST
 
@@ -10942,35 +10942,35 @@ class ECDH_ZGenResponse (RespStructure):
         provided inPoint (QB) with the private key (ds) and return the
         coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h is
         the cofactor of the curve).
-        
+
         Attributes:
             outPoint (TPMS_ECC_POINT): X and Y coordinates of the product of the
                 multiplication Z = (xZ , yZ) [hdS]QB
         """
         self.outPoint = outPoint
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.outPoint)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outPoint = buf.createSizedObj(TPMS_ECC_POINT)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ECDH_ZGenResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(ECDH_ZGenResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ECDH_ZGenResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ECDH_ZGenResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # ECDH_ZGenResponse
 
@@ -10978,27 +10978,27 @@ class TPM2_ECC_Parameters_REQUEST (ReqStructure):
     def __init__(self, curveID = 0):
         """ This command returns the parameters of an ECC curve identified by
         its TCG-assigned curveID.
-        
+
         Attributes:
             curveID (TPM_ECC_CURVE): Parameter set selector
         """
         self.curveID = curveID
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.curveID)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.curveID = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ECC_Parameters_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ECC_Parameters_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ECC_Parameters_REQUEST object constructed from its
@@ -11011,28 +11011,28 @@ class ECC_ParametersResponse (RespStructure):
     def __init__(self, parameters = None):
         """ This command returns the parameters of an ECC curve identified by
         its TCG-assigned curveID.
-        
+
         Attributes:
             parameters (TPMS_ALGORITHM_DETAIL_ECC): ECC parameters for the
                 selected curve
         """
         self.parameters = parameters
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.parameters.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.parameters = TPMS_ALGORITHM_DETAIL_ECC.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ECC_ParametersResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ECC_ParametersResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ECC_ParametersResponse object constructed from its
@@ -11048,7 +11048,7 @@ class TPM2_ZGen_2Phase_REQUEST (ReqStructure):
         generates an ephemeral key and returns the public point of that
         ephemeral key along with a numeric value that allows the TPM to
         regenerate the associated private key.
-        
+
         Attributes:
             keyA (TPM_HANDLE): Handle of an unrestricted decryption key ECC
                 The private key referenced by this handle is used as dS,A
@@ -11066,41 +11066,41 @@ class TPM2_ZGen_2Phase_REQUEST (ReqStructure):
         self.inQeB = inQeB
         self.inScheme = inScheme
         self.counter = counter
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.inQsB)
         buf.writeSizedObj(self.inQeB)
         buf.writeShort(self.inScheme)
         buf.writeShort(self.counter)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.inQsB = buf.createSizedObj(TPMS_ECC_POINT)
         self.inQeB = buf.createSizedObj(TPMS_ECC_POINT)
         self.inScheme = buf.readShort()
         self.counter = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ZGen_2Phase_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ZGen_2Phase_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ZGen_2Phase_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ZGen_2Phase_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.keyA]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_ZGen_2Phase_REQUEST
 
@@ -11111,7 +11111,7 @@ class ZGen_2PhaseResponse (RespStructure):
         generates an ephemeral key and returns the public point of that
         ephemeral key along with a numeric value that allows the TPM to
         regenerate the associated private key.
-        
+
         Attributes:
             outZ1 (TPMS_ECC_POINT): X and Y coordinates of the computed value
                 (scheme dependent)
@@ -11120,38 +11120,38 @@ class ZGen_2PhaseResponse (RespStructure):
         """
         self.outZ1 = outZ1
         self.outZ2 = outZ2
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.outZ1)
         buf.writeSizedObj(self.outZ2)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outZ1 = buf.createSizedObj(TPMS_ECC_POINT)
         self.outZ2 = buf.createSizedObj(TPMS_ECC_POINT)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ZGen_2PhaseResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ZGen_2PhaseResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ZGen_2PhaseResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ZGen_2PhaseResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # ZGen_2PhaseResponse
 
 class TPM2_ECC_Encrypt_REQUEST (ReqStructure):
     def __init__(self, keyHandle = TPM_HANDLE(), plainText = None, inScheme = None):
         """ This command performs ECC encryption as described in Part 1, Annex D.
-        
+
         Attributes:
             keyHandle (TPM_HANDLE): Reference to public portion of ECC key to
                 use for encryption
@@ -11166,52 +11166,52 @@ class TPM2_ECC_Encrypt_REQUEST (ReqStructure):
         self.keyHandle = keyHandle
         self.plainText = plainText
         self.inScheme = inScheme
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.plainText)
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.plainText = buf.readSizedByteBuf()
         inSchemeScheme = buf.readShort()
         self.inScheme = UnionFactory.create('TPMU_KDF_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ECC_Encrypt_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ECC_Encrypt_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ECC_Encrypt_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ECC_Encrypt_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.keyHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_ECC_Encrypt_REQUEST
 
 class ECC_EncryptResponse (RespStructure):
     def __init__(self, C1 = None, C2 = None, C3 = None):
         """ This command performs ECC encryption as described in Part 1, Annex D.
-        
+
         Attributes:
             C1 (TPMS_ECC_POINT): The public ephemeral key used for ECDH
             C2 (bytes): The data block produced by the XOR process
@@ -11220,40 +11220,40 @@ class ECC_EncryptResponse (RespStructure):
         self.C1 = C1
         self.C2 = C2
         self.C3 = C3
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.C1)
         buf.writeSizedByteBuf(self.C2)
         buf.writeSizedByteBuf(self.C3)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.C1 = buf.createSizedObj(TPMS_ECC_POINT)
         self.C2 = buf.readSizedByteBuf()
         self.C3 = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ECC_EncryptResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ECC_EncryptResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ECC_EncryptResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ECC_EncryptResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # ECC_EncryptResponse
 
 class TPM2_ECC_Decrypt_REQUEST (ReqStructure):
     def __init__(self, keyHandle = TPM_HANDLE(), C1 = None, C2 = None, C3 = None, inScheme = None):
         """ This command performs ECC decryption.
-        
+
         Attributes:
             keyHandle (TPM_HANDLE): ECC key to use for decryption
                 Auth Index: 1
@@ -11272,12 +11272,12 @@ class TPM2_ECC_Decrypt_REQUEST (ReqStructure):
         self.C2 = C2
         self.C3 = C3
         self.inScheme = inScheme
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.C1)
@@ -11285,7 +11285,7 @@ class TPM2_ECC_Decrypt_REQUEST (ReqStructure):
         buf.writeSizedByteBuf(self.C3)
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.C1 = buf.createSizedObj(TPMS_ECC_POINT)
@@ -11294,61 +11294,61 @@ class TPM2_ECC_Decrypt_REQUEST (ReqStructure):
         inSchemeScheme = buf.readShort()
         self.inScheme = UnionFactory.create('TPMU_KDF_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ECC_Decrypt_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ECC_Decrypt_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ECC_Decrypt_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ECC_Decrypt_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.keyHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_ECC_Decrypt_REQUEST
 
 class ECC_DecryptResponse (RespStructure):
     def __init__(self, plainText = None):
         """ This command performs ECC decryption.
-        
+
         Attributes:
             plainText (bytes): Decrypted output
         """
         self.plainText = plainText
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.plainText)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.plainText = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ECC_DecryptResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ECC_DecryptResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ECC_DecryptResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ECC_DecryptResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # ECC_DecryptResponse
 
@@ -11356,7 +11356,7 @@ class TPM2_EncryptDecrypt_REQUEST (ReqStructure):
     def __init__(self, keyHandle = TPM_HANDLE(), decrypt = 0, mode = TPM_ALG_ID.NULL, ivIn = None, inData = None):
         """ NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is
         preferred. This should be reflected in platform-specific specifications.
-        
+
         Attributes:
             keyHandle (TPM_HANDLE): The symmetric key used for the operation
                 Auth Index: 1
@@ -11373,39 +11373,39 @@ class TPM2_EncryptDecrypt_REQUEST (ReqStructure):
         self.mode = mode
         self.ivIn = ivIn
         self.inData = inData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeByte(self.decrypt)
         buf.writeShort(self.mode)
         buf.writeSizedByteBuf(self.ivIn)
         buf.writeSizedByteBuf(self.inData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.decrypt = buf.readByte()
         self.mode = buf.readShort()
         self.ivIn = buf.readSizedByteBuf()
         self.inData = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_EncryptDecrypt_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_EncryptDecrypt_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_EncryptDecrypt_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_EncryptDecrypt_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.keyHandle]
 # TPM2_EncryptDecrypt_REQUEST
 
@@ -11413,38 +11413,38 @@ class EncryptDecryptResponse (RespStructure):
     def __init__(self, outData = None, ivOut = None):
         """ NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is
         preferred. This should be reflected in platform-specific specifications.
-        
+
         Attributes:
             outData (bytes): Encrypted or decrypted output
             ivOut (bytes): Chaining value to use for IV in next round
         """
         self.outData = outData
         self.ivOut = ivOut
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.outData)
         buf.writeSizedByteBuf(self.ivOut)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outData = buf.readSizedByteBuf()
         self.ivOut = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new EncryptDecryptResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(EncryptDecryptResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new EncryptDecryptResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(EncryptDecryptResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # EncryptDecryptResponse
 
@@ -11453,7 +11453,7 @@ class TPM2_EncryptDecrypt2_REQUEST (ReqStructure):
         """ This command is identical to TPM2_EncryptDecrypt(), except that the
         inData parameter is the first parameter. This permits inData to be
         parameter encrypted.
-        
+
         Attributes:
             keyHandle (TPM_HANDLE): The symmetric key used for the operation
                 Auth Index: 1
@@ -11470,41 +11470,41 @@ class TPM2_EncryptDecrypt2_REQUEST (ReqStructure):
         self.decrypt = decrypt
         self.mode = mode
         self.ivIn = ivIn
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.inData)
         buf.writeByte(self.decrypt)
         buf.writeShort(self.mode)
         buf.writeSizedByteBuf(self.ivIn)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.inData = buf.readSizedByteBuf()
         self.decrypt = buf.readByte()
         self.mode = buf.readShort()
         self.ivIn = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_EncryptDecrypt2_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_EncryptDecrypt2_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_EncryptDecrypt2_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_EncryptDecrypt2_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.keyHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_EncryptDecrypt2_REQUEST
 
@@ -11513,38 +11513,38 @@ class EncryptDecrypt2Response (RespStructure):
         """ This command is identical to TPM2_EncryptDecrypt(), except that the
         inData parameter is the first parameter. This permits inData to be
         parameter encrypted.
-        
+
         Attributes:
             outData (bytes): Encrypted or decrypted output
             ivOut (bytes): Chaining value to use for IV in next round
         """
         self.outData = outData
         self.ivOut = ivOut
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.outData)
         buf.writeSizedByteBuf(self.ivOut)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outData = buf.readSizedByteBuf()
         self.ivOut = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new EncryptDecrypt2Response object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(EncryptDecrypt2Response)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new EncryptDecrypt2Response object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(EncryptDecrypt2Response)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # EncryptDecrypt2Response
 
@@ -11552,7 +11552,7 @@ class TPM2_Hash_REQUEST (ReqStructure):
     def __init__(self, data = None, hashAlg = TPM_ALG_ID.NULL, hierarchy = TPM_HANDLE()):
         """ This command performs a hash operation on a data buffer and returns
         the results.
-        
+
         Attributes:
             data (bytes): Data to be hashed
             hashAlg (TPM_ALG_ID): Algorithm for the hash being computed shall
@@ -11563,33 +11563,33 @@ class TPM2_Hash_REQUEST (ReqStructure):
         self.data = data
         self.hashAlg = hashAlg
         self.hierarchy = hierarchy
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.data)
         buf.writeShort(self.hashAlg)
         self.hierarchy.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.data = buf.readSizedByteBuf()
         self.hashAlg = buf.readShort()
         self.hierarchy = TPM_HANDLE.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Hash_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Hash_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Hash_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Hash_REQUEST)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_Hash_REQUEST
 
@@ -11597,7 +11597,7 @@ class HashResponse (RespStructure):
     def __init__(self, outHash = None, validation = None):
         """ This command performs a hash operation on a data buffer and returns
         the results.
-        
+
         Attributes:
             outHash (bytes): Results
             validation (TPMT_TK_HASHCHECK): Ticket indicating that the sequence
@@ -11608,31 +11608,31 @@ class HashResponse (RespStructure):
         """
         self.outHash = outHash
         self.validation = validation
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.outHash)
         self.validation.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outHash = buf.readSizedByteBuf()
         self.validation = TPMT_TK_HASHCHECK.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new HashResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(HashResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new HashResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(HashResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # HashResponse
 
@@ -11640,7 +11640,7 @@ class TPM2_HMAC_REQUEST (ReqStructure):
     def __init__(self, handle = TPM_HANDLE(), buffer = None, hashAlg = TPM_ALG_ID.NULL):
         """ This command performs an HMAC on the supplied data using the
         indicated hash algorithm.
-        
+
         Attributes:
             handle (TPM_HANDLE): Handle for the symmetric signing key providing
                 the HMAC key
@@ -11652,37 +11652,37 @@ class TPM2_HMAC_REQUEST (ReqStructure):
         self.handle = handle
         self.buffer = buffer
         self.hashAlg = hashAlg
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
         buf.writeShort(self.hashAlg)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
         self.hashAlg = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_HMAC_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_HMAC_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_HMAC_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_HMAC_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.handle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_HMAC_REQUEST
 
@@ -11690,34 +11690,34 @@ class HMACResponse (RespStructure):
     def __init__(self, outHMAC = None):
         """ This command performs an HMAC on the supplied data using the
         indicated hash algorithm.
-        
+
         Attributes:
             outHMAC (bytes): The returned HMAC in a sized buffer
         """
         self.outHMAC = outHMAC
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.outHMAC)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outHMAC = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new HMACResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(HMACResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new HMACResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(HMACResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # HMACResponse
 
@@ -11725,7 +11725,7 @@ class TPM2_MAC_REQUEST (ReqStructure):
     def __init__(self, handle = TPM_HANDLE(), buffer = None, inScheme = TPM_ALG_ID.NULL):
         """ This command performs an HMAC or a block cipher MAC on the supplied
         data using the indicated algorithm.
-        
+
         Attributes:
             handle (TPM_HANDLE): Handle for the symmetric signing key providing
                 the MAC key
@@ -11737,37 +11737,37 @@ class TPM2_MAC_REQUEST (ReqStructure):
         self.handle = handle
         self.buffer = buffer
         self.inScheme = inScheme
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
         buf.writeShort(self.inScheme)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
         self.inScheme = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_MAC_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_MAC_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_MAC_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_MAC_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.handle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_MAC_REQUEST
 
@@ -11775,34 +11775,34 @@ class MACResponse (RespStructure):
     def __init__(self, outMAC = None):
         """ This command performs an HMAC or a block cipher MAC on the supplied
         data using the indicated algorithm.
-        
+
         Attributes:
             outMAC (bytes): The returned MAC in a sized buffer
         """
         self.outMAC = outMAC
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.outMAC)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outMAC = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new MACResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(MACResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new MACResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(MACResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # MACResponse
 
@@ -11810,27 +11810,27 @@ class TPM2_GetRandom_REQUEST (ReqStructure):
     def __init__(self, bytesRequested = 0):
         """ This command returns the next bytesRequested octets from the random
         number generator (RNG).
-        
+
         Attributes:
             bytesRequested (int): Number of octets to return
         """
         self.bytesRequested = bytesRequested
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.bytesRequested)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.bytesRequested = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_GetRandom_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetRandom_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_GetRandom_REQUEST object constructed from its
@@ -11843,68 +11843,68 @@ class GetRandomResponse (RespStructure):
     def __init__(self, randomBytes = None):
         """ This command returns the next bytesRequested octets from the random
         number generator (RNG).
-        
+
         Attributes:
             randomBytes (bytes): The random octets
         """
         self.randomBytes = randomBytes
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.randomBytes)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.randomBytes = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new GetRandomResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetRandomResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new GetRandomResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(GetRandomResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # GetRandomResponse
 
 class TPM2_StirRandom_REQUEST (ReqStructure):
     def __init__(self, inData = None):
         """ This command is used to add "additional information" to the RNG state.
-        
+
         Attributes:
             inData (bytes): Additional information
         """
         self.inData = inData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.inData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.inData = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_StirRandom_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_StirRandom_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_StirRandom_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_StirRandom_REQUEST)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_StirRandom_REQUEST
 
@@ -11913,7 +11913,7 @@ class TPM2_HMAC_Start_REQUEST (ReqStructure):
         """ This command starts an HMAC sequence. The TPM will create and
         initialize an HMAC sequence structure, assign a handle to the sequence,
         and set the authValue of the sequence object to the value in auth.
-        
+
         Attributes:
             handle (TPM_HANDLE): Handle of an HMAC key
                 Auth Index: 1
@@ -11924,37 +11924,37 @@ class TPM2_HMAC_Start_REQUEST (ReqStructure):
         self.handle = handle
         self.auth = auth
         self.hashAlg = hashAlg
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.auth)
         buf.writeShort(self.hashAlg)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.auth = buf.readSizedByteBuf()
         self.hashAlg = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_HMAC_Start_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_HMAC_Start_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_HMAC_Start_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_HMAC_Start_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.handle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_HMAC_Start_REQUEST
 
@@ -11963,30 +11963,30 @@ class HMAC_StartResponse (RespStructure):
         """ This command starts an HMAC sequence. The TPM will create and
         initialize an HMAC sequence structure, assign a handle to the sequence,
         and set the authValue of the sequence object to the value in auth.
-        
+
         Attributes:
             handle (TPM_HANDLE): A handle to reference the sequence
         """
         self.handle = handle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new HMAC_StartResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(HMAC_StartResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new HMAC_StartResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(HMAC_StartResponse)
-    
+
     def numHandles(self): return 1
-    
+
     def getHandle(self): return self.handle
-    
+
     def setHandle(self, h): self.handle = h
 # HMAC_StartResponse
 
@@ -11995,7 +11995,7 @@ class TPM2_MAC_Start_REQUEST (ReqStructure):
         """ This command starts a MAC sequence. The TPM will create and
         initialize a MAC sequence structure, assign a handle to the sequence,
         and set the authValue of the sequence object to the value in auth.
-        
+
         Attributes:
             handle (TPM_HANDLE): Handle of a MAC key
                 Auth Index: 1
@@ -12006,37 +12006,37 @@ class TPM2_MAC_Start_REQUEST (ReqStructure):
         self.handle = handle
         self.auth = auth
         self.inScheme = inScheme
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.auth)
         buf.writeShort(self.inScheme)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.auth = buf.readSizedByteBuf()
         self.inScheme = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_MAC_Start_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_MAC_Start_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_MAC_Start_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_MAC_Start_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.handle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_MAC_Start_REQUEST
 
@@ -12045,30 +12045,30 @@ class MAC_StartResponse (RespStructure):
         """ This command starts a MAC sequence. The TPM will create and
         initialize a MAC sequence structure, assign a handle to the sequence,
         and set the authValue of the sequence object to the value in auth.
-        
+
         Attributes:
             handle (TPM_HANDLE): A handle to reference the sequence
         """
         self.handle = handle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new MAC_StartResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(MAC_StartResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new MAC_StartResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(MAC_StartResponse)
-    
+
     def numHandles(self): return 1
-    
+
     def getHandle(self): return self.handle
-    
+
     def setHandle(self, h): self.handle = h
 # MAC_StartResponse
 
@@ -12079,7 +12079,7 @@ class TPM2_HashSequenceStart_REQUEST (ReqStructure):
         TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither
         an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return
         TPM_RC_HASH.
-        
+
         Attributes:
             auth (bytes): Authorization value for subsequent use of the sequence
             hashAlg (TPM_ALG_ID): The hash algorithm to use for the hash sequence
@@ -12087,31 +12087,31 @@ class TPM2_HashSequenceStart_REQUEST (ReqStructure):
         """
         self.auth = auth
         self.hashAlg = hashAlg
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.auth)
         buf.writeShort(self.hashAlg)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.auth = buf.readSizedByteBuf()
         self.hashAlg = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_HashSequenceStart_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_HashSequenceStart_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_HashSequenceStart_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_HashSequenceStart_REQUEST)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_HashSequenceStart_REQUEST
 
@@ -12122,30 +12122,30 @@ class HashSequenceStartResponse (RespStructure):
         TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither
         an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return
         TPM_RC_HASH.
-        
+
         Attributes:
             handle (TPM_HANDLE): A handle to reference the sequence
         """
         self.handle = handle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new HashSequenceStartResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(HashSequenceStartResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new HashSequenceStartResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(HashSequenceStartResponse)
-    
+
     def numHandles(self): return 1
-    
+
     def getHandle(self): return self.handle
-    
+
     def setHandle(self, h): self.handle = h
 # HashSequenceStartResponse
 
@@ -12153,7 +12153,7 @@ class TPM2_SequenceUpdate_REQUEST (ReqStructure):
     def __init__(self, sequenceHandle = TPM_HANDLE(), buffer = None):
         """ This command is used to add data to a hash or HMAC sequence. The
         amount of data in buffer may be any size up to the limits of the TPM.
-        
+
         Attributes:
             sequenceHandle (TPM_HANDLE): Handle for the sequence object
                 Auth Index: 1
@@ -12162,35 +12162,35 @@ class TPM2_SequenceUpdate_REQUEST (ReqStructure):
         """
         self.sequenceHandle = sequenceHandle
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_SequenceUpdate_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SequenceUpdate_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_SequenceUpdate_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_SequenceUpdate_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.sequenceHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_SequenceUpdate_REQUEST
 
@@ -12198,7 +12198,7 @@ class TPM2_SequenceComplete_REQUEST (ReqStructure):
     def __init__(self, sequenceHandle = TPM_HANDLE(), buffer = None, hierarchy = TPM_HANDLE()):
         """ This command adds the last part of data, if any, to a hash/HMAC
         sequence and returns the result.
-        
+
         Attributes:
             sequenceHandle (TPM_HANDLE): Authorization for the sequence
                 Auth Index: 1
@@ -12209,37 +12209,37 @@ class TPM2_SequenceComplete_REQUEST (ReqStructure):
         self.sequenceHandle = sequenceHandle
         self.buffer = buffer
         self.hierarchy = hierarchy
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
         self.hierarchy.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
         self.hierarchy = TPM_HANDLE.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_SequenceComplete_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SequenceComplete_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_SequenceComplete_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_SequenceComplete_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.sequenceHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_SequenceComplete_REQUEST
 
@@ -12247,7 +12247,7 @@ class SequenceCompleteResponse (RespStructure):
     def __init__(self, result = None, validation = None):
         """ This command adds the last part of data, if any, to a hash/HMAC
         sequence and returns the result.
-        
+
         Attributes:
             result (bytes): The returned HMAC or digest in a sized buffer
             validation (TPMT_TK_HASHCHECK): Ticket indicating that the sequence
@@ -12257,31 +12257,31 @@ class SequenceCompleteResponse (RespStructure):
         """
         self.result = result
         self.validation = validation
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.result)
         self.validation.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.result = buf.readSizedByteBuf()
         self.validation = TPMT_TK_HASHCHECK.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new SequenceCompleteResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(SequenceCompleteResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new SequenceCompleteResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(SequenceCompleteResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # SequenceCompleteResponse
 
@@ -12293,7 +12293,7 @@ class TPM2_EventSequenceComplete_REQUEST (ReqStructure):
         processed in the same manner as the digest list input parameter to
         TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with
         pcrHandle, it is extended with the associated digest value from the list.
-        
+
         Attributes:
             pcrHandle (TPM_HANDLE): PCR to be extended with the Event data
                 Auth Index: 1
@@ -12306,35 +12306,35 @@ class TPM2_EventSequenceComplete_REQUEST (ReqStructure):
         self.pcrHandle = pcrHandle
         self.sequenceHandle = sequenceHandle
         self.buffer = buffer
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.buffer)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.buffer = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_EventSequenceComplete_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_EventSequenceComplete_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_EventSequenceComplete_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_EventSequenceComplete_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 2
-    
+
     def getHandles(self): return [self.pcrHandle, self.sequenceHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_EventSequenceComplete_REQUEST
 
@@ -12346,34 +12346,34 @@ class EventSequenceCompleteResponse (RespStructure):
         processed in the same manner as the digest list input parameter to
         TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with
         pcrHandle, it is extended with the associated digest value from the list.
-        
+
         Attributes:
             results (TPMT_HA[]): List of digests computed for the PCR
         """
         self.results = results
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.results)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.results = buf.readObjArr(TPMT_HA)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new EventSequenceCompleteResponse object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(EventSequenceCompleteResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new EventSequenceCompleteResponse object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(EventSequenceCompleteResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(4, 66)
 # EventSequenceCompleteResponse
 
@@ -12385,7 +12385,7 @@ class TPM2_Certify_REQUEST (ReqStructure):
         self-consistent and associated with a valid sensitive area. If a relying
         party has a public area that has the same Name as a Name certified with
         this command, then the values in that public area are correct.
-        
+
         Attributes:
             objectHandle (TPM_HANDLE): Handle of the object to be certified
                 Auth Index: 1
@@ -12406,45 +12406,45 @@ class TPM2_Certify_REQUEST (ReqStructure):
         self.signHandle = signHandle
         self.qualifyingData = qualifyingData
         self.inScheme = inScheme
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.qualifyingData)
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.qualifyingData = buf.readSizedByteBuf()
         inSchemeScheme = buf.readShort()
         self.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Certify_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Certify_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Certify_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Certify_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 2
-    
+
     def getHandles(self): return [self.objectHandle, self.signHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_Certify_REQUEST
 
@@ -12456,7 +12456,7 @@ class CertifyResponse (RespStructure):
         self-consistent and associated with a valid sensitive area. If a relying
         party has a public area that has the same Name as a Name certified with
         this command, then the values in that public area are correct.
-        
+
         Attributes:
             certifyInfo (TPMS_ATTEST): The structure that was signed
             signature (TPMU_SIGNATURE): The asymmetric signature over
@@ -12468,39 +12468,39 @@ class CertifyResponse (RespStructure):
         """
         self.certifyInfo = certifyInfo
         self.signature = signature
-    
+
     @property
     def signatureSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return signature.GetUnionSelector() if signature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.certifyInfo)
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.certifyInfo = buf.createSizedObj(TPMS_ATTEST)
         signatureSigAlg = buf.readShort()
         self.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg)
         self.signature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new CertifyResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(CertifyResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new CertifyResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CertifyResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # CertifyResponse
 
@@ -12510,7 +12510,7 @@ class TPM2_CertifyCreation_REQUEST (ReqStructure):
         its creation data. The TPM will validate that the ticket was produced by
         the TPM and that the ticket validates the association between a loaded
         public area and the provided hash of the creation data (creationHash).
-        
+
         Attributes:
             signHandle (TPM_HANDLE): Handle of the key that will sign the
                 attestation block
@@ -12536,12 +12536,12 @@ class TPM2_CertifyCreation_REQUEST (ReqStructure):
         self.creationHash = creationHash
         self.inScheme = inScheme
         self.creationTicket = creationTicket
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.qualifyingData)
@@ -12549,7 +12549,7 @@ class TPM2_CertifyCreation_REQUEST (ReqStructure):
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
         self.creationTicket.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.qualifyingData = buf.readSizedByteBuf()
@@ -12558,27 +12558,27 @@ class TPM2_CertifyCreation_REQUEST (ReqStructure):
         self.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
         self.creationTicket = TPMT_TK_CREATION.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_CertifyCreation_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_CertifyCreation_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_CertifyCreation_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_CertifyCreation_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.signHandle, self.objectHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_CertifyCreation_REQUEST
 
@@ -12588,7 +12588,7 @@ class CertifyCreationResponse (RespStructure):
         its creation data. The TPM will validate that the ticket was produced by
         the TPM and that the ticket validates the association between a loaded
         public area and the provided hash of the creation data (creationHash).
-        
+
         Attributes:
             certifyInfo (TPMS_ATTEST): The structure that was signed
             signature (TPMU_SIGNATURE): The signature over certifyInfo
@@ -12599,46 +12599,46 @@ class CertifyCreationResponse (RespStructure):
         """
         self.certifyInfo = certifyInfo
         self.signature = signature
-    
+
     @property
     def signatureSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return signature.GetUnionSelector() if signature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.certifyInfo)
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.certifyInfo = buf.createSizedObj(TPMS_ATTEST)
         signatureSigAlg = buf.readShort()
         self.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg)
         self.signature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new CertifyCreationResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(CertifyCreationResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new CertifyCreationResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CertifyCreationResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # CertifyCreationResponse
 
 class TPM2_Quote_REQUEST (ReqStructure):
     def __init__(self, signHandle = TPM_HANDLE(), qualifyingData = None, inScheme = None, PCRselect = None):
         """ This command is used to quote PCR values.
-        
+
         Attributes:
             signHandle (TPM_HANDLE): Handle of key that will perform signature
                 Auth Index: 1
@@ -12656,19 +12656,19 @@ class TPM2_Quote_REQUEST (ReqStructure):
         self.qualifyingData = qualifyingData
         self.inScheme = inScheme
         self.PCRselect = PCRselect
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.qualifyingData)
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
         buf.writeObjArr(self.PCRselect)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.qualifyingData = buf.readSizedByteBuf()
@@ -12676,34 +12676,34 @@ class TPM2_Quote_REQUEST (ReqStructure):
         self.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
         self.PCRselect = buf.readObjArr(TPMS_PCR_SELECTION)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Quote_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Quote_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Quote_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Quote_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.signHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_Quote_REQUEST
 
 class QuoteResponse (RespStructure):
     def __init__(self, quoted = None, signature = None):
         """ This command is used to quote PCR values.
-        
+
         Attributes:
             quoted (TPMS_ATTEST): The quoted information
             signature (TPMU_SIGNATURE): The signature over quoted
@@ -12714,46 +12714,46 @@ class QuoteResponse (RespStructure):
         """
         self.quoted = quoted
         self.signature = signature
-    
+
     @property
     def signatureSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return signature.GetUnionSelector() if signature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.quoted)
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.quoted = buf.createSizedObj(TPMS_ATTEST)
         signatureSigAlg = buf.readShort()
         self.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg)
         self.signature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new QuoteResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(QuoteResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new QuoteResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(QuoteResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # QuoteResponse
 
 class TPM2_GetSessionAuditDigest_REQUEST (ReqStructure):
     def __init__(self, privacyAdminHandle = TPM_HANDLE(), signHandle = TPM_HANDLE(), sessionHandle = TPM_HANDLE(), qualifyingData = None, inScheme = None):
         """ This command returns a digital signature of the audit session digest.
-        
+
         Attributes:
             privacyAdminHandle (TPM_HANDLE): Handle of the privacy administrator
                 (TPM_RH_ENDORSEMENT)
@@ -12777,52 +12777,52 @@ class TPM2_GetSessionAuditDigest_REQUEST (ReqStructure):
         self.sessionHandle = sessionHandle
         self.qualifyingData = qualifyingData
         self.inScheme = inScheme
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.qualifyingData)
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.qualifyingData = buf.readSizedByteBuf()
         inSchemeScheme = buf.readShort()
         self.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_GetSessionAuditDigest_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetSessionAuditDigest_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_GetSessionAuditDigest_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_GetSessionAuditDigest_REQUEST)
-    
+
     def numHandles(self): return 3
-    
+
     def numAuthHandles(self): return 2
-    
+
     def getHandles(self): return [self.privacyAdminHandle, self.signHandle, self.sessionHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_GetSessionAuditDigest_REQUEST
 
 class GetSessionAuditDigestResponse (RespStructure):
     def __init__(self, auditInfo = None, signature = None):
         """ This command returns a digital signature of the audit session digest.
-        
+
         Attributes:
             auditInfo (TPMS_ATTEST): The audit information that was signed
             signature (TPMU_SIGNATURE): The signature over auditInfo
@@ -12833,39 +12833,39 @@ class GetSessionAuditDigestResponse (RespStructure):
         """
         self.auditInfo = auditInfo
         self.signature = signature
-    
+
     @property
     def signatureSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return signature.GetUnionSelector() if signature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.auditInfo)
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.auditInfo = buf.createSizedObj(TPMS_ATTEST)
         signatureSigAlg = buf.readShort()
         self.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg)
         self.signature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new GetSessionAuditDigestResponse object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetSessionAuditDigestResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new GetSessionAuditDigestResponse object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(GetSessionAuditDigestResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # GetSessionAuditDigestResponse
 
@@ -12875,7 +12875,7 @@ class TPM2_GetCommandAuditDigest_REQUEST (ReqStructure):
         a digest of the commands being audited, and the audit hash algorithm.
         These values are placed in an attestation structure and signed with the
         key referenced by signHandle.
-        
+
         Attributes:
             privacyHandle (TPM_HANDLE): Handle of the privacy administrator
                 (TPM_RH_ENDORSEMENT)
@@ -12896,45 +12896,45 @@ class TPM2_GetCommandAuditDigest_REQUEST (ReqStructure):
         self.signHandle = signHandle
         self.qualifyingData = qualifyingData
         self.inScheme = inScheme
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.qualifyingData)
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.qualifyingData = buf.readSizedByteBuf()
         inSchemeScheme = buf.readShort()
         self.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_GetCommandAuditDigest_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetCommandAuditDigest_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_GetCommandAuditDigest_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_GetCommandAuditDigest_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 2
-    
+
     def getHandles(self): return [self.privacyHandle, self.signHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_GetCommandAuditDigest_REQUEST
 
@@ -12944,7 +12944,7 @@ class GetCommandAuditDigestResponse (RespStructure):
         a digest of the commands being audited, and the audit hash algorithm.
         These values are placed in an attestation structure and signed with the
         key referenced by signHandle.
-        
+
         Attributes:
             auditInfo (TPMS_ATTEST): The auditInfo that was signed
             signature (TPMU_SIGNATURE): The signature over auditInfo
@@ -12955,46 +12955,46 @@ class GetCommandAuditDigestResponse (RespStructure):
         """
         self.auditInfo = auditInfo
         self.signature = signature
-    
+
     @property
     def signatureSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return signature.GetUnionSelector() if signature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.auditInfo)
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.auditInfo = buf.createSizedObj(TPMS_ATTEST)
         signatureSigAlg = buf.readShort()
         self.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg)
         self.signature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new GetCommandAuditDigestResponse object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetCommandAuditDigestResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new GetCommandAuditDigestResponse object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(GetCommandAuditDigestResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # GetCommandAuditDigestResponse
 
 class TPM2_GetTime_REQUEST (ReqStructure):
     def __init__(self, privacyAdminHandle = TPM_HANDLE(), signHandle = TPM_HANDLE(), qualifyingData = None, inScheme = None):
         """ This command returns the current values of Time and Clock.
-        
+
         Attributes:
             privacyAdminHandle (TPM_HANDLE): Handle of the privacy administrator
                 (TPM_RH_ENDORSEMENT)
@@ -13016,52 +13016,52 @@ class TPM2_GetTime_REQUEST (ReqStructure):
         self.signHandle = signHandle
         self.qualifyingData = qualifyingData
         self.inScheme = inScheme
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.qualifyingData)
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.qualifyingData = buf.readSizedByteBuf()
         inSchemeScheme = buf.readShort()
         self.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_GetTime_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetTime_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_GetTime_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_GetTime_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 2
-    
+
     def getHandles(self): return [self.privacyAdminHandle, self.signHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_GetTime_REQUEST
 
 class GetTimeResponse (RespStructure):
     def __init__(self, timeInfo = None, signature = None):
         """ This command returns the current values of Time and Clock.
-        
+
         Attributes:
             timeInfo (TPMS_ATTEST): Standard TPM-generated attestation block
             signature (TPMU_SIGNATURE): The signature over timeInfo
@@ -13072,39 +13072,39 @@ class GetTimeResponse (RespStructure):
         """
         self.timeInfo = timeInfo
         self.signature = signature
-    
+
     @property
     def signatureSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return signature.GetUnionSelector() if signature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.timeInfo)
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.timeInfo = buf.createSizedObj(TPMS_ATTEST)
         signatureSigAlg = buf.readShort()
         self.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg)
         self.signature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new GetTimeResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetTimeResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new GetTimeResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(GetTimeResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # GetTimeResponse
 
@@ -13117,7 +13117,7 @@ class TPM2_CertifyX509_REQUEST (ReqStructure):
         the attestation information in a DER-encoded X.509 certificate that is
         compliant with RFC5280 Internet X.509 Public Key Infrastructure
         Certificate and Certificate Revocation List (CRL) Profile.
-        
+
         Attributes:
             objectHandle (TPM_HANDLE): Handle of the object to be certified
                 Auth Index: 1
@@ -13140,19 +13140,19 @@ class TPM2_CertifyX509_REQUEST (ReqStructure):
         self.reserved = reserved
         self.inScheme = inScheme
         self.partialCertificate = partialCertificate
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.reserved)
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
         buf.writeSizedByteBuf(self.partialCertificate)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.reserved = buf.readSizedByteBuf()
@@ -13160,27 +13160,27 @@ class TPM2_CertifyX509_REQUEST (ReqStructure):
         self.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
         self.partialCertificate = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_CertifyX509_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_CertifyX509_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_CertifyX509_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_CertifyX509_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 2
-    
+
     def getHandles(self): return [self.objectHandle, self.signHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_CertifyX509_REQUEST
 
@@ -13193,7 +13193,7 @@ class CertifyX509Response (RespStructure):
         the attestation information in a DER-encoded X.509 certificate that is
         compliant with RFC5280 Internet X.509 Public Key Infrastructure
         Certificate and Certificate Revocation List (CRL) Profile.
-        
+
         Attributes:
             addedToCertificate (bytes): A DER encoded SEQUENCE containing the
                 DER encoded fields added to partialCertificate to make it a
@@ -13208,19 +13208,19 @@ class CertifyX509Response (RespStructure):
         self.addedToCertificate = addedToCertificate
         self.tbsDigest = tbsDigest
         self.signature = signature
-    
+
     @property
     def signatureSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return signature.GetUnionSelector() if signature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.addedToCertificate)
         buf.writeSizedByteBuf(self.tbsDigest)
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.addedToCertificate = buf.readSizedByteBuf()
@@ -13228,21 +13228,21 @@ class CertifyX509Response (RespStructure):
         signatureSigAlg = buf.readShort()
         self.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg)
         self.signature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new CertifyX509Response object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(CertifyX509Response)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new CertifyX509Response object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CertifyX509Response)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # CertifyX509Response
 
@@ -13253,7 +13253,7 @@ class TPM2_Commit_REQUEST (ReqStructure):
         provided points and return intermediate signing values. The signHandle
         parameter shall refer to an ECC key and the signing scheme must be
         anonymous (TPM_RC_SCHEME).
-        
+
         Attributes:
             signHandle (TPM_HANDLE): Handle of the key that will be used in the
                 signing operation
@@ -13267,39 +13267,39 @@ class TPM2_Commit_REQUEST (ReqStructure):
         self.P1 = P1
         self.s2 = s2
         self.y2 = y2
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.P1)
         buf.writeSizedByteBuf(self.s2)
         buf.writeSizedByteBuf(self.y2)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.P1 = buf.createSizedObj(TPMS_ECC_POINT)
         self.s2 = buf.readSizedByteBuf()
         self.y2 = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Commit_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Commit_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Commit_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Commit_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.signHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_Commit_REQUEST
 
@@ -13310,7 +13310,7 @@ class CommitResponse (RespStructure):
         provided points and return intermediate signing values. The signHandle
         parameter shall refer to an ECC key and the signing scheme must be
         anonymous (TPM_RC_SCHEME).
-        
+
         Attributes:
             K (TPMS_ECC_POINT): ECC point K [ds](x2, y2)
             L (TPMS_ECC_POINT): ECC point L [r](x2, y2)
@@ -13321,35 +13321,35 @@ class CommitResponse (RespStructure):
         self.L = L
         self.E = E
         self.counter = counter
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.K)
         buf.writeSizedObj(self.L)
         buf.writeSizedObj(self.E)
         buf.writeShort(self.counter)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.K = buf.createSizedObj(TPMS_ECC_POINT)
         self.L = buf.createSizedObj(TPMS_ECC_POINT)
         self.E = buf.createSizedObj(TPMS_ECC_POINT)
         self.counter = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new CommitResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(CommitResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new CommitResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CommitResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # CommitResponse
 
@@ -13357,27 +13357,27 @@ class TPM2_EC_Ephemeral_REQUEST (ReqStructure):
     def __init__(self, curveID = 0):
         """ TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase
         key exchange protocol.
-        
+
         Attributes:
             curveID (TPM_ECC_CURVE): The curve for the computed ephemeral point
         """
         self.curveID = curveID
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.curveID)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.curveID = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_EC_Ephemeral_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_EC_Ephemeral_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_EC_Ephemeral_REQUEST object constructed from its
@@ -13390,38 +13390,38 @@ class EC_EphemeralResponse (RespStructure):
     def __init__(self, Q = None, counter = 0):
         """ TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase
         key exchange protocol.
-        
+
         Attributes:
             Q (TPMS_ECC_POINT): Ephemeral public key Q [r]G
             counter (int): Least-significant 16 bits of commitCount
         """
         self.Q = Q
         self.counter = counter
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.Q)
         buf.writeShort(self.counter)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.Q = buf.createSizedObj(TPMS_ECC_POINT)
         self.counter = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new EC_EphemeralResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(EC_EphemeralResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new EC_EphemeralResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(EC_EphemeralResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # EC_EphemeralResponse
 
@@ -13429,7 +13429,7 @@ class TPM2_VerifySignature_REQUEST (ReqStructure):
     def __init__(self, keyHandle = TPM_HANDLE(), digest = None, signature = None):
         """ This command uses loaded keys to validate a signature on a message
         with the message digest passed to the TPM.
-        
+
         Attributes:
             keyHandle (TPM_HANDLE): Handle of public key that will be used in
                 the validation
@@ -13444,45 +13444,45 @@ class TPM2_VerifySignature_REQUEST (ReqStructure):
         self.keyHandle = keyHandle
         self.digest = digest
         self.signature = signature
-    
+
     @property
     def signatureSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return signature.GetUnionSelector() if signature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.digest)
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.digest = buf.readSizedByteBuf()
         signatureSigAlg = buf.readShort()
         self.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg)
         self.signature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_VerifySignature_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_VerifySignature_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_VerifySignature_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_VerifySignature_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.keyHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_VerifySignature_REQUEST
 
@@ -13490,27 +13490,27 @@ class VerifySignatureResponse (RespStructure):
     def __init__(self, validation = None):
         """ This command uses loaded keys to validate a signature on a message
         with the message digest passed to the TPM.
-        
+
         Attributes:
             validation (TPMT_TK_VERIFIED): TBD
         """
         self.validation = validation
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.validation.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.validation = TPMT_TK_VERIFIED.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new VerifySignatureResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(VerifySignatureResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new VerifySignatureResponse object constructed from its
@@ -13523,7 +13523,7 @@ class TPM2_Sign_REQUEST (ReqStructure):
     def __init__(self, keyHandle = TPM_HANDLE(), digest = None, inScheme = None, validation = None):
         """ This command causes the TPM to sign an externally provided hash with
         the specified symmetric or asymmetric signing key.
-        
+
         Attributes:
             keyHandle (TPM_HANDLE): Handle of key that will perform signing
                 Auth Index: 1
@@ -13544,19 +13544,19 @@ class TPM2_Sign_REQUEST (ReqStructure):
         self.digest = digest
         self.inScheme = inScheme
         self.validation = validation
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.digest)
         buf.writeShort(self.inScheme.GetUnionSelector())
         self.inScheme.toTpm(buf)
         self.validation.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.digest = buf.readSizedByteBuf()
@@ -13564,27 +13564,27 @@ class TPM2_Sign_REQUEST (ReqStructure):
         self.inScheme = UnionFactory.create('TPMU_SIG_SCHEME', inSchemeScheme)
         self.inScheme.initFromTpm(buf)
         self.validation = TPMT_TK_HASHCHECK.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Sign_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Sign_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Sign_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Sign_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.keyHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_Sign_REQUEST
 
@@ -13592,7 +13592,7 @@ class SignResponse (RespStructure):
     def __init__(self, signature = None):
         """ This command causes the TPM to sign an externally provided hash with
         the specified symmetric or asymmetric signing key.
-        
+
         Attributes:
             signature (TPMU_SIGNATURE): The signature
                 One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS,
@@ -13601,31 +13601,31 @@ class SignResponse (RespStructure):
                 TPMS_NULL_SIGNATURE.
         """
         self.signature = signature
-    
+
     @property
     def signatureSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return signature.GetUnionSelector() if signature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.signature == None: return
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         signatureSigAlg = buf.readShort()
         self.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg)
         self.signature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new SignResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(SignResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new SignResponse object constructed from its marshaled
@@ -13639,7 +13639,7 @@ class TPM2_SetCommandCodeAuditStatus_REQUEST (ReqStructure):
         """ This command may be used by the Privacy Administrator or platform to
         change the audit status of a command or to set the hash algorithm used
         for the audit digest, but not both at the same time.
-        
+
         Attributes:
             auth (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
@@ -13654,37 +13654,37 @@ class TPM2_SetCommandCodeAuditStatus_REQUEST (ReqStructure):
         self.auditAlg = auditAlg
         self.setList = setList
         self.clearList = clearList
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.auditAlg)
         buf.writeValArr(self.setList, 4)
         buf.writeValArr(self.clearList, 4)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.auditAlg = buf.readShort()
         self.setList = buf.readValArr(4)
         self.clearList = buf.readValArr(4)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_SetCommandCodeAuditStatus_REQUEST object
         constructed from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SetCommandCodeAuditStatus_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_SetCommandCodeAuditStatus_REQUEST object
         constructed from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_SetCommandCodeAuditStatus_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.auth]
 # TPM2_SetCommandCodeAuditStatus_REQUEST
 
@@ -13694,7 +13694,7 @@ class TPM2_PCR_Extend_REQUEST (ReqStructure):
         digests parameter contains one or more tagged digest values identified
         by an algorithm ID. For each digest, the PCR associated with pcrHandle
         is Extended into the bank identified by the tag (hashAlg).
-        
+
         Attributes:
             pcrHandle (TPM_HANDLE): Handle of the PCR
                 Auth Handle: 1
@@ -13703,42 +13703,42 @@ class TPM2_PCR_Extend_REQUEST (ReqStructure):
         """
         self.pcrHandle = pcrHandle
         self.digests = digests
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.digests)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.digests = buf.readObjArr(TPMT_HA)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PCR_Extend_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_Extend_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PCR_Extend_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_Extend_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.pcrHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(4, 66)
 # TPM2_PCR_Extend_REQUEST
 
 class TPM2_PCR_Event_REQUEST (ReqStructure):
     def __init__(self, pcrHandle = TPM_HANDLE(), eventData = None):
         """ This command is used to cause an update to the indicated PCR.
-        
+
         Attributes:
             pcrHandle (TPM_HANDLE): Handle of the PCR
                 Auth Handle: 1
@@ -13747,110 +13747,110 @@ class TPM2_PCR_Event_REQUEST (ReqStructure):
         """
         self.pcrHandle = pcrHandle
         self.eventData = eventData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.eventData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.eventData = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PCR_Event_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_Event_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PCR_Event_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_Event_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.pcrHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PCR_Event_REQUEST
 
 class PCR_EventResponse (RespStructure):
     def __init__(self, digests = None):
         """ This command is used to cause an update to the indicated PCR.
-        
+
         Attributes:
             digests (TPMT_HA[]): TBD
         """
         self.digests = digests
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.digests)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.digests = buf.readObjArr(TPMT_HA)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new PCR_EventResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(PCR_EventResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new PCR_EventResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(PCR_EventResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(4, 66)
 # PCR_EventResponse
 
 class TPM2_PCR_Read_REQUEST (ReqStructure):
     def __init__(self, pcrSelectionIn = None):
         """ This command returns the values of all PCR specified in pcrSelectionIn.
-        
+
         Attributes:
             pcrSelectionIn (TPMS_PCR_SELECTION[]): The selection of PCR to read
         """
         self.pcrSelectionIn = pcrSelectionIn
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.pcrSelectionIn)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.pcrSelectionIn = buf.readObjArr(TPMS_PCR_SELECTION)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PCR_Read_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_Read_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PCR_Read_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_Read_REQUEST)
-    
+
     def sessEncInfo(self): return SessEncInfo(4, 3)
 # TPM2_PCR_Read_REQUEST
 
 class PCR_ReadResponse (RespStructure):
     def __init__(self, pcrUpdateCounter = 0, pcrSelectionOut = None, pcrValues = None):
         """ This command returns the values of all PCR specified in pcrSelectionIn.
-        
+
         Attributes:
             pcrUpdateCounter (int): The current value of the PCR update counter
             pcrSelectionOut (TPMS_PCR_SELECTION[]): The PCR in the returned list
@@ -13860,26 +13860,26 @@ class PCR_ReadResponse (RespStructure):
         self.pcrUpdateCounter = pcrUpdateCounter
         self.pcrSelectionOut = pcrSelectionOut
         self.pcrValues = pcrValues
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.pcrUpdateCounter)
         buf.writeObjArr(self.pcrSelectionOut)
         buf.writeObjArr(self.pcrValues)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.pcrUpdateCounter = buf.readInt()
         self.pcrSelectionOut = buf.readObjArr(TPMS_PCR_SELECTION)
         self.pcrValues = buf.readObjArr(TPM2B_DIGEST)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new PCR_ReadResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(PCR_ReadResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new PCR_ReadResponse object constructed from its marshaled
@@ -13892,7 +13892,7 @@ class TPM2_PCR_Allocate_REQUEST (ReqStructure):
     def __init__(self, authHandle = TPM_HANDLE(), pcrAllocation = None):
         """ This command is used to set the desired PCR allocation of PCR and
         algorithms. This command requires Platform Authorization.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
@@ -13901,35 +13901,35 @@ class TPM2_PCR_Allocate_REQUEST (ReqStructure):
         """
         self.authHandle = authHandle
         self.pcrAllocation = pcrAllocation
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.pcrAllocation)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.pcrAllocation = buf.readObjArr(TPMS_PCR_SELECTION)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PCR_Allocate_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_Allocate_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PCR_Allocate_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_Allocate_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(4, 3)
 # TPM2_PCR_Allocate_REQUEST
 
@@ -13937,7 +13937,7 @@ class PCR_AllocateResponse (RespStructure):
     def __init__(self, allocationSuccess = 0, maxPCR = 0, sizeNeeded = 0, sizeAvailable = 0):
         """ This command is used to set the desired PCR allocation of PCR and
         algorithms. This command requires Platform Authorization.
-        
+
         Attributes:
             allocationSuccess (int): YES if the allocation succeeded
             maxPCR (int): Maximum number of PCR that may be in a bank
@@ -13949,28 +13949,28 @@ class PCR_AllocateResponse (RespStructure):
         self.maxPCR = maxPCR
         self.sizeNeeded = sizeNeeded
         self.sizeAvailable = sizeAvailable
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeByte(self.allocationSuccess)
         buf.writeInt(self.maxPCR)
         buf.writeInt(self.sizeNeeded)
         buf.writeInt(self.sizeAvailable)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.allocationSuccess = buf.readByte()
         self.maxPCR = buf.readInt()
         self.sizeNeeded = buf.readInt()
         self.sizeAvailable = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new PCR_AllocateResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(PCR_AllocateResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new PCR_AllocateResponse object constructed from its
@@ -13984,7 +13984,7 @@ class TPM2_PCR_SetAuthPolicy_REQUEST (ReqStructure):
         """ This command is used to associate a policy with a PCR or group of
         PCR. The policy determines the conditions under which a PCR may be
         extended or reset.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
@@ -13997,46 +13997,46 @@ class TPM2_PCR_SetAuthPolicy_REQUEST (ReqStructure):
         self.authPolicy = authPolicy
         self.hashAlg = hashAlg
         self.pcrNum = pcrNum
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.authPolicy)
         buf.writeShort(self.hashAlg)
         self.pcrNum.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.authPolicy = buf.readSizedByteBuf()
         self.hashAlg = buf.readShort()
         self.pcrNum = TPM_HANDLE.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PCR_SetAuthPolicy_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_SetAuthPolicy_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PCR_SetAuthPolicy_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_SetAuthPolicy_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PCR_SetAuthPolicy_REQUEST
 
 class TPM2_PCR_SetAuthValue_REQUEST (ReqStructure):
     def __init__(self, pcrHandle = TPM_HANDLE(), auth = None):
         """ This command changes the authValue of a PCR or group of PCR.
-        
+
         Attributes:
             pcrHandle (TPM_HANDLE): Handle for a PCR that may have an
                 authorization value set
@@ -14046,35 +14046,35 @@ class TPM2_PCR_SetAuthValue_REQUEST (ReqStructure):
         """
         self.pcrHandle = pcrHandle
         self.auth = auth
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.auth)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.auth = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PCR_SetAuthValue_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_SetAuthValue_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PCR_SetAuthValue_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_SetAuthValue_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.pcrHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PCR_SetAuthValue_REQUEST
 
@@ -14084,32 +14084,32 @@ class TPM2_PCR_Reset_REQUEST (ReqStructure):
         authorization is provided, then this command may be used to set the PCR
         in all banks to zero. The attributes of the PCR may restrict the
         locality that can perform the reset operation.
-        
+
         Attributes:
             pcrHandle (TPM_HANDLE): The PCR to reset
                 Auth Index: 1
                 Auth Role: USER
         """
         self.pcrHandle = pcrHandle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PCR_Reset_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PCR_Reset_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PCR_Reset_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PCR_Reset_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.pcrHandle]
 # TPM2_PCR_Reset_REQUEST
 
@@ -14118,7 +14118,7 @@ class TPM2_PolicySigned_REQUEST (ReqStructure):
         """ This command includes a signed authorization in a policy. The
         command ties the policy to a signing key by including the Name of the
         signing key in the policyDigest
-        
+
         Attributes:
             authObject (TPM_HANDLE): Handle for a key that will validate the signature
                 Auth Index: None
@@ -14151,12 +14151,12 @@ class TPM2_PolicySigned_REQUEST (ReqStructure):
         self.policyRef = policyRef
         self.expiration = expiration
         self.auth = auth
-    
+
     @property
     def authSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return auth.GetUnionSelector() if auth else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.nonceTPM)
@@ -14165,7 +14165,7 @@ class TPM2_PolicySigned_REQUEST (ReqStructure):
         buf.writeInt(self.expiration)
         buf.writeShort(self.auth.GetUnionSelector())
         self.auth.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.nonceTPM = buf.readSizedByteBuf()
@@ -14175,27 +14175,27 @@ class TPM2_PolicySigned_REQUEST (ReqStructure):
         authSigAlg = buf.readShort()
         self.auth = UnionFactory.create('TPMU_SIGNATURE', authSigAlg)
         self.auth.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicySigned_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicySigned_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicySigned_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicySigned_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.authObject, self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PolicySigned_REQUEST
 
@@ -14204,7 +14204,7 @@ class PolicySignedResponse (RespStructure):
         """ This command includes a signed authorization in a policy. The
         command ties the policy to a signing key by including the Name of the
         signing key in the policyDigest
-        
+
         Attributes:
             timeout (bytes): Implementation-specific time value, used to
                 indicate to the TPM when the ticket expires
@@ -14216,31 +14216,31 @@ class PolicySignedResponse (RespStructure):
         """
         self.timeout = timeout
         self.policyTicket = policyTicket
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.timeout)
         self.policyTicket.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.timeout = buf.readSizedByteBuf()
         self.policyTicket = TPMT_TK_AUTH.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new PolicySignedResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(PolicySignedResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new PolicySignedResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(PolicySignedResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # PolicySignedResponse
 
@@ -14251,7 +14251,7 @@ class TPM2_PolicySecret_REQUEST (ReqStructure):
         session using the authValue associated with authHandle. A password
         session, an HMAC session, or a policy session containing
         TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): Handle for an entity providing the authorization
                 Auth Index: 1
@@ -14279,41 +14279,41 @@ class TPM2_PolicySecret_REQUEST (ReqStructure):
         self.cpHashA = cpHashA
         self.policyRef = policyRef
         self.expiration = expiration
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.nonceTPM)
         buf.writeSizedByteBuf(self.cpHashA)
         buf.writeSizedByteBuf(self.policyRef)
         buf.writeInt(self.expiration)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.nonceTPM = buf.readSizedByteBuf()
         self.cpHashA = buf.readSizedByteBuf()
         self.policyRef = buf.readSizedByteBuf()
         self.expiration = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicySecret_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicySecret_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicySecret_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicySecret_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle, self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PolicySecret_REQUEST
 
@@ -14324,7 +14324,7 @@ class PolicySecretResponse (RespStructure):
         session using the authValue associated with authHandle. A password
         session, an HMAC session, or a policy session containing
         TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-        
+
         Attributes:
             timeout (bytes): Implementation-specific time value used to indicate
                 to the TPM when the ticket expires
@@ -14334,31 +14334,31 @@ class PolicySecretResponse (RespStructure):
         """
         self.timeout = timeout
         self.policyTicket = policyTicket
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.timeout)
         self.policyTicket.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.timeout = buf.readSizedByteBuf()
         self.policyTicket = TPMT_TK_AUTH.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new PolicySecretResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(PolicySecretResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new PolicySecretResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(PolicySecretResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # PolicySecretResponse
 
@@ -14367,7 +14367,7 @@ class TPM2_PolicyTicket_REQUEST (ReqStructure):
         """ This command is similar to TPM2_PolicySigned() except that it takes
         a ticket instead of a signed authorization. The ticket represents a
         validated authorization that had an expiration time associated with it.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -14389,7 +14389,7 @@ class TPM2_PolicyTicket_REQUEST (ReqStructure):
         self.policyRef = policyRef
         self.authName = authName
         self.ticket = ticket
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.timeout)
@@ -14397,7 +14397,7 @@ class TPM2_PolicyTicket_REQUEST (ReqStructure):
         buf.writeSizedByteBuf(self.policyRef)
         buf.writeSizedByteBuf(self.authName)
         self.ticket.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.timeout = buf.readSizedByteBuf()
@@ -14405,27 +14405,27 @@ class TPM2_PolicyTicket_REQUEST (ReqStructure):
         self.policyRef = buf.readSizedByteBuf()
         self.authName = buf.readSizedByteBuf()
         self.ticket = TPMT_TK_AUTH.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyTicket_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyTicket_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyTicket_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyTicket_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PolicyTicket_REQUEST
 
@@ -14436,7 +14436,7 @@ class TPM2_PolicyOR_REQUEST (ReqStructure):
         different sets of conditions, the TPM need only evaluate one set that
         satisfies the policy. This command will indicate that one of the
         required sets of conditions has been satisfied.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -14444,35 +14444,35 @@ class TPM2_PolicyOR_REQUEST (ReqStructure):
         """
         self.policySession = policySession
         self.pHashList = pHashList
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeObjArr(self.pHashList)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.pHashList = buf.readObjArr(TPM2B_DIGEST)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyOR_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyOR_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyOR_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyOR_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(4, 2)
 # TPM2_PolicyOR_REQUEST
 
@@ -14482,7 +14482,7 @@ class TPM2_PolicyPCR_REQUEST (ReqStructure):
         on PCR. This command together with TPM2_PolicyOR() allows one group of
         authorizations to occur when PCR are in one state and a different set of
         authorizations when the PCR are in a different state.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -14493,37 +14493,37 @@ class TPM2_PolicyPCR_REQUEST (ReqStructure):
         self.policySession = policySession
         self.pcrDigest = pcrDigest
         self.pcrs = pcrs
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.pcrDigest)
         buf.writeObjArr(self.pcrs)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.pcrDigest = buf.readSizedByteBuf()
         self.pcrs = buf.readObjArr(TPMS_PCR_SELECTION)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyPCR_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyPCR_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyPCR_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyPCR_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PolicyPCR_REQUEST
 
@@ -14531,7 +14531,7 @@ class TPM2_PolicyLocality_REQUEST (ReqStructure):
     def __init__(self, policySession = TPM_HANDLE(), locality = 0):
         """ This command indicates that the authorization will be limited to a
         specific locality.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -14539,33 +14539,33 @@ class TPM2_PolicyLocality_REQUEST (ReqStructure):
         """
         self.policySession = policySession
         self.locality = locality
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeByte(self.locality)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.locality = buf.readByte()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyLocality_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyLocality_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyLocality_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyLocality_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
 # TPM2_PolicyLocality_REQUEST
 
@@ -14575,7 +14575,7 @@ class TPM2_PolicyNV_REQUEST (ReqStructure):
         on the contents of an NV Index. It is an immediate assertion. The NV
         index is validated during the TPM2_PolicyNV() command, not when the
         session is used for authorization.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -14596,39 +14596,39 @@ class TPM2_PolicyNV_REQUEST (ReqStructure):
         self.operandB = operandB
         self.offset = offset
         self.operation = operation
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.operandB)
         buf.writeShort(self.offset)
         buf.writeShort(self.operation)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.operandB = buf.readSizedByteBuf()
         self.offset = buf.readShort()
         self.operation = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyNV_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyNV_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyNV_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyNV_REQUEST)
-    
+
     def numHandles(self): return 3
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle, self.nvIndex, self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PolicyNV_REQUEST
 
@@ -14636,7 +14636,7 @@ class TPM2_PolicyCounterTimer_REQUEST (ReqStructure):
     def __init__(self, policySession = TPM_HANDLE(), operandB = None, offset = 0, operation = 0):
         """ This command is used to cause conditional gating of a policy based
         on the contents of the TPMS_TIME_INFO structure.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -14649,39 +14649,39 @@ class TPM2_PolicyCounterTimer_REQUEST (ReqStructure):
         self.operandB = operandB
         self.offset = offset
         self.operation = operation
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.operandB)
         buf.writeShort(self.offset)
         buf.writeShort(self.operation)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.operandB = buf.readSizedByteBuf()
         self.offset = buf.readShort()
         self.operation = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyCounterTimer_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyCounterTimer_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyCounterTimer_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyCounterTimer_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PolicyCounterTimer_REQUEST
 
@@ -14689,7 +14689,7 @@ class TPM2_PolicyCommandCode_REQUEST (ReqStructure):
     def __init__(self, policySession = TPM_HANDLE(), code = 0):
         """ This command indicates that the authorization will be limited to a
         specific command code.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -14697,33 +14697,33 @@ class TPM2_PolicyCommandCode_REQUEST (ReqStructure):
         """
         self.policySession = policySession
         self.code = code
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.code)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.code = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyCommandCode_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyCommandCode_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyCommandCode_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyCommandCode_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
 # TPM2_PolicyCommandCode_REQUEST
 
@@ -14731,31 +14731,31 @@ class TPM2_PolicyPhysicalPresence_REQUEST (ReqStructure):
     def __init__(self, policySession = TPM_HANDLE()):
         """ This command indicates that physical presence will need to be
         asserted at the time the authorization is performed.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
         """
         self.policySession = policySession
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyPhysicalPresence_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyPhysicalPresence_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyPhysicalPresence_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyPhysicalPresence_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
 # TPM2_PolicyPhysicalPresence_REQUEST
 
@@ -14763,7 +14763,7 @@ class TPM2_PolicyCpHash_REQUEST (ReqStructure):
     def __init__(self, policySession = TPM_HANDLE(), cpHashA = None):
         """ This command is used to allow a policy to be bound to a specific
         command and command parameters.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -14771,35 +14771,35 @@ class TPM2_PolicyCpHash_REQUEST (ReqStructure):
         """
         self.policySession = policySession
         self.cpHashA = cpHashA
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.cpHashA)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.cpHashA = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyCpHash_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyCpHash_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyCpHash_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyCpHash_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PolicyCpHash_REQUEST
 
@@ -14809,7 +14809,7 @@ class TPM2_PolicyNameHash_REQUEST (ReqStructure):
         entities without being bound to the parameters of the command. This is
         most useful for commands such as TPM2_Duplicate() and for
         TPM2_PCR_Event() when the referenced PCR requires a policy.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -14817,35 +14817,35 @@ class TPM2_PolicyNameHash_REQUEST (ReqStructure):
         """
         self.policySession = policySession
         self.nameHash = nameHash
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.nameHash)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.nameHash = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyNameHash_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyNameHash_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyNameHash_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyNameHash_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PolicyNameHash_REQUEST
 
@@ -14853,7 +14853,7 @@ class TPM2_PolicyDuplicationSelect_REQUEST (ReqStructure):
     def __init__(self, policySession = TPM_HANDLE(), objectName = None, newParentName = None, includeObject = 0):
         """ This command allows qualification of duplication to allow
         duplication to a selected new parent.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -14866,39 +14866,39 @@ class TPM2_PolicyDuplicationSelect_REQUEST (ReqStructure):
         self.objectName = objectName
         self.newParentName = newParentName
         self.includeObject = includeObject
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.objectName)
         buf.writeSizedByteBuf(self.newParentName)
         buf.writeByte(self.includeObject)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.objectName = buf.readSizedByteBuf()
         self.newParentName = buf.readSizedByteBuf()
         self.includeObject = buf.readByte()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyDuplicationSelect_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyDuplicationSelect_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyDuplicationSelect_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyDuplicationSelect_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PolicyDuplicationSelect_REQUEST
 
@@ -14908,7 +14908,7 @@ class TPM2_PolicyAuthorize_REQUEST (ReqStructure):
         then it would be difficult to add users to a policy. This command lets a
         policy authority sign a new policy so that it may be used in an existing
         policy.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -14923,41 +14923,41 @@ class TPM2_PolicyAuthorize_REQUEST (ReqStructure):
         self.policyRef = policyRef
         self.keySign = keySign
         self.checkTicket = checkTicket
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.approvedPolicy)
         buf.writeSizedByteBuf(self.policyRef)
         buf.writeSizedByteBuf(self.keySign)
         self.checkTicket.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.approvedPolicy = buf.readSizedByteBuf()
         self.policyRef = buf.readSizedByteBuf()
         self.keySign = buf.readSizedByteBuf()
         self.checkTicket = TPMT_TK_VERIFIED.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyAuthorize_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyAuthorize_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyAuthorize_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyAuthorize_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PolicyAuthorize_REQUEST
 
@@ -14965,31 +14965,31 @@ class TPM2_PolicyAuthValue_REQUEST (ReqStructure):
     def __init__(self, policySession = TPM_HANDLE()):
         """ This command allows a policy to be bound to the authorization value
         of the authorized entity.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
         """
         self.policySession = policySession
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyAuthValue_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyAuthValue_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyAuthValue_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyAuthValue_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
 # TPM2_PolicyAuthValue_REQUEST
 
@@ -14997,31 +14997,31 @@ class TPM2_PolicyPassword_REQUEST (ReqStructure):
     def __init__(self, policySession = TPM_HANDLE()):
         """ This command allows a policy to be bound to the authorization value
         of the authorized object.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
         """
         self.policySession = policySession
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyPassword_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyPassword_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyPassword_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyPassword_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
 # TPM2_PolicyPassword_REQUEST
 
@@ -15030,31 +15030,31 @@ class TPM2_PolicyGetDigest_REQUEST (ReqStructure):
         """ This command returns the current policyDigest of the session. This
         command allows the TPM to be used to perform the actions required to
         pre-compute the authPolicy for an object.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session
                 Auth Index: None
         """
         self.policySession = policySession
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyGetDigest_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyGetDigest_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyGetDigest_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyGetDigest_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
 # TPM2_PolicyGetDigest_REQUEST
 
@@ -15063,34 +15063,34 @@ class PolicyGetDigestResponse (RespStructure):
         """ This command returns the current policyDigest of the session. This
         command allows the TPM to be used to perform the actions required to
         pre-compute the authPolicy for an object.
-        
+
         Attributes:
             policyDigest (bytes): The current value of the policySessionpolicyDigest
         """
         self.policyDigest = policyDigest
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.policyDigest)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.policyDigest = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new PolicyGetDigestResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(PolicyGetDigestResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new PolicyGetDigestResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(PolicyGetDigestResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # PolicyGetDigestResponse
 
@@ -15099,7 +15099,7 @@ class TPM2_PolicyNvWritten_REQUEST (ReqStructure):
         """ This command allows a policy to be bound to the TPMA_NV_WRITTEN
         attributes. This is a deferred assertion. Values are stored in the
         policy session context and checked when the policy is used for authorization.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -15108,33 +15108,33 @@ class TPM2_PolicyNvWritten_REQUEST (ReqStructure):
         """
         self.policySession = policySession
         self.writtenSet = writtenSet
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeByte(self.writtenSet)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.writtenSet = buf.readByte()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyNvWritten_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyNvWritten_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyNvWritten_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyNvWritten_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
 # TPM2_PolicyNvWritten_REQUEST
 
@@ -15143,7 +15143,7 @@ class TPM2_PolicyTemplate_REQUEST (ReqStructure):
         """ This command allows a policy to be bound to a specific creation
         template. This is most useful for an object creation command such as
         TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -15151,35 +15151,35 @@ class TPM2_PolicyTemplate_REQUEST (ReqStructure):
         """
         self.policySession = policySession
         self.templateHash = templateHash
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.templateHash)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.templateHash = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyTemplate_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyTemplate_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyTemplate_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyTemplate_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_PolicyTemplate_REQUEST
 
@@ -15190,7 +15190,7 @@ class TPM2_PolicyAuthorizeNV_REQUEST (ReqStructure):
         never expires, so the authorization may not be withdrawn. With this
         command, the approved policy is kept in an NV Index location so that the
         policy may be changed as needed to render the old policy unusable.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -15204,25 +15204,25 @@ class TPM2_PolicyAuthorizeNV_REQUEST (ReqStructure):
         self.authHandle = authHandle
         self.nvIndex = nvIndex
         self.policySession = policySession
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PolicyAuthorizeNV_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PolicyAuthorizeNV_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PolicyAuthorizeNV_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PolicyAuthorizeNV_REQUEST)
-    
+
     def numHandles(self): return 3
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle, self.nvIndex, self.policySession]
 # TPM2_PolicyAuthorizeNV_REQUEST
 
@@ -15234,7 +15234,7 @@ class TPM2_CreatePrimary_REQUEST (ReqStructure):
         the unique field shall not be checked for consistency with the other
         object parameters. The command will create and load a Primary Object.
         The sensitive area is not returned.
-        
+
         Attributes:
             primaryHandle (TPM_HANDLE): TPM_RH_ENDORSEMENT, TPM_RH_OWNER,
                 TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
@@ -15254,41 +15254,41 @@ class TPM2_CreatePrimary_REQUEST (ReqStructure):
         self.inPublic = inPublic
         self.outsideInfo = outsideInfo
         self.creationPCR = creationPCR
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.inSensitive)
         buf.writeSizedObj(self.inPublic)
         buf.writeSizedByteBuf(self.outsideInfo)
         buf.writeObjArr(self.creationPCR)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.inSensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE)
         self.inPublic = buf.createSizedObj(TPMT_PUBLIC)
         self.outsideInfo = buf.readSizedByteBuf()
         self.creationPCR = buf.readObjArr(TPMS_PCR_SELECTION)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_CreatePrimary_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_CreatePrimary_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_CreatePrimary_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_CreatePrimary_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.primaryHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_CreatePrimary_REQUEST
 
@@ -15300,7 +15300,7 @@ class CreatePrimaryResponse (RespStructure):
         the unique field shall not be checked for consistency with the other
         object parameters. The command will create and load a Primary Object.
         The sensitive area is not returned.
-        
+
         Attributes:
             handle (TPM_HANDLE): Handle of type TPM_HT_TRANSIENT for created
                 Primary Object
@@ -15318,7 +15318,7 @@ class CreatePrimaryResponse (RespStructure):
         self.creationHash = creationHash
         self.creationTicket = creationTicket
         self.name = name
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.outPublic)
@@ -15326,7 +15326,7 @@ class CreatePrimaryResponse (RespStructure):
         buf.writeSizedByteBuf(self.creationHash)
         self.creationTicket.toTpm(buf)
         buf.writeSizedByteBuf(self.name)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outPublic = buf.createSizedObj(TPMT_PUBLIC)
@@ -15334,27 +15334,27 @@ class CreatePrimaryResponse (RespStructure):
         self.creationHash = buf.readSizedByteBuf()
         self.creationTicket = TPMT_TK_CREATION.fromTpm(buf)
         self.name = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new CreatePrimaryResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(CreatePrimaryResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new CreatePrimaryResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(CreatePrimaryResponse)
-    
+
     def numHandles(self): return 1
-    
+
     def getHandle(self): return self.handle
-    
+
     def setHandle(self, h): self.handle = h
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # CreatePrimaryResponse
 
@@ -15363,7 +15363,7 @@ class TPM2_HierarchyControl_REQUEST (ReqStructure):
         """ This command enables and disables use of a hierarchy and its
         associated NV storage. The command allows phEnable, phEnableNV,
         shEnable, and ehEnable to be changed when the proper authorization is provided.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_ENDORSEMENT, TPM_RH_OWNER or
                 TPM_RH_PLATFORM+{PP}
@@ -15378,35 +15378,35 @@ class TPM2_HierarchyControl_REQUEST (ReqStructure):
         self.authHandle = authHandle
         self.enable = enable
         self.state = state
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.enable.toTpm(buf)
         buf.writeByte(self.state)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.enable = TPM_HANDLE.fromTpm(buf)
         self.state = buf.readByte()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_HierarchyControl_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_HierarchyControl_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_HierarchyControl_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_HierarchyControl_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle]
 # TPM2_HierarchyControl_REQUEST
 
@@ -15418,7 +15418,7 @@ class TPM2_SetPrimaryPolicy_REQUEST (ReqStructure):
         (endorsementPolicy). On TPMs implementing Authenticated Countdown Timers
         (ACT), this command may also be used to set the authorization policy for
         an ACT.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT,
                 TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
@@ -15434,37 +15434,37 @@ class TPM2_SetPrimaryPolicy_REQUEST (ReqStructure):
         self.authHandle = authHandle
         self.authPolicy = authPolicy
         self.hashAlg = hashAlg
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.authPolicy)
         buf.writeShort(self.hashAlg)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.authPolicy = buf.readSizedByteBuf()
         self.hashAlg = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_SetPrimaryPolicy_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SetPrimaryPolicy_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_SetPrimaryPolicy_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_SetPrimaryPolicy_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_SetPrimaryPolicy_REQUEST
 
@@ -15473,32 +15473,32 @@ class TPM2_ChangePPS_REQUEST (ReqStructure):
         """ This replaces the current platform primary seed (PPS) with a value
         from the RNG and sets platformPolicy to the default initialization value
         (the Empty Buffer).
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
                 Auth Role: USER
         """
         self.authHandle = authHandle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ChangePPS_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ChangePPS_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ChangePPS_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ChangePPS_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle]
 # TPM2_ChangePPS_REQUEST
 
@@ -15511,71 +15511,71 @@ class TPM2_ChangeEPS_REQUEST (ReqStructure):
         resident objects (transient or persistent) in the Endorsement hierarchy
         and not allow objects in the hierarchy associated with the previous EPS
         to be loaded.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
                 Auth Role: USER
         """
         self.authHandle = authHandle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ChangeEPS_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ChangeEPS_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ChangeEPS_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ChangeEPS_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle]
 # TPM2_ChangeEPS_REQUEST
 
 class TPM2_Clear_REQUEST (ReqStructure):
     def __init__(self, authHandle = TPM_HANDLE()):
         """ This command removes all TPM context associated with a specific Owner.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
                 Auth Role: USER
         """
         self.authHandle = authHandle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Clear_REQUEST object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Clear_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Clear_REQUEST object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Clear_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle]
 # TPM2_Clear_REQUEST
 
 class TPM2_ClearControl_REQUEST (ReqStructure):
     def __init__(self, auth = TPM_HANDLE(), disable = 0):
         """ TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
-        
+
         Attributes:
             auth (TPM_HANDLE): TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
@@ -15585,33 +15585,33 @@ class TPM2_ClearControl_REQUEST (ReqStructure):
         """
         self.auth = auth
         self.disable = disable
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeByte(self.disable)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.disable = buf.readByte()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ClearControl_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ClearControl_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ClearControl_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ClearControl_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.auth]
 # TPM2_ClearControl_REQUEST
 
@@ -15620,7 +15620,7 @@ class TPM2_HierarchyChangeAuth_REQUEST (ReqStructure):
         """ This command allows the authorization secret for a hierarchy or
         lockout to be changed using the current authorization value as the
         command authorization.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT,
                 TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -15630,35 +15630,35 @@ class TPM2_HierarchyChangeAuth_REQUEST (ReqStructure):
         """
         self.authHandle = authHandle
         self.newAuth = newAuth
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.newAuth)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.newAuth = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_HierarchyChangeAuth_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_HierarchyChangeAuth_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_HierarchyChangeAuth_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_HierarchyChangeAuth_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_HierarchyChangeAuth_REQUEST
 
@@ -15667,39 +15667,39 @@ class TPM2_DictionaryAttackLockReset_REQUEST (ReqStructure):
         """ This command cancels the effect of a TPM lockout due to a number of
         successive authorization failures. If this command is properly
         authorized, the lockout counter is set to zero.
-        
+
         Attributes:
             lockHandle (TPM_HANDLE): TPM_RH_LOCKOUT
                 Auth Index: 1
                 Auth Role: USER
         """
         self.lockHandle = lockHandle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_DictionaryAttackLockReset_REQUEST object
         constructed from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_DictionaryAttackLockReset_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_DictionaryAttackLockReset_REQUEST object
         constructed from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_DictionaryAttackLockReset_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.lockHandle]
 # TPM2_DictionaryAttackLockReset_REQUEST
 
 class TPM2_DictionaryAttackParameters_REQUEST (ReqStructure):
     def __init__(self, lockHandle = TPM_HANDLE(), newMaxTries = 0, newRecoveryTime = 0, lockoutRecovery = 0):
         """ This command changes the lockout parameters.
-        
+
         Attributes:
             lockHandle (TPM_HANDLE): TPM_RH_LOCKOUT
                 Auth Index: 1
@@ -15717,37 +15717,37 @@ class TPM2_DictionaryAttackParameters_REQUEST (ReqStructure):
         self.newMaxTries = newMaxTries
         self.newRecoveryTime = newRecoveryTime
         self.lockoutRecovery = lockoutRecovery
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.newMaxTries)
         buf.writeInt(self.newRecoveryTime)
         buf.writeInt(self.lockoutRecovery)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.newMaxTries = buf.readInt()
         self.newRecoveryTime = buf.readInt()
         self.lockoutRecovery = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_DictionaryAttackParameters_REQUEST object
         constructed from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_DictionaryAttackParameters_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_DictionaryAttackParameters_REQUEST object
         constructed from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_DictionaryAttackParameters_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.lockHandle]
 # TPM2_DictionaryAttackParameters_REQUEST
 
@@ -15755,7 +15755,7 @@ class TPM2_PP_Commands_REQUEST (ReqStructure):
     def __init__(self, auth = TPM_HANDLE(), setList = None, clearList = None):
         """ This command is used to determine which commands require assertion
         of Physical Presence (PP) in addition to platformAuth/platformPolicy.
-        
+
         Attributes:
             auth (TPM_HANDLE): TPM_RH_PLATFORM+PP
                 Auth Index: 1
@@ -15768,37 +15768,37 @@ class TPM2_PP_Commands_REQUEST (ReqStructure):
         self.auth = auth
         self.setList = setList
         self.clearList = clearList
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeValArr(self.setList, 4)
         buf.writeValArr(self.clearList, 4)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.setList = buf.readValArr(4)
         self.clearList = buf.readValArr(4)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_PP_Commands_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_PP_Commands_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_PP_Commands_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_PP_Commands_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.auth]
-    
+
     def sessEncInfo(self): return SessEncInfo(4, 4)
 # TPM2_PP_Commands_REQUEST
 
@@ -15807,7 +15807,7 @@ class TPM2_SetAlgorithmSet_REQUEST (ReqStructure):
         """ This command allows the platform to change the set of algorithms
         that are used by the TPM. The algorithmSet setting is a vendor-dependent
         value.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM
                 Auth Index: 1
@@ -15817,33 +15817,33 @@ class TPM2_SetAlgorithmSet_REQUEST (ReqStructure):
         """
         self.authHandle = authHandle
         self.algorithmSet = algorithmSet
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.algorithmSet)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.algorithmSet = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_SetAlgorithmSet_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_SetAlgorithmSet_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_SetAlgorithmSet_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_SetAlgorithmSet_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle]
 # TPM2_SetAlgorithmSet_REQUEST
 
@@ -15851,7 +15851,7 @@ class TPM2_FieldUpgradeStart_REQUEST (ReqStructure):
     def __init__(self, authorization = TPM_HANDLE(), keyHandle = TPM_HANDLE(), fuDigest = None, manifestSignature = None):
         """ This command uses platformPolicy and a TPM Vendor Authorization Key
         to authorize a Field Upgrade Manifest.
-        
+
         Attributes:
             authorization (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Index:1
@@ -15872,45 +15872,45 @@ class TPM2_FieldUpgradeStart_REQUEST (ReqStructure):
         self.keyHandle = keyHandle
         self.fuDigest = fuDigest
         self.manifestSignature = manifestSignature
-    
+
     @property
     def manifestSignatureSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return manifestSignature.GetUnionSelector() if manifestSignature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.fuDigest)
         buf.writeShort(self.manifestSignature.GetUnionSelector())
         self.manifestSignature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.fuDigest = buf.readSizedByteBuf()
         manifestSignatureSigAlg = buf.readShort()
         self.manifestSignature = UnionFactory.create('TPMU_SIGNATURE', manifestSignatureSigAlg)
         self.manifestSignature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_FieldUpgradeStart_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_FieldUpgradeStart_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_FieldUpgradeStart_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_FieldUpgradeStart_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authorization, self.keyHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_FieldUpgradeStart_REQUEST
 
@@ -15922,34 +15922,34 @@ class TPM2_FieldUpgradeData_REQUEST (ReqStructure):
         TPM2_FieldUpgradeStart(). If the TPM has not received a properly
         authorized TPM2_FieldUpgradeStart(), then the TPM shall return
         TPM_RC_FIELDUPGRADE.
-        
+
         Attributes:
             fuData (bytes): Field upgrade image data
         """
         self.fuData = fuData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.fuData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.fuData = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_FieldUpgradeData_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_FieldUpgradeData_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_FieldUpgradeData_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_FieldUpgradeData_REQUEST)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_FieldUpgradeData_REQUEST
 
@@ -15961,7 +15961,7 @@ class FieldUpgradeDataResponse (RespStructure):
         TPM2_FieldUpgradeStart(). If the TPM has not received a properly
         authorized TPM2_FieldUpgradeStart(), then the TPM shall return
         TPM_RC_FIELDUPGRADE.
-        
+
         Attributes:
             nextDigest (TPMT_HA): Tagged digest of the next block
                 TPM_ALG_NULL if field update is complete
@@ -15969,24 +15969,24 @@ class FieldUpgradeDataResponse (RespStructure):
         """
         self.nextDigest = nextDigest
         self.firstDigest = firstDigest
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.nextDigest.toTpm(buf)
         self.firstDigest.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.nextDigest = TPMT_HA.fromTpm(buf)
         self.firstDigest = TPMT_HA.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new FieldUpgradeDataResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(FieldUpgradeDataResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new FieldUpgradeDataResponse object constructed from its
@@ -15999,29 +15999,29 @@ class TPM2_FirmwareRead_REQUEST (ReqStructure):
     def __init__(self, sequenceNumber = 0):
         """ This command is used to read a copy of the current firmware
         installed in the TPM.
-        
+
         Attributes:
             sequenceNumber (int): The number of previous calls to this command
                 in this sequence
                 set to 0 on the first call
         """
         self.sequenceNumber = sequenceNumber
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.sequenceNumber)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.sequenceNumber = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_FirmwareRead_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_FirmwareRead_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_FirmwareRead_REQUEST object constructed from its
@@ -16034,34 +16034,34 @@ class FirmwareReadResponse (RespStructure):
     def __init__(self, fuData = None):
         """ This command is used to read a copy of the current firmware
         installed in the TPM.
-        
+
         Attributes:
             fuData (bytes): Field upgrade image data
         """
         self.fuData = fuData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.fuData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.fuData = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new FirmwareReadResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(FirmwareReadResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new FirmwareReadResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(FirmwareReadResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # FirmwareReadResponse
 
@@ -16069,31 +16069,31 @@ class TPM2_ContextSave_REQUEST (ReqStructure):
     def __init__(self, saveHandle = TPM_HANDLE()):
         """ This command saves a session context, object context, or sequence
         object context outside the TPM.
-        
+
         Attributes:
             saveHandle (TPM_HANDLE): Handle of the resource to save
                 Auth Index: None
         """
         self.saveHandle = saveHandle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ContextSave_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ContextSave_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ContextSave_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ContextSave_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.saveHandle]
 # TPM2_ContextSave_REQUEST
 
@@ -16101,27 +16101,27 @@ class ContextSaveResponse (RespStructure):
     def __init__(self, context = None):
         """ This command saves a session context, object context, or sequence
         object context outside the TPM.
-        
+
         Attributes:
             context (TPMS_CONTEXT): TBD
         """
         self.context = context
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.context.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.context = TPMS_CONTEXT.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ContextSaveResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ContextSaveResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ContextSaveResponse object constructed from its
@@ -16134,27 +16134,27 @@ class TPM2_ContextLoad_REQUEST (ReqStructure):
     def __init__(self, context = None):
         """ This command is used to reload a context that has been saved by
         TPM2_ContextSave().
-        
+
         Attributes:
             context (TPMS_CONTEXT): The context blob
         """
         self.context = context
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.context.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.context = TPMS_CONTEXT.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ContextLoad_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ContextLoad_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ContextLoad_REQUEST object constructed from its
@@ -16167,31 +16167,31 @@ class ContextLoadResponse (RespStructure):
     def __init__(self, handle = TPM_HANDLE()):
         """ This command is used to reload a context that has been saved by
         TPM2_ContextSave().
-        
+
         Attributes:
             handle (TPM_HANDLE): The handle assigned to the resource after it
                 has been successfully loaded
         """
         self.handle = handle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ContextLoadResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(ContextLoadResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ContextLoadResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(ContextLoadResponse)
-    
+
     def numHandles(self): return 1
-    
+
     def getHandle(self): return self.handle
-    
+
     def setHandle(self, h): self.handle = h
 # ContextLoadResponse
 
@@ -16199,28 +16199,28 @@ class TPM2_FlushContext_REQUEST (ReqStructure):
     def __init__(self, flushHandle = TPM_HANDLE()):
         """ This command causes all context associated with a loaded object,
         sequence object, or session to be removed from TPM memory.
-        
+
         Attributes:
             flushHandle (TPM_HANDLE): The handle of the item to flush
                 NOTE This is a use of a handle as a parameter.
         """
         self.flushHandle = flushHandle
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.flushHandle.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.flushHandle = TPM_HANDLE.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_FlushContext_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_FlushContext_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_FlushContext_REQUEST object constructed from its
@@ -16233,7 +16233,7 @@ class TPM2_EvictControl_REQUEST (ReqStructure):
     def __init__(self, auth = TPM_HANDLE(), objectHandle = TPM_HANDLE(), persistentHandle = TPM_HANDLE()):
         """ This command allows certain Transient Objects to be made persistent
         or a persistent object to be evicted.
-        
+
         Attributes:
             auth (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
@@ -16248,33 +16248,33 @@ class TPM2_EvictControl_REQUEST (ReqStructure):
         self.auth = auth
         self.objectHandle = objectHandle
         self.persistentHandle = persistentHandle
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.persistentHandle.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.persistentHandle = TPM_HANDLE.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_EvictControl_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_EvictControl_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_EvictControl_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_EvictControl_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.auth, self.objectHandle]
 # TPM2_EvictControl_REQUEST
 
@@ -16284,14 +16284,14 @@ class TPM2_ReadClock_REQUEST (ReqStructure):
         contains the current setting of Time, Clock, resetCount, and restartCount.
         """
         pass
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ReadClock_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ReadClock_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ReadClock_REQUEST object constructed from its
@@ -16304,27 +16304,27 @@ class ReadClockResponse (RespStructure):
     def __init__(self, currentTime = None):
         """ This command reads the current TPMS_TIME_INFO structure that
         contains the current setting of Time, Clock, resetCount, and restartCount.
-        
+
         Attributes:
             currentTime (TPMS_TIME_INFO): TBD
         """
         self.currentTime = currentTime
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.currentTime.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.currentTime = TPMS_TIME_INFO.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new ReadClockResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(ReadClockResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new ReadClockResponse object constructed from its marshaled
@@ -16340,7 +16340,7 @@ class TPM2_ClockSet_REQUEST (ReqStructure):
         if the new time is greater than FFFF00000000000016. If both of these
         checks succeed, Clock is set to newTime. If either of these checks
         fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
-        
+
         Attributes:
             auth (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
@@ -16349,33 +16349,33 @@ class TPM2_ClockSet_REQUEST (ReqStructure):
         """
         self.auth = auth
         self.newTime = newTime
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt64(self.newTime)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.newTime = buf.readInt64()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ClockSet_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ClockSet_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ClockSet_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ClockSet_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.auth]
 # TPM2_ClockSet_REQUEST
 
@@ -16383,7 +16383,7 @@ class TPM2_ClockRateAdjust_REQUEST (ReqStructure):
     def __init__(self, auth = TPM_HANDLE(), rateAdjust = 0):
         """ This command adjusts the rate of advance of Clock and Time to
         provide a better approximation to real time.
-        
+
         Attributes:
             auth (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
@@ -16392,33 +16392,33 @@ class TPM2_ClockRateAdjust_REQUEST (ReqStructure):
         """
         self.auth = auth
         self.rateAdjust = rateAdjust
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeByte(self.rateAdjust)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.rateAdjust = buf.readByte()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ClockRateAdjust_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ClockRateAdjust_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ClockRateAdjust_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ClockRateAdjust_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.auth]
 # TPM2_ClockRateAdjust_REQUEST
 
@@ -16426,7 +16426,7 @@ class TPM2_GetCapability_REQUEST (ReqStructure):
     def __init__(self, capability = 0, property = 0, propertyCount = 0):
         """ This command returns various information regarding the TPM and its
         current state.
-        
+
         Attributes:
             capability (TPM_CAP): Group selection; determines the format of the
                 response
@@ -16436,26 +16436,26 @@ class TPM2_GetCapability_REQUEST (ReqStructure):
         self.capability = capability
         self.property = property
         self.propertyCount = propertyCount
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.capability)
         buf.writeInt(self.property)
         buf.writeInt(self.propertyCount)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.capability = buf.readInt()
         self.property = buf.readInt()
         self.propertyCount = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_GetCapability_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_GetCapability_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_GetCapability_REQUEST object constructed from its
@@ -16468,7 +16468,7 @@ class GetCapabilityResponse (RespStructure):
     def __init__(self, moreData = 0, capabilityData = None):
         """ This command returns various information regarding the TPM and its
         current state.
-        
+
         Attributes:
             moreData (int): Flag to indicate if there are more values of this type
             capabilityData (TPMU_CAPABILITIES): The capability data
@@ -16479,32 +16479,32 @@ class GetCapabilityResponse (RespStructure):
         """
         self.moreData = moreData
         self.capabilityData = capabilityData
-    
+
     @property
     def capabilityDataCapability(self): # TPM_CAP
         """ The capability """
         return capabilityData.GetUnionSelector()
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeByte(self.moreData)
         buf.writeInt(self.capabilityData.GetUnionSelector())
         self.capabilityData.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.moreData = buf.readByte()
         capabilityDataCapability = buf.readInt()
         self.capabilityData = UnionFactory.create('TPMU_CAPABILITIES', capabilityDataCapability)
         self.capabilityData.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new GetCapabilityResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(GetCapabilityResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new GetCapabilityResponse object constructed from its
@@ -16517,38 +16517,38 @@ class TPM2_TestParms_REQUEST (ReqStructure):
     def __init__(self, parameters = None):
         """ This command is used to check to see if specific combinations of
         algorithm parameters are supported.
-        
+
         Attributes:
             parameters (TPMU_PUBLIC_PARMS): Algorithm parameters to be validated
                 One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
                 TPMS_RSA_PARMS, TPMS_ECC_PARMS, TPMS_ASYM_PARMS.
         """
         self.parameters = parameters
-    
+
     @property
     def parametersType(self): # TPM_ALG_ID
         """ The algorithm to be tested """
         return parameters.GetUnionSelector()
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         if self.parameters == None: return
         buf.writeShort(self.parameters.GetUnionSelector())
         self.parameters.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         parametersType = buf.readShort()
         self.parameters = UnionFactory.create('TPMU_PUBLIC_PARMS', parametersType)
         self.parameters.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_TestParms_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_TestParms_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_TestParms_REQUEST object constructed from its
@@ -16563,7 +16563,7 @@ class TPM2_NV_DefineSpace_REQUEST (ReqStructure):
         TPM to reserve space to hold the data associated with the NV Index. If a
         definition already exists at the NV Index, the TPM will return
         TPM_RC_NV_DEFINED.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
@@ -16574,44 +16574,44 @@ class TPM2_NV_DefineSpace_REQUEST (ReqStructure):
         self.authHandle = authHandle
         self.auth = auth
         self.publicInfo = publicInfo
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.auth)
         buf.writeSizedObj(self.publicInfo)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.auth = buf.readSizedByteBuf()
         self.publicInfo = buf.createSizedObj(TPMS_NV_PUBLIC)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_DefineSpace_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_DefineSpace_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_DefineSpace_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_DefineSpace_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_NV_DefineSpace_REQUEST
 
 class TPM2_NV_UndefineSpace_REQUEST (ReqStructure):
     def __init__(self, authHandle = TPM_HANDLE(), nvIndex = TPM_HANDLE()):
         """ This command removes an Index from the TPM.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
@@ -16621,25 +16621,25 @@ class TPM2_NV_UndefineSpace_REQUEST (ReqStructure):
         """
         self.authHandle = authHandle
         self.nvIndex = nvIndex
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_UndefineSpace_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_UndefineSpace_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_UndefineSpace_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_UndefineSpace_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle, self.nvIndex]
 # TPM2_NV_UndefineSpace_REQUEST
 
@@ -16647,7 +16647,7 @@ class TPM2_NV_UndefineSpaceSpecial_REQUEST (ReqStructure):
     def __init__(self, nvIndex = TPM_HANDLE(), platform = TPM_HANDLE()):
         """ This command allows removal of a platform-created NV Index that has
         TPMA_NV_POLICY_DELETE SET.
-        
+
         Attributes:
             nvIndex (TPM_HANDLE): Index to be deleted
                 Auth Index: 1
@@ -16658,25 +16658,25 @@ class TPM2_NV_UndefineSpaceSpecial_REQUEST (ReqStructure):
         """
         self.nvIndex = nvIndex
         self.platform = platform
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_UndefineSpaceSpecial_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_UndefineSpaceSpecial_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_UndefineSpaceSpecial_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_UndefineSpaceSpecial_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 2
-    
+
     def getHandles(self): return [self.nvIndex, self.platform]
 # TPM2_NV_UndefineSpaceSpecial_REQUEST
 
@@ -16685,31 +16685,31 @@ class TPM2_NV_ReadPublic_REQUEST (ReqStructure):
         """ This command is used to read the public area and Name of an NV
         Index. The public area of an Index is not privacy-sensitive and no
         authorization is required to read this data.
-        
+
         Attributes:
             nvIndex (TPM_HANDLE): The NV Index
                 Auth Index: None
         """
         self.nvIndex = nvIndex
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_ReadPublic_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_ReadPublic_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_ReadPublic_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_ReadPublic_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.nvIndex]
 # TPM2_NV_ReadPublic_REQUEST
 
@@ -16718,38 +16718,38 @@ class NV_ReadPublicResponse (RespStructure):
         """ This command is used to read the public area and Name of an NV
         Index. The public area of an Index is not privacy-sensitive and no
         authorization is required to read this data.
-        
+
         Attributes:
             nvPublic (TPMS_NV_PUBLIC): The public area of the NV Index
             nvName (bytes): The Name of the nvIndex
         """
         self.nvPublic = nvPublic
         self.nvName = nvName
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.nvPublic)
         buf.writeSizedByteBuf(self.nvName)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.nvPublic = buf.createSizedObj(TPMS_NV_PUBLIC)
         self.nvName = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new NV_ReadPublicResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(NV_ReadPublicResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new NV_ReadPublicResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(NV_ReadPublicResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # NV_ReadPublicResponse
 
@@ -16757,7 +16757,7 @@ class TPM2_NV_Write_REQUEST (ReqStructure):
     def __init__(self, authHandle = TPM_HANDLE(), nvIndex = TPM_HANDLE(), data = None, offset = 0):
         """ This command writes a value to an area in NV memory that was
         previously defined by TPM2_NV_DefineSpace().
-        
+
         Attributes:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -16772,37 +16772,37 @@ class TPM2_NV_Write_REQUEST (ReqStructure):
         self.nvIndex = nvIndex
         self.data = data
         self.offset = offset
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.data)
         buf.writeShort(self.offset)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.data = buf.readSizedByteBuf()
         self.offset = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_Write_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_Write_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_Write_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_Write_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle, self.nvIndex]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_NV_Write_REQUEST
 
@@ -16811,7 +16811,7 @@ class TPM2_NV_Increment_REQUEST (ReqStructure):
         """ This command is used to increment the value in an NV Index that has
         the TPM_NT_COUNTER attribute. The data value of the NV Index is
         incremented by one.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -16822,25 +16822,25 @@ class TPM2_NV_Increment_REQUEST (ReqStructure):
         """
         self.authHandle = authHandle
         self.nvIndex = nvIndex
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_Increment_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_Increment_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_Increment_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_Increment_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle, self.nvIndex]
 # TPM2_NV_Increment_REQUEST
 
@@ -16848,7 +16848,7 @@ class TPM2_NV_Extend_REQUEST (ReqStructure):
     def __init__(self, authHandle = TPM_HANDLE(), nvIndex = TPM_HANDLE(), data = None):
         """ This command extends a value to an area in NV memory that was
         previously defined by TPM2_NV_DefineSpace.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -16861,35 +16861,35 @@ class TPM2_NV_Extend_REQUEST (ReqStructure):
         self.authHandle = authHandle
         self.nvIndex = nvIndex
         self.data = data
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.data)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.data = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_Extend_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_Extend_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_Extend_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_Extend_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle, self.nvIndex]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_NV_Extend_REQUEST
 
@@ -16898,7 +16898,7 @@ class TPM2_NV_SetBits_REQUEST (ReqStructure):
         """ This command is used to SET bits in an NV Index that was created as
         a bit field. Any number of bits from 0 to 64 may be SET. The contents of
         bits are ORed with the current contents of the NV Index.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -16912,33 +16912,33 @@ class TPM2_NV_SetBits_REQUEST (ReqStructure):
         self.authHandle = authHandle
         self.nvIndex = nvIndex
         self.bits = bits
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt64(self.bits)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.bits = buf.readInt64()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_SetBits_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_SetBits_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_SetBits_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_SetBits_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle, self.nvIndex]
 # TPM2_NV_SetBits_REQUEST
 
@@ -16947,7 +16947,7 @@ class TPM2_NV_WriteLock_REQUEST (ReqStructure):
         """ If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an
         NV location are SET, then this command may be used to inhibit further
         writes of the NV Index.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -16958,25 +16958,25 @@ class TPM2_NV_WriteLock_REQUEST (ReqStructure):
         """
         self.authHandle = authHandle
         self.nvIndex = nvIndex
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_WriteLock_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_WriteLock_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_WriteLock_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_WriteLock_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle, self.nvIndex]
 # TPM2_NV_WriteLock_REQUEST
 
@@ -16984,32 +16984,32 @@ class TPM2_NV_GlobalWriteLock_REQUEST (ReqStructure):
     def __init__(self, authHandle = TPM_HANDLE()):
         """ The command will SET TPMA_NV_WRITELOCKED for all indexes that have
         their TPMA_NV_GLOBALLOCK attribute SET.
-        
+
         Attributes:
             authHandle (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
                 Auth Role: USER
         """
         self.authHandle = authHandle
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_GlobalWriteLock_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_GlobalWriteLock_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_GlobalWriteLock_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_GlobalWriteLock_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle]
 # TPM2_NV_GlobalWriteLock_REQUEST
 
@@ -17017,7 +17017,7 @@ class TPM2_NV_Read_REQUEST (ReqStructure):
     def __init__(self, authHandle = TPM_HANDLE(), nvIndex = TPM_HANDLE(), size = 0, offset = 0):
         """ This command reads a value from an area in NV memory previously
         defined by TPM2_NV_DefineSpace().
-        
+
         Attributes:
             authHandle (TPM_HANDLE): The handle indicating the source of the
                 authorization value
@@ -17034,35 +17034,35 @@ class TPM2_NV_Read_REQUEST (ReqStructure):
         self.nvIndex = nvIndex
         self.size = size
         self.offset = offset
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.size)
         buf.writeShort(self.offset)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.size = buf.readShort()
         self.offset = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_Read_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_Read_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_Read_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_Read_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle, self.nvIndex]
 # TPM2_NV_Read_REQUEST
 
@@ -17070,34 +17070,34 @@ class NV_ReadResponse (RespStructure):
     def __init__(self, data = None):
         """ This command reads a value from an area in NV memory previously
         defined by TPM2_NV_DefineSpace().
-        
+
         Attributes:
             data (bytes): The data read
         """
         self.data = data
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.data)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.data = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new NV_ReadResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(NV_ReadResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new NV_ReadResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(NV_ReadResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # NV_ReadResponse
 
@@ -17106,7 +17106,7 @@ class TPM2_NV_ReadLock_REQUEST (ReqStructure):
         """ If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be
         used to prevent further reads of the NV Index until the next
         TPM2_Startup (TPM_SU_CLEAR).
-        
+
         Attributes:
             authHandle (TPM_HANDLE): The handle indicating the source of the
                 authorization value
@@ -17117,32 +17117,32 @@ class TPM2_NV_ReadLock_REQUEST (ReqStructure):
         """
         self.authHandle = authHandle
         self.nvIndex = nvIndex
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_ReadLock_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_ReadLock_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_ReadLock_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_ReadLock_REQUEST)
-    
+
     def numHandles(self): return 2
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.authHandle, self.nvIndex]
 # TPM2_NV_ReadLock_REQUEST
 
 class TPM2_NV_ChangeAuth_REQUEST (ReqStructure):
     def __init__(self, nvIndex = TPM_HANDLE(), newAuth = None):
         """ This command allows the authorization secret for an NV Index to be changed.
-        
+
         Attributes:
             nvIndex (TPM_HANDLE): Handle of the entity
                 Auth Index: 1
@@ -17151,35 +17151,35 @@ class TPM2_NV_ChangeAuth_REQUEST (ReqStructure):
         """
         self.nvIndex = nvIndex
         self.newAuth = newAuth
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.newAuth)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.newAuth = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_ChangeAuth_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_ChangeAuth_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_ChangeAuth_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_ChangeAuth_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.nvIndex]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_NV_ChangeAuth_REQUEST
 
@@ -17187,7 +17187,7 @@ class TPM2_NV_Certify_REQUEST (ReqStructure):
     def __init__(self, signHandle = TPM_HANDLE(), authHandle = TPM_HANDLE(), nvIndex = TPM_HANDLE(), qualifyingData = None, inScheme = None, size = 0, offset = 0):
         """ The purpose of this command is to certify the contents of an NV
         Index or portion of an NV Index.
-        
+
         Attributes:
             signHandle (TPM_HANDLE): Handle of the key used to sign the
                 attestation structure
@@ -17218,12 +17218,12 @@ class TPM2_NV_Certify_REQUEST (ReqStructure):
         self.inScheme = inScheme
         self.size = size
         self.offset = offset
-    
+
     @property
     def inSchemeScheme(self): # TPM_ALG_ID
         """ Scheme selector """
         return inScheme.GetUnionSelector() if inScheme else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.qualifyingData)
@@ -17231,7 +17231,7 @@ class TPM2_NV_Certify_REQUEST (ReqStructure):
         self.inScheme.toTpm(buf)
         buf.writeShort(self.size)
         buf.writeShort(self.offset)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.qualifyingData = buf.readSizedByteBuf()
@@ -17240,27 +17240,27 @@ class TPM2_NV_Certify_REQUEST (ReqStructure):
         self.inScheme.initFromTpm(buf)
         self.size = buf.readShort()
         self.offset = buf.readShort()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_NV_Certify_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_NV_Certify_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_NV_Certify_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_NV_Certify_REQUEST)
-    
+
     def numHandles(self): return 3
-    
+
     def numAuthHandles(self): return 2
-    
+
     def getHandles(self): return [self.signHandle, self.authHandle, self.nvIndex]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_NV_Certify_REQUEST
 
@@ -17268,7 +17268,7 @@ class NV_CertifyResponse (RespStructure):
     def __init__(self, certifyInfo = None, signature = None):
         """ The purpose of this command is to certify the contents of an NV
         Index or portion of an NV Index.
-        
+
         Attributes:
             certifyInfo (TPMS_ATTEST): The structure that was signed
             signature (TPMU_SIGNATURE): The asymmetric signature over
@@ -17280,39 +17280,39 @@ class NV_CertifyResponse (RespStructure):
         """
         self.certifyInfo = certifyInfo
         self.signature = signature
-    
+
     @property
     def signatureSigAlg(self): # TPM_ALG_ID
         """ Selector of the algorithm used to construct the signature """
         return signature.GetUnionSelector() if signature else TPM_ALG_ID.NULL
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedObj(self.certifyInfo)
         buf.writeShort(self.signature.GetUnionSelector())
         self.signature.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.certifyInfo = buf.createSizedObj(TPMS_ATTEST)
         signatureSigAlg = buf.readShort()
         self.signature = UnionFactory.create('TPMU_SIGNATURE', signatureSigAlg)
         self.signature.initFromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new NV_CertifyResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(NV_CertifyResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new NV_CertifyResponse object constructed from its marshaled
         representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(NV_CertifyResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # NV_CertifyResponse
 
@@ -17320,7 +17320,7 @@ class TPM2_AC_GetCapability_REQUEST (ReqStructure):
     def __init__(self, ac = TPM_HANDLE(), capability = 0, count = 0):
         """ The purpose of this command is to obtain information about an
         Attached Component referenced by an AC handle.
-        
+
         Attributes:
             ac (TPM_HANDLE): Handle indicating the Attached Component
                 Auth Index: None
@@ -17330,35 +17330,35 @@ class TPM2_AC_GetCapability_REQUEST (ReqStructure):
         self.ac = ac
         self.capability = capability
         self.count = count
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.capability)
         buf.writeInt(self.count)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.capability = buf.readInt()
         self.count = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_AC_GetCapability_REQUEST object constructed from
         its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_AC_GetCapability_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_AC_GetCapability_REQUEST object constructed from
         its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_AC_GetCapability_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.ac]
 # TPM2_AC_GetCapability_REQUEST
 
@@ -17366,31 +17366,31 @@ class AC_GetCapabilityResponse (RespStructure):
     def __init__(self, moreData = 0, capabilitiesData = None):
         """ The purpose of this command is to obtain information about an
         Attached Component referenced by an AC handle.
-        
+
         Attributes:
             moreData (int): Flag to indicate whether there are more values
             capabilitiesData (TPMS_AC_OUTPUT[]): List of capabilities
         """
         self.moreData = moreData
         self.capabilitiesData = capabilitiesData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeByte(self.moreData)
         buf.writeObjArr(self.capabilitiesData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.moreData = buf.readByte()
         self.capabilitiesData = buf.readObjArr(TPMS_AC_OUTPUT)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new AC_GetCapabilityResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(AC_GetCapabilityResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new AC_GetCapabilityResponse object constructed from its
@@ -17403,7 +17403,7 @@ class TPM2_AC_Send_REQUEST (ReqStructure):
     def __init__(self, sendObject = TPM_HANDLE(), authHandle = TPM_HANDLE(), ac = TPM_HANDLE(), acDataIn = None):
         """ The purpose of this command is to send (copy) a loaded object from
         the TPM to an Attached Component.
-        
+
         Attributes:
             sendObject (TPM_HANDLE): Handle of the object being sent to ac
                 Auth Index: 1
@@ -17421,35 +17421,35 @@ class TPM2_AC_Send_REQUEST (ReqStructure):
         self.authHandle = authHandle
         self.ac = ac
         self.acDataIn = acDataIn
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.acDataIn)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.acDataIn = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_AC_Send_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_AC_Send_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_AC_Send_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_AC_Send_REQUEST)
-    
+
     def numHandles(self): return 3
-    
+
     def numAuthHandles(self): return 2
-    
+
     def getHandles(self): return [self.sendObject, self.authHandle, self.ac]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_AC_Send_REQUEST
 
@@ -17457,28 +17457,28 @@ class AC_SendResponse (RespStructure):
     def __init__(self, acDataOut = None):
         """ The purpose of this command is to send (copy) a loaded object from
         the TPM to an Attached Component.
-        
+
         Attributes:
             acDataOut (TPMS_AC_OUTPUT): May include AC specific data or
                 information about an error.
         """
         self.acDataOut = acDataOut
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.acDataOut.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.acDataOut = TPMS_AC_OUTPUT.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new AC_SendResponse object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(AC_SendResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new AC_SendResponse object constructed from its marshaled
@@ -17493,7 +17493,7 @@ class TPM2_Policy_AC_SendSelect_REQUEST (ReqStructure):
         Object to an Attached Component (AC). Qualification includes selection
         of the receiving AC and the method of authentication for the AC, and, in
         certain circumstances, the Object to be sent may be specified.
-        
+
         Attributes:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -17510,41 +17510,41 @@ class TPM2_Policy_AC_SendSelect_REQUEST (ReqStructure):
         self.authHandleName = authHandleName
         self.acName = acName
         self.includeObject = includeObject
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.objectName)
         buf.writeSizedByteBuf(self.authHandleName)
         buf.writeSizedByteBuf(self.acName)
         buf.writeByte(self.includeObject)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.objectName = buf.readSizedByteBuf()
         self.authHandleName = buf.readSizedByteBuf()
         self.acName = buf.readSizedByteBuf()
         self.includeObject = buf.readByte()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Policy_AC_SendSelect_REQUEST object constructed
         from its marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Policy_AC_SendSelect_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Policy_AC_SendSelect_REQUEST object constructed
         from its marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Policy_AC_SendSelect_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 0
-    
+
     def getHandles(self): return [self.policySession]
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_Policy_AC_SendSelect_REQUEST
 
@@ -17552,7 +17552,7 @@ class TPM2_ACT_SetTimeout_REQUEST (ReqStructure):
     def __init__(self, actHandle = TPM_HANDLE(), startTimeout = 0):
         """ This command is used to set the time remaining before an
         Authenticated Countdown Timer (ACT) expires.
-        
+
         Attributes:
             actHandle (TPM_HANDLE): Handle of the selected ACT
                 Auth Index: 1
@@ -17561,101 +17561,101 @@ class TPM2_ACT_SetTimeout_REQUEST (ReqStructure):
         """
         self.actHandle = actHandle
         self.startTimeout = startTimeout
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.startTimeout)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.startTimeout = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_ACT_SetTimeout_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_ACT_SetTimeout_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_ACT_SetTimeout_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_ACT_SetTimeout_REQUEST)
-    
+
     def numHandles(self): return 1
-    
+
     def numAuthHandles(self): return 1
-    
+
     def getHandles(self): return [self.actHandle]
 # TPM2_ACT_SetTimeout_REQUEST
 
 class TPM2_Vendor_TCG_Test_REQUEST (ReqStructure):
     def __init__(self, inputData = None):
         """ This is a placeholder to allow testing of the dispatch code.
-        
+
         Attributes:
             inputData (bytes): Dummy data
         """
         self.inputData = inputData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.inputData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.inputData = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2_Vendor_TCG_Test_REQUEST object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2_Vendor_TCG_Test_REQUEST)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2_Vendor_TCG_Test_REQUEST object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(TPM2_Vendor_TCG_Test_REQUEST)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # TPM2_Vendor_TCG_Test_REQUEST
 
 class Vendor_TCG_TestResponse (RespStructure):
     def __init__(self, outputData = None):
         """ This is a placeholder to allow testing of the dispatch code.
-        
+
         Attributes:
             outputData (bytes): Dummy data
         """
         self.outputData = outputData
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.outputData)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.outputData = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new Vendor_TCG_TestResponse object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(Vendor_TCG_TestResponse)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new Vendor_TCG_TestResponse object constructed from its
         marshaled representation in the given byte buffer
         """
         return TpmBuffer(buffer).createObj(Vendor_TCG_TestResponse)
-    
+
     def sessEncInfo(self): return SessEncInfo(2, 1)
 # Vendor_TCG_TestResponse
 
@@ -17663,19 +17663,19 @@ class TPMS_SCHEME_RSASSA (TPMS_SIG_SCHEME_RSASSA):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ These are the RSA schemes that only need a hash algorithm as a
         scheme parameter.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_RSASSA, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_RSASSA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_RSASSA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_RSASSA object constructed from its marshaled
@@ -17688,19 +17688,19 @@ class TPMS_SCHEME_RSAPSS (TPMS_SIG_SCHEME_RSAPSS):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ These are the RSA schemes that only need a hash algorithm as a
         scheme parameter.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_RSAPSS, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_RSAPSS object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_RSAPSS)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_RSAPSS object constructed from its marshaled
@@ -17715,19 +17715,19 @@ class TPMS_SCHEME_ECDSA (TPMS_SIG_SCHEME_ECDSA):
         complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous
         algorithms also require a count value so they are typed to be
         TPMS_SCHEME_ECDAA.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_ECDSA, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_ECDSA object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_ECDSA)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_ECDSA object constructed from its marshaled
@@ -17742,19 +17742,19 @@ class TPMS_SCHEME_SM2 (TPMS_SIG_SCHEME_SM2):
         complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous
         algorithms also require a count value so they are typed to be
         TPMS_SCHEME_ECDAA.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_SM2, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_SM2 object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_SM2)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_SM2 object constructed from its marshaled
@@ -17769,19 +17769,19 @@ class TPMS_SCHEME_ECSCHNORR (TPMS_SIG_SCHEME_ECSCHNORR):
         complete the definition and can be typed as TPMS_SCHEME_HASH. Anonymous
         algorithms also require a count value so they are typed to be
         TPMS_SCHEME_ECDAA.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_ECSCHNORR, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_ECSCHNORR object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_ECSCHNORR)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_ECSCHNORR object constructed from its
@@ -17794,19 +17794,19 @@ class TPMS_SCHEME_OAEP (TPMS_ENC_SCHEME_OAEP):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ These are the RSA encryption schemes that only need a hash algorithm
         as a controlling parameter.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_OAEP, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_OAEP object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_OAEP)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_OAEP object constructed from its marshaled
@@ -17821,14 +17821,14 @@ class TPMS_SCHEME_RSAES (TPMS_ENC_SCHEME_RSAES):
         as a controlling parameter.
         """
         pass
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_RSAES object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_RSAES)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_RSAES object constructed from its marshaled
@@ -17841,19 +17841,19 @@ class TPMS_SCHEME_ECDH (TPMS_KEY_SCHEME_ECDH):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ These are the ECC schemes that only need a hash algorithm as a
         controlling parameter.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_ECDH, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_ECDH object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_ECDH)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_ECDH object constructed from its marshaled
@@ -17866,19 +17866,19 @@ class TPMS_SCHEME_ECMQV (TPMS_KEY_SCHEME_ECMQV):
     def __init__(self, hashAlg = TPM_ALG_ID.NULL):
         """ These are the ECC schemes that only need a hash algorithm as a
         controlling parameter.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_ECMQV, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_ECMQV object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_ECMQV)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_ECMQV object constructed from its marshaled
@@ -17892,19 +17892,19 @@ class TPMS_SCHEME_MGF1 (TPMS_KDF_SCHEME_MGF1):
         """ These structures are used to define the key derivation for symmetric
         secret sharing using asymmetric methods. A secret sharing scheme is
         required in any asymmetric key with the decrypt attribute SET.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_MGF1, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_MGF1 object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_MGF1)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_MGF1 object constructed from its marshaled
@@ -17918,19 +17918,19 @@ class TPMS_SCHEME_KDF1_SP800_56A (TPMS_KDF_SCHEME_KDF1_SP800_56A):
         """ These structures are used to define the key derivation for symmetric
         secret sharing using asymmetric methods. A secret sharing scheme is
         required in any asymmetric key with the decrypt attribute SET.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_KDF1_SP800_56A, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_KDF1_SP800_56A object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_KDF1_SP800_56A)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_KDF1_SP800_56A object constructed from its
@@ -17944,19 +17944,19 @@ class TPMS_SCHEME_KDF2 (TPMS_KDF_SCHEME_KDF2):
         """ These structures are used to define the key derivation for symmetric
         secret sharing using asymmetric methods. A secret sharing scheme is
         required in any asymmetric key with the decrypt attribute SET.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_KDF2, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_KDF2 object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_KDF2)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_KDF2 object constructed from its marshaled
@@ -17970,19 +17970,19 @@ class TPMS_SCHEME_KDF1_SP800_108 (TPMS_KDF_SCHEME_KDF1_SP800_108):
         """ These structures are used to define the key derivation for symmetric
         secret sharing using asymmetric methods. A secret sharing scheme is
         required in any asymmetric key with the decrypt attribute SET.
-        
+
         Attributes:
             hashAlg (TPM_ALG_ID): The hash algorithm used to digest the message
         """
         super(TPMS_SCHEME_KDF1_SP800_108, self).__init__(hashAlg)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPMS_SCHEME_KDF1_SP800_108 object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPMS_SCHEME_KDF1_SP800_108)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPMS_SCHEME_KDF1_SP800_108 object constructed from its
@@ -17995,7 +17995,7 @@ class TssObject (TpmStructure):
     def __init__(self, Public = None, Sensitive = None, Private = None):
         """ Contains the public and the plaintext-sensitive and/or encrypted
         private part of a TPM key (or other object)
-        
+
         Attributes:
             Public (TPMT_PUBLIC): Public part of key
             Sensitive (TPMT_SENSITIVE): Sensitive part of key
@@ -18005,26 +18005,26 @@ class TssObject (TpmStructure):
         self.Public = Public
         self.Sensitive = Sensitive
         self.Private = Private
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.Public.toTpm(buf)
         self.Sensitive.toTpm(buf)
         self.Private.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.Public = TPMT_PUBLIC.fromTpm(buf)
         self.Sensitive = TPMT_SENSITIVE.fromTpm(buf)
         self.Private = TPM2B_PRIVATE.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TssObject object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TssObject)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TssObject object constructed from its marshaled
@@ -18036,31 +18036,31 @@ class TssObject (TpmStructure):
 class PcrValue (TpmStructure):
     def __init__(self, index = 0, value = None):
         """ Contains a PCR index and associated hash(pcr-value) [TSS]
-        
+
         Attributes:
             index (int): PCR Index
             value (TPMT_HA): PCR Value
         """
         self.index = index
         self.value = value
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeInt(self.index)
         self.value.toTpm(buf)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.index = buf.readInt()
         self.value = TPMT_HA.fromTpm(buf)
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new PcrValue object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(PcrValue)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new PcrValue object constructed from its marshaled
@@ -18072,7 +18072,7 @@ class PcrValue (TpmStructure):
 class SessionIn (TpmStructure):
     def __init__(self, handle = TPM_HANDLE(), nonceCaller = None, attributes = 0, auth = None):
         """ Structure representing a session block in a command buffer [TSS]
-        
+
         Attributes:
             handle (TPM_HANDLE): Session handle
             nonceCaller (bytes): Caller nonce
@@ -18083,28 +18083,28 @@ class SessionIn (TpmStructure):
         self.nonceCaller = nonceCaller
         self.attributes = attributes
         self.auth = auth
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.handle.toTpm(buf)
         buf.writeSizedByteBuf(self.nonceCaller)
         buf.writeByte(self.attributes)
         buf.writeSizedByteBuf(self.auth)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.handle = TPM_HANDLE.fromTpm(buf)
         self.nonceCaller = buf.readSizedByteBuf()
         self.attributes = buf.readByte()
         self.auth = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new SessionIn object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(SessionIn)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new SessionIn object constructed from its marshaled
@@ -18116,7 +18116,7 @@ class SessionIn (TpmStructure):
 class SessionOut (TpmStructure):
     def __init__(self, nonceTpm = None, attributes = 0, auth = None):
         """ Structure representing a session block in a response buffer [TSS]
-        
+
         Attributes:
             nonceTpm (bytes): TPM nonce
             attributes (TPMA_SESSION): Session attributes
@@ -18125,26 +18125,26 @@ class SessionOut (TpmStructure):
         self.nonceTpm = nonceTpm
         self.attributes = attributes
         self.auth = auth
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeSizedByteBuf(self.nonceTpm)
         buf.writeByte(self.attributes)
         buf.writeSizedByteBuf(self.auth)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.nonceTpm = buf.readSizedByteBuf()
         self.attributes = buf.readByte()
         self.auth = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new SessionOut object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(SessionOut)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new SessionOut object constructed from its marshaled
@@ -18156,7 +18156,7 @@ class SessionOut (TpmStructure):
 class CommandHeader (TpmStructure):
     def __init__(self, Tag = 0, CommandSize = 0, CommandCode = 0):
         """ Command header [TSS]
-        
+
         Attributes:
             Tag (TPM_ST): Command tag (sessions, or no sessions)
             CommandSize (int): Total command buffer length
@@ -18165,26 +18165,26 @@ class CommandHeader (TpmStructure):
         self.Tag = Tag
         self.CommandSize = CommandSize
         self.CommandCode = CommandCode
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         buf.writeShort(self.Tag)
         buf.writeInt(self.CommandSize)
         buf.writeInt(self.CommandCode)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.Tag = buf.readShort()
         self.CommandSize = buf.readInt()
         self.CommandCode = buf.readInt()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new CommandHeader object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(CommandHeader)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new CommandHeader object constructed from its marshaled
@@ -18196,7 +18196,7 @@ class CommandHeader (TpmStructure):
 class TSS_KEY (TpmStructure):
     def __init__(self, publicPart = None, privatePart = None):
         """ Contains the public and private part of a TPM key
-        
+
         Attributes:
             publicPart (TPMT_PUBLIC): Public part of key
             privatePart (bytes): Private part is the encrypted sensitive part of
@@ -18204,24 +18204,24 @@ class TSS_KEY (TpmStructure):
         """
         self.publicPart = publicPart
         self.privatePart = privatePart
-    
+
     def toTpm(self, buf):
         """ TpmMarshaller method """
         self.publicPart.toTpm(buf)
         buf.writeSizedByteBuf(self.privatePart)
-    
+
     def initFromTpm(self, buf):
         """ TpmMarshaller method """
         self.publicPart = TPMT_PUBLIC.fromTpm(buf)
         self.privatePart = buf.readSizedByteBuf()
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TSS_KEY object constructed from its marshaled
         representation in the given TpmBuffer buffer
         """
         return buf.createObj(TSS_KEY)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TSS_KEY object constructed from its marshaled
@@ -18234,23 +18234,23 @@ class TPM2B_DIGEST_SYMCIPHER (TPM2B_DIGEST):
     def __init__(self, buffer = None):
         """ Auto-derived from TPM2B_DIGEST to provide unique GetUnionSelector()
         implementation
-        
+
         Attributes:
             buffer (bytes): The buffer area that can be no larger than a digest
         """
         super(TPM2B_DIGEST_SYMCIPHER, self).__init__(buffer)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.SYMCIPHER
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_DIGEST_SYMCIPHER object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_DIGEST_SYMCIPHER)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_DIGEST_SYMCIPHER object constructed from its
@@ -18262,23 +18262,23 @@ class TPM2B_DIGEST_SYMCIPHER (TPM2B_DIGEST):
 class TPM2B_DIGEST_KEYEDHASH (TPM2B_DIGEST):
     def __init__(self, buffer = None):
         """ Auto-derived from TPM2B_DIGEST
-        
+
         Attributes:
             buffer (bytes): The buffer area that can be no larger than a digest
         """
         super(TPM2B_DIGEST_KEYEDHASH, self).__init__(buffer)
-    
+
     def GetUnionSelector(self): # TPM_ALG_ID
         """ TpmUnion method """
         return TPM_ALG_ID.KEYEDHASH
-    
+
     @staticmethod
     def fromTpm(buf):
         """ Returns new TPM2B_DIGEST_KEYEDHASH object constructed from its
         marshaled representation in the given TpmBuffer buffer
         """
         return buf.createObj(TPM2B_DIGEST_KEYEDHASH)
-    
+
     @staticmethod
     def fromBytes(buffer):
         """ Returns new TPM2B_DIGEST_KEYEDHASH object constructed from its

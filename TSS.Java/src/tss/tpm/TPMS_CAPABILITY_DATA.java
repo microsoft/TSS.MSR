@@ -12,23 +12,23 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
 {
     /** The capability  */
     public TPM_CAP capability() { return data.GetUnionSelector(); }
-    
+
     /** The capability data
      *  One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
      *  TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
      *  TPML_TAGGED_POLICY, TPML_ACT_DATA.
      */
     public TPMU_CAPABILITIES data;
-    
+
     public TPMS_CAPABILITY_DATA() {}
-    
+
     /** @param _data The capability data
      *         One of: TPML_ALG_PROPERTY, TPML_HANDLE, TPML_CCA, TPML_CC, TPML_PCR_SELECTION,
      *         TPML_TAGGED_TPM_PROPERTY, TPML_TAGGED_PCR_PROPERTY, TPML_ECC_CURVE,
      *         TPML_TAGGED_POLICY, TPML_ACT_DATA.
      */
     public TPMS_CAPABILITY_DATA(TPMU_CAPABILITIES _data) { data = _data; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -37,7 +37,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         buf.writeInt(data.GetUnionSelector());
         data.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -46,25 +46,25 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         data = UnionFactory.create("TPMU_CAPABILITIES", capability);
         data.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_CAPABILITY_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_CAPABILITY_DATA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_CAPABILITY_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_CAPABILITY_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_CAPABILITY_DATA.class);
     }
-    
+
     @Override
     public String toString()
     {

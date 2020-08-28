@@ -17,12 +17,12 @@ public class TPM2_PolicyTemplate_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     /** The digest to be added to the policy  */
     public byte[] templateHash;
-    
+
     public TPM2_PolicyTemplate_REQUEST() { policySession = new TPM_HANDLE(); }
-    
+
     /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param _templateHash The digest to be added to the policy
@@ -32,33 +32,33 @@ public class TPM2_PolicyTemplate_REQUEST extends ReqStructure
         policySession = _policySession;
         templateHash = _templateHash;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(templateHash); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { templateHash = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyTemplate_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyTemplate_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyTemplate_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyTemplate_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyTemplate_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

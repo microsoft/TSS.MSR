@@ -15,38 +15,38 @@ public class StartAuthSessionResponse extends RespStructure
 {
     /** Handle for the newly created session  */
     public TPM_HANDLE handle;
-    
+
     /** The initial nonce from the TPM, used in the computation of the sessionKey  */
     public byte[] nonceTPM;
-    
+
     public StartAuthSessionResponse() { handle = new TPM_HANDLE(); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(nonceTPM); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { nonceTPM = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static StartAuthSessionResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(StartAuthSessionResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static StartAuthSessionResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static StartAuthSessionResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(StartAuthSessionResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -17,41 +17,41 @@ import tss.*;
 public class TPM2B_PRIVATE_VENDOR_SPECIFIC extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
     public byte[] buffer;
-    
+
     public TPM2B_PRIVATE_VENDOR_SPECIFIC() {}
-    
+
     /** @param _buffer TBD  */
     public TPM2B_PRIVATE_VENDOR_SPECIFIC(byte[] _buffer) { buffer = _buffer; }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ANY; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_PRIVATE_VENDOR_SPECIFIC.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_PRIVATE_VENDOR_SPECIFIC fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_PRIVATE_VENDOR_SPECIFIC.class);
     }
-    
+
     @Override
     public String toString()
     {

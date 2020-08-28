@@ -22,19 +22,19 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
          *  CLEAR (0): Writing of the Index data cannot be authorized with Platform Authorization.
          */
         PPWRITE,
-        
+
         /** SET (1): The Index data can be written if Owner Authorization is provided.
          *  CLEAR (0): Writing of the Index data cannot be authorized with Owner Authorization.
          */
         OWNERWRITE,
-        
+
         /** SET (1): Authorizations to change the Index contents that require USER role may be
          *  provided with an HMAC session or password.
          *  CLEAR (0): Authorizations to change the Index contents that require USER role may not
          *  be provided with an HMAC session or password.
          */
         AUTHWRITE,
-        
+
         /** SET (1): Authorizations to change the Index contents that require USER role may be
          *  provided with a policy session.
          *  CLEAR (0): Authorizations to change the Index contents that require USER role may not
@@ -42,40 +42,40 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
          *  NOTE TPM2_NV_ChangeAuth() always requires that authorization be provided in a policy session.
          */
         POLICYWRITE,
-        
+
         /** Ordinary contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write().  */
         ORDINARY,
-        
+
         /** Counter contains an 8-octet value that is to be used as a counter and can only be
          *  modified with TPM2_NV_Increment()
          */
         COUNTER,
-        
+
         /** Bit Field contains an 8-octet value to be used as a bit field and can only be modified
          *  with TPM2_NV_SetBits().
          */
         BITS,
-        
+
         /** Extend contains a digest-sized value used like a PCR. The Index can only be modified
          *  using TPM2_NV_Extend(). The extend will use the nameAlg of the Index.
          */
         EXTEND,
-        
+
         /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit  */
         PIN_FAIL,
-        
+
         /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit  */
         PIN_PASS,
-        
+
         /** The type of the index.
          *  NOTE A TPM is not required to support all TPM_NT values
          */
         TpmNt_BIT_MASK,
-        
+
         TpmNt_BIT_OFFSET,
-        
+
         TpmNt_BIT_LENGTH,
-        
+
         /** SET (1): Index may not be deleted unless the authPolicy is satisfied using
          *  TPM2_NV_UndefineSpaceSpecial().
          *  CLEAR (0): Index may be deleted with proper platform or owner authorization using
@@ -84,57 +84,57 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
          *  Empty Policy) cannot be deleted.
          */
         POLICY_DELETE,
-        
+
         /** SET (1): Index cannot be written.
          *  CLEAR (0): Index can be written.
          */
         WRITELOCKED,
-        
+
         /** SET (1): A partial write of the Index data is not allowed. The write size shall match
          *  the defined space size.
          *  CLEAR (0): Partial writes are allowed. This setting is required if the .dataSize of
          *  the Index is larger than NV_MAX_BUFFER_SIZE for the implementation.
          */
         WRITEALL,
-        
+
         /** SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this location.
          *  CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if
          *  TPMA_NV_WRITE_STCLEAR is also CLEAR.
          */
         WRITEDEFINE,
-        
+
         /** SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this location
          *  until the next TPM Reset or TPM Restart.
          *  CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if TPMA_NV_WRITEDEFINE
          *  is also CLEAR.
          */
         WRITE_STCLEAR,
-        
+
         /** SET (1): If TPM2_NV_GlobalWriteLock() is successful, TPMA_NV_WRITELOCKED is set.
          *  CLEAR (0): TPM2_NV_GlobalWriteLock() has no effect on the writing of the data at this Index.
          */
         GLOBALLOCK,
-        
+
         /** SET (1): The Index data can be read if Platform Authorization is provided.
          *  CLEAR (0): Reading of the Index data cannot be authorized with Platform Authorization.
          */
         PPREAD,
-        
+
         /** SET (1): The Index data can be read if Owner Authorization is provided.
          *  CLEAR (0): Reading of the Index data cannot be authorized with Owner Authorization.
          */
         OWNERREAD,
-        
+
         /** SET (1): The Index data may be read if the authValue is provided.
          *  CLEAR (0): Reading of the Index data cannot be authorized with the Index authValue.
          */
         AUTHREAD,
-        
+
         /** SET (1): The Index data may be read if the authPolicy is satisfied.
          *  CLEAR (0): Reading of the Index data cannot be authorized with the Index authPolicy.
          */
         POLICYREAD,
-        
+
         /** SET (1): Authorization failures of the Index do not affect the DA logic and
          *  authorization of the Index is not blocked when the TPM is in Lockout mode.
          *  CLEAR (0): Authorization failures of the Index will increment the authorization
@@ -142,30 +142,30 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
          *  Lockout mode.
          */
         NO_DA,
-        
+
         /** SET (1): NV Index state is only required to be saved when the TPM performs an orderly
          *  shutdown (TPM2_Shutdown()).
          *  CLEAR (0): NV Index state is required to be persistent after the command to update the
          *  Index completes successfully (that is, the NV update is synchronous with the update command).
          */
         ORDERLY,
-        
+
         /** SET (1): TPMA_NV_WRITTEN for the Index is CLEAR by TPM Reset or TPM Restart.
          *  CLEAR (0): TPMA_NV_WRITTEN is not changed by TPM Restart.
          *  NOTE This attribute may only be SET if TPM_NT is not TPM_NT_COUNTER.
          */
         CLEAR_STCLEAR,
-        
+
         /** SET (1): Reads of the Index are blocked until the next TPM Reset or TPM Restart.
          *  CLEAR (0): Reads of the Index are allowed if proper authorization is provided.
          */
         READLOCKED,
-        
+
         /** SET (1): Index has been written.
          *  CLEAR (0): Index has not been written.
          */
         WRITTEN,
-        
+
         /** SET (1): This Index may be undefined with Platform Authorization but not with Owner
          *  Authorization.
          *  CLEAR (0): This Index may be undefined using Owner Authorization but not with Platform
@@ -175,15 +175,15 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
          *  is defined using Owner Authorization.
          */
         PLATFORMCREATE,
-        
+
         /** SET (1): TPM2_NV_ReadLock() may be used to SET TPMA_NV_READLOCKED for this Index.
          *  CLEAR (0): TPM2_NV_ReadLock() has no effect on this Index.
          */
         READ_STCLEAR
     }
-    
+
     private static ValueMap<TPMA_NV> _ValueMap = new ValueMap<TPMA_NV>();
-    
+
     /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_NV
         PPWRITE = new TPMA_NV(0x1, _N.PPWRITE),
@@ -216,7 +216,7 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
         WRITTEN = new TPMA_NV(0x20000000, _N.WRITTEN),
         PLATFORMCREATE = new TPMA_NV(0x40000000, _N.PLATFORMCREATE),
         READ_STCLEAR = new TPMA_NV(0x80000000, _N.READ_STCLEAR);
-    
+
     public TPMA_NV () { super(0, _ValueMap); }
     public TPMA_NV (int value) { super(value, _ValueMap); }
     public TPMA_NV (TPMA_NV...attrs) { super(_ValueMap, attrs); }

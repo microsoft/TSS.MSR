@@ -12,35 +12,35 @@ public class IncrementalSelfTestResponse extends RespStructure
 {
     /** List of algorithms that need testing  */
     public TPM_ALG_ID[] toDoList;
-    
+
     public IncrementalSelfTestResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(toDoList); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { toDoList = buf.readObjArr(TPM_ALG_ID.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static IncrementalSelfTestResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(IncrementalSelfTestResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static IncrementalSelfTestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static IncrementalSelfTestResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(IncrementalSelfTestResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -16,12 +16,12 @@ public class ZGen_2PhaseResponse extends RespStructure
 {
     /** X and Y coordinates of the computed value (scheme dependent)  */
     public TPMS_ECC_POINT outZ1;
-    
+
     /** X and Y coordinates of the second computed value (scheme dependent)  */
     public TPMS_ECC_POINT outZ2;
-    
+
     public ZGen_2PhaseResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -29,7 +29,7 @@ public class ZGen_2PhaseResponse extends RespStructure
         buf.writeSizedObj(outZ1);
         buf.writeSizedObj(outZ2);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -37,25 +37,25 @@ public class ZGen_2PhaseResponse extends RespStructure
         outZ1 = buf.createSizedObj(TPMS_ECC_POINT.class);
         outZ2 = buf.createSizedObj(TPMS_ECC_POINT.class);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static ZGen_2PhaseResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ZGen_2PhaseResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ZGen_2PhaseResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static ZGen_2PhaseResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ZGen_2PhaseResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

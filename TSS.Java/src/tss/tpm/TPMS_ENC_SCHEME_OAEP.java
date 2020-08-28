@@ -11,31 +11,31 @@ import tss.*;
 public class TPMS_ENC_SCHEME_OAEP extends TPMS_SCHEME_HASH
 {
     public TPMS_ENC_SCHEME_OAEP() {}
-    
+
     /** @param _hashAlg The hash algorithm used to digest the message  */
     public TPMS_ENC_SCHEME_OAEP(TPM_ALG_ID _hashAlg) { super(_hashAlg); }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.OAEP; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ENC_SCHEME_OAEP fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ENC_SCHEME_OAEP.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ENC_SCHEME_OAEP fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ENC_SCHEME_OAEP fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ENC_SCHEME_OAEP.class);
     }
-    
+
     @Override
     public String toString()
     {

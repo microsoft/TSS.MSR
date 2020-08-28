@@ -17,14 +17,14 @@ public class TPM2_PolicyNvWritten_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     /** YES if NV Index is required to have been written
      *  NO if NV Index is required not to have been written
      */
     public byte writtenSet;
-    
+
     public TPM2_PolicyNvWritten_REQUEST() { policySession = new TPM_HANDLE(); }
-    
+
     /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param _writtenSet YES if NV Index is required to have been written
@@ -35,33 +35,33 @@ public class TPM2_PolicyNvWritten_REQUEST extends ReqStructure
         policySession = _policySession;
         writtenSet = _writtenSet;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeByte(writtenSet); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { writtenSet = buf.readByte(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyNvWritten_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyNvWritten_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyNvWritten_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyNvWritten_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyNvWritten_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

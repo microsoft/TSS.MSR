@@ -12,12 +12,12 @@ public class EC_EphemeralResponse extends RespStructure
 {
     /** Ephemeral public key Q [r]G  */
     public TPMS_ECC_POINT Q;
-    
+
     /** Least-significant 16 bits of commitCount  */
     public int counter;
-    
+
     public EC_EphemeralResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -25,7 +25,7 @@ public class EC_EphemeralResponse extends RespStructure
         buf.writeSizedObj(Q);
         buf.writeShort(counter);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -33,25 +33,25 @@ public class EC_EphemeralResponse extends RespStructure
         Q = buf.createSizedObj(TPMS_ECC_POINT.class);
         counter = buf.readShort();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static EC_EphemeralResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(EC_EphemeralResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static EC_EphemeralResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static EC_EphemeralResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(EC_EphemeralResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

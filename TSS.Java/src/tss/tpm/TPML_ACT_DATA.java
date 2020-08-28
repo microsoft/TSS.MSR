@@ -14,41 +14,41 @@ public class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
 {
     /** Array of ACT data  */
     public TPMS_ACT_DATA[] actData;
-    
+
     public TPML_ACT_DATA() {}
-    
+
     /** @param _actData Array of ACT data  */
     public TPML_ACT_DATA(TPMS_ACT_DATA[] _actData) { actData = _actData; }
-    
+
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.ACT; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(actData); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { actData = buf.readObjArr(TPMS_ACT_DATA.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPML_ACT_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_ACT_DATA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_ACT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPML_ACT_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_ACT_DATA.class);
     }
-    
+
     @Override
     public String toString()
     {

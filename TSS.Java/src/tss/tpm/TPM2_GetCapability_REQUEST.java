@@ -12,15 +12,15 @@ public class TPM2_GetCapability_REQUEST extends ReqStructure
 {
     /** Group selection; determines the format of the response  */
     public TPM_CAP capability;
-    
+
     /** Further definition of information  */
     public int property;
-    
+
     /** Number of properties of the indicated type to return  */
     public int propertyCount;
-    
+
     public TPM2_GetCapability_REQUEST() {}
-    
+
     /** @param _capability Group selection; determines the format of the response
      *  @param _property Further definition of information
      *  @param _propertyCount Number of properties of the indicated type to return
@@ -31,7 +31,7 @@ public class TPM2_GetCapability_REQUEST extends ReqStructure
         property = _property;
         propertyCount = _propertyCount;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -40,7 +40,7 @@ public class TPM2_GetCapability_REQUEST extends ReqStructure
         buf.writeInt(property);
         buf.writeInt(propertyCount);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -49,25 +49,25 @@ public class TPM2_GetCapability_REQUEST extends ReqStructure
         property = buf.readInt();
         propertyCount = buf.readInt();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_GetCapability_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_GetCapability_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_GetCapability_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_GetCapability_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_GetCapability_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

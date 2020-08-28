@@ -12,38 +12,38 @@ public class TPM2_EC_Ephemeral_REQUEST extends ReqStructure
 {
     /** The curve for the computed ephemeral point  */
     public TPM_ECC_CURVE curveID;
-    
+
     public TPM2_EC_Ephemeral_REQUEST() {}
-    
+
     /** @param _curveID The curve for the computed ephemeral point  */
     public TPM2_EC_Ephemeral_REQUEST(TPM_ECC_CURVE _curveID) { curveID = _curveID; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { curveID.toTpm(buf); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { curveID = TPM_ECC_CURVE.fromTpm(buf); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_EC_Ephemeral_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_EC_Ephemeral_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_EC_Ephemeral_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_EC_Ephemeral_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_EC_Ephemeral_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -14,32 +14,32 @@ public class TPM2_ReadPublic_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE objectHandle;
-    
+
     public TPM2_ReadPublic_REQUEST() { objectHandle = new TPM_HANDLE(); }
-    
+
     /** @param _objectHandle TPM handle of an object
      *         Auth Index: None
      */
     public TPM2_ReadPublic_REQUEST(TPM_HANDLE _objectHandle) { objectHandle = _objectHandle; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ReadPublic_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ReadPublic_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ReadPublic_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ReadPublic_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ReadPublic_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

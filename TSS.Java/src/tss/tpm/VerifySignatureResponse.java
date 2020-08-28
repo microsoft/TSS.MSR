@@ -13,35 +13,35 @@ import tss.*;
 public class VerifySignatureResponse extends RespStructure
 {
     public TPMT_TK_VERIFIED validation;
-    
+
     public VerifySignatureResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { validation.toTpm(buf); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { validation = TPMT_TK_VERIFIED.fromTpm(buf); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static VerifySignatureResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(VerifySignatureResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static VerifySignatureResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static VerifySignatureResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(VerifySignatureResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

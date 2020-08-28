@@ -17,40 +17,40 @@ public class TPM2_SelfTest_REQUEST extends ReqStructure
      *  NO if only test of untested functions required
      */
     public byte fullTest;
-    
+
     public TPM2_SelfTest_REQUEST() {}
-    
+
     /** @param _fullTest YES if full test to be performed
      *         NO if only test of untested functions required
      */
     public TPM2_SelfTest_REQUEST(byte _fullTest) { fullTest = _fullTest; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeByte(fullTest); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { fullTest = buf.readByte(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_SelfTest_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_SelfTest_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_SelfTest_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_SelfTest_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_SelfTest_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

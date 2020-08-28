@@ -14,38 +14,38 @@ public class TPM2B_ATTEST extends TpmStructure
 {
     /** The signed structure  */
     public TPMS_ATTEST attestationData;
-    
+
     public TPM2B_ATTEST() {}
-    
+
     /** @param _attestationData The signed structure  */
     public TPM2B_ATTEST(TPMS_ATTEST _attestationData) { attestationData = _attestationData; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedObj(attestationData); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { attestationData = buf.createSizedObj(TPMS_ATTEST.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_ATTEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_ATTEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_ATTEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_ATTEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_ATTEST.class);
     }
-    
+
     @Override
     public String toString()
     {

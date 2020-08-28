@@ -12,15 +12,15 @@ public class TPMS_ACT_DATA extends TpmStructure
 {
     /** A permanent handle  */
     public TPM_HANDLE handle;
-    
+
     /** The current timeout of the ACT  */
     public int timeout;
-    
+
     /** The state of the ACT  */
     public TPMA_ACT attributes;
-    
+
     public TPMS_ACT_DATA() { handle = new TPM_HANDLE(); }
-    
+
     /** @param _handle A permanent handle
      *  @param _timeout The current timeout of the ACT
      *  @param _attributes The state of the ACT
@@ -31,7 +31,7 @@ public class TPMS_ACT_DATA extends TpmStructure
         timeout = _timeout;
         attributes = _attributes;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -40,7 +40,7 @@ public class TPMS_ACT_DATA extends TpmStructure
         buf.writeInt(timeout);
         attributes.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -49,25 +49,25 @@ public class TPMS_ACT_DATA extends TpmStructure
         timeout = buf.readInt();
         attributes = TPMA_ACT.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ACT_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ACT_DATA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ACT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ACT_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ACT_DATA.class);
     }
-    
+
     @Override
     public String toString()
     {

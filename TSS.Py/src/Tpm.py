@@ -20,7 +20,7 @@ class Tpm(TpmBase):
         completed successfully. If a TPM requires TPM2_Startup() and another
         command is received, or if the TPM receives TPM2_Startup() when it is
         not required, the TPM shall return TPM_RC_INITIALIZE.
-        
+
         Args:
             startupType (TPM_SU): TPM_SU_CLEAR or TPM_SU_STATE
         """
@@ -28,12 +28,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.Startup, req)
         return self.processResponse(respBuf)
     # Startup()
-    
+
     def Shutdown(self, shutdownType):
         """ This command is used to prepare the TPM for a power cycle. The
         shutdownType parameter indicates how the subsequent TPM2_Startup() will
         be processed.
-        
+
         Args:
             shutdownType (TPM_SU): TPM_SU_CLEAR or TPM_SU_STATE
         """
@@ -41,13 +41,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.Shutdown, req)
         return self.processResponse(respBuf)
     # Shutdown()
-    
+
     def SelfTest(self, fullTest):
         """ This command causes the TPM to perform a test of its capabilities.
         If the fullTest is YES, the TPM will test all functions. If fullTest =
         NO, the TPM will only test those functions that have not previously been
         tested.
-        
+
         Args:
             fullTest (int): YES if full test to be performed
                 NO if only test of untested functions required
@@ -56,13 +56,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.SelfTest, req)
         return self.processResponse(respBuf)
     # SelfTest()
-    
+
     def IncrementalSelfTest(self, toTest):
         """ This command causes the TPM to perform a test of the selected algorithms.
-        
+
         Args:
             toTest (TPM_ALG_ID[]): List of algorithms that should be tested
-        
+
         Returns:
             toDoList - List of algorithms that need testing
         """
@@ -71,11 +71,11 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, IncrementalSelfTestResponse)
         return res.toDoList if res else None
     # IncrementalSelfTest()
-    
+
     def GetTestResult(self):
         """ This command returns manufacturer-specific information regarding the
         results of a self-test and an indication of the test status.
-        
+
         Returns:
             outData - Test result data
                       contains manufacturer-specific information
@@ -85,13 +85,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.GetTestResult, req)
         return self.processResponse(respBuf, GetTestResultResponse)
     # GetTestResult()
-    
+
     def StartAuthSession(self, tpmKey, bind, nonceCaller, encryptedSalt, sessionType, symmetric, authHash):
         """ This command is used to start an authorization session using
         alternative methods of establishing the session key (sessionKey). The
         session key is then used to derive values used for authorization and for
         encrypting parameters.
-        
+
         Args:
             tpmKey (TPM_HANDLE): Handle of a loaded decrypt key used to encrypt salt
                 may be TPM_RH_NULL
@@ -111,7 +111,7 @@ class Tpm(TpmBase):
                 may select TPM_ALG_NULL
             authHash (TPM_ALG_ID): Hash algorithm to use for the session
                 Shall be a hash algorithm supported by the TPM and not TPM_ALG_NULL
-        
+
         Returns:
             handle - Handle for the newly created session
             nonceTPM - The initial nonce from the TPM, used in the computation
@@ -121,7 +121,7 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.StartAuthSession, req)
         return self.processResponse(respBuf, StartAuthSessionResponse)
     # StartAuthSession()
-    
+
     def PolicyRestart(self, sessionHandle):
         """ This command allows a policy authorization session to be returned to
         its initial state. This command is used after the TPM returns
@@ -130,7 +130,7 @@ class Tpm(TpmBase):
         Restarting the session allows the authorizations to be replayed because
         the session restarts with the same nonceTPM. If the PCR are valid for
         the policy, the policy may then succeed.
-        
+
         Args:
             sessionHandle (TPM_HANDLE): The handle for the policy session
         """
@@ -138,7 +138,7 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyRestart, req)
         return self.processResponse(respBuf)
     # PolicyRestart()
-    
+
     def Create(self, parentHandle, inSensitive, inPublic, outsideInfo, creationPCR):
         """ This command is used to create an object that can be loaded into a
         TPM using TPM2_Load(). If the command completes successfully, the TPM
@@ -149,7 +149,7 @@ class Tpm(TpmBase):
         (TPM2_Load()) before it may be used. The only difference between the
         inPublic TPMT_PUBLIC template and the outPublic TPMT_PUBLIC object is in
         the unique field.
-        
+
         Args:
             parentHandle (TPM_HANDLE): Handle of parent for new object
                 Auth Index: 1
@@ -161,7 +161,7 @@ class Tpm(TpmBase):
                 this object and some object owner data
             creationPCR (TPMS_PCR_SELECTION[]): PCR that will be used in
                 creation data
-        
+
         Returns:
             outPrivate - The private portion of the object
             outPublic - The public portion of the created object
@@ -174,12 +174,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.Create, req)
         return self.processResponse(respBuf, CreateResponse)
     # Create()
-    
+
     def Load(self, parentHandle, inPrivate, inPublic):
         """ This command is used to load objects into the TPM. This command is
         used when both a TPM2B_PUBLIC and TPM2B_PRIVATE are to be loaded. If
         only a TPM2B_PUBLIC is to be loaded, the TPM2_LoadExternal command is used.
-        
+
         Args:
             parentHandle (TPM_HANDLE): TPM handle of parent key; shall not be a
                 reserved handle
@@ -187,7 +187,7 @@ class Tpm(TpmBase):
                 Auth Role: USER
             inPrivate (TPM2B_PRIVATE): The private portion of the object
             inPublic (TPMT_PUBLIC): The public portion of the object
-        
+
         Returns:
             handle - Handle of type TPM_HT_TRANSIENT for the loaded object
         """
@@ -196,17 +196,17 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, LoadResponse)
         return res.handle if res else None
     # Load()
-    
+
     def LoadExternal(self, inPrivate, inPublic, hierarchy):
         """ This command is used to load an object that is not a Protected
         Object into the TPM. The command allows loading of a public area or both
         a public and sensitive area.
-        
+
         Args:
             inPrivate (TPMT_SENSITIVE): The sensitive portion of the object (optional)
             inPublic (TPMT_PUBLIC): The public portion of the object
             hierarchy (TPM_HANDLE): Hierarchy with which the object area is associated
-        
+
         Returns:
             handle - Handle of type TPM_HT_TRANSIENT for the loaded object
         """
@@ -215,14 +215,14 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, LoadExternalResponse)
         return res.handle if res else None
     # LoadExternal()
-    
+
     def ReadPublic(self, objectHandle):
         """ This command allows access to the public area of a loaded object.
-        
+
         Args:
             objectHandle (TPM_HANDLE): TPM handle of an object
                 Auth Index: None
-        
+
         Returns:
             outPublic - Structure containing the public area of an object
             name - Name of the object
@@ -232,12 +232,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.ReadPublic, req)
         return self.processResponse(respBuf, ReadPublicResponse)
     # ReadPublic()
-    
+
     def ActivateCredential(self, activateHandle, keyHandle, credentialBlob, secret):
         """ This command enables the association of a credential with an object
         in a way that ensures that the TPM has validated the parameters of the
         credentialed object.
-        
+
         Args:
             activateHandle (TPM_HANDLE): Handle of the object associated with
                 certificate in credentialBlob
@@ -250,7 +250,7 @@ class Tpm(TpmBase):
             credentialBlob (TPMS_ID_OBJECT): The credential
             secret (bytes): KeyHandle algorithm-dependent encrypted seed that
                 protects credentialBlob
-        
+
         Returns:
             certInfo - The decrypted certificate information
                        the data should be no larger than the size of the digest
@@ -261,19 +261,19 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, ActivateCredentialResponse)
         return res.certInfo if res else None
     # ActivateCredential()
-    
+
     def MakeCredential(self, handle, credential, objectName):
         """ This command allows the TPM to perform the actions required of a
         Certificate Authority (CA) in creating a TPM2B_ID_OBJECT containing an
         activation credential.
-        
+
         Args:
             handle (TPM_HANDLE): Loaded public area, used to encrypt the
                 sensitive area containing the credential key
                 Auth Index: None
             credential (bytes): The credential information
             objectName (bytes): Name of the object to which the credential applies
-        
+
         Returns:
             credentialBlob - The credential
             secret - Handle algorithm-dependent data that wraps the key that
@@ -283,15 +283,15 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.MakeCredential, req)
         return self.processResponse(respBuf, MakeCredentialResponse)
     # MakeCredential()
-    
+
     def Unseal(self, itemHandle):
         """ This command returns the data in a loaded Sealed Data Object.
-        
+
         Args:
             itemHandle (TPM_HANDLE): Handle of a loaded data object
                 Auth Index: 1
                 Auth Role: USER
-        
+
         Returns:
             outData - Unsealed data
                       Size of outData is limited to be no more than 128 octets.
@@ -301,11 +301,11 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, UnsealResponse)
         return res.outData if res else None
     # Unseal()
-    
+
     def ObjectChangeAuth(self, objectHandle, parentHandle, newAuth):
         """ This command is used to change the authorization secret for a
         TPM-resident object.
-        
+
         Args:
             objectHandle (TPM_HANDLE): Handle of the object
                 Auth Index: 1
@@ -313,7 +313,7 @@ class Tpm(TpmBase):
             parentHandle (TPM_HANDLE): Handle of the parent
                 Auth Index: None
             newAuth (bytes): New authorization value
-        
+
         Returns:
             outPrivate - Private area containing the new authorization value
         """
@@ -322,7 +322,7 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, ObjectChangeAuthResponse)
         return res.outPrivate if res else None
     # ObjectChangeAuth()
-    
+
     def CreateLoaded(self, parentHandle, inSensitive, inPublic):
         """ This command creates an object and loads it in the TPM. This command
         allows creation of any type of object (Primary, Ordinary, or Derived)
@@ -331,7 +331,7 @@ class Tpm(TpmBase):
         references a Storage Parent, then an Ordinary Object is created; and if
         parentHandle references a Derivation Parent, then a Derived Object is
         generated.
-        
+
         Args:
             parentHandle (TPM_HANDLE): Handle of a transient storage key, a
                 persistent storage key, TPM_RH_ENDORSEMENT, TPM_RH_OWNER,
@@ -341,7 +341,7 @@ class Tpm(TpmBase):
             inSensitive (TPMS_SENSITIVE_CREATE): The sensitive data, see TPM 2.0
                 Part 1 Sensitive Values
             inPublic (bytes): The public template
-        
+
         Returns:
             handle - Handle of type TPM_HT_TRANSIENT for created object
             outPrivate - The sensitive area of the object (optional)
@@ -352,13 +352,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.CreateLoaded, req)
         return self.processResponse(respBuf, CreateLoadedResponse)
     # CreateLoaded()
-    
+
     def Duplicate(self, objectHandle, newParentHandle, encryptionKeyIn, symmetricAlg):
         """ This command duplicates a loaded object so that it may be used in a
         different hierarchy. The new parent key for the duplicate may be on the
         same or different TPM or TPM_RH_NULL. Only the public area of
         newParentHandle is required to be loaded.
-        
+
         Args:
             objectHandle (TPM_HANDLE): Loaded object to duplicate
                 Auth Index: 1
@@ -372,7 +372,7 @@ class Tpm(TpmBase):
             symmetricAlg (TPMT_SYM_DEF_OBJECT): Definition for the symmetric
                 algorithm to be used for the inner wrapper
                 may be TPM_ALG_NULL if no inner wrapper is applied
-        
+
         Returns:
             encryptionKeyOut - If the caller provided an encryption key or if
                                symmetricAlg was TPM_ALG_NULL, then this will be
@@ -388,7 +388,7 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.Duplicate, req)
         return self.processResponse(respBuf, DuplicateResponse)
     # Duplicate()
-    
+
     def Rewrap(self, oldParent, newParent, inDuplicate, name, inSymSeed):
         """ This command allows the TPM to serve in the role as a Duplication
         Authority. If proper authorization for use of the oldParent is provided,
@@ -398,7 +398,7 @@ class Tpm(TpmBase):
         and the blob is re-encrypted and a new integrity value is computed. The
         re-encrypted blob is returned in outDuplicate and the symmetric key
         returned in outSymKey.
-        
+
         Args:
             oldParent (TPM_HANDLE): Parent of object
                 Auth Index: 1
@@ -411,7 +411,7 @@ class Tpm(TpmBase):
             inSymSeed (bytes): The seed for the symmetric key and HMAC key
                 needs oldParent private key to recover the seed and generate the
                 symmetric key
-        
+
         Returns:
             outDuplicate - An object encrypted using symmetric key derived from
                            outSymSeed
@@ -422,13 +422,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.Rewrap, req)
         return self.processResponse(respBuf, RewrapResponse)
     # Rewrap()
-    
+
     def Import(self, parentHandle, encryptionKey, objectPublic, duplicate, inSymSeed, symmetricAlg):
         """ This command allows an object to be encrypted using the symmetric
         encryption values of a Storage Key. After encryption, the object may be
         loaded and used in the new hierarchy. The imported object (duplicate)
         may be singly encrypted, multiply encrypted, or unencrypted.
-        
+
         Args:
             parentHandle (TPM_HANDLE): The handle of the new parent for the object
                 Auth Index: 1
@@ -451,7 +451,7 @@ class Tpm(TpmBase):
                 algorithm to use for the inner wrapper
                 If this algorithm is TPM_ALG_NULL, no inner wrapper is present
                 and encryptionKey shall be the Empty Buffer.
-        
+
         Returns:
             outPrivate - The sensitive area encrypted with the symmetric key of
                          parentHandle
@@ -461,14 +461,14 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, ImportResponse)
         return res.outPrivate if res else None
     # Import()
-    
+
     def RSA_Encrypt(self, keyHandle, message, inScheme, label):
         """ This command performs RSA encryption using the indicated padding
         scheme according to IETF RFC 8017. If the scheme of keyHandle is
         TPM_ALG_NULL, then the caller may use inScheme to specify the padding
         scheme. If scheme of keyHandle is not TPM_ALG_NULL, then inScheme shall
         either be TPM_ALG_NULL or be the same as scheme (TPM_RC_SCHEME).
-        
+
         Args:
             keyHandle (TPM_HANDLE): Reference to public portion of RSA key to
                 use for encryption
@@ -488,7 +488,7 @@ class Tpm(TpmBase):
             label (bytes): Optional label L to be associated with the message
                 Size of the buffer is zero if no label is present
                 NOTE 2 See description of label above.
-        
+
         Returns:
             outData - Encrypted output
         """
@@ -497,11 +497,11 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, RSA_EncryptResponse)
         return res.outData if res else None
     # RSA_Encrypt()
-    
+
     def RSA_Decrypt(self, keyHandle, cipherText, inScheme, label):
         """ This command performs RSA decryption using the indicated padding
         scheme according to IETF RFC 8017 ((PKCS#1).
-        
+
         Args:
             keyHandle (TPM_HANDLE): RSA key to use for decryption
                 Auth Index: 1
@@ -517,7 +517,7 @@ class Tpm(TpmBase):
                 TPMS_ENC_SCHEME_RSAES, TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH,
                 TPMS_NULL_ASYM_SCHEME.
             label (bytes): Label whose association with the message is to be verified
-        
+
         Returns:
             message - Decrypted output
         """
@@ -526,16 +526,16 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, RSA_DecryptResponse)
         return res.message if res else None
     # RSA_Decrypt()
-    
+
     def ECDH_KeyGen(self, keyHandle):
         """ This command uses the TPM to generate an ephemeral key pair (de, Qe
         where Qe [de]G). It uses the private ephemeral key and a loaded public
         key (QS) to compute the shared secret value (P [hde]QS).
-        
+
         Args:
             keyHandle (TPM_HANDLE): Handle of a loaded ECC key public area.
                 Auth Index: None
-        
+
         Returns:
             zPoint - Results of P h[de]Qs
             pubPoint - Generated ephemeral public point (Qe)
@@ -544,20 +544,20 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.ECDH_KeyGen, req)
         return self.processResponse(respBuf, ECDH_KeyGenResponse)
     # ECDH_KeyGen()
-    
+
     def ECDH_ZGen(self, keyHandle, inPoint):
         """ This command uses the TPM to recover the Z value from a public point
         (QB) and a private key (ds). It will perform the multiplication of the
         provided inPoint (QB) with the private key (ds) and return the
         coordinates of the resultant point (Z = (xZ , yZ) [hds]QB; where h is
         the cofactor of the curve).
-        
+
         Args:
             keyHandle (TPM_HANDLE): Handle of a loaded ECC key
                 Auth Index: 1
                 Auth Role: USER
             inPoint (TPMS_ECC_POINT): A public key
-        
+
         Returns:
             outPoint - X and Y coordinates of the product of the multiplication
                        Z = (xZ , yZ) [hdS]QB
@@ -567,14 +567,14 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, ECDH_ZGenResponse)
         return res.outPoint if res else None
     # ECDH_ZGen()
-    
+
     def ECC_Parameters(self, curveID):
         """ This command returns the parameters of an ECC curve identified by
         its TCG-assigned curveID.
-        
+
         Args:
             curveID (TPM_ECC_CURVE): Parameter set selector
-        
+
         Returns:
             parameters - ECC parameters for the selected curve
         """
@@ -583,14 +583,14 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, ECC_ParametersResponse)
         return res.parameters if res else None
     # ECC_Parameters()
-    
+
     def ZGen_2Phase(self, keyA, inQsB, inQeB, inScheme, counter):
         """ This command supports two-phase key exchange protocols. The command
         is used in combination with TPM2_EC_Ephemeral(). TPM2_EC_Ephemeral()
         generates an ephemeral key and returns the public point of that
         ephemeral key along with a numeric value that allows the TPM to
         regenerate the associated private key.
-        
+
         Args:
             keyA (TPM_HANDLE): Handle of an unrestricted decryption key ECC
                 The private key referenced by this handle is used as dS,A
@@ -602,7 +602,7 @@ class Tpm(TpmBase):
                 (Xe,B, Ye,B))
             inScheme (TPM_ALG_ID): The key exchange scheme
             counter (int): Value returned by TPM2_EC_Ephemeral()
-        
+
         Returns:
             outZ1 - X and Y coordinates of the computed value (scheme dependent)
             outZ2 - X and Y coordinates of the second computed value (scheme dependent)
@@ -611,10 +611,10 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.ZGen_2Phase, req)
         return self.processResponse(respBuf, ZGen_2PhaseResponse)
     # ZGen_2Phase()
-    
+
     def ECC_Encrypt(self, keyHandle, plainText, inScheme):
         """ This command performs ECC encryption as described in Part 1, Annex D.
-        
+
         Args:
             keyHandle (TPM_HANDLE): Reference to public portion of ECC key to
                 use for encryption
@@ -625,7 +625,7 @@ class Tpm(TpmBase):
                 One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
                 TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108,
                 TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
-        
+
         Returns:
             C1 - The public ephemeral key used for ECDH
             C2 - The data block produced by the XOR process
@@ -635,10 +635,10 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.ECC_Encrypt, req)
         return self.processResponse(respBuf, ECC_EncryptResponse)
     # ECC_Encrypt()
-    
+
     def ECC_Decrypt(self, keyHandle, C1, C2, C3, inScheme):
         """ This command performs ECC decryption.
-        
+
         Args:
             keyHandle (TPM_HANDLE): ECC key to use for decryption
                 Auth Index: 1
@@ -651,7 +651,7 @@ class Tpm(TpmBase):
                 One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A,
                 TPMS_KDF_SCHEME_KDF2, TPMS_KDF_SCHEME_KDF1_SP800_108,
                 TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
-        
+
         Returns:
             plainText - Decrypted output
         """
@@ -660,11 +660,11 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, ECC_DecryptResponse)
         return res.plainText if res else None
     # ECC_Decrypt()
-    
+
     def EncryptDecrypt(self, keyHandle, decrypt, mode, ivIn, inData):
         """ NOTE 1 This command is deprecated, and TPM2_EncryptDecrypt2() is
         preferred. This should be reflected in platform-specific specifications.
-        
+
         Args:
             keyHandle (TPM_HANDLE): The symmetric key used for the operation
                 Auth Index: 1
@@ -675,7 +675,7 @@ class Tpm(TpmBase):
                 this field shall match the default mode of the key or be TPM_ALG_NULL.
             ivIn (bytes): An initial value as required by the algorithm
             inData (bytes): The data to be encrypted/decrypted
-        
+
         Returns:
             outData - Encrypted or decrypted output
             ivOut - Chaining value to use for IV in next round
@@ -684,12 +684,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.EncryptDecrypt, req)
         return self.processResponse(respBuf, EncryptDecryptResponse)
     # EncryptDecrypt()
-    
+
     def EncryptDecrypt2(self, keyHandle, inData, decrypt, mode, ivIn):
         """ This command is identical to TPM2_EncryptDecrypt(), except that the
         inData parameter is the first parameter. This permits inData to be
         parameter encrypted.
-        
+
         Args:
             keyHandle (TPM_HANDLE): The symmetric key used for the operation
                 Auth Index: 1
@@ -700,7 +700,7 @@ class Tpm(TpmBase):
             mode (TPM_ALG_ID): Symmetric mode
                 this field shall match the default mode of the key or be TPM_ALG_NULL.
             ivIn (bytes): An initial value as required by the algorithm
-        
+
         Returns:
             outData - Encrypted or decrypted output
             ivOut - Chaining value to use for IV in next round
@@ -709,18 +709,18 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.EncryptDecrypt2, req)
         return self.processResponse(respBuf, EncryptDecrypt2Response)
     # EncryptDecrypt2()
-    
+
     def Hash(self, data, hashAlg, hierarchy):
         """ This command performs a hash operation on a data buffer and returns
         the results.
-        
+
         Args:
             data (bytes): Data to be hashed
             hashAlg (TPM_ALG_ID): Algorithm for the hash being computed shall
                 not be TPM_ALG_NULL
             hierarchy (TPM_HANDLE): Hierarchy to use for the ticket (TPM_RH_NULL
                 allowed)
-        
+
         Returns:
             outHash - Results
             validation - Ticket indicating that the sequence of octets used to
@@ -732,11 +732,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.Hash, req)
         return self.processResponse(respBuf, HashResponse)
     # Hash()
-    
+
     def HMAC(self, handle, buffer, hashAlg):
         """ This command performs an HMAC on the supplied data using the
         indicated hash algorithm.
-        
+
         Args:
             handle (TPM_HANDLE): Handle for the symmetric signing key providing
                 the HMAC key
@@ -744,7 +744,7 @@ class Tpm(TpmBase):
                 Auth Role: USER
             buffer (bytes): HMAC data
             hashAlg (TPM_ALG_ID): Algorithm to use for HMAC
-        
+
         Returns:
             outHMAC - The returned HMAC in a sized buffer
         """
@@ -753,11 +753,11 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, HMACResponse)
         return res.outHMAC if res else None
     # HMAC()
-    
+
     def MAC(self, handle, buffer, inScheme):
         """ This command performs an HMAC or a block cipher MAC on the supplied
         data using the indicated algorithm.
-        
+
         Args:
             handle (TPM_HANDLE): Handle for the symmetric signing key providing
                 the MAC key
@@ -765,7 +765,7 @@ class Tpm(TpmBase):
                 Auth Role: USER
             buffer (bytes): MAC data
             inScheme (TPM_ALG_ID): Algorithm to use for MAC
-        
+
         Returns:
             outMAC - The returned MAC in a sized buffer
         """
@@ -774,14 +774,14 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, MACResponse)
         return res.outMAC if res else None
     # MAC()
-    
+
     def GetRandom(self, bytesRequested):
         """ This command returns the next bytesRequested octets from the random
         number generator (RNG).
-        
+
         Args:
             bytesRequested (int): Number of octets to return
-        
+
         Returns:
             randomBytes - The random octets
         """
@@ -790,10 +790,10 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, GetRandomResponse)
         return res.randomBytes if res else None
     # GetRandom()
-    
+
     def StirRandom(self, inData):
         """ This command is used to add "additional information" to the RNG state.
-        
+
         Args:
             inData (bytes): Additional information
         """
@@ -801,19 +801,19 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.StirRandom, req)
         return self.processResponse(respBuf)
     # StirRandom()
-    
+
     def HMAC_Start(self, handle, auth, hashAlg):
         """ This command starts an HMAC sequence. The TPM will create and
         initialize an HMAC sequence structure, assign a handle to the sequence,
         and set the authValue of the sequence object to the value in auth.
-        
+
         Args:
             handle (TPM_HANDLE): Handle of an HMAC key
                 Auth Index: 1
                 Auth Role: USER
             auth (bytes): Authorization value for subsequent use of the sequence
             hashAlg (TPM_ALG_ID): The hash algorithm to use for the HMAC
-        
+
         Returns:
             handle - A handle to reference the sequence
         """
@@ -822,19 +822,19 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, HMAC_StartResponse)
         return res.handle if res else None
     # HMAC_Start()
-    
+
     def MAC_Start(self, handle, auth, inScheme):
         """ This command starts a MAC sequence. The TPM will create and
         initialize a MAC sequence structure, assign a handle to the sequence,
         and set the authValue of the sequence object to the value in auth.
-        
+
         Args:
             handle (TPM_HANDLE): Handle of a MAC key
                 Auth Index: 1
                 Auth Role: USER
             auth (bytes): Authorization value for subsequent use of the sequence
             inScheme (TPM_ALG_ID): The algorithm to use for the MAC
-        
+
         Returns:
             handle - A handle to reference the sequence
         """
@@ -843,19 +843,19 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, MAC_StartResponse)
         return res.handle if res else None
     # MAC_Start()
-    
+
     def HashSequenceStart(self, auth, hashAlg):
         """ This command starts a hash or an Event Sequence. If hashAlg is an
         implemented hash, then a hash sequence is started. If hashAlg is
         TPM_ALG_NULL, then an Event Sequence is started. If hashAlg is neither
         an implemented algorithm nor TPM_ALG_NULL, then the TPM shall return
         TPM_RC_HASH.
-        
+
         Args:
             auth (bytes): Authorization value for subsequent use of the sequence
             hashAlg (TPM_ALG_ID): The hash algorithm to use for the hash sequence
                 An Event Sequence starts if this is TPM_ALG_NULL.
-        
+
         Returns:
             handle - A handle to reference the sequence
         """
@@ -864,11 +864,11 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, HashSequenceStartResponse)
         return res.handle if res else None
     # HashSequenceStart()
-    
+
     def SequenceUpdate(self, sequenceHandle, buffer):
         """ This command is used to add data to a hash or HMAC sequence. The
         amount of data in buffer may be any size up to the limits of the TPM.
-        
+
         Args:
             sequenceHandle (TPM_HANDLE): Handle for the sequence object
                 Auth Index: 1
@@ -879,18 +879,18 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.SequenceUpdate, req)
         return self.processResponse(respBuf)
     # SequenceUpdate()
-    
+
     def SequenceComplete(self, sequenceHandle, buffer, hierarchy):
         """ This command adds the last part of data, if any, to a hash/HMAC
         sequence and returns the result.
-        
+
         Args:
             sequenceHandle (TPM_HANDLE): Authorization for the sequence
                 Auth Index: 1
                 Auth Role: USER
             buffer (bytes): Data to be added to the hash/HMAC
             hierarchy (TPM_HANDLE): Hierarchy of the ticket for a hash
-        
+
         Returns:
             result - The returned HMAC or digest in a sized buffer
             validation - Ticket indicating that the sequence of octets used to
@@ -901,7 +901,7 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.SequenceComplete, req)
         return self.processResponse(respBuf, SequenceCompleteResponse)
     # SequenceComplete()
-    
+
     def EventSequenceComplete(self, pcrHandle, sequenceHandle, buffer):
         """ This command adds the last part of data, if any, to an Event
         Sequence and returns the result in a digest list. If pcrHandle
@@ -909,7 +909,7 @@ class Tpm(TpmBase):
         processed in the same manner as the digest list input parameter to
         TPM2_PCR_Extend(). That is, if a bank contains a PCR associated with
         pcrHandle, it is extended with the associated digest value from the list.
-        
+
         Args:
             pcrHandle (TPM_HANDLE): PCR to be extended with the Event data
                 Auth Index: 1
@@ -918,7 +918,7 @@ class Tpm(TpmBase):
                 Auth Index: 2
                 Auth Role: USER
             buffer (bytes): Data to be added to the Event
-        
+
         Returns:
             results - List of digests computed for the PCR
         """
@@ -927,7 +927,7 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, EventSequenceCompleteResponse)
         return res.results if res else None
     # EventSequenceComplete()
-    
+
     def Certify(self, objectHandle, signHandle, qualifyingData, inScheme):
         """ The purpose of this command is to prove that an object with a
         specific Name is loaded in the TPM. By certifying that the object is
@@ -935,7 +935,7 @@ class Tpm(TpmBase):
         self-consistent and associated with a valid sensitive area. If a relying
         party has a public area that has the same Name as a Name certified with
         this command, then the values in that public area are correct.
-        
+
         Args:
             objectHandle (TPM_HANDLE): Handle of the object to be certified
                 Auth Index: 1
@@ -951,7 +951,7 @@ class Tpm(TpmBase):
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
-        
+
         Returns:
             certifyInfo - The structure that was signed
             signature - The asymmetric signature over certifyInfo using the key
@@ -961,13 +961,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.Certify, req)
         return self.processResponse(respBuf, CertifyResponse)
     # Certify()
-    
+
     def CertifyCreation(self, signHandle, objectHandle, qualifyingData, creationHash, inScheme, creationTicket):
         """ This command is used to prove the association between an object and
         its creation data. The TPM will validate that the ticket was produced by
         the TPM and that the ticket validates the association between a loaded
         public area and the provided hash of the creation data (creationHash).
-        
+
         Args:
             signHandle (TPM_HANDLE): Handle of the key that will sign the
                 attestation block
@@ -986,7 +986,7 @@ class Tpm(TpmBase):
                 TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             creationTicket (TPMT_TK_CREATION): Ticket produced by TPM2_Create()
                 or TPM2_CreatePrimary()
-        
+
         Returns:
             certifyInfo - The structure that was signed
             signature - The signature over certifyInfo
@@ -995,10 +995,10 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.CertifyCreation, req)
         return self.processResponse(respBuf, CertifyCreationResponse)
     # CertifyCreation()
-    
+
     def Quote(self, signHandle, qualifyingData, inScheme, PCRselect):
         """ This command is used to quote PCR values.
-        
+
         Args:
             signHandle (TPM_HANDLE): Handle of key that will perform signature
                 Auth Index: 1
@@ -1011,7 +1011,7 @@ class Tpm(TpmBase):
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             PCRselect (TPMS_PCR_SELECTION[]): PCR set to quote
-        
+
         Returns:
             quoted - The quoted information
             signature - The signature over quoted
@@ -1020,10 +1020,10 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.Quote, req)
         return self.processResponse(respBuf, QuoteResponse)
     # Quote()
-    
+
     def GetSessionAuditDigest(self, privacyAdminHandle, signHandle, sessionHandle, qualifyingData, inScheme):
         """ This command returns a digital signature of the audit session digest.
-        
+
         Args:
             privacyAdminHandle (TPM_HANDLE): Handle of the privacy administrator
                 (TPM_RH_ENDORSEMENT)
@@ -1041,7 +1041,7 @@ class Tpm(TpmBase):
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
-        
+
         Returns:
             auditInfo - The audit information that was signed
             signature - The signature over auditInfo
@@ -1050,13 +1050,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.GetSessionAuditDigest, req)
         return self.processResponse(respBuf, GetSessionAuditDigestResponse)
     # GetSessionAuditDigest()
-    
+
     def GetCommandAuditDigest(self, privacyHandle, signHandle, qualifyingData, inScheme):
         """ This command returns the current value of the command audit digest,
         a digest of the commands being audited, and the audit hash algorithm.
         These values are placed in an attestation structure and signed with the
         key referenced by signHandle.
-        
+
         Args:
             privacyHandle (TPM_HANDLE): Handle of the privacy administrator
                 (TPM_RH_ENDORSEMENT)
@@ -1072,7 +1072,7 @@ class Tpm(TpmBase):
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
-        
+
         Returns:
             auditInfo - The auditInfo that was signed
             signature - The signature over auditInfo
@@ -1081,10 +1081,10 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.GetCommandAuditDigest, req)
         return self.processResponse(respBuf, GetCommandAuditDigestResponse)
     # GetCommandAuditDigest()
-    
+
     def GetTime(self, privacyAdminHandle, signHandle, qualifyingData, inScheme):
         """ This command returns the current values of Time and Clock.
-        
+
         Args:
             privacyAdminHandle (TPM_HANDLE): Handle of the privacy administrator
                 (TPM_RH_ENDORSEMENT)
@@ -1101,7 +1101,7 @@ class Tpm(TpmBase):
                 TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
-        
+
         Returns:
             timeInfo - Standard TPM-generated attestation block
             signature - The signature over timeInfo
@@ -1110,7 +1110,7 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.GetTime, req)
         return self.processResponse(respBuf, GetTimeResponse)
     # GetTime()
-    
+
     def CertifyX509(self, objectHandle, signHandle, reserved, inScheme, partialCertificate):
         """ The purpose of this command is to generate an X.509 certificate that
         proves an object with a specific public key and attributes is loaded in
@@ -1119,7 +1119,7 @@ class Tpm(TpmBase):
         the attestation information in a DER-encoded X.509 certificate that is
         compliant with RFC5280 Internet X.509 Public Key Infrastructure
         Certificate and Certificate Revocation List (CRL) Profile.
-        
+
         Args:
             objectHandle (TPM_HANDLE): Handle of the object to be certified
                 Auth Index: 1
@@ -1136,7 +1136,7 @@ class Tpm(TpmBase):
                 TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
                 TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
             partialCertificate (bytes): A DER encoded partial certificate
-        
+
         Returns:
             addedToCertificate - A DER encoded SEQUENCE containing the DER
                                  encoded fields added to partialCertificate to
@@ -1148,14 +1148,14 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.CertifyX509, req)
         return self.processResponse(respBuf, CertifyX509Response)
     # CertifyX509()
-    
+
     def Commit(self, signHandle, P1, s2, y2):
         """ TPM2_Commit() performs the first part of an ECC anonymous signing
         operation. The TPM will perform the point multiplications on the
         provided points and return intermediate signing values. The signHandle
         parameter shall refer to an ECC key and the signing scheme must be
         anonymous (TPM_RC_SCHEME).
-        
+
         Args:
             signHandle (TPM_HANDLE): Handle of the key that will be used in the
                 signing operation
@@ -1164,7 +1164,7 @@ class Tpm(TpmBase):
             P1 (TPMS_ECC_POINT): A point (M) on the curve used by signHandle
             s2 (bytes): Octet array used to derive x-coordinate of a base point
             y2 (bytes): Y coordinate of the point associated with s2
-        
+
         Returns:
             K - ECC point K [ds](x2, y2)
             L - ECC point L [r](x2, y2)
@@ -1175,14 +1175,14 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.Commit, req)
         return self.processResponse(respBuf, CommitResponse)
     # Commit()
-    
+
     def EC_Ephemeral(self, curveID):
         """ TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase
         key exchange protocol.
-        
+
         Args:
             curveID (TPM_ECC_CURVE): The curve for the computed ephemeral point
-        
+
         Returns:
             Q - Ephemeral public key Q [r]G
             counter - Least-significant 16 bits of commitCount
@@ -1191,11 +1191,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.EC_Ephemeral, req)
         return self.processResponse(respBuf, EC_EphemeralResponse)
     # EC_Ephemeral()
-    
+
     def VerifySignature(self, keyHandle, digest, signature):
         """ This command uses loaded keys to validate a signature on a message
         with the message digest passed to the TPM.
-        
+
         Args:
             keyHandle (TPM_HANDLE): Handle of public key that will be used in
                 the validation
@@ -1206,7 +1206,7 @@ class Tpm(TpmBase):
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
                 TPMS_NULL_SIGNATURE.
-        
+
         Returns:
             validation - This ticket is produced by TPM2_VerifySignature(). This
                          formulation is used for multiple ticket uses. The
@@ -1219,11 +1219,11 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, VerifySignatureResponse)
         return res.validation if res else None
     # VerifySignature()
-    
+
     def Sign(self, keyHandle, digest, inScheme, validation):
         """ This command causes the TPM to sign an externally provided hash with
         the specified symmetric or asymmetric signing key.
-        
+
         Args:
             keyHandle (TPM_HANDLE): Handle of key that will perform signing
                 Auth Index: 1
@@ -1239,7 +1239,7 @@ class Tpm(TpmBase):
                 TPM
                 If keyHandle is not a restricted signing key, then this may be a
                 NULL Ticket with tag = TPM_ST_CHECKHASH.
-        
+
         Returns:
             signature - The signature
         """
@@ -1248,12 +1248,12 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, SignResponse)
         return res.signature if res else None
     # Sign()
-    
+
     def SetCommandCodeAuditStatus(self, auth, auditAlg, setList, clearList):
         """ This command may be used by the Privacy Administrator or platform to
         change the audit status of a command or to set the hash algorithm used
         for the audit digest, but not both at the same time.
-        
+
         Args:
             auth (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
@@ -1268,13 +1268,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.SetCommandCodeAuditStatus, req)
         return self.processResponse(respBuf)
     # SetCommandCodeAuditStatus()
-    
+
     def PCR_Extend(self, pcrHandle, digests):
         """ This command is used to cause an update to the indicated PCR. The
         digests parameter contains one or more tagged digest values identified
         by an algorithm ID. For each digest, the PCR associated with pcrHandle
         is Extended into the bank identified by the tag (hashAlg).
-        
+
         Args:
             pcrHandle (TPM_HANDLE): Handle of the PCR
                 Auth Handle: 1
@@ -1285,16 +1285,16 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PCR_Extend, req)
         return self.processResponse(respBuf)
     # PCR_Extend()
-    
+
     def PCR_Event(self, pcrHandle, eventData):
         """ This command is used to cause an update to the indicated PCR.
-        
+
         Args:
             pcrHandle (TPM_HANDLE): Handle of the PCR
                 Auth Handle: 1
                 Auth Role: USER
             eventData (bytes): Event data in sized buffer
-        
+
         Returns:
             digests - Table 80 shows the basic hash-agile structure used in this
                       specification. To handle hash agility, this structure uses
@@ -1306,13 +1306,13 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, PCR_EventResponse)
         return res.digests if res else None
     # PCR_Event()
-    
+
     def PCR_Read(self, pcrSelectionIn):
         """ This command returns the values of all PCR specified in pcrSelectionIn.
-        
+
         Args:
             pcrSelectionIn (TPMS_PCR_SELECTION[]): The selection of PCR to read
-        
+
         Returns:
             pcrUpdateCounter - The current value of the PCR update counter
             pcrSelectionOut - The PCR in the returned list
@@ -1323,17 +1323,17 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PCR_Read, req)
         return self.processResponse(respBuf, PCR_ReadResponse)
     # PCR_Read()
-    
+
     def PCR_Allocate(self, authHandle, pcrAllocation):
         """ This command is used to set the desired PCR allocation of PCR and
         algorithms. This command requires Platform Authorization.
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
                 Auth Role: USER
             pcrAllocation (TPMS_PCR_SELECTION[]): The requested allocation
-        
+
         Returns:
             allocationSuccess - YES if the allocation succeeded
             maxPCR - Maximum number of PCR that may be in a bank
@@ -1344,12 +1344,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PCR_Allocate, req)
         return self.processResponse(respBuf, PCR_AllocateResponse)
     # PCR_Allocate()
-    
+
     def PCR_SetAuthPolicy(self, authHandle, authPolicy, hashAlg, pcrNum):
         """ This command is used to associate a policy with a PCR or group of
         PCR. The policy determines the conditions under which a PCR may be
         extended or reset.
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
@@ -1362,10 +1362,10 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PCR_SetAuthPolicy, req)
         return self.processResponse(respBuf)
     # PCR_SetAuthPolicy()
-    
+
     def PCR_SetAuthValue(self, pcrHandle, auth):
         """ This command changes the authValue of a PCR or group of PCR.
-        
+
         Args:
             pcrHandle (TPM_HANDLE): Handle for a PCR that may have an
                 authorization value set
@@ -1377,13 +1377,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PCR_SetAuthValue, req)
         return self.processResponse(respBuf)
     # PCR_SetAuthValue()
-    
+
     def PCR_Reset(self, pcrHandle):
         """ If the attribute of a PCR allows the PCR to be reset and proper
         authorization is provided, then this command may be used to set the PCR
         in all banks to zero. The attributes of the PCR may restrict the
         locality that can perform the reset operation.
-        
+
         Args:
             pcrHandle (TPM_HANDLE): The PCR to reset
                 Auth Index: 1
@@ -1393,12 +1393,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PCR_Reset, req)
         return self.processResponse(respBuf)
     # PCR_Reset()
-    
+
     def PolicySigned(self, authObject, policySession, nonceTPM, cpHashA, policyRef, expiration, auth):
         """ This command includes a signed authorization in a policy. The
         command ties the policy to a signing key by including the Name of the
         signing key in the policyDigest
-        
+
         Args:
             authObject (TPM_HANDLE): Handle for a key that will validate the signature
                 Auth Index: None
@@ -1423,7 +1423,7 @@ class Tpm(TpmBase):
                 TPMS_SIGNATURE_ECDSA, TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2,
                 TPMS_SIGNATURE_ECSCHNORR, TPMT_HA, TPMS_SCHEME_HASH,
                 TPMS_NULL_SIGNATURE.
-        
+
         Returns:
             timeout - Implementation-specific time value, used to indicate to
                       the TPM when the ticket expires
@@ -1437,14 +1437,14 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicySigned, req)
         return self.processResponse(respBuf, PolicySignedResponse)
     # PolicySigned()
-    
+
     def PolicySecret(self, authHandle, policySession, nonceTPM, cpHashA, policyRef, expiration):
         """ This command includes a secret-based authorization to a policy. The
         caller proves knowledge of the secret value using an authorization
         session using the authValue associated with authHandle. A password
         session, an HMAC session, or a policy session containing
         TPM2_PolicyAuthValue() or TPM2_PolicyPassword() will satisfy this requirement.
-        
+
         Args:
             authHandle (TPM_HANDLE): Handle for an entity providing the authorization
                 Auth Index: 1
@@ -1465,7 +1465,7 @@ class Tpm(TpmBase):
             expiration (int): Time when authorization will expire, measured in
                 seconds from the time that nonceTPM was generated
                 If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
-        
+
         Returns:
             timeout - Implementation-specific time value used to indicate to the
                       TPM when the ticket expires
@@ -1477,12 +1477,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicySecret, req)
         return self.processResponse(respBuf, PolicySecretResponse)
     # PolicySecret()
-    
+
     def PolicyTicket(self, policySession, timeout, cpHashA, policyRef, authName, ticket):
         """ This command is similar to TPM2_PolicySigned() except that it takes
         a ticket instead of a signed authorization. The ticket represents a
         validated authorization that had an expiration time associated with it.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1502,14 +1502,14 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyTicket, req)
         return self.processResponse(respBuf)
     # PolicyTicket()
-    
+
     def PolicyOR(self, policySession, pHashList):
         """ This command allows options in authorizations without requiring that
         the TPM evaluate all of the options. If a policy may be satisfied by
         different sets of conditions, the TPM need only evaluate one set that
         satisfies the policy. This command will indicate that one of the
         required sets of conditions has been satisfied.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1519,13 +1519,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyOR, req)
         return self.processResponse(respBuf)
     # PolicyOR()
-    
+
     def PolicyPCR(self, policySession, pcrDigest, pcrs):
         """ This command is used to cause conditional gating of a policy based
         on PCR. This command together with TPM2_PolicyOR() allows one group of
         authorizations to occur when PCR are in one state and a different set of
         authorizations when the PCR are in a different state.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1537,11 +1537,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyPCR, req)
         return self.processResponse(respBuf)
     # PolicyPCR()
-    
+
     def PolicyLocality(self, policySession, locality):
         """ This command indicates that the authorization will be limited to a
         specific locality.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1551,13 +1551,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyLocality, req)
         return self.processResponse(respBuf)
     # PolicyLocality()
-    
+
     def PolicyNV(self, authHandle, nvIndex, policySession, operandB, offset, operation):
         """ This command is used to cause conditional gating of a policy based
         on the contents of an NV Index. It is an immediate assertion. The NV
         index is validated during the TPM2_PolicyNV() command, not when the
         session is used for authorization.
-        
+
         Args:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -1576,11 +1576,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyNV, req)
         return self.processResponse(respBuf)
     # PolicyNV()
-    
+
     def PolicyCounterTimer(self, policySession, operandB, offset, operation):
         """ This command is used to cause conditional gating of a policy based
         on the contents of the TPMS_TIME_INFO structure.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1593,11 +1593,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyCounterTimer, req)
         return self.processResponse(respBuf)
     # PolicyCounterTimer()
-    
+
     def PolicyCommandCode(self, policySession, code):
         """ This command indicates that the authorization will be limited to a
         specific command code.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1607,11 +1607,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyCommandCode, req)
         return self.processResponse(respBuf)
     # PolicyCommandCode()
-    
+
     def PolicyPhysicalPresence(self, policySession):
         """ This command indicates that physical presence will need to be
         asserted at the time the authorization is performed.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1620,11 +1620,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyPhysicalPresence, req)
         return self.processResponse(respBuf)
     # PolicyPhysicalPresence()
-    
+
     def PolicyCpHash(self, policySession, cpHashA):
         """ This command is used to allow a policy to be bound to a specific
         command and command parameters.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1634,13 +1634,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyCpHash, req)
         return self.processResponse(respBuf)
     # PolicyCpHash()
-    
+
     def PolicyNameHash(self, policySession, nameHash):
         """ This command allows a policy to be bound to a specific set of TPM
         entities without being bound to the parameters of the command. This is
         most useful for commands such as TPM2_Duplicate() and for
         TPM2_PCR_Event() when the referenced PCR requires a policy.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1650,11 +1650,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyNameHash, req)
         return self.processResponse(respBuf)
     # PolicyNameHash()
-    
+
     def PolicyDuplicationSelect(self, policySession, objectName, newParentName, includeObject):
         """ This command allows qualification of duplication to allow
         duplication to a selected new parent.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1667,13 +1667,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyDuplicationSelect, req)
         return self.processResponse(respBuf)
     # PolicyDuplicationSelect()
-    
+
     def PolicyAuthorize(self, policySession, approvedPolicy, policyRef, keySign, checkTicket):
         """ This command allows policies to change. If a policy were static,
         then it would be difficult to add users to a policy. This command lets a
         policy authority sign a new policy so that it may be used in an existing
         policy.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1687,11 +1687,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyAuthorize, req)
         return self.processResponse(respBuf)
     # PolicyAuthorize()
-    
+
     def PolicyAuthValue(self, policySession):
         """ This command allows a policy to be bound to the authorization value
         of the authorized entity.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1700,11 +1700,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyAuthValue, req)
         return self.processResponse(respBuf)
     # PolicyAuthValue()
-    
+
     def PolicyPassword(self, policySession):
         """ This command allows a policy to be bound to the authorization value
         of the authorized object.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1713,16 +1713,16 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyPassword, req)
         return self.processResponse(respBuf)
     # PolicyPassword()
-    
+
     def PolicyGetDigest(self, policySession):
         """ This command returns the current policyDigest of the session. This
         command allows the TPM to be used to perform the actions required to
         pre-compute the authPolicy for an object.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session
                 Auth Index: None
-        
+
         Returns:
             policyDigest - The current value of the policySessionpolicyDigest
         """
@@ -1731,12 +1731,12 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, PolicyGetDigestResponse)
         return res.policyDigest if res else None
     # PolicyGetDigest()
-    
+
     def PolicyNvWritten(self, policySession, writtenSet):
         """ This command allows a policy to be bound to the TPMA_NV_WRITTEN
         attributes. This is a deferred assertion. Values are stored in the
         policy session context and checked when the policy is used for authorization.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1747,12 +1747,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyNvWritten, req)
         return self.processResponse(respBuf)
     # PolicyNvWritten()
-    
+
     def PolicyTemplate(self, policySession, templateHash):
         """ This command allows a policy to be bound to a specific creation
         template. This is most useful for an object creation command such as
         TPM2_Create(), TPM2_CreatePrimary(), or TPM2_CreateLoaded().
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -1762,14 +1762,14 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyTemplate, req)
         return self.processResponse(respBuf)
     # PolicyTemplate()
-    
+
     def PolicyAuthorizeNV(self, authHandle, nvIndex, policySession):
         """ This command provides a capability that is the equivalent of a
         revocable policy. With TPM2_PolicyAuthorize(), the authorization ticket
         never expires, so the authorization may not be withdrawn. With this
         command, the approved policy is kept in an NV Index location so that the
         policy may be changed as needed to render the old policy unusable.
-        
+
         Args:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -1784,7 +1784,7 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PolicyAuthorizeNV, req)
         return self.processResponse(respBuf)
     # PolicyAuthorizeNV()
-    
+
     def CreatePrimary(self, primaryHandle, inSensitive, inPublic, outsideInfo, creationPCR):
         """ This command is used to create a Primary Object under one of the
         Primary Seeds or a Temporary Object under TPM_RH_NULL. The command uses
@@ -1792,7 +1792,7 @@ class Tpm(TpmBase):
         the unique field shall not be checked for consistency with the other
         object parameters. The command will create and load a Primary Object.
         The sensitive area is not returned.
-        
+
         Args:
             primaryHandle (TPM_HANDLE): TPM_RH_ENDORSEMENT, TPM_RH_OWNER,
                 TPM_RH_PLATFORM+{PP}, or TPM_RH_NULL
@@ -1806,7 +1806,7 @@ class Tpm(TpmBase):
                 this object and some object owner data
             creationPCR (TPMS_PCR_SELECTION[]): PCR that will be used in
                 creation data
-        
+
         Returns:
             handle - Handle of type TPM_HT_TRANSIENT for created Primary Object
             outPublic - The public portion of the created object
@@ -1820,12 +1820,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.CreatePrimary, req)
         return self.processResponse(respBuf, CreatePrimaryResponse)
     # CreatePrimary()
-    
+
     def HierarchyControl(self, authHandle, enable, state):
         """ This command enables and disables use of a hierarchy and its
         associated NV storage. The command allows phEnable, phEnableNV,
         shEnable, and ehEnable to be changed when the proper authorization is provided.
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_ENDORSEMENT, TPM_RH_OWNER or
                 TPM_RH_PLATFORM+{PP}
@@ -1841,7 +1841,7 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.HierarchyControl, req)
         return self.processResponse(respBuf)
     # HierarchyControl()
-    
+
     def SetPrimaryPolicy(self, authHandle, authPolicy, hashAlg):
         """ This command allows setting of the authorization policy for the
         lockout (lockoutPolicy), the platform hierarchy (platformPolicy), the
@@ -1849,7 +1849,7 @@ class Tpm(TpmBase):
         (endorsementPolicy). On TPMs implementing Authenticated Countdown Timers
         (ACT), this command may also be used to set the authorization policy for
         an ACT.
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT,
                 TPM_RH_OWNER, TPMI_RH_ACT or TPM_RH_PLATFORM+{PP}
@@ -1866,12 +1866,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.SetPrimaryPolicy, req)
         return self.processResponse(respBuf)
     # SetPrimaryPolicy()
-    
+
     def ChangePPS(self, authHandle):
         """ This replaces the current platform primary seed (PPS) with a value
         from the RNG and sets platformPolicy to the default initialization value
         (the Empty Buffer).
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
@@ -1881,7 +1881,7 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.ChangePPS, req)
         return self.processResponse(respBuf)
     # ChangePPS()
-    
+
     def ChangeEPS(self, authHandle):
         """ This replaces the current endorsement primary seed (EPS) with a
         value from the RNG and sets the Endorsement hierarchy controls to their
@@ -1890,7 +1890,7 @@ class Tpm(TpmBase):
         resident objects (transient or persistent) in the Endorsement hierarchy
         and not allow objects in the hierarchy associated with the previous EPS
         to be loaded.
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
@@ -1900,10 +1900,10 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.ChangeEPS, req)
         return self.processResponse(respBuf)
     # ChangeEPS()
-    
+
     def Clear(self, authHandle):
         """ This command removes all TPM context associated with a specific Owner.
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
@@ -1913,10 +1913,10 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.Clear, req)
         return self.processResponse(respBuf)
     # Clear()
-    
+
     def ClearControl(self, auth, disable):
         """ TPM2_ClearControl() disables and enables the execution of TPM2_Clear().
-        
+
         Args:
             auth (TPM_HANDLE): TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
@@ -1928,12 +1928,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.ClearControl, req)
         return self.processResponse(respBuf)
     # ClearControl()
-    
+
     def HierarchyChangeAuth(self, authHandle, newAuth):
         """ This command allows the authorization secret for a hierarchy or
         lockout to be changed using the current authorization value as the
         command authorization.
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT,
                 TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
@@ -1945,12 +1945,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.HierarchyChangeAuth, req)
         return self.processResponse(respBuf)
     # HierarchyChangeAuth()
-    
+
     def DictionaryAttackLockReset(self, lockHandle):
         """ This command cancels the effect of a TPM lockout due to a number of
         successive authorization failures. If this command is properly
         authorized, the lockout counter is set to zero.
-        
+
         Args:
             lockHandle (TPM_HANDLE): TPM_RH_LOCKOUT
                 Auth Index: 1
@@ -1960,10 +1960,10 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.DictionaryAttackLockReset, req)
         return self.processResponse(respBuf)
     # DictionaryAttackLockReset()
-    
+
     def DictionaryAttackParameters(self, lockHandle, newMaxTries, newRecoveryTime, lockoutRecovery):
         """ This command changes the lockout parameters.
-        
+
         Args:
             lockHandle (TPM_HANDLE): TPM_RH_LOCKOUT
                 Auth Index: 1
@@ -1981,11 +1981,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.DictionaryAttackParameters, req)
         return self.processResponse(respBuf)
     # DictionaryAttackParameters()
-    
+
     def PP_Commands(self, auth, setList, clearList):
         """ This command is used to determine which commands require assertion
         of Physical Presence (PP) in addition to platformAuth/platformPolicy.
-        
+
         Args:
             auth (TPM_HANDLE): TPM_RH_PLATFORM+PP
                 Auth Index: 1
@@ -1999,12 +1999,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.PP_Commands, req)
         return self.processResponse(respBuf)
     # PP_Commands()
-    
+
     def SetAlgorithmSet(self, authHandle, algorithmSet):
         """ This command allows the platform to change the set of algorithms
         that are used by the TPM. The algorithmSet setting is a vendor-dependent
         value.
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_PLATFORM
                 Auth Index: 1
@@ -2016,11 +2016,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.SetAlgorithmSet, req)
         return self.processResponse(respBuf)
     # SetAlgorithmSet()
-    
+
     def FieldUpgradeStart(self, authorization, keyHandle, fuDigest, manifestSignature):
         """ This command uses platformPolicy and a TPM Vendor Authorization Key
         to authorize a Field Upgrade Manifest.
-        
+
         Args:
             authorization (TPM_HANDLE): TPM_RH_PLATFORM+{PP}
                 Auth Index:1
@@ -2041,7 +2041,7 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.FieldUpgradeStart, req)
         return self.processResponse(respBuf)
     # FieldUpgradeStart()
-    
+
     def FieldUpgradeData(self, fuData):
         """ This command will take the actual field upgrade image to be
         installed on the TPM. The exact format of fuData is vendor-specific.
@@ -2049,10 +2049,10 @@ class Tpm(TpmBase):
         TPM2_FieldUpgradeStart(). If the TPM has not received a properly
         authorized TPM2_FieldUpgradeStart(), then the TPM shall return
         TPM_RC_FIELDUPGRADE.
-        
+
         Args:
             fuData (bytes): Field upgrade image data
-        
+
         Returns:
             nextDigest - Tagged digest of the next block
                          TPM_ALG_NULL if field update is complete
@@ -2062,16 +2062,16 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.FieldUpgradeData, req)
         return self.processResponse(respBuf, FieldUpgradeDataResponse)
     # FieldUpgradeData()
-    
+
     def FirmwareRead(self, sequenceNumber):
         """ This command is used to read a copy of the current firmware
         installed in the TPM.
-        
+
         Args:
             sequenceNumber (int): The number of previous calls to this command
                 in this sequence
                 set to 0 on the first call
-        
+
         Returns:
             fuData - Field upgrade image data
         """
@@ -2080,15 +2080,15 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, FirmwareReadResponse)
         return res.fuData if res else None
     # FirmwareRead()
-    
+
     def ContextSave(self, saveHandle):
         """ This command saves a session context, object context, or sequence
         object context outside the TPM.
-        
+
         Args:
             saveHandle (TPM_HANDLE): Handle of the resource to save
                 Auth Index: None
-        
+
         Returns:
             context - This structure is used in TPM2_ContextLoad() and
                       TPM2_ContextSave(). If the values of the TPMS_CONTEXT
@@ -2101,14 +2101,14 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, ContextSaveResponse)
         return res.context if res else None
     # ContextSave()
-    
+
     def ContextLoad(self, context):
         """ This command is used to reload a context that has been saved by
         TPM2_ContextSave().
-        
+
         Args:
             context (TPMS_CONTEXT): The context blob
-        
+
         Returns:
             handle - The handle assigned to the resource after it has been
                      successfully loaded
@@ -2118,11 +2118,11 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, ContextLoadResponse)
         return res.handle if res else None
     # ContextLoad()
-    
+
     def FlushContext(self, flushHandle):
         """ This command causes all context associated with a loaded object,
         sequence object, or session to be removed from TPM memory.
-        
+
         Args:
             flushHandle (TPM_HANDLE): The handle of the item to flush
                 NOTE This is a use of a handle as a parameter.
@@ -2131,11 +2131,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.FlushContext, req)
         return self.processResponse(respBuf)
     # FlushContext()
-    
+
     def EvictControl(self, auth, objectHandle, persistentHandle):
         """ This command allows certain Transient Objects to be made persistent
         or a persistent object to be evicted.
-        
+
         Args:
             auth (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
@@ -2151,11 +2151,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.EvictControl, req)
         return self.processResponse(respBuf)
     # EvictControl()
-    
+
     def ReadClock(self):
         """ This command reads the current TPMS_TIME_INFO structure that
         contains the current setting of Time, Clock, resetCount, and restartCount.
-        
+
         Returns:
             currentTime - This structure is used in, e.g., the TPM2_GetTime()
                           attestation and TPM2_ReadClock().
@@ -2165,14 +2165,14 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, ReadClockResponse)
         return res.currentTime if res else None
     # ReadClock()
-    
+
     def ClockSet(self, auth, newTime):
         """ This command is used to advance the value of the TPMs Clock. The
         command will fail if newTime is less than the current value of Clock or
         if the new time is greater than FFFF00000000000016. If both of these
         checks succeed, Clock is set to newTime. If either of these checks
         fails, the TPM shall return TPM_RC_VALUE and make no change to Clock.
-        
+
         Args:
             auth (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
@@ -2183,11 +2183,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.ClockSet, req)
         return self.processResponse(respBuf)
     # ClockSet()
-    
+
     def ClockRateAdjust(self, auth, rateAdjust):
         """ This command adjusts the rate of advance of Clock and Time to
         provide a better approximation to real time.
-        
+
         Args:
             auth (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Handle: 1
@@ -2198,17 +2198,17 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.ClockRateAdjust, req)
         return self.processResponse(respBuf)
     # ClockRateAdjust()
-    
+
     def GetCapability(self, capability, property, propertyCount):
         """ This command returns various information regarding the TPM and its
         current state.
-        
+
         Args:
             capability (TPM_CAP): Group selection; determines the format of the
                 response
             property (int): Further definition of information
             propertyCount (int): Number of properties of the indicated type to return
-        
+
         Returns:
             moreData - Flag to indicate if there are more values of this type
             capabilityData - The capability data
@@ -2217,11 +2217,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.GetCapability, req)
         return self.processResponse(respBuf, GetCapabilityResponse)
     # GetCapability()
-    
+
     def TestParms(self, parameters):
         """ This command is used to check to see if specific combinations of
         algorithm parameters are supported.
-        
+
         Args:
             parameters (TPMU_PUBLIC_PARMS): Algorithm parameters to be validated
                 One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS,
@@ -2231,13 +2231,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.TestParms, req)
         return self.processResponse(respBuf)
     # TestParms()
-    
+
     def NV_DefineSpace(self, authHandle, auth, publicInfo):
         """ This command defines the attributes of an NV Index and causes the
         TPM to reserve space to hold the data associated with the NV Index. If a
         definition already exists at the NV Index, the TPM will return
         TPM_RC_NV_DEFINED.
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
@@ -2249,10 +2249,10 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_DefineSpace, req)
         return self.processResponse(respBuf)
     # NV_DefineSpace()
-    
+
     def NV_UndefineSpace(self, authHandle, nvIndex):
         """ This command removes an Index from the TPM.
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
@@ -2264,11 +2264,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_UndefineSpace, req)
         return self.processResponse(respBuf)
     # NV_UndefineSpace()
-    
+
     def NV_UndefineSpaceSpecial(self, nvIndex, platform):
         """ This command allows removal of a platform-created NV Index that has
         TPMA_NV_POLICY_DELETE SET.
-        
+
         Args:
             nvIndex (TPM_HANDLE): Index to be deleted
                 Auth Index: 1
@@ -2281,16 +2281,16 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_UndefineSpaceSpecial, req)
         return self.processResponse(respBuf)
     # NV_UndefineSpaceSpecial()
-    
+
     def NV_ReadPublic(self, nvIndex):
         """ This command is used to read the public area and Name of an NV
         Index. The public area of an Index is not privacy-sensitive and no
         authorization is required to read this data.
-        
+
         Args:
             nvIndex (TPM_HANDLE): The NV Index
                 Auth Index: None
-        
+
         Returns:
             nvPublic - The public area of the NV Index
             nvName - The Name of the nvIndex
@@ -2299,11 +2299,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_ReadPublic, req)
         return self.processResponse(respBuf, NV_ReadPublicResponse)
     # NV_ReadPublic()
-    
+
     def NV_Write(self, authHandle, nvIndex, data, offset):
         """ This command writes a value to an area in NV memory that was
         previously defined by TPM2_NV_DefineSpace().
-        
+
         Args:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -2318,12 +2318,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_Write, req)
         return self.processResponse(respBuf)
     # NV_Write()
-    
+
     def NV_Increment(self, authHandle, nvIndex):
         """ This command is used to increment the value in an NV Index that has
         the TPM_NT_COUNTER attribute. The data value of the NV Index is
         incremented by one.
-        
+
         Args:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -2336,11 +2336,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_Increment, req)
         return self.processResponse(respBuf)
     # NV_Increment()
-    
+
     def NV_Extend(self, authHandle, nvIndex, data):
         """ This command extends a value to an area in NV memory that was
         previously defined by TPM2_NV_DefineSpace.
-        
+
         Args:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -2354,12 +2354,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_Extend, req)
         return self.processResponse(respBuf)
     # NV_Extend()
-    
+
     def NV_SetBits(self, authHandle, nvIndex, bits):
         """ This command is used to SET bits in an NV Index that was created as
         a bit field. Any number of bits from 0 to 64 may be SET. The contents of
         bits are ORed with the current contents of the NV Index.
-        
+
         Args:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -2374,12 +2374,12 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_SetBits, req)
         return self.processResponse(respBuf)
     # NV_SetBits()
-    
+
     def NV_WriteLock(self, authHandle, nvIndex):
         """ If the TPMA_NV_WRITEDEFINE or TPMA_NV_WRITE_STCLEAR attributes of an
         NV location are SET, then this command may be used to inhibit further
         writes of the NV Index.
-        
+
         Args:
             authHandle (TPM_HANDLE): Handle indicating the source of the
                 authorization value
@@ -2392,11 +2392,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_WriteLock, req)
         return self.processResponse(respBuf)
     # NV_WriteLock()
-    
+
     def NV_GlobalWriteLock(self, authHandle):
         """ The command will SET TPMA_NV_WRITELOCKED for all indexes that have
         their TPMA_NV_GLOBALLOCK attribute SET.
-        
+
         Args:
             authHandle (TPM_HANDLE): TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
                 Auth Index: 1
@@ -2406,11 +2406,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_GlobalWriteLock, req)
         return self.processResponse(respBuf)
     # NV_GlobalWriteLock()
-    
+
     def NV_Read(self, authHandle, nvIndex, size, offset):
         """ This command reads a value from an area in NV memory previously
         defined by TPM2_NV_DefineSpace().
-        
+
         Args:
             authHandle (TPM_HANDLE): The handle indicating the source of the
                 authorization value
@@ -2422,7 +2422,7 @@ class Tpm(TpmBase):
             offset (int): Octet offset into the NV area
                 This value shall be less than or equal to the size of the
                 nvIndex data.
-        
+
         Returns:
             data - The data read
         """
@@ -2431,12 +2431,12 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, NV_ReadResponse)
         return res.data if res else None
     # NV_Read()
-    
+
     def NV_ReadLock(self, authHandle, nvIndex):
         """ If TPMA_NV_READ_STCLEAR is SET in an Index, then this command may be
         used to prevent further reads of the NV Index until the next
         TPM2_Startup (TPM_SU_CLEAR).
-        
+
         Args:
             authHandle (TPM_HANDLE): The handle indicating the source of the
                 authorization value
@@ -2449,10 +2449,10 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_ReadLock, req)
         return self.processResponse(respBuf)
     # NV_ReadLock()
-    
+
     def NV_ChangeAuth(self, nvIndex, newAuth):
         """ This command allows the authorization secret for an NV Index to be changed.
-        
+
         Args:
             nvIndex (TPM_HANDLE): Handle of the entity
                 Auth Index: 1
@@ -2463,11 +2463,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_ChangeAuth, req)
         return self.processResponse(respBuf)
     # NV_ChangeAuth()
-    
+
     def NV_Certify(self, signHandle, authHandle, nvIndex, qualifyingData, inScheme, size, offset):
         """ The purpose of this command is to certify the contents of an NV
         Index or portion of an NV Index.
-        
+
         Args:
             signHandle (TPM_HANDLE): Handle of the key used to sign the
                 attestation structure
@@ -2490,7 +2490,7 @@ class Tpm(TpmBase):
             offset (int): Octet offset into the NV area
                 This value shall be less than or equal to the size of the
                 nvIndex data.
-        
+
         Returns:
             certifyInfo - The structure that was signed
             signature - The asymmetric signature over certifyInfo using the key
@@ -2500,17 +2500,17 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.NV_Certify, req)
         return self.processResponse(respBuf, NV_CertifyResponse)
     # NV_Certify()
-    
+
     def AC_GetCapability(self, ac, capability, count):
         """ The purpose of this command is to obtain information about an
         Attached Component referenced by an AC handle.
-        
+
         Args:
             ac (TPM_HANDLE): Handle indicating the Attached Component
                 Auth Index: None
             capability (TPM_AT): Starting info type
             count (int): Maximum number of values to return
-        
+
         Returns:
             moreData - Flag to indicate whether there are more values
             capabilitiesData - List of capabilities
@@ -2519,11 +2519,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.AC_GetCapability, req)
         return self.processResponse(respBuf, AC_GetCapabilityResponse)
     # AC_GetCapability()
-    
+
     def AC_Send(self, sendObject, authHandle, ac, acDataIn):
         """ The purpose of this command is to send (copy) a loaded object from
         the TPM to an Attached Component.
-        
+
         Args:
             sendObject (TPM_HANDLE): Handle of the object being sent to ac
                 Auth Index: 1
@@ -2536,7 +2536,7 @@ class Tpm(TpmBase):
                 the object will be sent
                 Auth Index: None
             acDataIn (bytes): Optional non sensitive information related to the object
-        
+
         Returns:
             acDataOut - May include AC specific data or information about an error.
         """
@@ -2545,13 +2545,13 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, AC_SendResponse)
         return res.acDataOut if res else None
     # AC_Send()
-    
+
     def Policy_AC_SendSelect(self, policySession, objectName, authHandleName, acName, includeObject):
         """ This command allows qualification of the sending (copying) of an
         Object to an Attached Component (AC). Qualification includes selection
         of the receiving AC and the method of authentication for the AC, and, in
         certain circumstances, the Object to be sent may be specified.
-        
+
         Args:
             policySession (TPM_HANDLE): Handle for the policy session being extended
                 Auth Index: None
@@ -2567,11 +2567,11 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.Policy_AC_SendSelect, req)
         return self.processResponse(respBuf)
     # Policy_AC_SendSelect()
-    
+
     def ACT_SetTimeout(self, actHandle, startTimeout):
         """ This command is used to set the time remaining before an
         Authenticated Countdown Timer (ACT) expires.
-        
+
         Args:
             actHandle (TPM_HANDLE): Handle of the selected ACT
                 Auth Index: 1
@@ -2582,13 +2582,13 @@ class Tpm(TpmBase):
         respBuf = self.dispatchCommand(TPM_CC.ACT_SetTimeout, req)
         return self.processResponse(respBuf)
     # ACT_SetTimeout()
-    
+
     def Vendor_TCG_Test(self, inputData):
         """ This is a placeholder to allow testing of the dispatch code.
-        
+
         Args:
             inputData (bytes): Dummy data
-        
+
         Returns:
             outputData - Dummy data
         """
@@ -2597,5 +2597,5 @@ class Tpm(TpmBase):
         res = self.processResponse(respBuf, Vendor_TCG_TestResponse)
         return res.outputData if res else None
     # Vendor_TCG_Test()
-    
+
 # class Tpm

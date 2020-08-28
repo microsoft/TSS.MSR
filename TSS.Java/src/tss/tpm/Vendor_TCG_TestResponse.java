@@ -12,35 +12,35 @@ public class Vendor_TCG_TestResponse extends RespStructure
 {
     /** Dummy data  */
     public byte[] outputData;
-    
+
     public Vendor_TCG_TestResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(outputData); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { outputData = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static Vendor_TCG_TestResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(Vendor_TCG_TestResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static Vendor_TCG_TestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static Vendor_TCG_TestResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(Vendor_TCG_TestResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

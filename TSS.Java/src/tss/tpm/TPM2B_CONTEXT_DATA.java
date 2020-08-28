@@ -11,38 +11,38 @@ import tss.*;
 public class TPM2B_CONTEXT_DATA extends TpmStructure
 {
     public TPMS_CONTEXT_DATA buffer;
-    
+
     public TPM2B_CONTEXT_DATA() {}
-    
+
     /** @param _buffer TBD  */
     public TPM2B_CONTEXT_DATA(TPMS_CONTEXT_DATA _buffer) { buffer = _buffer; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedObj(buffer); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.createSizedObj(TPMS_CONTEXT_DATA.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_CONTEXT_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_CONTEXT_DATA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_CONTEXT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_CONTEXT_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_CONTEXT_DATA.class);
     }
-    
+
     @Override
     public String toString()
     {

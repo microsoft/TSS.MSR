@@ -14,15 +14,15 @@ public class TssObject extends TpmStructure
 {
     /** Public part of key  */
     public TPMT_PUBLIC Public;
-    
+
     /** Sensitive part of key  */
     public TPMT_SENSITIVE Sensitive;
-    
+
     /** Private part is the encrypted sensitive part of key  */
     public TPM2B_PRIVATE Private;
-    
+
     public TssObject() {}
-    
+
     /** @param _Public Public part of key
      *  @param _Sensitive Sensitive part of key
      *  @param _Private Private part is the encrypted sensitive part of key
@@ -33,7 +33,7 @@ public class TssObject extends TpmStructure
         Sensitive = _Sensitive;
         Private = _Private;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -42,7 +42,7 @@ public class TssObject extends TpmStructure
         Sensitive.toTpm(buf);
         Private.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -51,25 +51,25 @@ public class TssObject extends TpmStructure
         Sensitive = TPMT_SENSITIVE.fromTpm(buf);
         Private = TPM2B_PRIVATE.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TssObject fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TssObject.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TssObject fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TssObject fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TssObject.class);
     }
-    
+
     @Override
     public String toString()
     {

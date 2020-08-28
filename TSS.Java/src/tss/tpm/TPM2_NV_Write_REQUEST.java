@@ -17,24 +17,24 @@ public class TPM2_NV_Write_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
-    
+
     /** The NV Index of the area to write
      *  Auth Index: None
      */
     public TPM_HANDLE nvIndex;
-    
+
     /** The data to write  */
     public byte[] data;
-    
+
     /** The octet offset into the NV Area  */
     public int offset;
-    
+
     public TPM2_NV_Write_REQUEST()
     {
         authHandle = new TPM_HANDLE();
         nvIndex = new TPM_HANDLE();
     }
-    
+
     /** @param _authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -50,7 +50,7 @@ public class TPM2_NV_Write_REQUEST extends ReqStructure
         data = _data;
         offset = _offset;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -58,7 +58,7 @@ public class TPM2_NV_Write_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(data);
         buf.writeShort(offset);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -66,25 +66,25 @@ public class TPM2_NV_Write_REQUEST extends ReqStructure
         data = buf.readSizedByteBuf();
         offset = buf.readShort();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_NV_Write_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_NV_Write_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_NV_Write_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_NV_Write_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_NV_Write_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

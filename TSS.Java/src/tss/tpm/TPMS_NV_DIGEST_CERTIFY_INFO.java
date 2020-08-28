@@ -14,12 +14,12 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
 {
     /** Name of the NV Index  */
     public byte[] indexName;
-    
+
     /** Hash of the contents of the index  */
     public byte[] nvDigest;
-    
+
     public TPMS_NV_DIGEST_CERTIFY_INFO() {}
-    
+
     /** @param _indexName Name of the NV Index
      *  @param _nvDigest Hash of the contents of the index
      */
@@ -28,10 +28,10 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         indexName = _indexName;
         nvDigest = _nvDigest;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_NV_DIGEST; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -39,7 +39,7 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         buf.writeSizedByteBuf(indexName);
         buf.writeSizedByteBuf(nvDigest);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -47,25 +47,25 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         indexName = buf.readSizedByteBuf();
         nvDigest = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_NV_DIGEST_CERTIFY_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_NV_DIGEST_CERTIFY_INFO.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_NV_DIGEST_CERTIFY_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_NV_DIGEST_CERTIFY_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_NV_DIGEST_CERTIFY_INFO.class);
     }
-    
+
     @Override
     public String toString()
     {

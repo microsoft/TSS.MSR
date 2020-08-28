@@ -11,31 +11,31 @@ import tss.*;
 public class TPMS_KEY_SCHEME_ECDH extends TPMS_SCHEME_HASH
 {
     public TPMS_KEY_SCHEME_ECDH() {}
-    
+
     /** @param _hashAlg The hash algorithm used to digest the message  */
     public TPMS_KEY_SCHEME_ECDH(TPM_ALG_ID _hashAlg) { super(_hashAlg); }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDH; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_KEY_SCHEME_ECDH fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_KEY_SCHEME_ECDH.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_KEY_SCHEME_ECDH fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_KEY_SCHEME_ECDH fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_KEY_SCHEME_ECDH.class);
     }
-    
+
     @Override
     public String toString()
     {

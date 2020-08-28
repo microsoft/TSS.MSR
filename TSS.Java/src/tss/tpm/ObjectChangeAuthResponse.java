@@ -12,35 +12,35 @@ public class ObjectChangeAuthResponse extends RespStructure
 {
     /** Private area containing the new authorization value  */
     public TPM2B_PRIVATE outPrivate;
-    
+
     public ObjectChangeAuthResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { outPrivate.toTpm(buf); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { outPrivate = TPM2B_PRIVATE.fromTpm(buf); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static ObjectChangeAuthResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ObjectChangeAuthResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ObjectChangeAuthResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static ObjectChangeAuthResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ObjectChangeAuthResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

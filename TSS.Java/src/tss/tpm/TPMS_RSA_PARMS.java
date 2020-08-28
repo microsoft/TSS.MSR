@@ -20,10 +20,10 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      *  if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
      */
     public TPMT_SYM_DEF_OBJECT symmetric;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID schemeScheme() { return scheme != null ? scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** Scheme.scheme shall be:
      *  for an unrestricted signing key, either TPM_ALG_RSAPSS TPM_ALG_RSASSA or TPM_ALG_NULL
      *  for a restricted signing key, either TPM_ALG_RSAPSS or TPM_ALG_RSASSA
@@ -38,17 +38,17 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      */
     public TPMU_ASYM_SCHEME scheme;
-    
+
     /** Number of bits in the public modulus  */
     public int keyBits;
-    
+
     /** The public exponent
      *  A prime number greater than 2.
      */
     public int exponent;
-    
+
     public TPMS_RSA_PARMS() {}
-    
+
     /** @param _symmetric For a restricted decryption key, shall be set to a supported symmetric
      *         algorithm, key size, and mode.
      *         if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
@@ -75,10 +75,10 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         keyBits = _keyBits;
         exponent = _exponent;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSA; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -89,7 +89,7 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         buf.writeShort(keyBits);
         buf.writeInt(exponent);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -101,25 +101,25 @@ public class TPMS_RSA_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         keyBits = buf.readShort();
         exponent = buf.readInt();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_RSA_PARMS fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_RSA_PARMS.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_RSA_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_RSA_PARMS fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_RSA_PARMS.class);
     }
-    
+
     @Override
     public String toString()
     {

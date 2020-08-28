@@ -17,24 +17,24 @@ public class TPMS_CONTEXT extends TpmStructure
      *  NOTE Transient object contexts and session contexts used different counters.
      */
     public long sequence;
-    
+
     /** A handle indicating if the context is a session, object, or sequence object (see Table
      *  222 Context Handle Values
      */
     public TPM_HANDLE savedHandle;
-    
+
     /** The hierarchy of the context  */
     public TPM_HANDLE hierarchy;
-    
+
     /** The context data and integrity HMAC  */
     public TPMS_CONTEXT_DATA contextBlob;
-    
+
     public TPMS_CONTEXT()
     {
         savedHandle = new TPM_HANDLE();
         hierarchy = new TPM_HANDLE();
     }
-    
+
     /** @param _sequence The sequence number of the context
      *         NOTE Transient object contexts and session contexts used different counters.
      *  @param _savedHandle A handle indicating if the context is a session, object, or sequence
@@ -49,7 +49,7 @@ public class TPMS_CONTEXT extends TpmStructure
         hierarchy = _hierarchy;
         contextBlob = _contextBlob;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -59,7 +59,7 @@ public class TPMS_CONTEXT extends TpmStructure
         hierarchy.toTpm(buf);
         buf.writeSizedObj(contextBlob);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -69,25 +69,25 @@ public class TPMS_CONTEXT extends TpmStructure
         hierarchy = TPM_HANDLE.fromTpm(buf);
         contextBlob = buf.createSizedObj(TPMS_CONTEXT_DATA.class);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_CONTEXT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_CONTEXT.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_CONTEXT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_CONTEXT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_CONTEXT.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -16,27 +16,27 @@ public class HashSequenceStartResponse extends RespStructure
 {
     /** A handle to reference the sequence  */
     public TPM_HANDLE handle;
-    
+
     public HashSequenceStartResponse() { handle = new TPM_HANDLE(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static HashSequenceStartResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(HashSequenceStartResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static HashSequenceStartResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static HashSequenceStartResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(HashSequenceStartResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

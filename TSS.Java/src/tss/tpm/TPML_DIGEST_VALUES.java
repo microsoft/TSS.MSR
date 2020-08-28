@@ -14,38 +14,38 @@ public class TPML_DIGEST_VALUES extends TpmStructure
 {
     /** A list of tagged digests  */
     public TPMT_HA[] digests;
-    
+
     public TPML_DIGEST_VALUES() {}
-    
+
     /** @param _digests A list of tagged digests  */
     public TPML_DIGEST_VALUES(TPMT_HA[] _digests) { digests = _digests; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(digests); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { digests = buf.readObjArr(TPMT_HA.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPML_DIGEST_VALUES fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_DIGEST_VALUES.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_DIGEST_VALUES fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPML_DIGEST_VALUES fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_DIGEST_VALUES.class);
     }
-    
+
     @Override
     public String toString()
     {

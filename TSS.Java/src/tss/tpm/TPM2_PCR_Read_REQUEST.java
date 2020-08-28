@@ -12,38 +12,38 @@ public class TPM2_PCR_Read_REQUEST extends ReqStructure
 {
     /** The selection of PCR to read  */
     public TPMS_PCR_SELECTION[] pcrSelectionIn;
-    
+
     public TPM2_PCR_Read_REQUEST() {}
-    
+
     /** @param _pcrSelectionIn The selection of PCR to read  */
     public TPM2_PCR_Read_REQUEST(TPMS_PCR_SELECTION[] _pcrSelectionIn) { pcrSelectionIn = _pcrSelectionIn; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(pcrSelectionIn); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { pcrSelectionIn = buf.readObjArr(TPMS_PCR_SELECTION.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PCR_Read_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PCR_Read_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PCR_Read_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PCR_Read_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PCR_Read_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

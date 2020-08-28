@@ -14,15 +14,15 @@ public class TPM2_LoadExternal_REQUEST extends ReqStructure
 {
     /** The sensitive portion of the object (optional)  */
     public TPMT_SENSITIVE inPrivate;
-    
+
     /** The public portion of the object  */
     public TPMT_PUBLIC inPublic;
-    
+
     /** Hierarchy with which the object area is associated  */
     public TPM_HANDLE hierarchy;
-    
+
     public TPM2_LoadExternal_REQUEST() { hierarchy = new TPM_HANDLE(); }
-    
+
     /** @param _inPrivate The sensitive portion of the object (optional)
      *  @param _inPublic The public portion of the object
      *  @param _hierarchy Hierarchy with which the object area is associated
@@ -33,7 +33,7 @@ public class TPM2_LoadExternal_REQUEST extends ReqStructure
         inPublic = _inPublic;
         hierarchy = _hierarchy;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -42,7 +42,7 @@ public class TPM2_LoadExternal_REQUEST extends ReqStructure
         buf.writeSizedObj(inPublic);
         hierarchy.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -51,25 +51,25 @@ public class TPM2_LoadExternal_REQUEST extends ReqStructure
         inPublic = buf.createSizedObj(TPMT_PUBLIC.class);
         hierarchy = TPM_HANDLE.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_LoadExternal_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_LoadExternal_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_LoadExternal_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_LoadExternal_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_LoadExternal_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

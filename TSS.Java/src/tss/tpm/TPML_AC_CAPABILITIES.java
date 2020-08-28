@@ -12,38 +12,38 @@ public class TPML_AC_CAPABILITIES extends TpmStructure
 {
     /** A list of AC values  */
     public TPMS_AC_OUTPUT[] acCapabilities;
-    
+
     public TPML_AC_CAPABILITIES() {}
-    
+
     /** @param _acCapabilities A list of AC values  */
     public TPML_AC_CAPABILITIES(TPMS_AC_OUTPUT[] _acCapabilities) { acCapabilities = _acCapabilities; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(acCapabilities); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { acCapabilities = buf.readObjArr(TPMS_AC_OUTPUT.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPML_AC_CAPABILITIES fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_AC_CAPABILITIES.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_AC_CAPABILITIES fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPML_AC_CAPABILITIES fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_AC_CAPABILITIES.class);
     }
-    
+
     @Override
     public String toString()
     {

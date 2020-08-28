@@ -18,17 +18,17 @@ public class TPM2_PolicyPCR_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     /** Expected digest value of the selected PCR using the hash algorithm of the session; may
      *  be zero length
      */
     public byte[] pcrDigest;
-    
+
     /** The PCR to include in the check digest  */
     public TPMS_PCR_SELECTION[] pcrs;
-    
+
     public TPM2_PolicyPCR_REQUEST() { policySession = new TPM_HANDLE(); }
-    
+
     /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param _pcrDigest Expected digest value of the selected PCR using the hash algorithm of
@@ -41,7 +41,7 @@ public class TPM2_PolicyPCR_REQUEST extends ReqStructure
         pcrDigest = _pcrDigest;
         pcrs = _pcrs;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -49,7 +49,7 @@ public class TPM2_PolicyPCR_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(pcrDigest);
         buf.writeObjArr(pcrs);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -57,25 +57,25 @@ public class TPM2_PolicyPCR_REQUEST extends ReqStructure
         pcrDigest = buf.readSizedByteBuf();
         pcrs = buf.readObjArr(TPMS_PCR_SELECTION.class);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyPCR_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyPCR_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyPCR_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyPCR_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyPCR_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

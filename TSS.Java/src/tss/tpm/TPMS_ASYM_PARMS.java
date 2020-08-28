@@ -19,10 +19,10 @@ public class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      *  TPM_ALG_NULL if not used.
      */
     public TPMT_SYM_DEF_OBJECT symmetric;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID schemeScheme() { return scheme != null ? scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** For a key with the sign attribute SET, a valid signing scheme for the key type
      *  for a key with the decrypt attribute SET, a valid key exchange protocol
      *  for a key with sign and decrypt attributes, shall be TPM_ALG_NULL
@@ -32,9 +32,9 @@ public class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      */
     public TPMU_ASYM_SCHEME scheme;
-    
+
     public TPMS_ASYM_PARMS() {}
-    
+
     /** @param _symmetric The companion symmetric algorithm for a restricted decryption key and
      *         shall be set to a supported symmetric algorithm
      *         This field is optional for keys that are not decryption keys and shall be set to
@@ -53,10 +53,10 @@ public class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         symmetric = _symmetric;
         scheme = _scheme;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ANY; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -65,7 +65,7 @@ public class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         buf.writeShort(scheme.GetUnionSelector());
         scheme.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -75,25 +75,25 @@ public class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         scheme = UnionFactory.create("TPMU_ASYM_SCHEME", schemeScheme);
         scheme.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ASYM_PARMS fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ASYM_PARMS.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ASYM_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ASYM_PARMS fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ASYM_PARMS.class);
     }
-    
+
     @Override
     public String toString()
     {

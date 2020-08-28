@@ -15,12 +15,12 @@ public class ECDH_KeyGenResponse extends RespStructure
 {
     /** Results of P h[de]Qs  */
     public TPMS_ECC_POINT zPoint;
-    
+
     /** Generated ephemeral public point (Qe)  */
     public TPMS_ECC_POINT pubPoint;
-    
+
     public ECDH_KeyGenResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -28,7 +28,7 @@ public class ECDH_KeyGenResponse extends RespStructure
         buf.writeSizedObj(zPoint);
         buf.writeSizedObj(pubPoint);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -36,25 +36,25 @@ public class ECDH_KeyGenResponse extends RespStructure
         zPoint = buf.createSizedObj(TPMS_ECC_POINT.class);
         pubPoint = buf.createSizedObj(TPMS_ECC_POINT.class);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static ECDH_KeyGenResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ECDH_KeyGenResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ECDH_KeyGenResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static ECDH_KeyGenResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ECDH_KeyGenResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -14,12 +14,12 @@ public class EncryptDecrypt2Response extends RespStructure
 {
     /** Encrypted or decrypted output  */
     public byte[] outData;
-    
+
     /** Chaining value to use for IV in next round  */
     public byte[] ivOut;
-    
+
     public EncryptDecrypt2Response() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -27,7 +27,7 @@ public class EncryptDecrypt2Response extends RespStructure
         buf.writeSizedByteBuf(outData);
         buf.writeSizedByteBuf(ivOut);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -35,25 +35,25 @@ public class EncryptDecrypt2Response extends RespStructure
         outData = buf.readSizedByteBuf();
         ivOut = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static EncryptDecrypt2Response fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(EncryptDecrypt2Response.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static EncryptDecrypt2Response fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static EncryptDecrypt2Response fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(EncryptDecrypt2Response.class);
     }
-    
+
     @Override
     public String toString()
     {

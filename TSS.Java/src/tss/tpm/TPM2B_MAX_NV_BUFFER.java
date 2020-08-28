@@ -16,40 +16,40 @@ public class TPM2B_MAX_NV_BUFFER extends TpmStructure
      *  NOTE MAX_NV_BUFFER_SIZE is TPM-dependent
      */
     public byte[] buffer;
-    
+
     public TPM2B_MAX_NV_BUFFER() {}
-    
+
     /** @param _buffer The operand
      *         NOTE MAX_NV_BUFFER_SIZE is TPM-dependent
      */
     public TPM2B_MAX_NV_BUFFER(byte[] _buffer) { buffer = _buffer; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_MAX_NV_BUFFER fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_MAX_NV_BUFFER.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_MAX_NV_BUFFER fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_MAX_NV_BUFFER fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_MAX_NV_BUFFER.class);
     }
-    
+
     @Override
     public String toString()
     {

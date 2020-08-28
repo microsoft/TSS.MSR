@@ -12,32 +12,32 @@ public class TPMS_NV_PUBLIC extends TpmStructure
 {
     /** The handle of the data area  */
     public TPM_HANDLE nvIndex;
-    
+
     /** Hash algorithm used to compute the name of the Index and used for the authPolicy. For
      *  an extend index, the hash algorithm used for the extend.
      */
     public TPM_ALG_ID nameAlg;
-    
+
     /** The Index attributes  */
     public TPMA_NV attributes;
-    
+
     /** Optional access policy for the Index
      *  The policy is computed using the nameAlg
      *  NOTE Shall be the Empty Policy if no authorization policy is present.
      */
     public byte[] authPolicy;
-    
+
     /** The size of the data area
      *  The maximum size is implementation-dependent. The minimum maximum size is platform-specific.
      */
     public int dataSize;
-    
+
     public TPMS_NV_PUBLIC()
     {
         nvIndex = new TPM_HANDLE();
         nameAlg = TPM_ALG_ID.NULL;
     }
-    
+
     /** @param _nvIndex The handle of the data area
      *  @param _nameAlg Hash algorithm used to compute the name of the Index and used for the
      *         authPolicy. For an extend index, the hash algorithm used for the extend.
@@ -57,7 +57,7 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         authPolicy = _authPolicy;
         dataSize = _dataSize;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -68,7 +68,7 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         buf.writeSizedByteBuf(authPolicy);
         buf.writeShort(dataSize);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -79,25 +79,25 @@ public class TPMS_NV_PUBLIC extends TpmStructure
         authPolicy = buf.readSizedByteBuf();
         dataSize = buf.readShort();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_NV_PUBLIC fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_NV_PUBLIC.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_NV_PUBLIC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_NV_PUBLIC fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_NV_PUBLIC.class);
     }
-    
+
     @Override
     public String toString()
     {

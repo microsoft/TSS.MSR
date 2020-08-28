@@ -12,21 +12,21 @@ public class TPMT_KDF_SCHEME extends TpmStructure
 {
     /** Scheme selector  */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** Scheme parameters
      *  One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
      *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
      */
     public TPMU_KDF_SCHEME details;
-    
+
     public TPMT_KDF_SCHEME() {}
-    
+
     /** @param _details Scheme parameters
      *         One of: TPMS_KDF_SCHEME_MGF1, TPMS_KDF_SCHEME_KDF1_SP800_56A, TPMS_KDF_SCHEME_KDF2,
      *         TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
      */
     public TPMT_KDF_SCHEME(TPMU_KDF_SCHEME _details) { details = _details; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -35,7 +35,7 @@ public class TPMT_KDF_SCHEME extends TpmStructure
         buf.writeShort(details.GetUnionSelector());
         details.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -44,25 +44,25 @@ public class TPMT_KDF_SCHEME extends TpmStructure
         details = UnionFactory.create("TPMU_KDF_SCHEME", scheme);
         details.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_KDF_SCHEME fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_KDF_SCHEME.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_KDF_SCHEME fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_KDF_SCHEME fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_KDF_SCHEME.class);
     }
-    
+
     @Override
     public String toString()
     {

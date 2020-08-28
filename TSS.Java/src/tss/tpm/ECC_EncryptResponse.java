@@ -12,15 +12,15 @@ public class ECC_EncryptResponse extends RespStructure
 {
     /** The public ephemeral key used for ECDH  */
     public TPMS_ECC_POINT C1;
-    
+
     /** The data block produced by the XOR process  */
     public byte[] C2;
-    
+
     /** The integrity value  */
     public byte[] C3;
-    
+
     public ECC_EncryptResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -29,7 +29,7 @@ public class ECC_EncryptResponse extends RespStructure
         buf.writeSizedByteBuf(C2);
         buf.writeSizedByteBuf(C3);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -38,25 +38,25 @@ public class ECC_EncryptResponse extends RespStructure
         C2 = buf.readSizedByteBuf();
         C3 = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static ECC_EncryptResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ECC_EncryptResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ECC_EncryptResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static ECC_EncryptResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ECC_EncryptResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

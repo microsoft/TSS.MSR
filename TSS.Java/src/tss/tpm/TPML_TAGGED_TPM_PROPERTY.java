@@ -14,41 +14,41 @@ public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPAB
 {
     /** An array of tagged properties  */
     public TPMS_TAGGED_PROPERTY[] tpmProperty;
-    
+
     public TPML_TAGGED_TPM_PROPERTY() {}
-    
+
     /** @param _tpmProperty An array of tagged properties  */
     public TPML_TAGGED_TPM_PROPERTY(TPMS_TAGGED_PROPERTY[] _tpmProperty) { tpmProperty = _tpmProperty; }
-    
+
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.TPM_PROPERTIES; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(tpmProperty); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { tpmProperty = buf.readObjArr(TPMS_TAGGED_PROPERTY.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPML_TAGGED_TPM_PROPERTY fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_TAGGED_TPM_PROPERTY.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_TAGGED_TPM_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPML_TAGGED_TPM_PROPERTY fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_TAGGED_TPM_PROPERTY.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -18,21 +18,21 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
      *  cipher and not TPM_ALG_NULL
      */
     public TPM_ALG_ID algorithm;
-    
+
     /** The key size  */
     public int keyBits;
-    
+
     /** Default mode
      *  When used in the parameter area of a parent object, this shall be TPM_ALG_CFB.
      */
     public TPM_ALG_ID mode;
-    
+
     public TPMT_SYM_DEF_OBJECT()
     {
         algorithm = TPM_ALG_ID.NULL;
         mode = TPM_ALG_ID.NULL;
     }
-    
+
     /** @param _algorithm Selects a symmetric block cipher
      *         When used in the parameter area of a parent object, this shall be a supported block
      *         cipher and not TPM_ALG_NULL
@@ -46,7 +46,7 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
         keyBits = _keyBits;
         mode = _mode;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -56,7 +56,7 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
         buf.writeShort(keyBits);
         mode.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -66,25 +66,25 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
         keyBits = buf.readShort();
         mode = TPM_ALG_ID.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_SYM_DEF_OBJECT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_SYM_DEF_OBJECT.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_SYM_DEF_OBJECT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_SYM_DEF_OBJECT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_SYM_DEF_OBJECT.class);
     }
-    
+
     @Override
     public String toString()
     {
@@ -101,7 +101,7 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
         _p.add(d, "int", "keyBits", keyBits);
         _p.add(d, "TPM_ALG_ID", "mode", mode);
     }
-    
+
     /** @deprecated Use default constructor instead */
 
     @Deprecated

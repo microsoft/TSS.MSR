@@ -21,9 +21,9 @@ public final class TPM_AE extends TpmEnum<TPM_AE>
          */
         NONE
     }
-    
+
     private static ValueMap<TPM_AE> _ValueMap = new ValueMap<TPM_AE>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_AE
         NONE = new TPM_AE(0x00000000, _N.NONE);

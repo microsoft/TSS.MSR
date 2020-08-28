@@ -17,32 +17,32 @@ public class TPM2_ECDH_KeyGen_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE keyHandle;
-    
+
     public TPM2_ECDH_KeyGen_REQUEST() { keyHandle = new TPM_HANDLE(); }
-    
+
     /** @param _keyHandle Handle of a loaded ECC key public area.
      *         Auth Index: None
      */
     public TPM2_ECDH_KeyGen_REQUEST(TPM_HANDLE _keyHandle) { keyHandle = _keyHandle; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ECDH_KeyGen_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ECDH_KeyGen_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ECDH_KeyGen_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ECDH_KeyGen_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ECDH_KeyGen_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

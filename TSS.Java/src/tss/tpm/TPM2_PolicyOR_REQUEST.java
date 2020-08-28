@@ -18,12 +18,12 @@ public class TPM2_PolicyOR_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     /** The list of hashes to check for a match  */
     public TPM2B_DIGEST[] pHashList;
-    
+
     public TPM2_PolicyOR_REQUEST() { policySession = new TPM_HANDLE(); }
-    
+
     /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param _pHashList The list of hashes to check for a match
@@ -33,33 +33,33 @@ public class TPM2_PolicyOR_REQUEST extends ReqStructure
         policySession = _policySession;
         pHashList = _pHashList;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(pHashList); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { pHashList = buf.readObjArr(TPM2B_DIGEST.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyOR_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyOR_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyOR_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyOR_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyOR_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

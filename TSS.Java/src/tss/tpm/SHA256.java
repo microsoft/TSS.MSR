@@ -18,13 +18,13 @@ public final class SHA256 extends TpmEnum<SHA256>
     public enum _N {
         /** Size of digest  */
         DIGEST_SIZE, 
-        
+
         /** Size of hash block  */
         BLOCK_SIZE
     }
-    
+
     private static ValueMap<SHA256> _ValueMap = new ValueMap<SHA256>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final SHA256
         DIGEST_SIZE = new SHA256(32, _N.DIGEST_SIZE),

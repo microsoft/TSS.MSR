@@ -20,23 +20,23 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
-    
+
     /** An authorization policy digest; may be the Empty Buffer
      *  If hashAlg is TPM_ALG_NULL, then this shall be an Empty Buffer.
      */
     public byte[] authPolicy;
-    
+
     /** The hash algorithm to use for the policy
      *  If the authPolicy is an Empty Buffer, then this field shall be TPM_ALG_NULL.
      */
     public TPM_ALG_ID hashAlg;
-    
+
     public TPM2_SetPrimaryPolicy_REQUEST()
     {
         authHandle = new TPM_HANDLE();
         hashAlg = TPM_ALG_ID.NULL;
     }
-    
+
     /** @param _authHandle TPM_RH_LOCKOUT, TPM_RH_ENDORSEMENT, TPM_RH_OWNER, TPMI_RH_ACT or
      *         TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
@@ -52,7 +52,7 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends ReqStructure
         authPolicy = _authPolicy;
         hashAlg = _hashAlg;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -60,7 +60,7 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(authPolicy);
         hashAlg.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -68,25 +68,25 @@ public class TPM2_SetPrimaryPolicy_REQUEST extends ReqStructure
         authPolicy = buf.readSizedByteBuf();
         hashAlg = TPM_ALG_ID.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_SetPrimaryPolicy_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_SetPrimaryPolicy_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_SetPrimaryPolicy_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_SetPrimaryPolicy_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_SetPrimaryPolicy_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

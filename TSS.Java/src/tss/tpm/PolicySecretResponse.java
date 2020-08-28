@@ -16,14 +16,14 @@ public class PolicySecretResponse extends RespStructure
 {
     /** Implementation-specific time value used to indicate to the TPM when the ticket expires  */
     public byte[] timeout;
-    
+
     /** Produced if the command succeeds and expiration in the command was non-zero ( See
      *  23.2.5). This ticket will use the TPMT_ST_AUTH_SECRET structure tag
      */
     public TPMT_TK_AUTH policyTicket;
-    
+
     public PolicySecretResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -31,7 +31,7 @@ public class PolicySecretResponse extends RespStructure
         buf.writeSizedByteBuf(timeout);
         policyTicket.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -39,25 +39,25 @@ public class PolicySecretResponse extends RespStructure
         timeout = buf.readSizedByteBuf();
         policyTicket = TPMT_TK_AUTH.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static PolicySecretResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(PolicySecretResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static PolicySecretResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static PolicySecretResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(PolicySecretResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

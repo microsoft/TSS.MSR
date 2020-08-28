@@ -22,19 +22,19 @@ public final class TPM_AT extends TpmEnum<TPM_AT>
          *  outputData is not meaningful
          */
         ANY, 
-        
+
         /** Indicates a TCG defined, device-specific error  */
         ERROR, 
-        
+
         /** Indicates the most significant 32 bits of a pairing value for the AC  */
         PV1, 
-        
+
         /** Value added to a TPM_AT to indicate a vendor-specific tag value  */
         VEND
     }
-    
+
     private static ValueMap<TPM_AT> _ValueMap = new ValueMap<TPM_AT>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_AT
         ANY = new TPM_AT(0x00000000, _N.ANY),

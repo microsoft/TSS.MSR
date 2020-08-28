@@ -17,19 +17,19 @@ public class TPM2_MAC_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE handle;
-    
+
     /** MAC data  */
     public byte[] buffer;
-    
+
     /** Algorithm to use for MAC  */
     public TPM_ALG_ID inScheme;
-    
+
     public TPM2_MAC_REQUEST()
     {
         handle = new TPM_HANDLE();
         inScheme = TPM_ALG_ID.NULL;
     }
-    
+
     /** @param _handle Handle for the symmetric signing key providing the MAC key
      *         Auth Index: 1
      *         Auth Role: USER
@@ -42,7 +42,7 @@ public class TPM2_MAC_REQUEST extends ReqStructure
         buffer = _buffer;
         inScheme = _inScheme;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -50,7 +50,7 @@ public class TPM2_MAC_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(buffer);
         inScheme.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -58,25 +58,25 @@ public class TPM2_MAC_REQUEST extends ReqStructure
         buffer = buf.readSizedByteBuf();
         inScheme = TPM_ALG_ID.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_MAC_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_MAC_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_MAC_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_MAC_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_MAC_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

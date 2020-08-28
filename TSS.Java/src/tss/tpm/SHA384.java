@@ -18,13 +18,13 @@ public final class SHA384 extends TpmEnum<SHA384>
     public enum _N {
         /** Size of digest in octets  */
         DIGEST_SIZE, 
-        
+
         /** Size of hash block in octets  */
         BLOCK_SIZE
     }
-    
+
     private static ValueMap<SHA384> _ValueMap = new ValueMap<SHA384>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final SHA384
         DIGEST_SIZE = new SHA384(48, _N.DIGEST_SIZE),

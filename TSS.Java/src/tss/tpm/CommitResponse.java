@@ -16,18 +16,18 @@ public class CommitResponse extends RespStructure
 {
     /** ECC point K [ds](x2, y2)  */
     public TPMS_ECC_POINT K;
-    
+
     /** ECC point L [r](x2, y2)  */
     public TPMS_ECC_POINT L;
-    
+
     /** ECC point E [r]P1  */
     public TPMS_ECC_POINT E;
-    
+
     /** Least-significant 16 bits of commitCount  */
     public int counter;
-    
+
     public CommitResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -37,7 +37,7 @@ public class CommitResponse extends RespStructure
         buf.writeSizedObj(E);
         buf.writeShort(counter);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -47,25 +47,25 @@ public class CommitResponse extends RespStructure
         E = buf.createSizedObj(TPMS_ECC_POINT.class);
         counter = buf.readShort();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static CommitResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(CommitResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static CommitResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static CommitResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(CommitResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

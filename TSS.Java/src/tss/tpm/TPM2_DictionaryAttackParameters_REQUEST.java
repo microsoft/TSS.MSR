@@ -15,22 +15,22 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE lockHandle;
-    
+
     /** Count of authorization failures before the lockout is imposed  */
     public int newMaxTries;
-    
+
     /** Time in seconds before the authorization failure count is automatically decremented
      *  A value of zero indicates that DA protection is disabled.
      */
     public int newRecoveryTime;
-    
+
     /** Time in seconds after a lockoutAuth failure before use of lockoutAuth is allowed
      *  A value of zero indicates that a reboot is required.
      */
     public int lockoutRecovery;
-    
+
     public TPM2_DictionaryAttackParameters_REQUEST() { lockHandle = new TPM_HANDLE(); }
-    
+
     /** @param _lockHandle TPM_RH_LOCKOUT
      *         Auth Index: 1
      *         Auth Role: USER
@@ -49,7 +49,7 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends ReqStructure
         newRecoveryTime = _newRecoveryTime;
         lockoutRecovery = _lockoutRecovery;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -58,7 +58,7 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends ReqStructure
         buf.writeInt(newRecoveryTime);
         buf.writeInt(lockoutRecovery);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -67,25 +67,25 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends ReqStructure
         newRecoveryTime = buf.readInt();
         lockoutRecovery = buf.readInt();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_DictionaryAttackParameters_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_DictionaryAttackParameters_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_DictionaryAttackParameters_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_DictionaryAttackParameters_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_DictionaryAttackParameters_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

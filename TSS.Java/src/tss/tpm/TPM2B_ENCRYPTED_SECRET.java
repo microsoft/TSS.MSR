@@ -12,38 +12,38 @@ public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
 {
     /** Secret  */
     public byte[] secret;
-    
+
     public TPM2B_ENCRYPTED_SECRET() {}
-    
+
     /** @param _secret Secret  */
     public TPM2B_ENCRYPTED_SECRET(byte[] _secret) { secret = _secret; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(secret); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { secret = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_ENCRYPTED_SECRET fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_ENCRYPTED_SECRET.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_ENCRYPTED_SECRET fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_ENCRYPTED_SECRET fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_ENCRYPTED_SECRET.class);
     }
-    
+
     @Override
     public String toString()
     {

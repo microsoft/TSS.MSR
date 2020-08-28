@@ -18,22 +18,22 @@ public final class TPM_SPEC extends TpmEnum<TPM_SPEC>
     public enum _N {
         /** ASCII 2.0 with null terminator  */
         FAMILY, 
-        
+
         /** The level number for the specification  */
         LEVEL, 
-        
+
         /** The version number of the spec (001.62 * 100)  */
         VERSION, 
-        
+
         /** The year of the version  */
         YEAR, 
-        
+
         /** The day of the year (December 26)  */
         DAY_OF_YEAR
     }
-    
+
     private static ValueMap<TPM_SPEC> _ValueMap = new ValueMap<TPM_SPEC>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_SPEC
         FAMILY = new TPM_SPEC(0x322E3000, _N.FAMILY),

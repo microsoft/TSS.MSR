@@ -14,12 +14,12 @@ public class TPMS_ALG_PROPERTY extends TpmStructure
 {
     /** An algorithm identifier  */
     public TPM_ALG_ID alg;
-    
+
     /** The attributes of the algorithm  */
     public TPMA_ALGORITHM algProperties;
-    
+
     public TPMS_ALG_PROPERTY() { alg = TPM_ALG_ID.NULL; }
-    
+
     /** @param _alg An algorithm identifier
      *  @param _algProperties The attributes of the algorithm
      */
@@ -28,7 +28,7 @@ public class TPMS_ALG_PROPERTY extends TpmStructure
         alg = _alg;
         algProperties = _algProperties;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -36,7 +36,7 @@ public class TPMS_ALG_PROPERTY extends TpmStructure
         alg.toTpm(buf);
         algProperties.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -44,25 +44,25 @@ public class TPMS_ALG_PROPERTY extends TpmStructure
         alg = TPM_ALG_ID.fromTpm(buf);
         algProperties = TPMA_ALGORITHM.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ALG_PROPERTY fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ALG_PROPERTY.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ALG_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ALG_PROPERTY fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ALG_PROPERTY.class);
     }
-    
+
     @Override
     public String toString()
     {

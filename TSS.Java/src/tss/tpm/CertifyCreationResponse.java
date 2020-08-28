@@ -16,19 +16,19 @@ public class CertifyCreationResponse extends RespStructure
 {
     /** The structure that was signed  */
     public TPMS_ATTEST certifyInfo;
-    
+
     /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** The signature over certifyInfo
      *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
      *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
      */
     public TPMU_SIGNATURE signature;
-    
+
     public CertifyCreationResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -37,7 +37,7 @@ public class CertifyCreationResponse extends RespStructure
         buf.writeShort(signature.GetUnionSelector());
         signature.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -47,25 +47,25 @@ public class CertifyCreationResponse extends RespStructure
         signature = UnionFactory.create("TPMU_SIGNATURE", signatureSigAlg);
         signature.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static CertifyCreationResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(CertifyCreationResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static CertifyCreationResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static CertifyCreationResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(CertifyCreationResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

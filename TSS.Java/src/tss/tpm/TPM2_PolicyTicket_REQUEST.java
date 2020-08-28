@@ -17,30 +17,30 @@ public class TPM2_PolicyTicket_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     /** Time when authorization will expire
      *  The contents are TPM specific. This shall be the value returned when ticket was produced.
      */
     public byte[] timeout;
-    
+
     /** Digest of the command parameters to which this authorization is limited
      *  If it is not limited, the parameter will be the Empty Buffer.
      */
     public byte[] cpHashA;
-    
+
     /** Reference to a qualifier for the policy may be the Empty Buffer  */
     public byte[] policyRef;
-    
+
     /** Name of the object that provided the authorization  */
     public byte[] authName;
-    
+
     /** An authorization ticket returned by the TPM in response to a TPM2_PolicySigned() or
      *  TPM2_PolicySecret()
      */
     public TPMT_TK_AUTH ticket;
-    
+
     public TPM2_PolicyTicket_REQUEST() { policySession = new TPM_HANDLE(); }
-    
+
     /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param _timeout Time when authorization will expire
@@ -62,7 +62,7 @@ public class TPM2_PolicyTicket_REQUEST extends ReqStructure
         authName = _authName;
         ticket = _ticket;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -73,7 +73,7 @@ public class TPM2_PolicyTicket_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(authName);
         ticket.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -84,25 +84,25 @@ public class TPM2_PolicyTicket_REQUEST extends ReqStructure
         authName = buf.readSizedByteBuf();
         ticket = TPMT_TK_AUTH.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyTicket_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyTicket_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyTicket_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyTicket_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyTicket_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

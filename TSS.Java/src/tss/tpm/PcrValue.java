@@ -12,12 +12,12 @@ public class PcrValue extends TpmStructure
 {
     /** PCR Index  */
     public int index;
-    
+
     /** PCR Value  */
     public TPMT_HA value;
-    
+
     public PcrValue() {}
-    
+
     /** @param _index PCR Index
      *  @param _value PCR Value
      */
@@ -26,7 +26,7 @@ public class PcrValue extends TpmStructure
         index = _index;
         value = _value;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -34,7 +34,7 @@ public class PcrValue extends TpmStructure
         buf.writeInt(index);
         value.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -42,25 +42,25 @@ public class PcrValue extends TpmStructure
         index = buf.readInt();
         value = TPMT_HA.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static PcrValue fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(PcrValue.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static PcrValue fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static PcrValue fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(PcrValue.class);
     }
-    
+
     @Override
     public String toString()
     {

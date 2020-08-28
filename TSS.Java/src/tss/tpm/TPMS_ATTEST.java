@@ -14,35 +14,35 @@ public class TPMS_ATTEST extends TpmStructure
 {
     /** The indication that this structure was created by a TPM (always TPM_GENERATED_VALUE)  */
     public TPM_GENERATED magic;
-    
+
     /** Type of the attestation structure  */
     public TPM_ST type() { return attested.GetUnionSelector(); }
-    
+
     /** Qualified Name of the signing key  */
     public byte[] qualifiedSigner;
-    
+
     /** External information supplied by caller
      *  NOTE A TPM2B_DATA structure provides room for a digest and a method indicator to
      *  indicate the components of the digest. The definition of this method indicator is
      *  outside the scope of this specification.
      */
     public byte[] extraData;
-    
+
     /** Clock, resetCount, restartCount, and Safe  */
     public TPMS_CLOCK_INFO clockInfo;
-    
+
     /** TPM-vendor-specific value identifying the version number of the firmware  */
     public long firmwareVersion;
-    
+
     /** The type-specific attestation information
      *  One of: TPMS_CERTIFY_INFO, TPMS_CREATION_INFO, TPMS_QUOTE_INFO,
      *  TPMS_COMMAND_AUDIT_INFO, TPMS_SESSION_AUDIT_INFO, TPMS_TIME_ATTEST_INFO,
      *  TPMS_NV_CERTIFY_INFO, TPMS_NV_DIGEST_CERTIFY_INFO.
      */
     public TPMU_ATTEST attested;
-    
+
     public TPMS_ATTEST() {}
-    
+
     /** @param _magic The indication that this structure was created by a TPM (always
      *  TPM_GENERATED_VALUE)
      *  @param _qualifiedSigner Qualified Name of the signing key
@@ -67,7 +67,7 @@ public class TPMS_ATTEST extends TpmStructure
         firmwareVersion = _firmwareVersion;
         attested = _attested;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -80,7 +80,7 @@ public class TPMS_ATTEST extends TpmStructure
         buf.writeInt64(firmwareVersion);
         attested.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -94,25 +94,25 @@ public class TPMS_ATTEST extends TpmStructure
         attested = UnionFactory.create("TPMU_ATTEST", type);
         attested.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ATTEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ATTEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ATTEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ATTEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ATTEST.class);
     }
-    
+
     @Override
     public String toString()
     {

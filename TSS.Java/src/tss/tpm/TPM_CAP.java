@@ -19,48 +19,48 @@ public final class TPM_CAP extends TpmEnum<TPM_CAP>
      */
     public enum _N {
         FIRST, 
-        
+
         /** TPML_ALG_PROPERTY  */
         ALGS, 
-        
+
         /** TPML_HANDLE  */
         HANDLES, 
-        
+
         /** TPML_CCA  */
         COMMANDS, 
-        
+
         /** TPML_CC  */
         PP_COMMANDS, 
-        
+
         /** TPML_CC  */
         AUDIT_COMMANDS, 
-        
+
         /** TPML_PCR_SELECTION  */
         PCRS, 
-        
+
         /** TPML_TAGGED_TPM_PROPERTY  */
         TPM_PROPERTIES, 
-        
+
         /** TPML_TAGGED_PCR_PROPERTY  */
         PCR_PROPERTIES, 
-        
+
         /** TPML_ECC_CURVE  */
         ECC_CURVES, 
-        
+
         /** TPML_TAGGED_POLICY  */
         AUTH_POLICIES, 
-        
+
         /** TPML_ACT_DATA  */
         ACT, 
-        
+
         LAST, 
-        
+
         /** Manufacturer-specific values  */
         VENDOR_PROPERTY
     }
-    
+
     private static ValueMap<TPM_CAP> _ValueMap = new ValueMap<TPM_CAP>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_CAP
         FIRST = new TPM_CAP(0x00000000, _N.FIRST),

@@ -12,43 +12,43 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
 {
     /** Symmetric data for a created object or the label and context for a derived object  */
     public byte[] buffer;
-    
+
     public TPM2B_SENSITIVE_DATA() {}
-    
+
     /** @param _buffer Symmetric data for a created object or the label and context for a
      *  derived object
      */
     public TPM2B_SENSITIVE_DATA(byte[] _buffer) { buffer = _buffer; }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KEYEDHASH; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_SENSITIVE_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_SENSITIVE_DATA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_SENSITIVE_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_SENSITIVE_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_SENSITIVE_DATA.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -16,35 +16,35 @@ public class RSA_EncryptResponse extends RespStructure
 {
     /** Encrypted output  */
     public byte[] outData;
-    
+
     public RSA_EncryptResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(outData); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { outData = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static RSA_EncryptResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(RSA_EncryptResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static RSA_EncryptResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static RSA_EncryptResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(RSA_EncryptResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

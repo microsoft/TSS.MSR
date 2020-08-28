@@ -15,26 +15,26 @@ public class TPM2_NV_Read_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
-    
+
     /** The NV Index to be read
      *  Auth Index: None
      */
     public TPM_HANDLE nvIndex;
-    
+
     /** Number of octets to read  */
     public int size;
-    
+
     /** Octet offset into the NV area
      *  This value shall be less than or equal to the size of the nvIndex data.
      */
     public int offset;
-    
+
     public TPM2_NV_Read_REQUEST()
     {
         authHandle = new TPM_HANDLE();
         nvIndex = new TPM_HANDLE();
     }
-    
+
     /** @param _authHandle The handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -51,7 +51,7 @@ public class TPM2_NV_Read_REQUEST extends ReqStructure
         size = _size;
         offset = _offset;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -59,7 +59,7 @@ public class TPM2_NV_Read_REQUEST extends ReqStructure
         buf.writeShort(size);
         buf.writeShort(offset);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -67,25 +67,25 @@ public class TPM2_NV_Read_REQUEST extends ReqStructure
         size = buf.readShort();
         offset = buf.readShort();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_NV_Read_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_NV_Read_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_NV_Read_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_NV_Read_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_NV_Read_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

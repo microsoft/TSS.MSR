@@ -14,13 +14,13 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
      *  TPM_ALG_NULL is not allowed.
      */
     public TPM_ALG_ID hash;
-    
+
     public byte[] signatureR;
-    
+
     public byte[] signatureS;
-    
+
     public TPMS_SIGNATURE_ECC() { hash = TPM_ALG_ID.NULL; }
-    
+
     /** @param _hash The hash algorithm used in the signature process
      *         TPM_ALG_NULL is not allowed.
      *  @param _signatureR TBD
@@ -32,10 +32,10 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         signatureR = _signatureR;
         signatureS = _signatureS;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDSA; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -44,7 +44,7 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         buf.writeSizedByteBuf(signatureR);
         buf.writeSizedByteBuf(signatureS);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -53,25 +53,25 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         signatureR = buf.readSizedByteBuf();
         signatureS = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SIGNATURE_ECC fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SIGNATURE_ECC.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SIGNATURE_ECC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SIGNATURE_ECC fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SIGNATURE_ECC.class);
     }
-    
+
     @Override
     public String toString()
     {

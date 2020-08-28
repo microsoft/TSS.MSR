@@ -19,12 +19,12 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
      *  a use of a TPMT_HA allows TPM_ALG_NULL.
      */
     public TPM_ALG_ID hashAlg;
-    
+
     /** Hash value  */
     public byte[] digest;
-    
+
     public TPMT_HA() { hashAlg = TPM_ALG_ID.NULL; }
-    
+
     /** @param _hashAlg Selector of the hash contained in the digest that implies the size of
      *  the digest
      *         NOTE The leading + on the type indicates that this structure should pass an
@@ -37,10 +37,10 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         hashAlg = _hashAlg;
         digest = _digest;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.HMAC; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -48,7 +48,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         hashAlg.toTpm(buf);
         buf.writeByteBuf(digest);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -56,25 +56,25 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         hashAlg = TPM_ALG_ID.fromTpm(buf);
         digest = buf.readByteBuf(Crypto.digestSize(hashAlg));
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_HA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_HA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_HA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_HA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_HA.class);
     }
-    
+
     @Override
     public String toString()
     {
@@ -90,7 +90,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         _p.add(d, "TPM_ALG_ID", "hashAlg", hashAlg);
         _p.add(d, "byte[]", "digest", digest);
     }
-    
+
     /** Create a TPMT_HA from the hash of data
      * @param hashAlg The hash algorithm
      * @param data The data to hash
@@ -100,7 +100,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
     {
         return new TPMT_HA(hashAlg, Crypto.hash(hashAlg, data));
     }
-    
+
     /** Create a TPMT_HA from the hash of a UTF8 encoded string 
      * @param hashAlg The hash algorithm
      * @param s The string to hash
@@ -111,7 +111,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         byte[] buf = s.getBytes();
         return TPMT_HA.fromHashOf(hashAlg, buf);
     }
-    
+
     /** Perform a TPM Extend operation on the contents of this TPMT_HA 
      * @param x The data to extend
      * @return The same object (to allow chaining)
@@ -122,7 +122,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         digest = Crypto.hash(hashAlg, t);
         return this;
     }
-    
+
     /** Perform a TPM Event operation on the contents of this TPMT_HA 
      * @param x The data to event
      * @return The same object (to allow chaining)
@@ -134,13 +134,13 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         digest = Crypto.hash(hashAlg, t);
         return this;
     }
-    
+
     /** Reset the contents of this hash object to all zeros */
     public void reset()
     {
         digest = new byte[Crypto.digestSize(hashAlg)];
     }
-    
+
     /** Create an all zero hash object 
      * @param alg The hash algorithm to use
      * @return The new zero TPMT_HA

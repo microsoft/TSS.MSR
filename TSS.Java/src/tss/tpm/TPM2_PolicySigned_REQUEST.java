@@ -16,50 +16,50 @@ public class TPM2_PolicySigned_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE authObject;
-    
+
     /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     /** The policy nonce for the session
      *  This can be the Empty Buffer.
      */
     public byte[] nonceTPM;
-    
+
     /** Digest of the command parameters to which this authorization is limited
      *  This is not the cpHash for this command but the cpHash for the command to which this
      *  policy session will be applied. If it is not limited, the parameter will be the Empty Buffer.
      */
     public byte[] cpHashA;
-    
+
     /** A reference to a policy relating to the authorization may be the Empty Buffer
      *  Size is limited to be no larger than the nonce size supported on the TPM.
      */
     public byte[] policyRef;
-    
+
     /** Time when authorization will expire, measured in seconds from the time that nonceTPM
      *  was generated
      *  If expiration is non-negative, a NULL Ticket is returned. See 23.2.5.
      */
     public int expiration;
-    
+
     /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID authSigAlg() { return auth != null ? auth.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** Signed authorization (not optional)
      *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
      *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
      */
     public TPMU_SIGNATURE auth;
-    
+
     public TPM2_PolicySigned_REQUEST()
     {
         authObject = new TPM_HANDLE();
         policySession = new TPM_HANDLE();
     }
-    
+
     /** @param _authObject Handle for a key that will validate the signature
      *         Auth Index: None
      *  @param _policySession Handle for the policy session being extended
@@ -91,7 +91,7 @@ public class TPM2_PolicySigned_REQUEST extends ReqStructure
         expiration = _expiration;
         auth = _auth;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -103,7 +103,7 @@ public class TPM2_PolicySigned_REQUEST extends ReqStructure
         buf.writeShort(auth.GetUnionSelector());
         auth.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -116,25 +116,25 @@ public class TPM2_PolicySigned_REQUEST extends ReqStructure
         auth = UnionFactory.create("TPMU_SIGNATURE", authSigAlg);
         auth.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicySigned_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicySigned_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicySigned_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicySigned_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicySigned_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

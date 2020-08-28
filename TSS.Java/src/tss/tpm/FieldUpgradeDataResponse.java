@@ -18,12 +18,12 @@ public class FieldUpgradeDataResponse extends RespStructure
      *  TPM_ALG_NULL if field update is complete
      */
     public TPMT_HA nextDigest;
-    
+
     /** Tagged digest of the first block of the sequence  */
     public TPMT_HA firstDigest;
-    
+
     public FieldUpgradeDataResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -31,7 +31,7 @@ public class FieldUpgradeDataResponse extends RespStructure
         nextDigest.toTpm(buf);
         firstDigest.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -39,25 +39,25 @@ public class FieldUpgradeDataResponse extends RespStructure
         nextDigest = TPMT_HA.fromTpm(buf);
         firstDigest = TPMT_HA.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static FieldUpgradeDataResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(FieldUpgradeDataResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static FieldUpgradeDataResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static FieldUpgradeDataResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(FieldUpgradeDataResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

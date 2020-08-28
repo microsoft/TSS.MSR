@@ -18,13 +18,13 @@ public final class SM3_256 extends TpmEnum<SM3_256>
     public enum _N {
         /** Size of digest in octets  */
         DIGEST_SIZE, 
-        
+
         /** Size of hash block in octets  */
         BLOCK_SIZE
     }
-    
+
     private static ValueMap<SM3_256> _ValueMap = new ValueMap<SM3_256>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final SM3_256
         DIGEST_SIZE = new SM3_256(32, _N.DIGEST_SIZE),

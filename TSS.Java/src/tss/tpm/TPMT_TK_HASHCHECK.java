@@ -14,12 +14,12 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
 {
     /** The hierarchy  */
     public TPM_HANDLE hierarchy;
-    
+
     /** This shall be the HMAC produced using a proof value of hierarchy.  */
     public byte[] digest;
-    
+
     public TPMT_TK_HASHCHECK() { hierarchy = new TPM_HANDLE(); }
-    
+
     /** @param _hierarchy The hierarchy
      *  @param _digest This shall be the HMAC produced using a proof value of hierarchy.
      */
@@ -28,7 +28,7 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
         hierarchy = _hierarchy;
         digest = _digest;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -37,7 +37,7 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
         hierarchy.toTpm(buf);
         buf.writeSizedByteBuf(digest);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -46,25 +46,25 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
         hierarchy = TPM_HANDLE.fromTpm(buf);
         digest = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_TK_HASHCHECK fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_TK_HASHCHECK.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_TK_HASHCHECK fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_TK_HASHCHECK fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_TK_HASHCHECK.class);
     }
-    
+
     @Override
     public String toString()
     {
@@ -80,7 +80,7 @@ public class TPMT_TK_HASHCHECK extends TpmStructure
         _p.add(d, "TPM_HANDLE", "hierarchy", hierarchy);
         _p.add(d, "byte[]", "digest", digest);
     }
-    
+
     /** Create a NULL ticket (e.g. used for signing data with non-restricted keys)
      * @return The null ticket
      */

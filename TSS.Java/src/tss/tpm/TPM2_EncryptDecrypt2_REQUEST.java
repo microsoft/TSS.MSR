@@ -17,27 +17,27 @@ public class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE keyHandle;
-    
+
     /** The data to be encrypted/decrypted  */
     public byte[] inData;
-    
+
     /** If YES, then the operation is decryption; if NO, the operation is encryption  */
     public byte decrypt;
-    
+
     /** Symmetric mode
      *  this field shall match the default mode of the key or be TPM_ALG_NULL.
      */
     public TPM_ALG_ID mode;
-    
+
     /** An initial value as required by the algorithm  */
     public byte[] ivIn;
-    
+
     public TPM2_EncryptDecrypt2_REQUEST()
     {
         keyHandle = new TPM_HANDLE();
         mode = TPM_ALG_ID.NULL;
     }
-    
+
     /** @param _keyHandle The symmetric key used for the operation
      *         Auth Index: 1
      *         Auth Role: USER
@@ -55,7 +55,7 @@ public class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
         mode = _mode;
         ivIn = _ivIn;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -65,7 +65,7 @@ public class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
         mode.toTpm(buf);
         buf.writeSizedByteBuf(ivIn);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -75,25 +75,25 @@ public class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
         mode = TPM_ALG_ID.fromTpm(buf);
         ivIn = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_EncryptDecrypt2_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_EncryptDecrypt2_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_EncryptDecrypt2_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_EncryptDecrypt2_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_EncryptDecrypt2_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

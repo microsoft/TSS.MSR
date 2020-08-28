@@ -17,12 +17,12 @@ public class TPM2_ClockRateAdjust_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE auth;
-    
+
     /** Adjustment to current Clock update rate  */
     public TPM_CLOCK_ADJUST rateAdjust;
-    
+
     public TPM2_ClockRateAdjust_REQUEST() { auth = new TPM_HANDLE(); }
-    
+
     /** @param _auth TPM_RH_OWNER or TPM_RH_PLATFORM+{PP}
      *         Auth Handle: 1
      *         Auth Role: USER
@@ -33,33 +33,33 @@ public class TPM2_ClockRateAdjust_REQUEST extends ReqStructure
         auth = _auth;
         rateAdjust = _rateAdjust;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { rateAdjust.toTpm(buf); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { rateAdjust = TPM_CLOCK_ADJUST.fromTpm(buf); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ClockRateAdjust_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ClockRateAdjust_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ClockRateAdjust_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ClockRateAdjust_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ClockRateAdjust_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

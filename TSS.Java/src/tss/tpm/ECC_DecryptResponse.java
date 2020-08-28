@@ -12,35 +12,35 @@ public class ECC_DecryptResponse extends RespStructure
 {
     /** Decrypted output  */
     public byte[] plainText;
-    
+
     public ECC_DecryptResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(plainText); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { plainText = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static ECC_DecryptResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ECC_DecryptResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ECC_DecryptResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static ECC_DecryptResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ECC_DecryptResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

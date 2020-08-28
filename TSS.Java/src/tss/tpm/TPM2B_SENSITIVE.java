@@ -14,38 +14,38 @@ public class TPM2B_SENSITIVE extends TpmStructure
 {
     /** An unencrypted sensitive area  */
     public TPMT_SENSITIVE sensitiveArea;
-    
+
     public TPM2B_SENSITIVE() {}
-    
+
     /** @param _sensitiveArea An unencrypted sensitive area  */
     public TPM2B_SENSITIVE(TPMT_SENSITIVE _sensitiveArea) { sensitiveArea = _sensitiveArea; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedObj(sensitiveArea); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { sensitiveArea = buf.createSizedObj(TPMT_SENSITIVE.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_SENSITIVE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_SENSITIVE.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_SENSITIVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_SENSITIVE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_SENSITIVE.class);
     }
-    
+
     @Override
     public String toString()
     {

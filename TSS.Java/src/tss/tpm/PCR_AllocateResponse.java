@@ -14,18 +14,18 @@ public class PCR_AllocateResponse extends RespStructure
 {
     /** YES if the allocation succeeded  */
     public byte allocationSuccess;
-    
+
     /** Maximum number of PCR that may be in a bank  */
     public int maxPCR;
-    
+
     /** Number of octets required to satisfy the request  */
     public int sizeNeeded;
-    
+
     /** Number of octets available. Computed before the allocation.  */
     public int sizeAvailable;
-    
+
     public PCR_AllocateResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -35,7 +35,7 @@ public class PCR_AllocateResponse extends RespStructure
         buf.writeInt(sizeNeeded);
         buf.writeInt(sizeAvailable);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -45,25 +45,25 @@ public class PCR_AllocateResponse extends RespStructure
         sizeNeeded = buf.readInt();
         sizeAvailable = buf.readInt();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static PCR_AllocateResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(PCR_AllocateResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static PCR_AllocateResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static PCR_AllocateResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(PCR_AllocateResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

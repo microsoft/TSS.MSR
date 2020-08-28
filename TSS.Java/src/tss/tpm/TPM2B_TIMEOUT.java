@@ -14,38 +14,38 @@ public class TPM2B_TIMEOUT extends TpmStructure
 {
     /** The timeout value  */
     public byte[] buffer;
-    
+
     public TPM2B_TIMEOUT() {}
-    
+
     /** @param _buffer The timeout value  */
     public TPM2B_TIMEOUT(byte[] _buffer) { buffer = _buffer; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_TIMEOUT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_TIMEOUT.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_TIMEOUT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_TIMEOUT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_TIMEOUT.class);
     }
-    
+
     @Override
     public String toString()
     {

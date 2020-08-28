@@ -12,35 +12,35 @@ public class NV_ReadResponse extends RespStructure
 {
     /** The data read  */
     public byte[] data;
-    
+
     public NV_ReadResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(data); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { data = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static NV_ReadResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(NV_ReadResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static NV_ReadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static NV_ReadResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(NV_ReadResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

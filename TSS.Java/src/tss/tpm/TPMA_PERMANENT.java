@@ -24,36 +24,36 @@ public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
          *  CLEAR (0): ownerAuth has not been changed since TPM2_Clear().
          */
         ownerAuthSet,
-        
+
         /** SET (1): TPM2_HierarchyChangeAuth() with endorsementAuth has been executed since the
          *  last TPM2_Clear().
          *  CLEAR (0): endorsementAuth has not been changed since TPM2_Clear().
          */
         endorsementAuthSet,
-        
+
         /** SET (1): TPM2_HierarchyChangeAuth() with lockoutAuth has been executed since the last
          *  TPM2_Clear().
          *  CLEAR (0): lockoutAuth has not been changed since TPM2_Clear().
          */
         lockoutAuthSet,
-        
+
         /** SET (1): TPM2_Clear() is disabled.
          *  CLEAR (0): TPM2_Clear() is enabled.
          *  NOTE See TPM2_ClearControl in TPM 2.0 Part 3 for details on changing this attribute.
          */
         disableClear,
-        
+
         /** SET (1): The TPM is in lockout, when failedTries is equal to maxTries.  */
         inLockout,
-        
+
         /** SET (1): The EPS was created by the TPM.
          *  CLEAR (0): The EPS was created outside of the TPM using a manufacturer-specific process.
          */
         tpmGeneratedEPS
     }
-    
+
     private static ValueMap<TPMA_PERMANENT> _ValueMap = new ValueMap<TPMA_PERMANENT>();
-    
+
     /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_PERMANENT
         ownerAuthSet = new TPMA_PERMANENT(0x1, _N.ownerAuthSet),
@@ -62,7 +62,7 @@ public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
         disableClear = new TPMA_PERMANENT(0x100, _N.disableClear),
         inLockout = new TPMA_PERMANENT(0x200, _N.inLockout),
         tpmGeneratedEPS = new TPMA_PERMANENT(0x400, _N.tpmGeneratedEPS);
-    
+
     public TPMA_PERMANENT () { super(0, _ValueMap); }
     public TPMA_PERMANENT (int value) { super(value, _ValueMap); }
     public TPMA_PERMANENT (TPMA_PERMANENT...attrs) { super(_ValueMap, attrs); }

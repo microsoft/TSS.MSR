@@ -17,19 +17,19 @@ public class TPM2_SequenceComplete_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE sequenceHandle;
-    
+
     /** Data to be added to the hash/HMAC  */
     public byte[] buffer;
-    
+
     /** Hierarchy of the ticket for a hash  */
     public TPM_HANDLE hierarchy;
-    
+
     public TPM2_SequenceComplete_REQUEST()
     {
         sequenceHandle = new TPM_HANDLE();
         hierarchy = new TPM_HANDLE();
     }
-    
+
     /** @param _sequenceHandle Authorization for the sequence
      *         Auth Index: 1
      *         Auth Role: USER
@@ -42,7 +42,7 @@ public class TPM2_SequenceComplete_REQUEST extends ReqStructure
         buffer = _buffer;
         hierarchy = _hierarchy;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -50,7 +50,7 @@ public class TPM2_SequenceComplete_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(buffer);
         hierarchy.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -58,25 +58,25 @@ public class TPM2_SequenceComplete_REQUEST extends ReqStructure
         buffer = buf.readSizedByteBuf();
         hierarchy = TPM_HANDLE.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_SequenceComplete_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_SequenceComplete_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_SequenceComplete_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_SequenceComplete_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_SequenceComplete_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

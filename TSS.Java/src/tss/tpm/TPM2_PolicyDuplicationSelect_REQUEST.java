@@ -16,18 +16,18 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     /** The Name of the object to be duplicated  */
     public byte[] objectName;
-    
+
     /** The Name of the new parent  */
     public byte[] newParentName;
-    
+
     /** If YES, the objectName will be included in the value in policySessionpolicyDigest  */
     public byte includeObject;
-    
+
     public TPM2_PolicyDuplicationSelect_REQUEST() { policySession = new TPM_HANDLE(); }
-    
+
     /** @param _policySession Handle for the policy session being extended
      *         Auth Index: None
      *  @param _objectName The Name of the object to be duplicated
@@ -42,7 +42,7 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends ReqStructure
         newParentName = _newParentName;
         includeObject = _includeObject;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -51,7 +51,7 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(newParentName);
         buf.writeByte(includeObject);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -60,25 +60,25 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends ReqStructure
         newParentName = buf.readSizedByteBuf();
         includeObject = buf.readByte();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyDuplicationSelect_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyDuplicationSelect_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyDuplicationSelect_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyDuplicationSelect_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyDuplicationSelect_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

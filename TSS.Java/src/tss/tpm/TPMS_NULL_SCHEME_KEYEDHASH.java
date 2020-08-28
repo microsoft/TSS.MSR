@@ -13,28 +13,28 @@ import tss.*;
 public class TPMS_NULL_SCHEME_KEYEDHASH extends TPMS_NULL_UNION
 {
     public TPMS_NULL_SCHEME_KEYEDHASH() {}
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.NULL; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_NULL_SCHEME_KEYEDHASH fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_NULL_SCHEME_KEYEDHASH.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_NULL_SCHEME_KEYEDHASH fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_NULL_SCHEME_KEYEDHASH fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_NULL_SCHEME_KEYEDHASH.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -11,28 +11,28 @@ import tss.*;
 public class TPMS_SCHEME_RSASSA extends TPMS_SIG_SCHEME_RSASSA
 {
     public TPMS_SCHEME_RSASSA() {}
-    
+
     /** @param _hashAlg The hash algorithm used to digest the message  */
     public TPMS_SCHEME_RSASSA(TPM_ALG_ID _hashAlg) { super(_hashAlg); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SCHEME_RSASSA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SCHEME_RSASSA.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SCHEME_RSASSA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SCHEME_RSASSA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SCHEME_RSASSA.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -14,41 +14,41 @@ public class TPMS_SCHEME_HASH extends TpmStructure implements TPMU_SCHEME_KEYEDH
 {
     /** The hash algorithm used to digest the message  */
     public TPM_ALG_ID hashAlg;
-    
+
     public TPMS_SCHEME_HASH() { hashAlg = TPM_ALG_ID.NULL; }
-    
+
     /** @param _hashAlg The hash algorithm used to digest the message  */
     public TPMS_SCHEME_HASH(TPM_ALG_ID _hashAlg) { hashAlg = _hashAlg; }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.HMAC; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { hashAlg.toTpm(buf); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { hashAlg = TPM_ALG_ID.fromTpm(buf); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SCHEME_HASH fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SCHEME_HASH.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SCHEME_HASH fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SCHEME_HASH fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SCHEME_HASH.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -17,18 +17,18 @@ public final class PLATFORM extends TpmEnum<PLATFORM>
      */
     public enum _N {
         FAMILY, 
-        
+
         LEVEL, 
-        
+
         VERSION, 
-        
+
         YEAR, 
-        
+
         DAY_OF_YEAR
     }
-    
+
     private static ValueMap<PLATFORM> _ValueMap = new ValueMap<PLATFORM>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final PLATFORM
         FAMILY = new PLATFORM(TPM_SPEC.FAMILY.toInt(), _N.FAMILY),

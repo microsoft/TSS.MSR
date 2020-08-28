@@ -22,21 +22,21 @@ public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
     public enum _N {
         /** The Index of the NV location  */
         index_BIT_MASK,
-        
+
         index_BIT_OFFSET,
-        
+
         index_BIT_LENGTH,
-        
+
         /** Constant value of TPM_HT_NV_INDEX indicating the NV Index range  */
         RhNv_BIT_MASK,
-        
+
         RhNv_BIT_OFFSET,
-        
+
         RhNv_BIT_LENGTH
     }
-    
+
     private static ValueMap<TPM_NV_INDEX> _ValueMap = new ValueMap<TPM_NV_INDEX>();
-    
+
     /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPM_NV_INDEX
         index_BIT_MASK = new TPM_NV_INDEX(0xFFFFFF, _N.index_BIT_MASK),
@@ -45,7 +45,7 @@ public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
         RhNv_BIT_MASK = new TPM_NV_INDEX(0xFF000000, _N.RhNv_BIT_MASK),
         RhNv_BIT_OFFSET = new TPM_NV_INDEX(24, _N.RhNv_BIT_OFFSET),
         RhNv_BIT_LENGTH = new TPM_NV_INDEX(8, _N.RhNv_BIT_LENGTH);
-    
+
     public TPM_NV_INDEX () { super(0, _ValueMap); }
     public TPM_NV_INDEX (int value) { super(value, _ValueMap); }
     public TPM_NV_INDEX (TPM_NV_INDEX...attrs) { super(_ValueMap, attrs); }

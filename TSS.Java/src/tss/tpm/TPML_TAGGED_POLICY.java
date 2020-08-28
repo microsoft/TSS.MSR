@@ -15,41 +15,41 @@ public class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIE
 {
     /** Array of tagged policies  */
     public TPMS_TAGGED_POLICY[] policies;
-    
+
     public TPML_TAGGED_POLICY() {}
-    
+
     /** @param _policies Array of tagged policies  */
     public TPML_TAGGED_POLICY(TPMS_TAGGED_POLICY[] _policies) { policies = _policies; }
-    
+
     /** TpmUnion method  */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.AUTH_POLICIES; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(policies); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { policies = buf.readObjArr(TPMS_TAGGED_POLICY.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPML_TAGGED_POLICY fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_TAGGED_POLICY.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPML_TAGGED_POLICY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPML_TAGGED_POLICY fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_TAGGED_POLICY.class);
     }
-    
+
     @Override
     public String toString()
     {

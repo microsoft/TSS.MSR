@@ -15,10 +15,10 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      *  if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
      */
     public TPMT_SYM_DEF_OBJECT symmetric;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID schemeScheme() { return scheme != null ? scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** If the sign attribute of the key is SET, then this shall be a valid signing scheme.
      *  NOTE If the sign parameter in curveID indicates a mandatory scheme, then this field
      *  shall have the same value.
@@ -31,13 +31,13 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      */
     public TPMU_ASYM_SCHEME scheme;
-    
+
     /** ECC curve ID  */
     public TPM_ECC_CURVE curveID;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID kdfScheme() { return kdf != null ? kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** An optional key derivation scheme for generating a symmetric key from a Z value
      *  If the kdf parameter associated with curveID is not TPM_ALG_NULL then this is required
      *  to be NULL.
@@ -47,9 +47,9 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      *  TPMS_KDF_SCHEME_KDF1_SP800_108, TPMS_SCHEME_HASH, TPMS_NULL_KDF_SCHEME.
      */
     public TPMU_KDF_SCHEME kdf;
-    
+
     public TPMS_ECC_PARMS() {}
-    
+
     /** @param _symmetric For a restricted decryption key, shall be set to a supported symmetric
      *         algorithm, key size. and mode.
      *         if the key is not a restricted decryption key, this field shall be set to TPM_ALG_NULL.
@@ -80,10 +80,10 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         curveID = _curveID;
         kdf = _kdf;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -95,7 +95,7 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         buf.writeShort(kdf.GetUnionSelector());
         kdf.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -109,25 +109,25 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         kdf = UnionFactory.create("TPMU_KDF_SCHEME", kdfScheme);
         kdf.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ECC_PARMS fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ECC_PARMS.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_ECC_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_ECC_PARMS fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ECC_PARMS.class);
     }
-    
+
     @Override
     public String toString()
     {

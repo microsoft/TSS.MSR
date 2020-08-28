@@ -19,37 +19,37 @@ public class TPM2_CertifyCreation_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE signHandle;
-    
+
     /** The object associated with the creation data
      *  Auth Index: None
      */
     public TPM_HANDLE objectHandle;
-    
+
     /** User-provided qualifying data  */
     public byte[] qualifyingData;
-    
+
     /** Hash of the creation data produced by TPM2_Create() or TPM2_CreatePrimary()  */
     public byte[] creationHash;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
      *  One of: TPMS_SIG_SCHEME_RSASSA, TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA,
      *  TPMS_SIG_SCHEME_ECDAA, TPMS_SIG_SCHEME_SM2, TPMS_SIG_SCHEME_ECSCHNORR,
      *  TPMS_SCHEME_HMAC, TPMS_SCHEME_HASH, TPMS_NULL_SIG_SCHEME.
      */
     public TPMU_SIG_SCHEME inScheme;
-    
+
     /** Ticket produced by TPM2_Create() or TPM2_CreatePrimary()  */
     public TPMT_TK_CREATION creationTicket;
-    
+
     public TPM2_CertifyCreation_REQUEST()
     {
         signHandle = new TPM_HANDLE();
         objectHandle = new TPM_HANDLE();
     }
-    
+
     /** @param _signHandle Handle of the key that will sign the attestation block
      *         Auth Index: 1
      *         Auth Role: USER
@@ -72,7 +72,7 @@ public class TPM2_CertifyCreation_REQUEST extends ReqStructure
         inScheme = _inScheme;
         creationTicket = _creationTicket;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -83,7 +83,7 @@ public class TPM2_CertifyCreation_REQUEST extends ReqStructure
         inScheme.toTpm(buf);
         creationTicket.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -95,25 +95,25 @@ public class TPM2_CertifyCreation_REQUEST extends ReqStructure
         inScheme.initFromTpm(buf);
         creationTicket = TPMT_TK_CREATION.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_CertifyCreation_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_CertifyCreation_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_CertifyCreation_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_CertifyCreation_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_CertifyCreation_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

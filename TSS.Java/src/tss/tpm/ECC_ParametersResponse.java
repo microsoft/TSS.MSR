@@ -12,35 +12,35 @@ public class ECC_ParametersResponse extends RespStructure
 {
     /** ECC parameters for the selected curve  */
     public TPMS_ALGORITHM_DETAIL_ECC parameters;
-    
+
     public ECC_ParametersResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { parameters.toTpm(buf); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { parameters = TPMS_ALGORITHM_DETAIL_ECC.fromTpm(buf); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static ECC_ParametersResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ECC_ParametersResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ECC_ParametersResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static ECC_ParametersResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ECC_ParametersResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -16,15 +16,15 @@ public class TPM2_AC_GetCapability_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE ac;
-    
+
     /** Starting info type  */
     public TPM_AT capability;
-    
+
     /** Maximum number of values to return  */
     public int count;
-    
+
     public TPM2_AC_GetCapability_REQUEST() { ac = new TPM_HANDLE(); }
-    
+
     /** @param _ac Handle indicating the Attached Component
      *         Auth Index: None
      *  @param _capability Starting info type
@@ -36,7 +36,7 @@ public class TPM2_AC_GetCapability_REQUEST extends ReqStructure
         capability = _capability;
         count = _count;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -44,7 +44,7 @@ public class TPM2_AC_GetCapability_REQUEST extends ReqStructure
         capability.toTpm(buf);
         buf.writeInt(count);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -52,25 +52,25 @@ public class TPM2_AC_GetCapability_REQUEST extends ReqStructure
         capability = TPM_AT.fromTpm(buf);
         count = buf.readInt();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_AC_GetCapability_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_AC_GetCapability_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_AC_GetCapability_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_AC_GetCapability_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_AC_GetCapability_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

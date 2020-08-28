@@ -15,19 +15,19 @@ public class GetCommandAuditDigestResponse extends RespStructure
 {
     /** The auditInfo that was signed  */
     public TPMS_ATTEST auditInfo;
-    
+
     /** Selector of the algorithm used to construct the signature  */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** The signature over auditInfo
      *  One of: TPMS_SIGNATURE_RSASSA, TPMS_SIGNATURE_RSAPSS, TPMS_SIGNATURE_ECDSA,
      *  TPMS_SIGNATURE_ECDAA, TPMS_SIGNATURE_SM2, TPMS_SIGNATURE_ECSCHNORR, TPMT_HA,
      *  TPMS_SCHEME_HASH, TPMS_NULL_SIGNATURE.
      */
     public TPMU_SIGNATURE signature;
-    
+
     public GetCommandAuditDigestResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -36,7 +36,7 @@ public class GetCommandAuditDigestResponse extends RespStructure
         buf.writeShort(signature.GetUnionSelector());
         signature.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -46,25 +46,25 @@ public class GetCommandAuditDigestResponse extends RespStructure
         signature = UnionFactory.create("TPMU_SIGNATURE", signatureSigAlg);
         signature.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static GetCommandAuditDigestResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(GetCommandAuditDigestResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static GetCommandAuditDigestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static GetCommandAuditDigestResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(GetCommandAuditDigestResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

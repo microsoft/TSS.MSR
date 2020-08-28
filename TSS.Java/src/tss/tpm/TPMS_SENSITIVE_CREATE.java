@@ -14,12 +14,12 @@ public class TPMS_SENSITIVE_CREATE extends TpmStructure
 {
     /** The USER auth secret value  */
     public byte[] userAuth;
-    
+
     /** Data to be sealed, a key, or derivation values  */
     public byte[] data;
-    
+
     public TPMS_SENSITIVE_CREATE() {}
-    
+
     /** @param _userAuth The USER auth secret value
      *  @param _data Data to be sealed, a key, or derivation values
      */
@@ -28,7 +28,7 @@ public class TPMS_SENSITIVE_CREATE extends TpmStructure
         userAuth = _userAuth;
         data = _data;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -36,7 +36,7 @@ public class TPMS_SENSITIVE_CREATE extends TpmStructure
         buf.writeSizedByteBuf(userAuth);
         buf.writeSizedByteBuf(data);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -44,25 +44,25 @@ public class TPMS_SENSITIVE_CREATE extends TpmStructure
         userAuth = buf.readSizedByteBuf();
         data = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SENSITIVE_CREATE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SENSITIVE_CREATE.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SENSITIVE_CREATE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SENSITIVE_CREATE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SENSITIVE_CREATE.class);
     }
-    
+
     @Override
     public String toString()
     {

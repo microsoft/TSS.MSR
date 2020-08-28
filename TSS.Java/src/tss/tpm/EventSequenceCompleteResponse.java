@@ -17,35 +17,35 @@ public class EventSequenceCompleteResponse extends RespStructure
 {
     /** List of digests computed for the PCR  */
     public TPMT_HA[] results;
-    
+
     public EventSequenceCompleteResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(results); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { results = buf.readObjArr(TPMT_HA.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static EventSequenceCompleteResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(EventSequenceCompleteResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static EventSequenceCompleteResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static EventSequenceCompleteResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(EventSequenceCompleteResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

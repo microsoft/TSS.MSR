@@ -24,13 +24,13 @@ public final class TPMA_MODES extends TpmAttribute<TPMA_MODES>
          */
         FIPS_140_2
     }
-    
+
     private static ValueMap<TPMA_MODES> _ValueMap = new ValueMap<TPMA_MODES>();
-    
+
     /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_MODES
         FIPS_140_2 = new TPMA_MODES(0x1, _N.FIPS_140_2);
-    
+
     public TPMA_MODES () { super(0, _ValueMap); }
     public TPMA_MODES (int value) { super(value, _ValueMap); }
     public TPMA_MODES (TPMA_MODES...attrs) { super(_ValueMap, attrs); }

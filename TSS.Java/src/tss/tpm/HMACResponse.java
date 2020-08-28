@@ -12,35 +12,35 @@ public class HMACResponse extends RespStructure
 {
     /** The returned HMAC in a sized buffer  */
     public byte[] outHMAC;
-    
+
     public HMACResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(outHMAC); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { outHMAC = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static HMACResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(HMACResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static HMACResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static HMACResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(HMACResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

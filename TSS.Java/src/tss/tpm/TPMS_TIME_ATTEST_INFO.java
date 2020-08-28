@@ -12,12 +12,12 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /** The Time, Clock, resetCount, restartCount, and Safe indicator  */
     public TPMS_TIME_INFO time;
-    
+
     /** A TPM vendor-specific value indicating the version number of the firmware  */
     public long firmwareVersion;
-    
+
     public TPMS_TIME_ATTEST_INFO() {}
-    
+
     /** @param _time The Time, Clock, resetCount, restartCount, and Safe indicator
      *  @param _firmwareVersion A TPM vendor-specific value indicating the version number of
      *  the firmware
@@ -27,10 +27,10 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
         time = _time;
         firmwareVersion = _firmwareVersion;
     }
-    
+
     /** TpmUnion method  */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_TIME; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -38,7 +38,7 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
         time.toTpm(buf);
         buf.writeInt64(firmwareVersion);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -46,25 +46,25 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
         time = TPMS_TIME_INFO.fromTpm(buf);
         firmwareVersion = buf.readInt64();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_TIME_ATTEST_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_TIME_ATTEST_INFO.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_TIME_ATTEST_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_TIME_ATTEST_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_TIME_ATTEST_INFO.class);
     }
-    
+
     @Override
     public String toString()
     {

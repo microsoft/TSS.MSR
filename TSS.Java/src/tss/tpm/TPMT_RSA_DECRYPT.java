@@ -12,7 +12,7 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
 {
     /** Scheme selector  */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** Scheme parameters
      *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
      *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
@@ -20,9 +20,9 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
      *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      */
     public TPMU_ASYM_SCHEME details;
-    
+
     public TPMT_RSA_DECRYPT() {}
-    
+
     /** @param _details Scheme parameters
      *         One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
      *         TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
@@ -30,7 +30,7 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
      *         TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      */
     public TPMT_RSA_DECRYPT(TPMU_ASYM_SCHEME _details) { details = _details; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -39,7 +39,7 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
         buf.writeShort(details.GetUnionSelector());
         details.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -48,25 +48,25 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
         details = UnionFactory.create("TPMU_ASYM_SCHEME", scheme);
         details.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_RSA_DECRYPT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_RSA_DECRYPT.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_RSA_DECRYPT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_RSA_DECRYPT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_RSA_DECRYPT.class);
     }
-    
+
     @Override
     public String toString()
     {

@@ -17,15 +17,15 @@ public class TPM2_PP_Commands_REQUEST extends ReqStructure
      *  Auth Role: USER + Physical Presence
      */
     public TPM_HANDLE auth;
-    
+
     /** List of commands to be added to those that will require that Physical Presence be asserted  */
     public TPM_CC[] setList;
-    
+
     /** List of commands that will no longer require that Physical Presence be asserted  */
     public TPM_CC[] clearList;
-    
+
     public TPM2_PP_Commands_REQUEST() { auth = new TPM_HANDLE(); }
-    
+
     /** @param _auth TPM_RH_PLATFORM+PP
      *         Auth Index: 1
      *         Auth Role: USER + Physical Presence
@@ -40,7 +40,7 @@ public class TPM2_PP_Commands_REQUEST extends ReqStructure
         setList = _setList;
         clearList = _clearList;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -48,7 +48,7 @@ public class TPM2_PP_Commands_REQUEST extends ReqStructure
         buf.writeObjArr(setList);
         buf.writeObjArr(clearList);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -56,25 +56,25 @@ public class TPM2_PP_Commands_REQUEST extends ReqStructure
         setList = buf.readObjArr(TPM_CC.class);
         clearList = buf.readObjArr(TPM_CC.class);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PP_Commands_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PP_Commands_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PP_Commands_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PP_Commands_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PP_Commands_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

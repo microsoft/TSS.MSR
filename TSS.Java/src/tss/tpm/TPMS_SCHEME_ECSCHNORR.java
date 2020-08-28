@@ -14,28 +14,28 @@ import tss.*;
 public class TPMS_SCHEME_ECSCHNORR extends TPMS_SIG_SCHEME_ECSCHNORR
 {
     public TPMS_SCHEME_ECSCHNORR() {}
-    
+
     /** @param _hashAlg The hash algorithm used to digest the message  */
     public TPMS_SCHEME_ECSCHNORR(TPM_ALG_ID _hashAlg) { super(_hashAlg); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SCHEME_ECSCHNORR fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SCHEME_ECSCHNORR.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_SCHEME_ECSCHNORR fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_SCHEME_ECSCHNORR fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SCHEME_ECSCHNORR.class);
     }
-    
+
     @Override
     public String toString()
     {

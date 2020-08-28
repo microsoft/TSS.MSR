@@ -15,21 +15,21 @@ public class TPM2_ObjectChangeAuth_REQUEST extends ReqStructure
      *  Auth Role: ADMIN
      */
     public TPM_HANDLE objectHandle;
-    
+
     /** Handle of the parent
      *  Auth Index: None
      */
     public TPM_HANDLE parentHandle;
-    
+
     /** New authorization value  */
     public byte[] newAuth;
-    
+
     public TPM2_ObjectChangeAuth_REQUEST()
     {
         objectHandle = new TPM_HANDLE();
         parentHandle = new TPM_HANDLE();
     }
-    
+
     /** @param _objectHandle Handle of the object
      *         Auth Index: 1
      *         Auth Role: ADMIN
@@ -43,33 +43,33 @@ public class TPM2_ObjectChangeAuth_REQUEST extends ReqStructure
         parentHandle = _parentHandle;
         newAuth = _newAuth;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(newAuth); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { newAuth = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ObjectChangeAuth_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ObjectChangeAuth_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ObjectChangeAuth_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ObjectChangeAuth_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ObjectChangeAuth_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

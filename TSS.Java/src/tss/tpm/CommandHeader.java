@@ -12,15 +12,15 @@ public class CommandHeader extends TpmStructure
 {
     /** Command tag (sessions, or no sessions)  */
     public TPM_ST Tag;
-    
+
     /** Total command buffer length  */
     public int CommandSize;
-    
+
     /** Command code  */
     public TPM_CC CommandCode;
-    
+
     public CommandHeader() {}
-    
+
     /** @param _Tag Command tag (sessions, or no sessions)
      *  @param _CommandSize Total command buffer length
      *  @param _CommandCode Command code
@@ -31,7 +31,7 @@ public class CommandHeader extends TpmStructure
         CommandSize = _CommandSize;
         CommandCode = _CommandCode;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -40,7 +40,7 @@ public class CommandHeader extends TpmStructure
         buf.writeInt(CommandSize);
         CommandCode.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -49,25 +49,25 @@ public class CommandHeader extends TpmStructure
         CommandSize = buf.readInt();
         CommandCode = TPM_CC.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static CommandHeader fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(CommandHeader.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static CommandHeader fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static CommandHeader fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(CommandHeader.class);
     }
-    
+
     @Override
     public String toString()
     {

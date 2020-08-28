@@ -14,21 +14,21 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
 {
     /** The algorithm to be tested  */
     public TPM_ALG_ID type() { return parameters.GetUnionSelector(); }
-    
+
     /** The algorithm details
      *  One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
      *  TPMS_ASYM_PARMS.
      */
     public TPMU_PUBLIC_PARMS parameters;
-    
+
     public TPMT_PUBLIC_PARMS() {}
-    
+
     /** @param _parameters The algorithm details
      *         One of: TPMS_KEYEDHASH_PARMS, TPMS_SYMCIPHER_PARMS, TPMS_RSA_PARMS, TPMS_ECC_PARMS,
      *         TPMS_ASYM_PARMS.
      */
     public TPMT_PUBLIC_PARMS(TPMU_PUBLIC_PARMS _parameters) { parameters = _parameters; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -37,7 +37,7 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
         buf.writeShort(parameters.GetUnionSelector());
         parameters.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -46,25 +46,25 @@ public class TPMT_PUBLIC_PARMS extends TpmStructure
         parameters = UnionFactory.create("TPMU_PUBLIC_PARMS", type);
         parameters.initFromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_PUBLIC_PARMS fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_PUBLIC_PARMS.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMT_PUBLIC_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMT_PUBLIC_PARMS fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_PUBLIC_PARMS.class);
     }
-    
+
     @Override
     public String toString()
     {

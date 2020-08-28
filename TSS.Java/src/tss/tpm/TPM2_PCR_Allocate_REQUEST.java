@@ -17,12 +17,12 @@ public class TPM2_PCR_Allocate_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
-    
+
     /** The requested allocation  */
     public TPMS_PCR_SELECTION[] pcrAllocation;
-    
+
     public TPM2_PCR_Allocate_REQUEST() { authHandle = new TPM_HANDLE(); }
-    
+
     /** @param _authHandle TPM_RH_PLATFORM+{PP}
      *         Auth Index: 1
      *         Auth Role: USER
@@ -33,33 +33,33 @@ public class TPM2_PCR_Allocate_REQUEST extends ReqStructure
         authHandle = _authHandle;
         pcrAllocation = _pcrAllocation;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(pcrAllocation); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { pcrAllocation = buf.readObjArr(TPMS_PCR_SELECTION.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PCR_Allocate_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PCR_Allocate_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PCR_Allocate_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PCR_Allocate_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PCR_Allocate_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

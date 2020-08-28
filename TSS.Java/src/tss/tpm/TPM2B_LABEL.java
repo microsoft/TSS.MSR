@@ -15,40 +15,40 @@ public class TPM2B_LABEL extends TpmStructure
 {
     /** Symmetric data for a created object or the label and context for a derived object  */
     public byte[] buffer;
-    
+
     public TPM2B_LABEL() {}
-    
+
     /** @param _buffer Symmetric data for a created object or the label and context for a
      *  derived object
      */
     public TPM2B_LABEL(byte[] _buffer) { buffer = _buffer; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_LABEL fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_LABEL.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_LABEL fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_LABEL fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_LABEL.class);
     }
-    
+
     @Override
     public String toString()
     {

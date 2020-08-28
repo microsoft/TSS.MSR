@@ -11,31 +11,31 @@ import tss.*;
 public class TPM2B_DIGEST_SYMCIPHER extends TPM2B_DIGEST
 {
     public TPM2B_DIGEST_SYMCIPHER() {}
-    
+
     /** @param _buffer The buffer area that can be no larger than a digest  */
     public TPM2B_DIGEST_SYMCIPHER(byte[] _buffer) { super(_buffer); }
-    
+
     /** TpmUnion method  */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.SYMCIPHER; }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_DIGEST_SYMCIPHER fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_DIGEST_SYMCIPHER.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2B_DIGEST_SYMCIPHER fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2B_DIGEST_SYMCIPHER fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_DIGEST_SYMCIPHER.class);
     }
-    
+
     @Override
     public String toString()
     {

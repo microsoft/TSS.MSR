@@ -33,7 +33,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
          *  This attribute has no effect if the command does not complete successfully.
          */
         continueSession,
-        
+
         /** SET (1): In a command, this setting indicates that the command should only be executed
          *  if the session is exclusive at the start of the command. In a response, it indicates
          *  that the session is exclusive. This setting is only allowed if the audit attribute is
@@ -42,7 +42,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
          *  of the command. In a response, indicates that the session is not exclusive.
          */
         auditExclusive,
-        
+
         /** SET (1): In a command, this setting indicates that the audit digest of the session
          *  should be initialized and the exclusive status of the session SET. This setting is
          *  only allowed if the audit attribute is SET (TPM_RC_ATTRIBUTES).
@@ -50,7 +50,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
          *  This bit is always CLEAR in a response.
          */
         auditReset,
-        
+
         /** SET (1): In a command, this setting indicates that the first parameter in the command
          *  is symmetrically encrypted using the parameter encryption scheme described in TPM 2.0
          *  Part 1. The TPM will decrypt the parameter after performing any HMAC computations and
@@ -63,7 +63,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
          *  This attribute may be SET in combination with any other session attributes.
          */
         decrypt,
-        
+
         /** SET (1): In a command, this setting indicates that the TPM should use this session to
          *  encrypt the first parameter in the response. In a response, it indicates that the
          *  attribute was set in the command and that the TPM used the session to encrypt the
@@ -75,7 +75,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
          *  Such a session is provided for purposes of encrypting a parameter and not for authorization.
          */
         encrypt,
-        
+
         /** SET (1): In a command or response, this setting indicates that the session is for
          *  audit and that auditExclusive and auditReset have meaning. This session may also be
          *  used for authorization, encryption, or decryption. The encrypted and encrypt fields
@@ -85,9 +85,9 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
          */
         audit
     }
-    
+
     private static ValueMap<TPMA_SESSION> _ValueMap = new ValueMap<TPMA_SESSION>();
-    
+
     /** These definitions provide mapping of Java enum constants to their TPM integer values  */
     public static final TPMA_SESSION
         continueSession = new TPMA_SESSION(0x1, _N.continueSession),
@@ -96,7 +96,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
         decrypt = new TPMA_SESSION(0x20, _N.decrypt),
         encrypt = new TPMA_SESSION(0x40, _N.encrypt),
         audit = new TPMA_SESSION(0x80, _N.audit);
-    
+
     public TPMA_SESSION () { super(0, _ValueMap); }
     public TPMA_SESSION (int value) { super(value, _ValueMap); }
     public TPMA_SESSION (TPMA_SESSION...attrs) { super(_ValueMap, attrs); }

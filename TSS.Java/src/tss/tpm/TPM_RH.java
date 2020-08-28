@@ -19,78 +19,78 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
      */
     public enum _N {
         FIRST, 
-        
+
         /** Not used1  */
         SRK, 
-        
+
         /** Handle references the Storage Primary Seed (SPS), the ownerAuth, and the ownerPolicy  */
         OWNER, 
-        
+
         /** Not used1  */
         REVOKE, 
-        
+
         /** Not used1  */
         TRANSPORT, 
-        
+
         /** Not used1  */
         OPERATOR, 
-        
+
         /** Not used1  */
         ADMIN, 
-        
+
         /** Not used1  */
         EK, 
-        
+
         /** A handle associated with the null hierarchy, an EmptyAuth authValue, and an Empty
          *  Policy authPolicy.
          */
         NULL, 
-        
+
         /** Value reserved to the TPM to indicate a handle location that has not been initialized
          *  or assigned
          */
         UNASSIGNED, 
-        
+
         /** Authorization value used to indicate a password authorization session  */
         PW, 
-        
+
         /** References the authorization associated with the dictionary attack lockout reset  */
         LOCKOUT, 
-        
+
         /** References the Endorsement Primary Seed (EPS), endorsementAuth, and endorsementPolicy  */
         ENDORSEMENT, 
-        
+
         /** References the Platform Primary Seed (PPS), platformAuth, and platformPolicy  */
         PLATFORM, 
-        
+
         /** For phEnableNV  */
         PLATFORM_NV, 
-        
+
         /** Start of a range of authorization values that are vendor-specific. A TPM may support
          *  any of the values in this range as are needed for vendor-specific purposes.
          *  Disabled if ehEnable is CLEAR.
          *  NOTE Any includes none.
          */
         AUTH_00, 
-        
+
         /** End of the range of vendor-specific authorization values.  */
         AUTH_FF, 
-        
+
         /** Start of the range of authenticated timers  */
         ACT_0, 
-        
+
         /** End of the range of authenticated timers  */
         ACT_F, 
-        
+
         /** The top of the reserved handle area
          *  This is set to allow TPM2_GetCapability() to know where to stop. It may vary as
          *  implementations add to the permanent handle area.
          */
         LAST
     }
-    
+
     private static ValueMap<TPM_RH> _ValueMap = new ValueMap<TPM_RH>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_RH
         FIRST = new TPM_RH(0x40000000, _N.FIRST),
@@ -113,7 +113,7 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
         ACT_0 = new TPM_RH(0x40000110, _N.ACT_0),
         ACT_F = new TPM_RH(0x4000011F, _N.ACT_F),
         LAST = new TPM_RH(0x4000011F, _N.LAST);
-    
+
     /** @deprecated Use {@link #PW} instead  */
     @Deprecated
     public static final TPM_RH RS_PW = new TPM_RH(PW.toInt(), _N.PW, true);

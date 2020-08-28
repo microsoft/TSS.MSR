@@ -14,12 +14,12 @@ public class TPMS_TIME_INFO extends TpmStructure
      *  This structure element is used to report on the TPM's Time value.
      */
     public long time;
-    
+
     /** A structure containing the clock information  */
     public TPMS_CLOCK_INFO clockInfo;
-    
+
     public TPMS_TIME_INFO() {}
-    
+
     /** @param _time Time in milliseconds since the TIme circuit was last reset
      *         This structure element is used to report on the TPM's Time value.
      *  @param _clockInfo A structure containing the clock information
@@ -29,7 +29,7 @@ public class TPMS_TIME_INFO extends TpmStructure
         time = _time;
         clockInfo = _clockInfo;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -37,7 +37,7 @@ public class TPMS_TIME_INFO extends TpmStructure
         buf.writeInt64(time);
         clockInfo.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -45,25 +45,25 @@ public class TPMS_TIME_INFO extends TpmStructure
         time = buf.readInt64();
         clockInfo = TPMS_CLOCK_INFO.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_TIME_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_TIME_INFO.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_TIME_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_TIME_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_TIME_INFO.class);
     }
-    
+
     @Override
     public String toString()
     {

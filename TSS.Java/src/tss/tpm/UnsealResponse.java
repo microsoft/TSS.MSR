@@ -14,35 +14,35 @@ public class UnsealResponse extends RespStructure
      *  Size of outData is limited to be no more than 128 octets.
      */
     public byte[] outData;
-    
+
     public UnsealResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(outData); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { outData = buf.readSizedByteBuf(); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static UnsealResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(UnsealResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static UnsealResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static UnsealResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(UnsealResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

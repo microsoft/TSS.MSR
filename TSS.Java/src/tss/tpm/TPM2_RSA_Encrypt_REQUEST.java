@@ -18,17 +18,17 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
      *  Auth Index: None
      */
     public TPM_HANDLE keyHandle;
-    
+
     /** Message to be encrypted
      *  NOTE 1 The data type was chosen because it limits the overall size of the input to no
      *  greater than the size of the largest RSA public key. This may be larger than allowed
      *  for keyHandle.
      */
     public byte[] message;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
      *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
      *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
@@ -36,15 +36,15 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
      *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      */
     public TPMU_ASYM_SCHEME inScheme;
-    
+
     /** Optional label L to be associated with the message
      *  Size of the buffer is zero if no label is present
      *  NOTE 2 See description of label above.
      */
     public byte[] label;
-    
+
     public TPM2_RSA_Encrypt_REQUEST() { keyHandle = new TPM_HANDLE(); }
-    
+
     /** @param _keyHandle Reference to public portion of RSA key to use for encryption
      *         Auth Index: None
      *  @param _message Message to be encrypted
@@ -68,7 +68,7 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
         inScheme = _inScheme;
         label = _label;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -78,7 +78,7 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
         inScheme.toTpm(buf);
         buf.writeSizedByteBuf(label);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -89,25 +89,25 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
         inScheme.initFromTpm(buf);
         label = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_RSA_Encrypt_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_RSA_Encrypt_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_RSA_Encrypt_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_RSA_Encrypt_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_RSA_Encrypt_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

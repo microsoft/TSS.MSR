@@ -17,15 +17,15 @@ public class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE keyHandle;
-    
+
     /** Cipher text to be decrypted
      *  NOTE An encrypted RSA data block is the size of the public modulus.
      */
     public byte[] cipherText;
-    
+
     /** Scheme selector  */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
-    
+
     /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
      *  One of: TPMS_KEY_SCHEME_ECDH, TPMS_KEY_SCHEME_ECMQV, TPMS_SIG_SCHEME_RSASSA,
      *  TPMS_SIG_SCHEME_RSAPSS, TPMS_SIG_SCHEME_ECDSA, TPMS_SIG_SCHEME_ECDAA,
@@ -33,12 +33,12 @@ public class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
      *  TPMS_ENC_SCHEME_OAEP, TPMS_SCHEME_HASH, TPMS_NULL_ASYM_SCHEME.
      */
     public TPMU_ASYM_SCHEME inScheme;
-    
+
     /** Label whose association with the message is to be verified  */
     public byte[] label;
-    
+
     public TPM2_RSA_Decrypt_REQUEST() { keyHandle = new TPM_HANDLE(); }
-    
+
     /** @param _keyHandle RSA key to use for decryption
      *         Auth Index: 1
      *         Auth Role: USER
@@ -58,7 +58,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
         inScheme = _inScheme;
         label = _label;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -68,7 +68,7 @@ public class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
         inScheme.toTpm(buf);
         buf.writeSizedByteBuf(label);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -79,25 +79,25 @@ public class TPM2_RSA_Decrypt_REQUEST extends ReqStructure
         inScheme.initFromTpm(buf);
         label = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_RSA_Decrypt_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_RSA_Decrypt_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_RSA_Decrypt_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_RSA_Decrypt_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_RSA_Decrypt_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

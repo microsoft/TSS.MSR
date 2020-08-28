@@ -18,13 +18,13 @@ public final class SHA1 extends TpmEnum<SHA1>
     public enum _N {
         /** Size of digest in octets  */
         DIGEST_SIZE, 
-        
+
         /** Size of hash block in octets  */
         BLOCK_SIZE
     }
-    
+
     private static ValueMap<SHA1> _ValueMap = new ValueMap<SHA1>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final SHA1
         DIGEST_SIZE = new SHA1(20, _N.DIGEST_SIZE),

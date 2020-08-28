@@ -12,38 +12,38 @@ public class TPM2_ECC_Parameters_REQUEST extends ReqStructure
 {
     /** Parameter set selector  */
     public TPM_ECC_CURVE curveID;
-    
+
     public TPM2_ECC_Parameters_REQUEST() {}
-    
+
     /** @param _curveID Parameter set selector  */
     public TPM2_ECC_Parameters_REQUEST(TPM_ECC_CURVE _curveID) { curveID = _curveID; }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { curveID.toTpm(buf); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { curveID = TPM_ECC_CURVE.fromTpm(buf); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ECC_Parameters_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ECC_Parameters_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_ECC_Parameters_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_ECC_Parameters_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ECC_Parameters_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

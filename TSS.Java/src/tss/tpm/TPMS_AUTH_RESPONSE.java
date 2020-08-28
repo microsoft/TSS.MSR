@@ -15,15 +15,15 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
 {
     /** The session nonce, may be the Empty Buffer  */
     public byte[] nonce;
-    
+
     /** The session attributes  */
     public TPMA_SESSION sessionAttributes;
-    
+
     /** Either an HMAC or an EmptyAuth  */
     public byte[] hmac;
-    
+
     public TPMS_AUTH_RESPONSE() {}
-    
+
     /** @param _nonce The session nonce, may be the Empty Buffer
      *  @param _sessionAttributes The session attributes
      *  @param _hmac Either an HMAC or an EmptyAuth
@@ -34,7 +34,7 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         sessionAttributes = _sessionAttributes;
         hmac = _hmac;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -43,7 +43,7 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         sessionAttributes.toTpm(buf);
         buf.writeSizedByteBuf(hmac);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -52,25 +52,25 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         sessionAttributes = TPMA_SESSION.fromTpm(buf);
         hmac = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_AUTH_RESPONSE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_AUTH_RESPONSE.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPMS_AUTH_RESPONSE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPMS_AUTH_RESPONSE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_AUTH_RESPONSE.class);
     }
-    
+
     @Override
     public String toString()
     {

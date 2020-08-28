@@ -18,33 +18,33 @@ public class TPM2_PolicyNV_REQUEST extends ReqStructure
      *  Auth Role: USER
      */
     public TPM_HANDLE authHandle;
-    
+
     /** The NV Index of the area to read
      *  Auth Index: None
      */
     public TPM_HANDLE nvIndex;
-    
+
     /** Handle for the policy session being extended
      *  Auth Index: None
      */
     public TPM_HANDLE policySession;
-    
+
     /** The second operand  */
     public byte[] operandB;
-    
+
     /** The octet offset in the NV Index for the start of operand A  */
     public int offset;
-    
+
     /** The comparison to make  */
     public TPM_EO operation;
-    
+
     public TPM2_PolicyNV_REQUEST()
     {
         authHandle = new TPM_HANDLE();
         nvIndex = new TPM_HANDLE();
         policySession = new TPM_HANDLE();
     }
-    
+
     /** @param _authHandle Handle indicating the source of the authorization value
      *         Auth Index: 1
      *         Auth Role: USER
@@ -65,7 +65,7 @@ public class TPM2_PolicyNV_REQUEST extends ReqStructure
         offset = _offset;
         operation = _operation;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -74,7 +74,7 @@ public class TPM2_PolicyNV_REQUEST extends ReqStructure
         buf.writeShort(offset);
         operation.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -83,25 +83,25 @@ public class TPM2_PolicyNV_REQUEST extends ReqStructure
         offset = buf.readShort();
         operation = TPM_EO.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyNV_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyNV_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_PolicyNV_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_PolicyNV_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyNV_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

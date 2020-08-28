@@ -16,35 +16,35 @@ public class ECDH_ZGenResponse extends RespStructure
 {
     /** X and Y coordinates of the product of the multiplication Z = (xZ , yZ) [hdS]QB  */
     public TPMS_ECC_POINT outPoint;
-    
+
     public ECDH_ZGenResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedObj(outPoint); }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf) { outPoint = buf.createSizedObj(TPMS_ECC_POINT.class); }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static ECDH_ZGenResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ECDH_ZGenResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static ECDH_ZGenResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static ECDH_ZGenResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ECDH_ZGenResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

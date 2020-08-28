@@ -18,29 +18,29 @@ public class TPM2_Duplicate_REQUEST extends ReqStructure
      *  Auth Role: DUP
      */
     public TPM_HANDLE objectHandle;
-    
+
     /** Shall reference the public area of an asymmetric key
      *  Auth Index: None
      */
     public TPM_HANDLE newParentHandle;
-    
+
     /** Optional symmetric encryption key
      *  The size for this key is set to zero when the TPM is to generate the key. This
      *  parameter may be encrypted.
      */
     public byte[] encryptionKeyIn;
-    
+
     /** Definition for the symmetric algorithm to be used for the inner wrapper
      *  may be TPM_ALG_NULL if no inner wrapper is applied
      */
     public TPMT_SYM_DEF_OBJECT symmetricAlg;
-    
+
     public TPM2_Duplicate_REQUEST()
     {
         objectHandle = new TPM_HANDLE();
         newParentHandle = new TPM_HANDLE();
     }
-    
+
     /** @param _objectHandle Loaded object to duplicate
      *         Auth Index: 1
      *         Auth Role: DUP
@@ -59,7 +59,7 @@ public class TPM2_Duplicate_REQUEST extends ReqStructure
         encryptionKeyIn = _encryptionKeyIn;
         symmetricAlg = _symmetricAlg;
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -67,7 +67,7 @@ public class TPM2_Duplicate_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(encryptionKeyIn);
         symmetricAlg.toTpm(buf);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -75,25 +75,25 @@ public class TPM2_Duplicate_REQUEST extends ReqStructure
         encryptionKeyIn = buf.readSizedByteBuf();
         symmetricAlg = TPMT_SYM_DEF_OBJECT.fromTpm(buf);
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Duplicate_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Duplicate_REQUEST.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static TPM2_Duplicate_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static TPM2_Duplicate_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Duplicate_REQUEST.class);
     }
-    
+
     @Override
     public String toString()
     {

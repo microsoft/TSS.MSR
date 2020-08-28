@@ -17,20 +17,20 @@ public final class Logic extends TpmEnum<Logic>
      */
     public enum _N {
         TRUE, 
-        
+
         FALSE, 
-        
+
         YES, 
-        
+
         NO, 
-        
+
         SET, 
-        
+
         CLEAR
     }
-    
+
     private static ValueMap<Logic> _ValueMap = new ValueMap<Logic>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final Logic
         TRUE = new Logic(1, _N.TRUE),

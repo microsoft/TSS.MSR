@@ -14,12 +14,12 @@ public class MakeCredentialResponse extends RespStructure
 {
     /** The credential  */
     public TPMS_ID_OBJECT credentialBlob;
-    
+
     /** Handle algorithm-dependent data that wraps the key that encrypts credentialBlob  */
     public byte[] secret;
-    
+
     public MakeCredentialResponse() {}
-    
+
     /** TpmMarshaller method  */
     @Override
     public void toTpm(TpmBuffer buf)
@@ -27,7 +27,7 @@ public class MakeCredentialResponse extends RespStructure
         buf.writeSizedObj(credentialBlob);
         buf.writeSizedByteBuf(secret);
     }
-    
+
     /** TpmMarshaller method  */
     @Override
     public void initFromTpm(TpmBuffer buf)
@@ -35,25 +35,25 @@ public class MakeCredentialResponse extends RespStructure
         credentialBlob = buf.createSizedObj(TPMS_ID_OBJECT.class);
         secret = buf.readSizedByteBuf();
     }
-    
+
     /** @deprecated Use {@link #toBytes()} instead  */
     public byte[] toTpm () { return toBytes(); }
-    
+
     /** Static marshaling helper  */
     public static MakeCredentialResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(MakeCredentialResponse.class);
     }
-    
+
     /** @deprecated Use {@link #fromBytes()} instead  */
     public static MakeCredentialResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
-    
+
     /** Static marshaling helper  */
     public static MakeCredentialResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(MakeCredentialResponse.class);
     }
-    
+
     @Override
     public String toString()
     {

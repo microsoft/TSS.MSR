@@ -19,18 +19,18 @@ public final class TPM_SE extends TpmEnum<TPM_SE>
      */
     public enum _N {
         HMAC, 
-        
+
         POLICY, 
-        
+
         /** The policy session is being used to compute the policyHash and not for command authorization.
          *  This setting modifies some policy commands and prevents session from being used to
          *  authorize a command.
          */
         TRIAL
     }
-    
+
     private static ValueMap<TPM_SE> _ValueMap = new ValueMap<TPM_SE>();
-    
+
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_SE
         HMAC = new TPM_SE(0x00, _N.HMAC),
