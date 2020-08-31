@@ -14,7 +14,6 @@ import tss.*;
 public class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, TPMU_PUBLIC_ID
 {
     public byte[] label;
-
     public byte[] context;
 
     public TPMS_DERIVE() {}

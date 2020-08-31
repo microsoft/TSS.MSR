@@ -157,7 +157,6 @@ struct TPM_ALG_ID : public TpmEnum<UINT16>
 
     /// <summary> Hash algorithm producing a 512-bit digest </summary>
     SHA3_512 = 0x0029, 
-
     CMAC = 0x003F, 
 
     /// <summary> Counter mode if implemented, all symmetric block ciphers (S type)
@@ -181,7 +180,6 @@ struct TPM_ALG_ID : public TpmEnum<UINT16>
     /// NOTE This mode is not recommended for uses unless the key is frequently rotated such
     /// as in video codecs </summary>
     ECB = 0x0044, 
-
     LAST = 0x0044, 
 
     /// <summary> Phony alg ID to be used for the first union member with no selector </summary>
@@ -197,17 +195,11 @@ struct TPM_ALG_ID : public TpmEnum<UINT16>
 struct TPM_ECC_CURVE : public TpmEnum<UINT16>
 {
     TPM_ENUM_PROLOGUE(TPM_ECC_CURVE)
-
     NONE = 0x0000, 
-
     NIST_P192 = 0x0001, 
-
     NIST_P224 = 0x0002, 
-
     NIST_P256 = 0x0003, 
-
     NIST_P384 = 0x0004, 
-
     NIST_P521 = 0x0005, 
 
     /// <summary> Curve to support ECDAA </summary>
@@ -215,9 +207,7 @@ struct TPM_ECC_CURVE : public TpmEnum<UINT16>
 
     /// <summary> Curve to support ECDAA </summary>
     BN_P638 = 0x0011, 
-
     SM2_P256 = 0x0020, 
-
     TEST_P192 = 0x0021
     TPM_ENUM_EPILOGUE(TPM_ECC_CURVE)
 };
@@ -330,17 +320,11 @@ struct SHA3_512 : public TpmEnum<UINT32>
 struct Logic : public TpmEnum<BYTE>
 {
     TPM_ENUM_PROLOGUE(Logic)
-
     _TRUE = 1, 
-
     _FALSE = 0, 
-
     YES = 1, 
-
     NO = 0, 
-
     SET = 1, 
-
     CLEAR = 0
     TPM_ENUM_EPILOGUE(Logic)
 };
@@ -385,61 +369,33 @@ struct TPM_CC : public TpmEnum<UINT32>
 
     /// <summary> Compile variable. May decrease based on implementation. </summary>
     FIRST = 0x0000011F, 
-
     NV_UndefineSpaceSpecial = 0x0000011F, 
-
     EvictControl = 0x00000120, 
-
     HierarchyControl = 0x00000121, 
-
     NV_UndefineSpace = 0x00000122, 
-
     ChangeEPS = 0x00000124, 
-
     ChangePPS = 0x00000125, 
-
     Clear = 0x00000126, 
-
     ClearControl = 0x00000127, 
-
     ClockSet = 0x00000128, 
-
     HierarchyChangeAuth = 0x00000129, 
-
     NV_DefineSpace = 0x0000012A, 
-
     PCR_Allocate = 0x0000012B, 
-
     PCR_SetAuthPolicy = 0x0000012C, 
-
     PP_Commands = 0x0000012D, 
-
     SetPrimaryPolicy = 0x0000012E, 
-
     FieldUpgradeStart = 0x0000012F, 
-
     ClockRateAdjust = 0x00000130, 
-
     CreatePrimary = 0x00000131, 
-
     NV_GlobalWriteLock = 0x00000132, 
-
     GetCommandAuditDigest = 0x00000133, 
-
     NV_Increment = 0x00000134, 
-
     NV_SetBits = 0x00000135, 
-
     NV_Extend = 0x00000136, 
-
     NV_Write = 0x00000137, 
-
     NV_WriteLock = 0x00000138, 
-
     DictionaryAttackLockReset = 0x00000139, 
-
     DictionaryAttackParameters = 0x0000013A, 
-
     NV_ChangeAuth = 0x0000013B, 
 
     /// <summary> PCR </summary>
@@ -447,53 +403,32 @@ struct TPM_CC : public TpmEnum<UINT32>
 
     /// <summary> PCR </summary>
     PCR_Reset = 0x0000013D, 
-
     SequenceComplete = 0x0000013E, 
-
     SetAlgorithmSet = 0x0000013F, 
-
     SetCommandCodeAuditStatus = 0x00000140, 
-
     FieldUpgradeData = 0x00000141, 
-
     IncrementalSelfTest = 0x00000142, 
-
     SelfTest = 0x00000143, 
-
     Startup = 0x00000144, 
-
     Shutdown = 0x00000145, 
-
     StirRandom = 0x00000146, 
-
     ActivateCredential = 0x00000147, 
-
     Certify = 0x00000148, 
 
     /// <summary> Policy </summary>
     PolicyNV = 0x00000149, 
-
     CertifyCreation = 0x0000014A, 
-
     Duplicate = 0x0000014B, 
-
     GetTime = 0x0000014C, 
-
     GetSessionAuditDigest = 0x0000014D, 
-
     NV_Read = 0x0000014E, 
-
     NV_ReadLock = 0x0000014F, 
-
     ObjectChangeAuth = 0x00000150, 
 
     /// <summary> Policy </summary>
     PolicySecret = 0x00000151, 
-
     Rewrap = 0x00000152, 
-
     Create = 0x00000153, 
-
     ECDH_ZGen = 0x00000154, 
 
     /// <summary> See NOTE 1 </summary>
@@ -501,13 +436,9 @@ struct TPM_CC : public TpmEnum<UINT32>
 
     /// <summary> See NOTE 1 </summary>
     MAC = 0x00000155, 
-
     Import = 0x00000156, 
-
     Load = 0x00000157, 
-
     Quote = 0x00000158, 
-
     RSA_Decrypt = 0x00000159, 
 
     /// <summary> See NOTE 1 </summary>
@@ -515,11 +446,8 @@ struct TPM_CC : public TpmEnum<UINT32>
 
     /// <summary> See NOTE 1 </summary>
     MAC_Start = 0x0000015B, 
-
     SequenceUpdate = 0x0000015C, 
-
     Sign = 0x0000015D, 
-
     Unseal = 0x0000015E, 
 
     /// <summary> Policy </summary>
@@ -530,16 +458,12 @@ struct TPM_CC : public TpmEnum<UINT32>
 
     /// <summary> Context </summary>
     ContextSave = 0x00000162, 
-
     ECDH_KeyGen = 0x00000163, 
-
     EncryptDecrypt = 0x00000164, 
 
     /// <summary> Context </summary>
     FlushContext = 0x00000165, 
-
     LoadExternal = 0x00000167, 
-
     MakeCredential = 0x00000168, 
 
     /// <summary> NV </summary>
@@ -571,25 +495,15 @@ struct TPM_CC : public TpmEnum<UINT32>
 
     /// <summary> Policy </summary>
     PolicyTicket = 0x00000172, 
-
     ReadPublic = 0x00000173, 
-
     RSA_Encrypt = 0x00000174, 
-
     StartAuthSession = 0x00000176, 
-
     VerifySignature = 0x00000177, 
-
     ECC_Parameters = 0x00000178, 
-
     FirmwareRead = 0x00000179, 
-
     GetCapability = 0x0000017A, 
-
     GetRandom = 0x0000017B, 
-
     GetTestResult = 0x0000017C, 
-
     Hash = 0x0000017D, 
 
     /// <summary> PCR </summary>
@@ -597,19 +511,12 @@ struct TPM_CC : public TpmEnum<UINT32>
 
     /// <summary> Policy </summary>
     PolicyPCR = 0x0000017F, 
-
     PolicyRestart = 0x00000180, 
-
     ReadClock = 0x00000181, 
-
     PCR_Extend = 0x00000182, 
-
     PCR_SetAuthValue = 0x00000183, 
-
     NV_Certify = 0x00000184, 
-
     EventSequenceComplete = 0x00000185, 
-
     HashSequenceStart = 0x00000186, 
 
     /// <summary> Policy </summary>
@@ -620,16 +527,12 @@ struct TPM_CC : public TpmEnum<UINT32>
 
     /// <summary> Policy </summary>
     PolicyGetDigest = 0x00000189, 
-
     TestParms = 0x0000018A, 
-
     Commit = 0x0000018B, 
 
     /// <summary> Policy </summary>
     PolicyPassword = 0x0000018C, 
-
     ZGen_2Phase = 0x0000018D, 
-
     EC_Ephemeral = 0x0000018E, 
 
     /// <summary> Policy </summary>
@@ -637,32 +540,23 @@ struct TPM_CC : public TpmEnum<UINT32>
 
     /// <summary> Policy </summary>
     PolicyTemplate = 0x00000190, 
-
     CreateLoaded = 0x00000191, 
 
     /// <summary> Policy </summary>
     PolicyAuthorizeNV = 0x00000192, 
-
     EncryptDecrypt2 = 0x00000193, 
-
     AC_GetCapability = 0x00000194, 
-
     AC_Send = 0x00000195, 
 
     /// <summary> Policy </summary>
     Policy_AC_SendSelect = 0x00000196, 
-
     CertifyX509 = 0x00000197, 
-
     ACT_SetTimeout = 0x00000198, 
-
     ECC_Encrypt = 0x00000199, 
-
     ECC_Decrypt = 0x0000019A, 
 
     /// <summary> Compile variable. May increase based on implementation. </summary>
     LAST = 0x0000019A, 
-
     CC_VEND = 0x20000000, 
 
     /// <summary> Used for testing of command dispatch </summary>
@@ -674,51 +568,28 @@ struct TPM_CC : public TpmEnum<UINT32>
 struct ImplementationConstants : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(ImplementationConstants)
-
     Ossl = 1, 
-
     Ltc = 2, 
-
     Msbn = 3, 
-
     Symcrypt = 4, 
-
     HASH_COUNT = 3, 
-
     MAX_SYM_KEY_BITS = 256, 
-
     MAX_SYM_KEY_BYTES = ((MAX_SYM_KEY_BITS + 7) / 8), 
-
     MAX_SYM_BLOCK_SIZE = 16, 
-
     MAX_CAP_CC = TPM_CC::LAST, 
-
     MAX_RSA_KEY_BYTES = 256, 
-
     MAX_AES_KEY_BYTES = 32, 
-
     MAX_ECC_KEY_BYTES = 48, 
-
     LABEL_MAX_BUFFER = 32, 
-
     _TPM_CAP_SIZE = sizeof(UINT32), 
-
     MAX_CAP_DATA = (1024/*MAX_CAP_BUFFER*/-_TPM_CAP_SIZE-sizeof(UINT32)), 
-
     MAX_CAP_ALGS = (MAX_CAP_DATA / 0x6/*sizeof(TPMS_ALG_PROPERTY)*/), 
-
     MAX_CAP_HANDLES = (MAX_CAP_DATA / 0x4/*sizeof(TPM_HANDLE)*/), 
-
     MAX_TPM_PROPERTIES = (MAX_CAP_DATA / 0x8/*sizeof(TPMS_TAGGED_PROPERTY)*/), 
-
     MAX_PCR_PROPERTIES = (MAX_CAP_DATA / 0x5/*sizeof(TPMS_TAGGED_PCR_SELECT)*/), 
-
     MAX_ECC_CURVES = (MAX_CAP_DATA / sizeof(TPM_ECC_CURVE)), 
-
     MAX_TAGGED_POLICIES = (MAX_CAP_DATA / 0x46/*sizeof(TPMS_TAGGED_POLICY)*/), 
-
     MAX_AC_CAPABILITIES = (MAX_CAP_DATA / 0x8/*sizeof(TPMS_AC_OUTPUT)*/), 
-
     MAX_ACT_DATA = MAX_CAP_DATA / 0xC/*sizeof(TPMS_ACT_DATA)*/
     TPM_ENUM_EPILOGUE(ImplementationConstants)
 };
@@ -730,7 +601,6 @@ struct ImplementationConstants : public TpmEnum<UINT32>
 struct TPM_RC : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_RC)
-
     SUCCESS = 0x000, 
 
     /// <summary> Defined for compatibility with TPM 1.2 </summary>
@@ -1426,9 +1296,7 @@ struct TPM_SU : public TpmEnum<UINT16>
 struct TPM_SE : public TpmEnum<UINT8>
 {
     TPM_ENUM_PROLOGUE(TPM_SE)
-
     HMAC = 0x00, 
-
     POLICY = 0x01, 
 
     /// <summary> The policy session is being used to compute the policyHash and not for
@@ -1445,7 +1313,6 @@ struct TPM_SE : public TpmEnum<UINT8>
 struct TPM_CAP : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_CAP)
-
     FIRST = 0x00000000, 
 
     /// <summary> TPML_ALG_PROPERTY </summary>
@@ -1480,7 +1347,6 @@ struct TPM_CAP : public TpmEnum<UINT32>
 
     /// <summary> TPML_ACT_DATA </summary>
     ACT = 0x0000000A, 
-
     LAST = 0x0000000A, 
 
     /// <summary> Manufacturer-specific values </summary>
@@ -2003,7 +1869,6 @@ struct TPM_HT : public TpmEnum<UINT8>
 struct TPM_RH : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_RH)
-
     FIRST = 0x40000000, 
 
     /// <summary> Not used1 </summary>
@@ -2148,15 +2013,10 @@ struct TPM_AE : public TpmEnum<UINT32>
 struct PLATFORM : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(PLATFORM)
-
     FAMILY = TPM_SPEC::FAMILY, 
-
     LEVEL = TPM_SPEC::LEVEL, 
-
     VERSION = TPM_SPEC::VERSION, 
-
     YEAR = TPM_SPEC::YEAR, 
-
     DAY_OF_YEAR = TPM_SPEC::DAY_OF_YEAR
     TPM_ENUM_EPILOGUE(PLATFORM)
 };
@@ -2183,12 +2043,10 @@ struct Implementation : public TpmEnum<UINT32>
 
     /// <summary> The number of PCR in the TPM </summary>
     IMPLEMENTATION_PCR = 24, 
-
     PCR_SELECT_MAX = ((IMPLEMENTATION_PCR+7)/8), 
 
     /// <summary> The number of PCR required by the relevant platform specification </summary>
     PLATFORM_PCR = 24, 
-
     PCR_SELECT_MIN = ((PLATFORM_PCR + 7) / 8), 
 
     /// <summary> The D-RTM PCR
@@ -2230,9 +2088,7 @@ struct Implementation : public TpmEnum<UINT32>
 
     /// <summary> Number of PCR groups that have individual authorization values </summary>
     NUM_AUTHVALUE_PCR_GROUP = 1, 
-
     MAX_CONTEXT_SIZE = 1264, 
-
     MAX_DIGEST_BUFFER = 1024, 
 
     /// <summary> Maximum data size allowed in an NV Index </summary>
@@ -2250,7 +2106,6 @@ struct Implementation : public TpmEnum<UINT32>
     /// <summary> The TPM will not allocate a non-counter index if it would prevent allocation
     /// of this number of indices. </summary>
     MIN_COUNTER_INDICES = 8, 
-
     NUM_STATIC_PCR = 16, 
 
     /// <summary> Number of algorithms that can be in a list </summary>
@@ -2282,7 +2137,6 @@ struct Implementation : public TpmEnum<UINT32>
     /// <summary> The maximum number of octets that may be in a sealed blob; 128 is the
     /// minimum allowed value </summary>
     MAX_SYM_DATA = 128, 
-
     MAX_RNG_ENTROPY_SIZE = 64, 
 
     /// <summary> Number of bytes used for the RAM index space. If this is not large enough,
@@ -2294,9 +2148,7 @@ struct Implementation : public TpmEnum<UINT32>
 
     /// <summary> Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented </summary>
     ENABLE_PCR_NO_INCREMENT = Logic::YES, 
-
     CRT_FORMAT_RSA = Logic::YES, 
-
     VENDOR_COMMAND_COUNT = 0, 
 
     /// <summary> Maximum size of the vendor-specific buffer </summary>
@@ -2306,11 +2158,8 @@ struct Implementation : public TpmEnum<UINT32>
     /// maximum number of bits allowed from an instantiation of a KDF-DRBG. This is size is OK
     /// because RSA keys are never derived keys </summary>
     MAX_DERIVATION_BITS = 8192, 
-
     RSA_MAX_PRIME = (ImplementationConstants::MAX_RSA_KEY_BYTES/2), 
-
     RSA_PRIVATE_SIZE = (RSA_MAX_PRIME * 5), 
-
     SIZE_OF_X509_SERIAL_NUMBER = 20, 
 
     /// <summary> This is a vendor-specific value so it is in this vendor-speific table. When
@@ -2330,21 +2179,13 @@ struct TPM_HC : public TpmEnum<UINT32>
 
     /// <summary> To mask off the variable part </summary>
     HR_RANGE_MASK = 0xFF000000, 
-
     HR_SHIFT = 24, 
-
     HR_PCR = (TPM_HT::PCR << HR_SHIFT), 
-
     HR_HMAC_SESSION = (TPM_HT::HMAC_SESSION << HR_SHIFT), 
-
     HR_POLICY_SESSION = (TPM_HT::POLICY_SESSION << HR_SHIFT), 
-
     HR_TRANSIENT = (TPM_HT::TRANSIENT << HR_SHIFT), 
-
     HR_PERSISTENT = (TPM_HT::PERSISTENT << HR_SHIFT), 
-
     HR_NV_INDEX = (TPM_HT::NV_INDEX << HR_SHIFT), 
-
     HR_PERMANENT = (TPM_HT::PERMANENT << HR_SHIFT), 
 
     /// <summary> First PCR </summary>
@@ -2397,9 +2238,7 @@ struct TPM_HC : public TpmEnum<UINT32>
 
     /// <summary> Last allowed NV Index </summary>
     NV_INDEX_LAST = (NV_INDEX_FIRST + 0x00FFFFFF), 
-
     PERMANENT_FIRST = TPM_RH::FIRST, 
-
     PERMANENT_LAST = TPM_RH::LAST, 
 
     /// <summary> AC aliased NV Index </summary>
@@ -2429,29 +2268,29 @@ struct TPMA_ALGORITHM : public TpmEnum<UINT32>
 
     /// <summary> SET (1): an asymmetric algorithm with public and private portions
     /// CLEAR (0): not an asymmetric algorithm </summary>
-    asymmetric = 0x1, 
+    asymmetric = 0x1,
 
     /// <summary> SET (1): a symmetric block cipher
     /// CLEAR (0): not a symmetric block cipher </summary>
-    symmetric = 0x2, 
+    symmetric = 0x2,
 
     /// <summary> SET (1): a hash algorithm
     /// CLEAR (0): not a hash algorithm </summary>
-    hash = 0x4, 
+    hash = 0x4,
 
     /// <summary> SET (1): an algorithm that may be used as an object type
     /// CLEAR (0): an algorithm that is not used as an object type </summary>
-    object = 0x8, 
+    object = 0x8,
 
     /// <summary> SET (1): a signing algorithm. The setting of asymmetric, symmetric, and hash
     /// will indicate the type of signing algorithm.
     /// CLEAR (0): not a signing algorithm </summary>
-    signing = 0x100, 
+    signing = 0x100,
 
     /// <summary> SET (1): an encryption/decryption algorithm. The setting of asymmetric,
     /// symmetric, and hash will indicate the type of encryption/decryption algorithm.
     /// CLEAR (0): not an encryption/decryption algorithm </summary>
-    encrypting = 0x200, 
+    encrypting = 0x200,
 
     /// <summary> SET (1): a method such as a key derivative function (KDF)
     /// CLEAR (0): not a method </summary>
@@ -2471,63 +2310,63 @@ struct TPMA_OBJECT : public TpmEnum<UINT32>
     /// ancestor key being duplicated for use in another hierarchy.
     /// NOTE fixedTPM does not indicate that key material resides on a single TPM (see
     /// sensitiveDataOrigin). </summary>
-    fixedTPM = 0x2, 
+    fixedTPM = 0x2,
 
     /// <summary> SET (1): Previously saved contexts of this object may not be loaded after
     /// Startup(CLEAR).
     /// CLEAR (0): Saved contexts of this object may be used after a Shutdown(STATE) and
     /// subsequent Startup(). </summary>
-    stClear = 0x4, 
+    stClear = 0x4,
 
     /// <summary> SET (1): The parent of the object may not change.
     /// CLEAR (0): The parent of the object may change as the result of a TPM2_Duplicate() of
     /// the object. </summary>
-    fixedParent = 0x10, 
+    fixedParent = 0x10,
 
     /// <summary> SET (1): Indicates that, when the object was created with TPM2_Create() or
     /// TPM2_CreatePrimary(), the TPM generated all of the sensitive data other than the authValue.
     /// CLEAR (0): A portion of the sensitive data, other than the authValue, was provided by
     /// the caller. </summary>
-    sensitiveDataOrigin = 0x20, 
+    sensitiveDataOrigin = 0x20,
 
     /// <summary> SET (1): Approval of USER role actions with this object may be with an HMAC
     /// session or with a password using the authValue of the object or a policy session.
     /// CLEAR (0): Approval of USER role actions with this object may only be done with a
     /// policy session. </summary>
-    userWithAuth = 0x40, 
+    userWithAuth = 0x40,
 
     /// <summary> SET (1): Approval of ADMIN role actions with this object may only be done
     /// with a policy session.
     /// CLEAR (0): Approval of ADMIN role actions with this object may be with an HMAC session
     /// or with a password using the authValue of the object or a policy session. </summary>
-    adminWithPolicy = 0x80, 
+    adminWithPolicy = 0x80,
 
     /// <summary> SET (1): The object is not subject to dictionary attack protections.
     /// CLEAR (0): The object is subject to dictionary attack protections. </summary>
-    noDA = 0x400, 
+    noDA = 0x400,
 
     /// <summary> SET (1): If the object is duplicated, then symmetricAlg shall not be
     /// TPM_ALG_NULL and newParentHandle shall not be TPM_RH_NULL.
     /// CLEAR (0): The object may be duplicated without an inner wrapper on the private
     /// portion of the object and the new parent may be TPM_RH_NULL. </summary>
-    encryptedDuplication = 0x800, 
+    encryptedDuplication = 0x800,
 
     /// <summary> SET (1): Key usage is restricted to manipulate structures of known format;
     /// the parent of this key shall have restricted SET.
     /// CLEAR (0): Key usage is not restricted to use on special formats. </summary>
-    restricted = 0x10000, 
+    restricted = 0x10000,
 
     /// <summary> SET (1): The private portion of the key may be used to decrypt.
     /// CLEAR (0): The private portion of the key may not be used to decrypt. </summary>
-    decrypt = 0x20000, 
+    decrypt = 0x20000,
 
     /// <summary> SET (1): For a symmetric cipher object, the private portion of the key may
     /// be used to encrypt. For other objects, the private portion of the key may be used to sign.
     /// CLEAR (0): The private portion of the key may not be used to sign or encrypt. </summary>
-    sign = 0x40000, 
+    sign = 0x40000,
 
     /// <summary> Alias to the sign value. </summary>
-    encrypt = 0x40000, 
+    encrypt = 0x40000,
 
     /// <summary> SET (1): An asymmetric key that may not be used to sign with TPM2_Sign()
     /// CLEAR (0): A key that may be used with TPM2_Sign() if sign is SET
@@ -2557,7 +2396,7 @@ struct TPMA_SESSION : public TpmEnum<UINT8>
     /// the space is available. A session created after another session is ended may have the
     /// same handle but logically is not the same session.
     /// This attribute has no effect if the command does not complete successfully. </summary>
-    continueSession = 0x1, 
+    continueSession = 0x1,
 
     /// <summary> SET (1): In a command, this setting indicates that the command should only
     /// be executed if the session is exclusive at the start of the command. In a response, it
@@ -2565,14 +2404,14 @@ struct TPMA_SESSION : public TpmEnum<UINT8>
     /// attribute is SET (TPM_RC_ATTRIBUTES).
     /// CLEAR (0): In a command, indicates that the session need not be exclusive at the start
     /// of the command. In a response, indicates that the session is not exclusive. </summary>
-    auditExclusive = 0x2, 
+    auditExclusive = 0x2,
 
     /// <summary> SET (1): In a command, this setting indicates that the audit digest of the
     /// session should be initialized and the exclusive status of the session SET. This
     /// setting is only allowed if the audit attribute is SET (TPM_RC_ATTRIBUTES).
     /// CLEAR (0): In a command, indicates that the audit digest should not be initialized.
     /// This bit is always CLEAR in a response. </summary>
-    auditReset = 0x4, 
+    auditReset = 0x4,
 
     /// <summary> SET (1): In a command, this setting indicates that the first parameter in
     /// the command is symmetrically encrypted using the parameter encryption scheme described
@@ -2584,7 +2423,7 @@ struct TPMA_SESSION : public TpmEnum<UINT8>
     /// This attribute may be SET in a session that is not associated with a command handle.
     /// Such a session is provided for purposes of encrypting a parameter and not for authorization.
     /// This attribute may be SET in combination with any other session attributes. </summary>
-    decrypt = 0x20, 
+    decrypt = 0x20,
 
     /// <summary> SET (1): In a command, this setting indicates that the TPM should use this
     /// session to encrypt the first parameter in the response. In a response, it indicates
@@ -2596,7 +2435,7 @@ struct TPMA_SESSION : public TpmEnum<UINT8>
     /// This attribute may be SET in a session that is not associated with a command handle.
     /// Such a session is provided for purposes of encrypting a parameter and not for
     /// authorization. </summary>
-    encrypt = 0x40, 
+    encrypt = 0x40,
 
     /// <summary> SET (1): In a command or response, this setting indicates that the session
     /// is for audit and that auditExclusive and auditReset have meaning. This session may
@@ -2614,21 +2453,16 @@ struct TPMA_SESSION : public TpmEnum<UINT8>
 struct TPMA_LOCALITY : public TpmEnum<UINT8>
 {
     TPM_ENUM_PROLOGUE(TPMA_LOCALITY)
-
-    LOC_ZERO = 0x1, 
-
-    LOC_ONE = 0x2, 
-
-    LOC_TWO = 0x4, 
-
-    LOC_THREE = 0x8, 
-
-    LOC_FOUR = 0x10, 
+    LOC_ZERO = 0x1,
+    LOC_ONE = 0x2,
+    LOC_TWO = 0x4,
+    LOC_THREE = 0x8,
+    LOC_FOUR = 0x10,
 
     /// <summary> If any of these bits is set, an extended locality is indicated </summary>
-    Extended_BIT_MASK = 0x000000E0,
+    Extended_BIT_MASK = 0xE0,
     Extended_BIT_OFFSET = 5,
-    Extended_BIT_LENGTH = 3,
+    Extended_BIT_LENGTH = 3
     TPM_ENUM_EPILOGUE(TPMA_LOCALITY)
 };
 
@@ -2644,25 +2478,25 @@ struct TPMA_PERMANENT : public TpmEnum<UINT32>
     /// <summary> SET (1): TPM2_HierarchyChangeAuth() with ownerAuth has been executed since
     /// the last TPM2_Clear().
     /// CLEAR (0): ownerAuth has not been changed since TPM2_Clear(). </summary>
-    ownerAuthSet = 0x1, 
+    ownerAuthSet = 0x1,
 
     /// <summary> SET (1): TPM2_HierarchyChangeAuth() with endorsementAuth has been executed
     /// since the last TPM2_Clear().
     /// CLEAR (0): endorsementAuth has not been changed since TPM2_Clear(). </summary>
-    endorsementAuthSet = 0x2, 
+    endorsementAuthSet = 0x2,
 
     /// <summary> SET (1): TPM2_HierarchyChangeAuth() with lockoutAuth has been executed since
     /// the last TPM2_Clear().
     /// CLEAR (0): lockoutAuth has not been changed since TPM2_Clear(). </summary>
-    lockoutAuthSet = 0x4, 
+    lockoutAuthSet = 0x4,
 
     /// <summary> SET (1): TPM2_Clear() is disabled.
     /// CLEAR (0): TPM2_Clear() is enabled.
     /// NOTE See TPM2_ClearControl in TPM 2.0 Part 3 for details on changing this attribute. </summary>
-    disableClear = 0x100, 
+    disableClear = 0x100,
 
     /// <summary> SET (1): The TPM is in lockout, when failedTries is equal to maxTries. </summary>
-    inLockout = 0x200, 
+    inLockout = 0x200,
 
     /// <summary> SET (1): The EPS was created by the TPM.
     /// CLEAR (0): The EPS was created outside of the TPM using a manufacturer-specific
@@ -2683,7 +2517,7 @@ struct TPMA_STARTUP_CLEAR : public TpmEnum<UINT32>
     /// objects in the platform hierarchy, including persistent objects, cannot be used.
     /// NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this
     /// attribute. </summary>
-    phEnable = 0x1, 
+    phEnable = 0x1,
 
     /// <summary> SET (1): The Storage hierarchy is enabled and ownerAuth or ownerPolicy may
     /// be used for authorization. NV indices defined using owner authorization are accessible.
@@ -2692,7 +2526,7 @@ struct TPMA_STARTUP_CLEAR : public TpmEnum<UINT32>
     /// authorization cannot be used.
     /// NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this
     /// attribute. </summary>
-    shEnable = 0x2, 
+    shEnable = 0x2,
 
     /// <summary> SET (1): The EPS hierarchy is enabled and Endorsement Authorization may be
     /// used to authorize commands.
@@ -2700,7 +2534,7 @@ struct TPMA_STARTUP_CLEAR : public TpmEnum<UINT32>
     /// in the endorsement hierarchy, including persistent objects, cannot be used.
     /// NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this
     /// attribute. </summary>
-    ehEnable = 0x4, 
+    ehEnable = 0x4,
 
     /// <summary> SET (1): NV indices that have TPMA_NV_PLATFORMCREATE SET may be read or
     /// written. The platform can create define and undefine indices.
@@ -2715,7 +2549,7 @@ struct TPMA_STARTUP_CLEAR : public TpmEnum<UINT32>
     /// whether phEnableNV is applicable. Since the TPM will return TPM_RC_HANDLE if the index
     /// does not exist, it also returns this error code if the index is disabled. Otherwise,
     /// the TPM would leak the existence of an index even when disabled. </summary>
-    phEnableNV = 0x8, 
+    phEnableNV = 0x8,
 
     /// <summary> SET (1): The TPM received a TPM2_Shutdown() and a matching TPM2_Startup().
     /// CLEAR (0): TPM2_Startup(TPM_SU_CLEAR) was not preceded by a TPM2_Shutdown() of any type.
@@ -2738,13 +2572,13 @@ struct TPMA_MEMORY : public TpmEnum<UINT32>
     /// contexts is shared with the memory used for transient objects
     /// CLEAR (0): indicates that the memory used for authorization sessions is not shared
     /// with memory used for transient objects </summary>
-    sharedRAM = 0x1, 
+    sharedRAM = 0x1,
 
     /// <summary> SET (1): indicates that the NV memory used for persistent objects is shared
     /// with the NV memory used for NV Index values
     /// CLEAR (0): indicates that the persistent objects and NV Index values are allocated
     /// from separate sections of NV </summary>
-    sharedNV = 0x2, 
+    sharedNV = 0x2,
 
     /// <summary> SET (1): indicates that the TPM copies persistent objects to a
     /// transient-object slot in RAM when the persistent object is referenced in a command.
@@ -2764,39 +2598,39 @@ struct TPMA_CC : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(TPMA_CC)
 
     /// <summary> Indicates the command being selected </summary>
-    commandIndex_BIT_MASK = 0x0000FFFF,
+    commandIndex_BIT_MASK = 0xFFFF,
     commandIndex_BIT_OFFSET = 0,
     commandIndex_BIT_LENGTH = 16,
 
     /// <summary> SET (1): indicates that the command may write to NV
     /// CLEAR (0): indicates that the command does not write to NV </summary>
-    nv = 0x400000, 
+    nv = 0x400000,
 
     /// <summary> SET (1): This command could flush any number of loaded contexts.
     /// CLEAR (0): no additional changes other than indicated by the flushed attribute </summary>
-    extensive = 0x800000, 
+    extensive = 0x800000,
 
     /// <summary> SET (1): The context associated with any transient handle in the command
     /// will be flushed when this command completes.
     /// CLEAR (0): No context is flushed as a side effect of this command. </summary>
-    flushed = 0x1000000, 
+    flushed = 0x1000000,
 
     /// <summary> Indicates the number of the handles in the handle area for this command </summary>
-    cHandles_BIT_MASK = 0x0E000000,
+    cHandles_BIT_MASK = 0xE000000,
     cHandles_BIT_OFFSET = 25,
     cHandles_BIT_LENGTH = 3,
 
     /// <summary> SET (1): indicates the presence of the handle area in the response </summary>
-    rHandle = 0x10000000, 
+    rHandle = 0x10000000,
 
     /// <summary> SET (1): indicates that the command is vendor-specific
     /// CLEAR (0): indicates that the command is defined in a version of this specification </summary>
-    V = 0x20000000, 
+    V = 0x20000000,
 
     /// <summary> Allocated for software; shall be zero </summary>
     Res_BIT_MASK = 0xC0000000,
     Res_BIT_OFFSET = 30,
-    Res_BIT_LENGTH = 2,
+    Res_BIT_LENGTH = 2
     TPM_ENUM_EPILOGUE(TPMA_CC)
 };
 
@@ -2823,32 +2657,32 @@ struct TPMA_X509_KEY_USAGE : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(TPMA_X509_KEY_USAGE)
 
     /// <summary> Attributes.Decrypt SET </summary>
-    decipherOnly = 0x800000, 
+    decipherOnly = 0x800000,
 
     /// <summary> Attributes.Decrypt SET </summary>
-    encipherOnly = 0x1000000, 
+    encipherOnly = 0x1000000,
 
     /// <summary> Attributes.sign SET </summary>
-    cRLSign = 0x2000000, 
+    cRLSign = 0x2000000,
 
     /// <summary> Attributes.sign SET </summary>
-    keyCertSign = 0x4000000, 
+    keyCertSign = 0x4000000,
 
     /// <summary> Attributes.Decrypt SET </summary>
-    keyAgreement = 0x8000000, 
+    keyAgreement = 0x8000000,
 
     /// <summary> Attributes.Decrypt SET </summary>
-    dataEncipherment = 0x10000000, 
+    dataEncipherment = 0x10000000,
 
     /// <summary> Asymmetric key with decrypt and restricted SET key has the attributes of a
     /// parent key </summary>
-    keyEncipherment = 0x20000000, 
+    keyEncipherment = 0x20000000,
 
     /// <summary> FixedTPM SET in Subject Key (objectHandle) </summary>
-    nonrepudiation = 0x40000000, 
+    nonrepudiation = 0x40000000,
 
     /// <summary> Alias to the nonrepudiation value. </summary>
-    contentCommitment = 0x40000000, 
+    contentCommitment = 0x40000000,
 
     /// <summary> Sign SET in Subject Key (objectHandle) </summary>
     digitalSignature = 0x80000000
@@ -2866,7 +2700,7 @@ struct TPMA_ACT : public TpmEnum<UINT32>
 
     /// <summary> SET (1): The ACT has signaled
     /// CLEAR (0): The ACT has not signaled </summary>
-    signaled = 0x1, 
+    signaled = 0x1,
 
     /// <summary> Preserves the state of signaled, depending on the power cycle </summary>
     preserveSignaled = 0x2
@@ -2882,14 +2716,14 @@ struct TPM_NV_INDEX : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(TPM_NV_INDEX)
 
     /// <summary> The Index of the NV location </summary>
-    index_BIT_MASK = 0x00FFFFFF,
+    index_BIT_MASK = 0xFFFFFF,
     index_BIT_OFFSET = 0,
     index_BIT_LENGTH = 24,
 
     /// <summary> Constant value of TPM_HT_NV_INDEX indicating the NV Index range </summary>
     RhNv_BIT_MASK = 0xFF000000,
     RhNv_BIT_OFFSET = 24,
-    RhNv_BIT_LENGTH = 8,
+    RhNv_BIT_LENGTH = 8
     TPM_ENUM_EPILOGUE(TPM_NV_INDEX)
 };
 
@@ -2902,17 +2736,17 @@ struct TPMA_NV : public TpmEnum<UINT32>
     /// <summary> SET (1): The Index data can be written if Platform Authorization is provided.
     /// CLEAR (0): Writing of the Index data cannot be authorized with Platform Authorization.
     /// </summary>
-    PPWRITE = 0x1, 
+    PPWRITE = 0x1,
 
     /// <summary> SET (1): The Index data can be written if Owner Authorization is provided.
     /// CLEAR (0): Writing of the Index data cannot be authorized with Owner Authorization. </summary>
-    OWNERWRITE = 0x2, 
+    OWNERWRITE = 0x2,
 
     /// <summary> SET (1): Authorizations to change the Index contents that require USER role
     /// may be provided with an HMAC session or password.
     /// CLEAR (0): Authorizations to change the Index contents that require USER role may not
     /// be provided with an HMAC session or password. </summary>
-    AUTHWRITE = 0x4, 
+    AUTHWRITE = 0x4,
 
     /// <summary> SET (1): Authorizations to change the Index contents that require USER role
     /// may be provided with a policy session.
@@ -2920,7 +2754,7 @@ struct TPMA_NV : public TpmEnum<UINT32>
     /// be provided with a policy session.
     /// NOTE TPM2_NV_ChangeAuth() always requires that authorization be provided in a policy
     /// session. </summary>
-    POLICYWRITE = 0x8, 
+    POLICYWRITE = 0x8,
 
     /// <summary> Ordinary contains data that is opaque to the TPM that can only be modified
     /// using TPM2_NV_Write(). </summary>
@@ -2948,7 +2782,7 @@ struct TPMA_NV : public TpmEnum<UINT32>
 
     /// <summary> The type of the index.
     /// NOTE A TPM is not required to support all TPM_NT values </summary>
-    TpmNt_BIT_MASK = 0x000000F0,
+    TpmNt_BIT_MASK = 0xF0,
     TpmNt_BIT_OFFSET = 4,
     TpmNt_BIT_LENGTH = 4,
 
@@ -2958,77 +2792,77 @@ struct TPMA_NV : public TpmEnum<UINT32>
     /// TPM2_NV_UndefineSpace().
     /// NOTE An Index with this attribute and a policy that cannot be satisfied (e.g., an
     /// Empty Policy) cannot be deleted. </summary>
-    POLICY_DELETE = 0x400, 
+    POLICY_DELETE = 0x400,
 
     /// <summary> SET (1): Index cannot be written.
     /// CLEAR (0): Index can be written. </summary>
-    WRITELOCKED = 0x800, 
+    WRITELOCKED = 0x800,
 
     /// <summary> SET (1): A partial write of the Index data is not allowed. The write size
     /// shall match the defined space size.
     /// CLEAR (0): Partial writes are allowed. This setting is required if the .dataSize of
     /// the Index is larger than NV_MAX_BUFFER_SIZE for the implementation. </summary>
-    WRITEALL = 0x1000, 
+    WRITEALL = 0x1000,
 
     /// <summary> SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this location.
     /// CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if
     /// TPMA_NV_WRITE_STCLEAR is also CLEAR. </summary>
-    WRITEDEFINE = 0x2000, 
+    WRITEDEFINE = 0x2000,
 
     /// <summary> SET (1): TPM2_NV_WriteLock() may be used to prevent further writes to this
     /// location until the next TPM Reset or TPM Restart.
     /// CLEAR (0): TPM2_NV_WriteLock() does not block subsequent writes if TPMA_NV_WRITEDEFINE
     /// is also CLEAR. </summary>
-    WRITE_STCLEAR = 0x4000, 
+    WRITE_STCLEAR = 0x4000,
 
     /// <summary> SET (1): If TPM2_NV_GlobalWriteLock() is successful, TPMA_NV_WRITELOCKED is set.
     /// CLEAR (0): TPM2_NV_GlobalWriteLock() has no effect on the writing of the data at this
     /// Index. </summary>
-    GLOBALLOCK = 0x8000, 
+    GLOBALLOCK = 0x8000,
 
     /// <summary> SET (1): The Index data can be read if Platform Authorization is provided.
     /// CLEAR (0): Reading of the Index data cannot be authorized with Platform Authorization.
     /// </summary>
-    PPREAD = 0x10000, 
+    PPREAD = 0x10000,
 
     /// <summary> SET (1): The Index data can be read if Owner Authorization is provided.
     /// CLEAR (0): Reading of the Index data cannot be authorized with Owner Authorization. </summary>
-    OWNERREAD = 0x20000, 
+    OWNERREAD = 0x20000,
 
     /// <summary> SET (1): The Index data may be read if the authValue is provided.
     /// CLEAR (0): Reading of the Index data cannot be authorized with the Index authValue. </summary>
-    AUTHREAD = 0x40000, 
+    AUTHREAD = 0x40000,
 
     /// <summary> SET (1): The Index data may be read if the authPolicy is satisfied.
     /// CLEAR (0): Reading of the Index data cannot be authorized with the Index authPolicy. </summary>
-    POLICYREAD = 0x80000, 
+    POLICYREAD = 0x80000,
 
     /// <summary> SET (1): Authorization failures of the Index do not affect the DA logic and
     /// authorization of the Index is not blocked when the TPM is in Lockout mode.
     /// CLEAR (0): Authorization failures of the Index will increment the authorization
     /// failure counter and authorizations of this Index are not allowed when the TPM is in
     /// Lockout mode. </summary>
-    NO_DA = 0x2000000, 
+    NO_DA = 0x2000000,
 
     /// <summary> SET (1): NV Index state is only required to be saved when the TPM performs
     /// an orderly shutdown (TPM2_Shutdown()).
     /// CLEAR (0): NV Index state is required to be persistent after the command to update the
     /// Index completes successfully (that is, the NV update is synchronous with the update
     /// command). </summary>
-    ORDERLY = 0x4000000, 
+    ORDERLY = 0x4000000,
 
     /// <summary> SET (1): TPMA_NV_WRITTEN for the Index is CLEAR by TPM Reset or TPM Restart.
     /// CLEAR (0): TPMA_NV_WRITTEN is not changed by TPM Restart.
     /// NOTE This attribute may only be SET if TPM_NT is not TPM_NT_COUNTER. </summary>
-    CLEAR_STCLEAR = 0x8000000, 
+    CLEAR_STCLEAR = 0x8000000,
 
     /// <summary> SET (1): Reads of the Index are blocked until the next TPM Reset or TPM Restart.
     /// CLEAR (0): Reads of the Index are allowed if proper authorization is provided. </summary>
-    READLOCKED = 0x10000000, 
+    READLOCKED = 0x10000000,
 
     /// <summary> SET (1): Index has been written.
     /// CLEAR (0): Index has not been written. </summary>
-    WRITTEN = 0x20000000, 
+    WRITTEN = 0x20000000,
 
     /// <summary> SET (1): This Index may be undefined with Platform Authorization but not
     /// with Owner Authorization.
@@ -3037,7 +2871,7 @@ struct TPMA_NV : public TpmEnum<UINT32>
     /// The TPM will validate that this attribute is SET when the Index is defined using
     /// Platform Authorization and will validate that this attribute is CLEAR when the Index
     /// is defined using Owner Authorization. </summary>
-    PLATFORMCREATE = 0x40000000, 
+    PLATFORMCREATE = 0x40000000,
 
     /// <summary> SET (1): TPM2_NV_ReadLock() may be used to SET TPMA_NV_READLOCKED for this Index.
     /// CLEAR (0): TPM2_NV_ReadLock() has no effect on this Index. </summary>
@@ -5640,7 +5474,6 @@ class _DLLEXP_ TPMS_DERIVE : public virtual TpmStructure, public TPMU_SENSITIVE_
 {
 public:
     ByteVec label;
-
     ByteVec context;
 
 public:
@@ -7080,9 +6913,7 @@ public:
     /// <summary> The hash algorithm used in the signature process
     /// TPM_ALG_NULL is not allowed. </summary>
     TPM_ALG_ID hash;
-
     ByteVec signatureR;
-
     ByteVec signatureS;
 
 public:
@@ -8666,7 +8497,6 @@ public:
     /// <summary> Test result data
     /// contains manufacturer-specific information </summary>
     ByteVec outData;
-
     TPM_RC testResult;
 
 public:

@@ -20,20 +20,14 @@ public final class TPMA_LOCALITY extends TpmAttribute<TPMA_LOCALITY>
      */
     public enum _N {
         LOC_ZERO,
-
         LOC_ONE,
-
         LOC_TWO,
-
         LOC_THREE,
-
         LOC_FOUR,
 
         /** If any of these bits is set, an extended locality is indicated  */
         Extended_BIT_MASK,
-
         Extended_BIT_OFFSET,
-
         Extended_BIT_LENGTH
     }
 

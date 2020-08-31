@@ -71,9 +71,7 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
          *  NOTE A TPM is not required to support all TPM_NT values
          */
         TpmNt_BIT_MASK,
-
         TpmNt_BIT_OFFSET,
-
         TpmNt_BIT_LENGTH,
 
         /** SET (1): Index may not be deleted unless the authPolicy is satisfied using

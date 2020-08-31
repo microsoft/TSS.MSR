@@ -36,12 +36,10 @@ public final class Implementation extends TpmEnum<Implementation>
 
         /** The number of PCR in the TPM  */
         IMPLEMENTATION_PCR, 
-
         PCR_SELECT_MAX, 
 
         /** The number of PCR required by the relevant platform specification  */
         PLATFORM_PCR, 
-
         PCR_SELECT_MIN, 
 
         /** The D-RTM PCR
@@ -84,9 +82,7 @@ public final class Implementation extends TpmEnum<Implementation>
 
         /** Number of PCR groups that have individual authorization values  */
         NUM_AUTHVALUE_PCR_GROUP, 
-
         MAX_CONTEXT_SIZE, 
-
         MAX_DIGEST_BUFFER, 
 
         /** Maximum data size allowed in an NV Index  */
@@ -105,7 +101,6 @@ public final class Implementation extends TpmEnum<Implementation>
          *  number of indices.
          */
         MIN_COUNTER_INDICES, 
-
         NUM_STATIC_PCR, 
 
         /** Number of algorithms that can be in a list  */
@@ -138,7 +133,6 @@ public final class Implementation extends TpmEnum<Implementation>
 
         /** The maximum number of octets that may be in a sealed blob; 128 is the minimum allowed value  */
         MAX_SYM_DATA, 
-
         MAX_RNG_ENTROPY_SIZE, 
 
         /** Number of bytes used for the RAM index space. If this is not large enough, it might
@@ -151,9 +145,7 @@ public final class Implementation extends TpmEnum<Implementation>
 
         /** Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented  */
         ENABLE_PCR_NO_INCREMENT, 
-
         CRT_FORMAT_RSA, 
-
         VENDOR_COMMAND_COUNT, 
 
         /** Maximum size of the vendor-specific buffer  */
@@ -164,11 +156,8 @@ public final class Implementation extends TpmEnum<Implementation>
          *  because RSA keys are never derived keys
          */
         MAX_DERIVATION_BITS, 
-
         RSA_MAX_PRIME, 
-
         RSA_PRIVATE_SIZE, 
-
         SIZE_OF_X509_SERIAL_NUMBER, 
 
         /** This is a vendor-specific value so it is in this vendor-speific table. When this is

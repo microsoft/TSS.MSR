@@ -2403,7 +2403,6 @@ export enum TPMA_ALGORITHM // UINT32
      *  CLEAR (0): not a method
      */
     method = 0x400
-
 }; // bitfield TPMA_ALGORITHM
 
 /** This attribute structure indicates an objects use, its authorization types, and its
@@ -2489,7 +2488,6 @@ export enum TPMA_OBJECT // UINT32
      *  NOTE: This attribute only has significance if sign is SET.
      */
     x509sign = 0x80000
-
 }; // bitfield TPMA_OBJECT
 
 /** This octet in each session is used to identify the session type, indicate its
@@ -2563,7 +2561,6 @@ export enum TPMA_SESSION // UINT8
      *  If SET in the command, then this attribute will be SET in the response.
      */
     audit = 0x80
-
 }; // bitfield TPMA_SESSION
 
 /** In a TPMS_CREATION_DATA structure, this structure is used to indicate the locality of
@@ -2573,22 +2570,15 @@ export enum TPMA_SESSION // UINT8
 export enum TPMA_LOCALITY // UINT8
 {
     LOC_ZERO = 0x1,
-
     LOC_ONE = 0x2,
-
     LOC_TWO = 0x4,
-
     LOC_THREE = 0x8,
-
     LOC_FOUR = 0x10,
 
     /** If any of these bits is set, an extended locality is indicated  */
     Extended_BIT_MASK = 0xE0,
-
     Extended_BIT_OFFSET = 5,
-
     Extended_BIT_LENGTH = 3
-
 }; // bitfield TPMA_LOCALITY
 
 /** The attributes in this structure are persistent and are not changed as a result of
@@ -2628,7 +2618,6 @@ export enum TPMA_PERMANENT // UINT32
      *  CLEAR (0): The EPS was created outside of the TPM using a manufacturer-specific process.
      */
     tpmGeneratedEPS = 0x400
-
 }; // bitfield TPMA_PERMANENT
 
 /** This structure may be read using TPM2_GetCapability(capability =
@@ -2684,7 +2673,6 @@ export enum TPMA_STARTUP_CLEAR // UINT32
      *  TPM2_Startup(TPM_SU_STATE) was not preceded by TPM2_Shutdown(TPM_SU_STATE).
      */
     orderly = 0x80000000
-
 }; // bitfield TPMA_STARTUP_CLEAR
 
 /** This structure of this attribute is used to report the memory management method used
@@ -2714,7 +2702,6 @@ export enum TPMA_MEMORY // UINT32
      *  objects are referenced
      */
     objectCopiedToRam = 0x4
-
 }; // bitfield TPMA_MEMORY
 
 /** This structure defines the attributes of a command from a context management
@@ -2725,9 +2712,7 @@ export enum TPMA_CC // TPM_CC
 {
     /** Indicates the command being selected  */
     commandIndex_BIT_MASK = 0xFFFF,
-
     commandIndex_BIT_OFFSET = 0,
-
     commandIndex_BIT_LENGTH = 16,
 
     /** SET (1): indicates that the command may write to NV
@@ -2748,9 +2733,7 @@ export enum TPMA_CC // TPM_CC
 
     /** Indicates the number of the handles in the handle area for this command  */
     cHandles_BIT_MASK = 0xE000000,
-
     cHandles_BIT_OFFSET = 25,
-
     cHandles_BIT_LENGTH = 3,
 
     /** SET (1): indicates the presence of the handle area in the response  */
@@ -2763,11 +2746,8 @@ export enum TPMA_CC // TPM_CC
 
     /** Allocated for software; shall be zero  */
     Res_BIT_MASK = 0xC0000000,
-
     Res_BIT_OFFSET = 30,
-
     Res_BIT_LENGTH = 2
-
 }; // bitfield TPMA_CC
 
 /** This structure of this attribute is used to report that the TPM is designed for these
@@ -2780,7 +2760,6 @@ export enum TPMA_MODES // UINT32
      *  requirements at Level 1 or higher.
      */
     FIPS_140_2 = 0x1
-
 }; // bitfield TPMA_MODES
 
 /** These attributes are as specified in clause 4.2.1.3. of RFC 5280 Internet X.509 Public
@@ -2820,7 +2799,6 @@ export enum TPMA_X509_KEY_USAGE // UINT32
 
     /** Sign SET in Subject Key (objectHandle)  */
     digitalSignature = 0x80000000
-
 }; // bitfield TPMA_X509_KEY_USAGE
 
 /** This attribute is used to report the ACT state. This attribute may be read using
@@ -2837,7 +2815,6 @@ export enum TPMA_ACT // UINT32
 
     /** Preserves the state of signaled, depending on the power cycle  */
     preserveSignaled = 0x2
-
 }; // bitfield TPMA_ACT
 
 /** A TPM_NV_INDEX is used to reference a defined location in NV memory. The format of the
@@ -2849,18 +2826,13 @@ export enum TPM_NV_INDEX // UINT32
 {
     /** The Index of the NV location  */
     index_BIT_MASK = 0xFFFFFF,
-
     index_BIT_OFFSET = 0,
-
     index_BIT_LENGTH = 24,
 
     /** Constant value of TPM_HT_NV_INDEX indicating the NV Index range  */
     RhNv_BIT_MASK = 0xFF000000,
-
     RhNv_BIT_OFFSET = 24,
-
     RhNv_BIT_LENGTH = 8
-
 }; // bitfield TPM_NV_INDEX
 
 /** This structure allows the TPM to keep track of the data and permissions to manipulate
@@ -2921,9 +2893,7 @@ export enum TPMA_NV // UINT32
      *  NOTE A TPM is not required to support all TPM_NT values
      */
     TpmNt_BIT_MASK = 0xF0,
-
     TpmNt_BIT_OFFSET = 4,
-
     TpmNt_BIT_LENGTH = 4,
 
     /** SET (1): Index may not be deleted unless the authPolicy is satisfied using
@@ -3030,7 +3000,6 @@ export enum TPMA_NV // UINT32
      *  CLEAR (0): TPM2_NV_ReadLock() has no effect on this Index.
      */
     READ_STCLEAR = 0x80000000
-
 }; // bitfield TPMA_NV
 
 /** Base class for TPM union interfaces  */
@@ -5835,7 +5804,6 @@ export class TPMS_DERIVE extends TpmStructure implements TPMU_SENSITIVE_CREATE, 
 {
     constructor(
         public label: Buffer = null, 
-
         public context: Buffer = null
     ) { super(); }
 
@@ -7315,9 +7283,7 @@ export class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
          *  TPM_ALG_NULL is not allowed.
          */
         public hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
-
         public signatureR: Buffer = null, 
-
         public signatureS: Buffer = null
     ) { super(); }
 
@@ -7362,9 +7328,7 @@ export class TPMS_SIGNATURE_ECDSA extends TPMS_SIGNATURE_ECC
          *  TPM_ALG_NULL is not allowed.
          */
         hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
-
         signatureR: Buffer = null, 
-
         signatureS: Buffer = null
     ) { super(hash, signatureR, signatureS); }
 
@@ -7393,9 +7357,7 @@ export class TPMS_SIGNATURE_ECDAA extends TPMS_SIGNATURE_ECC
          *  TPM_ALG_NULL is not allowed.
          */
         hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
-
         signatureR: Buffer = null, 
-
         signatureS: Buffer = null
     ) { super(hash, signatureR, signatureS); }
 
@@ -7424,9 +7386,7 @@ export class TPMS_SIGNATURE_SM2 extends TPMS_SIGNATURE_ECC
          *  TPM_ALG_NULL is not allowed.
          */
         hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
-
         signatureR: Buffer = null, 
-
         signatureS: Buffer = null
     ) { super(hash, signatureR, signatureS); }
 
@@ -7455,9 +7415,7 @@ export class TPMS_SIGNATURE_ECSCHNORR extends TPMS_SIGNATURE_ECC
          *  TPM_ALG_NULL is not allowed.
          */
         hash: TPM_ALG_ID = TPM_ALG_ID.NULL, 
-
         signatureR: Buffer = null, 
-
         signatureS: Buffer = null
     ) { super(hash, signatureR, signatureS); }
 
@@ -8975,7 +8933,6 @@ export class GetTestResultResponse extends RespStructure
          *  contains manufacturer-specific information
          */
         public outData: Buffer = null, 
-
         public testResult: TPM_RC = 0
     ) { super(); }
 

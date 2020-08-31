@@ -17,15 +17,10 @@ public final class Logic extends TpmEnum<Logic>
      */
     public enum _N {
         TRUE, 
-
         FALSE, 
-
         YES, 
-
         NO, 
-
         SET, 
-
         CLEAR
     }
 

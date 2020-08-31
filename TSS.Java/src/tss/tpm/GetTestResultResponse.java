@@ -16,7 +16,6 @@ public class GetTestResultResponse extends RespStructure
      *  contains manufacturer-specific information
      */
     public byte[] outData;
-
     public TPM_RC testResult;
 
     public GetTestResultResponse() {}

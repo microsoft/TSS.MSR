@@ -52,7 +52,6 @@ public final class TPM_CAP extends TpmEnum<TPM_CAP>
 
         /** TPML_ACT_DATA  */
         ACT, 
-
         LAST, 
 
         /** Manufacturer-specific values  */

@@ -6,7 +6,6 @@ import java.util.*;
 // -----------This is an auto-generated file: do not edit
 
 //>>>
-
 public final class TPM_CC extends TpmEnum<TPM_CC>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
@@ -17,61 +16,33 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
     public enum _N {
         /** Compile variable. May decrease based on implementation.  */
         FIRST, 
-
         NV_UndefineSpaceSpecial, 
-
         EvictControl, 
-
         HierarchyControl, 
-
         NV_UndefineSpace, 
-
         ChangeEPS, 
-
         ChangePPS, 
-
         Clear, 
-
         ClearControl, 
-
         ClockSet, 
-
         HierarchyChangeAuth, 
-
         NV_DefineSpace, 
-
         PCR_Allocate, 
-
         PCR_SetAuthPolicy, 
-
         PP_Commands, 
-
         SetPrimaryPolicy, 
-
         FieldUpgradeStart, 
-
         ClockRateAdjust, 
-
         CreatePrimary, 
-
         NV_GlobalWriteLock, 
-
         GetCommandAuditDigest, 
-
         NV_Increment, 
-
         NV_SetBits, 
-
         NV_Extend, 
-
         NV_Write, 
-
         NV_WriteLock, 
-
         DictionaryAttackLockReset, 
-
         DictionaryAttackParameters, 
-
         NV_ChangeAuth, 
 
         /** PCR  */
@@ -79,53 +50,32 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
 
         /** PCR  */
         PCR_Reset, 
-
         SequenceComplete, 
-
         SetAlgorithmSet, 
-
         SetCommandCodeAuditStatus, 
-
         FieldUpgradeData, 
-
         IncrementalSelfTest, 
-
         SelfTest, 
-
         Startup, 
-
         Shutdown, 
-
         StirRandom, 
-
         ActivateCredential, 
-
         Certify, 
 
         /** Policy  */
         PolicyNV, 
-
         CertifyCreation, 
-
         Duplicate, 
-
         GetTime, 
-
         GetSessionAuditDigest, 
-
         NV_Read, 
-
         NV_ReadLock, 
-
         ObjectChangeAuth, 
 
         /** Policy  */
         PolicySecret, 
-
         Rewrap, 
-
         Create, 
-
         ECDH_ZGen, 
 
         /** See NOTE 1  */
@@ -133,13 +83,9 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
 
         /** See NOTE 1  */
         MAC, 
-
         Import, 
-
         Load, 
-
         Quote, 
-
         RSA_Decrypt, 
 
         /** See NOTE 1  */
@@ -147,11 +93,8 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
 
         /** See NOTE 1  */
         MAC_Start, 
-
         SequenceUpdate, 
-
         Sign, 
-
         Unseal, 
 
         /** Policy  */
@@ -162,16 +105,12 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
 
         /** Context  */
         ContextSave, 
-
         ECDH_KeyGen, 
-
         EncryptDecrypt, 
 
         /** Context  */
         FlushContext, 
-
         LoadExternal, 
-
         MakeCredential, 
 
         /** NV  */
@@ -203,25 +142,15 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
 
         /** Policy  */
         PolicyTicket, 
-
         ReadPublic, 
-
         RSA_Encrypt, 
-
         StartAuthSession, 
-
         VerifySignature, 
-
         ECC_Parameters, 
-
         FirmwareRead, 
-
         GetCapability, 
-
         GetRandom, 
-
         GetTestResult, 
-
         Hash, 
 
         /** PCR  */
@@ -229,19 +158,12 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
 
         /** Policy  */
         PolicyPCR, 
-
         PolicyRestart, 
-
         ReadClock, 
-
         PCR_Extend, 
-
         PCR_SetAuthValue, 
-
         NV_Certify, 
-
         EventSequenceComplete, 
-
         HashSequenceStart, 
 
         /** Policy  */
@@ -252,16 +174,12 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
 
         /** Policy  */
         PolicyGetDigest, 
-
         TestParms, 
-
         Commit, 
 
         /** Policy  */
         PolicyPassword, 
-
         ZGen_2Phase, 
-
         EC_Ephemeral, 
 
         /** Policy  */
@@ -269,32 +187,23 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
 
         /** Policy  */
         PolicyTemplate, 
-
         CreateLoaded, 
 
         /** Policy  */
         PolicyAuthorizeNV, 
-
         EncryptDecrypt2, 
-
         AC_GetCapability, 
-
         AC_Send, 
 
         /** Policy  */
         Policy_AC_SendSelect, 
-
         CertifyX509, 
-
         ACT_SetTimeout, 
-
         ECC_Encrypt, 
-
         ECC_Decrypt, 
 
         /** Compile variable. May increase based on implementation.  */
         LAST, 
-
         CC_VEND, 
 
         /** Used for testing of command dispatch  */

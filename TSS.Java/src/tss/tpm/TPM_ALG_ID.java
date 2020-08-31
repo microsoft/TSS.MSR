@@ -133,7 +133,6 @@ public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
 
         /** Hash algorithm producing a 512-bit digest  */
         SHA3_512, 
-
         CMAC, 
 
         /** Counter mode if implemented, all symmetric block ciphers (S type) implemented shall be
@@ -162,7 +161,6 @@ public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
          *  as in video codecs
          */
         ECB, 
-
         LAST, 
 
         /** Phony alg ID to be used for the first union member with no selector  */

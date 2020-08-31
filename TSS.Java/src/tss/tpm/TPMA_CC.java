@@ -21,9 +21,7 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
     public enum _N {
         /** Indicates the command being selected  */
         commandIndex_BIT_MASK,
-
         commandIndex_BIT_OFFSET,
-
         commandIndex_BIT_LENGTH,
 
         /** SET (1): indicates that the command may write to NV
@@ -44,9 +42,7 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
 
         /** Indicates the number of the handles in the handle area for this command  */
         cHandles_BIT_MASK,
-
         cHandles_BIT_OFFSET,
-
         cHandles_BIT_LENGTH,
 
         /** SET (1): indicates the presence of the handle area in the response  */
@@ -59,9 +55,7 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
 
         /** Allocated for software; shall be zero  */
         Res_BIT_MASK,
-
         Res_BIT_OFFSET,
-
         Res_BIT_LENGTH
     }
 

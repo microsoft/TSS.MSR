@@ -22,16 +22,12 @@ public final class TPM_NV_INDEX extends TpmAttribute<TPM_NV_INDEX>
     public enum _N {
         /** The Index of the NV location  */
         index_BIT_MASK,
-
         index_BIT_OFFSET,
-
         index_BIT_LENGTH,
 
         /** Constant value of TPM_HT_NV_INDEX indicating the NV Index range  */
         RhNv_BIT_MASK,
-
         RhNv_BIT_OFFSET,
-
         RhNv_BIT_LENGTH
     }
 

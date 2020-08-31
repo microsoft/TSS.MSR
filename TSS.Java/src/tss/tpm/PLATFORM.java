@@ -17,13 +17,9 @@ public final class PLATFORM extends TpmEnum<PLATFORM>
      */
     public enum _N {
         FAMILY, 
-
         LEVEL, 
-
         VERSION, 
-
         YEAR, 
-
         DAY_OF_YEAR
     }
 

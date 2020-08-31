@@ -14,9 +14,7 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
      *  TPM_ALG_NULL is not allowed.
      */
     public TPM_ALG_ID hash;
-
     public byte[] signatureR;
-
     public byte[] signatureS;
 
     public TPMS_SIGNATURE_ECC() { hash = TPM_ALG_ID.NULL; }

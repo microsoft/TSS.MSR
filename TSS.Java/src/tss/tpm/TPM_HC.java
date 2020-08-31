@@ -21,21 +21,13 @@ public final class TPM_HC extends TpmEnum<TPM_HC>
 
         /** To mask off the variable part  */
         HR_RANGE_MASK, 
-
         HR_SHIFT, 
-
         HR_PCR, 
-
         HR_HMAC_SESSION, 
-
         HR_POLICY_SESSION, 
-
         HR_TRANSIENT, 
-
         HR_PERSISTENT, 
-
         HR_NV_INDEX, 
-
         HR_PERMANENT, 
 
         /** First PCR  */
@@ -88,9 +80,7 @@ public final class TPM_HC extends TpmEnum<TPM_HC>
 
         /** Last allowed NV Index  */
         NV_INDEX_LAST, 
-
         PERMANENT_FIRST, 
-
         PERMANENT_LAST, 
 
         /** AC aliased NV Index  */
