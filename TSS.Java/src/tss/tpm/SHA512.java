@@ -29,6 +29,7 @@ public final class SHA512 extends TpmEnum<SHA512>
     public static final SHA512
         DIGEST_SIZE = new SHA512(64, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA512(128, _N.BLOCK_SIZE);
+
     public SHA512 () { super(0, _ValueMap); }
     public SHA512 (int value) { super(value, _ValueMap); }
     public static SHA512 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SHA512.class); }

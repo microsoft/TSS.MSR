@@ -34,6 +34,7 @@ public final class Logic extends TpmEnum<Logic>
         NO = new Logic(0, _N.NO),
         SET = new Logic(1, _N.SET),
         CLEAR = new Logic(0, _N.CLEAR);
+
     public Logic () { super(0, _ValueMap); }
     public Logic (int value) { super(value, _ValueMap); }
     public static Logic fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, Logic.class); }

@@ -32,6 +32,7 @@ public final class PLATFORM extends TpmEnum<PLATFORM>
         VERSION = new PLATFORM(TPM_SPEC.VERSION.toInt(), _N.VERSION),
         YEAR = new PLATFORM(TPM_SPEC.YEAR.toInt(), _N.YEAR),
         DAY_OF_YEAR = new PLATFORM(TPM_SPEC.DAY_OF_YEAR.toInt(), _N.DAY_OF_YEAR);
+
     public PLATFORM () { super(0, _ValueMap); }
     public PLATFORM (int value) { super(value, _ValueMap); }
     public static PLATFORM fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, PLATFORM.class); }

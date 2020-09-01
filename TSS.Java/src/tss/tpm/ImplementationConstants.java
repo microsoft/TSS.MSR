@@ -68,6 +68,7 @@ public final class ImplementationConstants extends TpmEnum<ImplementationConstan
         MAX_TAGGED_POLICIES = new ImplementationConstants((MAX_CAP_DATA.toInt() / 0x46/*sizeof(TPMS_TAGGED_POLICY)*/), _N.MAX_TAGGED_POLICIES),
         MAX_AC_CAPABILITIES = new ImplementationConstants((MAX_CAP_DATA.toInt() / 0x8/*sizeof(TPMS_AC_OUTPUT)*/), _N.MAX_AC_CAPABILITIES),
         MAX_ACT_DATA = new ImplementationConstants(MAX_CAP_DATA.toInt() / 0xC/*sizeof(TPMS_ACT_DATA)*/, _N.MAX_ACT_DATA);
+
     public ImplementationConstants () { super(0, _ValueMap); }
     public ImplementationConstants (int value) { super(value, _ValueMap); }
     public static ImplementationConstants fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, ImplementationConstants.class); }

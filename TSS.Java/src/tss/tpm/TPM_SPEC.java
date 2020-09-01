@@ -41,6 +41,7 @@ public final class TPM_SPEC extends TpmEnum<TPM_SPEC>
         VERSION = new TPM_SPEC(162, _N.VERSION),
         YEAR = new TPM_SPEC(2019, _N.YEAR),
         DAY_OF_YEAR = new TPM_SPEC(360, _N.DAY_OF_YEAR);
+
     public TPM_SPEC () { super(0, _ValueMap); }
     public TPM_SPEC (int value) { super(value, _ValueMap); }
     public static TPM_SPEC fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_SPEC.class); }

@@ -25,6 +25,7 @@ public final class TPM_GENERATED extends TpmEnum<TPM_GENERATED>
     /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPM_GENERATED
         VALUE = new TPM_GENERATED(0xff544347, _N.VALUE);
+
     public TPM_GENERATED () { super(0, _ValueMap); }
     public TPM_GENERATED (int value) { super(value, _ValueMap); }
     public static TPM_GENERATED fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_GENERATED.class); }

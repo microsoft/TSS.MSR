@@ -85,6 +85,7 @@ public final class TPM_PS extends TpmEnum<TPM_PS>
         TNC = new TPM_PS(0x0000000D, _N.TNC),
         MULTI_TENANT = new TPM_PS(0x0000000E, _N.MULTI_TENANT),
         TC = new TPM_PS(0x0000000F, _N.TC);
+
     public TPM_PS () { super(0, _ValueMap); }
     public TPM_PS (int value) { super(value, _ValueMap); }
     public static TPM_PS fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_PS.class); }

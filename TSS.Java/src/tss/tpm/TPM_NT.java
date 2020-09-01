@@ -51,6 +51,7 @@ public final class TPM_NT extends TpmEnum<TPM_NT>
         EXTEND = new TPM_NT(0x4, _N.EXTEND),
         PIN_FAIL = new TPM_NT(0x8, _N.PIN_FAIL),
         PIN_PASS = new TPM_NT(0x9, _N.PIN_PASS);
+
     public TPM_NT () { super(0, _ValueMap); }
     public TPM_NT (int value) { super(value, _ValueMap); }
     public static TPM_NT fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_NT.class); }

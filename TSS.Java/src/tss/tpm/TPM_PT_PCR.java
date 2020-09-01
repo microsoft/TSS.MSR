@@ -132,6 +132,7 @@ public final class TPM_PT_PCR extends TpmEnum<TPM_PT_PCR>
         POLICY = new TPM_PT_PCR(0x00000013, _N.POLICY),
         AUTH = new TPM_PT_PCR(0x00000014, _N.AUTH),
         LAST = new TPM_PT_PCR(0x00000014, _N.LAST);
+
     public TPM_PT_PCR () { super(0, _ValueMap); }
     public TPM_PT_PCR (int value) { super(value, _ValueMap); }
     public static TPM_PT_PCR fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_PT_PCR.class); }

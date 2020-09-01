@@ -29,6 +29,7 @@ public final class SM3_256 extends TpmEnum<SM3_256>
     public static final SM3_256
         DIGEST_SIZE = new SM3_256(32, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SM3_256(64, _N.BLOCK_SIZE);
+
     public SM3_256 () { super(0, _ValueMap); }
     public SM3_256 (int value) { super(value, _ValueMap); }
     public static SM3_256 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SM3_256.class); }

@@ -38,6 +38,7 @@ public final class TPM_SU extends TpmEnum<TPM_SU>
     public static final TPM_SU
         CLEAR = new TPM_SU(0x0000, _N.CLEAR),
         STATE = new TPM_SU(0x0001, _N.STATE);
+
     public TPM_SU () { super(0, _ValueMap); }
     public TPM_SU (int value) { super(value, _ValueMap); }
     public static TPM_SU fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_SU.class); }

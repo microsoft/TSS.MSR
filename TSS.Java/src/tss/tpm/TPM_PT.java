@@ -418,6 +418,7 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
         NV_WRITE_RECOVERY = new TPM_PT(PT_VAR.toInt() + 18, _N.NV_WRITE_RECOVERY),
         AUDIT_COUNTER_0 = new TPM_PT(PT_VAR.toInt() + 19, _N.AUDIT_COUNTER_0),
         AUDIT_COUNTER_1 = new TPM_PT(PT_VAR.toInt() + 20, _N.AUDIT_COUNTER_1);
+
     public TPM_PT () { super(0, _ValueMap); }
     public TPM_PT (int value) { super(value, _ValueMap); }
     public static TPM_PT fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_PT.class); }

@@ -76,6 +76,7 @@ public final class TPM_CAP extends TpmEnum<TPM_CAP>
         ACT = new TPM_CAP(0x0000000A, _N.ACT),
         LAST = new TPM_CAP(0x0000000A, _N.LAST),
         VENDOR_PROPERTY = new TPM_CAP(0x00000100, _N.VENDOR_PROPERTY);
+
     public TPM_CAP () { super(0, _ValueMap); }
     public TPM_CAP (int value) { super(value, _ValueMap); }
     public static TPM_CAP fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_CAP.class); }

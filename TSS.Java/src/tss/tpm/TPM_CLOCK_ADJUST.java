@@ -52,6 +52,7 @@ public final class TPM_CLOCK_ADJUST extends TpmEnum<TPM_CLOCK_ADJUST>
         FINE_FASTER = new TPM_CLOCK_ADJUST(1, _N.FINE_FASTER),
         MEDIUM_FASTER = new TPM_CLOCK_ADJUST(2, _N.MEDIUM_FASTER),
         COARSE_FASTER = new TPM_CLOCK_ADJUST(3, _N.COARSE_FASTER);
+
     public TPM_CLOCK_ADJUST () { super(0, _ValueMap); }
     public TPM_CLOCK_ADJUST (int value) { super(value, _ValueMap); }
     public static TPM_CLOCK_ADJUST fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_CLOCK_ADJUST.class); }

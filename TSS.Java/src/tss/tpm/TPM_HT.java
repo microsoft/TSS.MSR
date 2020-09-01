@@ -73,6 +73,7 @@ public final class TPM_HT extends TpmEnum<TPM_HT>
         TRANSIENT = new TPM_HT(0x80, _N.TRANSIENT),
         PERSISTENT = new TPM_HT(0x81, _N.PERSISTENT),
         AC = new TPM_HT(0x90, _N.AC);
+
     public TPM_HT () { super(0, _ValueMap); }
     public TPM_HT (int value) { super(value, _ValueMap); }
     public static TPM_HT fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_HT.class); }

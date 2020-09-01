@@ -35,6 +35,7 @@ public final class TPM_SE extends TpmEnum<TPM_SE>
         HMAC = new TPM_SE(0x00, _N.HMAC),
         POLICY = new TPM_SE(0x01, _N.POLICY),
         TRIAL = new TPM_SE(0x03, _N.TRIAL);
+
     public TPM_SE () { super(0, _ValueMap); }
     public TPM_SE (int value) { super(value, _ValueMap); }
     public static TPM_SE fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, TPM_SE.class); }

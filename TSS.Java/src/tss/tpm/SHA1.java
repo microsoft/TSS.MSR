@@ -29,6 +29,7 @@ public final class SHA1 extends TpmEnum<SHA1>
     public static final SHA1
         DIGEST_SIZE = new SHA1(20, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA1(64, _N.BLOCK_SIZE);
+
     public SHA1 () { super(0, _ValueMap); }
     public SHA1 (int value) { super(value, _ValueMap); }
     public static SHA1 fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, SHA1.class); }

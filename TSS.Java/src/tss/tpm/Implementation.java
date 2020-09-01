@@ -218,6 +218,7 @@ public final class Implementation extends TpmEnum<Implementation>
         RSA_PRIVATE_SIZE = new Implementation((RSA_MAX_PRIME.toInt() * 5), _N.RSA_PRIVATE_SIZE),
         SIZE_OF_X509_SERIAL_NUMBER = new Implementation(20, _N.SIZE_OF_X509_SERIAL_NUMBER),
         PRIVATE_VENDOR_SPECIFIC_BYTES = new Implementation(RSA_PRIVATE_SIZE.toInt(), _N.PRIVATE_VENDOR_SPECIFIC_BYTES);
+
     public Implementation () { super(0, _ValueMap); }
     public Implementation (int value) { super(value, _ValueMap); }
     public static Implementation fromInt (int value) { return TpmEnum.fromInt(value, _ValueMap, Implementation.class); }
