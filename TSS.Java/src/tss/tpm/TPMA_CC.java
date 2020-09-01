@@ -20,42 +20,42 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
      */
     public enum _N {
         /** Indicates the command being selected  */
-        commandIndex_BIT_MASK, 
-        commandIndex_BIT_OFFSET, 
-        commandIndex_BIT_LENGTH, 
+        commandIndex_BIT_MASK,
+        commandIndex_BIT_OFFSET,
+        commandIndex_BIT_LENGTH,
 
         /** SET (1): indicates that the command may write to NV
          *  CLEAR (0): indicates that the command does not write to NV
          */
-        nv, 
+        nv,
 
         /** SET (1): This command could flush any number of loaded contexts.
          *  CLEAR (0): no additional changes other than indicated by the flushed attribute
          */
-        extensive, 
+        extensive,
 
         /** SET (1): The context associated with any transient handle in the command will be
          *  flushed when this command completes.
          *  CLEAR (0): No context is flushed as a side effect of this command.
          */
-        flushed, 
+        flushed,
 
         /** Indicates the number of the handles in the handle area for this command  */
-        cHandles_BIT_MASK, 
-        cHandles_BIT_OFFSET, 
-        cHandles_BIT_LENGTH, 
+        cHandles_BIT_MASK,
+        cHandles_BIT_OFFSET,
+        cHandles_BIT_LENGTH,
 
         /** SET (1): indicates the presence of the handle area in the response  */
-        rHandle, 
+        rHandle,
 
         /** SET (1): indicates that the command is vendor-specific
          *  CLEAR (0): indicates that the command is defined in a version of this specification
          */
-        V, 
+        V,
 
         /** Allocated for software; shall be zero  */
-        Res_BIT_MASK, 
-        Res_BIT_OFFSET, 
+        Res_BIT_MASK,
+        Res_BIT_OFFSET,
         Res_BIT_LENGTH
     }
 

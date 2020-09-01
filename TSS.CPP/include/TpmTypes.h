@@ -45,145 +45,145 @@ struct TPM_ALG_ID : public TpmEnum<UINT16>
     TPM_ENUM_PROLOGUE(TPM_ALG_ID)
 
     /// <summary> Should not occur </summary>
-    _ERROR = 0x0000, 
+    _ERROR = 0x0000,
 
     /// <summary> An object type that contains an RSA key </summary>
-    FIRST = 0x0001, 
+    FIRST = 0x0001,
 
     /// <summary> An object type that contains an RSA key </summary>
-    RSA = 0x0001, 
+    RSA = 0x0001,
 
     /// <summary> Block cipher with various key sizes (Triple Data Encryption Algorithm,
     /// commonly called Triple Data Encryption Standard) </summary>
-    TDES = 0x0003, 
+    TDES = 0x0003,
 
     /// <summary> Hash algorithm producing a 160-bit digest </summary>
-    SHA = 0x0004, 
+    SHA = 0x0004,
 
     /// <summary> Redefinition for documentation consistency </summary>
-    SHA1 = 0x0004, 
+    SHA1 = 0x0004,
 
     /// <summary> Hash Message Authentication Code (HMAC) algorithm </summary>
-    HMAC = 0x0005, 
+    HMAC = 0x0005,
 
     /// <summary> Block cipher with various key sizes </summary>
-    AES = 0x0006, 
+    AES = 0x0006,
 
     /// <summary> Hash-based mask-generation function </summary>
-    MGF1 = 0x0007, 
+    MGF1 = 0x0007,
 
     /// <summary> An object type that may use XOR for encryption or an HMAC for signing and
     /// may also refer to a data object that is neither signing nor encrypting </summary>
-    KEYEDHASH = 0x0008, 
+    KEYEDHASH = 0x0008,
 
     /// <summary> Hash-based stream cipher </summary>
-    XOR = 0x000A, 
+    XOR = 0x000A,
 
     /// <summary> Hash algorithm producing a 256-bit digest </summary>
-    SHA256 = 0x000B, 
+    SHA256 = 0x000B,
 
     /// <summary> Hash algorithm producing a 384-bit digest </summary>
-    SHA384 = 0x000C, 
+    SHA384 = 0x000C,
 
     /// <summary> Hash algorithm producing a 512-bit digest </summary>
-    SHA512 = 0x000D, 
+    SHA512 = 0x000D,
 
     /// <summary> Indication that no algorithm is selected </summary>
-    _NULL = 0x0010, 
+    _NULL = 0x0010,
 
     /// <summary> Hash algorithm producing a 256-bit digest </summary>
-    SM3_256 = 0x0012, 
+    SM3_256 = 0x0012,
 
     /// <summary> Symmetric block cipher with 128 bit key </summary>
-    SM4 = 0x0013, 
+    SM4 = 0x0013,
 
     /// <summary> A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5) </summary>
-    RSASSA = 0x0014, 
+    RSASSA = 0x0014,
 
     /// <summary> A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5) </summary>
-    RSAES = 0x0015, 
+    RSAES = 0x0015,
 
     /// <summary> A signature algorithm defined in section 8.1 (RSASSA-PSS) </summary>
-    RSAPSS = 0x0016, 
+    RSAPSS = 0x0016,
 
     /// <summary> A padding algorithm defined in Section 7.1 (RSAES_OAEP) </summary>
-    OAEP = 0x0017, 
+    OAEP = 0x0017,
 
     /// <summary> Signature algorithm using elliptic curve cryptography (ECC) </summary>
-    ECDSA = 0x0018, 
+    ECDSA = 0x0018,
 
     /// <summary> Secret sharing using ECC Based on context, this can be either One-Pass
     /// Diffie-Hellman, C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC
     /// CDH) defined in 6.1.1.2 </summary>
-    ECDH = 0x0019, 
+    ECDH = 0x0019,
 
     /// <summary> Elliptic-curve based, anonymous signing scheme </summary>
-    ECDAA = 0x001A, 
+    ECDAA = 0x001A,
 
     /// <summary> Depending on context, either an elliptic-curve-based signature algorithm,
     /// encryption algorithm, or key exchange protocol </summary>
-    SM2 = 0x001B, 
+    SM2 = 0x001B,
 
     /// <summary> Elliptic-curve based Schnorr signature </summary>
-    ECSCHNORR = 0x001C, 
+    ECSCHNORR = 0x001C,
 
     /// <summary> Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4 </summary>
-    ECMQV = 0x001D, 
+    ECMQV = 0x001D,
 
     /// <summary> Concatenation key derivation function (approved alternative 1) Section 5.8.1
     /// </summary>
-    KDF1_SP800_56A = 0x0020, 
+    KDF1_SP800_56A = 0x0020,
 
     /// <summary> Key derivation function KDF2 Section 13.2 </summary>
-    KDF2 = 0x0021, 
+    KDF2 = 0x0021,
 
     /// <summary> A key derivation method SP800-108, Section 5.1 KDF in Counter Mode </summary>
-    KDF1_SP800_108 = 0x0022, 
+    KDF1_SP800_108 = 0x0022,
 
     /// <summary> Prime field ECC </summary>
-    ECC = 0x0023, 
+    ECC = 0x0023,
 
     /// <summary> The object type for a symmetric block cipher key </summary>
-    SYMCIPHER = 0x0025, 
+    SYMCIPHER = 0x0025,
 
     /// <summary> Symmetric block cipher with various key sizes </summary>
-    CAMELLIA = 0x0026, 
+    CAMELLIA = 0x0026,
 
     /// <summary> Hash algorithm producing a 256-bit digest </summary>
-    SHA3_256 = 0x0027, 
+    SHA3_256 = 0x0027,
 
     /// <summary> Hash algorithm producing a 384-bit digest </summary>
-    SHA3_384 = 0x0028, 
+    SHA3_384 = 0x0028,
 
     /// <summary> Hash algorithm producing a 512-bit digest </summary>
-    SHA3_512 = 0x0029, 
-    CMAC = 0x003F, 
+    SHA3_512 = 0x0029,
+    CMAC = 0x003F,
 
     /// <summary> Counter mode if implemented, all symmetric block ciphers (S type)
     /// implemented shall be capable of using this mode. </summary>
-    CTR = 0x0040, 
+    CTR = 0x0040,
 
     /// <summary> Output Feedback mode if implemented, all symmetric block ciphers (S type)
     /// implemented shall be capable of using this mode. </summary>
-    OFB = 0x0041, 
+    OFB = 0x0041,
 
     /// <summary> Cipher Block Chaining mode if implemented, all symmetric block ciphers (S
     /// type) implemented shall be capable of using this mode. </summary>
-    CBC = 0x0042, 
+    CBC = 0x0042,
 
     /// <summary> Cipher Feedback mode if implemented, all symmetric block ciphers (S type)
     /// implemented shall be capable of using this mode. </summary>
-    CFB = 0x0043, 
+    CFB = 0x0043,
 
     /// <summary> Electronic Codebook mode if implemented, all implemented symmetric block
     /// ciphers (S type) shall be capable of using this mode.
     /// NOTE This mode is not recommended for uses unless the key is frequently rotated such
     /// as in video codecs </summary>
-    ECB = 0x0044, 
-    LAST = 0x0044, 
+    ECB = 0x0044,
+    LAST = 0x0044,
 
     /// <summary> Phony alg ID to be used for the first union member with no selector </summary>
-    ANY = 0x7FFF, 
+    ANY = 0x7FFF,
 
     /// <summary> Phony alg ID to be used for the second union member with no selector </summary>
     ANY2 = 0x7FFE
@@ -195,19 +195,19 @@ struct TPM_ALG_ID : public TpmEnum<UINT16>
 struct TPM_ECC_CURVE : public TpmEnum<UINT16>
 {
     TPM_ENUM_PROLOGUE(TPM_ECC_CURVE)
-    NONE = 0x0000, 
-    NIST_P192 = 0x0001, 
-    NIST_P224 = 0x0002, 
-    NIST_P256 = 0x0003, 
-    NIST_P384 = 0x0004, 
-    NIST_P521 = 0x0005, 
+    NONE = 0x0000,
+    NIST_P192 = 0x0001,
+    NIST_P224 = 0x0002,
+    NIST_P256 = 0x0003,
+    NIST_P384 = 0x0004,
+    NIST_P521 = 0x0005,
 
     /// <summary> Curve to support ECDAA </summary>
-    BN_P256 = 0x0010, 
+    BN_P256 = 0x0010,
 
     /// <summary> Curve to support ECDAA </summary>
-    BN_P638 = 0x0011, 
-    SM2_P256 = 0x0020, 
+    BN_P638 = 0x0011,
+    SM2_P256 = 0x0020,
     TEST_P192 = 0x0021
     TPM_ENUM_EPILOGUE(TPM_ECC_CURVE)
 };
@@ -218,7 +218,7 @@ struct SHA1 : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(SHA1)
 
     /// <summary> Size of digest in octets </summary>
-    DIGEST_SIZE = 20, 
+    DIGEST_SIZE = 20,
 
     /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 64
@@ -231,7 +231,7 @@ struct SHA256 : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(SHA256)
 
     /// <summary> Size of digest </summary>
-    DIGEST_SIZE = 32, 
+    DIGEST_SIZE = 32,
 
     /// <summary> Size of hash block </summary>
     BLOCK_SIZE = 64
@@ -244,7 +244,7 @@ struct SHA384 : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(SHA384)
 
     /// <summary> Size of digest in octets </summary>
-    DIGEST_SIZE = 48, 
+    DIGEST_SIZE = 48,
 
     /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 128
@@ -257,7 +257,7 @@ struct SHA512 : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(SHA512)
 
     /// <summary> Size of digest in octets </summary>
-    DIGEST_SIZE = 64, 
+    DIGEST_SIZE = 64,
 
     /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 128
@@ -270,7 +270,7 @@ struct SM3_256 : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(SM3_256)
 
     /// <summary> Size of digest in octets </summary>
-    DIGEST_SIZE = 32, 
+    DIGEST_SIZE = 32,
 
     /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 64
@@ -283,7 +283,7 @@ struct SHA3_256 : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(SHA3_256)
 
     /// <summary> Size of digest in octets </summary>
-    DIGEST_SIZE = 32, 
+    DIGEST_SIZE = 32,
 
     /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 136
@@ -296,7 +296,7 @@ struct SHA3_384 : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(SHA3_384)
 
     /// <summary> Size of digest in octets </summary>
-    DIGEST_SIZE = 48, 
+    DIGEST_SIZE = 48,
 
     /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 104
@@ -309,7 +309,7 @@ struct SHA3_512 : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(SHA3_512)
 
     /// <summary> Size of digest in octets </summary>
-    DIGEST_SIZE = 64, 
+    DIGEST_SIZE = 64,
 
     /// <summary> Size of hash block in octets </summary>
     BLOCK_SIZE = 72
@@ -320,11 +320,11 @@ struct SHA3_512 : public TpmEnum<UINT32>
 struct Logic : public TpmEnum<BYTE>
 {
     TPM_ENUM_PROLOGUE(Logic)
-    _TRUE = 1, 
-    _FALSE = 0, 
-    YES = 1, 
-    NO = 0, 
-    SET = 1, 
+    _TRUE = 1,
+    _FALSE = 0,
+    YES = 1,
+    NO = 0,
+    SET = 1,
     CLEAR = 0
     TPM_ENUM_EPILOGUE(Logic)
 };
@@ -336,16 +336,16 @@ struct TPM_SPEC : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(TPM_SPEC)
 
     /// <summary> ASCII 2.0 with null terminator </summary>
-    FAMILY = 0x322E3000, 
+    FAMILY = 0x322E3000,
 
     /// <summary> The level number for the specification </summary>
-    LEVEL = 0, 
+    LEVEL = 0,
 
     /// <summary> The version number of the spec (001.62 * 100) </summary>
-    VERSION = 162, 
+    VERSION = 162,
 
     /// <summary> The year of the version </summary>
-    YEAR = 2019, 
+    YEAR = 2019,
 
     /// <summary> The day of the year (December 26) </summary>
     DAY_OF_YEAR = 360
@@ -368,196 +368,196 @@ struct TPM_CC : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(TPM_CC)
 
     /// <summary> Compile variable. May decrease based on implementation. </summary>
-    FIRST = 0x0000011F, 
-    NV_UndefineSpaceSpecial = 0x0000011F, 
-    EvictControl = 0x00000120, 
-    HierarchyControl = 0x00000121, 
-    NV_UndefineSpace = 0x00000122, 
-    ChangeEPS = 0x00000124, 
-    ChangePPS = 0x00000125, 
-    Clear = 0x00000126, 
-    ClearControl = 0x00000127, 
-    ClockSet = 0x00000128, 
-    HierarchyChangeAuth = 0x00000129, 
-    NV_DefineSpace = 0x0000012A, 
-    PCR_Allocate = 0x0000012B, 
-    PCR_SetAuthPolicy = 0x0000012C, 
-    PP_Commands = 0x0000012D, 
-    SetPrimaryPolicy = 0x0000012E, 
-    FieldUpgradeStart = 0x0000012F, 
-    ClockRateAdjust = 0x00000130, 
-    CreatePrimary = 0x00000131, 
-    NV_GlobalWriteLock = 0x00000132, 
-    GetCommandAuditDigest = 0x00000133, 
-    NV_Increment = 0x00000134, 
-    NV_SetBits = 0x00000135, 
-    NV_Extend = 0x00000136, 
-    NV_Write = 0x00000137, 
-    NV_WriteLock = 0x00000138, 
-    DictionaryAttackLockReset = 0x00000139, 
-    DictionaryAttackParameters = 0x0000013A, 
-    NV_ChangeAuth = 0x0000013B, 
+    FIRST = 0x0000011F,
+    NV_UndefineSpaceSpecial = 0x0000011F,
+    EvictControl = 0x00000120,
+    HierarchyControl = 0x00000121,
+    NV_UndefineSpace = 0x00000122,
+    ChangeEPS = 0x00000124,
+    ChangePPS = 0x00000125,
+    Clear = 0x00000126,
+    ClearControl = 0x00000127,
+    ClockSet = 0x00000128,
+    HierarchyChangeAuth = 0x00000129,
+    NV_DefineSpace = 0x0000012A,
+    PCR_Allocate = 0x0000012B,
+    PCR_SetAuthPolicy = 0x0000012C,
+    PP_Commands = 0x0000012D,
+    SetPrimaryPolicy = 0x0000012E,
+    FieldUpgradeStart = 0x0000012F,
+    ClockRateAdjust = 0x00000130,
+    CreatePrimary = 0x00000131,
+    NV_GlobalWriteLock = 0x00000132,
+    GetCommandAuditDigest = 0x00000133,
+    NV_Increment = 0x00000134,
+    NV_SetBits = 0x00000135,
+    NV_Extend = 0x00000136,
+    NV_Write = 0x00000137,
+    NV_WriteLock = 0x00000138,
+    DictionaryAttackLockReset = 0x00000139,
+    DictionaryAttackParameters = 0x0000013A,
+    NV_ChangeAuth = 0x0000013B,
 
     /// <summary> PCR </summary>
-    PCR_Event = 0x0000013C, 
+    PCR_Event = 0x0000013C,
 
     /// <summary> PCR </summary>
-    PCR_Reset = 0x0000013D, 
-    SequenceComplete = 0x0000013E, 
-    SetAlgorithmSet = 0x0000013F, 
-    SetCommandCodeAuditStatus = 0x00000140, 
-    FieldUpgradeData = 0x00000141, 
-    IncrementalSelfTest = 0x00000142, 
-    SelfTest = 0x00000143, 
-    Startup = 0x00000144, 
-    Shutdown = 0x00000145, 
-    StirRandom = 0x00000146, 
-    ActivateCredential = 0x00000147, 
-    Certify = 0x00000148, 
+    PCR_Reset = 0x0000013D,
+    SequenceComplete = 0x0000013E,
+    SetAlgorithmSet = 0x0000013F,
+    SetCommandCodeAuditStatus = 0x00000140,
+    FieldUpgradeData = 0x00000141,
+    IncrementalSelfTest = 0x00000142,
+    SelfTest = 0x00000143,
+    Startup = 0x00000144,
+    Shutdown = 0x00000145,
+    StirRandom = 0x00000146,
+    ActivateCredential = 0x00000147,
+    Certify = 0x00000148,
 
     /// <summary> Policy </summary>
-    PolicyNV = 0x00000149, 
-    CertifyCreation = 0x0000014A, 
-    Duplicate = 0x0000014B, 
-    GetTime = 0x0000014C, 
-    GetSessionAuditDigest = 0x0000014D, 
-    NV_Read = 0x0000014E, 
-    NV_ReadLock = 0x0000014F, 
-    ObjectChangeAuth = 0x00000150, 
+    PolicyNV = 0x00000149,
+    CertifyCreation = 0x0000014A,
+    Duplicate = 0x0000014B,
+    GetTime = 0x0000014C,
+    GetSessionAuditDigest = 0x0000014D,
+    NV_Read = 0x0000014E,
+    NV_ReadLock = 0x0000014F,
+    ObjectChangeAuth = 0x00000150,
 
     /// <summary> Policy </summary>
-    PolicySecret = 0x00000151, 
-    Rewrap = 0x00000152, 
-    Create = 0x00000153, 
-    ECDH_ZGen = 0x00000154, 
+    PolicySecret = 0x00000151,
+    Rewrap = 0x00000152,
+    Create = 0x00000153,
+    ECDH_ZGen = 0x00000154,
 
     /// <summary> See NOTE 1 </summary>
-    HMAC = 0x00000155, 
+    HMAC = 0x00000155,
 
     /// <summary> See NOTE 1 </summary>
-    MAC = 0x00000155, 
-    Import = 0x00000156, 
-    Load = 0x00000157, 
-    Quote = 0x00000158, 
-    RSA_Decrypt = 0x00000159, 
+    MAC = 0x00000155,
+    Import = 0x00000156,
+    Load = 0x00000157,
+    Quote = 0x00000158,
+    RSA_Decrypt = 0x00000159,
 
     /// <summary> See NOTE 1 </summary>
-    HMAC_Start = 0x0000015B, 
+    HMAC_Start = 0x0000015B,
 
     /// <summary> See NOTE 1 </summary>
-    MAC_Start = 0x0000015B, 
-    SequenceUpdate = 0x0000015C, 
-    Sign = 0x0000015D, 
-    Unseal = 0x0000015E, 
+    MAC_Start = 0x0000015B,
+    SequenceUpdate = 0x0000015C,
+    Sign = 0x0000015D,
+    Unseal = 0x0000015E,
 
     /// <summary> Policy </summary>
-    PolicySigned = 0x00000160, 
+    PolicySigned = 0x00000160,
 
     /// <summary> Context </summary>
-    ContextLoad = 0x00000161, 
+    ContextLoad = 0x00000161,
 
     /// <summary> Context </summary>
-    ContextSave = 0x00000162, 
-    ECDH_KeyGen = 0x00000163, 
-    EncryptDecrypt = 0x00000164, 
+    ContextSave = 0x00000162,
+    ECDH_KeyGen = 0x00000163,
+    EncryptDecrypt = 0x00000164,
 
     /// <summary> Context </summary>
-    FlushContext = 0x00000165, 
-    LoadExternal = 0x00000167, 
-    MakeCredential = 0x00000168, 
+    FlushContext = 0x00000165,
+    LoadExternal = 0x00000167,
+    MakeCredential = 0x00000168,
 
     /// <summary> NV </summary>
-    NV_ReadPublic = 0x00000169, 
+    NV_ReadPublic = 0x00000169,
 
     /// <summary> Policy </summary>
-    PolicyAuthorize = 0x0000016A, 
+    PolicyAuthorize = 0x0000016A,
 
     /// <summary> Policy </summary>
-    PolicyAuthValue = 0x0000016B, 
+    PolicyAuthValue = 0x0000016B,
 
     /// <summary> Policy </summary>
-    PolicyCommandCode = 0x0000016C, 
+    PolicyCommandCode = 0x0000016C,
 
     /// <summary> Policy </summary>
-    PolicyCounterTimer = 0x0000016D, 
+    PolicyCounterTimer = 0x0000016D,
 
     /// <summary> Policy </summary>
-    PolicyCpHash = 0x0000016E, 
+    PolicyCpHash = 0x0000016E,
 
     /// <summary> Policy </summary>
-    PolicyLocality = 0x0000016F, 
+    PolicyLocality = 0x0000016F,
 
     /// <summary> Policy </summary>
-    PolicyNameHash = 0x00000170, 
+    PolicyNameHash = 0x00000170,
 
     /// <summary> Policy </summary>
-    PolicyOR = 0x00000171, 
+    PolicyOR = 0x00000171,
 
     /// <summary> Policy </summary>
-    PolicyTicket = 0x00000172, 
-    ReadPublic = 0x00000173, 
-    RSA_Encrypt = 0x00000174, 
-    StartAuthSession = 0x00000176, 
-    VerifySignature = 0x00000177, 
-    ECC_Parameters = 0x00000178, 
-    FirmwareRead = 0x00000179, 
-    GetCapability = 0x0000017A, 
-    GetRandom = 0x0000017B, 
-    GetTestResult = 0x0000017C, 
-    Hash = 0x0000017D, 
+    PolicyTicket = 0x00000172,
+    ReadPublic = 0x00000173,
+    RSA_Encrypt = 0x00000174,
+    StartAuthSession = 0x00000176,
+    VerifySignature = 0x00000177,
+    ECC_Parameters = 0x00000178,
+    FirmwareRead = 0x00000179,
+    GetCapability = 0x0000017A,
+    GetRandom = 0x0000017B,
+    GetTestResult = 0x0000017C,
+    Hash = 0x0000017D,
 
     /// <summary> PCR </summary>
-    PCR_Read = 0x0000017E, 
+    PCR_Read = 0x0000017E,
 
     /// <summary> Policy </summary>
-    PolicyPCR = 0x0000017F, 
-    PolicyRestart = 0x00000180, 
-    ReadClock = 0x00000181, 
-    PCR_Extend = 0x00000182, 
-    PCR_SetAuthValue = 0x00000183, 
-    NV_Certify = 0x00000184, 
-    EventSequenceComplete = 0x00000185, 
-    HashSequenceStart = 0x00000186, 
+    PolicyPCR = 0x0000017F,
+    PolicyRestart = 0x00000180,
+    ReadClock = 0x00000181,
+    PCR_Extend = 0x00000182,
+    PCR_SetAuthValue = 0x00000183,
+    NV_Certify = 0x00000184,
+    EventSequenceComplete = 0x00000185,
+    HashSequenceStart = 0x00000186,
 
     /// <summary> Policy </summary>
-    PolicyPhysicalPresence = 0x00000187, 
+    PolicyPhysicalPresence = 0x00000187,
 
     /// <summary> Policy </summary>
-    PolicyDuplicationSelect = 0x00000188, 
+    PolicyDuplicationSelect = 0x00000188,
 
     /// <summary> Policy </summary>
-    PolicyGetDigest = 0x00000189, 
-    TestParms = 0x0000018A, 
-    Commit = 0x0000018B, 
+    PolicyGetDigest = 0x00000189,
+    TestParms = 0x0000018A,
+    Commit = 0x0000018B,
 
     /// <summary> Policy </summary>
-    PolicyPassword = 0x0000018C, 
-    ZGen_2Phase = 0x0000018D, 
-    EC_Ephemeral = 0x0000018E, 
+    PolicyPassword = 0x0000018C,
+    ZGen_2Phase = 0x0000018D,
+    EC_Ephemeral = 0x0000018E,
 
     /// <summary> Policy </summary>
-    PolicyNvWritten = 0x0000018F, 
+    PolicyNvWritten = 0x0000018F,
 
     /// <summary> Policy </summary>
-    PolicyTemplate = 0x00000190, 
-    CreateLoaded = 0x00000191, 
+    PolicyTemplate = 0x00000190,
+    CreateLoaded = 0x00000191,
 
     /// <summary> Policy </summary>
-    PolicyAuthorizeNV = 0x00000192, 
-    EncryptDecrypt2 = 0x00000193, 
-    AC_GetCapability = 0x00000194, 
-    AC_Send = 0x00000195, 
+    PolicyAuthorizeNV = 0x00000192,
+    EncryptDecrypt2 = 0x00000193,
+    AC_GetCapability = 0x00000194,
+    AC_Send = 0x00000195,
 
     /// <summary> Policy </summary>
-    Policy_AC_SendSelect = 0x00000196, 
-    CertifyX509 = 0x00000197, 
-    ACT_SetTimeout = 0x00000198, 
-    ECC_Encrypt = 0x00000199, 
-    ECC_Decrypt = 0x0000019A, 
+    Policy_AC_SendSelect = 0x00000196,
+    CertifyX509 = 0x00000197,
+    ACT_SetTimeout = 0x00000198,
+    ECC_Encrypt = 0x00000199,
+    ECC_Decrypt = 0x0000019A,
 
     /// <summary> Compile variable. May increase based on implementation. </summary>
-    LAST = 0x0000019A, 
-    CC_VEND = 0x20000000, 
+    LAST = 0x0000019A,
+    CC_VEND = 0x20000000,
 
     /// <summary> Used for testing of command dispatch </summary>
     Vendor_TCG_Test = CC_VEND+0x0000
@@ -568,28 +568,28 @@ struct TPM_CC : public TpmEnum<UINT32>
 struct ImplementationConstants : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(ImplementationConstants)
-    Ossl = 1, 
-    Ltc = 2, 
-    Msbn = 3, 
-    Symcrypt = 4, 
-    HASH_COUNT = 3, 
-    MAX_SYM_KEY_BITS = 256, 
-    MAX_SYM_KEY_BYTES = ((MAX_SYM_KEY_BITS + 7) / 8), 
-    MAX_SYM_BLOCK_SIZE = 16, 
-    MAX_CAP_CC = TPM_CC::LAST, 
-    MAX_RSA_KEY_BYTES = 256, 
-    MAX_AES_KEY_BYTES = 32, 
-    MAX_ECC_KEY_BYTES = 48, 
-    LABEL_MAX_BUFFER = 32, 
-    _TPM_CAP_SIZE = sizeof(UINT32), 
-    MAX_CAP_DATA = (1024/*MAX_CAP_BUFFER*/-_TPM_CAP_SIZE-sizeof(UINT32)), 
-    MAX_CAP_ALGS = (MAX_CAP_DATA / 0x6/*sizeof(TPMS_ALG_PROPERTY)*/), 
-    MAX_CAP_HANDLES = (MAX_CAP_DATA / 0x4/*sizeof(TPM_HANDLE)*/), 
-    MAX_TPM_PROPERTIES = (MAX_CAP_DATA / 0x8/*sizeof(TPMS_TAGGED_PROPERTY)*/), 
-    MAX_PCR_PROPERTIES = (MAX_CAP_DATA / 0x5/*sizeof(TPMS_TAGGED_PCR_SELECT)*/), 
-    MAX_ECC_CURVES = (MAX_CAP_DATA / sizeof(TPM_ECC_CURVE)), 
-    MAX_TAGGED_POLICIES = (MAX_CAP_DATA / 0x46/*sizeof(TPMS_TAGGED_POLICY)*/), 
-    MAX_AC_CAPABILITIES = (MAX_CAP_DATA / 0x8/*sizeof(TPMS_AC_OUTPUT)*/), 
+    Ossl = 1,
+    Ltc = 2,
+    Msbn = 3,
+    Symcrypt = 4,
+    HASH_COUNT = 3,
+    MAX_SYM_KEY_BITS = 256,
+    MAX_SYM_KEY_BYTES = ((MAX_SYM_KEY_BITS + 7) / 8),
+    MAX_SYM_BLOCK_SIZE = 16,
+    MAX_CAP_CC = TPM_CC::LAST,
+    MAX_RSA_KEY_BYTES = 256,
+    MAX_AES_KEY_BYTES = 32,
+    MAX_ECC_KEY_BYTES = 48,
+    LABEL_MAX_BUFFER = 32,
+    _TPM_CAP_SIZE = sizeof(UINT32),
+    MAX_CAP_DATA = (1024/*MAX_CAP_BUFFER*/-_TPM_CAP_SIZE-sizeof(UINT32)),
+    MAX_CAP_ALGS = (MAX_CAP_DATA / 0x6/*sizeof(TPMS_ALG_PROPERTY)*/),
+    MAX_CAP_HANDLES = (MAX_CAP_DATA / 0x4/*sizeof(TPM_HANDLE)*/),
+    MAX_TPM_PROPERTIES = (MAX_CAP_DATA / 0x8/*sizeof(TPMS_TAGGED_PROPERTY)*/),
+    MAX_PCR_PROPERTIES = (MAX_CAP_DATA / 0x5/*sizeof(TPMS_TAGGED_PCR_SELECT)*/),
+    MAX_ECC_CURVES = (MAX_CAP_DATA / sizeof(TPM_ECC_CURVE)),
+    MAX_TAGGED_POLICIES = (MAX_CAP_DATA / 0x46/*sizeof(TPMS_TAGGED_POLICY)*/),
+    MAX_AC_CAPABILITIES = (MAX_CAP_DATA / 0x8/*sizeof(TPMS_AC_OUTPUT)*/),
     MAX_ACT_DATA = MAX_CAP_DATA / 0xC/*sizeof(TPMS_ACT_DATA)*/
     TPM_ENUM_EPILOGUE(ImplementationConstants)
 };
@@ -601,517 +601,517 @@ struct ImplementationConstants : public TpmEnum<UINT32>
 struct TPM_RC : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_RC)
-    SUCCESS = 0x000, 
+    SUCCESS = 0x000,
 
     /// <summary> Defined for compatibility with TPM 1.2 </summary>
-    BAD_TAG = 0x01E, 
+    BAD_TAG = 0x01E,
 
     /// <summary> Set for all format 0 response codes </summary>
-    RC_VER1 = 0x100, 
+    RC_VER1 = 0x100,
 
     /// <summary> TPM not initialized by TPM2_Startup or already initialized </summary>
-    INITIALIZE = RC_VER1 + 0x000, 
+    INITIALIZE = RC_VER1 + 0x000,
 
     /// <summary> Commands not being accepted because of a TPM failure
     /// NOTE This may be returned by TPM2_GetTestResult() as the testResult parameter. </summary>
-    FAILURE = RC_VER1 + 0x001, 
+    FAILURE = RC_VER1 + 0x001,
 
     /// <summary> Improper use of a sequence handle </summary>
-    SEQUENCE = RC_VER1 + 0x003, 
+    SEQUENCE = RC_VER1 + 0x003,
 
     /// <summary> Not currently used </summary>
-    PRIVATE = RC_VER1 + 0x00B, 
+    PRIVATE = RC_VER1 + 0x00B,
 
     /// <summary> Not currently used </summary>
-    HMAC = RC_VER1 + 0x019, 
+    HMAC = RC_VER1 + 0x019,
 
     /// <summary> The command is disabled </summary>
-    DISABLED = RC_VER1 + 0x020, 
+    DISABLED = RC_VER1 + 0x020,
 
     /// <summary> Command failed because audit sequence required exclusivity </summary>
-    EXCLUSIVE = RC_VER1 + 0x021, 
+    EXCLUSIVE = RC_VER1 + 0x021,
 
     /// <summary> Authorization handle is not correct for command </summary>
-    AUTH_TYPE = RC_VER1 + 0x024, 
+    AUTH_TYPE = RC_VER1 + 0x024,
 
     /// <summary> Command requires an authorization session for handle and it is not present. </summary>
-    AUTH_MISSING = RC_VER1 + 0x025, 
+    AUTH_MISSING = RC_VER1 + 0x025,
 
     /// <summary> Policy failure in math operation or an invalid authPolicy value </summary>
-    POLICY = RC_VER1 + 0x026, 
+    POLICY = RC_VER1 + 0x026,
 
     /// <summary> PCR check fail </summary>
-    PCR = RC_VER1 + 0x027, 
+    PCR = RC_VER1 + 0x027,
 
     /// <summary> PCR have changed since checked. </summary>
-    PCR_CHANGED = RC_VER1 + 0x028, 
+    PCR_CHANGED = RC_VER1 + 0x028,
 
     /// <summary> For all commands other than TPM2_FieldUpgradeData(), this code indicates
     /// that the TPM is in field upgrade mode; for TPM2_FieldUpgradeData(), this code
     /// indicates that the TPM is not in field upgrade mode </summary>
-    UPGRADE = RC_VER1 + 0x02D, 
+    UPGRADE = RC_VER1 + 0x02D,
 
     /// <summary> Context ID counter is at maximum. </summary>
-    TOO_MANY_CONTEXTS = RC_VER1 + 0x02E, 
+    TOO_MANY_CONTEXTS = RC_VER1 + 0x02E,
 
     /// <summary> AuthValue or authPolicy is not available for selected entity. </summary>
-    AUTH_UNAVAILABLE = RC_VER1 + 0x02F, 
+    AUTH_UNAVAILABLE = RC_VER1 + 0x02F,
 
     /// <summary> A _TPM_Init and Startup(CLEAR) is required before the TPM can resume
     /// operation. </summary>
-    REBOOT = RC_VER1 + 0x030, 
+    REBOOT = RC_VER1 + 0x030,
 
     /// <summary> The protection algorithms (hash and symmetric) are not reasonably balanced.
     /// The digest size of the hash must be larger than the key size of the symmetric
     /// algorithm. </summary>
-    UNBALANCED = RC_VER1 + 0x031, 
+    UNBALANCED = RC_VER1 + 0x031,
 
     /// <summary> Command commandSize value is inconsistent with contents of the command
     /// buffer; either the size is not the same as the octets loaded by the hardware interface
     /// layer or the value is not large enough to hold a command header </summary>
-    COMMAND_SIZE = RC_VER1 + 0x042, 
+    COMMAND_SIZE = RC_VER1 + 0x042,
 
     /// <summary> Command code not supported </summary>
-    COMMAND_CODE = RC_VER1 + 0x043, 
+    COMMAND_CODE = RC_VER1 + 0x043,
 
     /// <summary> The value of authorizationSize is out of range or the number of octets in
     /// the Authorization Area is greater than required </summary>
-    AUTHSIZE = RC_VER1 + 0x044, 
+    AUTHSIZE = RC_VER1 + 0x044,
 
     /// <summary> Use of an authorization session with a context command or another command
     /// that cannot have an authorization session. </summary>
-    AUTH_CONTEXT = RC_VER1 + 0x045, 
+    AUTH_CONTEXT = RC_VER1 + 0x045,
 
     /// <summary> NV offset+size is out of range. </summary>
-    NV_RANGE = RC_VER1 + 0x046, 
+    NV_RANGE = RC_VER1 + 0x046,
 
     /// <summary> Requested allocation size is larger than allowed. </summary>
-    NV_SIZE = RC_VER1 + 0x047, 
+    NV_SIZE = RC_VER1 + 0x047,
 
     /// <summary> NV access locked. </summary>
-    NV_LOCKED = RC_VER1 + 0x048, 
+    NV_LOCKED = RC_VER1 + 0x048,
 
     /// <summary> NV access authorization fails in command actions (this failure does not
     /// affect lockout.action) </summary>
-    NV_AUTHORIZATION = RC_VER1 + 0x049, 
+    NV_AUTHORIZATION = RC_VER1 + 0x049,
 
     /// <summary> An NV Index is used before being initialized or the state saved by
     /// TPM2_Shutdown(STATE) could not be restored </summary>
-    NV_UNINITIALIZED = RC_VER1 + 0x04A, 
+    NV_UNINITIALIZED = RC_VER1 + 0x04A,
 
     /// <summary> Insufficient space for NV allocation </summary>
-    NV_SPACE = RC_VER1 + 0x04B, 
+    NV_SPACE = RC_VER1 + 0x04B,
 
     /// <summary> NV Index or persistent object already defined </summary>
-    NV_DEFINED = RC_VER1 + 0x04C, 
+    NV_DEFINED = RC_VER1 + 0x04C,
 
     /// <summary> Context in TPM2_ContextLoad() is not valid </summary>
-    BAD_CONTEXT = RC_VER1 + 0x050, 
+    BAD_CONTEXT = RC_VER1 + 0x050,
 
     /// <summary> CpHash value already set or not correct for use </summary>
-    CPHASH = RC_VER1 + 0x051, 
+    CPHASH = RC_VER1 + 0x051,
 
     /// <summary> Handle for parent is not a valid parent </summary>
-    PARENT = RC_VER1 + 0x052, 
+    PARENT = RC_VER1 + 0x052,
 
     /// <summary> Some function needs testing. </summary>
-    NEEDS_TEST = RC_VER1 + 0x053, 
+    NEEDS_TEST = RC_VER1 + 0x053,
 
     /// <summary> Returned when an internal function cannot process a request due to an
     /// unspecified problem. This code is usually related to invalid parameters that are not
     /// properly filtered by the input unmarshaling code. </summary>
-    NO_RESULT = RC_VER1 + 0x054, 
+    NO_RESULT = RC_VER1 + 0x054,
 
     /// <summary> The sensitive area did not unmarshal correctly after decryption this code is
     /// used in lieu of the other unmarshaling errors so that an attacker cannot determine
     /// where the unmarshaling error occurred </summary>
-    SENSITIVE = RC_VER1 + 0x055, 
+    SENSITIVE = RC_VER1 + 0x055,
 
     /// <summary> Largest version 1 code that is not a warning </summary>
-    RC_MAX_FM0 = RC_VER1 + 0x07F, 
+    RC_MAX_FM0 = RC_VER1 + 0x07F,
 
     /// <summary> This bit is SET in all format 1 response codes
     /// The codes in this group may have a value added to them to indicate the handle,
     /// session, or parameter to which they apply. </summary>
-    RC_FMT1 = 0x080, 
+    RC_FMT1 = 0x080,
 
     /// <summary> Asymmetric algorithm not supported or not correct </summary>
-    ASYMMETRIC = RC_FMT1 + 0x001, 
+    ASYMMETRIC = RC_FMT1 + 0x001,
 
     /// <summary> Inconsistent attributes </summary>
-    ATTRIBUTES = RC_FMT1 + 0x002, 
+    ATTRIBUTES = RC_FMT1 + 0x002,
 
     /// <summary> Hash algorithm not supported or not appropriate </summary>
-    HASH = RC_FMT1 + 0x003, 
+    HASH = RC_FMT1 + 0x003,
 
     /// <summary> Value is out of range or is not correct for the context </summary>
-    VALUE = RC_FMT1 + 0x004, 
+    VALUE = RC_FMT1 + 0x004,
 
     /// <summary> Hierarchy is not enabled or is not correct for the use </summary>
-    HIERARCHY = RC_FMT1 + 0x005, 
+    HIERARCHY = RC_FMT1 + 0x005,
 
     /// <summary> Key size is not supported </summary>
-    KEY_SIZE = RC_FMT1 + 0x007, 
+    KEY_SIZE = RC_FMT1 + 0x007,
 
     /// <summary> Mask generation function not supported </summary>
-    MGF = RC_FMT1 + 0x008, 
+    MGF = RC_FMT1 + 0x008,
 
     /// <summary> Mode of operation not supported </summary>
-    MODE = RC_FMT1 + 0x009, 
+    MODE = RC_FMT1 + 0x009,
 
     /// <summary> The type of the value is not appropriate for the use </summary>
-    TYPE = RC_FMT1 + 0x00A, 
+    TYPE = RC_FMT1 + 0x00A,
 
     /// <summary> The handle is not correct for the use </summary>
-    HANDLE = RC_FMT1 + 0x00B, 
+    HANDLE = RC_FMT1 + 0x00B,
 
     /// <summary> Unsupported key derivation function or function not appropriate for use </summary>
-    KDF = RC_FMT1 + 0x00C, 
+    KDF = RC_FMT1 + 0x00C,
 
     /// <summary> Value was out of allowed range. </summary>
-    RANGE = RC_FMT1 + 0x00D, 
+    RANGE = RC_FMT1 + 0x00D,
 
     /// <summary> The authorization HMAC check failed and DA counter incremented </summary>
-    AUTH_FAIL = RC_FMT1 + 0x00E, 
+    AUTH_FAIL = RC_FMT1 + 0x00E,
 
     /// <summary> Invalid nonce size or nonce value mismatch </summary>
-    NONCE = RC_FMT1 + 0x00F, 
+    NONCE = RC_FMT1 + 0x00F,
 
     /// <summary> Authorization requires assertion of PP </summary>
-    PP = RC_FMT1 + 0x010, 
+    PP = RC_FMT1 + 0x010,
 
     /// <summary> Unsupported or incompatible scheme </summary>
-    SCHEME = RC_FMT1 + 0x012, 
+    SCHEME = RC_FMT1 + 0x012,
 
     /// <summary> Structure is the wrong size </summary>
-    SIZE = RC_FMT1 + 0x015, 
+    SIZE = RC_FMT1 + 0x015,
 
     /// <summary> Unsupported symmetric algorithm or key size, or not appropriate for instance
     /// </summary>
-    SYMMETRIC = RC_FMT1 + 0x016, 
+    SYMMETRIC = RC_FMT1 + 0x016,
 
     /// <summary> Incorrect structure tag </summary>
-    TAG = RC_FMT1 + 0x017, 
+    TAG = RC_FMT1 + 0x017,
 
     /// <summary> Union selector is incorrect </summary>
-    SELECTOR = RC_FMT1 + 0x018, 
+    SELECTOR = RC_FMT1 + 0x018,
 
     /// <summary> The TPM was unable to unmarshal a value because there were not enough octets
     /// in the input buffer </summary>
-    INSUFFICIENT = RC_FMT1 + 0x01A, 
+    INSUFFICIENT = RC_FMT1 + 0x01A,
 
     /// <summary> The signature is not valid </summary>
-    SIGNATURE = RC_FMT1 + 0x01B, 
+    SIGNATURE = RC_FMT1 + 0x01B,
 
     /// <summary> Key fields are not compatible with the selected use </summary>
-    KEY = RC_FMT1 + 0x01C, 
+    KEY = RC_FMT1 + 0x01C,
 
     /// <summary> A policy check failed </summary>
-    POLICY_FAIL = RC_FMT1 + 0x01D, 
+    POLICY_FAIL = RC_FMT1 + 0x01D,
 
     /// <summary> Integrity check failed </summary>
-    INTEGRITY = RC_FMT1 + 0x01F, 
+    INTEGRITY = RC_FMT1 + 0x01F,
 
     /// <summary> Invalid ticket </summary>
-    TICKET = RC_FMT1 + 0x020, 
+    TICKET = RC_FMT1 + 0x020,
 
     /// <summary> Reserved bits not set to zero as required </summary>
-    RESERVED_BITS = RC_FMT1 + 0x021, 
+    RESERVED_BITS = RC_FMT1 + 0x021,
 
     /// <summary> Authorization failure without DA implications </summary>
-    BAD_AUTH = RC_FMT1 + 0x022, 
+    BAD_AUTH = RC_FMT1 + 0x022,
 
     /// <summary> The policy has expired </summary>
-    EXPIRED = RC_FMT1 + 0x023, 
+    EXPIRED = RC_FMT1 + 0x023,
 
     /// <summary> The commandCode in the policy is not the commandCode of the command or the
     /// command code in a policy command references a command that is not implemented </summary>
-    POLICY_CC = RC_FMT1 + 0x024, 
+    POLICY_CC = RC_FMT1 + 0x024,
 
     /// <summary> Public and sensitive portions of an object are not cryptographically bound </summary>
-    BINDING = RC_FMT1 + 0x025, 
+    BINDING = RC_FMT1 + 0x025,
 
     /// <summary> Curve not supported </summary>
-    CURVE = RC_FMT1 + 0x026, 
+    CURVE = RC_FMT1 + 0x026,
 
     /// <summary> Point is not on the required curve. </summary>
-    ECC_POINT = RC_FMT1 + 0x027, 
+    ECC_POINT = RC_FMT1 + 0x027,
 
     /// <summary> Set for warning response codes </summary>
-    RC_WARN = 0x900, 
+    RC_WARN = 0x900,
 
     /// <summary> Gap for context ID is too large </summary>
-    CONTEXT_GAP = RC_WARN + 0x001, 
+    CONTEXT_GAP = RC_WARN + 0x001,
 
     /// <summary> Out of memory for object contexts </summary>
-    OBJECT_MEMORY = RC_WARN + 0x002, 
+    OBJECT_MEMORY = RC_WARN + 0x002,
 
     /// <summary> Out of memory for session contexts </summary>
-    SESSION_MEMORY = RC_WARN + 0x003, 
+    SESSION_MEMORY = RC_WARN + 0x003,
 
     /// <summary> Out of shared object/session memory or need space for internal operations </summary>
-    MEMORY = RC_WARN + 0x004, 
+    MEMORY = RC_WARN + 0x004,
 
     /// <summary> Out of session handles a session must be flushed before a new session may be
     /// created </summary>
-    SESSION_HANDLES = RC_WARN + 0x005, 
+    SESSION_HANDLES = RC_WARN + 0x005,
 
     /// <summary> Out of object handles the handle space for objects is depleted and a reboot
     /// is required
     /// NOTE 1 This cannot occur on the reference implementation.
     /// NOTE 2 There is no reason why an implementation would implement a design that would
     /// deplete handle space. Platform specifications are encouraged to forbid it. </summary>
-    OBJECT_HANDLES = RC_WARN + 0x006, 
+    OBJECT_HANDLES = RC_WARN + 0x006,
 
     /// <summary> Bad locality </summary>
-    LOCALITY = RC_WARN + 0x007, 
+    LOCALITY = RC_WARN + 0x007,
 
     /// <summary> The TPM has suspended operation on the command; forward progress was made
     /// and the command may be retried
     /// See TPM 2.0 Part 1, Multi-tasking.
     /// NOTE This cannot occur on the reference implementation. </summary>
-    YIELDED = RC_WARN + 0x008, 
+    YIELDED = RC_WARN + 0x008,
 
     /// <summary> The command was canceled </summary>
-    CANCELED = RC_WARN + 0x009, 
+    CANCELED = RC_WARN + 0x009,
 
     /// <summary> TPM is performing self-tests </summary>
-    TESTING = RC_WARN + 0x00A, 
+    TESTING = RC_WARN + 0x00A,
 
     /// <summary> The 1st handle in the handle area references a transient object or session
     /// that is not loaded </summary>
-    REFERENCE_H0 = RC_WARN + 0x010, 
+    REFERENCE_H0 = RC_WARN + 0x010,
 
     /// <summary> The 2nd handle in the handle area references a transient object or session
     /// that is not loaded </summary>
-    REFERENCE_H1 = RC_WARN + 0x011, 
+    REFERENCE_H1 = RC_WARN + 0x011,
 
     /// <summary> The 3rd handle in the handle area references a transient object or session
     /// that is not loaded </summary>
-    REFERENCE_H2 = RC_WARN + 0x012, 
+    REFERENCE_H2 = RC_WARN + 0x012,
 
     /// <summary> The 4th handle in the handle area references a transient object or session
     /// that is not loaded </summary>
-    REFERENCE_H3 = RC_WARN + 0x013, 
+    REFERENCE_H3 = RC_WARN + 0x013,
 
     /// <summary> The 5th handle in the handle area references a transient object or session
     /// that is not loaded </summary>
-    REFERENCE_H4 = RC_WARN + 0x014, 
+    REFERENCE_H4 = RC_WARN + 0x014,
 
     /// <summary> The 6th handle in the handle area references a transient object or session
     /// that is not loaded </summary>
-    REFERENCE_H5 = RC_WARN + 0x015, 
+    REFERENCE_H5 = RC_WARN + 0x015,
 
     /// <summary> The 7th handle in the handle area references a transient object or session
     /// that is not loaded </summary>
-    REFERENCE_H6 = RC_WARN + 0x016, 
+    REFERENCE_H6 = RC_WARN + 0x016,
 
     /// <summary> The 1st authorization session handle references a session that is not loaded
     /// </summary>
-    REFERENCE_S0 = RC_WARN + 0x018, 
+    REFERENCE_S0 = RC_WARN + 0x018,
 
     /// <summary> The 2nd authorization session handle references a session that is not loaded
     /// </summary>
-    REFERENCE_S1 = RC_WARN + 0x019, 
+    REFERENCE_S1 = RC_WARN + 0x019,
 
     /// <summary> The 3rd authorization session handle references a session that is not loaded
     /// </summary>
-    REFERENCE_S2 = RC_WARN + 0x01A, 
+    REFERENCE_S2 = RC_WARN + 0x01A,
 
     /// <summary> The 4th authorization session handle references a session that is not loaded
     /// </summary>
-    REFERENCE_S3 = RC_WARN + 0x01B, 
+    REFERENCE_S3 = RC_WARN + 0x01B,
 
     /// <summary> The 5th session handle references a session that is not loaded </summary>
-    REFERENCE_S4 = RC_WARN + 0x01C, 
+    REFERENCE_S4 = RC_WARN + 0x01C,
 
     /// <summary> The 6th session handle references a session that is not loaded </summary>
-    REFERENCE_S5 = RC_WARN + 0x01D, 
+    REFERENCE_S5 = RC_WARN + 0x01D,
 
     /// <summary> The 7th authorization session handle references a session that is not loaded
     /// </summary>
-    REFERENCE_S6 = RC_WARN + 0x01E, 
+    REFERENCE_S6 = RC_WARN + 0x01E,
 
     /// <summary> The TPM is rate-limiting accesses to prevent wearout of NV </summary>
-    NV_RATE = RC_WARN + 0x020, 
+    NV_RATE = RC_WARN + 0x020,
 
     /// <summary> Authorizations for objects subject to DA protection are not allowed at this
     /// time because the TPM is in DA lockout mode </summary>
-    LOCKOUT = RC_WARN + 0x021, 
+    LOCKOUT = RC_WARN + 0x021,
 
     /// <summary> The TPM was not able to start the command </summary>
-    RETRY = RC_WARN + 0x022, 
+    RETRY = RC_WARN + 0x022,
 
     /// <summary> The command may require writing of NV and NV is not current accessible </summary>
-    NV_UNAVAILABLE = RC_WARN + 0x023, 
+    NV_UNAVAILABLE = RC_WARN + 0x023,
 
     /// <summary> This value is reserved and shall not be returned by the TPM </summary>
-    NOT_USED = RC_WARN + 0x7F, 
+    NOT_USED = RC_WARN + 0x7F,
 
     /// <summary> Add to a handle-related error </summary>
-    H = 0x000, 
+    H = 0x000,
 
     /// <summary> Add to a parameter-related error </summary>
-    P = 0x040, 
+    P = 0x040,
 
     /// <summary> Add to a session-related error </summary>
-    S = 0x800, 
+    S = 0x800,
 
     /// <summary> Add to a parameter-, handle-, or session-related error </summary>
-    _1 = 0x100, 
+    _1 = 0x100,
 
     /// <summary> Add to a parameter-, handle-, or session-related error </summary>
-    _2 = 0x200, 
+    _2 = 0x200,
 
     /// <summary> Add to a parameter-, handle-, or session-related error </summary>
-    _3 = 0x300, 
+    _3 = 0x300,
 
     /// <summary> Add to a parameter-, handle-, or session-related error </summary>
-    _4 = 0x400, 
+    _4 = 0x400,
 
     /// <summary> Add to a parameter-, handle-, or session-related error </summary>
-    _5 = 0x500, 
+    _5 = 0x500,
 
     /// <summary> Add to a parameter-, handle-, or session-related error </summary>
-    _6 = 0x600, 
+    _6 = 0x600,
 
     /// <summary> Add to a parameter-, handle-, or session-related error </summary>
-    _7 = 0x700, 
+    _7 = 0x700,
 
     /// <summary> Add to a parameter-related error </summary>
-    _8 = 0x800, 
+    _8 = 0x800,
 
     /// <summary> Add to a parameter-related error </summary>
-    _9 = 0x900, 
+    _9 = 0x900,
 
     /// <summary> Add to a parameter-related error </summary>
-    A = 0xA00, 
+    A = 0xA00,
 
     /// <summary> Add to a parameter-related error </summary>
-    B = 0xB00, 
+    B = 0xB00,
 
     /// <summary> Add to a parameter-related error </summary>
-    C = 0xC00, 
+    C = 0xC00,
 
     /// <summary> Add to a parameter-related error </summary>
-    D = 0xD00, 
+    D = 0xD00,
 
     /// <summary> Add to a parameter-related error </summary>
-    E = 0xE00, 
+    E = 0xE00,
 
     /// <summary> Add to a parameter-related error </summary>
-    F = 0xF00, 
+    F = 0xF00,
 
     /// <summary> Number mask </summary>
-    N_MASK = 0xF00, 
+    N_MASK = 0xF00,
 
     /// <summary> Response buffer returned by the TPM is too short </summary>
-    TSS_TCP_BAD_HANDSHAKE_RESP = 0x40280001, 
+    TSS_TCP_BAD_HANDSHAKE_RESP = 0x40280001,
 
     /// <summary> Too old TCP server version </summary>
-    TSS_TCP_SERVER_TOO_OLD = 0x40280002, 
+    TSS_TCP_SERVER_TOO_OLD = 0x40280002,
 
     /// <summary> Bad ack from the TCP end point </summary>
-    TSS_TCP_BAD_ACK = 0x40280003, 
+    TSS_TCP_BAD_ACK = 0x40280003,
 
     /// <summary> Wrong length of the response buffer returned by the TPM </summary>
-    TSS_TCP_BAD_RESP_LEN = 0x40280004, 
+    TSS_TCP_BAD_RESP_LEN = 0x40280004,
 
     /// <summary> TPM2_Startup returned unexpected response code </summary>
-    TSS_TCP_UNEXPECTED_STARTUP_RESP = 0x40280005, 
+    TSS_TCP_UNEXPECTED_STARTUP_RESP = 0x40280005,
 
     /// <summary> Invalid size tag in the TPM response TCP packet </summary>
-    TSS_TCP_INVALID_SIZE_TAG = 0x40280006, 
+    TSS_TCP_INVALID_SIZE_TAG = 0x40280006,
 
     /// <summary> TPM over TCP device is not connected </summary>
-    TSS_TCP_DISCONNECTED = 0x40280007, 
+    TSS_TCP_DISCONNECTED = 0x40280007,
 
     /// <summary> General TPM command dispatch failure </summary>
-    TSS_DISPATCH_FAILED = 0x40280010, 
+    TSS_DISPATCH_FAILED = 0x40280010,
 
     /// <summary> Sending data to TPM failed </summary>
-    TSS_SEND_OP_FAILED = 0x40280011, 
+    TSS_SEND_OP_FAILED = 0x40280011,
 
     /// <summary> Response buffer returned by the TPM is too short </summary>
-    TSS_RESP_BUF_TOO_SHORT = 0x40280021, 
+    TSS_RESP_BUF_TOO_SHORT = 0x40280021,
 
     /// <summary> Invalid tag in the response buffer returned by the TPM </summary>
-    TSS_RESP_BUF_INVALID_SESSION_TAG = 0x40280022, 
+    TSS_RESP_BUF_INVALID_SESSION_TAG = 0x40280022,
 
     /// <summary> Inconsistent TPM response parameters size </summary>
-    TSS_RESP_BUF_INVALID_SIZE = 0x40280023, 
+    TSS_RESP_BUF_INVALID_SIZE = 0x40280023,
 
     /// <summary> Windows TBS error TPM_E_COMMAND_BLOCKED </summary>
-    TBS_COMMAND_BLOCKED = 0x80280400, 
+    TBS_COMMAND_BLOCKED = 0x80280400,
 
     /// <summary> Windows TBS error TPM_E_INVALID_HANDLE </summary>
-    TBS_INVALID_HANDLE = 0x80280401, 
+    TBS_INVALID_HANDLE = 0x80280401,
 
     /// <summary> Windows TBS error TPM_E_DUPLICATE_VHANDLE </summary>
-    TBS_DUPLICATE_V_HANDLE = 0x80280402, 
+    TBS_DUPLICATE_V_HANDLE = 0x80280402,
 
     /// <summary> Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED </summary>
-    TBS_EMBEDDED_COMMAND_BLOCKED = 0x80280403, 
+    TBS_EMBEDDED_COMMAND_BLOCKED = 0x80280403,
 
     /// <summary> Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED </summary>
-    TBS_EMBEDDED_COMMAND_UNSUPPORTED = 0x80280404, 
+    TBS_EMBEDDED_COMMAND_UNSUPPORTED = 0x80280404,
 
     /// <summary> Windows TBS returned success but empty response buffer </summary>
-    TBS_UNKNOWN_ERROR = 0x80284000, 
+    TBS_UNKNOWN_ERROR = 0x80284000,
 
     /// <summary> Windows TBS error TBS_E_INTERNAL_ERROR </summary>
-    TBS_INTERNAL_ERROR = 0x80284001, 
+    TBS_INTERNAL_ERROR = 0x80284001,
 
     /// <summary> Windows TBS error TBS_E_BAD_PARAMETER </summary>
-    TBS_BAD_PARAMETER = 0x80284002, 
+    TBS_BAD_PARAMETER = 0x80284002,
 
     /// <summary> Windows TBS error TBS_E_INVALID_OUTPUT_POINTER </summary>
-    TBS_INVALID_OUTPUT_POINTER = 0x80284003, 
+    TBS_INVALID_OUTPUT_POINTER = 0x80284003,
 
     /// <summary> Windows TBS error TBS_E_INVALID_CONTEXT </summary>
-    TBS_INVALID_CONTEXT = 0x80284004, 
+    TBS_INVALID_CONTEXT = 0x80284004,
 
     /// <summary> Windows TBS error TBS_E_INSUFFICIENT_BUFFER </summary>
-    TBS_INSUFFICIENT_BUFFER = 0x80284005, 
+    TBS_INSUFFICIENT_BUFFER = 0x80284005,
 
     /// <summary> Windows TBS error TBS_E_IOERROR </summary>
-    TBS_IO_ERROR = 0x80284006, 
+    TBS_IO_ERROR = 0x80284006,
 
     /// <summary> Windows TBS error TBS_E_INVALID_CONTEXT_PARAM </summary>
-    TBS_INVALID_CONTEXT_PARAM = 0x80284007, 
+    TBS_INVALID_CONTEXT_PARAM = 0x80284007,
 
     /// <summary> Windows TBS error TBS_E_SERVICE_NOT_RUNNING </summary>
-    TBS_SERVICE_NOT_RUNNING = 0x80284008, 
+    TBS_SERVICE_NOT_RUNNING = 0x80284008,
 
     /// <summary> Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS </summary>
-    TBS_TOO_MANY_CONTEXTS = 0x80284009, 
+    TBS_TOO_MANY_CONTEXTS = 0x80284009,
 
     /// <summary> Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES </summary>
-    TBS_TOO_MANY_RESOURCES = 0x8028400A, 
+    TBS_TOO_MANY_RESOURCES = 0x8028400A,
 
     /// <summary> Windows TBS error TBS_E_SERVICE_START_PENDING </summary>
-    TBS_SERVICE_START_PENDING = 0x8028400B, 
+    TBS_SERVICE_START_PENDING = 0x8028400B,
 
     /// <summary> Windows TBS error TBS_E_PPI_NOT_SUPPORTED </summary>
-    TBS_PPI_NOT_SUPPORTED = 0x8028400C, 
+    TBS_PPI_NOT_SUPPORTED = 0x8028400C,
 
     /// <summary> Windows TBS error TBS_E_COMMAND_CANCELED </summary>
-    TBS_COMMAND_CANCELED = 0x8028400D, 
+    TBS_COMMAND_CANCELED = 0x8028400D,
 
     /// <summary> Windows TBS error TBS_E_BUFFER_TOO_LARGE </summary>
-    TBS_BUFFER_TOO_LARGE = 0x8028400E, 
+    TBS_BUFFER_TOO_LARGE = 0x8028400E,
 
     /// <summary> Windows TBS error TBS_E_TPM_NOT_FOUND </summary>
-    TBS_TPM_NOT_FOUND = 0x8028400F, 
+    TBS_TPM_NOT_FOUND = 0x8028400F,
 
     /// <summary> Windows TBS error TBS_E_SERVICE_DISABLED </summary>
-    TBS_SERVICE_DISABLED = 0x80284010, 
+    TBS_SERVICE_DISABLED = 0x80284010,
 
     /// <summary> Windows TBS error TBS_E_ACCESS_DENIED </summary>
-    TBS_ACCESS_DENIED = 0x80284012, 
+    TBS_ACCESS_DENIED = 0x80284012,
 
     /// <summary> Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED </summary>
-    TBS_PPI_FUNCTION_NOT_SUPPORTED = 0x80284014, 
+    TBS_PPI_FUNCTION_NOT_SUPPORTED = 0x80284014,
 
     /// <summary> Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND </summary>
     TBS_OWNER_AUTH_NOT_FOUND = 0x80284015
@@ -1126,22 +1126,22 @@ struct TPM_CLOCK_ADJUST : public TpmEnum<INT8>
     TPM_ENUM_PROLOGUE(TPM_CLOCK_ADJUST)
 
     /// <summary> Slow the Clock update rate by one coarse adjustment step. </summary>
-    COARSE_SLOWER = -3, 
+    COARSE_SLOWER = -3,
 
     /// <summary> Slow the Clock update rate by one medium adjustment step. </summary>
-    MEDIUM_SLOWER = -2, 
+    MEDIUM_SLOWER = -2,
 
     /// <summary> Slow the Clock update rate by one fine adjustment step. </summary>
-    FINE_SLOWER = -1, 
+    FINE_SLOWER = -1,
 
     /// <summary> No change to the Clock update rate. </summary>
-    NO_CHANGE = 0, 
+    NO_CHANGE = 0,
 
     /// <summary> Speed the Clock update rate by one fine adjustment step. </summary>
-    FINE_FASTER = 1, 
+    FINE_FASTER = 1,
 
     /// <summary> Speed the Clock update rate by one medium adjustment step. </summary>
-    MEDIUM_FASTER = 2, 
+    MEDIUM_FASTER = 2,
 
     /// <summary> Speed the Clock update rate by one coarse adjustment step. </summary>
     COARSE_FASTER = 3
@@ -1154,37 +1154,37 @@ struct TPM_EO : public TpmEnum<UINT16>
     TPM_ENUM_PROLOGUE(TPM_EO)
 
     /// <summary> A = B </summary>
-    EQ = 0x0000, 
+    EQ = 0x0000,
 
     /// <summary> A B </summary>
-    NEQ = 0x0001, 
+    NEQ = 0x0001,
 
     /// <summary> A ˃ B signed </summary>
-    SIGNED_GT = 0x0002, 
+    SIGNED_GT = 0x0002,
 
     /// <summary> A ˃ B unsigned </summary>
-    UNSIGNED_GT = 0x0003, 
+    UNSIGNED_GT = 0x0003,
 
     /// <summary> A ˂ B signed </summary>
-    SIGNED_LT = 0x0004, 
+    SIGNED_LT = 0x0004,
 
     /// <summary> A ˂ B unsigned </summary>
-    UNSIGNED_LT = 0x0005, 
+    UNSIGNED_LT = 0x0005,
 
     /// <summary> A B signed </summary>
-    SIGNED_GE = 0x0006, 
+    SIGNED_GE = 0x0006,
 
     /// <summary> A B unsigned </summary>
-    UNSIGNED_GE = 0x0007, 
+    UNSIGNED_GE = 0x0007,
 
     /// <summary> A B signed </summary>
-    SIGNED_LE = 0x0008, 
+    SIGNED_LE = 0x0008,
 
     /// <summary> A B unsigned </summary>
-    UNSIGNED_LE = 0x0009, 
+    UNSIGNED_LE = 0x0009,
 
     /// <summary> All bits SET in B are SET in A. ((A∧B)=B) </summary>
-    BITSET = 0x000A, 
+    BITSET = 0x000A,
 
     /// <summary> All bits SET in B are CLEAR in A. ((A∧B)=0) </summary>
     BITCLEAR = 0x000B
@@ -1211,61 +1211,61 @@ struct TPM_ST : public TpmEnum<UINT16>
     /// NOTE In a previously published version of this specification, TPM_RC_BAD_TAG was
     /// incorrectly assigned a value of 0x030 instead of 30 (0x01e). Some implementations my
     /// return the old value instead of the new value. </summary>
-    RSP_COMMAND = 0x00C4, 
+    RSP_COMMAND = 0x00C4,
 
     /// <summary> No structure type specified </summary>
-    _NULL = 0X8000, 
+    _NULL = 0X8000,
 
     /// <summary> Tag value for a command/response for a command defined in this
     /// specification; indicating that the command/response has no attached sessions and no
     /// authorizationSize/parameterSize value is present
     /// If the responseCode from the TPM is not TPM_RC_SUCCESS, then the response tag shall
     /// have this value. </summary>
-    NO_SESSIONS = 0x8001, 
+    NO_SESSIONS = 0x8001,
 
     /// <summary> Tag value for a command/response for a command defined in this
     /// specification; indicating that the command/response has one or more attached sessions
     /// and the authorizationSize/parameterSize field is present </summary>
-    SESSIONS = 0x8002, 
+    SESSIONS = 0x8002,
 
     /// <summary> Tag for an attestation structure </summary>
-    ATTEST_NV = 0x8014, 
+    ATTEST_NV = 0x8014,
 
     /// <summary> Tag for an attestation structure </summary>
-    ATTEST_COMMAND_AUDIT = 0x8015, 
+    ATTEST_COMMAND_AUDIT = 0x8015,
 
     /// <summary> Tag for an attestation structure </summary>
-    ATTEST_SESSION_AUDIT = 0x8016, 
+    ATTEST_SESSION_AUDIT = 0x8016,
 
     /// <summary> Tag for an attestation structure </summary>
-    ATTEST_CERTIFY = 0x8017, 
+    ATTEST_CERTIFY = 0x8017,
 
     /// <summary> Tag for an attestation structure </summary>
-    ATTEST_QUOTE = 0x8018, 
+    ATTEST_QUOTE = 0x8018,
 
     /// <summary> Tag for an attestation structure </summary>
-    ATTEST_TIME = 0x8019, 
+    ATTEST_TIME = 0x8019,
 
     /// <summary> Tag for an attestation structure </summary>
-    ATTEST_CREATION = 0x801A, 
+    ATTEST_CREATION = 0x801A,
 
     /// <summary> Tag for an attestation structure </summary>
-    ATTEST_NV_DIGEST = 0x801C, 
+    ATTEST_NV_DIGEST = 0x801C,
 
     /// <summary> Tag for a ticket type </summary>
-    CREATION = 0x8021, 
+    CREATION = 0x8021,
 
     /// <summary> Tag for a ticket type </summary>
-    VERIFIED = 0x8022, 
+    VERIFIED = 0x8022,
 
     /// <summary> Tag for a ticket type </summary>
-    AUTH_SECRET = 0x8023, 
+    AUTH_SECRET = 0x8023,
 
     /// <summary> Tag for a ticket type </summary>
-    HASHCHECK = 0x8024, 
+    HASHCHECK = 0x8024,
 
     /// <summary> Tag for a ticket type </summary>
-    AUTH_SIGNED = 0x8025, 
+    AUTH_SIGNED = 0x8025,
 
     /// <summary> Tag for a structure describing a Field Upgrade Policy </summary>
     FU_MANIFEST = 0x8029
@@ -1281,7 +1281,7 @@ struct TPM_SU : public TpmEnum<UINT16>
     /// <summary> On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power
     /// and save state required for an orderly startup (TPM Reset).
     /// on TPM2_Startup(), indicates that the TPM should perform TPM Reset or TPM Restart </summary>
-    CLEAR = 0x0000, 
+    CLEAR = 0x0000,
 
     /// <summary> On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power
     /// and save state required for an orderly startup (TPM Restart or TPM Resume)
@@ -1296,8 +1296,8 @@ struct TPM_SU : public TpmEnum<UINT16>
 struct TPM_SE : public TpmEnum<UINT8>
 {
     TPM_ENUM_PROLOGUE(TPM_SE)
-    HMAC = 0x00, 
-    POLICY = 0x01, 
+    HMAC = 0x00,
+    POLICY = 0x01,
 
     /// <summary> The policy session is being used to compute the policyHash and not for
     /// command authorization.
@@ -1313,41 +1313,41 @@ struct TPM_SE : public TpmEnum<UINT8>
 struct TPM_CAP : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_CAP)
-    FIRST = 0x00000000, 
+    FIRST = 0x00000000,
 
     /// <summary> TPML_ALG_PROPERTY </summary>
-    ALGS = 0x00000000, 
+    ALGS = 0x00000000,
 
     /// <summary> TPML_HANDLE </summary>
-    HANDLES = 0x00000001, 
+    HANDLES = 0x00000001,
 
     /// <summary> TPML_CCA </summary>
-    COMMANDS = 0x00000002, 
+    COMMANDS = 0x00000002,
 
     /// <summary> TPML_CC </summary>
-    PP_COMMANDS = 0x00000003, 
+    PP_COMMANDS = 0x00000003,
 
     /// <summary> TPML_CC </summary>
-    AUDIT_COMMANDS = 0x00000004, 
+    AUDIT_COMMANDS = 0x00000004,
 
     /// <summary> TPML_PCR_SELECTION </summary>
-    PCRS = 0x00000005, 
+    PCRS = 0x00000005,
 
     /// <summary> TPML_TAGGED_TPM_PROPERTY </summary>
-    TPM_PROPERTIES = 0x00000006, 
+    TPM_PROPERTIES = 0x00000006,
 
     /// <summary> TPML_TAGGED_PCR_PROPERTY </summary>
-    PCR_PROPERTIES = 0x00000007, 
+    PCR_PROPERTIES = 0x00000007,
 
     /// <summary> TPML_ECC_CURVE </summary>
-    ECC_CURVES = 0x00000008, 
+    ECC_CURVES = 0x00000008,
 
     /// <summary> TPML_TAGGED_POLICY </summary>
-    AUTH_POLICIES = 0x00000009, 
+    AUTH_POLICIES = 0x00000009,
 
     /// <summary> TPML_ACT_DATA </summary>
-    ACT = 0x0000000A, 
-    LAST = 0x0000000A, 
+    ACT = 0x0000000A,
+    LAST = 0x0000000A,
 
     /// <summary> Manufacturer-specific values </summary>
     VENDOR_PROPERTY = 0x00000100
@@ -1361,112 +1361,112 @@ struct TPM_PT : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(TPM_PT)
 
     /// <summary> Indicates no property type </summary>
-    NONE = 0x00000000, 
+    NONE = 0x00000000,
 
     /// <summary> The number of properties in each group.
     /// NOTE The first group with any properties is group 1 (PT_GROUP * 1). Group 0 is
     /// reserved. </summary>
-    PT_GROUP = 0x00000100, 
+    PT_GROUP = 0x00000100,
 
     /// <summary> The group of fixed properties returned as TPMS_TAGGED_PROPERTY
     /// The values in this group are only changed due to a firmware change in the TPM. </summary>
-    PT_FIXED = PT_GROUP * 1, 
+    PT_FIXED = PT_GROUP * 1,
 
     /// <summary> A 4-octet character string containing the TPM Family value (TPM_SPEC_FAMILY)
     /// </summary>
-    FAMILY_INDICATOR = PT_FIXED + 0, 
+    FAMILY_INDICATOR = PT_FIXED + 0,
 
     /// <summary> The level of the specification
     /// NOTE 1 For this specification, the level is zero.
     /// NOTE 2 The level is on the title page of the specification. </summary>
-    LEVEL = PT_FIXED + 1, 
+    LEVEL = PT_FIXED + 1,
 
     /// <summary> The specification Revision times 100
     /// EXAMPLE Revision 01.01 would have a value of 101.
     /// NOTE The Revision value is on the title page of the specification. </summary>
-    REVISION = PT_FIXED + 2, 
+    REVISION = PT_FIXED + 2,
 
     /// <summary> The specification day of year using TCG calendar
     /// EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
     /// NOTE The specification date is on the title page of the specification or errata (see
     /// 6.1). </summary>
-    DAY_OF_YEAR = PT_FIXED + 3, 
+    DAY_OF_YEAR = PT_FIXED + 3,
 
     /// <summary> The specification year using the CE
     /// EXAMPLE The year 2010 has a value of 000007DA16.
     /// NOTE The specification date is on the title page of the specification or errata (see
     /// 6.1). </summary>
-    YEAR = PT_FIXED + 4, 
+    YEAR = PT_FIXED + 4,
 
     /// <summary> The vendor ID unique to each TPM manufacturer </summary>
-    MANUFACTURER = PT_FIXED + 5, 
+    MANUFACTURER = PT_FIXED + 5,
 
     /// <summary> The first four characters of the vendor ID string
     /// NOTE When the vendor string is fewer than 16 octets, the additional property values do
     /// not have to be present. A vendor string of 4 octets can be represented in one 32-bit
     /// value and no null terminating character is required. </summary>
-    VENDOR_STRING_1 = PT_FIXED + 6, 
+    VENDOR_STRING_1 = PT_FIXED + 6,
 
     /// <summary> The second four characters of the vendor ID string </summary>
-    VENDOR_STRING_2 = PT_FIXED + 7, 
+    VENDOR_STRING_2 = PT_FIXED + 7,
 
     /// <summary> The third four characters of the vendor ID string </summary>
-    VENDOR_STRING_3 = PT_FIXED + 8, 
+    VENDOR_STRING_3 = PT_FIXED + 8,
 
     /// <summary> The fourth four characters of the vendor ID sting </summary>
-    VENDOR_STRING_4 = PT_FIXED + 9, 
+    VENDOR_STRING_4 = PT_FIXED + 9,
 
     /// <summary> Vendor-defined value indicating the TPM model </summary>
-    VENDOR_TPM_TYPE = PT_FIXED + 10, 
+    VENDOR_TPM_TYPE = PT_FIXED + 10,
 
     /// <summary> The most-significant 32 bits of a TPM vendor-specific value indicating the
     /// version number of the firmware. See 10.12.2 and 10.12.12. </summary>
-    FIRMWARE_VERSION_1 = PT_FIXED + 11, 
+    FIRMWARE_VERSION_1 = PT_FIXED + 11,
 
     /// <summary> The least-significant 32 bits of a TPM vendor-specific value indicating the
     /// version number of the firmware. See 10.12.2 and 10.12.12. </summary>
-    FIRMWARE_VERSION_2 = PT_FIXED + 12, 
+    FIRMWARE_VERSION_2 = PT_FIXED + 12,
 
     /// <summary> The maximum size of a parameter (typically, a TPM2B_MAX_BUFFER) </summary>
-    INPUT_BUFFER = PT_FIXED + 13, 
+    INPUT_BUFFER = PT_FIXED + 13,
 
     /// <summary> The minimum number of transient objects that can be held in TPM RAM
     /// NOTE This minimum shall be no less than the minimum value required by the
     /// platform-specific specification to which the TPM is built. </summary>
-    HR_TRANSIENT_MIN = PT_FIXED + 14, 
+    HR_TRANSIENT_MIN = PT_FIXED + 14,
 
     /// <summary> The minimum number of persistent objects that can be held in TPM NV memory
     /// NOTE This minimum shall be no less than the minimum value required by the
     /// platform-specific specification to which the TPM is built. </summary>
-    HR_PERSISTENT_MIN = PT_FIXED + 15, 
+    HR_PERSISTENT_MIN = PT_FIXED + 15,
 
     /// <summary> The minimum number of authorization sessions that can be held in TPM RAM
     /// NOTE This minimum shall be no less than the minimum value required by the
     /// platform-specific specification to which the TPM is built. </summary>
-    HR_LOADED_MIN = PT_FIXED + 16, 
+    HR_LOADED_MIN = PT_FIXED + 16,
 
     /// <summary> The number of authorization sessions that may be active at a time
     /// A session is active when it has a context associated with its handle. The context may
     /// either be in TPM RAM or be context saved.
     /// NOTE This value shall be no less than the minimum value required by the
     /// platform-specific specification to which the TPM is built. </summary>
-    ACTIVE_SESSIONS_MAX = PT_FIXED + 17, 
+    ACTIVE_SESSIONS_MAX = PT_FIXED + 17,
 
     /// <summary> The number of PCR implemented
     /// NOTE This number is determined by the defined attributes, not the number of PCR that
     /// are populated. </summary>
-    PCR_COUNT = PT_FIXED + 18, 
+    PCR_COUNT = PT_FIXED + 18,
 
     /// <summary> The minimum number of octets in a TPMS_PCR_SELECT.sizeOfSelect
     /// NOTE This value is not determined by the number of PCR implemented but by the number
     /// of PCR required by the platform-specific specification with which the TPM is compliant
     /// or by the implementer if not adhering to a platform-specific specification. </summary>
-    PCR_SELECT_MIN = PT_FIXED + 19, 
+    PCR_SELECT_MIN = PT_FIXED + 19,
 
     /// <summary> The maximum allowed difference (unsigned) between the contextID values of
     /// two saved session contexts
     /// This value shall be 2n-1, where n is at least 16. </summary>
-    CONTEXT_GAP_MAX = PT_FIXED + 20, 
+    CONTEXT_GAP_MAX = PT_FIXED + 20,
 
     /// <summary> The maximum number of NV Indexes that are allowed to have the TPM_NT_COUNTER
     /// attribute
@@ -1475,27 +1475,27 @@ struct TPM_PT : public TpmEnum<UINT32>
     /// different implementation technology for different NV Index types.
     /// NOTE 2 The value zero indicates that there is no fixed maximum. The number of counter
     /// indexes is determined by the available NV memory pool. </summary>
-    NV_COUNTERS_MAX = PT_FIXED + 22, 
+    NV_COUNTERS_MAX = PT_FIXED + 22,
 
     /// <summary> The maximum size of an NV Index data area </summary>
-    NV_INDEX_MAX = PT_FIXED + 23, 
+    NV_INDEX_MAX = PT_FIXED + 23,
 
     /// <summary> A TPMA_MEMORY indicating the memory management method for the TPM </summary>
-    MEMORY = PT_FIXED + 24, 
+    MEMORY = PT_FIXED + 24,
 
     /// <summary> Interval, in milliseconds, between updates to the copy of
     /// TPMS_CLOCK_INFO.clock in NV </summary>
-    CLOCK_UPDATE = PT_FIXED + 25, 
+    CLOCK_UPDATE = PT_FIXED + 25,
 
     /// <summary> The algorithm used for the integrity HMAC on saved contexts and for hashing
     /// the fuData of TPM2_FirmwareRead() </summary>
-    CONTEXT_HASH = PT_FIXED + 26, 
+    CONTEXT_HASH = PT_FIXED + 26,
 
     /// <summary> TPM_ALG_ID, the algorithm used for encryption of saved contexts </summary>
-    CONTEXT_SYM = PT_FIXED + 27, 
+    CONTEXT_SYM = PT_FIXED + 27,
 
     /// <summary> TPM_KEY_BITS, the size of the key used for encryption of saved contexts </summary>
-    CONTEXT_SYM_SIZE = PT_FIXED + 28, 
+    CONTEXT_SYM_SIZE = PT_FIXED + 28,
 
     /// <summary> The modulus - 1 of the count for NV update of an orderly counter
     /// The returned value is MAX_ORDERLY_COUNT.
@@ -1504,85 +1504,85 @@ struct TPM_PT : public TpmEnum<UINT32>
     /// TPMA_NV_ORDERLY SET.
     /// NOTE 2 When the low-order bits of a counter equal this value, an NV write occurs on
     /// the next increment. </summary>
-    ORDERLY_COUNT = PT_FIXED + 29, 
+    ORDERLY_COUNT = PT_FIXED + 29,
 
     /// <summary> The maximum value for commandSize in a command </summary>
-    MAX_COMMAND_SIZE = PT_FIXED + 30, 
+    MAX_COMMAND_SIZE = PT_FIXED + 30,
 
     /// <summary> The maximum value for responseSize in a response </summary>
-    MAX_RESPONSE_SIZE = PT_FIXED + 31, 
+    MAX_RESPONSE_SIZE = PT_FIXED + 31,
 
     /// <summary> The maximum size of a digest that can be produced by the TPM </summary>
-    MAX_DIGEST = PT_FIXED + 32, 
+    MAX_DIGEST = PT_FIXED + 32,
 
     /// <summary> The maximum size of an object context that will be returned by
     /// TPM2_ContextSave </summary>
-    MAX_OBJECT_CONTEXT = PT_FIXED + 33, 
+    MAX_OBJECT_CONTEXT = PT_FIXED + 33,
 
     /// <summary> The maximum size of a session context that will be returned by
     /// TPM2_ContextSave </summary>
-    MAX_SESSION_CONTEXT = PT_FIXED + 34, 
+    MAX_SESSION_CONTEXT = PT_FIXED + 34,
 
     /// <summary> Platform-specific family (a TPM_PS value)(see Table 25)
     /// NOTE The platform-specific values for the TPM_PT_PS parameters are in the relevant
     /// platform-specific specification. In the reference implementation, all of these values
     /// are 0. </summary>
-    PS_FAMILY_INDICATOR = PT_FIXED + 35, 
+    PS_FAMILY_INDICATOR = PT_FIXED + 35,
 
     /// <summary> The level of the platform-specific specification </summary>
-    PS_LEVEL = PT_FIXED + 36, 
+    PS_LEVEL = PT_FIXED + 36,
 
     /// <summary> A platform specific value </summary>
-    PS_REVISION = PT_FIXED + 37, 
+    PS_REVISION = PT_FIXED + 37,
 
     /// <summary> The platform-specific TPM specification day of year using TCG calendar
     /// EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16). </summary>
-    PS_DAY_OF_YEAR = PT_FIXED + 38, 
+    PS_DAY_OF_YEAR = PT_FIXED + 38,
 
     /// <summary> The platform-specific TPM specification year using the CE
     /// EXAMPLE The year 2010 has a value of 000007DA16. </summary>
-    PS_YEAR = PT_FIXED + 39, 
+    PS_YEAR = PT_FIXED + 39,
 
     /// <summary> The number of split signing operations supported by the TPM </summary>
-    SPLIT_MAX = PT_FIXED + 40, 
+    SPLIT_MAX = PT_FIXED + 40,
 
     /// <summary> Total number of commands implemented in the TPM </summary>
-    TOTAL_COMMANDS = PT_FIXED + 41, 
+    TOTAL_COMMANDS = PT_FIXED + 41,
 
     /// <summary> Number of commands from the TPM library that are implemented </summary>
-    LIBRARY_COMMANDS = PT_FIXED + 42, 
+    LIBRARY_COMMANDS = PT_FIXED + 42,
 
     /// <summary> Number of vendor commands that are implemented </summary>
-    VENDOR_COMMANDS = PT_FIXED + 43, 
+    VENDOR_COMMANDS = PT_FIXED + 43,
 
     /// <summary> The maximum data size in one NV write, NV read, NV extend, or NV certify
     /// command </summary>
-    NV_BUFFER_MAX = PT_FIXED + 44, 
+    NV_BUFFER_MAX = PT_FIXED + 44,
 
     /// <summary> A TPMA_MODES value, indicating that the TPM is designed for these modes. </summary>
-    MODES = PT_FIXED + 45, 
+    MODES = PT_FIXED + 45,
 
     /// <summary> The maximum size of a TPMS_CAPABILITY_DATA structure returned in
     /// TPM2_GetCapability(). </summary>
-    MAX_CAP_BUFFER = PT_FIXED + 46, 
+    MAX_CAP_BUFFER = PT_FIXED + 46,
 
     /// <summary> The group of variable properties returned as TPMS_TAGGED_PROPERTY
     /// The properties in this group change because of a Protected Capability other than a
     /// firmware update. The values are not necessarily persistent across all power
     /// transitions. </summary>
-    PT_VAR = PT_GROUP * 2, 
+    PT_VAR = PT_GROUP * 2,
 
     /// <summary> TPMA_PERMANENT </summary>
-    PERMANENT = PT_VAR + 0, 
+    PERMANENT = PT_VAR + 0,
 
     /// <summary> TPMA_STARTUP_CLEAR </summary>
-    STARTUP_CLEAR = PT_VAR + 1, 
+    STARTUP_CLEAR = PT_VAR + 1,
 
     /// <summary> The number of NV Indexes currently defined </summary>
-    HR_NV_INDEX = PT_VAR + 2, 
+    HR_NV_INDEX = PT_VAR + 2,
 
     /// <summary> The number of authorization sessions currently loaded into TPM RAM </summary>
-    HR_LOADED = PT_VAR + 3, 
+    HR_LOADED = PT_VAR + 3,
 
     /// <summary> The number of additional authorization sessions, of any type, that could be
     /// loaded into TPM RAM
@@ -1591,11 +1591,11 @@ struct TPM_PT : public TpmEnum<UINT32>
     /// memory allocation can make this estimate invalid.
     /// NOTE A valid implementation may return 1 even if more than one authorization session
     /// would fit into RAM. </summary>
-    HR_LOADED_AVAIL = PT_VAR + 4, 
+    HR_LOADED_AVAIL = PT_VAR + 4,
 
     /// <summary> The number of active authorization sessions currently being tracked by the TPM
     /// This is the sum of the loaded and saved sessions. </summary>
-    HR_ACTIVE = PT_VAR + 5, 
+    HR_ACTIVE = PT_VAR + 5,
 
     /// <summary> The number of additional authorization sessions, of any type, that could be created
     /// This value is an estimate. If this value is at least 1, then at least one
@@ -1603,7 +1603,7 @@ struct TPM_PT : public TpmEnum<UINT32>
     /// memory allocation can make this estimate invalid.
     /// NOTE A valid implementation may return 1 even if more than one authorization session
     /// could be created. </summary>
-    HR_ACTIVE_AVAIL = PT_VAR + 6, 
+    HR_ACTIVE_AVAIL = PT_VAR + 6,
 
     /// <summary> Estimate of the number of additional transient objects that could be loaded
     /// into TPM RAM
@@ -1612,10 +1612,10 @@ struct TPM_PT : public TpmEnum<UINT32>
     /// estimate invalid.
     /// NOTE A valid implementation may return 1 even if more than one transient object would
     /// fit into RAM. </summary>
-    HR_TRANSIENT_AVAIL = PT_VAR + 7, 
+    HR_TRANSIENT_AVAIL = PT_VAR + 7,
 
     /// <summary> The number of persistent objects currently loaded into TPM NV memory </summary>
-    HR_PERSISTENT = PT_VAR + 8, 
+    HR_PERSISTENT = PT_VAR + 8,
 
     /// <summary> The number of additional persistent objects that could be loaded into NV memory
     /// This value is an estimate. If this value is at least 1, then at least one object of
@@ -1623,10 +1623,10 @@ struct TPM_PT : public TpmEnum<UINT32>
     /// make this estimate invalid.
     /// NOTE A valid implementation may return 1 even if more than one persistent object would
     /// fit into NV memory. </summary>
-    HR_PERSISTENT_AVAIL = PT_VAR + 9, 
+    HR_PERSISTENT_AVAIL = PT_VAR + 9,
 
     /// <summary> The number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute </summary>
-    NV_COUNTERS = PT_VAR + 10, 
+    NV_COUNTERS = PT_VAR + 10,
 
     /// <summary> The number of additional NV Indexes that can be defined with their TPM_NT of
     /// TPM_NV_COUNTER and the TPMA_NV_ORDERLY attribute SET
@@ -1635,35 +1635,35 @@ struct TPM_PT : public TpmEnum<UINT32>
     /// command that changes the NV memory allocation can make this estimate invalid.
     /// NOTE A valid implementation may return 1 even if more than one NV counter could be
     /// defined. </summary>
-    NV_COUNTERS_AVAIL = PT_VAR + 11, 
+    NV_COUNTERS_AVAIL = PT_VAR + 11,
 
     /// <summary> Code that limits the algorithms that may be used with the TPM </summary>
-    ALGORITHM_SET = PT_VAR + 12, 
+    ALGORITHM_SET = PT_VAR + 12,
 
     /// <summary> The number of loaded ECC curves </summary>
-    LOADED_CURVES = PT_VAR + 13, 
+    LOADED_CURVES = PT_VAR + 13,
 
     /// <summary> The current value of the lockout counter (failedTries) </summary>
-    LOCKOUT_COUNTER = PT_VAR + 14, 
+    LOCKOUT_COUNTER = PT_VAR + 14,
 
     /// <summary> The number of authorization failures before DA lockout is invoked </summary>
-    MAX_AUTH_FAIL = PT_VAR + 15, 
+    MAX_AUTH_FAIL = PT_VAR + 15,
 
     /// <summary> The number of seconds before the value reported by TPM_PT_LOCKOUT_COUNTER is
     /// decremented </summary>
-    LOCKOUT_INTERVAL = PT_VAR + 16, 
+    LOCKOUT_INTERVAL = PT_VAR + 16,
 
     /// <summary> The number of seconds after a lockoutAuth failure before use of lockoutAuth
     /// may be attempted again </summary>
-    LOCKOUT_RECOVERY = PT_VAR + 17, 
+    LOCKOUT_RECOVERY = PT_VAR + 17,
 
     /// <summary> Number of milliseconds before the TPM will accept another command that will
     /// modify NV
     /// This value is an approximation and may go up or down over time. </summary>
-    NV_WRITE_RECOVERY = PT_VAR + 18, 
+    NV_WRITE_RECOVERY = PT_VAR + 18,
 
     /// <summary> The high-order 32 bits of the command audit counter </summary>
-    AUDIT_COUNTER_0 = PT_VAR + 19, 
+    AUDIT_COUNTER_0 = PT_VAR + 19,
 
     /// <summary> The low-order 32 bits of the command audit counter </summary>
     AUDIT_COUNTER_1 = PT_VAR + 20
@@ -1679,78 +1679,78 @@ struct TPM_PT_PCR : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(TPM_PT_PCR)
 
     /// <summary> Bottom of the range of TPM_PT_PCR properties </summary>
-    FIRST = 0x00000000, 
+    FIRST = 0x00000000,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and
     /// restored by TPM_SU_STATE </summary>
-    SAVE = 0x00000000, 
+    SAVE = 0x00000000,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
     /// locality 0
     /// This property is only present if a locality other than 0 is implemented. </summary>
-    EXTEND_L0 = 0x00000001, 
+    EXTEND_L0 = 0x00000001,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
     /// TPM2_PCR_Reset() from locality 0 </summary>
-    RESET_L0 = 0x00000002, 
+    RESET_L0 = 0x00000002,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
     /// locality 1
     /// This property is only present if locality 1 is implemented. </summary>
-    EXTEND_L1 = 0x00000003, 
+    EXTEND_L1 = 0x00000003,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
     /// TPM2_PCR_Reset() from locality 1
     /// This property is only present if locality 1 is implemented. </summary>
-    RESET_L1 = 0x00000004, 
+    RESET_L1 = 0x00000004,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
     /// locality 2
     /// This property is only present if localities 1 and 2 are implemented. </summary>
-    EXTEND_L2 = 0x00000005, 
+    EXTEND_L2 = 0x00000005,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
     /// TPM2_PCR_Reset() from locality 2
     /// This property is only present if localities 1 and 2 are implemented. </summary>
-    RESET_L2 = 0x00000006, 
+    RESET_L2 = 0x00000006,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
     /// locality 3
     /// This property is only present if localities 1, 2, and 3 are implemented. </summary>
-    EXTEND_L3 = 0x00000007, 
+    EXTEND_L3 = 0x00000007,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
     /// TPM2_PCR_Reset() from locality 3
     /// This property is only present if localities 1, 2, and 3 are implemented. </summary>
-    RESET_L3 = 0x00000008, 
+    RESET_L3 = 0x00000008,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
     /// locality 4
     /// This property is only present if localities 1, 2, 3, and 4 are implemented. </summary>
-    EXTEND_L4 = 0x00000009, 
+    EXTEND_L4 = 0x00000009,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
     /// TPM2_PCR_Reset() from locality 4
     /// This property is only present if localities 1, 2, 3, and 4 are implemented. </summary>
-    RESET_L4 = 0x0000000A, 
+    RESET_L4 = 0x0000000A,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that modifications to this PCR
     /// (reset or Extend) will not increment the pcrUpdateCounter </summary>
-    NO_INCREMENT = 0x00000011, 
+    NO_INCREMENT = 0x00000011,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is reset by a D-RTM event
     /// These PCR are reset to -1 on TPM2_Startup() and reset to 0 on a _TPM_Hash_End event
     /// following a _TPM_Hash_Start event. </summary>
-    DRTM_RESET = 0x00000012, 
+    DRTM_RESET = 0x00000012,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by policy
     /// This property is only present if the TPM supports policy control of a PCR. </summary>
-    POLICY = 0x00000013, 
+    POLICY = 0x00000013,
 
     /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by an
     /// authorization value
     /// This property is only present if the TPM supports authorization control of a PCR. </summary>
-    AUTH = 0x00000014, 
+    AUTH = 0x00000014,
 
     /// <summary> Top of the range of TPM_PT_PCR properties of the implementation
     /// If the TPM receives a request for a PCR property with a value larger than this, the
@@ -1768,49 +1768,49 @@ struct TPM_PS : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(TPM_PS)
 
     /// <summary> Not platform specific </summary>
-    MAIN = 0x00000000, 
+    MAIN = 0x00000000,
 
     /// <summary> PC Client </summary>
-    PC = 0x00000001, 
+    PC = 0x00000001,
 
     /// <summary> PDA (includes all mobile devices that are not specifically cell phones) </summary>
-    PDA = 0x00000002, 
+    PDA = 0x00000002,
 
     /// <summary> Cell Phone </summary>
-    CELL_PHONE = 0x00000003, 
+    CELL_PHONE = 0x00000003,
 
     /// <summary> Server WG </summary>
-    SERVER = 0x00000004, 
+    SERVER = 0x00000004,
 
     /// <summary> Peripheral WG </summary>
-    PERIPHERAL = 0x00000005, 
+    PERIPHERAL = 0x00000005,
 
     /// <summary> TSS WG (deprecated) </summary>
-    TSS = 0x00000006, 
+    TSS = 0x00000006,
 
     /// <summary> Storage WG </summary>
-    STORAGE = 0x00000007, 
+    STORAGE = 0x00000007,
 
     /// <summary> Authentication WG </summary>
-    AUTHENTICATION = 0x00000008, 
+    AUTHENTICATION = 0x00000008,
 
     /// <summary> Embedded WG </summary>
-    EMBEDDED = 0x00000009, 
+    EMBEDDED = 0x00000009,
 
     /// <summary> Hardcopy WG </summary>
-    HARDCOPY = 0x0000000A, 
+    HARDCOPY = 0x0000000A,
 
     /// <summary> Infrastructure WG (deprecated) </summary>
-    INFRASTRUCTURE = 0x0000000B, 
+    INFRASTRUCTURE = 0x0000000B,
 
     /// <summary> Virtualization WG </summary>
-    VIRTUALIZATION = 0x0000000C, 
+    VIRTUALIZATION = 0x0000000C,
 
     /// <summary> Trusted Network Connect WG (deprecated) </summary>
-    TNC = 0x0000000D, 
+    TNC = 0x0000000D,
 
     /// <summary> Multi-tenant WG (deprecated) </summary>
-    MULTI_TENANT = 0x0000000E, 
+    MULTI_TENANT = 0x0000000E,
 
     /// <summary> Technical Committee (deprecated) </summary>
     TC = 0x0000000F
@@ -1826,38 +1826,38 @@ struct TPM_HT : public TpmEnum<UINT8>
     /// <summary> PCR consecutive numbers, starting at 0, that reference the PCR registers
     /// A platform-specific specification will set the minimum number of PCR and an
     /// implementation may have more. </summary>
-    PCR = 0x00, 
+    PCR = 0x00,
 
     /// <summary> NV Index assigned by the caller </summary>
-    NV_INDEX = 0x01, 
+    NV_INDEX = 0x01,
 
     /// <summary> HMAC Authorization Session assigned by the TPM when the session is created </summary>
-    HMAC_SESSION = 0x02, 
+    HMAC_SESSION = 0x02,
 
     /// <summary> Loaded Authorization Session used only in the context of TPM2_GetCapability
     /// This type references both loaded HMAC and loaded policy authorization sessions. </summary>
-    LOADED_SESSION = 0x02, 
+    LOADED_SESSION = 0x02,
 
     /// <summary> Policy Authorization Session assigned by the TPM when the session is created
     /// </summary>
-    POLICY_SESSION = 0x03, 
+    POLICY_SESSION = 0x03,
 
     /// <summary> Saved Authorization Session used only in the context of TPM2_GetCapability
     /// This type references saved authorization session contexts for which the TPM is
     /// maintaining tracking information. </summary>
-    SAVED_SESSION = 0x03, 
+    SAVED_SESSION = 0x03,
 
     /// <summary> Permanent Values assigned by this specification in Table 28 </summary>
-    PERMANENT = 0x40, 
+    PERMANENT = 0x40,
 
     /// <summary> Transient Objects assigned by the TPM when an object is loaded into
     /// transient-object memory or when a persistent object is converted to a transient object
     /// </summary>
-    TRANSIENT = 0x80, 
+    TRANSIENT = 0x80,
 
     /// <summary> Persistent Objects assigned by the TPM when a loaded transient object is
     /// made persistent </summary>
-    PERSISTENT = 0x81, 
+    PERSISTENT = 0x81,
 
     /// <summary> Attached Component handle for an Attached Component. </summary>
     AC = 0x90
@@ -1869,73 +1869,73 @@ struct TPM_HT : public TpmEnum<UINT8>
 struct TPM_RH : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(TPM_RH)
-    FIRST = 0x40000000, 
+    FIRST = 0x40000000,
 
     /// <summary> Not used1 </summary>
-    SRK = 0x40000000, 
+    SRK = 0x40000000,
 
     /// <summary> Handle references the Storage Primary Seed (SPS), the ownerAuth, and the
     /// ownerPolicy </summary>
-    OWNER = 0x40000001, 
+    OWNER = 0x40000001,
 
     /// <summary> Not used1 </summary>
-    REVOKE = 0x40000002, 
+    REVOKE = 0x40000002,
 
     /// <summary> Not used1 </summary>
-    TRANSPORT = 0x40000003, 
+    TRANSPORT = 0x40000003,
 
     /// <summary> Not used1 </summary>
-    OPERATOR = 0x40000004, 
+    OPERATOR = 0x40000004,
 
     /// <summary> Not used1 </summary>
-    ADMIN = 0x40000005, 
+    ADMIN = 0x40000005,
 
     /// <summary> Not used1 </summary>
-    EK = 0x40000006, 
+    EK = 0x40000006,
 
     /// <summary> A handle associated with the null hierarchy, an EmptyAuth authValue, and an
     /// Empty Policy authPolicy. </summary>
-    _NULL = 0x40000007, 
+    _NULL = 0x40000007,
 
     /// <summary> Value reserved to the TPM to indicate a handle location that has not been
     /// initialized or assigned </summary>
-    UNASSIGNED = 0x40000008, 
+    UNASSIGNED = 0x40000008,
 
     /// <summary> Authorization value used to indicate a password authorization session </summary>
-    PW = 0x40000009, 
+    PW = 0x40000009,
 
     /// <summary> Deprecated: use PW instead </summary>
     RS_PW [[deprecated("Use TPM_RH::PW instead")]] = 0x40000009,
 
     /// <summary> References the authorization associated with the dictionary attack lockout
     /// reset </summary>
-    LOCKOUT = 0x4000000A, 
+    LOCKOUT = 0x4000000A,
 
     /// <summary> References the Endorsement Primary Seed (EPS), endorsementAuth, and
     /// endorsementPolicy </summary>
-    ENDORSEMENT = 0x4000000B, 
+    ENDORSEMENT = 0x4000000B,
 
     /// <summary> References the Platform Primary Seed (PPS), platformAuth, and platformPolicy
     /// </summary>
-    PLATFORM = 0x4000000C, 
+    PLATFORM = 0x4000000C,
 
     /// <summary> For phEnableNV </summary>
-    PLATFORM_NV = 0x4000000D, 
+    PLATFORM_NV = 0x4000000D,
 
     /// <summary> Start of a range of authorization values that are vendor-specific. A TPM may
     /// support any of the values in this range as are needed for vendor-specific purposes.
     /// Disabled if ehEnable is CLEAR.
     /// NOTE Any includes none. </summary>
-    AUTH_00 = 0x40000010, 
+    AUTH_00 = 0x40000010,
 
     /// <summary> End of the range of vendor-specific authorization values. </summary>
-    AUTH_FF = 0x4000010F, 
+    AUTH_FF = 0x4000010F,
 
     /// <summary> Start of the range of authenticated timers </summary>
-    ACT_0 = 0x40000110, 
+    ACT_0 = 0x40000110,
 
     /// <summary> End of the range of authenticated timers </summary>
-    ACT_F = 0x4000011F, 
+    ACT_F = 0x4000011F,
 
     /// <summary> The top of the reserved handle area
     /// This is set to allow TPM2_GetCapability() to know where to stop. It may vary as
@@ -1952,23 +1952,23 @@ struct TPM_NT : public TpmEnum<UINT32>
 
     /// <summary> Ordinary contains data that is opaque to the TPM that can only be modified
     /// using TPM2_NV_Write(). </summary>
-    ORDINARY = 0x0, 
+    ORDINARY = 0x0,
 
     /// <summary> Counter contains an 8-octet value that is to be used as a counter and can
     /// only be modified with TPM2_NV_Increment() </summary>
-    COUNTER = 0x1, 
+    COUNTER = 0x1,
 
     /// <summary> Bit Field contains an 8-octet value to be used as a bit field and can only
     /// be modified with TPM2_NV_SetBits(). </summary>
-    BITS = 0x2, 
+    BITS = 0x2,
 
     /// <summary> Extend contains a digest-sized value used like a PCR. The Index can only be
     /// modified using TPM2_NV_Extend(). The extend will use the nameAlg of the Index. </summary>
-    EXTEND = 0x4, 
+    EXTEND = 0x4,
 
     /// <summary> PIN Fail - contains pinCount that increments on a PIN authorization failure
     /// and a pinLimit </summary>
-    PIN_FAIL = 0x8, 
+    PIN_FAIL = 0x8,
 
     /// <summary> PIN Pass - contains pinCount that increments on a PIN authorization success
     /// and a pinLimit </summary>
@@ -1984,13 +1984,13 @@ struct TPM_AT : public TpmEnum<UINT32>
 
     /// <summary> In a command, a non-specific request for AC information; in a response,
     /// indicates that outputData is not meaningful </summary>
-    ANY = 0x00000000, 
+    ANY = 0x00000000,
 
     /// <summary> Indicates a TCG defined, device-specific error </summary>
-    _ERROR = 0x00000001, 
+    _ERROR = 0x00000001,
 
     /// <summary> Indicates the most significant 32 bits of a pairing value for the AC </summary>
-    PV1 = 0x00000002, 
+    PV1 = 0x00000002,
 
     /// <summary> Value added to a TPM_AT to indicate a vendor-specific tag value </summary>
     VEND = 0x80000000
@@ -2013,10 +2013,10 @@ struct TPM_AE : public TpmEnum<UINT32>
 struct PLATFORM : public TpmEnum<UINT32>
 {
     TPM_ENUM_PROLOGUE(PLATFORM)
-    FAMILY = TPM_SPEC::FAMILY, 
-    LEVEL = TPM_SPEC::LEVEL, 
-    VERSION = TPM_SPEC::VERSION, 
-    YEAR = TPM_SPEC::YEAR, 
+    FAMILY = TPM_SPEC::FAMILY,
+    LEVEL = TPM_SPEC::LEVEL,
+    VERSION = TPM_SPEC::VERSION,
+    YEAR = TPM_SPEC::YEAR,
     DAY_OF_YEAR = TPM_SPEC::DAY_OF_YEAR
     TPM_ENUM_EPILOGUE(PLATFORM)
 };
@@ -2028,139 +2028,139 @@ struct Implementation : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(Implementation)
 
     /// <summary> Temporary define </summary>
-    FIELD_UPGRADE_IMPLEMENTED = Logic::NO, 
+    FIELD_UPGRADE_IMPLEMENTED = Logic::NO,
 
     /// <summary> Selection of the library that provides the basic hashing functions. </summary>
-    HASH_LIB = ImplementationConstants::Ossl, 
+    HASH_LIB = ImplementationConstants::Ossl,
 
     /// <summary> Selection of the library that provides the low-level symmetric cryptography.
     /// Choices are determined by the vendor (See LibSupport.h for implications). </summary>
-    SYM_LIB = ImplementationConstants::Ossl, 
+    SYM_LIB = ImplementationConstants::Ossl,
 
     /// <summary> Selection of the library that provides the big number math including ECC.
     /// Choices are determined by the vendor (See LibSupport.h for implications). </summary>
-    MATH_LIB = ImplementationConstants::Ossl, 
+    MATH_LIB = ImplementationConstants::Ossl,
 
     /// <summary> The number of PCR in the TPM </summary>
-    IMPLEMENTATION_PCR = 24, 
-    PCR_SELECT_MAX = ((IMPLEMENTATION_PCR+7)/8), 
+    IMPLEMENTATION_PCR = 24,
+    PCR_SELECT_MAX = ((IMPLEMENTATION_PCR+7)/8),
 
     /// <summary> The number of PCR required by the relevant platform specification </summary>
-    PLATFORM_PCR = 24, 
-    PCR_SELECT_MIN = ((PLATFORM_PCR + 7) / 8), 
+    PLATFORM_PCR = 24,
+    PCR_SELECT_MIN = ((PLATFORM_PCR + 7) / 8),
 
     /// <summary> The D-RTM PCR
     /// NOTE This value is not defined when the TPM does not implement D-RTM </summary>
-    DRTM_PCR = 17, 
+    DRTM_PCR = 17,
 
     /// <summary> The PCR that will receive the H-CRTM value at TPM2_Startup. This value
     /// should not be changed. </summary>
-    HCRTM_PCR = 0, 
+    HCRTM_PCR = 0,
 
     /// <summary> The number of localities supported by the TPM
     /// This is expected to be either 5 for a PC, or 1 for just about everything else. </summary>
-    NUM_LOCALITIES = 5, 
+    NUM_LOCALITIES = 5,
 
     /// <summary> The maximum number of handles in the handle area
     /// This should be produced by the Part 3 parser but is here for now. </summary>
-    MAX_HANDLE_NUM = 3, 
+    MAX_HANDLE_NUM = 3,
 
     /// <summary> The number of simultaneously active sessions that are supported by the TPM
     /// implementation </summary>
-    MAX_ACTIVE_SESSIONS = 64, 
+    MAX_ACTIVE_SESSIONS = 64,
 
     /// <summary> The number of sessions that the TPM may have in memory </summary>
-    MAX_LOADED_SESSIONS = 3, 
+    MAX_LOADED_SESSIONS = 3,
 
     /// <summary> This is the current maximum value </summary>
-    MAX_SESSION_NUM = 3, 
+    MAX_SESSION_NUM = 3,
 
     /// <summary> The number of simultaneously loaded objects that are supported by the TPM;
     /// this number does not include the objects that may be placed in NV memory by
     /// TPM2_EvictControl(). </summary>
-    MAX_LOADED_OBJECTS = 3, 
+    MAX_LOADED_OBJECTS = 3,
 
     /// <summary> The minimum number of evict objects supported by the TPM </summary>
-    MIN_EVICT_OBJECTS = 2, 
+    MIN_EVICT_OBJECTS = 2,
 
     /// <summary> Number of PCR groups that have individual policies </summary>
-    NUM_POLICY_PCR_GROUP = 1, 
+    NUM_POLICY_PCR_GROUP = 1,
 
     /// <summary> Number of PCR groups that have individual authorization values </summary>
-    NUM_AUTHVALUE_PCR_GROUP = 1, 
-    MAX_CONTEXT_SIZE = 1264, 
-    MAX_DIGEST_BUFFER = 1024, 
+    NUM_AUTHVALUE_PCR_GROUP = 1,
+    MAX_CONTEXT_SIZE = 1264,
+    MAX_DIGEST_BUFFER = 1024,
 
     /// <summary> Maximum data size allowed in an NV Index </summary>
-    MAX_NV_INDEX_SIZE = 2048, 
+    MAX_NV_INDEX_SIZE = 2048,
 
     /// <summary> Maximum data size in one NV read or write command </summary>
-    MAX_NV_BUFFER_SIZE = 1024, 
+    MAX_NV_BUFFER_SIZE = 1024,
 
     /// <summary> Maximum size of a capability buffer </summary>
-    MAX_CAP_BUFFER = 1024, 
+    MAX_CAP_BUFFER = 1024,
 
     /// <summary> Size of NV memory in octets </summary>
-    NV_MEMORY_SIZE = 16384, 
+    NV_MEMORY_SIZE = 16384,
 
     /// <summary> The TPM will not allocate a non-counter index if it would prevent allocation
     /// of this number of indices. </summary>
-    MIN_COUNTER_INDICES = 8, 
-    NUM_STATIC_PCR = 16, 
+    MIN_COUNTER_INDICES = 8,
+    NUM_STATIC_PCR = 16,
 
     /// <summary> Number of algorithms that can be in a list </summary>
-    MAX_ALG_LIST_SIZE = 64, 
+    MAX_ALG_LIST_SIZE = 64,
 
     /// <summary> Size of the Primary Seed in octets </summary>
-    PRIMARY_SEED_SIZE = 32, 
+    PRIMARY_SEED_SIZE = 32,
 
     /// <summary> Context encryption algorithm
     /// Just use the root so that the macros in GpMacros.h will work correctly. </summary>
-    CONTEXT_ENCRYPT_ALGORITHM = TPM_ALG_ID::AES, 
+    CONTEXT_ENCRYPT_ALGORITHM = TPM_ALG_ID::AES,
 
     /// <summary> The update interval expressed as a power of 2 seconds
     /// A value of 12 is 4,096 seconds (~68 minutes). </summary>
-    NV_CLOCK_UPDATE_INTERVAL = 12, 
+    NV_CLOCK_UPDATE_INTERVAL = 12,
 
     /// <summary> Number of PCR groups that allow policy/auth </summary>
-    NUM_POLICY_PCR = 1, 
+    NUM_POLICY_PCR = 1,
 
     /// <summary> Maximum size of a command </summary>
-    MAX_COMMAND_SIZE = 4096, 
+    MAX_COMMAND_SIZE = 4096,
 
     /// <summary> Maximum size of a response </summary>
-    MAX_RESPONSE_SIZE = 4096, 
+    MAX_RESPONSE_SIZE = 4096,
 
     /// <summary> Number between 1 and 32 inclusive </summary>
-    ORDERLY_BITS = 8, 
+    ORDERLY_BITS = 8,
 
     /// <summary> The maximum number of octets that may be in a sealed blob; 128 is the
     /// minimum allowed value </summary>
-    MAX_SYM_DATA = 128, 
-    MAX_RNG_ENTROPY_SIZE = 64, 
+    MAX_SYM_DATA = 128,
+    MAX_RNG_ENTROPY_SIZE = 64,
 
     /// <summary> Number of bytes used for the RAM index space. If this is not large enough,
     /// it might not be possible to allocate orderly indices. </summary>
-    RAM_INDEX_SPACE = 512, 
+    RAM_INDEX_SPACE = 512,
 
     /// <summary> 216 + 1 </summary>
-    RSA_DEFAULT_PUBLIC_EXPONENT = 0x00010001, 
+    RSA_DEFAULT_PUBLIC_EXPONENT = 0x00010001,
 
     /// <summary> Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented </summary>
-    ENABLE_PCR_NO_INCREMENT = Logic::YES, 
-    CRT_FORMAT_RSA = Logic::YES, 
-    VENDOR_COMMAND_COUNT = 0, 
+    ENABLE_PCR_NO_INCREMENT = Logic::YES,
+    CRT_FORMAT_RSA = Logic::YES,
+    VENDOR_COMMAND_COUNT = 0,
 
     /// <summary> Maximum size of the vendor-specific buffer </summary>
-    MAX_VENDOR_BUFFER_SIZE = 1024, 
+    MAX_VENDOR_BUFFER_SIZE = 1024,
 
     /// <summary> L value for a derivation. This is the
     /// maximum number of bits allowed from an instantiation of a KDF-DRBG. This is size is OK
     /// because RSA keys are never derived keys </summary>
-    MAX_DERIVATION_BITS = 8192, 
-    RSA_MAX_PRIME = (ImplementationConstants::MAX_RSA_KEY_BYTES/2), 
-    RSA_PRIVATE_SIZE = (RSA_MAX_PRIME * 5), 
-    SIZE_OF_X509_SERIAL_NUMBER = 20, 
+    MAX_DERIVATION_BITS = 8192,
+    RSA_MAX_PRIME = (ImplementationConstants::MAX_RSA_KEY_BYTES/2),
+    RSA_PRIVATE_SIZE = (RSA_MAX_PRIME * 5),
+    SIZE_OF_X509_SERIAL_NUMBER = 20,
 
     /// <summary> This is a vendor-specific value so it is in this vendor-speific table. When
     /// this is used, RSA_PRIVATE_SIZE will have been defined </summary>
@@ -2175,86 +2175,86 @@ struct TPM_HC : public TpmEnum<UINT32>
     TPM_ENUM_PROLOGUE(TPM_HC)
 
     /// <summary> To mask off the HR </summary>
-    HR_HANDLE_MASK = 0x00FFFFFF, 
+    HR_HANDLE_MASK = 0x00FFFFFF,
 
     /// <summary> To mask off the variable part </summary>
-    HR_RANGE_MASK = 0xFF000000, 
-    HR_SHIFT = 24, 
-    HR_PCR = (TPM_HT::PCR << HR_SHIFT), 
-    HR_HMAC_SESSION = (TPM_HT::HMAC_SESSION << HR_SHIFT), 
-    HR_POLICY_SESSION = (TPM_HT::POLICY_SESSION << HR_SHIFT), 
-    HR_TRANSIENT = (TPM_HT::TRANSIENT << HR_SHIFT), 
-    HR_PERSISTENT = (TPM_HT::PERSISTENT << HR_SHIFT), 
-    HR_NV_INDEX = (TPM_HT::NV_INDEX << HR_SHIFT), 
-    HR_PERMANENT = (TPM_HT::PERMANENT << HR_SHIFT), 
+    HR_RANGE_MASK = 0xFF000000,
+    HR_SHIFT = 24,
+    HR_PCR = (TPM_HT::PCR << HR_SHIFT),
+    HR_HMAC_SESSION = (TPM_HT::HMAC_SESSION << HR_SHIFT),
+    HR_POLICY_SESSION = (TPM_HT::POLICY_SESSION << HR_SHIFT),
+    HR_TRANSIENT = (TPM_HT::TRANSIENT << HR_SHIFT),
+    HR_PERSISTENT = (TPM_HT::PERSISTENT << HR_SHIFT),
+    HR_NV_INDEX = (TPM_HT::NV_INDEX << HR_SHIFT),
+    HR_PERMANENT = (TPM_HT::PERMANENT << HR_SHIFT),
 
     /// <summary> First PCR </summary>
-    PCR_FIRST = (HR_PCR + 0), 
+    PCR_FIRST = (HR_PCR + 0),
 
     /// <summary> Last PCR </summary>
-    PCR_LAST = (PCR_FIRST + Implementation::IMPLEMENTATION_PCR-1), 
+    PCR_LAST = (PCR_FIRST + Implementation::IMPLEMENTATION_PCR-1),
 
     /// <summary> First HMAC session </summary>
-    HMAC_SESSION_FIRST = (HR_HMAC_SESSION + 0), 
+    HMAC_SESSION_FIRST = (HR_HMAC_SESSION + 0),
 
     /// <summary> Last HMAC session </summary>
-    HMAC_SESSION_LAST = (HMAC_SESSION_FIRST+Implementation::MAX_ACTIVE_SESSIONS-1), 
+    HMAC_SESSION_LAST = (HMAC_SESSION_FIRST+Implementation::MAX_ACTIVE_SESSIONS-1),
 
     /// <summary> Used in GetCapability </summary>
-    LOADED_SESSION_FIRST = HMAC_SESSION_FIRST, 
+    LOADED_SESSION_FIRST = HMAC_SESSION_FIRST,
 
     /// <summary> Used in GetCapability </summary>
-    LOADED_SESSION_LAST = HMAC_SESSION_LAST, 
+    LOADED_SESSION_LAST = HMAC_SESSION_LAST,
 
     /// <summary> First policy session </summary>
-    POLICY_SESSION_FIRST = (HR_POLICY_SESSION + 0), 
+    POLICY_SESSION_FIRST = (HR_POLICY_SESSION + 0),
 
     /// <summary> Last policy session </summary>
-    POLICY_SESSION_LAST = (POLICY_SESSION_FIRST + Implementation::MAX_ACTIVE_SESSIONS-1), 
+    POLICY_SESSION_LAST = (POLICY_SESSION_FIRST + Implementation::MAX_ACTIVE_SESSIONS-1),
 
     /// <summary> First transient object </summary>
-    TRANSIENT_FIRST = (HR_TRANSIENT + 0), 
+    TRANSIENT_FIRST = (HR_TRANSIENT + 0),
 
     /// <summary> Used in GetCapability </summary>
-    ACTIVE_SESSION_FIRST = POLICY_SESSION_FIRST, 
+    ACTIVE_SESSION_FIRST = POLICY_SESSION_FIRST,
 
     /// <summary> Used in GetCapability </summary>
-    ACTIVE_SESSION_LAST = POLICY_SESSION_LAST, 
+    ACTIVE_SESSION_LAST = POLICY_SESSION_LAST,
 
     /// <summary> Last transient object </summary>
-    TRANSIENT_LAST = (TRANSIENT_FIRST+Implementation::MAX_LOADED_OBJECTS-1), 
+    TRANSIENT_LAST = (TRANSIENT_FIRST+Implementation::MAX_LOADED_OBJECTS-1),
 
     /// <summary> First persistent object </summary>
-    PERSISTENT_FIRST = (HR_PERSISTENT + 0), 
+    PERSISTENT_FIRST = (HR_PERSISTENT + 0),
 
     /// <summary> Last persistent object </summary>
-    PERSISTENT_LAST = (PERSISTENT_FIRST + 0x00FFFFFF), 
+    PERSISTENT_LAST = (PERSISTENT_FIRST + 0x00FFFFFF),
 
     /// <summary> First platform persistent object </summary>
-    PLATFORM_PERSISTENT = (PERSISTENT_FIRST + 0x00800000), 
+    PLATFORM_PERSISTENT = (PERSISTENT_FIRST + 0x00800000),
 
     /// <summary> First allowed NV Index </summary>
-    NV_INDEX_FIRST = (HR_NV_INDEX + 0), 
+    NV_INDEX_FIRST = (HR_NV_INDEX + 0),
 
     /// <summary> Last allowed NV Index </summary>
-    NV_INDEX_LAST = (NV_INDEX_FIRST + 0x00FFFFFF), 
-    PERMANENT_FIRST = TPM_RH::FIRST, 
-    PERMANENT_LAST = TPM_RH::LAST, 
+    NV_INDEX_LAST = (NV_INDEX_FIRST + 0x00FFFFFF),
+    PERMANENT_FIRST = TPM_RH::FIRST,
+    PERMANENT_LAST = TPM_RH::LAST,
 
     /// <summary> AC aliased NV Index </summary>
-    HR_NV_AC = ((TPM_HT::NV_INDEX << HR_SHIFT) + 0xD00000), 
+    HR_NV_AC = ((TPM_HT::NV_INDEX << HR_SHIFT) + 0xD00000),
 
     /// <summary> First NV Index aliased to Attached Component </summary>
-    NV_AC_FIRST = (HR_NV_AC + 0), 
+    NV_AC_FIRST = (HR_NV_AC + 0),
 
     /// <summary> Last NV Index aliased to Attached Component </summary>
-    NV_AC_LAST = (HR_NV_AC + 0x0000FFFF), 
+    NV_AC_LAST = (HR_NV_AC + 0x0000FFFF),
 
     /// <summary> AC Handle </summary>
-    HR_AC = (TPM_HT::AC << HR_SHIFT), 
+    HR_AC = (TPM_HT::AC << HR_SHIFT),
 
     /// <summary> First Attached Component </summary>
-    AC_FIRST = (HR_AC + 0), 
+    AC_FIRST = (HR_AC + 0),
 
     /// <summary> Last Attached Component </summary>
     AC_LAST = (HR_AC + 0x0000FFFF)

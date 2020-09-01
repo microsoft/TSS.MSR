@@ -17,16 +17,16 @@ public final class TPM_SPEC extends TpmEnum<TPM_SPEC>
      */
     public enum _N {
         /** ASCII 2.0 with null terminator  */
-        FAMILY, 
+        FAMILY,
 
         /** The level number for the specification  */
-        LEVEL, 
+        LEVEL,
 
         /** The version number of the spec (001.62 * 100)  */
-        VERSION, 
+        VERSION,
 
         /** The year of the version  */
-        YEAR, 
+        YEAR,
 
         /** The day of the year (December 26)  */
         DAY_OF_YEAR

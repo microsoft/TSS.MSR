@@ -24,14 +24,14 @@ public final class TPMA_MEMORY extends TpmAttribute<TPMA_MEMORY>
          *  CLEAR (0): indicates that the memory used for authorization sessions is not shared
          *  with memory used for transient objects
          */
-        sharedRAM, 
+        sharedRAM,
 
         /** SET (1): indicates that the NV memory used for persistent objects is shared with the
          *  NV memory used for NV Index values
          *  CLEAR (0): indicates that the persistent objects and NV Index values are allocated
          *  from separate sections of NV
          */
-        sharedNV, 
+        sharedNV,
 
         /** SET (1): indicates that the TPM copies persistent objects to a transient-object slot
          *  in RAM when the persistent object is referenced in a command. The TRM is required to

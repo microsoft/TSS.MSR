@@ -17,7 +17,7 @@ public final class SM3_256 extends TpmEnum<SM3_256>
      */
     public enum _N {
         /** Size of digest in octets  */
-        DIGEST_SIZE, 
+        DIGEST_SIZE,
 
         /** Size of hash block in octets  */
         BLOCK_SIZE

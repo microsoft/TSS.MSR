@@ -16,10 +16,10 @@ public final class PLATFORM extends TpmEnum<PLATFORM>
      *  for any other usage just prepend them with the PLATFORM. qualifier.
      */
     public enum _N {
-        FAMILY, 
-        LEVEL, 
-        VERSION, 
-        YEAR, 
+        FAMILY,
+        LEVEL,
+        VERSION,
+        YEAR,
         DAY_OF_YEAR
     }
 

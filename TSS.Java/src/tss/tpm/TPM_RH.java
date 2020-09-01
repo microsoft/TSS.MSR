@@ -18,69 +18,69 @@ public final class TPM_RH extends TpmEnum<TPM_RH>
      *  for any other usage just prepend them with the TPM_RH. qualifier.
      */
     public enum _N {
-        FIRST, 
+        FIRST,
 
         /** Not used1  */
-        SRK, 
+        SRK,
 
         /** Handle references the Storage Primary Seed (SPS), the ownerAuth, and the ownerPolicy  */
-        OWNER, 
+        OWNER,
 
         /** Not used1  */
-        REVOKE, 
+        REVOKE,
 
         /** Not used1  */
-        TRANSPORT, 
+        TRANSPORT,
 
         /** Not used1  */
-        OPERATOR, 
+        OPERATOR,
 
         /** Not used1  */
-        ADMIN, 
+        ADMIN,
 
         /** Not used1  */
-        EK, 
+        EK,
 
         /** A handle associated with the null hierarchy, an EmptyAuth authValue, and an Empty
          *  Policy authPolicy.
          */
-        NULL, 
+        NULL,
 
         /** Value reserved to the TPM to indicate a handle location that has not been initialized
          *  or assigned
          */
-        UNASSIGNED, 
+        UNASSIGNED,
 
         /** Authorization value used to indicate a password authorization session  */
-        PW, 
+        PW,
 
         /** References the authorization associated with the dictionary attack lockout reset  */
-        LOCKOUT, 
+        LOCKOUT,
 
         /** References the Endorsement Primary Seed (EPS), endorsementAuth, and endorsementPolicy  */
-        ENDORSEMENT, 
+        ENDORSEMENT,
 
         /** References the Platform Primary Seed (PPS), platformAuth, and platformPolicy  */
-        PLATFORM, 
+        PLATFORM,
 
         /** For phEnableNV  */
-        PLATFORM_NV, 
+        PLATFORM_NV,
 
         /** Start of a range of authorization values that are vendor-specific. A TPM may support
          *  any of the values in this range as are needed for vendor-specific purposes.
          *  Disabled if ehEnable is CLEAR.
          *  NOTE Any includes none.
          */
-        AUTH_00, 
+        AUTH_00,
 
         /** End of the range of vendor-specific authorization values.  */
-        AUTH_FF, 
+        AUTH_FF,
 
         /** Start of the range of authenticated timers  */
-        ACT_0, 
+        ACT_0,
 
         /** End of the range of authenticated timers  */
-        ACT_F, 
+        ACT_F,
 
         /** The top of the reserved handle area
          *  This is set to allow TPM2_GetCapability() to know where to stop. It may vary as

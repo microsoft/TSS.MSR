@@ -17,49 +17,49 @@ public final class TPM_PS extends TpmEnum<TPM_PS>
      */
     public enum _N {
         /** Not platform specific  */
-        MAIN, 
+        MAIN,
 
         /** PC Client  */
-        PC, 
+        PC,
 
         /** PDA (includes all mobile devices that are not specifically cell phones)  */
-        PDA, 
+        PDA,
 
         /** Cell Phone  */
-        CELL_PHONE, 
+        CELL_PHONE,
 
         /** Server WG  */
-        SERVER, 
+        SERVER,
 
         /** Peripheral WG  */
-        PERIPHERAL, 
+        PERIPHERAL,
 
         /** TSS WG (deprecated)  */
-        TSS, 
+        TSS,
 
         /** Storage WG  */
-        STORAGE, 
+        STORAGE,
 
         /** Authentication WG  */
-        AUTHENTICATION, 
+        AUTHENTICATION,
 
         /** Embedded WG  */
-        EMBEDDED, 
+        EMBEDDED,
 
         /** Hardcopy WG  */
-        HARDCOPY, 
+        HARDCOPY,
 
         /** Infrastructure WG (deprecated)  */
-        INFRASTRUCTURE, 
+        INFRASTRUCTURE,
 
         /** Virtualization WG  */
-        VIRTUALIZATION, 
+        VIRTUALIZATION,
 
         /** Trusted Network Connect WG (deprecated)  */
-        TNC, 
+        TNC,
 
         /** Multi-tenant WG (deprecated)  */
-        MULTI_TENANT, 
+        MULTI_TENANT,
 
         /** Technical Committee (deprecated)  */
         TC

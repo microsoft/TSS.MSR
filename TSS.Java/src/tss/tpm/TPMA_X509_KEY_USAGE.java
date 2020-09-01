@@ -22,31 +22,31 @@ public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
      */
     public enum _N {
         /** Attributes.Decrypt SET  */
-        decipherOnly, 
+        decipherOnly,
 
         /** Attributes.Decrypt SET  */
-        encipherOnly, 
+        encipherOnly,
 
         /** Attributes.sign SET  */
-        cRLSign, 
+        cRLSign,
 
         /** Attributes.sign SET  */
-        keyCertSign, 
+        keyCertSign,
 
         /** Attributes.Decrypt SET  */
-        keyAgreement, 
+        keyAgreement,
 
         /** Attributes.Decrypt SET  */
-        dataEncipherment, 
+        dataEncipherment,
 
         /** Asymmetric key with decrypt and restricted SET key has the attributes of a parent key  */
-        keyEncipherment, 
+        keyEncipherment,
 
         /** FixedTPM SET in Subject Key (objectHandle)  */
-        nonrepudiation, 
+        nonrepudiation,
 
         /** Alias to the nonrepudiation value.  */
-        contentCommitment, 
+        contentCommitment,
 
         /** Sign SET in Subject Key (objectHandle)  */
         digitalSignature

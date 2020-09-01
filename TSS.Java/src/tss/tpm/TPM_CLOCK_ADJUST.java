@@ -20,22 +20,22 @@ public final class TPM_CLOCK_ADJUST extends TpmEnum<TPM_CLOCK_ADJUST>
      */
     public enum _N {
         /** Slow the Clock update rate by one coarse adjustment step.  */
-        COARSE_SLOWER, 
+        COARSE_SLOWER,
 
         /** Slow the Clock update rate by one medium adjustment step.  */
-        MEDIUM_SLOWER, 
+        MEDIUM_SLOWER,
 
         /** Slow the Clock update rate by one fine adjustment step.  */
-        FINE_SLOWER, 
+        FINE_SLOWER,
 
         /** No change to the Clock update rate.  */
-        NO_CHANGE, 
+        NO_CHANGE,
 
         /** Speed the Clock update rate by one fine adjustment step.  */
-        FINE_FASTER, 
+        FINE_FASTER,
 
         /** Speed the Clock update rate by one medium adjustment step.  */
-        MEDIUM_FASTER, 
+        MEDIUM_FASTER,
 
         /** Speed the Clock update rate by one coarse adjustment step.  */
         COARSE_FASTER

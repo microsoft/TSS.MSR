@@ -19,146 +19,146 @@ public final class Implementation extends TpmEnum<Implementation>
      */
     public enum _N {
         /** Temporary define  */
-        FIELD_UPGRADE_IMPLEMENTED, 
+        FIELD_UPGRADE_IMPLEMENTED,
 
         /** Selection of the library that provides the basic hashing functions.  */
-        HASH_LIB, 
+        HASH_LIB,
 
         /** Selection of the library that provides the low-level symmetric cryptography. Choices
          *  are determined by the vendor (See LibSupport.h for implications).
          */
-        SYM_LIB, 
+        SYM_LIB,
 
         /** Selection of the library that provides the big number math including ECC. Choices are
          *  determined by the vendor (See LibSupport.h for implications).
          */
-        MATH_LIB, 
+        MATH_LIB,
 
         /** The number of PCR in the TPM  */
-        IMPLEMENTATION_PCR, 
-        PCR_SELECT_MAX, 
+        IMPLEMENTATION_PCR,
+        PCR_SELECT_MAX,
 
         /** The number of PCR required by the relevant platform specification  */
-        PLATFORM_PCR, 
-        PCR_SELECT_MIN, 
+        PLATFORM_PCR,
+        PCR_SELECT_MIN,
 
         /** The D-RTM PCR
          *  NOTE This value is not defined when the TPM does not implement D-RTM
          */
-        DRTM_PCR, 
+        DRTM_PCR,
 
         /** The PCR that will receive the H-CRTM value at TPM2_Startup. This value should not be changed.  */
-        HCRTM_PCR, 
+        HCRTM_PCR,
 
         /** The number of localities supported by the TPM
          *  This is expected to be either 5 for a PC, or 1 for just about everything else.
          */
-        NUM_LOCALITIES, 
+        NUM_LOCALITIES,
 
         /** The maximum number of handles in the handle area
          *  This should be produced by the Part 3 parser but is here for now.
          */
-        MAX_HANDLE_NUM, 
+        MAX_HANDLE_NUM,
 
         /** The number of simultaneously active sessions that are supported by the TPM implementation  */
-        MAX_ACTIVE_SESSIONS, 
+        MAX_ACTIVE_SESSIONS,
 
         /** The number of sessions that the TPM may have in memory  */
-        MAX_LOADED_SESSIONS, 
+        MAX_LOADED_SESSIONS,
 
         /** This is the current maximum value  */
-        MAX_SESSION_NUM, 
+        MAX_SESSION_NUM,
 
         /** The number of simultaneously loaded objects that are supported by the TPM; this number
          *  does not include the objects that may be placed in NV memory by TPM2_EvictControl().
          */
-        MAX_LOADED_OBJECTS, 
+        MAX_LOADED_OBJECTS,
 
         /** The minimum number of evict objects supported by the TPM  */
-        MIN_EVICT_OBJECTS, 
+        MIN_EVICT_OBJECTS,
 
         /** Number of PCR groups that have individual policies  */
-        NUM_POLICY_PCR_GROUP, 
+        NUM_POLICY_PCR_GROUP,
 
         /** Number of PCR groups that have individual authorization values  */
-        NUM_AUTHVALUE_PCR_GROUP, 
-        MAX_CONTEXT_SIZE, 
-        MAX_DIGEST_BUFFER, 
+        NUM_AUTHVALUE_PCR_GROUP,
+        MAX_CONTEXT_SIZE,
+        MAX_DIGEST_BUFFER,
 
         /** Maximum data size allowed in an NV Index  */
-        MAX_NV_INDEX_SIZE, 
+        MAX_NV_INDEX_SIZE,
 
         /** Maximum data size in one NV read or write command  */
-        MAX_NV_BUFFER_SIZE, 
+        MAX_NV_BUFFER_SIZE,
 
         /** Maximum size of a capability buffer  */
-        MAX_CAP_BUFFER, 
+        MAX_CAP_BUFFER,
 
         /** Size of NV memory in octets  */
-        NV_MEMORY_SIZE, 
+        NV_MEMORY_SIZE,
 
         /** The TPM will not allocate a non-counter index if it would prevent allocation of this
          *  number of indices.
          */
-        MIN_COUNTER_INDICES, 
-        NUM_STATIC_PCR, 
+        MIN_COUNTER_INDICES,
+        NUM_STATIC_PCR,
 
         /** Number of algorithms that can be in a list  */
-        MAX_ALG_LIST_SIZE, 
+        MAX_ALG_LIST_SIZE,
 
         /** Size of the Primary Seed in octets  */
-        PRIMARY_SEED_SIZE, 
+        PRIMARY_SEED_SIZE,
 
         /** Context encryption algorithm
          *  Just use the root so that the macros in GpMacros.h will work correctly.
          */
-        CONTEXT_ENCRYPT_ALGORITHM, 
+        CONTEXT_ENCRYPT_ALGORITHM,
 
         /** The update interval expressed as a power of 2 seconds
          *  A value of 12 is 4,096 seconds (~68 minutes).
          */
-        NV_CLOCK_UPDATE_INTERVAL, 
+        NV_CLOCK_UPDATE_INTERVAL,
 
         /** Number of PCR groups that allow policy/auth  */
-        NUM_POLICY_PCR, 
+        NUM_POLICY_PCR,
 
         /** Maximum size of a command  */
-        MAX_COMMAND_SIZE, 
+        MAX_COMMAND_SIZE,
 
         /** Maximum size of a response  */
-        MAX_RESPONSE_SIZE, 
+        MAX_RESPONSE_SIZE,
 
         /** Number between 1 and 32 inclusive  */
-        ORDERLY_BITS, 
+        ORDERLY_BITS,
 
         /** The maximum number of octets that may be in a sealed blob; 128 is the minimum allowed value  */
-        MAX_SYM_DATA, 
-        MAX_RNG_ENTROPY_SIZE, 
+        MAX_SYM_DATA,
+        MAX_RNG_ENTROPY_SIZE,
 
         /** Number of bytes used for the RAM index space. If this is not large enough, it might
          *  not be possible to allocate orderly indices.
          */
-        RAM_INDEX_SPACE, 
+        RAM_INDEX_SPACE,
 
         /** 216 + 1  */
-        RSA_DEFAULT_PUBLIC_EXPONENT, 
+        RSA_DEFAULT_PUBLIC_EXPONENT,
 
         /** Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented  */
-        ENABLE_PCR_NO_INCREMENT, 
-        CRT_FORMAT_RSA, 
-        VENDOR_COMMAND_COUNT, 
+        ENABLE_PCR_NO_INCREMENT,
+        CRT_FORMAT_RSA,
+        VENDOR_COMMAND_COUNT,
 
         /** Maximum size of the vendor-specific buffer  */
-        MAX_VENDOR_BUFFER_SIZE, 
+        MAX_VENDOR_BUFFER_SIZE,
 
         /** L value for a derivation. This is the
          *  maximum number of bits allowed from an instantiation of a KDF-DRBG. This is size is OK
          *  because RSA keys are never derived keys
          */
-        MAX_DERIVATION_BITS, 
-        RSA_MAX_PRIME, 
-        RSA_PRIVATE_SIZE, 
-        SIZE_OF_X509_SERIAL_NUMBER, 
+        MAX_DERIVATION_BITS,
+        RSA_MAX_PRIME,
+        RSA_PRIVATE_SIZE,
+        SIZE_OF_X509_SERIAL_NUMBER,
 
         /** This is a vendor-specific value so it is in this vendor-speific table. When this is
          *  used, RSA_PRIVATE_SIZE will have been defined

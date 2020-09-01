@@ -22,38 +22,38 @@ public final class TPM_HT extends TpmEnum<TPM_HT>
          *  A platform-specific specification will set the minimum number of PCR and an
          *  implementation may have more.
          */
-        PCR, 
+        PCR,
 
         /** NV Index assigned by the caller  */
-        NV_INDEX, 
+        NV_INDEX,
 
         /** HMAC Authorization Session assigned by the TPM when the session is created  */
-        HMAC_SESSION, 
+        HMAC_SESSION,
 
         /** Loaded Authorization Session used only in the context of TPM2_GetCapability
          *  This type references both loaded HMAC and loaded policy authorization sessions.
          */
-        LOADED_SESSION, 
+        LOADED_SESSION,
 
         /** Policy Authorization Session assigned by the TPM when the session is created  */
-        POLICY_SESSION, 
+        POLICY_SESSION,
 
         /** Saved Authorization Session used only in the context of TPM2_GetCapability
          *  This type references saved authorization session contexts for which the TPM is
          *  maintaining tracking information.
          */
-        SAVED_SESSION, 
+        SAVED_SESSION,
 
         /** Permanent Values assigned by this specification in Table 28  */
-        PERMANENT, 
+        PERMANENT,
 
         /** Transient Objects assigned by the TPM when an object is loaded into transient-object
          *  memory or when a persistent object is converted to a transient object
          */
-        TRANSIENT, 
+        TRANSIENT,
 
         /** Persistent Objects assigned by the TPM when a loaded transient object is made persistent  */
-        PERSISTENT, 
+        PERSISTENT,
 
         /** Attached Component handle for an Attached Component.  */
         AC

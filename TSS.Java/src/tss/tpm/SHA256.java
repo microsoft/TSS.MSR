@@ -17,7 +17,7 @@ public final class SHA256 extends TpmEnum<SHA256>
      */
     public enum _N {
         /** Size of digest  */
-        DIGEST_SIZE, 
+        DIGEST_SIZE,
 
         /** Size of hash block  */
         BLOCK_SIZE

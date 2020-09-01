@@ -33,10 +33,10 @@ public final class TPM_ST extends TpmEnum<TPM_ST>
          *  incorrectly assigned a value of 0x030 instead of 30 (0x01e). Some implementations my
          *  return the old value instead of the new value.
          */
-        RSP_COMMAND, 
+        RSP_COMMAND,
 
         /** No structure type specified  */
-        NULL, 
+        NULL,
 
         /** Tag value for a command/response for a command defined in this specification;
          *  indicating that the command/response has no attached sessions and no
@@ -44,52 +44,52 @@ public final class TPM_ST extends TpmEnum<TPM_ST>
          *  If the responseCode from the TPM is not TPM_RC_SUCCESS, then the response tag shall
          *  have this value.
          */
-        NO_SESSIONS, 
+        NO_SESSIONS,
 
         /** Tag value for a command/response for a command defined in this specification;
          *  indicating that the command/response has one or more attached sessions and the
          *  authorizationSize/parameterSize field is present
          */
-        SESSIONS, 
+        SESSIONS,
 
         /** Tag for an attestation structure  */
-        ATTEST_NV, 
+        ATTEST_NV,
 
         /** Tag for an attestation structure  */
-        ATTEST_COMMAND_AUDIT, 
+        ATTEST_COMMAND_AUDIT,
 
         /** Tag for an attestation structure  */
-        ATTEST_SESSION_AUDIT, 
+        ATTEST_SESSION_AUDIT,
 
         /** Tag for an attestation structure  */
-        ATTEST_CERTIFY, 
+        ATTEST_CERTIFY,
 
         /** Tag for an attestation structure  */
-        ATTEST_QUOTE, 
+        ATTEST_QUOTE,
 
         /** Tag for an attestation structure  */
-        ATTEST_TIME, 
+        ATTEST_TIME,
 
         /** Tag for an attestation structure  */
-        ATTEST_CREATION, 
+        ATTEST_CREATION,
 
         /** Tag for an attestation structure  */
-        ATTEST_NV_DIGEST, 
+        ATTEST_NV_DIGEST,
 
         /** Tag for a ticket type  */
-        CREATION, 
+        CREATION,
 
         /** Tag for a ticket type  */
-        VERIFIED, 
+        VERIFIED,
 
         /** Tag for a ticket type  */
-        AUTH_SECRET, 
+        AUTH_SECRET,
 
         /** Tag for a ticket type  */
-        HASHCHECK, 
+        HASHCHECK,
 
         /** Tag for a ticket type  */
-        AUTH_SIGNED, 
+        AUTH_SIGNED,
 
         /** Tag for a structure describing a Field Upgrade Policy  */
         FU_MANIFEST

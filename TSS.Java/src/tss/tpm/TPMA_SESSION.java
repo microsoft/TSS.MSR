@@ -32,7 +32,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
          *  same handle but logically is not the same session.
          *  This attribute has no effect if the command does not complete successfully.
          */
-        continueSession, 
+        continueSession,
 
         /** SET (1): In a command, this setting indicates that the command should only be executed
          *  if the session is exclusive at the start of the command. In a response, it indicates
@@ -41,7 +41,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
          *  CLEAR (0): In a command, indicates that the session need not be exclusive at the start
          *  of the command. In a response, indicates that the session is not exclusive.
          */
-        auditExclusive, 
+        auditExclusive,
 
         /** SET (1): In a command, this setting indicates that the audit digest of the session
          *  should be initialized and the exclusive status of the session SET. This setting is
@@ -49,7 +49,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
          *  CLEAR (0): In a command, indicates that the audit digest should not be initialized.
          *  This bit is always CLEAR in a response.
          */
-        auditReset, 
+        auditReset,
 
         /** SET (1): In a command, this setting indicates that the first parameter in the command
          *  is symmetrically encrypted using the parameter encryption scheme described in TPM 2.0
@@ -62,7 +62,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
          *  Such a session is provided for purposes of encrypting a parameter and not for authorization.
          *  This attribute may be SET in combination with any other session attributes.
          */
-        decrypt, 
+        decrypt,
 
         /** SET (1): In a command, this setting indicates that the TPM should use this session to
          *  encrypt the first parameter in the response. In a response, it indicates that the
@@ -74,7 +74,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
          *  This attribute may be SET in a session that is not associated with a command handle.
          *  Such a session is provided for purposes of encrypting a parameter and not for authorization.
          */
-        encrypt, 
+        encrypt,
 
         /** SET (1): In a command or response, this setting indicates that the session is for
          *  audit and that auditExclusive and auditReset have meaning. This session may also be

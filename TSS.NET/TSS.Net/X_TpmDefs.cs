@@ -15,216 +15,216 @@ namespace Tpm2Lib
         /// <summary> Should not occur </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ERROR")]
-        Error = 0x0000, 
+        Error = 0x0000,
 
         /// <summary> An object type that contains an RSA key </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_FIRST")]
-        First = 0x0001, 
+        First = 0x0001,
 
         /// <summary> An object type that contains an RSA key </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_RSA")]
-        Rsa = 0x0001, 
+        Rsa = 0x0001,
 
         /// <summary> Block cipher with various key sizes (Triple Data Encryption Algorithm,
         /// commonly called Triple Data Encryption Standard) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_TDES")]
-        Tdes = 0x0003, 
+        Tdes = 0x0003,
 
         /// <summary> Hash algorithm producing a 160-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA")]
-        Sha = 0x0004, 
+        Sha = 0x0004,
 
         /// <summary> Redefinition for documentation consistency </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA1")]
-        Sha1 = 0x0004, 
+        Sha1 = 0x0004,
 
         /// <summary> Hash Message Authentication Code (HMAC) algorithm </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_HMAC")]
-        Hmac = 0x0005, 
+        Hmac = 0x0005,
 
         /// <summary> Block cipher with various key sizes </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_AES")]
-        Aes = 0x0006, 
+        Aes = 0x0006,
 
         /// <summary> Hash-based mask-generation function </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_MGF1")]
-        Mgf1 = 0x0007, 
+        Mgf1 = 0x0007,
 
         /// <summary> An object type that may use XOR for encryption or an HMAC for signing and
         /// may also refer to a data object that is neither signing nor encrypting </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KEYEDHASH")]
-        Keyedhash = 0x0008, 
+        Keyedhash = 0x0008,
 
         /// <summary> Hash-based stream cipher </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_XOR")]
-        Xor = 0x000A, 
+        Xor = 0x000A,
 
         /// <summary> Hash algorithm producing a 256-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA256")]
-        Sha256 = 0x000B, 
+        Sha256 = 0x000B,
 
         /// <summary> Hash algorithm producing a 384-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA384")]
-        Sha384 = 0x000C, 
+        Sha384 = 0x000C,
 
         /// <summary> Hash algorithm producing a 512-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA512")]
-        Sha512 = 0x000D, 
+        Sha512 = 0x000D,
 
         /// <summary> Indication that no algorithm is selected </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_NULL")]
-        Null = 0x0010, 
+        Null = 0x0010,
 
         /// <summary> Hash algorithm producing a 256-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SM3_256")]
-        Sm3256 = 0x0012, 
+        Sm3256 = 0x0012,
 
         /// <summary> Symmetric block cipher with 128 bit key </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SM4")]
-        Sm4 = 0x0013, 
+        Sm4 = 0x0013,
 
         /// <summary> A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_RSASSA")]
-        Rsassa = 0x0014, 
+        Rsassa = 0x0014,
 
         /// <summary> A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_RSAES")]
-        Rsaes = 0x0015, 
+        Rsaes = 0x0015,
 
         /// <summary> A signature algorithm defined in section 8.1 (RSASSA-PSS) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_RSAPSS")]
-        Rsapss = 0x0016, 
+        Rsapss = 0x0016,
 
         /// <summary> A padding algorithm defined in Section 7.1 (RSAES_OAEP) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_OAEP")]
-        Oaep = 0x0017, 
+        Oaep = 0x0017,
 
         /// <summary> Signature algorithm using elliptic curve cryptography (ECC) </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECDSA")]
-        Ecdsa = 0x0018, 
+        Ecdsa = 0x0018,
 
         /// <summary> Secret sharing using ECC Based on context, this can be either One-Pass
         /// Diffie-Hellman, C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC
         /// CDH) defined in 6.1.1.2 </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECDH")]
-        Ecdh = 0x0019, 
+        Ecdh = 0x0019,
 
         /// <summary> Elliptic-curve based, anonymous signing scheme </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECDAA")]
-        Ecdaa = 0x001A, 
+        Ecdaa = 0x001A,
 
         /// <summary> Depending on context, either an elliptic-curve-based signature algorithm,
         /// encryption algorithm, or key exchange protocol </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SM2")]
-        Sm2 = 0x001B, 
+        Sm2 = 0x001B,
 
         /// <summary> Elliptic-curve based Schnorr signature </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECSCHNORR")]
-        Ecschnorr = 0x001C, 
+        Ecschnorr = 0x001C,
 
         /// <summary> Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4 </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECMQV")]
-        Ecmqv = 0x001D, 
+        Ecmqv = 0x001D,
 
         /// <summary> Concatenation key derivation function (approved alternative 1) Section 5.8.1
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KDF1_SP800_56A")]
-        Kdf1Sp80056a = 0x0020, 
+        Kdf1Sp80056a = 0x0020,
 
         /// <summary> Key derivation function KDF2 Section 13.2 </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KDF2")]
-        Kdf2 = 0x0021, 
+        Kdf2 = 0x0021,
 
         /// <summary> A key derivation method SP800-108, Section 5.1 KDF in Counter Mode </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_KDF1_SP800_108")]
-        Kdf1Sp800108 = 0x0022, 
+        Kdf1Sp800108 = 0x0022,
 
         /// <summary> Prime field ECC </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECC")]
-        Ecc = 0x0023, 
+        Ecc = 0x0023,
 
         /// <summary> The object type for a symmetric block cipher key </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SYMCIPHER")]
-        Symcipher = 0x0025, 
+        Symcipher = 0x0025,
 
         /// <summary> Symmetric block cipher with various key sizes </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_CAMELLIA")]
-        Camellia = 0x0026, 
+        Camellia = 0x0026,
 
         /// <summary> Hash algorithm producing a 256-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA3_256")]
-        Sha3256 = 0x0027, 
+        Sha3256 = 0x0027,
 
         /// <summary> Hash algorithm producing a 384-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA3_384")]
-        Sha3384 = 0x0028, 
+        Sha3384 = 0x0028,
 
         /// <summary> Hash algorithm producing a 512-bit digest </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_SHA3_512")]
-        Sha3512 = 0x0029, 
+        Sha3512 = 0x0029,
 
         [EnumMember]
         [SpecTypeName("TPM_ALG_CMAC")]
-        Cmac = 0x003F, 
+        Cmac = 0x003F,
 
         /// <summary> Counter mode if implemented, all symmetric block ciphers (S type)
         /// implemented shall be capable of using this mode. </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_CTR")]
-        Ctr = 0x0040, 
+        Ctr = 0x0040,
 
         /// <summary> Output Feedback mode if implemented, all symmetric block ciphers (S type)
         /// implemented shall be capable of using this mode. </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_OFB")]
-        Ofb = 0x0041, 
+        Ofb = 0x0041,
 
         /// <summary> Cipher Block Chaining mode if implemented, all symmetric block ciphers (S
         /// type) implemented shall be capable of using this mode. </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_CBC")]
-        Cbc = 0x0042, 
+        Cbc = 0x0042,
 
         /// <summary> Cipher Feedback mode if implemented, all symmetric block ciphers (S type)
         /// implemented shall be capable of using this mode. </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_CFB")]
-        Cfb = 0x0043, 
+        Cfb = 0x0043,
 
         /// <summary> Electronic Codebook mode if implemented, all implemented symmetric block
         /// ciphers (S type) shall be capable of using this mode.
@@ -232,16 +232,16 @@ namespace Tpm2Lib
         /// as in video codecs </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ECB")]
-        Ecb = 0x0044, 
+        Ecb = 0x0044,
 
         [EnumMember]
         [SpecTypeName("TPM_ALG_LAST")]
-        Last = 0x0044, 
+        Last = 0x0044,
 
         /// <summary> Phony alg ID to be used for the first union member with no selector </summary>
         [EnumMember]
         [SpecTypeName("TPM_ALG_ANY")]
-        Any = 0x7FFF, 
+        Any = 0x7FFF,
 
         /// <summary> Phony alg ID to be used for the second union member with no selector </summary>
         [EnumMember]
@@ -259,57 +259,57 @@ namespace Tpm2Lib
         [SpecTypeName("TPM_ECC_NONE")]
         None = 0x0000,
         [Obsolete("Use EccCurve.None instead")]
-        TpmEccNone = 0x0000, 
+        TpmEccNone = 0x0000,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_NIST_P192")]
         NistP192 = 0x0001,
         [Obsolete("Use EccCurve.NistP192 instead")]
-        TpmEccNistP192 = 0x0001, 
+        TpmEccNistP192 = 0x0001,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_NIST_P224")]
         NistP224 = 0x0002,
         [Obsolete("Use EccCurve.NistP224 instead")]
-        TpmEccNistP224 = 0x0002, 
+        TpmEccNistP224 = 0x0002,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_NIST_P256")]
         NistP256 = 0x0003,
         [Obsolete("Use EccCurve.NistP256 instead")]
-        TpmEccNistP256 = 0x0003, 
+        TpmEccNistP256 = 0x0003,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_NIST_P384")]
         NistP384 = 0x0004,
         [Obsolete("Use EccCurve.NistP384 instead")]
-        TpmEccNistP384 = 0x0004, 
+        TpmEccNistP384 = 0x0004,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_NIST_P521")]
         NistP521 = 0x0005,
         [Obsolete("Use EccCurve.NistP521 instead")]
-        TpmEccNistP521 = 0x0005, 
+        TpmEccNistP521 = 0x0005,
 
         /// <summary> Curve to support ECDAA </summary>
         [EnumMember]
         [SpecTypeName("TPM_ECC_BN_P256")]
         BnP256 = 0x0010,
         [Obsolete("Use EccCurve.BnP256 instead")]
-        TpmEccBnP256 = 0x0010, 
+        TpmEccBnP256 = 0x0010,
 
         /// <summary> Curve to support ECDAA </summary>
         [EnumMember]
         [SpecTypeName("TPM_ECC_BN_P638")]
         BnP638 = 0x0011,
         [Obsolete("Use EccCurve.BnP638 instead")]
-        TpmEccBnP638 = 0x0011, 
+        TpmEccBnP638 = 0x0011,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_SM2_P256")]
         Sm2P256 = 0x0020,
         [Obsolete("Use EccCurve.Sm2P256 instead")]
-        TpmEccSm2P256 = 0x0020, 
+        TpmEccSm2P256 = 0x0020,
 
         [EnumMember]
         [SpecTypeName("TPM_ECC_TEST_P192")]
@@ -328,7 +328,7 @@ namespace Tpm2Lib
         /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA1_DIGEST_SIZE")]
-        DigestSize = 20, 
+        DigestSize = 20,
 
         /// <summary> Size of hash block in octets </summary>
         [EnumMember]
@@ -346,7 +346,7 @@ namespace Tpm2Lib
         /// <summary> Size of digest </summary>
         [EnumMember]
         [SpecTypeName("SHA256_DIGEST_SIZE")]
-        DigestSize = 32, 
+        DigestSize = 32,
 
         /// <summary> Size of hash block </summary>
         [EnumMember]
@@ -364,7 +364,7 @@ namespace Tpm2Lib
         /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA384_DIGEST_SIZE")]
-        DigestSize = 48, 
+        DigestSize = 48,
 
         /// <summary> Size of hash block in octets </summary>
         [EnumMember]
@@ -382,7 +382,7 @@ namespace Tpm2Lib
         /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA512_DIGEST_SIZE")]
-        DigestSize = 64, 
+        DigestSize = 64,
 
         /// <summary> Size of hash block in octets </summary>
         [EnumMember]
@@ -400,7 +400,7 @@ namespace Tpm2Lib
         /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SM3_256_DIGEST_SIZE")]
-        DigestSize = 32, 
+        DigestSize = 32,
 
         /// <summary> Size of hash block in octets </summary>
         [EnumMember]
@@ -418,7 +418,7 @@ namespace Tpm2Lib
         /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA3_256_DIGEST_SIZE")]
-        DigestSize = 32, 
+        DigestSize = 32,
 
         /// <summary> Size of hash block in octets </summary>
         [EnumMember]
@@ -436,7 +436,7 @@ namespace Tpm2Lib
         /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA3_384_DIGEST_SIZE")]
-        DigestSize = 48, 
+        DigestSize = 48,
 
         /// <summary> Size of hash block in octets </summary>
         [EnumMember]
@@ -454,7 +454,7 @@ namespace Tpm2Lib
         /// <summary> Size of digest in octets </summary>
         [EnumMember]
         [SpecTypeName("SHA3_512_DIGEST_SIZE")]
-        DigestSize = 64, 
+        DigestSize = 64,
 
         /// <summary> Size of hash block in octets </summary>
         [EnumMember]
@@ -471,23 +471,23 @@ namespace Tpm2Lib
 
         [EnumMember]
         [SpecTypeName("TRUE")]
-        True = 1, 
+        True = 1,
 
         [EnumMember]
         [SpecTypeName("FALSE")]
-        False = 0, 
+        False = 0,
 
         [EnumMember]
         [SpecTypeName("YES")]
-        Yes = 1, 
+        Yes = 1,
 
         [EnumMember]
         [SpecTypeName("NO")]
-        No = 0, 
+        No = 0,
 
         [EnumMember]
         [SpecTypeName("SET")]
-        Set = 1, 
+        Set = 1,
 
         [EnumMember]
         [SpecTypeName("CLEAR")]
@@ -505,22 +505,22 @@ namespace Tpm2Lib
         /// <summary> ASCII 2.0 with null terminator </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_FAMILY")]
-        Family = 0x322E3000, 
+        Family = 0x322E3000,
 
         /// <summary> The level number for the specification </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_LEVEL")]
-        Level = 0, 
+        Level = 0,
 
         /// <summary> The version number of the spec (001.62 * 100) </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_VERSION")]
-        Version = 162, 
+        Version = 162,
 
         /// <summary> The year of the version </summary>
         [EnumMember]
         [SpecTypeName("TPM_SPEC_YEAR")]
-        Year = 2019, 
+        Year = 2019,
 
         /// <summary> The day of the year (December 26) </summary>
         [EnumMember]
@@ -551,532 +551,532 @@ namespace Tpm2Lib
         /// <summary> Compile variable. May decrease based on implementation. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_FIRST")]
-        First = 0x0000011F, 
+        First = 0x0000011F,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_UndefineSpaceSpecial")]
-        NvUndefineSpaceSpecial = 0x0000011F, 
+        NvUndefineSpaceSpecial = 0x0000011F,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_EvictControl")]
-        EvictControl = 0x00000120, 
+        EvictControl = 0x00000120,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_HierarchyControl")]
-        HierarchyControl = 0x00000121, 
+        HierarchyControl = 0x00000121,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_UndefineSpace")]
-        NvUndefineSpace = 0x00000122, 
+        NvUndefineSpace = 0x00000122,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ChangeEPS")]
-        ChangeEPS = 0x00000124, 
+        ChangeEPS = 0x00000124,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ChangePPS")]
-        ChangePPS = 0x00000125, 
+        ChangePPS = 0x00000125,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Clear")]
-        Clear = 0x00000126, 
+        Clear = 0x00000126,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ClearControl")]
-        ClearControl = 0x00000127, 
+        ClearControl = 0x00000127,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ClockSet")]
-        ClockSet = 0x00000128, 
+        ClockSet = 0x00000128,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_HierarchyChangeAuth")]
-        HierarchyChangeAuth = 0x00000129, 
+        HierarchyChangeAuth = 0x00000129,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_DefineSpace")]
-        NvDefineSpace = 0x0000012A, 
+        NvDefineSpace = 0x0000012A,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_PCR_Allocate")]
-        PcrAllocate = 0x0000012B, 
+        PcrAllocate = 0x0000012B,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_PCR_SetAuthPolicy")]
-        PcrSetAuthPolicy = 0x0000012C, 
+        PcrSetAuthPolicy = 0x0000012C,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_PP_Commands")]
-        PpCommands = 0x0000012D, 
+        PpCommands = 0x0000012D,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_SetPrimaryPolicy")]
-        SetPrimaryPolicy = 0x0000012E, 
+        SetPrimaryPolicy = 0x0000012E,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_FieldUpgradeStart")]
-        FieldUpgradeStart = 0x0000012F, 
+        FieldUpgradeStart = 0x0000012F,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ClockRateAdjust")]
-        ClockRateAdjust = 0x00000130, 
+        ClockRateAdjust = 0x00000130,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_CreatePrimary")]
-        CreatePrimary = 0x00000131, 
+        CreatePrimary = 0x00000131,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_GlobalWriteLock")]
-        NvGlobalWriteLock = 0x00000132, 
+        NvGlobalWriteLock = 0x00000132,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_GetCommandAuditDigest")]
-        GetCommandAuditDigest = 0x00000133, 
+        GetCommandAuditDigest = 0x00000133,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_Increment")]
-        NvIncrement = 0x00000134, 
+        NvIncrement = 0x00000134,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_SetBits")]
-        NvSetBits = 0x00000135, 
+        NvSetBits = 0x00000135,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_Extend")]
-        NvExtend = 0x00000136, 
+        NvExtend = 0x00000136,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_Write")]
-        NvWrite = 0x00000137, 
+        NvWrite = 0x00000137,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_WriteLock")]
-        NvWriteLock = 0x00000138, 
+        NvWriteLock = 0x00000138,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_DictionaryAttackLockReset")]
-        DictionaryAttackLockReset = 0x00000139, 
+        DictionaryAttackLockReset = 0x00000139,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_DictionaryAttackParameters")]
-        DictionaryAttackParameters = 0x0000013A, 
+        DictionaryAttackParameters = 0x0000013A,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_ChangeAuth")]
-        NvChangeAuth = 0x0000013B, 
+        NvChangeAuth = 0x0000013B,
 
         /// <summary> PCR </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PCR_Event")]
-        PcrEvent = 0x0000013C, 
+        PcrEvent = 0x0000013C,
 
         /// <summary> PCR </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PCR_Reset")]
-        PcrReset = 0x0000013D, 
+        PcrReset = 0x0000013D,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_SequenceComplete")]
-        SequenceComplete = 0x0000013E, 
+        SequenceComplete = 0x0000013E,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_SetAlgorithmSet")]
-        SetAlgorithmSet = 0x0000013F, 
+        SetAlgorithmSet = 0x0000013F,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_SetCommandCodeAuditStatus")]
-        SetCommandCodeAuditStatus = 0x00000140, 
+        SetCommandCodeAuditStatus = 0x00000140,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_FieldUpgradeData")]
-        FieldUpgradeData = 0x00000141, 
+        FieldUpgradeData = 0x00000141,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_IncrementalSelfTest")]
-        IncrementalSelfTest = 0x00000142, 
+        IncrementalSelfTest = 0x00000142,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_SelfTest")]
-        SelfTest = 0x00000143, 
+        SelfTest = 0x00000143,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Startup")]
-        Startup = 0x00000144, 
+        Startup = 0x00000144,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Shutdown")]
-        Shutdown = 0x00000145, 
+        Shutdown = 0x00000145,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_StirRandom")]
-        StirRandom = 0x00000146, 
+        StirRandom = 0x00000146,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ActivateCredential")]
-        ActivateCredential = 0x00000147, 
+        ActivateCredential = 0x00000147,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Certify")]
-        Certify = 0x00000148, 
+        Certify = 0x00000148,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyNV")]
-        PolicyNV = 0x00000149, 
+        PolicyNV = 0x00000149,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_CertifyCreation")]
-        CertifyCreation = 0x0000014A, 
+        CertifyCreation = 0x0000014A,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Duplicate")]
-        Duplicate = 0x0000014B, 
+        Duplicate = 0x0000014B,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_GetTime")]
-        GetTime = 0x0000014C, 
+        GetTime = 0x0000014C,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_GetSessionAuditDigest")]
-        GetSessionAuditDigest = 0x0000014D, 
+        GetSessionAuditDigest = 0x0000014D,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_Read")]
-        NvRead = 0x0000014E, 
+        NvRead = 0x0000014E,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_ReadLock")]
-        NvReadLock = 0x0000014F, 
+        NvReadLock = 0x0000014F,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ObjectChangeAuth")]
-        ObjectChangeAuth = 0x00000150, 
+        ObjectChangeAuth = 0x00000150,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicySecret")]
-        PolicySecret = 0x00000151, 
+        PolicySecret = 0x00000151,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Rewrap")]
-        Rewrap = 0x00000152, 
+        Rewrap = 0x00000152,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Create")]
-        Create = 0x00000153, 
+        Create = 0x00000153,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ECDH_ZGen")]
-        EcdhZGen = 0x00000154, 
+        EcdhZGen = 0x00000154,
 
         /// <summary> See NOTE 1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_HMAC")]
-        Hmac = 0x00000155, 
+        Hmac = 0x00000155,
 
         /// <summary> See NOTE 1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_MAC")]
-        Mac = 0x00000155, 
+        Mac = 0x00000155,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Import")]
-        Import = 0x00000156, 
+        Import = 0x00000156,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Load")]
-        Load = 0x00000157, 
+        Load = 0x00000157,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Quote")]
-        Quote = 0x00000158, 
+        Quote = 0x00000158,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_RSA_Decrypt")]
-        RsaDecrypt = 0x00000159, 
+        RsaDecrypt = 0x00000159,
 
         /// <summary> See NOTE 1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_HMAC_Start")]
-        HmacStart = 0x0000015B, 
+        HmacStart = 0x0000015B,
 
         /// <summary> See NOTE 1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_MAC_Start")]
-        MacStart = 0x0000015B, 
+        MacStart = 0x0000015B,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_SequenceUpdate")]
-        SequenceUpdate = 0x0000015C, 
+        SequenceUpdate = 0x0000015C,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Sign")]
-        Sign = 0x0000015D, 
+        Sign = 0x0000015D,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Unseal")]
-        Unseal = 0x0000015E, 
+        Unseal = 0x0000015E,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicySigned")]
-        PolicySigned = 0x00000160, 
+        PolicySigned = 0x00000160,
 
         /// <summary> Context </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_ContextLoad")]
-        ContextLoad = 0x00000161, 
+        ContextLoad = 0x00000161,
 
         /// <summary> Context </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_ContextSave")]
-        ContextSave = 0x00000162, 
+        ContextSave = 0x00000162,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ECDH_KeyGen")]
-        EcdhKeyGen = 0x00000163, 
+        EcdhKeyGen = 0x00000163,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_EncryptDecrypt")]
-        EncryptDecrypt = 0x00000164, 
+        EncryptDecrypt = 0x00000164,
 
         /// <summary> Context </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_FlushContext")]
-        FlushContext = 0x00000165, 
+        FlushContext = 0x00000165,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_LoadExternal")]
-        LoadExternal = 0x00000167, 
+        LoadExternal = 0x00000167,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_MakeCredential")]
-        MakeCredential = 0x00000168, 
+        MakeCredential = 0x00000168,
 
         /// <summary> NV </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_ReadPublic")]
-        NvReadPublic = 0x00000169, 
+        NvReadPublic = 0x00000169,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyAuthorize")]
-        PolicyAuthorize = 0x0000016A, 
+        PolicyAuthorize = 0x0000016A,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyAuthValue")]
-        PolicyAuthValue = 0x0000016B, 
+        PolicyAuthValue = 0x0000016B,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyCommandCode")]
-        PolicyCommandCode = 0x0000016C, 
+        PolicyCommandCode = 0x0000016C,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyCounterTimer")]
-        PolicyCounterTimer = 0x0000016D, 
+        PolicyCounterTimer = 0x0000016D,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyCpHash")]
-        PolicyCpHash = 0x0000016E, 
+        PolicyCpHash = 0x0000016E,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyLocality")]
-        PolicyLocality = 0x0000016F, 
+        PolicyLocality = 0x0000016F,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyNameHash")]
-        PolicyNameHash = 0x00000170, 
+        PolicyNameHash = 0x00000170,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyOR")]
-        PolicyOR = 0x00000171, 
+        PolicyOR = 0x00000171,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyTicket")]
-        PolicyTicket = 0x00000172, 
+        PolicyTicket = 0x00000172,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ReadPublic")]
-        ReadPublic = 0x00000173, 
+        ReadPublic = 0x00000173,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_RSA_Encrypt")]
-        RsaEncrypt = 0x00000174, 
+        RsaEncrypt = 0x00000174,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_StartAuthSession")]
-        StartAuthSession = 0x00000176, 
+        StartAuthSession = 0x00000176,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_VerifySignature")]
-        VerifySignature = 0x00000177, 
+        VerifySignature = 0x00000177,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ECC_Parameters")]
-        EccParameters = 0x00000178, 
+        EccParameters = 0x00000178,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_FirmwareRead")]
-        FirmwareRead = 0x00000179, 
+        FirmwareRead = 0x00000179,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_GetCapability")]
-        GetCapability = 0x0000017A, 
+        GetCapability = 0x0000017A,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_GetRandom")]
-        GetRandom = 0x0000017B, 
+        GetRandom = 0x0000017B,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_GetTestResult")]
-        GetTestResult = 0x0000017C, 
+        GetTestResult = 0x0000017C,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Hash")]
-        Hash = 0x0000017D, 
+        Hash = 0x0000017D,
 
         /// <summary> PCR </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PCR_Read")]
-        PcrRead = 0x0000017E, 
+        PcrRead = 0x0000017E,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyPCR")]
-        PolicyPCR = 0x0000017F, 
+        PolicyPCR = 0x0000017F,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyRestart")]
-        PolicyRestart = 0x00000180, 
+        PolicyRestart = 0x00000180,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ReadClock")]
-        ReadClock = 0x00000181, 
+        ReadClock = 0x00000181,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_PCR_Extend")]
-        PcrExtend = 0x00000182, 
+        PcrExtend = 0x00000182,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_PCR_SetAuthValue")]
-        PcrSetAuthValue = 0x00000183, 
+        PcrSetAuthValue = 0x00000183,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_NV_Certify")]
-        NvCertify = 0x00000184, 
+        NvCertify = 0x00000184,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_EventSequenceComplete")]
-        EventSequenceComplete = 0x00000185, 
+        EventSequenceComplete = 0x00000185,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_HashSequenceStart")]
-        HashSequenceStart = 0x00000186, 
+        HashSequenceStart = 0x00000186,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyPhysicalPresence")]
-        PolicyPhysicalPresence = 0x00000187, 
+        PolicyPhysicalPresence = 0x00000187,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyDuplicationSelect")]
-        PolicyDuplicationSelect = 0x00000188, 
+        PolicyDuplicationSelect = 0x00000188,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyGetDigest")]
-        PolicyGetDigest = 0x00000189, 
+        PolicyGetDigest = 0x00000189,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_TestParms")]
-        TestParms = 0x0000018A, 
+        TestParms = 0x0000018A,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_Commit")]
-        Commit = 0x0000018B, 
+        Commit = 0x0000018B,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyPassword")]
-        PolicyPassword = 0x0000018C, 
+        PolicyPassword = 0x0000018C,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ZGen_2Phase")]
-        ZGen2Phase = 0x0000018D, 
+        ZGen2Phase = 0x0000018D,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_EC_Ephemeral")]
-        EcEphemeral = 0x0000018E, 
+        EcEphemeral = 0x0000018E,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyNvWritten")]
-        PolicyNvWritten = 0x0000018F, 
+        PolicyNvWritten = 0x0000018F,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyTemplate")]
-        PolicyTemplate = 0x00000190, 
+        PolicyTemplate = 0x00000190,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_CreateLoaded")]
-        CreateLoaded = 0x00000191, 
+        CreateLoaded = 0x00000191,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_PolicyAuthorizeNV")]
-        PolicyAuthorizeNV = 0x00000192, 
+        PolicyAuthorizeNV = 0x00000192,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_EncryptDecrypt2")]
-        EncryptDecrypt2 = 0x00000193, 
+        EncryptDecrypt2 = 0x00000193,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_AC_GetCapability")]
-        AcGetCapability = 0x00000194, 
+        AcGetCapability = 0x00000194,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_AC_Send")]
-        AcSend = 0x00000195, 
+        AcSend = 0x00000195,
 
         /// <summary> Policy </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_Policy_AC_SendSelect")]
-        PolicyAcSendSelect = 0x00000196, 
+        PolicyAcSendSelect = 0x00000196,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_CertifyX509")]
-        CertifyX509 = 0x00000197, 
+        CertifyX509 = 0x00000197,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ACT_SetTimeout")]
-        ActSetTimeout = 0x00000198, 
+        ActSetTimeout = 0x00000198,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ECC_Encrypt")]
-        EccEncrypt = 0x00000199, 
+        EccEncrypt = 0x00000199,
 
         [EnumMember]
         [SpecTypeName("TPM_CC_ECC_Decrypt")]
-        EccDecrypt = 0x0000019A, 
+        EccDecrypt = 0x0000019A,
 
         /// <summary> Compile variable. May increase based on implementation. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CC_LAST")]
-        Last = 0x0000019A, 
+        Last = 0x0000019A,
 
         [EnumMember]
         [SpecTypeName("CC_VEND")]
-        CcVend = 0x20000000, 
+        CcVend = 0x20000000,
 
         /// <summary> Used for testing of command dispatch </summary>
         [EnumMember]
@@ -1093,91 +1093,91 @@ namespace Tpm2Lib
 
         [EnumMember]
         [SpecTypeName("Ossl")]
-        Ossl = 1, 
+        Ossl = 1,
 
         [EnumMember]
         [SpecTypeName("Ltc")]
-        Ltc = 2, 
+        Ltc = 2,
 
         [EnumMember]
         [SpecTypeName("Msbn")]
-        Msbn = 3, 
+        Msbn = 3,
 
         [EnumMember]
         [SpecTypeName("Symcrypt")]
-        Symcrypt = 4, 
+        Symcrypt = 4,
 
         [EnumMember]
         [SpecTypeName("HASH_COUNT")]
-        HashCount = 3, 
+        HashCount = 3,
 
         [EnumMember]
         [SpecTypeName("MAX_SYM_KEY_BITS")]
-        MaxSymKeyBits = 256, 
+        MaxSymKeyBits = 256,
 
         [EnumMember]
         [SpecTypeName("MAX_SYM_KEY_BYTES")]
-        MaxSymKeyBytes = ((MaxSymKeyBits + 7) / 8),  // 0x20
+        MaxSymKeyBytes = ((MaxSymKeyBits + 7) / 8), // 0x20
 
         [EnumMember]
         [SpecTypeName("MAX_SYM_BLOCK_SIZE")]
-        MaxSymBlockSize = 16, 
+        MaxSymBlockSize = 16,
 
         [EnumMember]
         [SpecTypeName("MAX_CAP_CC")]
-        MaxCapCc = TpmCc.Last,  // 0x19A
+        MaxCapCc = TpmCc.Last, // 0x19A
 
         [EnumMember]
         [SpecTypeName("MAX_RSA_KEY_BYTES")]
-        MaxRsaKeyBytes = 256, 
+        MaxRsaKeyBytes = 256,
 
         [EnumMember]
         [SpecTypeName("MAX_AES_KEY_BYTES")]
-        MaxAesKeyBytes = 32, 
+        MaxAesKeyBytes = 32,
 
         [EnumMember]
         [SpecTypeName("MAX_ECC_KEY_BYTES")]
-        MaxEccKeyBytes = 48, 
+        MaxEccKeyBytes = 48,
 
         [EnumMember]
         [SpecTypeName("LABEL_MAX_BUFFER")]
-        LabelMaxBuffer = 32, 
+        LabelMaxBuffer = 32,
 
         [EnumMember]
         [SpecTypeName("_TPM_CAP_SIZE")]
-        _TpmCapSize = sizeof(uint),  // 0x4
+        _TpmCapSize = sizeof(uint), // 0x4
 
         [EnumMember]
         [SpecTypeName("MAX_CAP_DATA")]
-        MaxCapData = (1024/*MAX_CAP_BUFFER*/-_TpmCapSize-sizeof(uint)),  // 0x3F8
+        MaxCapData = (1024/*MAX_CAP_BUFFER*/-_TpmCapSize-sizeof(uint)), // 0x3F8
 
         [EnumMember]
         [SpecTypeName("MAX_CAP_ALGS")]
-        MaxCapAlgs = (MaxCapData / 0x6/*sizeof(TPMS_ALG_PROPERTY)*/),  // 0xA9
+        MaxCapAlgs = (MaxCapData / 0x6/*sizeof(TPMS_ALG_PROPERTY)*/), // 0xA9
 
         [EnumMember]
         [SpecTypeName("MAX_CAP_HANDLES")]
-        MaxCapHandles = (MaxCapData / 0x4/*sizeof(TPM_HANDLE)*/),  // 0xFE
+        MaxCapHandles = (MaxCapData / 0x4/*sizeof(TPM_HANDLE)*/), // 0xFE
 
         [EnumMember]
         [SpecTypeName("MAX_TPM_PROPERTIES")]
-        MaxTpmProperties = (MaxCapData / 0x8/*sizeof(TPMS_TAGGED_PROPERTY)*/),  // 0x7F
+        MaxTpmProperties = (MaxCapData / 0x8/*sizeof(TPMS_TAGGED_PROPERTY)*/), // 0x7F
 
         [EnumMember]
         [SpecTypeName("MAX_PCR_PROPERTIES")]
-        MaxPcrProperties = (MaxCapData / 0x5/*sizeof(TPMS_TAGGED_PCR_SELECT)*/),  // 0xCB
+        MaxPcrProperties = (MaxCapData / 0x5/*sizeof(TPMS_TAGGED_PCR_SELECT)*/), // 0xCB
 
         [EnumMember]
         [SpecTypeName("MAX_ECC_CURVES")]
-        MaxEccCurves = (MaxCapData / sizeof(EccCurve)),  // 0x1FC
+        MaxEccCurves = (MaxCapData / sizeof(EccCurve)), // 0x1FC
 
         [EnumMember]
         [SpecTypeName("MAX_TAGGED_POLICIES")]
-        MaxTaggedPolicies = (MaxCapData / 0x46/*sizeof(TPMS_TAGGED_POLICY)*/),  // 0xE
+        MaxTaggedPolicies = (MaxCapData / 0x46/*sizeof(TPMS_TAGGED_POLICY)*/), // 0xE
 
         [EnumMember]
         [SpecTypeName("MAX_AC_CAPABILITIES")]
-        MaxAcCapabilities = (MaxCapData / 0x8/*sizeof(TPMS_AC_OUTPUT)*/),  // 0x7F
+        MaxAcCapabilities = (MaxCapData / 0x8/*sizeof(TPMS_AC_OUTPUT)*/), // 0x7F
 
         [EnumMember]
         [SpecTypeName("MAX_ACT_DATA")]
@@ -1196,414 +1196,414 @@ namespace Tpm2Lib
 
         [EnumMember]
         [SpecTypeName("TPM_RC_SUCCESS")]
-        Success = 0x000, 
+        Success = 0x000,
 
         /// <summary> Defined for compatibility with TPM 1.2 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_BAD_TAG")]
-        BadTag = 0x01E, 
+        BadTag = 0x01E,
 
         /// <summary> Set for all format 0 response codes </summary>
         [EnumMember]
         [SpecTypeName("RC_VER1")]
-        RcVer1 = 0x100, 
+        RcVer1 = 0x100,
 
         /// <summary> TPM not initialized by TPM2_Startup or already initialized </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_INITIALIZE")]
-        Initialize = RcVer1 + 0x000,  // 0x100
+        Initialize = RcVer1 + 0x000, // 0x100
 
         /// <summary> Commands not being accepted because of a TPM failure
         /// NOTE This may be returned by TPM2_GetTestResult() as the testResult parameter. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_FAILURE")]
-        Failure = RcVer1 + 0x001,  // 0x101
+        Failure = RcVer1 + 0x001, // 0x101
 
         /// <summary> Improper use of a sequence handle </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SEQUENCE")]
-        Sequence = RcVer1 + 0x003,  // 0x103
+        Sequence = RcVer1 + 0x003, // 0x103
 
         /// <summary> Not currently used </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_PRIVATE")]
-        Private = RcVer1 + 0x00B,  // 0x10B
+        Private = RcVer1 + 0x00B, // 0x10B
 
         /// <summary> Not currently used </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_HMAC")]
-        Hmac = RcVer1 + 0x019,  // 0x119
+        Hmac = RcVer1 + 0x019, // 0x119
 
         /// <summary> The command is disabled </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_DISABLED")]
-        Disabled = RcVer1 + 0x020,  // 0x120
+        Disabled = RcVer1 + 0x020, // 0x120
 
         /// <summary> Command failed because audit sequence required exclusivity </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_EXCLUSIVE")]
-        Exclusive = RcVer1 + 0x021,  // 0x121
+        Exclusive = RcVer1 + 0x021, // 0x121
 
         /// <summary> Authorization handle is not correct for command </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTH_TYPE")]
-        AuthType = RcVer1 + 0x024,  // 0x124
+        AuthType = RcVer1 + 0x024, // 0x124
 
         /// <summary> Command requires an authorization session for handle and it is not present. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTH_MISSING")]
-        AuthMissing = RcVer1 + 0x025,  // 0x125
+        AuthMissing = RcVer1 + 0x025, // 0x125
 
         /// <summary> Policy failure in math operation or an invalid authPolicy value </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_POLICY")]
-        Policy = RcVer1 + 0x026,  // 0x126
+        Policy = RcVer1 + 0x026, // 0x126
 
         /// <summary> PCR check fail </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_PCR")]
-        Pcr = RcVer1 + 0x027,  // 0x127
+        Pcr = RcVer1 + 0x027, // 0x127
 
         /// <summary> PCR have changed since checked. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_PCR_CHANGED")]
-        PcrChanged = RcVer1 + 0x028,  // 0x128
+        PcrChanged = RcVer1 + 0x028, // 0x128
 
         /// <summary> For all commands other than TPM2_FieldUpgradeData(), this code indicates
         /// that the TPM is in field upgrade mode; for TPM2_FieldUpgradeData(), this code
         /// indicates that the TPM is not in field upgrade mode </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_UPGRADE")]
-        Upgrade = RcVer1 + 0x02D,  // 0x12D
+        Upgrade = RcVer1 + 0x02D, // 0x12D
 
         /// <summary> Context ID counter is at maximum. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_TOO_MANY_CONTEXTS")]
-        TooManyContexts = RcVer1 + 0x02E,  // 0x12E
+        TooManyContexts = RcVer1 + 0x02E, // 0x12E
 
         /// <summary> AuthValue or authPolicy is not available for selected entity. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTH_UNAVAILABLE")]
-        AuthUnavailable = RcVer1 + 0x02F,  // 0x12F
+        AuthUnavailable = RcVer1 + 0x02F, // 0x12F
 
         /// <summary> A _TPM_Init and Startup(CLEAR) is required before the TPM can resume
         /// operation. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REBOOT")]
-        Reboot = RcVer1 + 0x030,  // 0x130
+        Reboot = RcVer1 + 0x030, // 0x130
 
         /// <summary> The protection algorithms (hash and symmetric) are not reasonably balanced.
         /// The digest size of the hash must be larger than the key size of the symmetric
         /// algorithm. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_UNBALANCED")]
-        Unbalanced = RcVer1 + 0x031,  // 0x131
+        Unbalanced = RcVer1 + 0x031, // 0x131
 
         /// <summary> Command commandSize value is inconsistent with contents of the command
         /// buffer; either the size is not the same as the octets loaded by the hardware interface
         /// layer or the value is not large enough to hold a command header </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_COMMAND_SIZE")]
-        CommandSize = RcVer1 + 0x042,  // 0x142
+        CommandSize = RcVer1 + 0x042, // 0x142
 
         /// <summary> Command code not supported </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_COMMAND_CODE")]
-        CommandCode = RcVer1 + 0x043,  // 0x143
+        CommandCode = RcVer1 + 0x043, // 0x143
 
         /// <summary> The value of authorizationSize is out of range or the number of octets in
         /// the Authorization Area is greater than required </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTHSIZE")]
-        Authsize = RcVer1 + 0x044,  // 0x144
+        Authsize = RcVer1 + 0x044, // 0x144
 
         /// <summary> Use of an authorization session with a context command or another command
         /// that cannot have an authorization session. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTH_CONTEXT")]
-        AuthContext = RcVer1 + 0x045,  // 0x145
+        AuthContext = RcVer1 + 0x045, // 0x145
 
         /// <summary> NV offset+size is out of range. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_RANGE")]
-        NvRange = RcVer1 + 0x046,  // 0x146
+        NvRange = RcVer1 + 0x046, // 0x146
 
         /// <summary> Requested allocation size is larger than allowed. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_SIZE")]
-        NvSize = RcVer1 + 0x047,  // 0x147
+        NvSize = RcVer1 + 0x047, // 0x147
 
         /// <summary> NV access locked. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_LOCKED")]
-        NvLocked = RcVer1 + 0x048,  // 0x148
+        NvLocked = RcVer1 + 0x048, // 0x148
 
         /// <summary> NV access authorization fails in command actions (this failure does not
         /// affect lockout.action) </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_AUTHORIZATION")]
-        NvAuthorization = RcVer1 + 0x049,  // 0x149
+        NvAuthorization = RcVer1 + 0x049, // 0x149
 
         /// <summary> An NV Index is used before being initialized or the state saved by
         /// TPM2_Shutdown(STATE) could not be restored </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_UNINITIALIZED")]
-        NvUninitialized = RcVer1 + 0x04A,  // 0x14A
+        NvUninitialized = RcVer1 + 0x04A, // 0x14A
 
         /// <summary> Insufficient space for NV allocation </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_SPACE")]
-        NvSpace = RcVer1 + 0x04B,  // 0x14B
+        NvSpace = RcVer1 + 0x04B, // 0x14B
 
         /// <summary> NV Index or persistent object already defined </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_DEFINED")]
-        NvDefined = RcVer1 + 0x04C,  // 0x14C
+        NvDefined = RcVer1 + 0x04C, // 0x14C
 
         /// <summary> Context in TPM2_ContextLoad() is not valid </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_BAD_CONTEXT")]
-        BadContext = RcVer1 + 0x050,  // 0x150
+        BadContext = RcVer1 + 0x050, // 0x150
 
         /// <summary> CpHash value already set or not correct for use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_CPHASH")]
-        Cphash = RcVer1 + 0x051,  // 0x151
+        Cphash = RcVer1 + 0x051, // 0x151
 
         /// <summary> Handle for parent is not a valid parent </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_PARENT")]
-        Parent = RcVer1 + 0x052,  // 0x152
+        Parent = RcVer1 + 0x052, // 0x152
 
         /// <summary> Some function needs testing. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NEEDS_TEST")]
-        NeedsTest = RcVer1 + 0x053,  // 0x153
+        NeedsTest = RcVer1 + 0x053, // 0x153
 
         /// <summary> Returned when an internal function cannot process a request due to an
         /// unspecified problem. This code is usually related to invalid parameters that are not
         /// properly filtered by the input unmarshaling code. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NO_RESULT")]
-        NoResult = RcVer1 + 0x054,  // 0x154
+        NoResult = RcVer1 + 0x054, // 0x154
 
         /// <summary> The sensitive area did not unmarshal correctly after decryption this code is
         /// used in lieu of the other unmarshaling errors so that an attacker cannot determine
         /// where the unmarshaling error occurred </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SENSITIVE")]
-        Sensitive = RcVer1 + 0x055,  // 0x155
+        Sensitive = RcVer1 + 0x055, // 0x155
 
         /// <summary> Largest version 1 code that is not a warning </summary>
         [EnumMember]
         [SpecTypeName("RC_MAX_FM0")]
-        RcMaxFm0 = RcVer1 + 0x07F,  // 0x17F
+        RcMaxFm0 = RcVer1 + 0x07F, // 0x17F
 
         /// <summary> This bit is SET in all format 1 response codes
         /// The codes in this group may have a value added to them to indicate the handle,
         /// session, or parameter to which they apply. </summary>
         [EnumMember]
         [SpecTypeName("RC_FMT1")]
-        RcFmt1 = 0x080, 
+        RcFmt1 = 0x080,
 
         /// <summary> Asymmetric algorithm not supported or not correct </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_ASYMMETRIC")]
-        Asymmetric = RcFmt1 + 0x001,  // 0x81
+        Asymmetric = RcFmt1 + 0x001, // 0x81
 
         /// <summary> Inconsistent attributes </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_ATTRIBUTES")]
-        Attributes = RcFmt1 + 0x002,  // 0x82
+        Attributes = RcFmt1 + 0x002, // 0x82
 
         /// <summary> Hash algorithm not supported or not appropriate </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_HASH")]
-        Hash = RcFmt1 + 0x003,  // 0x83
+        Hash = RcFmt1 + 0x003, // 0x83
 
         /// <summary> Value is out of range or is not correct for the context </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_VALUE")]
-        Value = RcFmt1 + 0x004,  // 0x84
+        Value = RcFmt1 + 0x004, // 0x84
 
         /// <summary> Hierarchy is not enabled or is not correct for the use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_HIERARCHY")]
-        Hierarchy = RcFmt1 + 0x005,  // 0x85
+        Hierarchy = RcFmt1 + 0x005, // 0x85
 
         /// <summary> Key size is not supported </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_KEY_SIZE")]
-        KeySize = RcFmt1 + 0x007,  // 0x87
+        KeySize = RcFmt1 + 0x007, // 0x87
 
         /// <summary> Mask generation function not supported </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_MGF")]
-        Mgf = RcFmt1 + 0x008,  // 0x88
+        Mgf = RcFmt1 + 0x008, // 0x88
 
         /// <summary> Mode of operation not supported </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_MODE")]
-        Mode = RcFmt1 + 0x009,  // 0x89
+        Mode = RcFmt1 + 0x009, // 0x89
 
         /// <summary> The type of the value is not appropriate for the use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_TYPE")]
-        Type = RcFmt1 + 0x00A,  // 0x8A
+        Type = RcFmt1 + 0x00A, // 0x8A
 
         /// <summary> The handle is not correct for the use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_HANDLE")]
-        Handle = RcFmt1 + 0x00B,  // 0x8B
+        Handle = RcFmt1 + 0x00B, // 0x8B
 
         /// <summary> Unsupported key derivation function or function not appropriate for use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_KDF")]
-        Kdf = RcFmt1 + 0x00C,  // 0x8C
+        Kdf = RcFmt1 + 0x00C, // 0x8C
 
         /// <summary> Value was out of allowed range. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_RANGE")]
-        Range = RcFmt1 + 0x00D,  // 0x8D
+        Range = RcFmt1 + 0x00D, // 0x8D
 
         /// <summary> The authorization HMAC check failed and DA counter incremented </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_AUTH_FAIL")]
-        AuthFail = RcFmt1 + 0x00E,  // 0x8E
+        AuthFail = RcFmt1 + 0x00E, // 0x8E
 
         /// <summary> Invalid nonce size or nonce value mismatch </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NONCE")]
-        Nonce = RcFmt1 + 0x00F,  // 0x8F
+        Nonce = RcFmt1 + 0x00F, // 0x8F
 
         /// <summary> Authorization requires assertion of PP </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_PP")]
-        Pp = RcFmt1 + 0x010,  // 0x90
+        Pp = RcFmt1 + 0x010, // 0x90
 
         /// <summary> Unsupported or incompatible scheme </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SCHEME")]
-        Scheme = RcFmt1 + 0x012,  // 0x92
+        Scheme = RcFmt1 + 0x012, // 0x92
 
         /// <summary> Structure is the wrong size </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SIZE")]
-        Size = RcFmt1 + 0x015,  // 0x95
+        Size = RcFmt1 + 0x015, // 0x95
 
         /// <summary> Unsupported symmetric algorithm or key size, or not appropriate for instance
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SYMMETRIC")]
-        Symmetric = RcFmt1 + 0x016,  // 0x96
+        Symmetric = RcFmt1 + 0x016, // 0x96
 
         /// <summary> Incorrect structure tag </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_TAG")]
-        Tag = RcFmt1 + 0x017,  // 0x97
+        Tag = RcFmt1 + 0x017, // 0x97
 
         /// <summary> Union selector is incorrect </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SELECTOR")]
-        Selector = RcFmt1 + 0x018,  // 0x98
+        Selector = RcFmt1 + 0x018, // 0x98
 
         /// <summary> The TPM was unable to unmarshal a value because there were not enough octets
         /// in the input buffer </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_INSUFFICIENT")]
-        Insufficient = RcFmt1 + 0x01A,  // 0x9A
+        Insufficient = RcFmt1 + 0x01A, // 0x9A
 
         /// <summary> The signature is not valid </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SIGNATURE")]
-        Signature = RcFmt1 + 0x01B,  // 0x9B
+        Signature = RcFmt1 + 0x01B, // 0x9B
 
         /// <summary> Key fields are not compatible with the selected use </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_KEY")]
-        Key = RcFmt1 + 0x01C,  // 0x9C
+        Key = RcFmt1 + 0x01C, // 0x9C
 
         /// <summary> A policy check failed </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_POLICY_FAIL")]
-        PolicyFail = RcFmt1 + 0x01D,  // 0x9D
+        PolicyFail = RcFmt1 + 0x01D, // 0x9D
 
         /// <summary> Integrity check failed </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_INTEGRITY")]
-        Integrity = RcFmt1 + 0x01F,  // 0x9F
+        Integrity = RcFmt1 + 0x01F, // 0x9F
 
         /// <summary> Invalid ticket </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_TICKET")]
-        Ticket = RcFmt1 + 0x020,  // 0xA0
+        Ticket = RcFmt1 + 0x020, // 0xA0
 
         /// <summary> Reserved bits not set to zero as required </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_RESERVED_BITS")]
-        ReservedBits = RcFmt1 + 0x021,  // 0xA1
+        ReservedBits = RcFmt1 + 0x021, // 0xA1
 
         /// <summary> Authorization failure without DA implications </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_BAD_AUTH")]
-        BadAuth = RcFmt1 + 0x022,  // 0xA2
+        BadAuth = RcFmt1 + 0x022, // 0xA2
 
         /// <summary> The policy has expired </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_EXPIRED")]
-        Expired = RcFmt1 + 0x023,  // 0xA3
+        Expired = RcFmt1 + 0x023, // 0xA3
 
         /// <summary> The commandCode in the policy is not the commandCode of the command or the
         /// command code in a policy command references a command that is not implemented </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_POLICY_CC")]
-        PolicyCc = RcFmt1 + 0x024,  // 0xA4
+        PolicyCc = RcFmt1 + 0x024, // 0xA4
 
         /// <summary> Public and sensitive portions of an object are not cryptographically bound </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_BINDING")]
-        Binding = RcFmt1 + 0x025,  // 0xA5
+        Binding = RcFmt1 + 0x025, // 0xA5
 
         /// <summary> Curve not supported </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_CURVE")]
-        Curve = RcFmt1 + 0x026,  // 0xA6
+        Curve = RcFmt1 + 0x026, // 0xA6
 
         /// <summary> Point is not on the required curve. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_ECC_POINT")]
-        EccPoint = RcFmt1 + 0x027,  // 0xA7
+        EccPoint = RcFmt1 + 0x027, // 0xA7
 
         /// <summary> Set for warning response codes </summary>
         [EnumMember]
         [SpecTypeName("RC_WARN")]
-        RcWarn = 0x900, 
+        RcWarn = 0x900,
 
         /// <summary> Gap for context ID is too large </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_CONTEXT_GAP")]
-        ContextGap = RcWarn + 0x001,  // 0x901
+        ContextGap = RcWarn + 0x001, // 0x901
 
         /// <summary> Out of memory for object contexts </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_OBJECT_MEMORY")]
-        ObjectMemory = RcWarn + 0x002,  // 0x902
+        ObjectMemory = RcWarn + 0x002, // 0x902
 
         /// <summary> Out of memory for session contexts </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SESSION_MEMORY")]
-        SessionMemory = RcWarn + 0x003,  // 0x903
+        SessionMemory = RcWarn + 0x003, // 0x903
 
         /// <summary> Out of shared object/session memory or need space for internal operations </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_MEMORY")]
-        Memory = RcWarn + 0x004,  // 0x904
+        Memory = RcWarn + 0x004, // 0x904
 
         /// <summary> Out of session handles a session must be flushed before a new session may be
         /// created </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_SESSION_HANDLES")]
-        SessionHandles = RcWarn + 0x005,  // 0x905
+        SessionHandles = RcWarn + 0x005, // 0x905
 
         /// <summary> Out of object handles the handle space for objects is depleted and a reboot
         /// is required
@@ -1612,12 +1612,12 @@ namespace Tpm2Lib
         /// deplete handle space. Platform specifications are encouraged to forbid it. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_OBJECT_HANDLES")]
-        ObjectHandles = RcWarn + 0x006,  // 0x906
+        ObjectHandles = RcWarn + 0x006, // 0x906
 
         /// <summary> Bad locality </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_LOCALITY")]
-        Locality = RcWarn + 0x007,  // 0x907
+        Locality = RcWarn + 0x007, // 0x907
 
         /// <summary> The TPM has suspended operation on the command; forward progress was made
         /// and the command may be retried
@@ -1625,400 +1625,400 @@ namespace Tpm2Lib
         /// NOTE This cannot occur on the reference implementation. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_YIELDED")]
-        Yielded = RcWarn + 0x008,  // 0x908
+        Yielded = RcWarn + 0x008, // 0x908
 
         /// <summary> The command was canceled </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_CANCELED")]
-        Canceled = RcWarn + 0x009,  // 0x909
+        Canceled = RcWarn + 0x009, // 0x909
 
         /// <summary> TPM is performing self-tests </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_TESTING")]
-        Testing = RcWarn + 0x00A,  // 0x90A
+        Testing = RcWarn + 0x00A, // 0x90A
 
         /// <summary> The 1st handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H0")]
-        ReferenceH0 = RcWarn + 0x010,  // 0x910
+        ReferenceH0 = RcWarn + 0x010, // 0x910
 
         /// <summary> The 2nd handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H1")]
-        ReferenceH1 = RcWarn + 0x011,  // 0x911
+        ReferenceH1 = RcWarn + 0x011, // 0x911
 
         /// <summary> The 3rd handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H2")]
-        ReferenceH2 = RcWarn + 0x012,  // 0x912
+        ReferenceH2 = RcWarn + 0x012, // 0x912
 
         /// <summary> The 4th handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H3")]
-        ReferenceH3 = RcWarn + 0x013,  // 0x913
+        ReferenceH3 = RcWarn + 0x013, // 0x913
 
         /// <summary> The 5th handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H4")]
-        ReferenceH4 = RcWarn + 0x014,  // 0x914
+        ReferenceH4 = RcWarn + 0x014, // 0x914
 
         /// <summary> The 6th handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H5")]
-        ReferenceH5 = RcWarn + 0x015,  // 0x915
+        ReferenceH5 = RcWarn + 0x015, // 0x915
 
         /// <summary> The 7th handle in the handle area references a transient object or session
         /// that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_H6")]
-        ReferenceH6 = RcWarn + 0x016,  // 0x916
+        ReferenceH6 = RcWarn + 0x016, // 0x916
 
         /// <summary> The 1st authorization session handle references a session that is not loaded
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S0")]
-        ReferenceS0 = RcWarn + 0x018,  // 0x918
+        ReferenceS0 = RcWarn + 0x018, // 0x918
 
         /// <summary> The 2nd authorization session handle references a session that is not loaded
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S1")]
-        ReferenceS1 = RcWarn + 0x019,  // 0x919
+        ReferenceS1 = RcWarn + 0x019, // 0x919
 
         /// <summary> The 3rd authorization session handle references a session that is not loaded
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S2")]
-        ReferenceS2 = RcWarn + 0x01A,  // 0x91A
+        ReferenceS2 = RcWarn + 0x01A, // 0x91A
 
         /// <summary> The 4th authorization session handle references a session that is not loaded
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S3")]
-        ReferenceS3 = RcWarn + 0x01B,  // 0x91B
+        ReferenceS3 = RcWarn + 0x01B, // 0x91B
 
         /// <summary> The 5th session handle references a session that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S4")]
-        ReferenceS4 = RcWarn + 0x01C,  // 0x91C
+        ReferenceS4 = RcWarn + 0x01C, // 0x91C
 
         /// <summary> The 6th session handle references a session that is not loaded </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S5")]
-        ReferenceS5 = RcWarn + 0x01D,  // 0x91D
+        ReferenceS5 = RcWarn + 0x01D, // 0x91D
 
         /// <summary> The 7th authorization session handle references a session that is not loaded
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_REFERENCE_S6")]
-        ReferenceS6 = RcWarn + 0x01E,  // 0x91E
+        ReferenceS6 = RcWarn + 0x01E, // 0x91E
 
         /// <summary> The TPM is rate-limiting accesses to prevent wearout of NV </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_RATE")]
-        NvRate = RcWarn + 0x020,  // 0x920
+        NvRate = RcWarn + 0x020, // 0x920
 
         /// <summary> Authorizations for objects subject to DA protection are not allowed at this
         /// time because the TPM is in DA lockout mode </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_LOCKOUT")]
-        Lockout = RcWarn + 0x021,  // 0x921
+        Lockout = RcWarn + 0x021, // 0x921
 
         /// <summary> The TPM was not able to start the command </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_RETRY")]
-        Retry = RcWarn + 0x022,  // 0x922
+        Retry = RcWarn + 0x022, // 0x922
 
         /// <summary> The command may require writing of NV and NV is not current accessible </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NV_UNAVAILABLE")]
-        NvUnavailable = RcWarn + 0x023,  // 0x923
+        NvUnavailable = RcWarn + 0x023, // 0x923
 
         /// <summary> This value is reserved and shall not be returned by the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_NOT_USED")]
-        NotUsed = RcWarn + 0x7F,  // 0x97F
+        NotUsed = RcWarn + 0x7F, // 0x97F
 
         /// <summary> Add to a handle-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_H")]
-        H = 0x000, 
+        H = 0x000,
 
         /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_P")]
-        P = 0x040, 
+        P = 0x040,
 
         /// <summary> Add to a session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_S")]
-        S = 0x800, 
+        S = 0x800,
 
         /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_1")]
-        _1 = 0x100, 
+        _1 = 0x100,
 
         /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_2")]
-        _2 = 0x200, 
+        _2 = 0x200,
 
         /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_3")]
-        _3 = 0x300, 
+        _3 = 0x300,
 
         /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_4")]
-        _4 = 0x400, 
+        _4 = 0x400,
 
         /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_5")]
-        _5 = 0x500, 
+        _5 = 0x500,
 
         /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_6")]
-        _6 = 0x600, 
+        _6 = 0x600,
 
         /// <summary> Add to a parameter-, handle-, or session-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_7")]
-        _7 = 0x700, 
+        _7 = 0x700,
 
         /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_8")]
-        _8 = 0x800, 
+        _8 = 0x800,
 
         /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_9")]
-        _9 = 0x900, 
+        _9 = 0x900,
 
         /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_A")]
-        A = 0xA00, 
+        A = 0xA00,
 
         /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_B")]
-        B = 0xB00, 
+        B = 0xB00,
 
         /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_C")]
-        C = 0xC00, 
+        C = 0xC00,
 
         /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_D")]
-        D = 0xD00, 
+        D = 0xD00,
 
         /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_E")]
-        E = 0xE00, 
+        E = 0xE00,
 
         /// <summary> Add to a parameter-related error </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_F")]
-        F = 0xF00, 
+        F = 0xF00,
 
         /// <summary> Number mask </summary>
         [EnumMember]
         [SpecTypeName("TPM_RC_N_MASK")]
-        NMask = 0xF00, 
+        NMask = 0xF00,
 
         /// <summary> Response buffer returned by the TPM is too short </summary>
         [EnumMember]
         [SpecTypeName("TSS_TCP_BAD_HANDSHAKE_RESP")]
-        TssTcpBadHandshakeResp = 0x40280001, 
+        TssTcpBadHandshakeResp = 0x40280001,
 
         /// <summary> Too old TCP server version </summary>
         [EnumMember]
         [SpecTypeName("TSS_TCP_SERVER_TOO_OLD")]
-        TssTcpServerTooOld = 0x40280002, 
+        TssTcpServerTooOld = 0x40280002,
 
         /// <summary> Bad ack from the TCP end point </summary>
         [EnumMember]
         [SpecTypeName("TSS_TCP_BAD_ACK")]
-        TssTcpBadAck = 0x40280003, 
+        TssTcpBadAck = 0x40280003,
 
         /// <summary> Wrong length of the response buffer returned by the TPM </summary>
         [EnumMember]
         [SpecTypeName("TSS_TCP_BAD_RESP_LEN")]
-        TssTcpBadRespLen = 0x40280004, 
+        TssTcpBadRespLen = 0x40280004,
 
         /// <summary> TPM2_Startup returned unexpected response code </summary>
         [EnumMember]
         [SpecTypeName("TSS_TCP_UNEXPECTED_STARTUP_RESP")]
-        TssTcpUnexpectedStartupResp = 0x40280005, 
+        TssTcpUnexpectedStartupResp = 0x40280005,
 
         /// <summary> Invalid size tag in the TPM response TCP packet </summary>
         [EnumMember]
         [SpecTypeName("TSS_TCP_INVALID_SIZE_TAG")]
-        TssTcpInvalidSizeTag = 0x40280006, 
+        TssTcpInvalidSizeTag = 0x40280006,
 
         /// <summary> TPM over TCP device is not connected </summary>
         [EnumMember]
         [SpecTypeName("TSS_TCP_DISCONNECTED")]
-        TssTcpDisconnected = 0x40280007, 
+        TssTcpDisconnected = 0x40280007,
 
         /// <summary> General TPM command dispatch failure </summary>
         [EnumMember]
         [SpecTypeName("TSS_DISPATCH_FAILED")]
-        TssDispatchFailed = 0x40280010, 
+        TssDispatchFailed = 0x40280010,
 
         /// <summary> Sending data to TPM failed </summary>
         [EnumMember]
         [SpecTypeName("TSS_SEND_OP_FAILED")]
-        TssSendOpFailed = 0x40280011, 
+        TssSendOpFailed = 0x40280011,
 
         /// <summary> Response buffer returned by the TPM is too short </summary>
         [EnumMember]
         [SpecTypeName("TSS_RESP_BUF_TOO_SHORT")]
-        TssRespBufTooShort = 0x40280021, 
+        TssRespBufTooShort = 0x40280021,
 
         /// <summary> Invalid tag in the response buffer returned by the TPM </summary>
         [EnumMember]
         [SpecTypeName("TSS_RESP_BUF_INVALID_SESSION_TAG")]
-        TssRespBufInvalidSessionTag = 0x40280022, 
+        TssRespBufInvalidSessionTag = 0x40280022,
 
         /// <summary> Inconsistent TPM response parameters size </summary>
         [EnumMember]
         [SpecTypeName("TSS_RESP_BUF_INVALID_SIZE")]
-        TssRespBufInvalidSize = 0x40280023, 
+        TssRespBufInvalidSize = 0x40280023,
 
         /// <summary> Windows TBS error TPM_E_COMMAND_BLOCKED </summary>
         [EnumMember]
         [SpecTypeName("TBS_COMMAND_BLOCKED")]
-        TbsCommandBlocked = 0x80280400, 
+        TbsCommandBlocked = 0x80280400,
 
         /// <summary> Windows TBS error TPM_E_INVALID_HANDLE </summary>
         [EnumMember]
         [SpecTypeName("TBS_INVALID_HANDLE")]
-        TbsInvalidHandle = 0x80280401, 
+        TbsInvalidHandle = 0x80280401,
 
         /// <summary> Windows TBS error TPM_E_DUPLICATE_VHANDLE </summary>
         [EnumMember]
         [SpecTypeName("TBS_DUPLICATE_V_HANDLE")]
-        TbsDuplicateVHandle = 0x80280402, 
+        TbsDuplicateVHandle = 0x80280402,
 
         /// <summary> Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED </summary>
         [EnumMember]
         [SpecTypeName("TBS_EMBEDDED_COMMAND_BLOCKED")]
-        TbsEmbeddedCommandBlocked = 0x80280403, 
+        TbsEmbeddedCommandBlocked = 0x80280403,
 
         /// <summary> Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED </summary>
         [EnumMember]
         [SpecTypeName("TBS_EMBEDDED_COMMAND_UNSUPPORTED")]
-        TbsEmbeddedCommandUnsupported = 0x80280404, 
+        TbsEmbeddedCommandUnsupported = 0x80280404,
 
         /// <summary> Windows TBS returned success but empty response buffer </summary>
         [EnumMember]
         [SpecTypeName("TBS_UNKNOWN_ERROR")]
-        TbsUnknownError = 0x80284000, 
+        TbsUnknownError = 0x80284000,
 
         /// <summary> Windows TBS error TBS_E_INTERNAL_ERROR </summary>
         [EnumMember]
         [SpecTypeName("TBS_INTERNAL_ERROR")]
-        TbsInternalError = 0x80284001, 
+        TbsInternalError = 0x80284001,
 
         /// <summary> Windows TBS error TBS_E_BAD_PARAMETER </summary>
         [EnumMember]
         [SpecTypeName("TBS_BAD_PARAMETER")]
-        TbsBadParameter = 0x80284002, 
+        TbsBadParameter = 0x80284002,
 
         /// <summary> Windows TBS error TBS_E_INVALID_OUTPUT_POINTER </summary>
         [EnumMember]
         [SpecTypeName("TBS_INVALID_OUTPUT_POINTER")]
-        TbsInvalidOutputPointer = 0x80284003, 
+        TbsInvalidOutputPointer = 0x80284003,
 
         /// <summary> Windows TBS error TBS_E_INVALID_CONTEXT </summary>
         [EnumMember]
         [SpecTypeName("TBS_INVALID_CONTEXT")]
-        TbsInvalidContext = 0x80284004, 
+        TbsInvalidContext = 0x80284004,
 
         /// <summary> Windows TBS error TBS_E_INSUFFICIENT_BUFFER </summary>
         [EnumMember]
         [SpecTypeName("TBS_INSUFFICIENT_BUFFER")]
-        TbsInsufficientBuffer = 0x80284005, 
+        TbsInsufficientBuffer = 0x80284005,
 
         /// <summary> Windows TBS error TBS_E_IOERROR </summary>
         [EnumMember]
         [SpecTypeName("TBS_IO_ERROR")]
-        TbsIoError = 0x80284006, 
+        TbsIoError = 0x80284006,
 
         /// <summary> Windows TBS error TBS_E_INVALID_CONTEXT_PARAM </summary>
         [EnumMember]
         [SpecTypeName("TBS_INVALID_CONTEXT_PARAM")]
-        TbsInvalidContextParam = 0x80284007, 
+        TbsInvalidContextParam = 0x80284007,
 
         /// <summary> Windows TBS error TBS_E_SERVICE_NOT_RUNNING </summary>
         [EnumMember]
         [SpecTypeName("TBS_SERVICE_NOT_RUNNING")]
-        TbsServiceNotRunning = 0x80284008, 
+        TbsServiceNotRunning = 0x80284008,
 
         /// <summary> Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS </summary>
         [EnumMember]
         [SpecTypeName("TBS_TOO_MANY_CONTEXTS")]
-        TbsTooManyContexts = 0x80284009, 
+        TbsTooManyContexts = 0x80284009,
 
         /// <summary> Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES </summary>
         [EnumMember]
         [SpecTypeName("TBS_TOO_MANY_RESOURCES")]
-        TbsTooManyResources = 0x8028400A, 
+        TbsTooManyResources = 0x8028400A,
 
         /// <summary> Windows TBS error TBS_E_SERVICE_START_PENDING </summary>
         [EnumMember]
         [SpecTypeName("TBS_SERVICE_START_PENDING")]
-        TbsServiceStartPending = 0x8028400B, 
+        TbsServiceStartPending = 0x8028400B,
 
         /// <summary> Windows TBS error TBS_E_PPI_NOT_SUPPORTED </summary>
         [EnumMember]
         [SpecTypeName("TBS_PPI_NOT_SUPPORTED")]
-        TbsPpiNotSupported = 0x8028400C, 
+        TbsPpiNotSupported = 0x8028400C,
 
         /// <summary> Windows TBS error TBS_E_COMMAND_CANCELED </summary>
         [EnumMember]
         [SpecTypeName("TBS_COMMAND_CANCELED")]
-        TbsCommandCanceled = 0x8028400D, 
+        TbsCommandCanceled = 0x8028400D,
 
         /// <summary> Windows TBS error TBS_E_BUFFER_TOO_LARGE </summary>
         [EnumMember]
         [SpecTypeName("TBS_BUFFER_TOO_LARGE")]
-        TbsBufferTooLarge = 0x8028400E, 
+        TbsBufferTooLarge = 0x8028400E,
 
         /// <summary> Windows TBS error TBS_E_TPM_NOT_FOUND </summary>
         [EnumMember]
         [SpecTypeName("TBS_TPM_NOT_FOUND")]
-        TbsTpmNotFound = 0x8028400F, 
+        TbsTpmNotFound = 0x8028400F,
 
         /// <summary> Windows TBS error TBS_E_SERVICE_DISABLED </summary>
         [EnumMember]
         [SpecTypeName("TBS_SERVICE_DISABLED")]
-        TbsServiceDisabled = 0x80284010, 
+        TbsServiceDisabled = 0x80284010,
 
         /// <summary> Windows TBS error TBS_E_ACCESS_DENIED </summary>
         [EnumMember]
         [SpecTypeName("TBS_ACCESS_DENIED")]
-        TbsAccessDenied = 0x80284012, 
+        TbsAccessDenied = 0x80284012,
 
         /// <summary> Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED </summary>
         [EnumMember]
         [SpecTypeName("TBS_PPI_FUNCTION_NOT_SUPPORTED")]
-        TbsPpiFunctionNotSupported = 0x80284014, 
+        TbsPpiFunctionNotSupported = 0x80284014,
 
         /// <summary> Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND </summary>
         [EnumMember]
@@ -2040,42 +2040,42 @@ namespace Tpm2Lib
         [SpecTypeName("TPM_CLOCK_COARSE_SLOWER")]
         CoarseSlower = unchecked ((sbyte)(-3)),
         [Obsolete("Use ClockAdjust.CoarseSlower instead")]
-        TpmClockCoarseSlower = -3, 
+        TpmClockCoarseSlower = -3,
 
         /// <summary> Slow the Clock update rate by one medium adjustment step. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_MEDIUM_SLOWER")]
         MediumSlower = unchecked ((sbyte)(-2)),
         [Obsolete("Use ClockAdjust.MediumSlower instead")]
-        TpmClockMediumSlower = -2, 
+        TpmClockMediumSlower = -2,
 
         /// <summary> Slow the Clock update rate by one fine adjustment step. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_FINE_SLOWER")]
         FineSlower = unchecked ((sbyte)(-1)),
         [Obsolete("Use ClockAdjust.FineSlower instead")]
-        TpmClockFineSlower = -1, 
+        TpmClockFineSlower = -1,
 
         /// <summary> No change to the Clock update rate. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_NO_CHANGE")]
         NoChange = 0,
         [Obsolete("Use ClockAdjust.NoChange instead")]
-        TpmClockNoChange = 0, 
+        TpmClockNoChange = 0,
 
         /// <summary> Speed the Clock update rate by one fine adjustment step. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_FINE_FASTER")]
         FineFaster = 1,
         [Obsolete("Use ClockAdjust.FineFaster instead")]
-        TpmClockFineFaster = 1, 
+        TpmClockFineFaster = 1,
 
         /// <summary> Speed the Clock update rate by one medium adjustment step. </summary>
         [EnumMember]
         [SpecTypeName("TPM_CLOCK_MEDIUM_FASTER")]
         MediumFaster = 2,
         [Obsolete("Use ClockAdjust.MediumFaster instead")]
-        TpmClockMediumFaster = 2, 
+        TpmClockMediumFaster = 2,
 
         /// <summary> Speed the Clock update rate by one coarse adjustment step. </summary>
         [EnumMember]
@@ -2095,57 +2095,57 @@ namespace Tpm2Lib
         /// <summary> A = B </summary>
         [EnumMember]
         [SpecTypeName("TPM_EO_EQ")]
-        Eq = 0x0000, 
+        Eq = 0x0000,
 
         /// <summary> A B </summary>
         [EnumMember]
         [SpecTypeName("TPM_EO_NEQ")]
-        Neq = 0x0001, 
+        Neq = 0x0001,
 
         /// <summary> A ? B signed </summary>
         [EnumMember]
         [SpecTypeName("TPM_EO_SIGNED_GT")]
-        SignedGt = 0x0002, 
+        SignedGt = 0x0002,
 
         /// <summary> A ? B unsigned </summary>
         [EnumMember]
         [SpecTypeName("TPM_EO_UNSIGNED_GT")]
-        UnsignedGt = 0x0003, 
+        UnsignedGt = 0x0003,
 
         /// <summary> A ? B signed </summary>
         [EnumMember]
         [SpecTypeName("TPM_EO_SIGNED_LT")]
-        SignedLt = 0x0004, 
+        SignedLt = 0x0004,
 
         /// <summary> A ? B unsigned </summary>
         [EnumMember]
         [SpecTypeName("TPM_EO_UNSIGNED_LT")]
-        UnsignedLt = 0x0005, 
+        UnsignedLt = 0x0005,
 
         /// <summary> A B signed </summary>
         [EnumMember]
         [SpecTypeName("TPM_EO_SIGNED_GE")]
-        SignedGe = 0x0006, 
+        SignedGe = 0x0006,
 
         /// <summary> A B unsigned </summary>
         [EnumMember]
         [SpecTypeName("TPM_EO_UNSIGNED_GE")]
-        UnsignedGe = 0x0007, 
+        UnsignedGe = 0x0007,
 
         /// <summary> A B signed </summary>
         [EnumMember]
         [SpecTypeName("TPM_EO_SIGNED_LE")]
-        SignedLe = 0x0008, 
+        SignedLe = 0x0008,
 
         /// <summary> A B unsigned </summary>
         [EnumMember]
         [SpecTypeName("TPM_EO_UNSIGNED_LE")]
-        UnsignedLe = 0x0009, 
+        UnsignedLe = 0x0009,
 
         /// <summary> All bits SET in B are SET in A. ((A?B)=B) </summary>
         [EnumMember]
         [SpecTypeName("TPM_EO_BITSET")]
-        Bitset = 0x000A, 
+        Bitset = 0x000A,
 
         /// <summary> All bits SET in B are CLEAR in A. ((A?B)=0) </summary>
         [EnumMember]
@@ -2177,12 +2177,12 @@ namespace Tpm2Lib
         /// return the old value instead of the new value. </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_RSP_COMMAND")]
-        RspCommand = 0x00C4, 
+        RspCommand = 0x00C4,
 
         /// <summary> No structure type specified </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_NULL")]
-        Null = 0X8000, 
+        Null = 0X8000,
 
         /// <summary> Tag value for a command/response for a command defined in this
         /// specification; indicating that the command/response has no attached sessions and no
@@ -2191,79 +2191,79 @@ namespace Tpm2Lib
         /// have this value. </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_NO_SESSIONS")]
-        NoSessions = 0x8001, 
+        NoSessions = 0x8001,
 
         /// <summary> Tag value for a command/response for a command defined in this
         /// specification; indicating that the command/response has one or more attached sessions
         /// and the authorizationSize/parameterSize field is present </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_SESSIONS")]
-        Sessions = 0x8002, 
+        Sessions = 0x8002,
 
         /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_NV")]
-        AttestNv = 0x8014, 
+        AttestNv = 0x8014,
 
         /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_COMMAND_AUDIT")]
-        AttestCommandAudit = 0x8015, 
+        AttestCommandAudit = 0x8015,
 
         /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_SESSION_AUDIT")]
-        AttestSessionAudit = 0x8016, 
+        AttestSessionAudit = 0x8016,
 
         /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_CERTIFY")]
-        AttestCertify = 0x8017, 
+        AttestCertify = 0x8017,
 
         /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_QUOTE")]
-        AttestQuote = 0x8018, 
+        AttestQuote = 0x8018,
 
         /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_TIME")]
-        AttestTime = 0x8019, 
+        AttestTime = 0x8019,
 
         /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_CREATION")]
-        AttestCreation = 0x801A, 
+        AttestCreation = 0x801A,
 
         /// <summary> Tag for an attestation structure </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_ATTEST_NV_DIGEST")]
-        AttestNvDigest = 0x801C, 
+        AttestNvDigest = 0x801C,
 
         /// <summary> Tag for a ticket type </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_CREATION")]
-        Creation = 0x8021, 
+        Creation = 0x8021,
 
         /// <summary> Tag for a ticket type </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_VERIFIED")]
-        Verified = 0x8022, 
+        Verified = 0x8022,
 
         /// <summary> Tag for a ticket type </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_AUTH_SECRET")]
-        AuthSecret = 0x8023, 
+        AuthSecret = 0x8023,
 
         /// <summary> Tag for a ticket type </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_HASHCHECK")]
-        Hashcheck = 0x8024, 
+        Hashcheck = 0x8024,
 
         /// <summary> Tag for a ticket type </summary>
         [EnumMember]
         [SpecTypeName("TPM_ST_AUTH_SIGNED")]
-        AuthSigned = 0x8025, 
+        AuthSigned = 0x8025,
 
         /// <summary> Tag for a structure describing a Field Upgrade Policy </summary>
         [EnumMember]
@@ -2284,7 +2284,7 @@ namespace Tpm2Lib
         /// on TPM2_Startup(), indicates that the TPM should perform TPM Reset or TPM Restart </summary>
         [EnumMember]
         [SpecTypeName("TPM_SU_CLEAR")]
-        Clear = 0x0000, 
+        Clear = 0x0000,
 
         /// <summary> On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power
         /// and save state required for an orderly startup (TPM Restart or TPM Resume)
@@ -2305,11 +2305,11 @@ namespace Tpm2Lib
 
         [EnumMember]
         [SpecTypeName("TPM_SE_HMAC")]
-        Hmac = 0x00, 
+        Hmac = 0x00,
 
         [EnumMember]
         [SpecTypeName("TPM_SE_POLICY")]
-        Policy = 0x01, 
+        Policy = 0x01,
 
         /// <summary> The policy session is being used to compute the policyHash and not for
         /// command authorization.
@@ -2331,66 +2331,66 @@ namespace Tpm2Lib
 
         [EnumMember]
         [SpecTypeName("TPM_CAP_FIRST")]
-        First = 0x00000000, 
+        First = 0x00000000,
 
         /// <summary> TPML_ALG_PROPERTY </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_ALGS")]
-        Algs = 0x00000000, 
+        Algs = 0x00000000,
 
         /// <summary> TPML_HANDLE </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_HANDLES")]
-        Handles = 0x00000001, 
+        Handles = 0x00000001,
 
         /// <summary> TPML_CCA </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_COMMANDS")]
-        Commands = 0x00000002, 
+        Commands = 0x00000002,
 
         /// <summary> TPML_CC </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_PP_COMMANDS")]
-        PpCommands = 0x00000003, 
+        PpCommands = 0x00000003,
 
         /// <summary> TPML_CC </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_AUDIT_COMMANDS")]
-        AuditCommands = 0x00000004, 
+        AuditCommands = 0x00000004,
 
         /// <summary> TPML_PCR_SELECTION </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_PCRS")]
-        Pcrs = 0x00000005, 
+        Pcrs = 0x00000005,
 
         /// <summary> TPML_TAGGED_TPM_PROPERTY </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_TPM_PROPERTIES")]
-        TpmProperties = 0x00000006, 
+        TpmProperties = 0x00000006,
 
         /// <summary> TPML_TAGGED_PCR_PROPERTY </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_PCR_PROPERTIES")]
-        PcrProperties = 0x00000007, 
+        PcrProperties = 0x00000007,
 
         /// <summary> TPML_ECC_CURVE </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_ECC_CURVES")]
-        EccCurves = 0x00000008, 
+        EccCurves = 0x00000008,
 
         /// <summary> TPML_TAGGED_POLICY </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_AUTH_POLICIES")]
-        AuthPolicies = 0x00000009, 
+        AuthPolicies = 0x00000009,
 
         /// <summary> TPML_ACT_DATA </summary>
         [EnumMember]
         [SpecTypeName("TPM_CAP_ACT")]
-        Act = 0x0000000A, 
+        Act = 0x0000000A,
 
         [EnumMember]
         [SpecTypeName("TPM_CAP_LAST")]
-        Last = 0x0000000A, 
+        Last = 0x0000000A,
 
         /// <summary> Manufacturer-specific values </summary>
         [EnumMember]
@@ -2407,40 +2407,40 @@ namespace Tpm2Lib
         /// <summary> Indicates no property type </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NONE")]
-        None = 0x00000000, 
+        None = 0x00000000,
 
         /// <summary> The number of properties in each group.
         /// NOTE The first group with any properties is group 1 (PT_GROUP * 1). Group 0 is
         /// reserved. </summary>
         [EnumMember]
         [SpecTypeName("PT_GROUP")]
-        PtGroup = 0x00000100, 
+        PtGroup = 0x00000100,
 
         /// <summary> The group of fixed properties returned as TPMS_TAGGED_PROPERTY
         /// The values in this group are only changed due to a firmware change in the TPM. </summary>
         [EnumMember]
         [SpecTypeName("PT_FIXED")]
-        PtFixed = PtGroup * 1,  // 0x100
+        PtFixed = PtGroup * 1, // 0x100
 
         /// <summary> A 4-octet character string containing the TPM Family value (TPM_SPEC_FAMILY)
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_FAMILY_INDICATOR")]
-        FamilyIndicator = PtFixed + 0,  // 0x100
+        FamilyIndicator = PtFixed + 0, // 0x100
 
         /// <summary> The level of the specification
         /// NOTE 1 For this specification, the level is zero.
         /// NOTE 2 The level is on the title page of the specification. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LEVEL")]
-        Level = PtFixed + 1,  // 0x101
+        Level = PtFixed + 1, // 0x101
 
         /// <summary> The specification Revision times 100
         /// EXAMPLE Revision 01.01 would have a value of 101.
         /// NOTE The Revision value is on the title page of the specification. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_REVISION")]
-        Revision = PtFixed + 2,  // 0x102
+        Revision = PtFixed + 2, // 0x102
 
         /// <summary> The specification day of year using TCG calendar
         /// EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16).
@@ -2448,7 +2448,7 @@ namespace Tpm2Lib
         /// 6.1). </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_DAY_OF_YEAR")]
-        DayOfYear = PtFixed + 3,  // 0x103
+        DayOfYear = PtFixed + 3, // 0x103
 
         /// <summary> The specification year using the CE
         /// EXAMPLE The year 2010 has a value of 000007DA16.
@@ -2456,12 +2456,12 @@ namespace Tpm2Lib
         /// 6.1). </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_YEAR")]
-        Year = PtFixed + 4,  // 0x104
+        Year = PtFixed + 4, // 0x104
 
         /// <summary> The vendor ID unique to each TPM manufacturer </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MANUFACTURER")]
-        Manufacturer = PtFixed + 5,  // 0x105
+        Manufacturer = PtFixed + 5, // 0x105
 
         /// <summary> The first four characters of the vendor ID string
         /// NOTE When the vendor string is fewer than 16 octets, the additional property values do
@@ -2469,65 +2469,65 @@ namespace Tpm2Lib
         /// value and no null terminating character is required. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_VENDOR_STRING_1")]
-        VendorString1 = PtFixed + 6,  // 0x106
+        VendorString1 = PtFixed + 6, // 0x106
 
         /// <summary> The second four characters of the vendor ID string </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_VENDOR_STRING_2")]
-        VendorString2 = PtFixed + 7,  // 0x107
+        VendorString2 = PtFixed + 7, // 0x107
 
         /// <summary> The third four characters of the vendor ID string </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_VENDOR_STRING_3")]
-        VendorString3 = PtFixed + 8,  // 0x108
+        VendorString3 = PtFixed + 8, // 0x108
 
         /// <summary> The fourth four characters of the vendor ID sting </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_VENDOR_STRING_4")]
-        VendorString4 = PtFixed + 9,  // 0x109
+        VendorString4 = PtFixed + 9, // 0x109
 
         /// <summary> Vendor-defined value indicating the TPM model </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_VENDOR_TPM_TYPE")]
-        VendorTpmType = PtFixed + 10,  // 0x10A
+        VendorTpmType = PtFixed + 10, // 0x10A
 
         /// <summary> The most-significant 32 bits of a TPM vendor-specific value indicating the
         /// version number of the firmware. See 10.12.2 and 10.12.12. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_FIRMWARE_VERSION_1")]
-        FirmwareVersion1 = PtFixed + 11,  // 0x10B
+        FirmwareVersion1 = PtFixed + 11, // 0x10B
 
         /// <summary> The least-significant 32 bits of a TPM vendor-specific value indicating the
         /// version number of the firmware. See 10.12.2 and 10.12.12. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_FIRMWARE_VERSION_2")]
-        FirmwareVersion2 = PtFixed + 12,  // 0x10C
+        FirmwareVersion2 = PtFixed + 12, // 0x10C
 
         /// <summary> The maximum size of a parameter (typically, a TPM2B_MAX_BUFFER) </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_INPUT_BUFFER")]
-        InputBuffer = PtFixed + 13,  // 0x10D
+        InputBuffer = PtFixed + 13, // 0x10D
 
         /// <summary> The minimum number of transient objects that can be held in TPM RAM
         /// NOTE This minimum shall be no less than the minimum value required by the
         /// platform-specific specification to which the TPM is built. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_TRANSIENT_MIN")]
-        HrTransientMin = PtFixed + 14,  // 0x10E
+        HrTransientMin = PtFixed + 14, // 0x10E
 
         /// <summary> The minimum number of persistent objects that can be held in TPM NV memory
         /// NOTE This minimum shall be no less than the minimum value required by the
         /// platform-specific specification to which the TPM is built. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_PERSISTENT_MIN")]
-        HrPersistentMin = PtFixed + 15,  // 0x10F
+        HrPersistentMin = PtFixed + 15, // 0x10F
 
         /// <summary> The minimum number of authorization sessions that can be held in TPM RAM
         /// NOTE This minimum shall be no less than the minimum value required by the
         /// platform-specific specification to which the TPM is built. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_LOADED_MIN")]
-        HrLoadedMin = PtFixed + 16,  // 0x110
+        HrLoadedMin = PtFixed + 16, // 0x110
 
         /// <summary> The number of authorization sessions that may be active at a time
         /// A session is active when it has a context associated with its handle. The context may
@@ -2536,14 +2536,14 @@ namespace Tpm2Lib
         /// platform-specific specification to which the TPM is built. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_ACTIVE_SESSIONS_MAX")]
-        ActiveSessionsMax = PtFixed + 17,  // 0x111
+        ActiveSessionsMax = PtFixed + 17, // 0x111
 
         /// <summary> The number of PCR implemented
         /// NOTE This number is determined by the defined attributes, not the number of PCR that
         /// are populated. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_COUNT")]
-        PcrCount = PtFixed + 18,  // 0x112
+        PcrCount = PtFixed + 18, // 0x112
 
         /// <summary> The minimum number of octets in a TPMS_PCR_SELECT.sizeOfSelect
         /// NOTE This value is not determined by the number of PCR implemented but by the number
@@ -2551,14 +2551,14 @@ namespace Tpm2Lib
         /// or by the implementer if not adhering to a platform-specific specification. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_SELECT_MIN")]
-        PcrSelectMin = PtFixed + 19,  // 0x113
+        PcrSelectMin = PtFixed + 19, // 0x113
 
         /// <summary> The maximum allowed difference (unsigned) between the contextID values of
         /// two saved session contexts
         /// This value shall be 2n-1, where n is at least 16. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_CONTEXT_GAP_MAX")]
-        ContextGapMax = PtFixed + 20,  // 0x114
+        ContextGapMax = PtFixed + 20, // 0x114
 
         /// <summary> The maximum number of NV Indexes that are allowed to have the TPM_NT_COUNTER
         /// attribute
@@ -2569,39 +2569,39 @@ namespace Tpm2Lib
         /// indexes is determined by the available NV memory pool. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_COUNTERS_MAX")]
-        NvCountersMax = PtFixed + 22,  // 0x116
+        NvCountersMax = PtFixed + 22, // 0x116
 
         /// <summary> The maximum size of an NV Index data area </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_INDEX_MAX")]
-        NvIndexMax = PtFixed + 23,  // 0x117
+        NvIndexMax = PtFixed + 23, // 0x117
 
         /// <summary> A TPMA_MEMORY indicating the memory management method for the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MEMORY")]
-        Memory = PtFixed + 24,  // 0x118
+        Memory = PtFixed + 24, // 0x118
 
         /// <summary> Interval, in milliseconds, between updates to the copy of
         /// TPMS_CLOCK_INFO.clock in NV </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_CLOCK_UPDATE")]
-        ClockUpdate = PtFixed + 25,  // 0x119
+        ClockUpdate = PtFixed + 25, // 0x119
 
         /// <summary> The algorithm used for the integrity HMAC on saved contexts and for hashing
         /// the fuData of TPM2_FirmwareRead() </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_CONTEXT_HASH")]
-        ContextHash = PtFixed + 26,  // 0x11A
+        ContextHash = PtFixed + 26, // 0x11A
 
         /// <summary> TPM_ALG_ID, the algorithm used for encryption of saved contexts </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_CONTEXT_SYM")]
-        ContextSym = PtFixed + 27,  // 0x11B
+        ContextSym = PtFixed + 27, // 0x11B
 
         /// <summary> TPM_KEY_BITS, the size of the key used for encryption of saved contexts </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_CONTEXT_SYM_SIZE")]
-        ContextSymSize = PtFixed + 28,  // 0x11C
+        ContextSymSize = PtFixed + 28, // 0x11C
 
         /// <summary> The modulus - 1 of the count for NV update of an orderly counter
         /// The returned value is MAX_ORDERLY_COUNT.
@@ -2612,34 +2612,34 @@ namespace Tpm2Lib
         /// the next increment. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_ORDERLY_COUNT")]
-        OrderlyCount = PtFixed + 29,  // 0x11D
+        OrderlyCount = PtFixed + 29, // 0x11D
 
         /// <summary> The maximum value for commandSize in a command </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_COMMAND_SIZE")]
-        MaxCommandSize = PtFixed + 30,  // 0x11E
+        MaxCommandSize = PtFixed + 30, // 0x11E
 
         /// <summary> The maximum value for responseSize in a response </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_RESPONSE_SIZE")]
-        MaxResponseSize = PtFixed + 31,  // 0x11F
+        MaxResponseSize = PtFixed + 31, // 0x11F
 
         /// <summary> The maximum size of a digest that can be produced by the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_DIGEST")]
-        MaxDigest = PtFixed + 32,  // 0x120
+        MaxDigest = PtFixed + 32, // 0x120
 
         /// <summary> The maximum size of an object context that will be returned by
         /// TPM2_ContextSave </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_OBJECT_CONTEXT")]
-        MaxObjectContext = PtFixed + 33,  // 0x121
+        MaxObjectContext = PtFixed + 33, // 0x121
 
         /// <summary> The maximum size of a session context that will be returned by
         /// TPM2_ContextSave </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_SESSION_CONTEXT")]
-        MaxSessionContext = PtFixed + 34,  // 0x122
+        MaxSessionContext = PtFixed + 34, // 0x122
 
         /// <summary> Platform-specific family (a TPM_PS value)(see Table 25)
         /// NOTE The platform-specific values for the TPM_PT_PS parameters are in the relevant
@@ -2647,66 +2647,66 @@ namespace Tpm2Lib
         /// are 0. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PS_FAMILY_INDICATOR")]
-        PsFamilyIndicator = PtFixed + 35,  // 0x123
+        PsFamilyIndicator = PtFixed + 35, // 0x123
 
         /// <summary> The level of the platform-specific specification </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PS_LEVEL")]
-        PsLevel = PtFixed + 36,  // 0x124
+        PsLevel = PtFixed + 36, // 0x124
 
         /// <summary> A platform specific value </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PS_REVISION")]
-        PsRevision = PtFixed + 37,  // 0x125
+        PsRevision = PtFixed + 37, // 0x125
 
         /// <summary> The platform-specific TPM specification day of year using TCG calendar
         /// EXAMPLE November 15, 2010, has a day of year value of 319 (0000013F16). </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PS_DAY_OF_YEAR")]
-        PsDayOfYear = PtFixed + 38,  // 0x126
+        PsDayOfYear = PtFixed + 38, // 0x126
 
         /// <summary> The platform-specific TPM specification year using the CE
         /// EXAMPLE The year 2010 has a value of 000007DA16. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PS_YEAR")]
-        PsYear = PtFixed + 39,  // 0x127
+        PsYear = PtFixed + 39, // 0x127
 
         /// <summary> The number of split signing operations supported by the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_SPLIT_MAX")]
-        SplitMax = PtFixed + 40,  // 0x128
+        SplitMax = PtFixed + 40, // 0x128
 
         /// <summary> Total number of commands implemented in the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_TOTAL_COMMANDS")]
-        TotalCommands = PtFixed + 41,  // 0x129
+        TotalCommands = PtFixed + 41, // 0x129
 
         /// <summary> Number of commands from the TPM library that are implemented </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LIBRARY_COMMANDS")]
-        LibraryCommands = PtFixed + 42,  // 0x12A
+        LibraryCommands = PtFixed + 42, // 0x12A
 
         /// <summary> Number of vendor commands that are implemented </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_VENDOR_COMMANDS")]
-        VendorCommands = PtFixed + 43,  // 0x12B
+        VendorCommands = PtFixed + 43, // 0x12B
 
         /// <summary> The maximum data size in one NV write, NV read, NV extend, or NV certify
         /// command </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_BUFFER_MAX")]
-        NvBufferMax = PtFixed + 44,  // 0x12C
+        NvBufferMax = PtFixed + 44, // 0x12C
 
         /// <summary> A TPMA_MODES value, indicating that the TPM is designed for these modes. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MODES")]
-        Modes = PtFixed + 45,  // 0x12D
+        Modes = PtFixed + 45, // 0x12D
 
         /// <summary> The maximum size of a TPMS_CAPABILITY_DATA structure returned in
         /// TPM2_GetCapability(). </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_CAP_BUFFER")]
-        MaxCapBuffer = PtFixed + 46,  // 0x12E
+        MaxCapBuffer = PtFixed + 46, // 0x12E
 
         /// <summary> The group of variable properties returned as TPMS_TAGGED_PROPERTY
         /// The properties in this group change because of a Protected Capability other than a
@@ -2714,27 +2714,27 @@ namespace Tpm2Lib
         /// transitions. </summary>
         [EnumMember]
         [SpecTypeName("PT_VAR")]
-        PtVar = PtGroup * 2,  // 0x200
+        PtVar = PtGroup * 2, // 0x200
 
         /// <summary> TPMA_PERMANENT </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PERMANENT")]
-        Permanent = PtVar + 0,  // 0x200
+        Permanent = PtVar + 0, // 0x200
 
         /// <summary> TPMA_STARTUP_CLEAR </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_STARTUP_CLEAR")]
-        StartupClear = PtVar + 1,  // 0x201
+        StartupClear = PtVar + 1, // 0x201
 
         /// <summary> The number of NV Indexes currently defined </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_NV_INDEX")]
-        HrNvIndex = PtVar + 2,  // 0x202
+        HrNvIndex = PtVar + 2, // 0x202
 
         /// <summary> The number of authorization sessions currently loaded into TPM RAM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_LOADED")]
-        HrLoaded = PtVar + 3,  // 0x203
+        HrLoaded = PtVar + 3, // 0x203
 
         /// <summary> The number of additional authorization sessions, of any type, that could be
         /// loaded into TPM RAM
@@ -2745,13 +2745,13 @@ namespace Tpm2Lib
         /// would fit into RAM. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_LOADED_AVAIL")]
-        HrLoadedAvail = PtVar + 4,  // 0x204
+        HrLoadedAvail = PtVar + 4, // 0x204
 
         /// <summary> The number of active authorization sessions currently being tracked by the TPM
         /// This is the sum of the loaded and saved sessions. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_ACTIVE")]
-        HrActive = PtVar + 5,  // 0x205
+        HrActive = PtVar + 5, // 0x205
 
         /// <summary> The number of additional authorization sessions, of any type, that could be created
         /// This value is an estimate. If this value is at least 1, then at least one
@@ -2761,7 +2761,7 @@ namespace Tpm2Lib
         /// could be created. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_ACTIVE_AVAIL")]
-        HrActiveAvail = PtVar + 6,  // 0x206
+        HrActiveAvail = PtVar + 6, // 0x206
 
         /// <summary> Estimate of the number of additional transient objects that could be loaded
         /// into TPM RAM
@@ -2772,12 +2772,12 @@ namespace Tpm2Lib
         /// fit into RAM. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_TRANSIENT_AVAIL")]
-        HrTransientAvail = PtVar + 7,  // 0x207
+        HrTransientAvail = PtVar + 7, // 0x207
 
         /// <summary> The number of persistent objects currently loaded into TPM NV memory </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_PERSISTENT")]
-        HrPersistent = PtVar + 8,  // 0x208
+        HrPersistent = PtVar + 8, // 0x208
 
         /// <summary> The number of additional persistent objects that could be loaded into NV memory
         /// This value is an estimate. If this value is at least 1, then at least one object of
@@ -2787,12 +2787,12 @@ namespace Tpm2Lib
         /// fit into NV memory. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_HR_PERSISTENT_AVAIL")]
-        HrPersistentAvail = PtVar + 9,  // 0x209
+        HrPersistentAvail = PtVar + 9, // 0x209
 
         /// <summary> The number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_COUNTERS")]
-        NvCounters = PtVar + 10,  // 0x20A
+        NvCounters = PtVar + 10, // 0x20A
 
         /// <summary> The number of additional NV Indexes that can be defined with their TPM_NT of
         /// TPM_NV_COUNTER and the TPMA_NV_ORDERLY attribute SET
@@ -2803,51 +2803,51 @@ namespace Tpm2Lib
         /// defined. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_COUNTERS_AVAIL")]
-        NvCountersAvail = PtVar + 11,  // 0x20B
+        NvCountersAvail = PtVar + 11, // 0x20B
 
         /// <summary> Code that limits the algorithms that may be used with the TPM </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_ALGORITHM_SET")]
-        AlgorithmSet = PtVar + 12,  // 0x20C
+        AlgorithmSet = PtVar + 12, // 0x20C
 
         /// <summary> The number of loaded ECC curves </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LOADED_CURVES")]
-        LoadedCurves = PtVar + 13,  // 0x20D
+        LoadedCurves = PtVar + 13, // 0x20D
 
         /// <summary> The current value of the lockout counter (failedTries) </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LOCKOUT_COUNTER")]
-        LockoutCounter = PtVar + 14,  // 0x20E
+        LockoutCounter = PtVar + 14, // 0x20E
 
         /// <summary> The number of authorization failures before DA lockout is invoked </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_MAX_AUTH_FAIL")]
-        MaxAuthFail = PtVar + 15,  // 0x20F
+        MaxAuthFail = PtVar + 15, // 0x20F
 
         /// <summary> The number of seconds before the value reported by TPM_PT_LOCKOUT_COUNTER is
         /// decremented </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LOCKOUT_INTERVAL")]
-        LockoutInterval = PtVar + 16,  // 0x210
+        LockoutInterval = PtVar + 16, // 0x210
 
         /// <summary> The number of seconds after a lockoutAuth failure before use of lockoutAuth
         /// may be attempted again </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_LOCKOUT_RECOVERY")]
-        LockoutRecovery = PtVar + 17,  // 0x211
+        LockoutRecovery = PtVar + 17, // 0x211
 
         /// <summary> Number of milliseconds before the TPM will accept another command that will
         /// modify NV
         /// This value is an approximation and may go up or down over time. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_NV_WRITE_RECOVERY")]
-        NvWriteRecovery = PtVar + 18,  // 0x212
+        NvWriteRecovery = PtVar + 18, // 0x212
 
         /// <summary> The high-order 32 bits of the command audit counter </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_AUDIT_COUNTER_0")]
-        AuditCounter0 = PtVar + 19,  // 0x213
+        AuditCounter0 = PtVar + 19, // 0x213
 
         /// <summary> The low-order 32 bits of the command audit counter </summary>
         [EnumMember]
@@ -2868,108 +2868,108 @@ namespace Tpm2Lib
         /// <summary> Bottom of the range of TPM_PT_PCR properties </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_FIRST")]
-        First = 0x00000000, 
+        First = 0x00000000,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and
         /// restored by TPM_SU_STATE </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_SAVE")]
-        Save = 0x00000000, 
+        Save = 0x00000000,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
         /// locality 0
         /// This property is only present if a locality other than 0 is implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_EXTEND_L0")]
-        ExtendL0 = 0x00000001, 
+        ExtendL0 = 0x00000001,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
         /// TPM2_PCR_Reset() from locality 0 </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_RESET_L0")]
-        ResetL0 = 0x00000002, 
+        ResetL0 = 0x00000002,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
         /// locality 1
         /// This property is only present if locality 1 is implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_EXTEND_L1")]
-        ExtendL1 = 0x00000003, 
+        ExtendL1 = 0x00000003,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
         /// TPM2_PCR_Reset() from locality 1
         /// This property is only present if locality 1 is implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_RESET_L1")]
-        ResetL1 = 0x00000004, 
+        ResetL1 = 0x00000004,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
         /// locality 2
         /// This property is only present if localities 1 and 2 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_EXTEND_L2")]
-        ExtendL2 = 0x00000005, 
+        ExtendL2 = 0x00000005,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
         /// TPM2_PCR_Reset() from locality 2
         /// This property is only present if localities 1 and 2 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_RESET_L2")]
-        ResetL2 = 0x00000006, 
+        ResetL2 = 0x00000006,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
         /// locality 3
         /// This property is only present if localities 1, 2, and 3 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_EXTEND_L3")]
-        ExtendL3 = 0x00000007, 
+        ExtendL3 = 0x00000007,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
         /// TPM2_PCR_Reset() from locality 3
         /// This property is only present if localities 1, 2, and 3 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_RESET_L3")]
-        ResetL3 = 0x00000008, 
+        ResetL3 = 0x00000008,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from
         /// locality 4
         /// This property is only present if localities 1, 2, 3, and 4 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_EXTEND_L4")]
-        ExtendL4 = 0x00000009, 
+        ExtendL4 = 0x00000009,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be reset by
         /// TPM2_PCR_Reset() from locality 4
         /// This property is only present if localities 1, 2, 3, and 4 are implemented. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_RESET_L4")]
-        ResetL4 = 0x0000000A, 
+        ResetL4 = 0x0000000A,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that modifications to this PCR
         /// (reset or Extend) will not increment the pcrUpdateCounter </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_NO_INCREMENT")]
-        NoIncrement = 0x00000011, 
+        NoIncrement = 0x00000011,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is reset by a D-RTM event
         /// These PCR are reset to -1 on TPM2_Startup() and reset to 0 on a _TPM_Hash_End event
         /// following a _TPM_Hash_Start event. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_DRTM_RESET")]
-        DrtmReset = 0x00000012, 
+        DrtmReset = 0x00000012,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by policy
         /// This property is only present if the TPM supports policy control of a PCR. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_POLICY")]
-        Policy = 0x00000013, 
+        Policy = 0x00000013,
 
         /// <summary> A SET bit in the TPMS_PCR_SELECT indicates that the PCR is controlled by an
         /// authorization value
         /// This property is only present if the TPM supports authorization control of a PCR. </summary>
         [EnumMember]
         [SpecTypeName("TPM_PT_PCR_AUTH")]
-        Auth = 0x00000014, 
+        Auth = 0x00000014,
 
         /// <summary> Top of the range of TPM_PT_PCR properties of the implementation
         /// If the TPM receives a request for a PCR property with a value larger than this, the
@@ -2992,77 +2992,77 @@ namespace Tpm2Lib
         /// <summary> Not platform specific </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_MAIN")]
-        Main = 0x00000000, 
+        Main = 0x00000000,
 
         /// <summary> PC Client </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_PC")]
-        Pc = 0x00000001, 
+        Pc = 0x00000001,
 
         /// <summary> PDA (includes all mobile devices that are not specifically cell phones) </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_PDA")]
-        Pda = 0x00000002, 
+        Pda = 0x00000002,
 
         /// <summary> Cell Phone </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_CELL_PHONE")]
-        CellPhone = 0x00000003, 
+        CellPhone = 0x00000003,
 
         /// <summary> Server WG </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_SERVER")]
-        Server = 0x00000004, 
+        Server = 0x00000004,
 
         /// <summary> Peripheral WG </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_PERIPHERAL")]
-        Peripheral = 0x00000005, 
+        Peripheral = 0x00000005,
 
         /// <summary> TSS WG (deprecated) </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_TSS")]
-        Tss = 0x00000006, 
+        Tss = 0x00000006,
 
         /// <summary> Storage WG </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_STORAGE")]
-        Storage = 0x00000007, 
+        Storage = 0x00000007,
 
         /// <summary> Authentication WG </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_AUTHENTICATION")]
-        Authentication = 0x00000008, 
+        Authentication = 0x00000008,
 
         /// <summary> Embedded WG </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_EMBEDDED")]
-        Embedded = 0x00000009, 
+        Embedded = 0x00000009,
 
         /// <summary> Hardcopy WG </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_HARDCOPY")]
-        Hardcopy = 0x0000000A, 
+        Hardcopy = 0x0000000A,
 
         /// <summary> Infrastructure WG (deprecated) </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_INFRASTRUCTURE")]
-        Infrastructure = 0x0000000B, 
+        Infrastructure = 0x0000000B,
 
         /// <summary> Virtualization WG </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_VIRTUALIZATION")]
-        Virtualization = 0x0000000C, 
+        Virtualization = 0x0000000C,
 
         /// <summary> Trusted Network Connect WG (deprecated) </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_TNC")]
-        Tnc = 0x0000000D, 
+        Tnc = 0x0000000D,
 
         /// <summary> Multi-tenant WG (deprecated) </summary>
         [EnumMember]
         [SpecTypeName("TPM_PS_MULTI_TENANT")]
-        MultiTenant = 0x0000000E, 
+        MultiTenant = 0x0000000E,
 
         /// <summary> Technical Committee (deprecated) </summary>
         [EnumMember]
@@ -3083,54 +3083,54 @@ namespace Tpm2Lib
         /// implementation may have more. </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_PCR")]
-        Pcr = 0x00, 
+        Pcr = 0x00,
 
         /// <summary> NV Index assigned by the caller </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_NV_INDEX")]
-        NvIndex = 0x01, 
+        NvIndex = 0x01,
 
         /// <summary> HMAC Authorization Session assigned by the TPM when the session is created </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_HMAC_SESSION")]
-        HmacSession = 0x02, 
+        HmacSession = 0x02,
 
         /// <summary> Loaded Authorization Session used only in the context of TPM2_GetCapability
         /// This type references both loaded HMAC and loaded policy authorization sessions. </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_LOADED_SESSION")]
-        LoadedSession = 0x02, 
+        LoadedSession = 0x02,
 
         /// <summary> Policy Authorization Session assigned by the TPM when the session is created
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_POLICY_SESSION")]
-        PolicySession = 0x03, 
+        PolicySession = 0x03,
 
         /// <summary> Saved Authorization Session used only in the context of TPM2_GetCapability
         /// This type references saved authorization session contexts for which the TPM is
         /// maintaining tracking information. </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_SAVED_SESSION")]
-        SavedSession = 0x03, 
+        SavedSession = 0x03,
 
         /// <summary> Permanent Values assigned by this specification in Table 28 </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_PERMANENT")]
-        Permanent = 0x40, 
+        Permanent = 0x40,
 
         /// <summary> Transient Objects assigned by the TPM when an object is loaded into
         /// transient-object memory or when a persistent object is converted to a transient object
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_TRANSIENT")]
-        Transient = 0x80, 
+        Transient = 0x80,
 
         /// <summary> Persistent Objects assigned by the TPM when a loaded transient object is
         /// made persistent </summary>
         [EnumMember]
         [SpecTypeName("TPM_HT_PERSISTENT")]
-        Persistent = 0x81, 
+        Persistent = 0x81,
 
         /// <summary> Attached Component handle for an Attached Component. </summary>
         [EnumMember]
@@ -3148,85 +3148,85 @@ namespace Tpm2Lib
 
         [EnumMember]
         [SpecTypeName("TPM_RH_FIRST")]
-        First = 0x40000000, 
+        First = 0x40000000,
 
         /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_SRK")]
-        Srk = 0x40000000, 
+        Srk = 0x40000000,
 
         /// <summary> Handle references the Storage Primary Seed (SPS), the ownerAuth, and the
         /// ownerPolicy </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_OWNER")]
-        Owner = 0x40000001, 
+        Owner = 0x40000001,
 
         /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_REVOKE")]
-        Revoke = 0x40000002, 
+        Revoke = 0x40000002,
 
         /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_TRANSPORT")]
-        Transport = 0x40000003, 
+        Transport = 0x40000003,
 
         /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_OPERATOR")]
-        Operator = 0x40000004, 
+        Operator = 0x40000004,
 
         /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_ADMIN")]
-        Admin = 0x40000005, 
+        Admin = 0x40000005,
 
         /// <summary> Not used1 </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_EK")]
-        Ek = 0x40000006, 
+        Ek = 0x40000006,
 
         /// <summary> A handle associated with the null hierarchy, an EmptyAuth authValue, and an
         /// Empty Policy authPolicy. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_NULL")]
-        Null = 0x40000007, 
+        Null = 0x40000007,
 
         /// <summary> Value reserved to the TPM to indicate a handle location that has not been
         /// initialized or assigned </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_UNASSIGNED")]
-        Unassigned = 0x40000008, 
+        Unassigned = 0x40000008,
 
         /// <summary> Authorization value used to indicate a password authorization session </summary>
         [EnumMember]
         [SpecTypeName("TPM_RS_PW")]
         Pw = 0x40000009,
         [Obsolete("Use TpmRh.Pw instead")]
-        TpmRsPw = 0x40000009, 
+        TpmRsPw = 0x40000009,
 
         /// <summary> References the authorization associated with the dictionary attack lockout
         /// reset </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_LOCKOUT")]
-        Lockout = 0x4000000A, 
+        Lockout = 0x4000000A,
 
         /// <summary> References the Endorsement Primary Seed (EPS), endorsementAuth, and
         /// endorsementPolicy </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_ENDORSEMENT")]
-        Endorsement = 0x4000000B, 
+        Endorsement = 0x4000000B,
 
         /// <summary> References the Platform Primary Seed (PPS), platformAuth, and platformPolicy
         /// </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_PLATFORM")]
-        Platform = 0x4000000C, 
+        Platform = 0x4000000C,
 
         /// <summary> For phEnableNV </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_PLATFORM_NV")]
-        PlatformNv = 0x4000000D, 
+        PlatformNv = 0x4000000D,
 
         /// <summary> Start of a range of authorization values that are vendor-specific. A TPM may
         /// support any of the values in this range as are needed for vendor-specific purposes.
@@ -3234,22 +3234,22 @@ namespace Tpm2Lib
         /// NOTE Any includes none. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_AUTH_00")]
-        Auth00 = 0x40000010, 
+        Auth00 = 0x40000010,
 
         /// <summary> End of the range of vendor-specific authorization values. </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_AUTH_FF")]
-        AuthFf = 0x4000010F, 
+        AuthFf = 0x4000010F,
 
         /// <summary> Start of the range of authenticated timers </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_ACT_0")]
-        Act0 = 0x40000110, 
+        Act0 = 0x40000110,
 
         /// <summary> End of the range of authenticated timers </summary>
         [EnumMember]
         [SpecTypeName("TPM_RH_ACT_F")]
-        ActF = 0x4000011F, 
+        ActF = 0x4000011F,
 
         /// <summary> The top of the reserved handle area
         /// This is set to allow TPM2_GetCapability() to know where to stop. It may vary as
@@ -3271,31 +3271,31 @@ namespace Tpm2Lib
         /// using TPM2_NV_Write(). </summary>
         [EnumMember]
         [SpecTypeName("TPM_NT_ORDINARY")]
-        Ordinary = 0x0, 
+        Ordinary = 0x0,
 
         /// <summary> Counter contains an 8-octet value that is to be used as a counter and can
         /// only be modified with TPM2_NV_Increment() </summary>
         [EnumMember]
         [SpecTypeName("TPM_NT_COUNTER")]
-        Counter = 0x1, 
+        Counter = 0x1,
 
         /// <summary> Bit Field contains an 8-octet value to be used as a bit field and can only
         /// be modified with TPM2_NV_SetBits(). </summary>
         [EnumMember]
         [SpecTypeName("TPM_NT_BITS")]
-        Bits = 0x2, 
+        Bits = 0x2,
 
         /// <summary> Extend contains a digest-sized value used like a PCR. The Index can only be
         /// modified using TPM2_NV_Extend(). The extend will use the nameAlg of the Index. </summary>
         [EnumMember]
         [SpecTypeName("TPM_NT_EXTEND")]
-        Extend = 0x4, 
+        Extend = 0x4,
 
         /// <summary> PIN Fail - contains pinCount that increments on a PIN authorization failure
         /// and a pinLimit </summary>
         [EnumMember]
         [SpecTypeName("TPM_NT_PIN_FAIL")]
-        PinFail = 0x8, 
+        PinFail = 0x8,
 
         /// <summary> PIN Pass - contains pinCount that increments on a PIN authorization success
         /// and a pinLimit </summary>
@@ -3316,17 +3316,17 @@ namespace Tpm2Lib
         /// indicates that outputData is not meaningful </summary>
         [EnumMember]
         [SpecTypeName("TPM_AT_ANY")]
-        Any = 0x00000000, 
+        Any = 0x00000000,
 
         /// <summary> Indicates a TCG defined, device-specific error </summary>
         [EnumMember]
         [SpecTypeName("TPM_AT_ERROR")]
-        Error = 0x00000001, 
+        Error = 0x00000001,
 
         /// <summary> Indicates the most significant 32 bits of a pairing value for the AC </summary>
         [EnumMember]
         [SpecTypeName("TPM_AT_PV1")]
-        Pv1 = 0x00000002, 
+        Pv1 = 0x00000002,
 
         /// <summary> Value added to a TPM_AT to indicate a vendor-specific tag value </summary>
         [EnumMember]
@@ -3356,19 +3356,19 @@ namespace Tpm2Lib
 
         [EnumMember]
         [SpecTypeName("PLATFORM_FAMILY")]
-        Family = Spec.Family,  // 0x322E3000
+        Family = Spec.Family, // 0x322E3000
 
         [EnumMember]
         [SpecTypeName("PLATFORM_LEVEL")]
-        Level = Spec.Level,  // 0x0
+        Level = Spec.Level, // 0x0
 
         [EnumMember]
         [SpecTypeName("PLATFORM_VERSION")]
-        Version = Spec.Version,  // 0xA2
+        Version = Spec.Version, // 0xA2
 
         [EnumMember]
         [SpecTypeName("PLATFORM_YEAR")]
-        Year = Spec.Year,  // 0x7E3
+        Year = Spec.Year, // 0x7E3
 
         [EnumMember]
         [SpecTypeName("PLATFORM_DAY_OF_YEAR")]
@@ -3386,242 +3386,242 @@ namespace Tpm2Lib
         /// <summary> Temporary define </summary>
         [EnumMember]
         [SpecTypeName("FIELD_UPGRADE_IMPLEMENTED")]
-        FieldUpgradeImplemented = Logic.No,  // 0x0
+        FieldUpgradeImplemented = Logic.No, // 0x0
 
         /// <summary> Selection of the library that provides the basic hashing functions. </summary>
         [EnumMember]
         [SpecTypeName("HASH_LIB")]
-        HashLib = ImplementationConstants.Ossl,  // 0x1
+        HashLib = ImplementationConstants.Ossl, // 0x1
 
         /// <summary> Selection of the library that provides the low-level symmetric cryptography.
         /// Choices are determined by the vendor (See LibSupport.h for implications). </summary>
         [EnumMember]
         [SpecTypeName("SYM_LIB")]
-        SymLib = ImplementationConstants.Ossl,  // 0x1
+        SymLib = ImplementationConstants.Ossl, // 0x1
 
         /// <summary> Selection of the library that provides the big number math including ECC.
         /// Choices are determined by the vendor (See LibSupport.h for implications). </summary>
         [EnumMember]
         [SpecTypeName("MATH_LIB")]
-        MathLib = ImplementationConstants.Ossl,  // 0x1
+        MathLib = ImplementationConstants.Ossl, // 0x1
 
         /// <summary> The number of PCR in the TPM </summary>
         [EnumMember]
         [SpecTypeName("IMPLEMENTATION_PCR")]
-        ImplementationPcr = 24, 
+        ImplementationPcr = 24,
 
         [EnumMember]
         [SpecTypeName("PCR_SELECT_MAX")]
-        PcrSelectMax = ((ImplementationPcr+7)/8),  // 0x3
+        PcrSelectMax = ((ImplementationPcr+7)/8), // 0x3
 
         /// <summary> The number of PCR required by the relevant platform specification </summary>
         [EnumMember]
         [SpecTypeName("PLATFORM_PCR")]
-        PlatformPcr = 24, 
+        PlatformPcr = 24,
 
         [EnumMember]
         [SpecTypeName("PCR_SELECT_MIN")]
-        PcrSelectMin = ((PlatformPcr + 7) / 8),  // 0x3
+        PcrSelectMin = ((PlatformPcr + 7) / 8), // 0x3
 
         /// <summary> The D-RTM PCR
         /// NOTE This value is not defined when the TPM does not implement D-RTM </summary>
         [EnumMember]
         [SpecTypeName("DRTM_PCR")]
-        DrtmPcr = 17, 
+        DrtmPcr = 17,
 
         /// <summary> The PCR that will receive the H-CRTM value at TPM2_Startup. This value
         /// should not be changed. </summary>
         [EnumMember]
         [SpecTypeName("HCRTM_PCR")]
-        HcrtmPcr = 0, 
+        HcrtmPcr = 0,
 
         /// <summary> The number of localities supported by the TPM
         /// This is expected to be either 5 for a PC, or 1 for just about everything else. </summary>
         [EnumMember]
         [SpecTypeName("NUM_LOCALITIES")]
-        NumLocalities = 5, 
+        NumLocalities = 5,
 
         /// <summary> The maximum number of handles in the handle area
         /// This should be produced by the Part 3 parser but is here for now. </summary>
         [EnumMember]
         [SpecTypeName("MAX_HANDLE_NUM")]
-        MaxHandleNum = 3, 
+        MaxHandleNum = 3,
 
         /// <summary> The number of simultaneously active sessions that are supported by the TPM
         /// implementation </summary>
         [EnumMember]
         [SpecTypeName("MAX_ACTIVE_SESSIONS")]
-        MaxActiveSessions = 64, 
+        MaxActiveSessions = 64,
 
         /// <summary> The number of sessions that the TPM may have in memory </summary>
         [EnumMember]
         [SpecTypeName("MAX_LOADED_SESSIONS")]
-        MaxLoadedSessions = 3, 
+        MaxLoadedSessions = 3,
 
         /// <summary> This is the current maximum value </summary>
         [EnumMember]
         [SpecTypeName("MAX_SESSION_NUM")]
-        MaxSessionNum = 3, 
+        MaxSessionNum = 3,
 
         /// <summary> The number of simultaneously loaded objects that are supported by the TPM;
         /// this number does not include the objects that may be placed in NV memory by
         /// TPM2_EvictControl(). </summary>
         [EnumMember]
         [SpecTypeName("MAX_LOADED_OBJECTS")]
-        MaxLoadedObjects = 3, 
+        MaxLoadedObjects = 3,
 
         /// <summary> The minimum number of evict objects supported by the TPM </summary>
         [EnumMember]
         [SpecTypeName("MIN_EVICT_OBJECTS")]
-        MinEvictObjects = 2, 
+        MinEvictObjects = 2,
 
         /// <summary> Number of PCR groups that have individual policies </summary>
         [EnumMember]
         [SpecTypeName("NUM_POLICY_PCR_GROUP")]
-        NumPolicyPcrGroup = 1, 
+        NumPolicyPcrGroup = 1,
 
         /// <summary> Number of PCR groups that have individual authorization values </summary>
         [EnumMember]
         [SpecTypeName("NUM_AUTHVALUE_PCR_GROUP")]
-        NumAuthvaluePcrGroup = 1, 
+        NumAuthvaluePcrGroup = 1,
 
         [EnumMember]
         [SpecTypeName("MAX_CONTEXT_SIZE")]
-        MaxContextSize = 1264, 
+        MaxContextSize = 1264,
 
         [EnumMember]
         [SpecTypeName("MAX_DIGEST_BUFFER")]
-        MaxDigestBuffer = 1024, 
+        MaxDigestBuffer = 1024,
 
         /// <summary> Maximum data size allowed in an NV Index </summary>
         [EnumMember]
         [SpecTypeName("MAX_NV_INDEX_SIZE")]
-        MaxNvIndexSize = 2048, 
+        MaxNvIndexSize = 2048,
 
         /// <summary> Maximum data size in one NV read or write command </summary>
         [EnumMember]
         [SpecTypeName("MAX_NV_BUFFER_SIZE")]
-        MaxNvBufferSize = 1024, 
+        MaxNvBufferSize = 1024,
 
         /// <summary> Maximum size of a capability buffer </summary>
         [EnumMember]
         [SpecTypeName("MAX_CAP_BUFFER")]
-        MaxCapBuffer = 1024, 
+        MaxCapBuffer = 1024,
 
         /// <summary> Size of NV memory in octets </summary>
         [EnumMember]
         [SpecTypeName("NV_MEMORY_SIZE")]
-        NvMemorySize = 16384, 
+        NvMemorySize = 16384,
 
         /// <summary> The TPM will not allocate a non-counter index if it would prevent allocation
         /// of this number of indices. </summary>
         [EnumMember]
         [SpecTypeName("MIN_COUNTER_INDICES")]
-        MinCounterIndices = 8, 
+        MinCounterIndices = 8,
 
         [EnumMember]
         [SpecTypeName("NUM_STATIC_PCR")]
-        NumStaticPcr = 16, 
+        NumStaticPcr = 16,
 
         /// <summary> Number of algorithms that can be in a list </summary>
         [EnumMember]
         [SpecTypeName("MAX_ALG_LIST_SIZE")]
-        MaxAlgListSize = 64, 
+        MaxAlgListSize = 64,
 
         /// <summary> Size of the Primary Seed in octets </summary>
         [EnumMember]
         [SpecTypeName("PRIMARY_SEED_SIZE")]
-        PrimarySeedSize = 32, 
+        PrimarySeedSize = 32,
 
         /// <summary> Context encryption algorithm
         /// Just use the root so that the macros in GpMacros.h will work correctly. </summary>
         [EnumMember]
         [SpecTypeName("CONTEXT_ENCRYPT_ALGORITHM")]
-        ContextEncryptAlgorithm = TpmAlgId.Aes,  // 0x6
+        ContextEncryptAlgorithm = TpmAlgId.Aes, // 0x6
 
         /// <summary> The update interval expressed as a power of 2 seconds
         /// A value of 12 is 4,096 seconds (~68 minutes). </summary>
         [EnumMember]
         [SpecTypeName("NV_CLOCK_UPDATE_INTERVAL")]
-        NvClockUpdateInterval = 12, 
+        NvClockUpdateInterval = 12,
 
         /// <summary> Number of PCR groups that allow policy/auth </summary>
         [EnumMember]
         [SpecTypeName("NUM_POLICY_PCR")]
-        NumPolicyPcr = 1, 
+        NumPolicyPcr = 1,
 
         /// <summary> Maximum size of a command </summary>
         [EnumMember]
         [SpecTypeName("MAX_COMMAND_SIZE")]
-        MaxCommandSize = 4096, 
+        MaxCommandSize = 4096,
 
         /// <summary> Maximum size of a response </summary>
         [EnumMember]
         [SpecTypeName("MAX_RESPONSE_SIZE")]
-        MaxResponseSize = 4096, 
+        MaxResponseSize = 4096,
 
         /// <summary> Number between 1 and 32 inclusive </summary>
         [EnumMember]
         [SpecTypeName("ORDERLY_BITS")]
-        OrderlyBits = 8, 
+        OrderlyBits = 8,
 
         /// <summary> The maximum number of octets that may be in a sealed blob; 128 is the
         /// minimum allowed value </summary>
         [EnumMember]
         [SpecTypeName("MAX_SYM_DATA")]
-        MaxSymData = 128, 
+        MaxSymData = 128,
 
         [EnumMember]
         [SpecTypeName("MAX_RNG_ENTROPY_SIZE")]
-        MaxRngEntropySize = 64, 
+        MaxRngEntropySize = 64,
 
         /// <summary> Number of bytes used for the RAM index space. If this is not large enough,
         /// it might not be possible to allocate orderly indices. </summary>
         [EnumMember]
         [SpecTypeName("RAM_INDEX_SPACE")]
-        RamIndexSpace = 512, 
+        RamIndexSpace = 512,
 
         /// <summary> 216 + 1 </summary>
         [EnumMember]
         [SpecTypeName("RSA_DEFAULT_PUBLIC_EXPONENT")]
-        RsaDefaultPublicExponent = 0x00010001, 
+        RsaDefaultPublicExponent = 0x00010001,
 
         /// <summary> Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented </summary>
         [EnumMember]
         [SpecTypeName("ENABLE_PCR_NO_INCREMENT")]
-        EnablePcrNoIncrement = Logic.Yes,  // 0x1
+        EnablePcrNoIncrement = Logic.Yes, // 0x1
 
         [EnumMember]
         [SpecTypeName("CRT_FORMAT_RSA")]
-        CrtFormatRsa = Logic.Yes,  // 0x1
+        CrtFormatRsa = Logic.Yes, // 0x1
 
         [EnumMember]
         [SpecTypeName("VENDOR_COMMAND_COUNT")]
-        VendorCommandCount = 0, 
+        VendorCommandCount = 0,
 
         /// <summary> Maximum size of the vendor-specific buffer </summary>
         [EnumMember]
         [SpecTypeName("MAX_VENDOR_BUFFER_SIZE")]
-        MaxVendorBufferSize = 1024, 
+        MaxVendorBufferSize = 1024,
 
         /// <summary> L value for a derivation. This is the
         /// maximum number of bits allowed from an instantiation of a KDF-DRBG. This is size is OK
         /// because RSA keys are never derived keys </summary>
         [EnumMember]
         [SpecTypeName("MAX_DERIVATION_BITS")]
-        MaxDerivationBits = 8192, 
+        MaxDerivationBits = 8192,
 
         [EnumMember]
         [SpecTypeName("RSA_MAX_PRIME")]
-        RsaMaxPrime = (ImplementationConstants.MaxRsaKeyBytes/2),  // 0x80
+        RsaMaxPrime = (ImplementationConstants.MaxRsaKeyBytes/2), // 0x80
 
         [EnumMember]
         [SpecTypeName("RSA_PRIVATE_SIZE")]
-        RsaPrivateSize = (RsaMaxPrime * 5),  // 0x280
+        RsaPrivateSize = (RsaMaxPrime * 5), // 0x280
 
         [EnumMember]
         [SpecTypeName("SIZE_OF_X509_SERIAL_NUMBER")]
-        SizeOfX509SerialNumber = 20, 
+        SizeOfX509SerialNumber = 20,
 
         /// <summary> This is a vendor-specific value so it is in this vendor-speific table. When
         /// this is used, RSA_PRIVATE_SIZE will have been defined </summary>
@@ -3641,162 +3641,162 @@ namespace Tpm2Lib
         /// <summary> To mask off the HR </summary>
         [EnumMember]
         [SpecTypeName("HR_HANDLE_MASK")]
-        HrHandleMask = 0x00FFFFFF, 
+        HrHandleMask = 0x00FFFFFF,
 
         /// <summary> To mask off the variable part </summary>
         [EnumMember]
         [SpecTypeName("HR_RANGE_MASK")]
-        HrRangeMask = unchecked ((uint)(0xFF000000)), 
+        HrRangeMask = unchecked ((uint)(0xFF000000)),
 
         [EnumMember]
         [SpecTypeName("HR_SHIFT")]
-        HrShift = 24, 
+        HrShift = 24,
 
         [EnumMember]
         [SpecTypeName("HR_PCR")]
-        HrPcr = ((uint)Ht.Pcr << (int)HrShift),  // 0x0
+        HrPcr = ((uint)Ht.Pcr << (int)HrShift), // 0x0
 
         [EnumMember]
         [SpecTypeName("HR_HMAC_SESSION")]
-        HrHmacSession = ((uint)Ht.HmacSession << (int)HrShift),  // 0x2000000
+        HrHmacSession = ((uint)Ht.HmacSession << (int)HrShift), // 0x2000000
 
         [EnumMember]
         [SpecTypeName("HR_POLICY_SESSION")]
-        HrPolicySession = ((uint)Ht.PolicySession << (int)HrShift),  // 0x3000000
+        HrPolicySession = ((uint)Ht.PolicySession << (int)HrShift), // 0x3000000
 
         [EnumMember]
         [SpecTypeName("HR_TRANSIENT")]
-        HrTransient = ((uint)Ht.Transient << (int)HrShift),  // 0x80000000
+        HrTransient = ((uint)Ht.Transient << (int)HrShift), // 0x80000000
 
         [EnumMember]
         [SpecTypeName("HR_PERSISTENT")]
-        HrPersistent = ((uint)Ht.Persistent << (int)HrShift),  // 0x81000000
+        HrPersistent = ((uint)Ht.Persistent << (int)HrShift), // 0x81000000
 
         [EnumMember]
         [SpecTypeName("HR_NV_INDEX")]
-        HrNvIndex = ((uint)Ht.NvIndex << (int)HrShift),  // 0x1000000
+        HrNvIndex = ((uint)Ht.NvIndex << (int)HrShift), // 0x1000000
 
         [EnumMember]
         [SpecTypeName("HR_PERMANENT")]
-        HrPermanent = ((uint)Ht.Permanent << (int)HrShift),  // 0x40000000
+        HrPermanent = ((uint)Ht.Permanent << (int)HrShift), // 0x40000000
 
         /// <summary> First PCR </summary>
         [EnumMember]
         [SpecTypeName("PCR_FIRST")]
-        PcrFirst = (HrPcr + 0),  // 0x0
+        PcrFirst = (HrPcr + 0), // 0x0
 
         /// <summary> Last PCR </summary>
         [EnumMember]
         [SpecTypeName("PCR_LAST")]
-        PcrLast = (PcrFirst + Implementation.ImplementationPcr-1),  // 0x17
+        PcrLast = (PcrFirst + Implementation.ImplementationPcr-1), // 0x17
 
         /// <summary> First HMAC session </summary>
         [EnumMember]
         [SpecTypeName("HMAC_SESSION_FIRST")]
-        HmacSessionFirst = (HrHmacSession + 0),  // 0x2000000
+        HmacSessionFirst = (HrHmacSession + 0), // 0x2000000
 
         /// <summary> Last HMAC session </summary>
         [EnumMember]
         [SpecTypeName("HMAC_SESSION_LAST")]
-        HmacSessionLast = (HmacSessionFirst+Implementation.MaxActiveSessions-1),  // 0x200003F
+        HmacSessionLast = (HmacSessionFirst+Implementation.MaxActiveSessions-1), // 0x200003F
 
         /// <summary> Used in GetCapability </summary>
         [EnumMember]
         [SpecTypeName("LOADED_SESSION_FIRST")]
-        LoadedSessionFirst = HmacSessionFirst,  // 0x2000000
+        LoadedSessionFirst = HmacSessionFirst, // 0x2000000
 
         /// <summary> Used in GetCapability </summary>
         [EnumMember]
         [SpecTypeName("LOADED_SESSION_LAST")]
-        LoadedSessionLast = HmacSessionLast,  // 0x200003F
+        LoadedSessionLast = HmacSessionLast, // 0x200003F
 
         /// <summary> First policy session </summary>
         [EnumMember]
         [SpecTypeName("POLICY_SESSION_FIRST")]
-        PolicySessionFirst = (HrPolicySession + 0),  // 0x3000000
+        PolicySessionFirst = (HrPolicySession + 0), // 0x3000000
 
         /// <summary> Last policy session </summary>
         [EnumMember]
         [SpecTypeName("POLICY_SESSION_LAST")]
-        PolicySessionLast = (PolicySessionFirst + Implementation.MaxActiveSessions-1),  // 0x300003F
+        PolicySessionLast = (PolicySessionFirst + Implementation.MaxActiveSessions-1), // 0x300003F
 
         /// <summary> First transient object </summary>
         [EnumMember]
         [SpecTypeName("TRANSIENT_FIRST")]
-        TransientFirst = (HrTransient + 0),  // 0x80000000
+        TransientFirst = (HrTransient + 0), // 0x80000000
 
         /// <summary> Used in GetCapability </summary>
         [EnumMember]
         [SpecTypeName("ACTIVE_SESSION_FIRST")]
-        ActiveSessionFirst = PolicySessionFirst,  // 0x3000000
+        ActiveSessionFirst = PolicySessionFirst, // 0x3000000
 
         /// <summary> Used in GetCapability </summary>
         [EnumMember]
         [SpecTypeName("ACTIVE_SESSION_LAST")]
-        ActiveSessionLast = PolicySessionLast,  // 0x300003F
+        ActiveSessionLast = PolicySessionLast, // 0x300003F
 
         /// <summary> Last transient object </summary>
         [EnumMember]
         [SpecTypeName("TRANSIENT_LAST")]
-        TransientLast = (TransientFirst+Implementation.MaxLoadedObjects-1),  // 0x80000002
+        TransientLast = (TransientFirst+Implementation.MaxLoadedObjects-1), // 0x80000002
 
         /// <summary> First persistent object </summary>
         [EnumMember]
         [SpecTypeName("PERSISTENT_FIRST")]
-        PersistentFirst = (HrPersistent + 0),  // 0x81000000
+        PersistentFirst = (HrPersistent + 0), // 0x81000000
 
         /// <summary> Last persistent object </summary>
         [EnumMember]
         [SpecTypeName("PERSISTENT_LAST")]
-        PersistentLast = (PersistentFirst + 0x00FFFFFF),  // 0x81FFFFFF
+        PersistentLast = (PersistentFirst + 0x00FFFFFF), // 0x81FFFFFF
 
         /// <summary> First platform persistent object </summary>
         [EnumMember]
         [SpecTypeName("PLATFORM_PERSISTENT")]
-        PlatformPersistent = (PersistentFirst + 0x00800000),  // 0x81800000
+        PlatformPersistent = (PersistentFirst + 0x00800000), // 0x81800000
 
         /// <summary> First allowed NV Index </summary>
         [EnumMember]
         [SpecTypeName("NV_INDEX_FIRST")]
-        NvIndexFirst = (HrNvIndex + 0),  // 0x1000000
+        NvIndexFirst = (HrNvIndex + 0), // 0x1000000
 
         /// <summary> Last allowed NV Index </summary>
         [EnumMember]
         [SpecTypeName("NV_INDEX_LAST")]
-        NvIndexLast = (NvIndexFirst + 0x00FFFFFF),  // 0x1FFFFFF
+        NvIndexLast = (NvIndexFirst + 0x00FFFFFF), // 0x1FFFFFF
 
         [EnumMember]
         [SpecTypeName("PERMANENT_FIRST")]
-        PermanentFirst = TpmRh.First,  // 0x40000000
+        PermanentFirst = TpmRh.First, // 0x40000000
 
         [EnumMember]
         [SpecTypeName("PERMANENT_LAST")]
-        PermanentLast = TpmRh.Last,  // 0x4000011F
+        PermanentLast = TpmRh.Last, // 0x4000011F
 
         /// <summary> AC aliased NV Index </summary>
         [EnumMember]
         [SpecTypeName("HR_NV_AC")]
-        HrNvAc = (((uint)Ht.NvIndex << (int)HrShift) + 0xD00000),  // 0x1D00000
+        HrNvAc = (((uint)Ht.NvIndex << (int)HrShift) + 0xD00000), // 0x1D00000
 
         /// <summary> First NV Index aliased to Attached Component </summary>
         [EnumMember]
         [SpecTypeName("NV_AC_FIRST")]
-        NvAcFirst = (HrNvAc + 0),  // 0x1D00000
+        NvAcFirst = (HrNvAc + 0), // 0x1D00000
 
         /// <summary> Last NV Index aliased to Attached Component </summary>
         [EnumMember]
         [SpecTypeName("NV_AC_LAST")]
-        NvAcLast = (HrNvAc + 0x0000FFFF),  // 0x1D0FFFF
+        NvAcLast = (HrNvAc + 0x0000FFFF), // 0x1D0FFFF
 
         /// <summary> AC Handle </summary>
         [EnumMember]
         [SpecTypeName("HR_AC")]
-        HrAc = unchecked ((uint)(((uint)Ht.Ac << (int)HrShift))),  // 0x90000000
+        HrAc = unchecked ((uint)(((uint)Ht.Ac << (int)HrShift))), // 0x90000000
 
         /// <summary> First Attached Component </summary>
         [EnumMember]
         [SpecTypeName("AC_FIRST")]
-        AcFirst = unchecked ((uint)((HrAc + 0))),  // 0x90000000
+        AcFirst = unchecked ((uint)((HrAc + 0))), // 0x90000000
 
         /// <summary> Last Attached Component </summary>
         [EnumMember]

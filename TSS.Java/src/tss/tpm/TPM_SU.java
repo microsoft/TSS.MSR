@@ -22,7 +22,7 @@ public final class TPM_SU extends TpmEnum<TPM_SU>
          *  state required for an orderly startup (TPM Reset).
          *  on TPM2_Startup(), indicates that the TPM should perform TPM Reset or TPM Restart
          */
-        CLEAR, 
+        CLEAR,
 
         /** On TPM2_Shutdown(), indicates that the TPM should prepare for loss of power and save
          *  state required for an orderly startup (TPM Restart or TPM Resume)

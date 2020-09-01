@@ -17,37 +17,37 @@ public final class TPM_EO extends TpmEnum<TPM_EO>
      */
     public enum _N {
         /** A = B  */
-        EQ, 
+        EQ,
 
         /** A B  */
-        NEQ, 
+        NEQ,
 
         /** A ˃ B signed  */
-        SIGNED_GT, 
+        SIGNED_GT,
 
         /** A ˃ B unsigned  */
-        UNSIGNED_GT, 
+        UNSIGNED_GT,
 
         /** A ˂ B signed  */
-        SIGNED_LT, 
+        SIGNED_LT,
 
         /** A ˂ B unsigned  */
-        UNSIGNED_LT, 
+        UNSIGNED_LT,
 
         /** A B signed  */
-        SIGNED_GE, 
+        SIGNED_GE,
 
         /** A B unsigned  */
-        UNSIGNED_GE, 
+        UNSIGNED_GE,
 
         /** A B signed  */
-        SIGNED_LE, 
+        SIGNED_LE,
 
         /** A B unsigned  */
-        UNSIGNED_LE, 
+        UNSIGNED_LE,
 
         /** All bits SET in B are SET in A. ((A∧B)=B)  */
-        BITSET, 
+        BITSET,
 
         /** All bits SET in B are CLEAR in A. ((A∧B)=0)  */
         BITCLEAR

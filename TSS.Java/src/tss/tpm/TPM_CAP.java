@@ -18,41 +18,41 @@ public final class TPM_CAP extends TpmEnum<TPM_CAP>
      *  for any other usage just prepend them with the TPM_CAP. qualifier.
      */
     public enum _N {
-        FIRST, 
+        FIRST,
 
         /** TPML_ALG_PROPERTY  */
-        ALGS, 
+        ALGS,
 
         /** TPML_HANDLE  */
-        HANDLES, 
+        HANDLES,
 
         /** TPML_CCA  */
-        COMMANDS, 
+        COMMANDS,
 
         /** TPML_CC  */
-        PP_COMMANDS, 
+        PP_COMMANDS,
 
         /** TPML_CC  */
-        AUDIT_COMMANDS, 
+        AUDIT_COMMANDS,
 
         /** TPML_PCR_SELECTION  */
-        PCRS, 
+        PCRS,
 
         /** TPML_TAGGED_TPM_PROPERTY  */
-        TPM_PROPERTIES, 
+        TPM_PROPERTIES,
 
         /** TPML_TAGGED_PCR_PROPERTY  */
-        PCR_PROPERTIES, 
+        PCR_PROPERTIES,
 
         /** TPML_ECC_CURVE  */
-        ECC_CURVES, 
+        ECC_CURVES,
 
         /** TPML_TAGGED_POLICY  */
-        AUTH_POLICIES, 
+        AUTH_POLICIES,
 
         /** TPML_ACT_DATA  */
-        ACT, 
-        LAST, 
+        ACT,
+        LAST,
 
         /** Manufacturer-specific values  */
         VENDOR_PROPERTY

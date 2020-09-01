@@ -23,28 +23,28 @@ public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
         /** SET (1): TPM2_HierarchyChangeAuth() with ownerAuth has been executed since the last TPM2_Clear().
          *  CLEAR (0): ownerAuth has not been changed since TPM2_Clear().
          */
-        ownerAuthSet, 
+        ownerAuthSet,
 
         /** SET (1): TPM2_HierarchyChangeAuth() with endorsementAuth has been executed since the
          *  last TPM2_Clear().
          *  CLEAR (0): endorsementAuth has not been changed since TPM2_Clear().
          */
-        endorsementAuthSet, 
+        endorsementAuthSet,
 
         /** SET (1): TPM2_HierarchyChangeAuth() with lockoutAuth has been executed since the last
          *  TPM2_Clear().
          *  CLEAR (0): lockoutAuth has not been changed since TPM2_Clear().
          */
-        lockoutAuthSet, 
+        lockoutAuthSet,
 
         /** SET (1): TPM2_Clear() is disabled.
          *  CLEAR (0): TPM2_Clear() is enabled.
          *  NOTE See TPM2_ClearControl in TPM 2.0 Part 3 for details on changing this attribute.
          */
-        disableClear, 
+        disableClear,
 
         /** SET (1): The TPM is in lockout, when failedTries is equal to maxTries.  */
-        inLockout, 
+        inLockout,
 
         /** SET (1): The EPS was created by the TPM.
          *  CLEAR (0): The EPS was created outside of the TPM using a manufacturer-specific process.

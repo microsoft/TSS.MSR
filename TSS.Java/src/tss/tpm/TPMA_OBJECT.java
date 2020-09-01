@@ -24,72 +24,72 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
          *  NOTE fixedTPM does not indicate that key material resides on a single TPM (see
          *  sensitiveDataOrigin).
          */
-        fixedTPM, 
+        fixedTPM,
 
         /** SET (1): Previously saved contexts of this object may not be loaded after Startup(CLEAR).
          *  CLEAR (0): Saved contexts of this object may be used after a Shutdown(STATE) and
          *  subsequent Startup().
          */
-        stClear, 
+        stClear,
 
         /** SET (1): The parent of the object may not change.
          *  CLEAR (0): The parent of the object may change as the result of a TPM2_Duplicate() of
          *  the object.
          */
-        fixedParent, 
+        fixedParent,
 
         /** SET (1): Indicates that, when the object was created with TPM2_Create() or
          *  TPM2_CreatePrimary(), the TPM generated all of the sensitive data other than the authValue.
          *  CLEAR (0): A portion of the sensitive data, other than the authValue, was provided by
          *  the caller.
          */
-        sensitiveDataOrigin, 
+        sensitiveDataOrigin,
 
         /** SET (1): Approval of USER role actions with this object may be with an HMAC session or
          *  with a password using the authValue of the object or a policy session.
          *  CLEAR (0): Approval of USER role actions with this object may only be done with a
          *  policy session.
          */
-        userWithAuth, 
+        userWithAuth,
 
         /** SET (1): Approval of ADMIN role actions with this object may only be done with a
          *  policy session.
          *  CLEAR (0): Approval of ADMIN role actions with this object may be with an HMAC session
          *  or with a password using the authValue of the object or a policy session.
          */
-        adminWithPolicy, 
+        adminWithPolicy,
 
         /** SET (1): The object is not subject to dictionary attack protections.
          *  CLEAR (0): The object is subject to dictionary attack protections.
          */
-        noDA, 
+        noDA,
 
         /** SET (1): If the object is duplicated, then symmetricAlg shall not be TPM_ALG_NULL and
          *  newParentHandle shall not be TPM_RH_NULL.
          *  CLEAR (0): The object may be duplicated without an inner wrapper on the private
          *  portion of the object and the new parent may be TPM_RH_NULL.
          */
-        encryptedDuplication, 
+        encryptedDuplication,
 
         /** SET (1): Key usage is restricted to manipulate structures of known format; the parent
          *  of this key shall have restricted SET.
          *  CLEAR (0): Key usage is not restricted to use on special formats.
          */
-        restricted, 
+        restricted,
 
         /** SET (1): The private portion of the key may be used to decrypt.
          *  CLEAR (0): The private portion of the key may not be used to decrypt.
          */
-        decrypt, 
+        decrypt,
 
         /** SET (1): For a symmetric cipher object, the private portion of the key may be used to
          *  encrypt. For other objects, the private portion of the key may be used to sign.
          *  CLEAR (0): The private portion of the key may not be used to sign or encrypt.
          */
-        sign, 
+        sign,
 
         /** Alias to the sign value.  */
-        encrypt, 
+        encrypt,
 
         /** SET (1): An asymmetric key that may not be used to sign with TPM2_Sign()
          *  CLEAR (0): A key that may be used with TPM2_Sign() if sign is SET

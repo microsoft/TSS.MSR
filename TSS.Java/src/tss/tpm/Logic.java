@@ -16,11 +16,11 @@ public final class Logic extends TpmEnum<Logic>
      *  for any other usage just prepend them with the Logic. qualifier.
      */
     public enum _N {
-        TRUE, 
-        FALSE, 
-        YES, 
-        NO, 
-        SET, 
+        TRUE,
+        FALSE,
+        YES,
+        NO,
+        SET,
         CLEAR
     }
 

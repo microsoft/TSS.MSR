@@ -18,19 +18,19 @@ public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
      *  for any other usage just prepend them with the TPM_ECC_CURVE. qualifier.
      */
     public enum _N {
-        NONE, 
-        NIST_P192, 
-        NIST_P224, 
-        NIST_P256, 
-        NIST_P384, 
-        NIST_P521, 
+        NONE,
+        NIST_P192,
+        NIST_P224,
+        NIST_P256,
+        NIST_P384,
+        NIST_P521,
 
         /** Curve to support ECDAA  */
-        BN_P256, 
+        BN_P256,
 
         /** Curve to support ECDAA  */
-        BN_P638, 
-        SM2_P256, 
+        BN_P638,
+        SM2_P256,
         TEST_P192
     }
 

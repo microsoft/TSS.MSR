@@ -17,25 +17,25 @@ public final class TPM_NT extends TpmEnum<TPM_NT>
      */
     public enum _N {
         /** Ordinary contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write().  */
-        ORDINARY, 
+        ORDINARY,
 
         /** Counter contains an 8-octet value that is to be used as a counter and can only be
          *  modified with TPM2_NV_Increment()
          */
-        COUNTER, 
+        COUNTER,
 
         /** Bit Field contains an 8-octet value to be used as a bit field and can only be modified
          *  with TPM2_NV_SetBits().
          */
-        BITS, 
+        BITS,
 
         /** Extend contains a digest-sized value used like a PCR. The Index can only be modified
          *  using TPM2_NV_Extend(). The extend will use the nameAlg of the Index.
          */
-        EXTEND, 
+        EXTEND,
 
         /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit  */
-        PIN_FAIL, 
+        PIN_FAIL,
 
         /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit  */
         PIN_PASS

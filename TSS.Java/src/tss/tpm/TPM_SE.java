@@ -18,8 +18,8 @@ public final class TPM_SE extends TpmEnum<TPM_SE>
      *  for any other usage just prepend them with the TPM_SE. qualifier.
      */
     public enum _N {
-        HMAC, 
-        POLICY, 
+        HMAC,
+        POLICY,
 
         /** The policy session is being used to compute the policyHash and not for command authorization.
          *  This setting modifies some policy commands and prevents session from being used to

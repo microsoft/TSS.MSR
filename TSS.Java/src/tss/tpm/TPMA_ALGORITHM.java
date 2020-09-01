@@ -19,34 +19,34 @@ public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
         /** SET (1): an asymmetric algorithm with public and private portions
          *  CLEAR (0): not an asymmetric algorithm
          */
-        asymmetric, 
+        asymmetric,
 
         /** SET (1): a symmetric block cipher
          *  CLEAR (0): not a symmetric block cipher
          */
-        symmetric, 
+        symmetric,
 
         /** SET (1): a hash algorithm
          *  CLEAR (0): not a hash algorithm
          */
-        hash, 
+        hash,
 
         /** SET (1): an algorithm that may be used as an object type
          *  CLEAR (0): an algorithm that is not used as an object type
          */
-        object, 
+        object,
 
         /** SET (1): a signing algorithm. The setting of asymmetric, symmetric, and hash will
          *  indicate the type of signing algorithm.
          *  CLEAR (0): not a signing algorithm
          */
-        signing, 
+        signing,
 
         /** SET (1): an encryption/decryption algorithm. The setting of asymmetric, symmetric, and
          *  hash will indicate the type of encryption/decryption algorithm.
          *  CLEAR (0): not an encryption/decryption algorithm
          */
-        encrypting, 
+        encrypting,
 
         /** SET (1): a method such as a key derivative function (KDF)
          *  CLEAR (0): not a method

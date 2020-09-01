@@ -24,7 +24,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
          *  objects in the platform hierarchy, including persistent objects, cannot be used.
          *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
          */
-        phEnable, 
+        phEnable,
 
         /** SET (1): The Storage hierarchy is enabled and ownerAuth or ownerPolicy may be used for
          *  authorization. NV indices defined using owner authorization are accessible.
@@ -33,7 +33,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
          *  authorization cannot be used.
          *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
          */
-        shEnable, 
+        shEnable,
 
         /** SET (1): The EPS hierarchy is enabled and Endorsement Authorization may be used to
          *  authorize commands.
@@ -41,7 +41,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
          *  in the endorsement hierarchy, including persistent objects, cannot be used.
          *  NOTE See TPM2_HierarchyControl in TPM 2.0 Part 3 for details on changing this attribute.
          */
-        ehEnable, 
+        ehEnable,
 
         /** SET (1): NV indices that have TPMA_NV_PLATFORMCREATE SET may be read or written. The
          *  platform can create define and undefine indices.
@@ -57,7 +57,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
          *  does not exist, it also returns this error code if the index is disabled. Otherwise,
          *  the TPM would leak the existence of an index even when disabled.
          */
-        phEnableNV, 
+        phEnableNV,
 
         /** SET (1): The TPM received a TPM2_Shutdown() and a matching TPM2_Startup().
          *  CLEAR (0): TPM2_Startup(TPM_SU_CLEAR) was not preceded by a TPM2_Shutdown() of any type.

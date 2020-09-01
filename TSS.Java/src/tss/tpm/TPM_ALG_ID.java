@@ -19,152 +19,152 @@ public final class TPM_ALG_ID extends TpmEnum<TPM_ALG_ID>
      */
     public enum _N {
         /** Should not occur  */
-        ERROR, 
+        ERROR,
 
         /** An object type that contains an RSA key  */
-        FIRST, 
+        FIRST,
 
         /** An object type that contains an RSA key  */
-        RSA, 
+        RSA,
 
         /** Block cipher with various key sizes (Triple Data Encryption Algorithm, commonly called
          *  Triple Data Encryption Standard)
          */
-        TDES, 
+        TDES,
 
         /** Hash algorithm producing a 160-bit digest  */
-        SHA, 
+        SHA,
 
         /** Redefinition for documentation consistency  */
-        SHA1, 
+        SHA1,
 
         /** Hash Message Authentication Code (HMAC) algorithm  */
-        HMAC, 
+        HMAC,
 
         /** Block cipher with various key sizes  */
-        AES, 
+        AES,
 
         /** Hash-based mask-generation function  */
-        MGF1, 
+        MGF1,
 
         /** An object type that may use XOR for encryption or an HMAC for signing and may also
          *  refer to a data object that is neither signing nor encrypting
          */
-        KEYEDHASH, 
+        KEYEDHASH,
 
         /** Hash-based stream cipher  */
-        XOR, 
+        XOR,
 
         /** Hash algorithm producing a 256-bit digest  */
-        SHA256, 
+        SHA256,
 
         /** Hash algorithm producing a 384-bit digest  */
-        SHA384, 
+        SHA384,
 
         /** Hash algorithm producing a 512-bit digest  */
-        SHA512, 
+        SHA512,
 
         /** Indication that no algorithm is selected  */
-        NULL, 
+        NULL,
 
         /** Hash algorithm producing a 256-bit digest  */
-        SM3_256, 
+        SM3_256,
 
         /** Symmetric block cipher with 128 bit key  */
-        SM4, 
+        SM4,
 
         /** A signature algorithm defined in section 8.2 (RSASSA-PKCS1-v1_5)  */
-        RSASSA, 
+        RSASSA,
 
         /** A padding algorithm defined in section 7.2 (RSAES-PKCS1-v1_5)  */
-        RSAES, 
+        RSAES,
 
         /** A signature algorithm defined in section 8.1 (RSASSA-PSS)  */
-        RSAPSS, 
+        RSAPSS,
 
         /** A padding algorithm defined in Section 7.1 (RSAES_OAEP)  */
-        OAEP, 
+        OAEP,
 
         /** Signature algorithm using elliptic curve cryptography (ECC)  */
-        ECDSA, 
+        ECDSA,
 
         /** Secret sharing using ECC Based on context, this can be either One-Pass Diffie-Hellman,
          *  C(1, 1, ECC CDH) defined in 6.2.2.2 or Full Unified Model C(2, 2, ECC CDH) defined in 6.1.1.2
          */
-        ECDH, 
+        ECDH,
 
         /** Elliptic-curve based, anonymous signing scheme  */
-        ECDAA, 
+        ECDAA,
 
         /** Depending on context, either an elliptic-curve-based signature algorithm, encryption
          *  algorithm, or key exchange protocol
          */
-        SM2, 
+        SM2,
 
         /** Elliptic-curve based Schnorr signature  */
-        ECSCHNORR, 
+        ECSCHNORR,
 
         /** Two-phase elliptic-curve key exchange C(2, 2, ECC MQV) Section 6.1.1.4  */
-        ECMQV, 
+        ECMQV,
 
         /** Concatenation key derivation function (approved alternative 1) Section 5.8.1  */
-        KDF1_SP800_56A, 
+        KDF1_SP800_56A,
 
         /** Key derivation function KDF2 Section 13.2  */
-        KDF2, 
+        KDF2,
 
         /** A key derivation method SP800-108, Section 5.1 KDF in Counter Mode  */
-        KDF1_SP800_108, 
+        KDF1_SP800_108,
 
         /** Prime field ECC  */
-        ECC, 
+        ECC,
 
         /** The object type for a symmetric block cipher key  */
-        SYMCIPHER, 
+        SYMCIPHER,
 
         /** Symmetric block cipher with various key sizes  */
-        CAMELLIA, 
+        CAMELLIA,
 
         /** Hash algorithm producing a 256-bit digest  */
-        SHA3_256, 
+        SHA3_256,
 
         /** Hash algorithm producing a 384-bit digest  */
-        SHA3_384, 
+        SHA3_384,
 
         /** Hash algorithm producing a 512-bit digest  */
-        SHA3_512, 
-        CMAC, 
+        SHA3_512,
+        CMAC,
 
         /** Counter mode if implemented, all symmetric block ciphers (S type) implemented shall be
          *  capable of using this mode.
          */
-        CTR, 
+        CTR,
 
         /** Output Feedback mode if implemented, all symmetric block ciphers (S type) implemented
          *  shall be capable of using this mode.
          */
-        OFB, 
+        OFB,
 
         /** Cipher Block Chaining mode if implemented, all symmetric block ciphers (S type)
          *  implemented shall be capable of using this mode.
          */
-        CBC, 
+        CBC,
 
         /** Cipher Feedback mode if implemented, all symmetric block ciphers (S type) implemented
          *  shall be capable of using this mode.
          */
-        CFB, 
+        CFB,
 
         /** Electronic Codebook mode if implemented, all implemented symmetric block ciphers (S
          *  type) shall be capable of using this mode.
          *  NOTE This mode is not recommended for uses unless the key is frequently rotated such
          *  as in video codecs
          */
-        ECB, 
-        LAST, 
+        ECB,
+        LAST,
 
         /** Phony alg ID to be used for the first union member with no selector  */
-        ANY, 
+        ANY,
 
         /** Phony alg ID to be used for the second union member with no selector  */
         ANY2

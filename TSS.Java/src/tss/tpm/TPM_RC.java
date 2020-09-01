@@ -20,528 +20,528 @@ public final class TPM_RC extends TpmEnum<TPM_RC>
      *  for any other usage just prepend them with the TPM_RC. qualifier.
      */
     public enum _N {
-        SUCCESS, 
+        SUCCESS,
 
         /** Defined for compatibility with TPM 1.2  */
-        BAD_TAG, 
+        BAD_TAG,
 
         /** Set for all format 0 response codes  */
-        RC_VER1, 
+        RC_VER1,
 
         /** TPM not initialized by TPM2_Startup or already initialized  */
-        INITIALIZE, 
+        INITIALIZE,
 
         /** Commands not being accepted because of a TPM failure
          *  NOTE This may be returned by TPM2_GetTestResult() as the testResult parameter.
          */
-        FAILURE, 
+        FAILURE,
 
         /** Improper use of a sequence handle  */
-        SEQUENCE, 
+        SEQUENCE,
 
         /** Not currently used  */
-        PRIVATE, 
+        PRIVATE,
 
         /** Not currently used  */
-        HMAC, 
+        HMAC,
 
         /** The command is disabled  */
-        DISABLED, 
+        DISABLED,
 
         /** Command failed because audit sequence required exclusivity  */
-        EXCLUSIVE, 
+        EXCLUSIVE,
 
         /** Authorization handle is not correct for command  */
-        AUTH_TYPE, 
+        AUTH_TYPE,
 
         /** Command requires an authorization session for handle and it is not present.  */
-        AUTH_MISSING, 
+        AUTH_MISSING,
 
         /** Policy failure in math operation or an invalid authPolicy value  */
-        POLICY, 
+        POLICY,
 
         /** PCR check fail  */
-        PCR, 
+        PCR,
 
         /** PCR have changed since checked.  */
-        PCR_CHANGED, 
+        PCR_CHANGED,
 
         /** For all commands other than TPM2_FieldUpgradeData(), this code indicates that the TPM
          *  is in field upgrade mode; for TPM2_FieldUpgradeData(), this code indicates that the
          *  TPM is not in field upgrade mode
          */
-        UPGRADE, 
+        UPGRADE,
 
         /** Context ID counter is at maximum.  */
-        TOO_MANY_CONTEXTS, 
+        TOO_MANY_CONTEXTS,
 
         /** AuthValue or authPolicy is not available for selected entity.  */
-        AUTH_UNAVAILABLE, 
+        AUTH_UNAVAILABLE,
 
         /** A _TPM_Init and Startup(CLEAR) is required before the TPM can resume operation.  */
-        REBOOT, 
+        REBOOT,
 
         /** The protection algorithms (hash and symmetric) are not reasonably balanced. The digest
          *  size of the hash must be larger than the key size of the symmetric algorithm.
          */
-        UNBALANCED, 
+        UNBALANCED,
 
         /** Command commandSize value is inconsistent with contents of the command buffer; either
          *  the size is not the same as the octets loaded by the hardware interface layer or the
          *  value is not large enough to hold a command header
          */
-        COMMAND_SIZE, 
+        COMMAND_SIZE,
 
         /** Command code not supported  */
-        COMMAND_CODE, 
+        COMMAND_CODE,
 
         /** The value of authorizationSize is out of range or the number of octets in the
          *  Authorization Area is greater than required
          */
-        AUTHSIZE, 
+        AUTHSIZE,
 
         /** Use of an authorization session with a context command or another command that cannot
          *  have an authorization session.
          */
-        AUTH_CONTEXT, 
+        AUTH_CONTEXT,
 
         /** NV offset+size is out of range.  */
-        NV_RANGE, 
+        NV_RANGE,
 
         /** Requested allocation size is larger than allowed.  */
-        NV_SIZE, 
+        NV_SIZE,
 
         /** NV access locked.  */
-        NV_LOCKED, 
+        NV_LOCKED,
 
         /** NV access authorization fails in command actions (this failure does not affect lockout.action)  */
-        NV_AUTHORIZATION, 
+        NV_AUTHORIZATION,
 
         /** An NV Index is used before being initialized or the state saved by
          *  TPM2_Shutdown(STATE) could not be restored
          */
-        NV_UNINITIALIZED, 
+        NV_UNINITIALIZED,
 
         /** Insufficient space for NV allocation  */
-        NV_SPACE, 
+        NV_SPACE,
 
         /** NV Index or persistent object already defined  */
-        NV_DEFINED, 
+        NV_DEFINED,
 
         /** Context in TPM2_ContextLoad() is not valid  */
-        BAD_CONTEXT, 
+        BAD_CONTEXT,
 
         /** CpHash value already set or not correct for use  */
-        CPHASH, 
+        CPHASH,
 
         /** Handle for parent is not a valid parent  */
-        PARENT, 
+        PARENT,
 
         /** Some function needs testing.  */
-        NEEDS_TEST, 
+        NEEDS_TEST,
 
         /** Returned when an internal function cannot process a request due to an unspecified
          *  problem. This code is usually related to invalid parameters that are not properly
          *  filtered by the input unmarshaling code.
          */
-        NO_RESULT, 
+        NO_RESULT,
 
         /** The sensitive area did not unmarshal correctly after decryption this code is used in
          *  lieu of the other unmarshaling errors so that an attacker cannot determine where the
          *  unmarshaling error occurred
          */
-        SENSITIVE, 
+        SENSITIVE,
 
         /** Largest version 1 code that is not a warning  */
-        RC_MAX_FM0, 
+        RC_MAX_FM0,
 
         /** This bit is SET in all format 1 response codes
          *  The codes in this group may have a value added to them to indicate the handle,
          *  session, or parameter to which they apply.
          */
-        RC_FMT1, 
+        RC_FMT1,
 
         /** Asymmetric algorithm not supported or not correct  */
-        ASYMMETRIC, 
+        ASYMMETRIC,
 
         /** Inconsistent attributes  */
-        ATTRIBUTES, 
+        ATTRIBUTES,
 
         /** Hash algorithm not supported or not appropriate  */
-        HASH, 
+        HASH,
 
         /** Value is out of range or is not correct for the context  */
-        VALUE, 
+        VALUE,
 
         /** Hierarchy is not enabled or is not correct for the use  */
-        HIERARCHY, 
+        HIERARCHY,
 
         /** Key size is not supported  */
-        KEY_SIZE, 
+        KEY_SIZE,
 
         /** Mask generation function not supported  */
-        MGF, 
+        MGF,
 
         /** Mode of operation not supported  */
-        MODE, 
+        MODE,
 
         /** The type of the value is not appropriate for the use  */
-        TYPE, 
+        TYPE,
 
         /** The handle is not correct for the use  */
-        HANDLE, 
+        HANDLE,
 
         /** Unsupported key derivation function or function not appropriate for use  */
-        KDF, 
+        KDF,
 
         /** Value was out of allowed range.  */
-        RANGE, 
+        RANGE,
 
         /** The authorization HMAC check failed and DA counter incremented  */
-        AUTH_FAIL, 
+        AUTH_FAIL,
 
         /** Invalid nonce size or nonce value mismatch  */
-        NONCE, 
+        NONCE,
 
         /** Authorization requires assertion of PP  */
-        PP, 
+        PP,
 
         /** Unsupported or incompatible scheme  */
-        SCHEME, 
+        SCHEME,
 
         /** Structure is the wrong size  */
-        SIZE, 
+        SIZE,
 
         /** Unsupported symmetric algorithm or key size, or not appropriate for instance  */
-        SYMMETRIC, 
+        SYMMETRIC,
 
         /** Incorrect structure tag  */
-        TAG, 
+        TAG,
 
         /** Union selector is incorrect  */
-        SELECTOR, 
+        SELECTOR,
 
         /** The TPM was unable to unmarshal a value because there were not enough octets in the
          *  input buffer
          */
-        INSUFFICIENT, 
+        INSUFFICIENT,
 
         /** The signature is not valid  */
-        SIGNATURE, 
+        SIGNATURE,
 
         /** Key fields are not compatible with the selected use  */
-        KEY, 
+        KEY,
 
         /** A policy check failed  */
-        POLICY_FAIL, 
+        POLICY_FAIL,
 
         /** Integrity check failed  */
-        INTEGRITY, 
+        INTEGRITY,
 
         /** Invalid ticket  */
-        TICKET, 
+        TICKET,
 
         /** Reserved bits not set to zero as required  */
-        RESERVED_BITS, 
+        RESERVED_BITS,
 
         /** Authorization failure without DA implications  */
-        BAD_AUTH, 
+        BAD_AUTH,
 
         /** The policy has expired  */
-        EXPIRED, 
+        EXPIRED,
 
         /** The commandCode in the policy is not the commandCode of the command or the command
          *  code in a policy command references a command that is not implemented
          */
-        POLICY_CC, 
+        POLICY_CC,
 
         /** Public and sensitive portions of an object are not cryptographically bound  */
-        BINDING, 
+        BINDING,
 
         /** Curve not supported  */
-        CURVE, 
+        CURVE,
 
         /** Point is not on the required curve.  */
-        ECC_POINT, 
+        ECC_POINT,
 
         /** Set for warning response codes  */
-        RC_WARN, 
+        RC_WARN,
 
         /** Gap for context ID is too large  */
-        CONTEXT_GAP, 
+        CONTEXT_GAP,
 
         /** Out of memory for object contexts  */
-        OBJECT_MEMORY, 
+        OBJECT_MEMORY,
 
         /** Out of memory for session contexts  */
-        SESSION_MEMORY, 
+        SESSION_MEMORY,
 
         /** Out of shared object/session memory or need space for internal operations  */
-        MEMORY, 
+        MEMORY,
 
         /** Out of session handles a session must be flushed before a new session may be created  */
-        SESSION_HANDLES, 
+        SESSION_HANDLES,
 
         /** Out of object handles the handle space for objects is depleted and a reboot is required
          *  NOTE 1 This cannot occur on the reference implementation.
          *  NOTE 2 There is no reason why an implementation would implement a design that would
          *  deplete handle space. Platform specifications are encouraged to forbid it.
          */
-        OBJECT_HANDLES, 
+        OBJECT_HANDLES,
 
         /** Bad locality  */
-        LOCALITY, 
+        LOCALITY,
 
         /** The TPM has suspended operation on the command; forward progress was made and the
          *  command may be retried
          *  See TPM 2.0 Part 1, Multi-tasking.
          *  NOTE This cannot occur on the reference implementation.
          */
-        YIELDED, 
+        YIELDED,
 
         /** The command was canceled  */
-        CANCELED, 
+        CANCELED,
 
         /** TPM is performing self-tests  */
-        TESTING, 
+        TESTING,
 
         /** The 1st handle in the handle area references a transient object or session that is not
          *  loaded
          */
-        REFERENCE_H0, 
+        REFERENCE_H0,
 
         /** The 2nd handle in the handle area references a transient object or session that is not
          *  loaded
          */
-        REFERENCE_H1, 
+        REFERENCE_H1,
 
         /** The 3rd handle in the handle area references a transient object or session that is not
          *  loaded
          */
-        REFERENCE_H2, 
+        REFERENCE_H2,
 
         /** The 4th handle in the handle area references a transient object or session that is not
          *  loaded
          */
-        REFERENCE_H3, 
+        REFERENCE_H3,
 
         /** The 5th handle in the handle area references a transient object or session that is not
          *  loaded
          */
-        REFERENCE_H4, 
+        REFERENCE_H4,
 
         /** The 6th handle in the handle area references a transient object or session that is not
          *  loaded
          */
-        REFERENCE_H5, 
+        REFERENCE_H5,
 
         /** The 7th handle in the handle area references a transient object or session that is not
          *  loaded
          */
-        REFERENCE_H6, 
+        REFERENCE_H6,
 
         /** The 1st authorization session handle references a session that is not loaded  */
-        REFERENCE_S0, 
+        REFERENCE_S0,
 
         /** The 2nd authorization session handle references a session that is not loaded  */
-        REFERENCE_S1, 
+        REFERENCE_S1,
 
         /** The 3rd authorization session handle references a session that is not loaded  */
-        REFERENCE_S2, 
+        REFERENCE_S2,
 
         /** The 4th authorization session handle references a session that is not loaded  */
-        REFERENCE_S3, 
+        REFERENCE_S3,
 
         /** The 5th session handle references a session that is not loaded  */
-        REFERENCE_S4, 
+        REFERENCE_S4,
 
         /** The 6th session handle references a session that is not loaded  */
-        REFERENCE_S5, 
+        REFERENCE_S5,
 
         /** The 7th authorization session handle references a session that is not loaded  */
-        REFERENCE_S6, 
+        REFERENCE_S6,
 
         /** The TPM is rate-limiting accesses to prevent wearout of NV  */
-        NV_RATE, 
+        NV_RATE,
 
         /** Authorizations for objects subject to DA protection are not allowed at this time
          *  because the TPM is in DA lockout mode
          */
-        LOCKOUT, 
+        LOCKOUT,
 
         /** The TPM was not able to start the command  */
-        RETRY, 
+        RETRY,
 
         /** The command may require writing of NV and NV is not current accessible  */
-        NV_UNAVAILABLE, 
+        NV_UNAVAILABLE,
 
         /** This value is reserved and shall not be returned by the TPM  */
-        NOT_USED, 
+        NOT_USED,
 
         /** Add to a handle-related error  */
-        H, 
+        H,
 
         /** Add to a parameter-related error  */
-        P, 
+        P,
 
         /** Add to a session-related error  */
-        S, 
+        S,
 
         /** Add to a parameter-, handle-, or session-related error  */
-        _1, 
+        _1,
 
         /** Add to a parameter-, handle-, or session-related error  */
-        _2, 
+        _2,
 
         /** Add to a parameter-, handle-, or session-related error  */
-        _3, 
+        _3,
 
         /** Add to a parameter-, handle-, or session-related error  */
-        _4, 
+        _4,
 
         /** Add to a parameter-, handle-, or session-related error  */
-        _5, 
+        _5,
 
         /** Add to a parameter-, handle-, or session-related error  */
-        _6, 
+        _6,
 
         /** Add to a parameter-, handle-, or session-related error  */
-        _7, 
+        _7,
 
         /** Add to a parameter-related error  */
-        _8, 
+        _8,
 
         /** Add to a parameter-related error  */
-        _9, 
+        _9,
 
         /** Add to a parameter-related error  */
-        A, 
+        A,
 
         /** Add to a parameter-related error  */
-        B, 
+        B,
 
         /** Add to a parameter-related error  */
-        C, 
+        C,
 
         /** Add to a parameter-related error  */
-        D, 
+        D,
 
         /** Add to a parameter-related error  */
-        E, 
+        E,
 
         /** Add to a parameter-related error  */
-        F, 
+        F,
 
         /** Number mask  */
-        N_MASK, 
+        N_MASK,
 
         /** Response buffer returned by the TPM is too short  */
-        TSS_TCP_BAD_HANDSHAKE_RESP, 
+        TSS_TCP_BAD_HANDSHAKE_RESP,
 
         /** Too old TCP server version  */
-        TSS_TCP_SERVER_TOO_OLD, 
+        TSS_TCP_SERVER_TOO_OLD,
 
         /** Bad ack from the TCP end point  */
-        TSS_TCP_BAD_ACK, 
+        TSS_TCP_BAD_ACK,
 
         /** Wrong length of the response buffer returned by the TPM  */
-        TSS_TCP_BAD_RESP_LEN, 
+        TSS_TCP_BAD_RESP_LEN,
 
         /** TPM2_Startup returned unexpected response code  */
-        TSS_TCP_UNEXPECTED_STARTUP_RESP, 
+        TSS_TCP_UNEXPECTED_STARTUP_RESP,
 
         /** Invalid size tag in the TPM response TCP packet  */
-        TSS_TCP_INVALID_SIZE_TAG, 
+        TSS_TCP_INVALID_SIZE_TAG,
 
         /** TPM over TCP device is not connected  */
-        TSS_TCP_DISCONNECTED, 
+        TSS_TCP_DISCONNECTED,
 
         /** General TPM command dispatch failure  */
-        TSS_DISPATCH_FAILED, 
+        TSS_DISPATCH_FAILED,
 
         /** Sending data to TPM failed  */
-        TSS_SEND_OP_FAILED, 
+        TSS_SEND_OP_FAILED,
 
         /** Response buffer returned by the TPM is too short  */
-        TSS_RESP_BUF_TOO_SHORT, 
+        TSS_RESP_BUF_TOO_SHORT,
 
         /** Invalid tag in the response buffer returned by the TPM  */
-        TSS_RESP_BUF_INVALID_SESSION_TAG, 
+        TSS_RESP_BUF_INVALID_SESSION_TAG,
 
         /** Inconsistent TPM response parameters size  */
-        TSS_RESP_BUF_INVALID_SIZE, 
+        TSS_RESP_BUF_INVALID_SIZE,
 
         /** Windows TBS error TPM_E_COMMAND_BLOCKED  */
-        TBS_COMMAND_BLOCKED, 
+        TBS_COMMAND_BLOCKED,
 
         /** Windows TBS error TPM_E_INVALID_HANDLE  */
-        TBS_INVALID_HANDLE, 
+        TBS_INVALID_HANDLE,
 
         /** Windows TBS error TPM_E_DUPLICATE_VHANDLE  */
-        TBS_DUPLICATE_V_HANDLE, 
+        TBS_DUPLICATE_V_HANDLE,
 
         /** Windows TBS error TPM_E_EMBEDDED_COMMAND_BLOCKED  */
-        TBS_EMBEDDED_COMMAND_BLOCKED, 
+        TBS_EMBEDDED_COMMAND_BLOCKED,
 
         /** Windows TBS error TPM_E_EMBEDDED_COMMAND_UNSUPPORTED  */
-        TBS_EMBEDDED_COMMAND_UNSUPPORTED, 
+        TBS_EMBEDDED_COMMAND_UNSUPPORTED,
 
         /** Windows TBS returned success but empty response buffer  */
-        TBS_UNKNOWN_ERROR, 
+        TBS_UNKNOWN_ERROR,
 
         /** Windows TBS error TBS_E_INTERNAL_ERROR  */
-        TBS_INTERNAL_ERROR, 
+        TBS_INTERNAL_ERROR,
 
         /** Windows TBS error TBS_E_BAD_PARAMETER  */
-        TBS_BAD_PARAMETER, 
+        TBS_BAD_PARAMETER,
 
         /** Windows TBS error TBS_E_INVALID_OUTPUT_POINTER  */
-        TBS_INVALID_OUTPUT_POINTER, 
+        TBS_INVALID_OUTPUT_POINTER,
 
         /** Windows TBS error TBS_E_INVALID_CONTEXT  */
-        TBS_INVALID_CONTEXT, 
+        TBS_INVALID_CONTEXT,
 
         /** Windows TBS error TBS_E_INSUFFICIENT_BUFFER  */
-        TBS_INSUFFICIENT_BUFFER, 
+        TBS_INSUFFICIENT_BUFFER,
 
         /** Windows TBS error TBS_E_IOERROR  */
-        TBS_IO_ERROR, 
+        TBS_IO_ERROR,
 
         /** Windows TBS error TBS_E_INVALID_CONTEXT_PARAM  */
-        TBS_INVALID_CONTEXT_PARAM, 
+        TBS_INVALID_CONTEXT_PARAM,
 
         /** Windows TBS error TBS_E_SERVICE_NOT_RUNNING  */
-        TBS_SERVICE_NOT_RUNNING, 
+        TBS_SERVICE_NOT_RUNNING,
 
         /** Windows TBS error TBS_E_TOO_MANY_TBS_CONTEXTS  */
-        TBS_TOO_MANY_CONTEXTS, 
+        TBS_TOO_MANY_CONTEXTS,
 
         /** Windows TBS error TBS_E_TOO_MANY_TBS_RESOURCES  */
-        TBS_TOO_MANY_RESOURCES, 
+        TBS_TOO_MANY_RESOURCES,
 
         /** Windows TBS error TBS_E_SERVICE_START_PENDING  */
-        TBS_SERVICE_START_PENDING, 
+        TBS_SERVICE_START_PENDING,
 
         /** Windows TBS error TBS_E_PPI_NOT_SUPPORTED  */
-        TBS_PPI_NOT_SUPPORTED, 
+        TBS_PPI_NOT_SUPPORTED,
 
         /** Windows TBS error TBS_E_COMMAND_CANCELED  */
-        TBS_COMMAND_CANCELED, 
+        TBS_COMMAND_CANCELED,
 
         /** Windows TBS error TBS_E_BUFFER_TOO_LARGE  */
-        TBS_BUFFER_TOO_LARGE, 
+        TBS_BUFFER_TOO_LARGE,
 
         /** Windows TBS error TBS_E_TPM_NOT_FOUND  */
-        TBS_TPM_NOT_FOUND, 
+        TBS_TPM_NOT_FOUND,
 
         /** Windows TBS error TBS_E_SERVICE_DISABLED  */
-        TBS_SERVICE_DISABLED, 
+        TBS_SERVICE_DISABLED,
 
         /** Windows TBS error TBS_E_ACCESS_DENIED  */
-        TBS_ACCESS_DENIED, 
+        TBS_ACCESS_DENIED,
 
         /** Windows TBS error TBS_E_PPI_FUNCTION_UNSUPPORTED  */
-        TBS_PPI_FUNCTION_NOT_SUPPORTED, 
+        TBS_PPI_FUNCTION_NOT_SUPPORTED,
 
         /** Windows TBS error TBS_E_OWNERAUTH_NOT_FOUND  */
         TBS_OWNER_AUTH_NOT_FOUND

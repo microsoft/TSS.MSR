@@ -23,7 +23,7 @@ public final class TPMA_ACT extends TpmAttribute<TPMA_ACT>
         /** SET (1): The ACT has signaled
          *  CLEAR (0): The ACT has not signaled
          */
-        signaled, 
+        signaled,
 
         /** Preserves the state of signaled, depending on the power cycle  */
         preserveSignaled

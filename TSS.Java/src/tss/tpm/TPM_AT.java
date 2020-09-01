@@ -21,13 +21,13 @@ public final class TPM_AT extends TpmEnum<TPM_AT>
         /** In a command, a non-specific request for AC information; in a response, indicates that
          *  outputData is not meaningful
          */
-        ANY, 
+        ANY,
 
         /** Indicates a TCG defined, device-specific error  */
-        ERROR, 
+        ERROR,
 
         /** Indicates the most significant 32 bits of a pairing value for the AC  */
-        PV1, 
+        PV1,
 
         /** Value added to a TPM_AT to indicate a vendor-specific tag value  */
         VEND

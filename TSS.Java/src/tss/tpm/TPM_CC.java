@@ -15,196 +15,196 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
      */
     public enum _N {
         /** Compile variable. May decrease based on implementation.  */
-        FIRST, 
-        NV_UndefineSpaceSpecial, 
-        EvictControl, 
-        HierarchyControl, 
-        NV_UndefineSpace, 
-        ChangeEPS, 
-        ChangePPS, 
-        Clear, 
-        ClearControl, 
-        ClockSet, 
-        HierarchyChangeAuth, 
-        NV_DefineSpace, 
-        PCR_Allocate, 
-        PCR_SetAuthPolicy, 
-        PP_Commands, 
-        SetPrimaryPolicy, 
-        FieldUpgradeStart, 
-        ClockRateAdjust, 
-        CreatePrimary, 
-        NV_GlobalWriteLock, 
-        GetCommandAuditDigest, 
-        NV_Increment, 
-        NV_SetBits, 
-        NV_Extend, 
-        NV_Write, 
-        NV_WriteLock, 
-        DictionaryAttackLockReset, 
-        DictionaryAttackParameters, 
-        NV_ChangeAuth, 
+        FIRST,
+        NV_UndefineSpaceSpecial,
+        EvictControl,
+        HierarchyControl,
+        NV_UndefineSpace,
+        ChangeEPS,
+        ChangePPS,
+        Clear,
+        ClearControl,
+        ClockSet,
+        HierarchyChangeAuth,
+        NV_DefineSpace,
+        PCR_Allocate,
+        PCR_SetAuthPolicy,
+        PP_Commands,
+        SetPrimaryPolicy,
+        FieldUpgradeStart,
+        ClockRateAdjust,
+        CreatePrimary,
+        NV_GlobalWriteLock,
+        GetCommandAuditDigest,
+        NV_Increment,
+        NV_SetBits,
+        NV_Extend,
+        NV_Write,
+        NV_WriteLock,
+        DictionaryAttackLockReset,
+        DictionaryAttackParameters,
+        NV_ChangeAuth,
 
         /** PCR  */
-        PCR_Event, 
+        PCR_Event,
 
         /** PCR  */
-        PCR_Reset, 
-        SequenceComplete, 
-        SetAlgorithmSet, 
-        SetCommandCodeAuditStatus, 
-        FieldUpgradeData, 
-        IncrementalSelfTest, 
-        SelfTest, 
-        Startup, 
-        Shutdown, 
-        StirRandom, 
-        ActivateCredential, 
-        Certify, 
+        PCR_Reset,
+        SequenceComplete,
+        SetAlgorithmSet,
+        SetCommandCodeAuditStatus,
+        FieldUpgradeData,
+        IncrementalSelfTest,
+        SelfTest,
+        Startup,
+        Shutdown,
+        StirRandom,
+        ActivateCredential,
+        Certify,
 
         /** Policy  */
-        PolicyNV, 
-        CertifyCreation, 
-        Duplicate, 
-        GetTime, 
-        GetSessionAuditDigest, 
-        NV_Read, 
-        NV_ReadLock, 
-        ObjectChangeAuth, 
+        PolicyNV,
+        CertifyCreation,
+        Duplicate,
+        GetTime,
+        GetSessionAuditDigest,
+        NV_Read,
+        NV_ReadLock,
+        ObjectChangeAuth,
 
         /** Policy  */
-        PolicySecret, 
-        Rewrap, 
-        Create, 
-        ECDH_ZGen, 
+        PolicySecret,
+        Rewrap,
+        Create,
+        ECDH_ZGen,
 
         /** See NOTE 1  */
-        HMAC, 
+        HMAC,
 
         /** See NOTE 1  */
-        MAC, 
-        Import, 
-        Load, 
-        Quote, 
-        RSA_Decrypt, 
+        MAC,
+        Import,
+        Load,
+        Quote,
+        RSA_Decrypt,
 
         /** See NOTE 1  */
-        HMAC_Start, 
+        HMAC_Start,
 
         /** See NOTE 1  */
-        MAC_Start, 
-        SequenceUpdate, 
-        Sign, 
-        Unseal, 
+        MAC_Start,
+        SequenceUpdate,
+        Sign,
+        Unseal,
 
         /** Policy  */
-        PolicySigned, 
+        PolicySigned,
 
         /** Context  */
-        ContextLoad, 
+        ContextLoad,
 
         /** Context  */
-        ContextSave, 
-        ECDH_KeyGen, 
-        EncryptDecrypt, 
+        ContextSave,
+        ECDH_KeyGen,
+        EncryptDecrypt,
 
         /** Context  */
-        FlushContext, 
-        LoadExternal, 
-        MakeCredential, 
+        FlushContext,
+        LoadExternal,
+        MakeCredential,
 
         /** NV  */
-        NV_ReadPublic, 
+        NV_ReadPublic,
 
         /** Policy  */
-        PolicyAuthorize, 
+        PolicyAuthorize,
 
         /** Policy  */
-        PolicyAuthValue, 
+        PolicyAuthValue,
 
         /** Policy  */
-        PolicyCommandCode, 
+        PolicyCommandCode,
 
         /** Policy  */
-        PolicyCounterTimer, 
+        PolicyCounterTimer,
 
         /** Policy  */
-        PolicyCpHash, 
+        PolicyCpHash,
 
         /** Policy  */
-        PolicyLocality, 
+        PolicyLocality,
 
         /** Policy  */
-        PolicyNameHash, 
+        PolicyNameHash,
 
         /** Policy  */
-        PolicyOR, 
+        PolicyOR,
 
         /** Policy  */
-        PolicyTicket, 
-        ReadPublic, 
-        RSA_Encrypt, 
-        StartAuthSession, 
-        VerifySignature, 
-        ECC_Parameters, 
-        FirmwareRead, 
-        GetCapability, 
-        GetRandom, 
-        GetTestResult, 
-        Hash, 
+        PolicyTicket,
+        ReadPublic,
+        RSA_Encrypt,
+        StartAuthSession,
+        VerifySignature,
+        ECC_Parameters,
+        FirmwareRead,
+        GetCapability,
+        GetRandom,
+        GetTestResult,
+        Hash,
 
         /** PCR  */
-        PCR_Read, 
+        PCR_Read,
 
         /** Policy  */
-        PolicyPCR, 
-        PolicyRestart, 
-        ReadClock, 
-        PCR_Extend, 
-        PCR_SetAuthValue, 
-        NV_Certify, 
-        EventSequenceComplete, 
-        HashSequenceStart, 
+        PolicyPCR,
+        PolicyRestart,
+        ReadClock,
+        PCR_Extend,
+        PCR_SetAuthValue,
+        NV_Certify,
+        EventSequenceComplete,
+        HashSequenceStart,
 
         /** Policy  */
-        PolicyPhysicalPresence, 
+        PolicyPhysicalPresence,
 
         /** Policy  */
-        PolicyDuplicationSelect, 
+        PolicyDuplicationSelect,
 
         /** Policy  */
-        PolicyGetDigest, 
-        TestParms, 
-        Commit, 
+        PolicyGetDigest,
+        TestParms,
+        Commit,
 
         /** Policy  */
-        PolicyPassword, 
-        ZGen_2Phase, 
-        EC_Ephemeral, 
+        PolicyPassword,
+        ZGen_2Phase,
+        EC_Ephemeral,
 
         /** Policy  */
-        PolicyNvWritten, 
+        PolicyNvWritten,
 
         /** Policy  */
-        PolicyTemplate, 
-        CreateLoaded, 
+        PolicyTemplate,
+        CreateLoaded,
 
         /** Policy  */
-        PolicyAuthorizeNV, 
-        EncryptDecrypt2, 
-        AC_GetCapability, 
-        AC_Send, 
+        PolicyAuthorizeNV,
+        EncryptDecrypt2,
+        AC_GetCapability,
+        AC_Send,
 
         /** Policy  */
-        Policy_AC_SendSelect, 
-        CertifyX509, 
-        ACT_SetTimeout, 
-        ECC_Encrypt, 
-        ECC_Decrypt, 
+        Policy_AC_SendSelect,
+        CertifyX509,
+        ACT_SetTimeout,
+        ECC_Encrypt,
+        ECC_Decrypt,
 
         /** Compile variable. May increase based on implementation.  */
-        LAST, 
-        CC_VEND, 
+        LAST,
+        CC_VEND,
 
         /** Used for testing of command dispatch  */
         Vendor_TCG_Test
