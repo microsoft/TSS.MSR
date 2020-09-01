@@ -16,37 +16,37 @@ import java.util.*;
 public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
-     *  using this.asEnum() method in the switch condition. However, their Java names
-     *  are identical to those of the constants defined in this class further below,
-     *  so for any other usage just prepend them with the 'TPMA_X509_KEY_USAGE.' qualifier.
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPMA_X509_KEY_USAGE. qualifier.
      */
     public enum _N {
         /** Attributes.Decrypt SET  */
-        decipherOnly,
+        decipherOnly, 
 
         /** Attributes.Decrypt SET  */
-        encipherOnly,
+        encipherOnly, 
 
         /** Attributes.sign SET  */
-        cRLSign,
+        cRLSign, 
 
         /** Attributes.sign SET  */
-        keyCertSign,
+        keyCertSign, 
 
         /** Attributes.Decrypt SET  */
-        keyAgreement,
+        keyAgreement, 
 
         /** Attributes.Decrypt SET  */
-        dataEncipherment,
+        dataEncipherment, 
 
         /** Asymmetric key with decrypt and restricted SET key has the attributes of a parent key  */
-        keyEncipherment,
+        keyEncipherment, 
 
         /** FixedTPM SET in Subject Key (objectHandle)  */
-        nonrepudiation,
+        nonrepudiation, 
 
         /** Alias to the nonrepudiation value.  */
-        contentCommitment,
+        contentCommitment, 
 
         /** Sign SET in Subject Key (objectHandle)  */
         digitalSignature
@@ -54,7 +54,7 @@ public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
 
     private static ValueMap<TPMA_X509_KEY_USAGE> _ValueMap = new ValueMap<TPMA_X509_KEY_USAGE>();
 
-    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPMA_X509_KEY_USAGE
         decipherOnly = new TPMA_X509_KEY_USAGE(0x800000, _N.decipherOnly),
         encipherOnly = new TPMA_X509_KEY_USAGE(0x1000000, _N.encipherOnly),

@@ -14,9 +14,9 @@ import java.util.*;
 public final class TPMA_MEMORY extends TpmAttribute<TPMA_MEMORY>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
-     *  using this.asEnum() method in the switch condition. However, their Java names
-     *  are identical to those of the constants defined in this class further below,
-     *  so for any other usage just prepend them with the 'TPMA_MEMORY.' qualifier.
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPMA_MEMORY. qualifier.
      */
     public enum _N {
         /** SET (1): indicates that the RAM memory used for authorization session contexts is
@@ -24,14 +24,14 @@ public final class TPMA_MEMORY extends TpmAttribute<TPMA_MEMORY>
          *  CLEAR (0): indicates that the memory used for authorization sessions is not shared
          *  with memory used for transient objects
          */
-        sharedRAM,
+        sharedRAM, 
 
         /** SET (1): indicates that the NV memory used for persistent objects is shared with the
          *  NV memory used for NV Index values
          *  CLEAR (0): indicates that the persistent objects and NV Index values are allocated
          *  from separate sections of NV
          */
-        sharedNV,
+        sharedNV, 
 
         /** SET (1): indicates that the TPM copies persistent objects to a transient-object slot
          *  in RAM when the persistent object is referenced in a command. The TRM is required to
@@ -44,7 +44,7 @@ public final class TPMA_MEMORY extends TpmAttribute<TPMA_MEMORY>
 
     private static ValueMap<TPMA_MEMORY> _ValueMap = new ValueMap<TPMA_MEMORY>();
 
-    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPMA_MEMORY
         sharedRAM = new TPMA_MEMORY(0x1, _N.sharedRAM),
         sharedNV = new TPMA_MEMORY(0x2, _N.sharedNV),

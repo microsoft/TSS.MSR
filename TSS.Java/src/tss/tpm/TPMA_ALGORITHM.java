@@ -11,42 +11,42 @@ import java.util.*;
 public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
-     *  using this.asEnum() method in the switch condition. However, their Java names
-     *  are identical to those of the constants defined in this class further below,
-     *  so for any other usage just prepend them with the 'TPMA_ALGORITHM.' qualifier.
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPMA_ALGORITHM. qualifier.
      */
     public enum _N {
         /** SET (1): an asymmetric algorithm with public and private portions
          *  CLEAR (0): not an asymmetric algorithm
          */
-        asymmetric,
+        asymmetric, 
 
         /** SET (1): a symmetric block cipher
          *  CLEAR (0): not a symmetric block cipher
          */
-        symmetric,
+        symmetric, 
 
         /** SET (1): a hash algorithm
          *  CLEAR (0): not a hash algorithm
          */
-        hash,
+        hash, 
 
         /** SET (1): an algorithm that may be used as an object type
          *  CLEAR (0): an algorithm that is not used as an object type
          */
-        object,
+        object, 
 
         /** SET (1): a signing algorithm. The setting of asymmetric, symmetric, and hash will
          *  indicate the type of signing algorithm.
          *  CLEAR (0): not a signing algorithm
          */
-        signing,
+        signing, 
 
         /** SET (1): an encryption/decryption algorithm. The setting of asymmetric, symmetric, and
          *  hash will indicate the type of encryption/decryption algorithm.
          *  CLEAR (0): not an encryption/decryption algorithm
          */
-        encrypting,
+        encrypting, 
 
         /** SET (1): a method such as a key derivative function (KDF)
          *  CLEAR (0): not a method
@@ -56,7 +56,7 @@ public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
 
     private static ValueMap<TPMA_ALGORITHM> _ValueMap = new ValueMap<TPMA_ALGORITHM>();
 
-    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPMA_ALGORITHM
         asymmetric = new TPMA_ALGORITHM(0x1, _N.asymmetric),
         symmetric = new TPMA_ALGORITHM(0x2, _N.symmetric),

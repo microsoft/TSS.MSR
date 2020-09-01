@@ -14,9 +14,9 @@ import java.util.*;
 public final class TPMA_MODES extends TpmAttribute<TPMA_MODES>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
-     *  using this.asEnum() method in the switch condition. However, their Java names
-     *  are identical to those of the constants defined in this class further below,
-     *  so for any other usage just prepend them with the 'TPMA_MODES.' qualifier.
+     *  using the result of this.asEnum() method as the switch condition. However, their Java
+     *  names are identical to those of the constants defined in this class further below, so
+     *  for any other usage just prepend them with the TPMA_MODES. qualifier.
      */
     public enum _N {
         /** SET (1): indicates that the TPM is designed to comply with all of the FIPS 140-2
@@ -27,7 +27,7 @@ public final class TPMA_MODES extends TpmAttribute<TPMA_MODES>
 
     private static ValueMap<TPMA_MODES> _ValueMap = new ValueMap<TPMA_MODES>();
 
-    /** These definitions provide mapping of Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
     public static final TPMA_MODES
         FIPS_140_2 = new TPMA_MODES(0x1, _N.FIPS_140_2);
 
