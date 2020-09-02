@@ -2570,14 +2570,20 @@ export enum TPMA_SESSION // UINT8
 export enum TPMA_LOCALITY // UINT8
 {
     LOC_ZERO = 0x1,
+
     LOC_ONE = 0x2,
+
     LOC_TWO = 0x4,
+
     LOC_THREE = 0x8,
+
     LOC_FOUR = 0x10,
 
     /** If any of these bits is set, an extended locality is indicated  */
     Extended_BIT_MASK = 0xE0,
+
     Extended_BIT_OFFSET = 5,
+
     Extended_BIT_LENGTH = 3
 }; // bitfield TPMA_LOCALITY
 
@@ -2712,7 +2718,9 @@ export enum TPMA_CC // TPM_CC
 {
     /** Indicates the command being selected  */
     commandIndex_BIT_MASK = 0xFFFF,
+
     commandIndex_BIT_OFFSET = 0,
+
     commandIndex_BIT_LENGTH = 16,
 
     /** SET (1): indicates that the command may write to NV
@@ -2733,7 +2741,9 @@ export enum TPMA_CC // TPM_CC
 
     /** Indicates the number of the handles in the handle area for this command  */
     cHandles_BIT_MASK = 0xE000000,
+
     cHandles_BIT_OFFSET = 25,
+
     cHandles_BIT_LENGTH = 3,
 
     /** SET (1): indicates the presence of the handle area in the response  */
@@ -2746,7 +2756,9 @@ export enum TPMA_CC // TPM_CC
 
     /** Allocated for software; shall be zero  */
     Res_BIT_MASK = 0xC0000000,
+
     Res_BIT_OFFSET = 30,
+
     Res_BIT_LENGTH = 2
 }; // bitfield TPMA_CC
 
@@ -2826,12 +2838,16 @@ export enum TPM_NV_INDEX // UINT32
 {
     /** The Index of the NV location  */
     index_BIT_MASK = 0xFFFFFF,
+
     index_BIT_OFFSET = 0,
+
     index_BIT_LENGTH = 24,
 
     /** Constant value of TPM_HT_NV_INDEX indicating the NV Index range  */
     RhNv_BIT_MASK = 0xFF000000,
+
     RhNv_BIT_OFFSET = 24,
+
     RhNv_BIT_LENGTH = 8
 }; // bitfield TPM_NV_INDEX
 
@@ -2893,7 +2909,9 @@ export enum TPMA_NV // UINT32
      *  NOTE A TPM is not required to support all TPM_NT values
      */
     TpmNt_BIT_MASK = 0xF0,
+
     TpmNt_BIT_OFFSET = 4,
+
     TpmNt_BIT_LENGTH = 4,
 
     /** SET (1): Index may not be deleted unless the authPolicy is satisfied using
