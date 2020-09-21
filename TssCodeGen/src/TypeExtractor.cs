@@ -428,6 +428,7 @@ namespace CodeGen
 
             // Add definitions of additional structures not defined in the TPM 2.0 spec.
             AddTssStructs();
+            TpmTypeTranslations.DoFixups();
         }
 
         // Add utility structures exposed and used by the TSS framework.

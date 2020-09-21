@@ -11,6 +11,8 @@ using System.Text.RegularExpressions;
 
 namespace CodeGen
 {
+
+    /// <summary> Static class containing dictionaries with AST classes and their access and manipulation helpers </summary>
     public static class TpmTypes
     {
         static public readonly string EmptyUnionBaseName = "TPMS_NULL_UNION";
@@ -75,14 +77,6 @@ namespace CodeGen
             return;
         }
 
-        internal static void Replace(TpmType tpmType, string insertAfter)
-        {
-            Debug.Assert(TypeIndex.ContainsKey(tpmType.SpecName));
-            TheTypes.Remove(TypeIndex[tpmType.SpecName]);
-            TypeIndex.Remove(tpmType.SpecName);
-            Add(tpmType, insertAfter);
-        }
-
         internal static bool Remove(string typeName)
         {
             if (!TypeIndex.ContainsKey(typeName))
@@ -120,17 +114,6 @@ namespace CodeGen
             if (!ConstantIndex.ContainsKey(name))
                 return false;
             ConstantIndex.Remove(name);
-            return true;
-        }
-
-        internal static bool RenameConstant(string curName, string newName)
-        {
-            var nc = LookupConstant(curName);
-            if (nc == null)
-                return false;
-            ConstantIndex.Remove(curName);
-            nc.SpecName = newName;
-            ConstantIndex.Add(curName, nc);
             return true;
         }
 

@@ -16,10 +16,10 @@ using System.Xml.Serialization;
  * Entry point for the code generatator.
  * 
  * This program works in three phases:
- *  1) Parses Part 2 and 3 of the TPM 2.0 spec, extracts the definitions of TPM 2.0 data structures,
- *     constants, and commands and saves them as in an XML file. If the XML file with the definitions
- *     already exists, then this step is skipped by default. It can be enforced with the '-extract'
- *     command line option.
+ *  1) Parses Part 2 and 3 of the TPM 2.0 spec, extracts tables with the definitions of TPM 2.0 data
+ *     structures, constants, unions, and commands and saves them as in an XML file (RawTables.xml).
+ *     If RawTables.xml already exists, then this step is skipped by default. It can be enforced 
+ *     with the '-extract' command line option.
  *  2) Reads the XML file with extracted definitions and creates internal abstract syntax tree (AST)
  *     of the TPM 2.0 entities.
  *  3) Generates the code for the target program languages (all supported languages by default, or as
@@ -78,10 +78,10 @@ namespace CodeGen
 
         static void Main(string[] args)
         {
-            bool    help = false, abort = false;
+            bool   help = false;
             string specPath = null;
             string tssRootPath = null;
-            var actions = Action.None;
+            Action actions = Action.None;
 
             Func<Lang, string> langName = l => Enum.GetName(typeof(Lang), l);
 
@@ -94,7 +94,7 @@ namespace CodeGen
 
                 if (opt[0] != '-' && opt[0] != '/')
                 {
-                    help = abort = true;
+                    help = true;
                     PrintError($"Invalid format for option {i}: {opt}");
                     break;
                 }
@@ -142,7 +142,7 @@ namespace CodeGen
                         }
                         else
                         {
-                            help = abort = true;
+                            help = true;
                             PrintError($"Unrecognized option '{opt}'");
                         }
                     }
@@ -151,17 +151,38 @@ namespace CodeGen
 
             if (help)
             {
-                Console.WriteLine("\nAll command line parameters are case-insensitive and optional.\n" +
+                Console.WriteLine("TSS Code Generator tool.\n" +
+                    "Copyright (c) Microsoft Corporation. All rights reserved.\n" +
+                    "\n" +
+                    "This tool (re)generates the interface part of the TPM Software Stack (TSS)\n" +
+                    "implementations for all supported programming languages/frameworks (TSS.Net,\n" +
+                    "TSS.CPP, TSS.Java, TSS.JS, TSS.Py)\n" +
+                    "\n" +
+                    "All command line parameters are case-insensitive and optional.\n" +
                     "Option names are prepended with either dash ('-') or slash ('/') marks.\n" +
-                    " They include:\n" +
-                    " spec <path> - a path to the root folder that contains the TPM 2.0 spec Word\n" +
-                    "               documents and/or intermediate XML representation\n" +
-                    " dest <path> - a path to the root folder that contains the TPM 2.0 spec Word\n" +
-                    "               documents and/or intermediate XML representation\n" +
-                    " noExtract, dotNet, cpp, java, noDotnet, noCpp, noJava, h|help|?" +
-                    "Options are case-insensitive, and must be prepended by characters '-' or '/'\n");
-                if (abort)
-                    return;
+                    "\n" + 
+                    "The following options are supported:\n" +
+                    "  h|help|?    - Display this message\n" +
+                    "  spec <path> - Path to the folder containing the TPM 2.0 specification Word\n" +
+                    "                documents and/or intermediate XML representation (RawTables.xml).\n" +
+                    "                By default the TssCodeGen/TpmSpec folder is used.\n" +
+                    "  dest <path> - Path to the root folder containing individual TSSes to be updated.\n" +
+                    "                By default the TSS implementations in this repo clone (in the\n" +
+                    "                folders adjasent to the TssCodeGen folder) are updated.\n" +
+                    "  extract     - Force parsing the TPM 2.0 spec documents even if the intermediate\n" +
+                    "                XML representation file (RawTables.xml) is available. By default\n" +
+                    "                the tool will always use RawTables.xml if it is present.\n" +
+                    "  dotNet, cpp, java, node, py - Any combination of these options can be used\n" +
+                    "                to select TSS implementations to be updated. By default (when\n" +
+                    "                none of them is present) all supported languages are updated.\n" +
+                    "\n" +
+                    "Note that the default path values used by the tool are selected in expectation\n" +
+                    "that it is run from the Visual Studio after being built from its github repo clone.\n" +
+                    "If however the binary location or folder structure is different, options 'spec'\n" +
+                    "and 'dest' will be required." +
+                    "\n"
+                    );
+                return;
             }
 
             // The TPM 2.0 spec Word docs Part 2 and 3 are parsed to produce an XML representation.
@@ -202,8 +223,6 @@ namespace CodeGen
             TypeExtractor tpe = new TypeExtractor(tables);
             tpe.Extract();
 
-            TpmTypeTranslations.DoFixups();
-
             if (tssRootPath == null)
                 tssRootPath = @"..\..\..\..\";
 
@@ -227,7 +246,7 @@ namespace CodeGen
                 TargetLang.SetTargetLang(Lang.DotNet);
                 dotNetGen.Generate();
             }
-            Console.WriteLine("All done!");
+            Console.WriteLine("\nAll done!");
         }
 
         public static void XmlSerializeToFile(String FileName, Object o)

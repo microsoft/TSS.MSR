@@ -134,7 +134,6 @@ namespace CodeGen
         void GenBitfield(TpmBitfield bf)
         {
             GenEnum(bf, GetBifieldElements(bf));
-
         }
 
         void GenUnion(TpmUnion u)

@@ -393,7 +393,4 @@ This folder contains three projects:
 TestSubstrate and TestSuite projects depend on the [TSS.Net](https://github.com/Microsoft/TSS.MSR/tree/master/TSS.NET) project from this repo.
 
 ## System Requirements
-Tpm2Tester is a cross-platform .Net Standard library and requires Visual Studio 2015 Update 3 to build.
-
-## Questions and Feedback
-Please send questions and feedback to tssdotnet@microsoft.com.
+Tpm2Tester is a cross-platform .NET Standard library and requires Visual Studio 2017 or above to build it. It can target one of the following .NET framework flavors: .NET 4.7.2, .NET Standard 2.0.
