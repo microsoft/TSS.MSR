@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Microsoft.TSS</id>
+        <version>2.2</version>
+        <title>TSS.MSR</title>
+        <authors>Microsoft</authors>
+        <owners>tssdotmsr,Microsoft</owners>
+        <licenseUrl>https://github.com/Microsoft/TSS.MSR/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/Microsoft/TSS.MSR</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <summary>The TPM 2.0 Software Stack for Microsoft .Net from Microsoft</summary>
+        <description>TSS.Net is a crossplatform .Net library that provides convenient abstraction layer for the binary TPM 2.0 interface in various Windows and Linux environments. 
+
+TSS.Net greatly simplifies writing code that interacts with TPM 2.0 devices by providing both low level 1-to-1 mapping for TPM 2.0 commands, and higher level abstractions that free the developer from the necessity of writing hundreds lines of code to marshal TPM data structures or perform operations involving cryptography such as handling various types of TPM sessions, migrating keys between software crypto and TPM 2.0 devices, preparing TPM 2.0 policies, or computing expected TPM 2.0 audit results. 
+
+TSS.Net library also seamlessly works with the Microsoft TPM simulator (https://github.com/Microsoft/ms-tpm-20-ref) to enable application development and debugging on platforms that do not have a physical TPM 2.0 device.</description>
+        <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2" />
+      <group targetFramework=".NETFramework4.8" />
+      <group targetFramework=".NETCoreApp2.1" />
+      <group targetFramework=".NETCoreApp2.2" />
+      <group targetFramework=".NETCoreApp3.0" />
+      <group targetFramework=".NETCoreApp3.1" />
+      <group targetFramework=".NETStandard2.1" />
+      <group targetFramework="UAP10.0" />
+    </dependencies>
+    </metadata>
+    <files>
+        <file src="drop.SN.AC\net472\TSS.Net.dll" target="lib\net472\TSS.Net.dll" />
+        <file src="drop.SN.AC\net472\TSS.Net.pdb" target="lib\net472\TSS.Net.pdb" />
+        <file src="drop.SN.AC\net48\TSS.Net.dll" target="lib\net48\TSS.Net.dll" />
+        <file src="drop.SN.AC\net48\TSS.Net.pdb" target="lib\net48\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netcoreapp2.1\TSS.Net.deps.json" target="lib\netcoreapp2.1\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netcoreapp2.1\TSS.Net.dll" target="lib\netcoreapp2.1\TSS.Net.dll" />
+        <file src="drop.SN.AC\netcoreapp2.1\TSS.Net.pdb" target="lib\netcoreapp2.1\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netcoreapp2.2\TSS.Net.deps.json" target="lib\netcoreapp2.2\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netcoreapp2.2\TSS.Net.dll" target="lib\netcoreapp2.2\TSS.Net.dll" />
+        <file src="drop.SN.AC\netcoreapp2.2\TSS.Net.pdb" target="lib\netcoreapp2.2\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netcoreapp3.0\TSS.Net.deps.json" target="lib\netcoreapp3.0\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netcoreapp3.0\TSS.Net.dll" target="lib\netcoreapp3.0\TSS.Net.dll" />
+        <file src="drop.SN.AC\netcoreapp3.0\TSS.Net.pdb" target="lib\netcoreapp3.0\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netcoreapp3.1\TSS.Net.deps.json" target="lib\netcoreapp3.1\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netcoreapp3.1\TSS.Net.dll" target="lib\netcoreapp3.1\TSS.Net.dll" />
+        <file src="drop.SN.AC\netcoreapp3.1\TSS.Net.pdb" target="lib\netcoreapp3.1\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netstandard2.1\TSS.Net.deps.json" target="lib\netstandard2.1\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netstandard2.1\TSS.Net.dll" target="lib\netstandard2.1\TSS.Net.dll" />
+        <file src="drop.SN.AC\netstandard2.1\TSS.Net.pdb" target="lib\netstandard2.1\TSS.Net.pdb" />
+        <file src="drop.SN.AC\uap10.0\TSS.Net.dll" target="lib\uap10.0\TSS.Net.dll" />
+        <file src="drop.SN.AC\uap10.0\TSS.Net.pdb" target="lib\uap10.0\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netcoreapp2.1\linux-arm\TSS.Net.deps.json" target="runtimes\linux-arm\lib\netcoreapp2.1\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netcoreapp2.1\linux-arm\TSS.Net.dll" target="runtimes\linux-arm\lib\netcoreapp2.1\TSS.Net.dll" />
+        <file src="drop.SN.AC\netcoreapp2.1\linux-arm\TSS.Net.pdb" target="runtimes\linux-arm\lib\netcoreapp2.1\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netcoreapp2.1\linux-musl-x64\TSS.Net.deps.json" target="runtimes\linux-musl-x64\lib\netcoreapp2.1\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netcoreapp2.1\linux-musl-x64\TSS.Net.dll" target="runtimes\linux-musl-x64\lib\netcoreapp2.1\TSS.Net.dll" />
+        <file src="drop.SN.AC\netcoreapp2.1\linux-musl-x64\TSS.Net.pdb" target="runtimes\linux-musl-x64\lib\netcoreapp2.1\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netcoreapp2.1\linux-x64\TSS.Net.deps.json" target="runtimes\linux-x64\lib\netcoreapp2.1\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netcoreapp2.1\linux-x64\TSS.Net.dll" target="runtimes\linux-x64\lib\netcoreapp2.1\TSS.Net.dll" />
+        <file src="drop.SN.AC\netcoreapp2.1\linux-x64\TSS.Net.pdb" target="runtimes\linux-x64\lib\netcoreapp2.1\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netcoreapp2.2\linux-arm\TSS.Net.deps.json" target="runtimes\linux-arm\lib\netcoreapp2.2\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netcoreapp2.2\linux-arm\TSS.Net.dll" target="runtimes\linux-arm\lib\netcoreapp2.2\TSS.Net.dll" />
+        <file src="drop.SN.AC\netcoreapp2.2\linux-arm\TSS.Net.pdb" target="runtimes\linux-arm\lib\netcoreapp2.2\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netcoreapp2.2\linux-musl-x64\TSS.Net.deps.json" target="runtimes\linux-musl-x64\lib\netcoreapp2.2\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netcoreapp2.2\linux-musl-x64\TSS.Net.dll" target="runtimes\linux-musl-x64\lib\netcoreapp2.2\TSS.Net.dll" />
+        <file src="drop.SN.AC\netcoreapp2.2\linux-musl-x64\TSS.Net.pdb" target="runtimes\linux-musl-x64\lib\netcoreapp2.2\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netcoreapp2.2\linux-x64\TSS.Net.deps.json" target="runtimes\linux-x64\lib\netcoreapp2.2\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netcoreapp2.2\linux-x64\TSS.Net.dll" target="runtimes\linux-x64\lib\netcoreapp2.2\TSS.Net.dll" />
+        <file src="drop.SN.AC\netcoreapp2.2\linux-x64\TSS.Net.pdb" target="runtimes\linux-x64\lib\netcoreapp2.2\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netstandard2.1\linux-arm\TSS.Net.deps.json" target="runtimes\linux-arm\lib\netstandard2.1\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netstandard2.1\linux-arm\TSS.Net.dll" target="runtimes\linux-arm\lib\netstandard2.1\TSS.Net.dll" />
+        <file src="drop.SN.AC\netstandard2.1\linux-arm\TSS.Net.pdb" target="runtimes\linux-arm\lib\netstandard2.1\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netstandard2.1\linux-musl-x64\TSS.Net.deps.json" target="runtimes\linux-musl-x64\lib\netstandard2.1\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netstandard2.1\linux-musl-x64\TSS.Net.dll" target="runtimes\linux-musl-x64\lib\netstandard2.1\TSS.Net.dll" />
+        <file src="drop.SN.AC\netstandard2.1\linux-musl-x64\TSS.Net.pdb" target="runtimes\linux-musl-x64\lib\netstandard2.1\TSS.Net.pdb" />
+        <file src="drop.SN.AC\netstandard2.1\linux-x64\TSS.Net.deps.json" target="runtimes\linux-x64\lib\netstandard2.1\TSS.Net.deps.json" />
+        <file src="drop.SN.AC\netstandard2.1\linux-x64\TSS.Net.dll" target="runtimes\linux-x64\lib\netstandard2.1\TSS.Net.dll" />
+        <file src="drop.SN.AC\netstandard2.1\linux-x64\TSS.Net.pdb" target="runtimes\linux-x64\lib\netstandard2.1\TSS.Net.pdb" />
+    </files>
+</package>

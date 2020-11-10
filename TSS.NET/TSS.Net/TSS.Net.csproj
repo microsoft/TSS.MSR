@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <AssemblyName>TSS.Net</AssemblyName>
-    <TargetFrameworks>netstandard2.0;net472;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;net472;net48;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
     <PackageId>TSS.Net</PackageId>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>2.1.1</Version>
+    <Version>2.2</Version>
     <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
   <PropertyGroup>

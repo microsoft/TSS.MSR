@@ -209,9 +209,11 @@ namespace Tpm2Lib
                     Console.WriteLine($"Exception: {e}");
                 }
 #endif
+#if !WINDOWS_UWP
                 Console.WriteLine("GetTpmAuth({0}): Windows TBS returned 0x{1:X} {2}", authType, result,
                                     result == TbsWrapper.TBS_RESULT.OWNERAUTH_NOT_FOUND ? " (OWNERAUTH_NOT_FOUND)" :
                                     result == TbsWrapper.TBS_RESULT.BAD_PARAMETER ? " (BAD_PARAMETER)" : "");
+#endif
                 return new byte[0];
             }
 
