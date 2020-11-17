@@ -515,7 +515,15 @@ namespace CodeGen
             else
                 comment = comment.Replace("\n", "\n" + mid);
             if (!inlineEnd)
-                comment += comment.Contains('\n') ? end : " " + end.Substring(1);
+            {
+                if (!comment.Contains('\n'))
+                {
+                    if (end.StartsWith("\n"))
+                        end =  end.Substring(1);
+                    end = " " + end.TrimStart(' ');
+                }
+                comment += end;
+            }
             var lines = comment.Split(new char[] {'\n'});
             for (int i = 0; i < lines.Length; ++i)
                 Write(lines[i]);

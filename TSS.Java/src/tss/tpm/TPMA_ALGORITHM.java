@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 
-/** This structure defines the attributes of an algorithm.  */
+/** This structure defines the attributes of an algorithm. */
 public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
@@ -56,7 +56,7 @@ public final class TPMA_ALGORITHM extends TpmAttribute<TPMA_ALGORITHM>
 
     private static ValueMap<TPMA_ALGORITHM> _ValueMap = new ValueMap<TPMA_ALGORITHM>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_ALGORITHM
         asymmetric = new TPMA_ALGORITHM(0x1, _N.asymmetric),
         symmetric = new TPMA_ALGORITHM(0x2, _N.symmetric),

@@ -19,15 +19,15 @@ public class DuplicateResponse extends RespStructure
      */
     public byte[] encryptionKeyOut;
 
-    /** Private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted  */
+    /** Private area that may be encrypted by encryptionKeyIn; and may be doubly encrypted */
     public TPM2B_PRIVATE duplicate;
 
-    /** Seed protected by the asymmetric algorithms of new parent (NP)  */
+    /** Seed protected by the asymmetric algorithms of new parent (NP) */
     public byte[] outSymSeed;
 
     public DuplicateResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -36,7 +36,7 @@ public class DuplicateResponse extends RespStructure
         buf.writeSizedByteBuf(outSymSeed);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -45,19 +45,30 @@ public class DuplicateResponse extends RespStructure
         outSymSeed = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static DuplicateResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(DuplicateResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static DuplicateResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static DuplicateResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(DuplicateResponse.class);

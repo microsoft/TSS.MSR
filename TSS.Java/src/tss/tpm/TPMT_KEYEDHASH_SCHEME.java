@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This structure is used for a hash signing object.  */
+/** This structure is used for a hash signing object. */
 public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
 {
-    /** Selects the scheme  */
+    /** Selects the scheme */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** The scheme parameters
@@ -25,7 +25,7 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
      */
     public TPMT_KEYEDHASH_SCHEME(TPMU_SCHEME_KEYEDHASH _details) { details = _details; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -34,7 +34,7 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
         details.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -43,19 +43,30 @@ public class TPMT_KEYEDHASH_SCHEME extends TpmStructure
         details.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_KEYEDHASH_SCHEME fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_KEYEDHASH_SCHEME.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_KEYEDHASH_SCHEME fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_KEYEDHASH_SCHEME fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_KEYEDHASH_SCHEME.class);

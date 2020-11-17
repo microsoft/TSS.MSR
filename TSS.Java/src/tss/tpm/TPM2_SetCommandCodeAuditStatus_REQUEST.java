@@ -19,13 +19,13 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends ReqStructure
      */
     public TPM_HANDLE auth;
 
-    /** Hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed  */
+    /** Hash algorithm for the audit digest; if TPM_ALG_NULL, then the hash is not changed */
     public TPM_ALG_ID auditAlg;
 
-    /** List of commands that will be added to those that will be audited  */
+    /** List of commands that will be added to those that will be audited */
     public TPM_CC[] setList;
 
-    /** List of commands that will no longer be audited  */
+    /** List of commands that will no longer be audited */
     public TPM_CC[] clearList;
 
     public TPM2_SetCommandCodeAuditStatus_REQUEST()
@@ -50,7 +50,7 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends ReqStructure
         clearList = _clearList;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -59,7 +59,7 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends ReqStructure
         buf.writeObjArr(clearList);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -68,19 +68,30 @@ public class TPM2_SetCommandCodeAuditStatus_REQUEST extends ReqStructure
         clearList = buf.readObjArr(TPM_CC.class);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_SetCommandCodeAuditStatus_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_SetCommandCodeAuditStatus_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_SetCommandCodeAuditStatus_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_SetCommandCodeAuditStatus_REQUEST.class);

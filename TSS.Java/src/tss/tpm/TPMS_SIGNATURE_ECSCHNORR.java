@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
+/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
 public class TPMS_SIGNATURE_ECSCHNORR extends TPMS_SIGNATURE_ECC
 {
     public TPMS_SIGNATURE_ECSCHNORR() {}
@@ -22,22 +22,33 @@ public class TPMS_SIGNATURE_ECSCHNORR extends TPMS_SIGNATURE_ECC
         super(_hash, _signatureR, _signatureS);
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECSCHNORR; }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SIGNATURE_ECSCHNORR fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SIGNATURE_ECSCHNORR.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SIGNATURE_ECSCHNORR fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SIGNATURE_ECSCHNORR fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SIGNATURE_ECSCHNORR.class);

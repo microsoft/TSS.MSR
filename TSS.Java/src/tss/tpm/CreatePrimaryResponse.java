@@ -15,16 +15,16 @@ import tss.*;
  */
 public class CreatePrimaryResponse extends RespStructure
 {
-    /** Handle of type TPM_HT_TRANSIENT for created Primary Object  */
+    /** Handle of type TPM_HT_TRANSIENT for created Primary Object */
     public TPM_HANDLE handle;
 
-    /** The public portion of the created object  */
+    /** The public portion of the created object */
     public TPMT_PUBLIC outPublic;
 
-    /** Contains a TPMT_CREATION_DATA  */
+    /** Contains a TPMT_CREATION_DATA */
     public TPMS_CREATION_DATA creationData;
 
-    /** Digest of creationData using nameAlg of outPublic  */
+    /** Digest of creationData using nameAlg of outPublic */
     public byte[] creationHash;
 
     /** Ticket used by TPM2_CertifyCreation() to validate that the creation data was produced
@@ -32,12 +32,12 @@ public class CreatePrimaryResponse extends RespStructure
      */
     public TPMT_TK_CREATION creationTicket;
 
-    /** The name of the created object  */
+    /** The name of the created object */
     public byte[] name;
 
     public CreatePrimaryResponse() { handle = new TPM_HANDLE(); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -48,7 +48,7 @@ public class CreatePrimaryResponse extends RespStructure
         buf.writeSizedByteBuf(name);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -59,19 +59,30 @@ public class CreatePrimaryResponse extends RespStructure
         name = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CreatePrimaryResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(CreatePrimaryResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CreatePrimaryResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CreatePrimaryResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(CreatePrimaryResponse.class);

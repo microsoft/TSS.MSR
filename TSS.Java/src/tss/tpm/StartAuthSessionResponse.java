@@ -13,35 +13,46 @@ import tss.*;
  */
 public class StartAuthSessionResponse extends RespStructure
 {
-    /** Handle for the newly created session  */
+    /** Handle for the newly created session */
     public TPM_HANDLE handle;
 
-    /** The initial nonce from the TPM, used in the computation of the sessionKey  */
+    /** The initial nonce from the TPM, used in the computation of the sessionKey */
     public byte[] nonceTPM;
 
     public StartAuthSessionResponse() { handle = new TPM_HANDLE(); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(nonceTPM); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { nonceTPM = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static StartAuthSessionResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(StartAuthSessionResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static StartAuthSessionResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static StartAuthSessionResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(StartAuthSessionResponse.class);

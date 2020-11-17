@@ -17,13 +17,13 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends ReqStructure
      */
     public TPM_HANDLE policySession;
 
-    /** The Name of the object to be duplicated  */
+    /** The Name of the object to be duplicated */
     public byte[] objectName;
 
-    /** The Name of the new parent  */
+    /** The Name of the new parent */
     public byte[] newParentName;
 
-    /** If YES, the objectName will be included in the value in policySessionpolicyDigest  */
+    /** If YES, the objectName will be included in the value in policySessionpolicyDigest */
     public byte includeObject;
 
     public TPM2_PolicyDuplicationSelect_REQUEST() { policySession = new TPM_HANDLE(); }
@@ -43,7 +43,7 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends ReqStructure
         includeObject = _includeObject;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -52,7 +52,7 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends ReqStructure
         buf.writeByte(includeObject);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -61,19 +61,30 @@ public class TPM2_PolicyDuplicationSelect_REQUEST extends ReqStructure
         includeObject = buf.readByte();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyDuplicationSelect_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyDuplicationSelect_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyDuplicationSelect_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyDuplicationSelect_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyDuplicationSelect_REQUEST.class);

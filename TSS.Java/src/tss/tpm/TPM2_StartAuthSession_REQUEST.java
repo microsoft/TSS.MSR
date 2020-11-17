@@ -35,7 +35,7 @@ public class TPM2_StartAuthSession_REQUEST extends ReqStructure
      */
     public byte[] encryptedSalt;
 
-    /** Indicates the type of the session; simple HMAC or policy (including a trial policy)  */
+    /** Indicates the type of the session; simple HMAC or policy (including a trial policy) */
     public TPM_SE sessionType;
 
     /** The algorithm and key size for parameter encryption
@@ -84,7 +84,7 @@ public class TPM2_StartAuthSession_REQUEST extends ReqStructure
         authHash = _authHash;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -95,7 +95,7 @@ public class TPM2_StartAuthSession_REQUEST extends ReqStructure
         authHash.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -106,19 +106,30 @@ public class TPM2_StartAuthSession_REQUEST extends ReqStructure
         authHash = TPM_ALG_ID.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_StartAuthSession_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_StartAuthSession_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_StartAuthSession_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_StartAuthSession_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_StartAuthSession_REQUEST.class);

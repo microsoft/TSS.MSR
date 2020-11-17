@@ -24,10 +24,10 @@ public final class TPM_HT extends TpmEnum<TPM_HT>
          */
         PCR,
 
-        /** NV Index assigned by the caller  */
+        /** NV Index assigned by the caller */
         NV_INDEX,
 
-        /** HMAC Authorization Session assigned by the TPM when the session is created  */
+        /** HMAC Authorization Session assigned by the TPM when the session is created */
         HMAC_SESSION,
 
         /** Loaded Authorization Session used only in the context of TPM2_GetCapability
@@ -35,7 +35,7 @@ public final class TPM_HT extends TpmEnum<TPM_HT>
          */
         LOADED_SESSION,
 
-        /** Policy Authorization Session assigned by the TPM when the session is created  */
+        /** Policy Authorization Session assigned by the TPM when the session is created */
         POLICY_SESSION,
 
         /** Saved Authorization Session used only in the context of TPM2_GetCapability
@@ -44,7 +44,7 @@ public final class TPM_HT extends TpmEnum<TPM_HT>
          */
         SAVED_SESSION,
 
-        /** Permanent Values assigned by this specification in Table 28  */
+        /** Permanent Values assigned by this specification in Table 28 */
         PERMANENT,
 
         /** Transient Objects assigned by the TPM when an object is loaded into transient-object
@@ -52,16 +52,16 @@ public final class TPM_HT extends TpmEnum<TPM_HT>
          */
         TRANSIENT,
 
-        /** Persistent Objects assigned by the TPM when a loaded transient object is made persistent  */
+        /** Persistent Objects assigned by the TPM when a loaded transient object is made persistent */
         PERSISTENT,
 
-        /** Attached Component handle for an Attached Component.  */
+        /** Attached Component handle for an Attached Component. */
         AC
     }
 
     private static ValueMap<TPM_HT> _ValueMap = new ValueMap<TPM_HT>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_HT
         PCR = new TPM_HT(0x00, _N.PCR),
         NV_INDEX = new TPM_HT(0x01, _N.NV_INDEX),

@@ -12,21 +12,21 @@ import tss.*;
  */
 public class PCR_AllocateResponse extends RespStructure
 {
-    /** YES if the allocation succeeded  */
+    /** YES if the allocation succeeded */
     public byte allocationSuccess;
 
-    /** Maximum number of PCR that may be in a bank  */
+    /** Maximum number of PCR that may be in a bank */
     public int maxPCR;
 
-    /** Number of octets required to satisfy the request  */
+    /** Number of octets required to satisfy the request */
     public int sizeNeeded;
 
-    /** Number of octets available. Computed before the allocation.  */
+    /** Number of octets available. Computed before the allocation. */
     public int sizeAvailable;
 
     public PCR_AllocateResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -36,7 +36,7 @@ public class PCR_AllocateResponse extends RespStructure
         buf.writeInt(sizeAvailable);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -46,19 +46,30 @@ public class PCR_AllocateResponse extends RespStructure
         sizeAvailable = buf.readInt();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PCR_AllocateResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(PCR_AllocateResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PCR_AllocateResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PCR_AllocateResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(PCR_AllocateResponse.class);

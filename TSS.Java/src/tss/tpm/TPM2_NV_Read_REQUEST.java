@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace().  */
+/** This command reads a value from an area in NV memory previously defined by TPM2_NV_DefineSpace(). */
 public class TPM2_NV_Read_REQUEST extends ReqStructure
 {
     /** The handle indicating the source of the authorization value
@@ -21,7 +21,7 @@ public class TPM2_NV_Read_REQUEST extends ReqStructure
      */
     public TPM_HANDLE nvIndex;
 
-    /** Number of octets to read  */
+    /** Number of octets to read */
     public int size;
 
     /** Octet offset into the NV area
@@ -52,7 +52,7 @@ public class TPM2_NV_Read_REQUEST extends ReqStructure
         offset = _offset;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -60,7 +60,7 @@ public class TPM2_NV_Read_REQUEST extends ReqStructure
         buf.writeShort(offset);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -68,19 +68,30 @@ public class TPM2_NV_Read_REQUEST extends ReqStructure
         offset = buf.readShort();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_NV_Read_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_NV_Read_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_NV_Read_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_NV_Read_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_NV_Read_REQUEST.class);

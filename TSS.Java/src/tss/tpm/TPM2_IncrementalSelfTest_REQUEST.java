@@ -7,38 +7,49 @@ import tss.*;
 
 //>>>
 
-/** This command causes the TPM to perform a test of the selected algorithms.  */
+/** This command causes the TPM to perform a test of the selected algorithms. */
 public class TPM2_IncrementalSelfTest_REQUEST extends ReqStructure
 {
-    /** List of algorithms that should be tested  */
+    /** List of algorithms that should be tested */
     public TPM_ALG_ID[] toTest;
 
     public TPM2_IncrementalSelfTest_REQUEST() {}
 
-    /** @param _toTest List of algorithms that should be tested  */
+    /** @param _toTest List of algorithms that should be tested */
     public TPM2_IncrementalSelfTest_REQUEST(TPM_ALG_ID[] _toTest) { toTest = _toTest; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(toTest); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { toTest = buf.readObjArr(TPM_ALG_ID.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_IncrementalSelfTest_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_IncrementalSelfTest_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_IncrementalSelfTest_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_IncrementalSelfTest_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_IncrementalSelfTest_REQUEST.class);

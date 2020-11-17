@@ -12,35 +12,46 @@ import tss.*;
  */
 public class TPM2B_ATTEST extends TpmStructure
 {
-    /** The signed structure  */
+    /** The signed structure */
     public TPMS_ATTEST attestationData;
 
     public TPM2B_ATTEST() {}
 
-    /** @param _attestationData The signed structure  */
+    /** @param _attestationData The signed structure */
     public TPM2B_ATTEST(TPMS_ATTEST _attestationData) { attestationData = _attestationData; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedObj(attestationData); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { attestationData = buf.createSizedObj(TPMS_ATTEST.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ATTEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_ATTEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ATTEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ATTEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_ATTEST.class);

@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command returns the data in a loaded Sealed Data Object.  */
+/** This command returns the data in a loaded Sealed Data Object. */
 public class UnsealResponse extends RespStructure
 {
     /** Unsealed data
@@ -17,27 +17,38 @@ public class UnsealResponse extends RespStructure
 
     public UnsealResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(outData); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { outData = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static UnsealResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(UnsealResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static UnsealResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static UnsealResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(UnsealResponse.class);

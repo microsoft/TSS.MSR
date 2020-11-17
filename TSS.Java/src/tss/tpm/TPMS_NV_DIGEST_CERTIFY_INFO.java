@@ -12,10 +12,10 @@ import tss.*;
  */
 public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
-    /** Name of the NV Index  */
+    /** Name of the NV Index */
     public byte[] indexName;
 
-    /** Hash of the contents of the index  */
+    /** Hash of the contents of the index */
     public byte[] nvDigest;
 
     public TPMS_NV_DIGEST_CERTIFY_INFO() {}
@@ -29,10 +29,10 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         nvDigest = _nvDigest;
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_NV_DIGEST; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -40,7 +40,7 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         buf.writeSizedByteBuf(nvDigest);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -48,19 +48,30 @@ public class TPMS_NV_DIGEST_CERTIFY_INFO extends TpmStructure implements TPMU_AT
         nvDigest = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_NV_DIGEST_CERTIFY_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_NV_DIGEST_CERTIFY_INFO.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_NV_DIGEST_CERTIFY_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_NV_DIGEST_CERTIFY_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_NV_DIGEST_CERTIFY_INFO.class);

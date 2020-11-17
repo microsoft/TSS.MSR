@@ -12,38 +12,49 @@ import tss.*;
  */
 public class TPML_HANDLE extends TpmStructure implements TPMU_CAPABILITIES
 {
-    /** An array of handles  */
+    /** An array of handles */
     public TPM_HANDLE[] handle;
 
     public TPML_HANDLE() {}
 
-    /** @param _handle An array of handles  */
+    /** @param _handle An array of handles */
     public TPML_HANDLE(TPM_HANDLE[] _handle) { handle = _handle; }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.HANDLES; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(handle); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { handle = buf.readObjArr(TPM_HANDLE.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_HANDLE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_HANDLE.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_HANDLE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_HANDLE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_HANDLE.class);

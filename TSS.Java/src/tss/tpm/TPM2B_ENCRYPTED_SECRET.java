@@ -7,38 +7,49 @@ import tss.*;
 
 //>>>
 
-/** Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure  */
+/** Table 192 Definition of TPM2B_ENCRYPTED_SECRET Structure */
 public class TPM2B_ENCRYPTED_SECRET extends TpmStructure
 {
-    /** Secret  */
+    /** Secret */
     public byte[] secret;
 
     public TPM2B_ENCRYPTED_SECRET() {}
 
-    /** @param _secret Secret  */
+    /** @param _secret Secret */
     public TPM2B_ENCRYPTED_SECRET(byte[] _secret) { secret = _secret; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(secret); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { secret = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ENCRYPTED_SECRET fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_ENCRYPTED_SECRET.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ENCRYPTED_SECRET fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ENCRYPTED_SECRET fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_ENCRYPTED_SECRET.class);

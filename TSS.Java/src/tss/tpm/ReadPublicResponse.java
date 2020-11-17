@@ -7,21 +7,21 @@ import tss.*;
 
 //>>>
 
-/** This command allows access to the public area of a loaded object.  */
+/** This command allows access to the public area of a loaded object. */
 public class ReadPublicResponse extends RespStructure
 {
-    /** Structure containing the public area of an object  */
+    /** Structure containing the public area of an object */
     public TPMT_PUBLIC outPublic;
 
-    /** Name of the object  */
+    /** Name of the object */
     public byte[] name;
 
-    /** The Qualified Name of the object  */
+    /** The Qualified Name of the object */
     public byte[] qualifiedName;
 
     public ReadPublicResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -30,7 +30,7 @@ public class ReadPublicResponse extends RespStructure
         buf.writeSizedByteBuf(qualifiedName);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -39,19 +39,30 @@ public class ReadPublicResponse extends RespStructure
         qualifiedName = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ReadPublicResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ReadPublicResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ReadPublicResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ReadPublicResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ReadPublicResponse.class);

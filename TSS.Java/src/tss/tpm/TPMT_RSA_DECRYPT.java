@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure  */
+/** Table 174 Definition of {RSA} TPMT_RSA_DECRYPT Structure */
 public class TPMT_RSA_DECRYPT extends TpmStructure
 {
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** Scheme parameters
@@ -31,7 +31,7 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
      */
     public TPMT_RSA_DECRYPT(TPMU_ASYM_SCHEME _details) { details = _details; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -40,7 +40,7 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
         details.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -49,19 +49,30 @@ public class TPMT_RSA_DECRYPT extends TpmStructure
         details.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_RSA_DECRYPT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_RSA_DECRYPT.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_RSA_DECRYPT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_RSA_DECRYPT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_RSA_DECRYPT.class);

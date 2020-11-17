@@ -23,10 +23,10 @@ public class TPM2_NV_Write_REQUEST extends ReqStructure
      */
     public TPM_HANDLE nvIndex;
 
-    /** The data to write  */
+    /** The data to write */
     public byte[] data;
 
-    /** The octet offset into the NV Area  */
+    /** The octet offset into the NV Area */
     public int offset;
 
     public TPM2_NV_Write_REQUEST()
@@ -51,7 +51,7 @@ public class TPM2_NV_Write_REQUEST extends ReqStructure
         offset = _offset;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -59,7 +59,7 @@ public class TPM2_NV_Write_REQUEST extends ReqStructure
         buf.writeShort(offset);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -67,19 +67,30 @@ public class TPM2_NV_Write_REQUEST extends ReqStructure
         offset = buf.readShort();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_NV_Write_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_NV_Write_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_NV_Write_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_NV_Write_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_NV_Write_REQUEST.class);

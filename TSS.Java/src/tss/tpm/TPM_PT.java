@@ -18,7 +18,7 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
      *  for any other usage just prepend them with the TPM_PT. qualifier.
      */
     public enum _N {
-        /** Indicates no property type  */
+        /** Indicates no property type */
         NONE,
 
         /** The number of properties in each group.
@@ -31,7 +31,7 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         PT_FIXED,
 
-        /** A 4-octet character string containing the TPM Family value (TPM_SPEC_FAMILY)  */
+        /** A 4-octet character string containing the TPM Family value (TPM_SPEC_FAMILY) */
         FAMILY_INDICATOR,
 
         /** The level of the specification
@@ -58,7 +58,7 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         YEAR,
 
-        /** The vendor ID unique to each TPM manufacturer  */
+        /** The vendor ID unique to each TPM manufacturer */
         MANUFACTURER,
 
         /** The first four characters of the vendor ID string
@@ -68,16 +68,16 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         VENDOR_STRING_1,
 
-        /** The second four characters of the vendor ID string  */
+        /** The second four characters of the vendor ID string */
         VENDOR_STRING_2,
 
-        /** The third four characters of the vendor ID string  */
+        /** The third four characters of the vendor ID string */
         VENDOR_STRING_3,
 
-        /** The fourth four characters of the vendor ID sting  */
+        /** The fourth four characters of the vendor ID sting */
         VENDOR_STRING_4,
 
-        /** Vendor-defined value indicating the TPM model  */
+        /** Vendor-defined value indicating the TPM model */
         VENDOR_TPM_TYPE,
 
         /** The most-significant 32 bits of a TPM vendor-specific value indicating the version
@@ -90,7 +90,7 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         FIRMWARE_VERSION_2,
 
-        /** The maximum size of a parameter (typically, a TPM2B_MAX_BUFFER)  */
+        /** The maximum size of a parameter (typically, a TPM2B_MAX_BUFFER) */
         INPUT_BUFFER,
 
         /** The minimum number of transient objects that can be held in TPM RAM
@@ -147,13 +147,13 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         NV_COUNTERS_MAX,
 
-        /** The maximum size of an NV Index data area  */
+        /** The maximum size of an NV Index data area */
         NV_INDEX_MAX,
 
-        /** A TPMA_MEMORY indicating the memory management method for the TPM  */
+        /** A TPMA_MEMORY indicating the memory management method for the TPM */
         MEMORY,
 
-        /** Interval, in milliseconds, between updates to the copy of TPMS_CLOCK_INFO.clock in NV  */
+        /** Interval, in milliseconds, between updates to the copy of TPMS_CLOCK_INFO.clock in NV */
         CLOCK_UPDATE,
 
         /** The algorithm used for the integrity HMAC on saved contexts and for hashing the fuData
@@ -161,10 +161,10 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         CONTEXT_HASH,
 
-        /** TPM_ALG_ID, the algorithm used for encryption of saved contexts  */
+        /** TPM_ALG_ID, the algorithm used for encryption of saved contexts */
         CONTEXT_SYM,
 
-        /** TPM_KEY_BITS, the size of the key used for encryption of saved contexts  */
+        /** TPM_KEY_BITS, the size of the key used for encryption of saved contexts */
         CONTEXT_SYM_SIZE,
 
         /** The modulus - 1 of the count for NV update of an orderly counter
@@ -177,19 +177,19 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         ORDERLY_COUNT,
 
-        /** The maximum value for commandSize in a command  */
+        /** The maximum value for commandSize in a command */
         MAX_COMMAND_SIZE,
 
-        /** The maximum value for responseSize in a response  */
+        /** The maximum value for responseSize in a response */
         MAX_RESPONSE_SIZE,
 
-        /** The maximum size of a digest that can be produced by the TPM  */
+        /** The maximum size of a digest that can be produced by the TPM */
         MAX_DIGEST,
 
-        /** The maximum size of an object context that will be returned by TPM2_ContextSave  */
+        /** The maximum size of an object context that will be returned by TPM2_ContextSave */
         MAX_OBJECT_CONTEXT,
 
-        /** The maximum size of a session context that will be returned by TPM2_ContextSave  */
+        /** The maximum size of a session context that will be returned by TPM2_ContextSave */
         MAX_SESSION_CONTEXT,
 
         /** Platform-specific family (a TPM_PS value)(see Table 25)
@@ -199,10 +199,10 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         PS_FAMILY_INDICATOR,
 
-        /** The level of the platform-specific specification  */
+        /** The level of the platform-specific specification */
         PS_LEVEL,
 
-        /** A platform specific value  */
+        /** A platform specific value */
         PS_REVISION,
 
         /** The platform-specific TPM specification day of year using TCG calendar
@@ -215,25 +215,25 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         PS_YEAR,
 
-        /** The number of split signing operations supported by the TPM  */
+        /** The number of split signing operations supported by the TPM */
         SPLIT_MAX,
 
-        /** Total number of commands implemented in the TPM  */
+        /** Total number of commands implemented in the TPM */
         TOTAL_COMMANDS,
 
-        /** Number of commands from the TPM library that are implemented  */
+        /** Number of commands from the TPM library that are implemented */
         LIBRARY_COMMANDS,
 
-        /** Number of vendor commands that are implemented  */
+        /** Number of vendor commands that are implemented */
         VENDOR_COMMANDS,
 
-        /** The maximum data size in one NV write, NV read, NV extend, or NV certify command  */
+        /** The maximum data size in one NV write, NV read, NV extend, or NV certify command */
         NV_BUFFER_MAX,
 
-        /** A TPMA_MODES value, indicating that the TPM is designed for these modes.  */
+        /** A TPMA_MODES value, indicating that the TPM is designed for these modes. */
         MODES,
 
-        /** The maximum size of a TPMS_CAPABILITY_DATA structure returned in TPM2_GetCapability().  */
+        /** The maximum size of a TPMS_CAPABILITY_DATA structure returned in TPM2_GetCapability(). */
         MAX_CAP_BUFFER,
 
         /** The group of variable properties returned as TPMS_TAGGED_PROPERTY
@@ -242,16 +242,16 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         PT_VAR,
 
-        /** TPMA_PERMANENT  */
+        /** TPMA_PERMANENT */
         PERMANENT,
 
-        /** TPMA_STARTUP_CLEAR  */
+        /** TPMA_STARTUP_CLEAR */
         STARTUP_CLEAR,
 
-        /** The number of NV Indexes currently defined  */
+        /** The number of NV Indexes currently defined */
         HR_NV_INDEX,
 
-        /** The number of authorization sessions currently loaded into TPM RAM  */
+        /** The number of authorization sessions currently loaded into TPM RAM */
         HR_LOADED,
 
         /** The number of additional authorization sessions, of any type, that could be loaded
@@ -287,7 +287,7 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         HR_TRANSIENT_AVAIL,
 
-        /** The number of persistent objects currently loaded into TPM NV memory  */
+        /** The number of persistent objects currently loaded into TPM NV memory */
         HR_PERSISTENT,
 
         /** The number of additional persistent objects that could be loaded into NV memory
@@ -299,7 +299,7 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         HR_PERSISTENT_AVAIL,
 
-        /** The number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute  */
+        /** The number of defined NV Indexes that have NV the TPM_NT_COUNTER attribute */
         NV_COUNTERS,
 
         /** The number of additional NV Indexes that can be defined with their TPM_NT of
@@ -311,19 +311,19 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         NV_COUNTERS_AVAIL,
 
-        /** Code that limits the algorithms that may be used with the TPM  */
+        /** Code that limits the algorithms that may be used with the TPM */
         ALGORITHM_SET,
 
-        /** The number of loaded ECC curves  */
+        /** The number of loaded ECC curves */
         LOADED_CURVES,
 
-        /** The current value of the lockout counter (failedTries)  */
+        /** The current value of the lockout counter (failedTries) */
         LOCKOUT_COUNTER,
 
-        /** The number of authorization failures before DA lockout is invoked  */
+        /** The number of authorization failures before DA lockout is invoked */
         MAX_AUTH_FAIL,
 
-        /** The number of seconds before the value reported by TPM_PT_LOCKOUT_COUNTER is decremented  */
+        /** The number of seconds before the value reported by TPM_PT_LOCKOUT_COUNTER is decremented */
         LOCKOUT_INTERVAL,
 
         /** The number of seconds after a lockoutAuth failure before use of lockoutAuth may be
@@ -336,16 +336,16 @@ public final class TPM_PT extends TpmEnum<TPM_PT>
          */
         NV_WRITE_RECOVERY,
 
-        /** The high-order 32 bits of the command audit counter  */
+        /** The high-order 32 bits of the command audit counter */
         AUDIT_COUNTER_0,
 
-        /** The low-order 32 bits of the command audit counter  */
+        /** The low-order 32 bits of the command audit counter */
         AUDIT_COUNTER_1
     }
 
     private static ValueMap<TPM_PT> _ValueMap = new ValueMap<TPM_PT>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_PT
         NONE = new TPM_PT(0x00000000, _N.NONE),
         PT_GROUP = new TPM_PT(0x00000100, _N.PT_GROUP),

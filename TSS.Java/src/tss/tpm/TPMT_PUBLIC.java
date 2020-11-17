@@ -12,7 +12,7 @@ import tss.*;
  */
 public class TPMT_PUBLIC extends TpmStructure
 {
-    /** Algorithm associated with this object  */
+    /** Algorithm associated with this object */
     public TPM_ALG_ID type() { return parameters.GetUnionSelector(); }
 
     /** Algorithm used for computing the Name of the object
@@ -21,7 +21,7 @@ public class TPMT_PUBLIC extends TpmStructure
      */
     public TPM_ALG_ID nameAlg;
 
-    /** Attributes that, along with type, determine the manipulations of this object  */
+    /** Attributes that, along with type, determine the manipulations of this object */
     public TPMA_OBJECT objectAttributes;
 
     /** Optional policy for using this key
@@ -71,7 +71,7 @@ public class TPMT_PUBLIC extends TpmStructure
         unique = _unique;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -84,7 +84,7 @@ public class TPMT_PUBLIC extends TpmStructure
         unique.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -98,19 +98,30 @@ public class TPMT_PUBLIC extends TpmStructure
         unique.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_PUBLIC fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_PUBLIC.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_PUBLIC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_PUBLIC fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_PUBLIC.class);

@@ -7,16 +7,16 @@ import tss.*;
 
 //>>>
 
-/** This command returns various information regarding the TPM and its current state.  */
+/** This command returns various information regarding the TPM and its current state. */
 public class TPM2_GetCapability_REQUEST extends ReqStructure
 {
-    /** Group selection; determines the format of the response  */
+    /** Group selection; determines the format of the response */
     public TPM_CAP capability;
 
-    /** Further definition of information  */
+    /** Further definition of information */
     public int property;
 
-    /** Number of properties of the indicated type to return  */
+    /** Number of properties of the indicated type to return */
     public int propertyCount;
 
     public TPM2_GetCapability_REQUEST() {}
@@ -32,7 +32,7 @@ public class TPM2_GetCapability_REQUEST extends ReqStructure
         propertyCount = _propertyCount;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -41,7 +41,7 @@ public class TPM2_GetCapability_REQUEST extends ReqStructure
         buf.writeInt(propertyCount);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -50,19 +50,30 @@ public class TPM2_GetCapability_REQUEST extends ReqStructure
         propertyCount = buf.readInt();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_GetCapability_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_GetCapability_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_GetCapability_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_GetCapability_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_GetCapability_REQUEST.class);

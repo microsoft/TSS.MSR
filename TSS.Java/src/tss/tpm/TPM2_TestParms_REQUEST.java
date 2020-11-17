@@ -12,7 +12,7 @@ import tss.*;
  */
 public class TPM2_TestParms_REQUEST extends ReqStructure
 {
-    /** The algorithm to be tested  */
+    /** The algorithm to be tested */
     public TPM_ALG_ID parametersType() { return parameters.GetUnionSelector(); }
 
     /** Algorithm parameters to be validated
@@ -29,7 +29,7 @@ public class TPM2_TestParms_REQUEST extends ReqStructure
      */
     public TPM2_TestParms_REQUEST(TPMU_PUBLIC_PARMS _parameters) { parameters = _parameters; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -38,7 +38,7 @@ public class TPM2_TestParms_REQUEST extends ReqStructure
         parameters.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -47,19 +47,30 @@ public class TPM2_TestParms_REQUEST extends ReqStructure
         parameters.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_TestParms_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_TestParms_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_TestParms_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_TestParms_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_TestParms_REQUEST.class);

@@ -27,7 +27,7 @@ public class TPM2_EventSequenceComplete_REQUEST extends ReqStructure
      */
     public TPM_HANDLE sequenceHandle;
 
-    /** Data to be added to the Event  */
+    /** Data to be added to the Event */
     public byte[] buffer;
 
     public TPM2_EventSequenceComplete_REQUEST()
@@ -51,27 +51,38 @@ public class TPM2_EventSequenceComplete_REQUEST extends ReqStructure
         buffer = _buffer;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_EventSequenceComplete_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_EventSequenceComplete_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_EventSequenceComplete_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_EventSequenceComplete_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_EventSequenceComplete_REQUEST.class);

@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command returns the data in a loaded Sealed Data Object.  */
+/** This command returns the data in a loaded Sealed Data Object. */
 public class TPM2_Unseal_REQUEST extends ReqStructure
 {
     /** Handle of a loaded data object
@@ -24,19 +24,30 @@ public class TPM2_Unseal_REQUEST extends ReqStructure
      */
     public TPM2_Unseal_REQUEST(TPM_HANDLE _itemHandle) { itemHandle = _itemHandle; }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Unseal_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Unseal_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Unseal_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Unseal_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Unseal_REQUEST.class);

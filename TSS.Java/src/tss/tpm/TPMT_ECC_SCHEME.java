@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure  */
+/** Table 183 Definition of (TPMT_SIG_SCHEME) {ECC} TPMT_ECC_SCHEME Structure */
 public class TPMT_ECC_SCHEME extends TpmStructure
 {
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID scheme() { return details != null ? details.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** Scheme parameters
@@ -31,7 +31,7 @@ public class TPMT_ECC_SCHEME extends TpmStructure
      */
     public TPMT_ECC_SCHEME(TPMU_ASYM_SCHEME _details) { details = _details; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -40,7 +40,7 @@ public class TPMT_ECC_SCHEME extends TpmStructure
         details.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -49,19 +49,30 @@ public class TPMT_ECC_SCHEME extends TpmStructure
         details.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_ECC_SCHEME fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_ECC_SCHEME.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_ECC_SCHEME fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_ECC_SCHEME fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_ECC_SCHEME.class);

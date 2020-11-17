@@ -12,35 +12,46 @@ import tss.*;
  */
 public class TPM2B_TIMEOUT extends TpmStructure
 {
-    /** The timeout value  */
+    /** The timeout value */
     public byte[] buffer;
 
     public TPM2B_TIMEOUT() {}
 
-    /** @param _buffer The timeout value  */
+    /** @param _buffer The timeout value */
     public TPM2B_TIMEOUT(byte[] _buffer) { buffer = _buffer; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_TIMEOUT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_TIMEOUT.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_TIMEOUT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_TIMEOUT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_TIMEOUT.class);

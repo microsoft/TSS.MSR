@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command changes the lockout parameters.  */
+/** This command changes the lockout parameters. */
 public class TPM2_DictionaryAttackParameters_REQUEST extends ReqStructure
 {
     /** TPM_RH_LOCKOUT
@@ -16,7 +16,7 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends ReqStructure
      */
     public TPM_HANDLE lockHandle;
 
-    /** Count of authorization failures before the lockout is imposed  */
+    /** Count of authorization failures before the lockout is imposed */
     public int newMaxTries;
 
     /** Time in seconds before the authorization failure count is automatically decremented
@@ -50,7 +50,7 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends ReqStructure
         lockoutRecovery = _lockoutRecovery;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -59,7 +59,7 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends ReqStructure
         buf.writeInt(lockoutRecovery);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -68,19 +68,30 @@ public class TPM2_DictionaryAttackParameters_REQUEST extends ReqStructure
         lockoutRecovery = buf.readInt();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_DictionaryAttackParameters_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_DictionaryAttackParameters_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_DictionaryAttackParameters_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_DictionaryAttackParameters_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_DictionaryAttackParameters_REQUEST.class);

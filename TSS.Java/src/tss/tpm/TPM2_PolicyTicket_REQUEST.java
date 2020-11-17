@@ -28,10 +28,10 @@ public class TPM2_PolicyTicket_REQUEST extends ReqStructure
      */
     public byte[] cpHashA;
 
-    /** Reference to a qualifier for the policy may be the Empty Buffer  */
+    /** Reference to a qualifier for the policy may be the Empty Buffer */
     public byte[] policyRef;
 
-    /** Name of the object that provided the authorization  */
+    /** Name of the object that provided the authorization */
     public byte[] authName;
 
     /** An authorization ticket returned by the TPM in response to a TPM2_PolicySigned() or
@@ -63,7 +63,7 @@ public class TPM2_PolicyTicket_REQUEST extends ReqStructure
         ticket = _ticket;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -74,7 +74,7 @@ public class TPM2_PolicyTicket_REQUEST extends ReqStructure
         ticket.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -85,19 +85,30 @@ public class TPM2_PolicyTicket_REQUEST extends ReqStructure
         ticket = TPMT_TK_AUTH.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyTicket_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyTicket_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyTicket_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyTicket_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyTicket_REQUEST.class);

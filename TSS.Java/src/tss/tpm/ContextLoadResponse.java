@@ -7,27 +7,38 @@ import tss.*;
 
 //>>>
 
-/** This command is used to reload a context that has been saved by TPM2_ContextSave().  */
+/** This command is used to reload a context that has been saved by TPM2_ContextSave(). */
 public class ContextLoadResponse extends RespStructure
 {
-    /** The handle assigned to the resource after it has been successfully loaded  */
+    /** The handle assigned to the resource after it has been successfully loaded */
     public TPM_HANDLE handle;
 
     public ContextLoadResponse() { handle = new TPM_HANDLE(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ContextLoadResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ContextLoadResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ContextLoadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ContextLoadResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ContextLoadResponse.class);

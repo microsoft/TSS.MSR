@@ -7,16 +7,16 @@ import tss.*;
 
 //>>>
 
-/** This structure is used in TPM2_GetCapability() to return the ACT data.  */
+/** This structure is used in TPM2_GetCapability() to return the ACT data. */
 public class TPMS_ACT_DATA extends TpmStructure
 {
-    /** A permanent handle  */
+    /** A permanent handle */
     public TPM_HANDLE handle;
 
-    /** The current timeout of the ACT  */
+    /** The current timeout of the ACT */
     public int timeout;
 
-    /** The state of the ACT  */
+    /** The state of the ACT */
     public TPMA_ACT attributes;
 
     public TPMS_ACT_DATA() { handle = new TPM_HANDLE(); }
@@ -32,7 +32,7 @@ public class TPMS_ACT_DATA extends TpmStructure
         attributes = _attributes;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -41,7 +41,7 @@ public class TPMS_ACT_DATA extends TpmStructure
         attributes.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -50,19 +50,30 @@ public class TPMS_ACT_DATA extends TpmStructure
         attributes = TPMA_ACT.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ACT_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ACT_DATA.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ACT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ACT_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ACT_DATA.class);

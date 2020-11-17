@@ -21,40 +21,40 @@ public final class TPMA_X509_KEY_USAGE extends TpmAttribute<TPMA_X509_KEY_USAGE>
      *  for any other usage just prepend them with the TPMA_X509_KEY_USAGE. qualifier.
      */
     public enum _N {
-        /** Attributes.Decrypt SET  */
+        /** Attributes.Decrypt SET */
         decipherOnly,
 
-        /** Attributes.Decrypt SET  */
+        /** Attributes.Decrypt SET */
         encipherOnly,
 
-        /** Attributes.sign SET  */
+        /** Attributes.sign SET */
         cRLSign,
 
-        /** Attributes.sign SET  */
+        /** Attributes.sign SET */
         keyCertSign,
 
-        /** Attributes.Decrypt SET  */
+        /** Attributes.Decrypt SET */
         keyAgreement,
 
-        /** Attributes.Decrypt SET  */
+        /** Attributes.Decrypt SET */
         dataEncipherment,
 
-        /** Asymmetric key with decrypt and restricted SET key has the attributes of a parent key  */
+        /** Asymmetric key with decrypt and restricted SET key has the attributes of a parent key */
         keyEncipherment,
 
-        /** FixedTPM SET in Subject Key (objectHandle)  */
+        /** FixedTPM SET in Subject Key (objectHandle) */
         nonrepudiation,
 
-        /** Alias to the nonrepudiation value.  */
+        /** Alias to the nonrepudiation value. */
         contentCommitment,
 
-        /** Sign SET in Subject Key (objectHandle)  */
+        /** Sign SET in Subject Key (objectHandle) */
         digitalSignature
     }
 
     private static ValueMap<TPMA_X509_KEY_USAGE> _ValueMap = new ValueMap<TPMA_X509_KEY_USAGE>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_X509_KEY_USAGE
         decipherOnly = new TPMA_X509_KEY_USAGE(0x800000, _N.decipherOnly),
         encipherOnly = new TPMA_X509_KEY_USAGE(0x1000000, _N.encipherOnly),

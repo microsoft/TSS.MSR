@@ -13,38 +13,49 @@ import tss.*;
  */
 public class TPML_TAGGED_POLICY extends TpmStructure implements TPMU_CAPABILITIES
 {
-    /** Array of tagged policies  */
+    /** Array of tagged policies */
     public TPMS_TAGGED_POLICY[] policies;
 
     public TPML_TAGGED_POLICY() {}
 
-    /** @param _policies Array of tagged policies  */
+    /** @param _policies Array of tagged policies */
     public TPML_TAGGED_POLICY(TPMS_TAGGED_POLICY[] _policies) { policies = _policies; }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.AUTH_POLICIES; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(policies); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { policies = buf.readObjArr(TPMS_TAGGED_POLICY.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_TAGGED_POLICY fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_TAGGED_POLICY.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_TAGGED_POLICY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_TAGGED_POLICY fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_TAGGED_POLICY.class);

@@ -5,15 +5,16 @@ package tss;
 
 public class TpmStructure implements TpmMarshaller {
     
-    /**
-     * Serialize this object to the structure printer
+    /** Serialize this object to the structure printer
      * 
      * @param _p The structure accumulator
      * @param d The data to serialize
      */
     public void toStringInternal(TpmStructurePrinter _p, int d) {}
     
-    /** ISerializable method */
+    /** ISerializable method
+     * @return Human readable type name for the purposes of text serialization and pretty-printing
+     */
     String typeName () { return "TpmStructure"; }
 
     @Override
@@ -31,7 +32,8 @@ public class TpmStructure implements TpmMarshaller {
     }
 
     /** Initializes this object from a TPM binary representation in the given byte buffer
-     * @return The TPM binary representation of this object. */
+     * @return The TPM binary representation of this object.
+     */
     void initFromBytes(final byte[] buffer)
     {
         TpmBuffer buf = new TpmBuffer(buffer);

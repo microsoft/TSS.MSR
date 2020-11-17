@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This structure contains the parameters for prime modulus ECC.  */
+/** This structure contains the parameters for prime modulus ECC. */
 public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
 {
     /** For a restricted decryption key, shall be set to a supported symmetric algorithm, key
@@ -16,7 +16,7 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      */
     public TPMT_SYM_DEF_OBJECT symmetric;
 
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID schemeScheme() { return scheme != null ? scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** If the sign attribute of the key is SET, then this shall be a valid signing scheme.
@@ -32,10 +32,10 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      */
     public TPMU_ASYM_SCHEME scheme;
 
-    /** ECC curve ID  */
+    /** ECC curve ID */
     public TPM_ECC_CURVE curveID;
 
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID kdfScheme() { return kdf != null ? kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** An optional key derivation scheme for generating a symmetric key from a Z value
@@ -81,10 +81,10 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         kdf = _kdf;
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -96,7 +96,7 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         kdf.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -110,19 +110,30 @@ public class TPMS_ECC_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         kdf.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ECC_PARMS fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ECC_PARMS.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ECC_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ECC_PARMS fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ECC_PARMS.class);

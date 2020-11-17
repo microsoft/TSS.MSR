@@ -7,21 +7,21 @@ import tss.*;
 
 //>>>
 
-/** This command returns the values of all PCR specified in pcrSelectionIn.  */
+/** This command returns the values of all PCR specified in pcrSelectionIn. */
 public class PCR_ReadResponse extends RespStructure
 {
-    /** The current value of the PCR update counter  */
+    /** The current value of the PCR update counter */
     public int pcrUpdateCounter;
 
-    /** The PCR in the returned list  */
+    /** The PCR in the returned list */
     public TPMS_PCR_SELECTION[] pcrSelectionOut;
 
-    /** The contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests  */
+    /** The contents of the PCR indicated in pcrSelectOut-˃ pcrSelection[] as tagged digests */
     public TPM2B_DIGEST[] pcrValues;
 
     public PCR_ReadResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -30,7 +30,7 @@ public class PCR_ReadResponse extends RespStructure
         buf.writeObjArr(pcrValues);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -39,19 +39,30 @@ public class PCR_ReadResponse extends RespStructure
         pcrValues = buf.readObjArr(TPM2B_DIGEST.class);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PCR_ReadResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(PCR_ReadResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PCR_ReadResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PCR_ReadResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(PCR_ReadResponse.class);

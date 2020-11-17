@@ -7,38 +7,49 @@ import tss.*;
 
 //>>>
 
-/** This buffer holds a Name for any entity type.  */
+/** This buffer holds a Name for any entity type. */
 public class TPM2B_NAME extends TpmStructure
 {
-    /** The Name structure  */
+    /** The Name structure */
     public byte[] name;
 
     public TPM2B_NAME() {}
 
-    /** @param _name The Name structure  */
+    /** @param _name The Name structure */
     public TPM2B_NAME(byte[] _name) { name = _name; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(name); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { name = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_NAME fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_NAME.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_NAME fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_NAME fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_NAME.class);

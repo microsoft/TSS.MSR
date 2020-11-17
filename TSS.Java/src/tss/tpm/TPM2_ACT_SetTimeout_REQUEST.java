@@ -18,7 +18,7 @@ public class TPM2_ACT_SetTimeout_REQUEST extends ReqStructure
      */
     public TPM_HANDLE actHandle;
 
-    /** The start timeout value for the ACT in seconds  */
+    /** The start timeout value for the ACT in seconds */
     public int startTimeout;
 
     public TPM2_ACT_SetTimeout_REQUEST() { actHandle = new TPM_HANDLE(); }
@@ -34,27 +34,38 @@ public class TPM2_ACT_SetTimeout_REQUEST extends ReqStructure
         startTimeout = _startTimeout;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeInt(startTimeout); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { startTimeout = buf.readInt(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ACT_SetTimeout_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ACT_SetTimeout_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ACT_SetTimeout_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ACT_SetTimeout_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ACT_SetTimeout_REQUEST.class);

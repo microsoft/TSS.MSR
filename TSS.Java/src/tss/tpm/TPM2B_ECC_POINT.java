@@ -12,35 +12,46 @@ import tss.*;
  */
 public class TPM2B_ECC_POINT extends TpmStructure
 {
-    /** Coordinates  */
+    /** Coordinates */
     public TPMS_ECC_POINT point;
 
     public TPM2B_ECC_POINT() {}
 
-    /** @param _point Coordinates  */
+    /** @param _point Coordinates */
     public TPM2B_ECC_POINT(TPMS_ECC_POINT _point) { point = _point; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedObj(point); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { point = buf.createSizedObj(TPMS_ECC_POINT.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ECC_POINT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_ECC_POINT.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ECC_POINT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ECC_POINT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_ECC_POINT.class);

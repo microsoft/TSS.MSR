@@ -88,7 +88,7 @@ public final class TPMA_SESSION extends TpmAttribute<TPMA_SESSION>
 
     private static ValueMap<TPMA_SESSION> _ValueMap = new ValueMap<TPMA_SESSION>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_SESSION
         continueSession = new TPMA_SESSION(0x1, _N.continueSession),
         auditExclusive = new TPMA_SESSION(0x2, _N.auditExclusive),

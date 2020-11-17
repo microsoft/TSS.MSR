@@ -14,10 +14,10 @@ public class _PRIVATE extends TpmStructure
 {
     public byte[] integrityOuter;
 
-    /** Could also be a TPM2B_IV  */
+    /** Could also be a TPM2B_IV */
     public byte[] integrityInner;
 
-    /** The sensitive area  */
+    /** The sensitive area */
     public TPMT_SENSITIVE sensitive;
 
     public _PRIVATE() {}
@@ -33,7 +33,7 @@ public class _PRIVATE extends TpmStructure
         sensitive = _sensitive;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -42,7 +42,7 @@ public class _PRIVATE extends TpmStructure
         buf.writeSizedObj(sensitive);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -51,19 +51,30 @@ public class _PRIVATE extends TpmStructure
         sensitive = buf.createSizedObj(TPMT_SENSITIVE.class);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static _PRIVATE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(_PRIVATE.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static _PRIVATE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static _PRIVATE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(_PRIVATE.class);

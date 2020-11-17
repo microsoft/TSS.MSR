@@ -12,10 +12,10 @@ import tss.*;
  */
 public class TPMS_ALG_PROPERTY extends TpmStructure
 {
-    /** An algorithm identifier  */
+    /** An algorithm identifier */
     public TPM_ALG_ID alg;
 
-    /** The attributes of the algorithm  */
+    /** The attributes of the algorithm */
     public TPMA_ALGORITHM algProperties;
 
     public TPMS_ALG_PROPERTY() { alg = TPM_ALG_ID.NULL; }
@@ -29,7 +29,7 @@ public class TPMS_ALG_PROPERTY extends TpmStructure
         algProperties = _algProperties;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -37,7 +37,7 @@ public class TPMS_ALG_PROPERTY extends TpmStructure
         algProperties.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -45,19 +45,30 @@ public class TPMS_ALG_PROPERTY extends TpmStructure
         algProperties = TPMA_ALGORITHM.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ALG_PROPERTY fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ALG_PROPERTY.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ALG_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ALG_PROPERTY fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ALG_PROPERTY.class);

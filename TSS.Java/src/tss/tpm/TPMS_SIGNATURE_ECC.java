@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure  */
+/** Table 187 Definition of {ECC} TPMS_SIGNATURE_ECC Structure */
 public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
 {
     /** The hash algorithm used in the signature process
@@ -31,10 +31,10 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         signatureS = _signatureS;
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECDSA; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -43,7 +43,7 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         buf.writeSizedByteBuf(signatureS);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -52,19 +52,30 @@ public class TPMS_SIGNATURE_ECC extends TpmStructure implements TPMU_SIGNATURE
         signatureS = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SIGNATURE_ECC fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SIGNATURE_ECC.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SIGNATURE_ECC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SIGNATURE_ECC fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SIGNATURE_ECC.class);

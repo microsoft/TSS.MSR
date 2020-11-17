@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This buffer wraps the TPMU_SENSITIVE_CREATE structure.  */
+/** This buffer wraps the TPMU_SENSITIVE_CREATE structure. */
 public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
-    /** Symmetric data for a created object or the label and context for a derived object  */
+    /** Symmetric data for a created object or the label and context for a derived object */
     public byte[] buffer;
 
     public TPM2B_SENSITIVE_DATA() {}
@@ -20,30 +20,41 @@ public class TPM2B_SENSITIVE_DATA extends TpmStructure implements TPMU_SENSITIVE
      */
     public TPM2B_SENSITIVE_DATA(byte[] _buffer) { buffer = _buffer; }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.KEYEDHASH; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_SENSITIVE_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_SENSITIVE_DATA.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_SENSITIVE_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_SENSITIVE_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_SENSITIVE_DATA.class);

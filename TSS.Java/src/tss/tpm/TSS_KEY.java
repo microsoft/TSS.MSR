@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** Contains the public and private part of a TPM key  */
+/** Contains the public and private part of a TPM key */
 public class TSS_KEY extends TpmStructure
 {
-    /** Public part of key  */
+    /** Public part of key */
     public TPMT_PUBLIC publicPart;
 
-    /** Private part is the encrypted sensitive part of key  */
+    /** Private part is the encrypted sensitive part of key */
     public byte[] privatePart;
 
     public TSS_KEY() {}
@@ -27,7 +27,7 @@ public class TSS_KEY extends TpmStructure
         privatePart = _privatePart;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -35,7 +35,7 @@ public class TSS_KEY extends TpmStructure
         buf.writeSizedByteBuf(privatePart);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -43,19 +43,30 @@ public class TSS_KEY extends TpmStructure
         privatePart = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TSS_KEY fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TSS_KEY.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TSS_KEY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TSS_KEY fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TSS_KEY.class);

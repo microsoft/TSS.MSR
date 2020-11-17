@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This data area is returned in response to a TPM2_GetCapability().  */
+/** This data area is returned in response to a TPM2_GetCapability(). */
 public class TPMS_CAPABILITY_DATA extends TpmStructure
 {
-    /** The capability  */
+    /** The capability */
     public TPM_CAP capability() { return data.GetUnionSelector(); }
 
     /** The capability data
@@ -29,7 +29,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
      */
     public TPMS_CAPABILITY_DATA(TPMU_CAPABILITIES _data) { data = _data; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -38,7 +38,7 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         data.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -47,19 +47,30 @@ public class TPMS_CAPABILITY_DATA extends TpmStructure
         data.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CAPABILITY_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_CAPABILITY_DATA.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CAPABILITY_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CAPABILITY_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_CAPABILITY_DATA.class);

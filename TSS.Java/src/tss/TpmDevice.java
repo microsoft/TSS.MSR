@@ -84,63 +84,66 @@ public abstract class TpmDevice implements Closeable
     public abstract boolean responseReady();
     
     /** Powers on/off the TPM.
+     * 
      *  Only implemented for TPM simulators and TPM vendors test harness.
+     *  @param on New on/off state (true/false correspondingly)
      */
     public void powerCtl(boolean on) { throwUnsupported("powerCtl"); }
 
     /** Asserts or stops asserting Physical Presence.
+     * 
      *  Only implemented for TPM simulators and TPM vendors test harness.
+     *  @param on New on/off state (true/false correspondingly)
      */
     public void assertPhysicalPresence(boolean on) { throwUnsupported("assertPhysicalPresence"); }
 
     /** Sets the locality for subsequent commands.
+     * 
      *  Only implemented for TPM simulators and TPM vendors test harness.
-     *  @param locality Locality
+     *  @param locality New locality value
      */
     public void setLocality(int locality) { throwUnsupported("setLocality"); }
 
 
-    /** Queries whether the TPM device supports sending/emulation of platform signals,
-     *  and if the platform hierarchy is enabled. In particular platform signals
-     *  are required to power-cycle the TPM.
-     */
+    /** @return true if the TPM device supports sending/emulation of platform signals,
+     *          and if the platform hierarchy is enabled.*/
     public boolean platformAvailable()
     {
         return (TpmInfo & TpmPlatformAvailable) != 0;
     }
 
-    /** Queries whether the TPM device can be power cycled programmatically. */
+    /** @return true if the TPM device can be power cycled programmatically */
     public boolean powerCtlAvailable()
     {
         return (TpmInfo & TpmNoPowerCtl) == 0;
     }
 
-    /** Queries whether the TPM device allows changing locality programmatically. */
+    /** @return true if the TPM device allows changing locality programmatically */
     public boolean localityCtlAvailable()
     {
         return (TpmInfo & TpmNoLocalityCtl) == 0;
     }
 
-    /** Queries whether physical presence can be asserted */
+    /** @return true if physical presence can be asserted */
     public boolean implementsPhysicalPresence()
     {
         return (TpmInfo & TpmSupportsPP) != 0;
     }
 
-    /** Convenience wrapper for {@link #powerCtl(true)} */
+    /** Convenience wrapper for {@link #powerCtl(boolean) powerCtl(true)} */
     public void powerOn()
     {
         powerCtl(true);
     }
 
-    /** Convenience wrapper for {@link #powerCtl(false)} */
+    /** Convenience wrapper for {@link #powerCtl(boolean) powerCtl(false)} */
     public void powerOff()
     {
         powerCtl(false);
     }
 
-    /** Convenience wrapper for {@link #powerCtl()}.
-     *  Power-cycles the TPM device, i.e. turns it off and then back on
+    /** Convenience wrapper for {@link #powerCtl(boolean) powerCtl(false); powerCtl(true)}.
+     *  Power-cycles the TPM device, i.e. turns it off and then back on.
      */
     public void powerCycle()
     {
@@ -148,13 +151,13 @@ public abstract class TpmDevice implements Closeable
         powerCtl(true);
     }
     
-    /** Convenience wrapper for {@link #assertPhysicalPresence(true)} */
+    /** Convenience wrapper for {@link #assertPhysicalPresence(boolean) assertPhysicalPresence(true)} */
     public void ppOn()
     {
         assertPhysicalPresence(true);
     }
 
-    /** Convenience wrapper for {@link #assertPhysicalPresence(false)} */
+    /** Convenience wrapper for {@link #assertPhysicalPresence(boolean) assertPhysicalPresence(false)} */
     public void ppOff()
     {
         assertPhysicalPresence(false);

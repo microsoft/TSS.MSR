@@ -20,10 +20,10 @@ public final class TPM_PT_PCR extends TpmEnum<TPM_PT_PCR>
      *  for any other usage just prepend them with the TPM_PT_PCR. qualifier.
      */
     public enum _N {
-        /** Bottom of the range of TPM_PT_PCR properties  */
+        /** Bottom of the range of TPM_PT_PCR properties */
         FIRST,
 
-        /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and restored by TPM_SU_STATE  */
+        /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR is saved and restored by TPM_SU_STATE */
         SAVE,
 
         /** A SET bit in the TPMS_PCR_SELECT indicates that the PCR may be extended from locality 0
@@ -113,7 +113,7 @@ public final class TPM_PT_PCR extends TpmEnum<TPM_PT_PCR>
 
     private static ValueMap<TPM_PT_PCR> _ValueMap = new ValueMap<TPM_PT_PCR>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_PT_PCR
         FIRST = new TPM_PT_PCR(0x00000000, _N.FIRST),
         SAVE = new TPM_PT_PCR(0x00000000, _N.SAVE),

@@ -18,10 +18,10 @@ public class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
      */
     public TPM_HANDLE keyHandle;
 
-    /** The data to be encrypted/decrypted  */
+    /** The data to be encrypted/decrypted */
     public byte[] inData;
 
-    /** If YES, then the operation is decryption; if NO, the operation is encryption  */
+    /** If YES, then the operation is decryption; if NO, the operation is encryption */
     public byte decrypt;
 
     /** Symmetric mode
@@ -29,7 +29,7 @@ public class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
      */
     public TPM_ALG_ID mode;
 
-    /** An initial value as required by the algorithm  */
+    /** An initial value as required by the algorithm */
     public byte[] ivIn;
 
     public TPM2_EncryptDecrypt2_REQUEST()
@@ -56,7 +56,7 @@ public class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
         ivIn = _ivIn;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -66,7 +66,7 @@ public class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(ivIn);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -76,19 +76,30 @@ public class TPM2_EncryptDecrypt2_REQUEST extends ReqStructure
         ivIn = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_EncryptDecrypt2_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_EncryptDecrypt2_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_EncryptDecrypt2_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_EncryptDecrypt2_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_EncryptDecrypt2_REQUEST.class);

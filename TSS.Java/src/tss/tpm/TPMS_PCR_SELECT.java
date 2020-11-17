@@ -7,38 +7,49 @@ import tss.*;
 
 //>>>
 
-/** This structure provides a standard method of specifying a list of PCR.  */
+/** This structure provides a standard method of specifying a list of PCR. */
 public class TPMS_PCR_SELECT extends TpmStructure
 {
-    /** The bit map of selected PCR  */
+    /** The bit map of selected PCR */
     public byte[] pcrSelect;
 
     public TPMS_PCR_SELECT() {}
 
-    /** @param _pcrSelect The bit map of selected PCR  */
+    /** @param _pcrSelect The bit map of selected PCR */
     public TPMS_PCR_SELECT(byte[] _pcrSelect) { pcrSelect = _pcrSelect; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(pcrSelect, 1); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { pcrSelect = buf.readSizedByteBuf(1); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_PCR_SELECT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_PCR_SELECT.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_PCR_SELECT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_PCR_SELECT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_PCR_SELECT.class);

@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** This structure is used in TPM2_GetCapability() to return the attributes of the PCR.  */
+/** This structure is used in TPM2_GetCapability() to return the attributes of the PCR. */
 public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
 {
-    /** The property identifier  */
+    /** The property identifier */
     public TPM_PT_PCR tag;
 
-    /** The bit map of PCR with the identified property  */
+    /** The bit map of PCR with the identified property */
     public byte[] pcrSelect;
 
     public TPMS_TAGGED_PCR_SELECT() {}
@@ -27,7 +27,7 @@ public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
         pcrSelect = _pcrSelect;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -35,7 +35,7 @@ public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
         buf.writeSizedByteBuf(pcrSelect, 1);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -43,19 +43,30 @@ public class TPMS_TAGGED_PCR_SELECT extends TpmStructure
         pcrSelect = buf.readSizedByteBuf(1);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_TAGGED_PCR_SELECT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_TAGGED_PCR_SELECT.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_TAGGED_PCR_SELECT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_TAGGED_PCR_SELECT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_TAGGED_PCR_SELECT.class);

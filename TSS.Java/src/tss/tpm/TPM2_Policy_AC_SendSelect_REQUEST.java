@@ -19,16 +19,16 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends ReqStructure
      */
     public TPM_HANDLE policySession;
 
-    /** The Name of the Object to be sent  */
+    /** The Name of the Object to be sent */
     public byte[] objectName;
 
-    /** The Name associated with authHandle used in the TPM2_AC_Send() command  */
+    /** The Name associated with authHandle used in the TPM2_AC_Send() command */
     public byte[] authHandleName;
 
-    /** The Name of the Attached Component to which the Object will be sent  */
+    /** The Name of the Attached Component to which the Object will be sent */
     public byte[] acName;
 
-    /** If SET, objectName will be included in the value in policySessionpolicyDigest  */
+    /** If SET, objectName will be included in the value in policySessionpolicyDigest */
     public byte includeObject;
 
     public TPM2_Policy_AC_SendSelect_REQUEST() { policySession = new TPM_HANDLE(); }
@@ -50,7 +50,7 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends ReqStructure
         includeObject = _includeObject;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -60,7 +60,7 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends ReqStructure
         buf.writeByte(includeObject);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -70,19 +70,30 @@ public class TPM2_Policy_AC_SendSelect_REQUEST extends ReqStructure
         includeObject = buf.readByte();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Policy_AC_SendSelect_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Policy_AC_SendSelect_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Policy_AC_SendSelect_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Policy_AC_SendSelect_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Policy_AC_SendSelect_REQUEST.class);

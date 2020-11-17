@@ -26,7 +26,7 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
      */
     public byte[] message;
 
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** The padding scheme to use if scheme associated with keyHandle is TPM_ALG_NULL
@@ -69,7 +69,7 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
         label = _label;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -79,7 +79,7 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(label);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -90,19 +90,30 @@ public class TPM2_RSA_Encrypt_REQUEST extends ReqStructure
         label = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_RSA_Encrypt_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_RSA_Encrypt_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_RSA_Encrypt_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_RSA_Encrypt_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_RSA_Encrypt_REQUEST.class);

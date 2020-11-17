@@ -7,41 +7,52 @@ import tss.*;
 
 //>>>
 
-/** This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM.  */
+/** This sized buffer holds the largest ECC parameter (coordinate) supported by the TPM. */
 public class TPM2B_ECC_PARAMETER extends TpmStructure implements TPMU_SENSITIVE_COMPOSITE
 {
-    /** The parameter data  */
+    /** The parameter data */
     public byte[] buffer;
 
     public TPM2B_ECC_PARAMETER() {}
 
-    /** @param _buffer The parameter data  */
+    /** @param _buffer The parameter data */
     public TPM2B_ECC_PARAMETER(byte[] _buffer) { buffer = _buffer; }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ECC_PARAMETER fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_ECC_PARAMETER.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ECC_PARAMETER fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_ECC_PARAMETER fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_ECC_PARAMETER.class);

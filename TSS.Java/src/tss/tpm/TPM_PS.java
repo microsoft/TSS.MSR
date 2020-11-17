@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 
-/** The platform values in Table 25 are used for the TPM_PT_PS_FAMILY_INDICATOR.  */
+/** The platform values in Table 25 are used for the TPM_PT_PS_FAMILY_INDICATOR. */
 public final class TPM_PS extends TpmEnum<TPM_PS>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
@@ -16,58 +16,58 @@ public final class TPM_PS extends TpmEnum<TPM_PS>
      *  for any other usage just prepend them with the TPM_PS. qualifier.
      */
     public enum _N {
-        /** Not platform specific  */
+        /** Not platform specific */
         MAIN,
 
-        /** PC Client  */
+        /** PC Client */
         PC,
 
-        /** PDA (includes all mobile devices that are not specifically cell phones)  */
+        /** PDA (includes all mobile devices that are not specifically cell phones) */
         PDA,
 
-        /** Cell Phone  */
+        /** Cell Phone */
         CELL_PHONE,
 
-        /** Server WG  */
+        /** Server WG */
         SERVER,
 
-        /** Peripheral WG  */
+        /** Peripheral WG */
         PERIPHERAL,
 
-        /** TSS WG (deprecated)  */
+        /** TSS WG (deprecated) */
         TSS,
 
-        /** Storage WG  */
+        /** Storage WG */
         STORAGE,
 
-        /** Authentication WG  */
+        /** Authentication WG */
         AUTHENTICATION,
 
-        /** Embedded WG  */
+        /** Embedded WG */
         EMBEDDED,
 
-        /** Hardcopy WG  */
+        /** Hardcopy WG */
         HARDCOPY,
 
-        /** Infrastructure WG (deprecated)  */
+        /** Infrastructure WG (deprecated) */
         INFRASTRUCTURE,
 
-        /** Virtualization WG  */
+        /** Virtualization WG */
         VIRTUALIZATION,
 
-        /** Trusted Network Connect WG (deprecated)  */
+        /** Trusted Network Connect WG (deprecated) */
         TNC,
 
-        /** Multi-tenant WG (deprecated)  */
+        /** Multi-tenant WG (deprecated) */
         MULTI_TENANT,
 
-        /** Technical Committee (deprecated)  */
+        /** Technical Committee (deprecated) */
         TC
     }
 
     private static ValueMap<TPM_PS> _ValueMap = new ValueMap<TPM_PS>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_PS
         MAIN = new TPM_PS(0x00000000, _N.MAIN),
         PC = new TPM_PS(0x00000001, _N.PC),

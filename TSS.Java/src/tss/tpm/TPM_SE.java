@@ -30,7 +30,7 @@ public final class TPM_SE extends TpmEnum<TPM_SE>
 
     private static ValueMap<TPM_SE> _ValueMap = new ValueMap<TPM_SE>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_SE
         HMAC = new TPM_SE(0x00, _N.HMAC),
         POLICY = new TPM_SE(0x01, _N.POLICY),

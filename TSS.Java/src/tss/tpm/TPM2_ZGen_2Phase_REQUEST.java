@@ -21,16 +21,16 @@ public class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
      */
     public TPM_HANDLE keyA;
 
-    /** Other partys static public key (Qs,B = (Xs,B, Ys,B))  */
+    /** Other partys static public key (Qs,B = (Xs,B, Ys,B)) */
     public TPMS_ECC_POINT inQsB;
 
-    /** Other party's ephemeral public key (Qe,B = (Xe,B, Ye,B))  */
+    /** Other party's ephemeral public key (Qe,B = (Xe,B, Ye,B)) */
     public TPMS_ECC_POINT inQeB;
 
-    /** The key exchange scheme  */
+    /** The key exchange scheme */
     public TPM_ALG_ID inScheme;
 
-    /** Value returned by TPM2_EC_Ephemeral()  */
+    /** Value returned by TPM2_EC_Ephemeral() */
     public int counter;
 
     public TPM2_ZGen_2Phase_REQUEST()
@@ -57,7 +57,7 @@ public class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
         counter = _counter;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -67,7 +67,7 @@ public class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
         buf.writeShort(counter);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -77,19 +77,30 @@ public class TPM2_ZGen_2Phase_REQUEST extends ReqStructure
         counter = buf.readShort();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ZGen_2Phase_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ZGen_2Phase_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ZGen_2Phase_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ZGen_2Phase_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ZGen_2Phase_REQUEST.class);

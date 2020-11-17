@@ -12,38 +12,49 @@ import tss.*;
  */
 public class TPML_ACT_DATA extends TpmStructure implements TPMU_CAPABILITIES
 {
-    /** Array of ACT data  */
+    /** Array of ACT data */
     public TPMS_ACT_DATA[] actData;
 
     public TPML_ACT_DATA() {}
 
-    /** @param _actData Array of ACT data  */
+    /** @param _actData Array of ACT data */
     public TPML_ACT_DATA(TPMS_ACT_DATA[] _actData) { actData = _actData; }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.ACT; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(actData); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { actData = buf.readObjArr(TPMS_ACT_DATA.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_ACT_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_ACT_DATA.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_ACT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_ACT_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_ACT_DATA.class);

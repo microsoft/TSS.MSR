@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** This structure is a return value for a TPM2_GetCapability() that reads the installed algorithms.  */
+/** This structure is a return value for a TPM2_GetCapability() that reads the installed algorithms. */
 public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
 {
-    /** An algorithm  */
+    /** An algorithm */
     public TPM_ALG_ID alg;
 
-    /** The attributes of the algorithm  */
+    /** The attributes of the algorithm */
     public TPMA_ALGORITHM attributes;
 
     public TPMS_ALGORITHM_DESCRIPTION() { alg = TPM_ALG_ID.NULL; }
@@ -27,7 +27,7 @@ public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
         attributes = _attributes;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -35,7 +35,7 @@ public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
         attributes.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -43,19 +43,30 @@ public class TPMS_ALGORITHM_DESCRIPTION extends TpmStructure
         attributes = TPMA_ALGORITHM.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ALGORITHM_DESCRIPTION fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ALGORITHM_DESCRIPTION.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ALGORITHM_DESCRIPTION fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ALGORITHM_DESCRIPTION fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ALGORITHM_DESCRIPTION.class);

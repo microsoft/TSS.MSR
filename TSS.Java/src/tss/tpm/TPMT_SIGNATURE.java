@@ -15,7 +15,7 @@ import tss.*;
  */
 public class TPMT_SIGNATURE extends TpmStructure
 {
-    /** Selector of the algorithm used to construct the signature  */
+    /** Selector of the algorithm used to construct the signature */
     public TPM_ALG_ID sigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** This shall be the actual signature information.
@@ -34,7 +34,7 @@ public class TPMT_SIGNATURE extends TpmStructure
      */
     public TPMT_SIGNATURE(TPMU_SIGNATURE _signature) { signature = _signature; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -43,7 +43,7 @@ public class TPMT_SIGNATURE extends TpmStructure
         signature.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -52,19 +52,30 @@ public class TPMT_SIGNATURE extends TpmStructure
         signature.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SIGNATURE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_SIGNATURE.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SIGNATURE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SIGNATURE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_SIGNATURE.class);

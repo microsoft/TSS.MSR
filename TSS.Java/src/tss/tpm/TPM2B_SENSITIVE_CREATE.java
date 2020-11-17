@@ -13,35 +13,46 @@ import tss.*;
  */
 public class TPM2B_SENSITIVE_CREATE extends TpmStructure
 {
-    /** Data to be sealed or a symmetric key value.  */
+    /** Data to be sealed or a symmetric key value. */
     public TPMS_SENSITIVE_CREATE sensitive;
 
     public TPM2B_SENSITIVE_CREATE() {}
 
-    /** @param _sensitive Data to be sealed or a symmetric key value.  */
+    /** @param _sensitive Data to be sealed or a symmetric key value. */
     public TPM2B_SENSITIVE_CREATE(TPMS_SENSITIVE_CREATE _sensitive) { sensitive = _sensitive; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedObj(sensitive); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { sensitive = buf.createSizedObj(TPMS_SENSITIVE_CREATE.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_SENSITIVE_CREATE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_SENSITIVE_CREATE.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_SENSITIVE_CREATE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_SENSITIVE_CREATE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_SENSITIVE_CREATE.class);

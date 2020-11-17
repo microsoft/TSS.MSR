@@ -16,15 +16,15 @@ import tss.*;
  */
 public class RewrapResponse extends RespStructure
 {
-    /** An object encrypted using symmetric key derived from outSymSeed  */
+    /** An object encrypted using symmetric key derived from outSymSeed */
     public TPM2B_PRIVATE outDuplicate;
 
-    /** Seed for a symmetric key protected by newParent asymmetric key  */
+    /** Seed for a symmetric key protected by newParent asymmetric key */
     public byte[] outSymSeed;
 
     public RewrapResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -32,7 +32,7 @@ public class RewrapResponse extends RespStructure
         buf.writeSizedByteBuf(outSymSeed);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -40,19 +40,30 @@ public class RewrapResponse extends RespStructure
         outSymSeed = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static RewrapResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(RewrapResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static RewrapResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static RewrapResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(RewrapResponse.class);

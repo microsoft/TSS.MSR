@@ -43,7 +43,7 @@ public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
          */
         disableClear,
 
-        /** SET (1): The TPM is in lockout, when failedTries is equal to maxTries.  */
+        /** SET (1): The TPM is in lockout, when failedTries is equal to maxTries. */
         inLockout,
 
         /** SET (1): The EPS was created by the TPM.
@@ -54,7 +54,7 @@ public final class TPMA_PERMANENT extends TpmAttribute<TPMA_PERMANENT>
 
     private static ValueMap<TPMA_PERMANENT> _ValueMap = new ValueMap<TPMA_PERMANENT>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_PERMANENT
         ownerAuthSet = new TPMA_PERMANENT(0x1, _N.ownerAuthSet),
         endorsementAuthSet = new TPMA_PERMANENT(0x2, _N.endorsementAuthSet),

@@ -12,13 +12,13 @@ import tss.*;
  */
 public class TPMT_SYM_DEF extends TpmStructure
 {
-    /** Indicates a symmetric algorithm  */
+    /** Indicates a symmetric algorithm */
     public TPM_ALG_ID algorithm;
 
-    /** A supported key size  */
+    /** A supported key size */
     public int keyBits;
 
-    /** The mode for the key  */
+    /** The mode for the key */
     public TPM_ALG_ID mode;
 
     public TPMT_SYM_DEF()
@@ -38,7 +38,7 @@ public class TPMT_SYM_DEF extends TpmStructure
         mode = _mode;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -48,7 +48,7 @@ public class TPMT_SYM_DEF extends TpmStructure
         mode.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -58,19 +58,30 @@ public class TPMT_SYM_DEF extends TpmStructure
         mode = TPM_ALG_ID.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SYM_DEF fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_SYM_DEF.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SYM_DEF fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SYM_DEF fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_SYM_DEF.class);

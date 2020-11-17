@@ -7,16 +7,16 @@ import tss.*;
 
 //>>>
 
-/** Structure representing a session block in a response buffer [TSS]  */
+/** Structure representing a session block in a response buffer [TSS] */
 public class SessionOut extends TpmStructure
 {
-    /** TPM nonce  */
+    /** TPM nonce */
     public byte[] nonceTpm;
 
-    /** Session attributes  */
+    /** Session attributes */
     public TPMA_SESSION attributes;
 
-    /** HMAC value  */
+    /** HMAC value */
     public byte[] auth;
 
     public SessionOut() {}
@@ -32,7 +32,7 @@ public class SessionOut extends TpmStructure
         auth = _auth;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -41,7 +41,7 @@ public class SessionOut extends TpmStructure
         buf.writeSizedByteBuf(auth);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -50,19 +50,30 @@ public class SessionOut extends TpmStructure
         auth = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static SessionOut fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(SessionOut.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static SessionOut fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static SessionOut fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(SessionOut.class);

@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 
-/** These constants are the TCG-defined error values returned by an AC.  */
+/** These constants are the TCG-defined error values returned by an AC. */
 public final class TPM_AE extends TpmEnum<TPM_AE>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
@@ -24,7 +24,7 @@ public final class TPM_AE extends TpmEnum<TPM_AE>
 
     private static ValueMap<TPM_AE> _ValueMap = new ValueMap<TPM_AE>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_AE
         NONE = new TPM_AE(0x00000000, _N.NONE);
 

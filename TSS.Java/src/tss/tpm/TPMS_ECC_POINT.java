@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** This structure holds two ECC coordinates that, together, make up an ECC point.  */
+/** This structure holds two ECC coordinates that, together, make up an ECC point. */
 public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
 {
-    /** X coordinate  */
+    /** X coordinate */
     public byte[] x;
 
-    /** Y coordinate  */
+    /** Y coordinate */
     public byte[] y;
 
     public TPMS_ECC_POINT() {}
@@ -27,10 +27,10 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         y = _y;
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ECC; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -38,7 +38,7 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         buf.writeSizedByteBuf(y);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -46,19 +46,30 @@ public class TPMS_ECC_POINT extends TpmStructure implements TPMU_PUBLIC_ID
         y = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ECC_POINT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ECC_POINT.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ECC_POINT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ECC_POINT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ECC_POINT.class);

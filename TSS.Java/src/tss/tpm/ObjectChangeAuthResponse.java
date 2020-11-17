@@ -7,35 +7,46 @@ import tss.*;
 
 //>>>
 
-/** This command is used to change the authorization secret for a TPM-resident object.  */
+/** This command is used to change the authorization secret for a TPM-resident object. */
 public class ObjectChangeAuthResponse extends RespStructure
 {
-    /** Private area containing the new authorization value  */
+    /** Private area containing the new authorization value */
     public TPM2B_PRIVATE outPrivate;
 
     public ObjectChangeAuthResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { outPrivate.toTpm(buf); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { outPrivate = TPM2B_PRIVATE.fromTpm(buf); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ObjectChangeAuthResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ObjectChangeAuthResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ObjectChangeAuthResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ObjectChangeAuthResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ObjectChangeAuthResponse.class);

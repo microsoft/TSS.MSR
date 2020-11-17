@@ -23,10 +23,10 @@ public class TPMS_CONTEXT extends TpmStructure
      */
     public TPM_HANDLE savedHandle;
 
-    /** The hierarchy of the context  */
+    /** The hierarchy of the context */
     public TPM_HANDLE hierarchy;
 
-    /** The context data and integrity HMAC  */
+    /** The context data and integrity HMAC */
     public TPMS_CONTEXT_DATA contextBlob;
 
     public TPMS_CONTEXT()
@@ -50,7 +50,7 @@ public class TPMS_CONTEXT extends TpmStructure
         contextBlob = _contextBlob;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -60,7 +60,7 @@ public class TPMS_CONTEXT extends TpmStructure
         buf.writeSizedObj(contextBlob);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -70,19 +70,30 @@ public class TPMS_CONTEXT extends TpmStructure
         contextBlob = buf.createSizedObj(TPMS_CONTEXT_DATA.class);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CONTEXT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_CONTEXT.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CONTEXT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CONTEXT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_CONTEXT.class);

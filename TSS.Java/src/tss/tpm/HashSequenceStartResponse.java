@@ -14,24 +14,35 @@ import tss.*;
  */
 public class HashSequenceStartResponse extends RespStructure
 {
-    /** A handle to reference the sequence  */
+    /** A handle to reference the sequence */
     public TPM_HANDLE handle;
 
     public HashSequenceStartResponse() { handle = new TPM_HANDLE(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static HashSequenceStartResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(HashSequenceStartResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static HashSequenceStartResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static HashSequenceStartResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(HashSequenceStartResponse.class);

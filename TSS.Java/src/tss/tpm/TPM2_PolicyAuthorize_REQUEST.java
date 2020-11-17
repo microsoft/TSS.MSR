@@ -18,16 +18,16 @@ public class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
      */
     public TPM_HANDLE policySession;
 
-    /** Digest of the policy being approved  */
+    /** Digest of the policy being approved */
     public byte[] approvedPolicy;
 
-    /** A policy qualifier  */
+    /** A policy qualifier */
     public byte[] policyRef;
 
-    /** Name of a key that can sign a policy addition  */
+    /** Name of a key that can sign a policy addition */
     public byte[] keySign;
 
-    /** Ticket validating that approvedPolicy and policyRef were signed by keySign  */
+    /** Ticket validating that approvedPolicy and policyRef were signed by keySign */
     public TPMT_TK_VERIFIED checkTicket;
 
     public TPM2_PolicyAuthorize_REQUEST() { policySession = new TPM_HANDLE(); }
@@ -49,7 +49,7 @@ public class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
         checkTicket = _checkTicket;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -59,7 +59,7 @@ public class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
         checkTicket.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -69,19 +69,30 @@ public class TPM2_PolicyAuthorize_REQUEST extends ReqStructure
         checkTicket = TPMT_TK_VERIFIED.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyAuthorize_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyAuthorize_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyAuthorize_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyAuthorize_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyAuthorize_REQUEST.class);

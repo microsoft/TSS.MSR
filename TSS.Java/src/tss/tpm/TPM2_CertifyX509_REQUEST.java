@@ -28,10 +28,10 @@ public class TPM2_CertifyX509_REQUEST extends ReqStructure
      */
     public TPM_HANDLE signHandle;
 
-    /** Shall be an Empty Buffer  */
+    /** Shall be an Empty Buffer */
     public byte[] reserved;
 
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
@@ -41,7 +41,7 @@ public class TPM2_CertifyX509_REQUEST extends ReqStructure
      */
     public TPMU_SIG_SCHEME inScheme;
 
-    /** A DER encoded partial certificate  */
+    /** A DER encoded partial certificate */
     public byte[] partialCertificate;
 
     public TPM2_CertifyX509_REQUEST()
@@ -72,7 +72,7 @@ public class TPM2_CertifyX509_REQUEST extends ReqStructure
         partialCertificate = _partialCertificate;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -82,7 +82,7 @@ public class TPM2_CertifyX509_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(partialCertificate);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -93,19 +93,30 @@ public class TPM2_CertifyX509_REQUEST extends ReqStructure
         partialCertificate = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_CertifyX509_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_CertifyX509_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_CertifyX509_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_CertifyX509_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_CertifyX509_REQUEST.class);

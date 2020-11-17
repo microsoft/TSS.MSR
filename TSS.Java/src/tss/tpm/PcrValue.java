@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** Contains a PCR index and associated hash(pcr-value) [TSS]  */
+/** Contains a PCR index and associated hash(pcr-value) [TSS] */
 public class PcrValue extends TpmStructure
 {
-    /** PCR Index  */
+    /** PCR Index */
     public int index;
 
-    /** PCR Value  */
+    /** PCR Value */
     public TPMT_HA value;
 
     public PcrValue() {}
@@ -27,7 +27,7 @@ public class PcrValue extends TpmStructure
         value = _value;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -35,7 +35,7 @@ public class PcrValue extends TpmStructure
         value.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -43,19 +43,30 @@ public class PcrValue extends TpmStructure
         value = TPMT_HA.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PcrValue fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(PcrValue.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PcrValue fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PcrValue fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(PcrValue.class);

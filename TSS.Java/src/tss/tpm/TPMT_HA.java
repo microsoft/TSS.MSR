@@ -20,7 +20,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
      */
     public TPM_ALG_ID hashAlg;
 
-    /** Hash value  */
+    /** Hash value */
     public byte[] digest;
 
     public TPMT_HA() { hashAlg = TPM_ALG_ID.NULL; }
@@ -38,10 +38,10 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         digest = _digest;
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.HMAC; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -49,7 +49,7 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         buf.writeByteBuf(digest);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -57,19 +57,30 @@ public class TPMT_HA extends TpmStructure implements TPMU_SIGNATURE
         digest = buf.readByteBuf(Crypto.digestSize(hashAlg));
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_HA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_HA.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_HA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_HA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_HA.class);

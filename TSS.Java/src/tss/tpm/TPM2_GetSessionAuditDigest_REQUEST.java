@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command returns a digital signature of the audit session digest.  */
+/** This command returns a digital signature of the audit session digest. */
 public class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
 {
     /** Handle of the privacy administrator (TPM_RH_ENDORSEMENT)
@@ -27,10 +27,10 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
      */
     public TPM_HANDLE sessionHandle;
 
-    /** User-provided qualifying data may be zero-length  */
+    /** User-provided qualifying data may be zero-length */
     public byte[] qualifyingData;
 
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
@@ -70,7 +70,7 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
         inScheme = _inScheme;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -79,7 +79,7 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
         inScheme.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -89,19 +89,30 @@ public class TPM2_GetSessionAuditDigest_REQUEST extends ReqStructure
         inScheme.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_GetSessionAuditDigest_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_GetSessionAuditDigest_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_GetSessionAuditDigest_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_GetSessionAuditDigest_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_GetSessionAuditDigest_REQUEST.class);

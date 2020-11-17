@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This structure is used in each of the attestation commands.  */
+/** This structure is used in each of the attestation commands. */
 public class TPMS_CLOCK_INFO extends TpmStructure
 {
     /** Time value in milliseconds that advances while the TPM is powered
@@ -19,7 +19,7 @@ public class TPMS_CLOCK_INFO extends TpmStructure
      */
     public long clock;
 
-    /** Number of occurrences of TPM Reset since the last TPM2_Clear()  */
+    /** Number of occurrences of TPM Reset since the last TPM2_Clear() */
     public int resetCount;
 
     /** Number of times that TPM2_Shutdown() or _TPM_Hash_Start have occurred since the last
@@ -54,7 +54,7 @@ public class TPMS_CLOCK_INFO extends TpmStructure
         safe = _safe;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -64,7 +64,7 @@ public class TPMS_CLOCK_INFO extends TpmStructure
         buf.writeByte(safe);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -74,19 +74,30 @@ public class TPMS_CLOCK_INFO extends TpmStructure
         safe = buf.readByte();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CLOCK_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_CLOCK_INFO.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CLOCK_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CLOCK_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_CLOCK_INFO.class);

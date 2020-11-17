@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure  */
+/** Table 185 Definition of {RSA} TPMS_SIGNATURE_RSA Structure */
 public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
 {
     /** The hash algorithm used to digest the message
@@ -15,7 +15,7 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
      */
     public TPM_ALG_ID hash;
 
-    /** The signature is the size of a public key.  */
+    /** The signature is the size of a public key. */
     public byte[] sig;
 
     public TPMS_SIGNATURE_RSA() { hash = TPM_ALG_ID.NULL; }
@@ -30,10 +30,10 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
         sig = _sig;
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSASSA; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -41,7 +41,7 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
         buf.writeSizedByteBuf(sig);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -49,19 +49,30 @@ public class TPMS_SIGNATURE_RSA extends TpmStructure implements TPMU_SIGNATURE
         sig = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SIGNATURE_RSA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SIGNATURE_RSA.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SIGNATURE_RSA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SIGNATURE_RSA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SIGNATURE_RSA.class);

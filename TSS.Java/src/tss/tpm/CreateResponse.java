@@ -17,16 +17,16 @@ import tss.*;
  */
 public class CreateResponse extends RespStructure
 {
-    /** The private portion of the object  */
+    /** The private portion of the object */
     public TPM2B_PRIVATE outPrivate;
 
-    /** The public portion of the created object  */
+    /** The public portion of the created object */
     public TPMT_PUBLIC outPublic;
 
-    /** Contains a TPMS_CREATION_DATA  */
+    /** Contains a TPMS_CREATION_DATA */
     public TPMS_CREATION_DATA creationData;
 
-    /** Digest of creationData using nameAlg of outPublic  */
+    /** Digest of creationData using nameAlg of outPublic */
     public byte[] creationHash;
 
     /** Ticket used by TPM2_CertifyCreation() to validate that the creation data was produced
@@ -36,7 +36,7 @@ public class CreateResponse extends RespStructure
 
     public CreateResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -47,7 +47,7 @@ public class CreateResponse extends RespStructure
         creationTicket.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -58,19 +58,30 @@ public class CreateResponse extends RespStructure
         creationTicket = TPMT_TK_CREATION.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CreateResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(CreateResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CreateResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CreateResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(CreateResponse.class);

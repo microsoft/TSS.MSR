@@ -18,10 +18,10 @@ public final class Implementation extends TpmEnum<Implementation>
      *  for any other usage just prepend them with the Implementation. qualifier.
      */
     public enum _N {
-        /** Temporary define  */
+        /** Temporary define */
         FIELD_UPGRADE_IMPLEMENTED,
 
-        /** Selection of the library that provides the basic hashing functions.  */
+        /** Selection of the library that provides the basic hashing functions. */
         HASH_LIB,
 
         /** Selection of the library that provides the low-level symmetric cryptography. Choices
@@ -34,11 +34,11 @@ public final class Implementation extends TpmEnum<Implementation>
          */
         MATH_LIB,
 
-        /** The number of PCR in the TPM  */
+        /** The number of PCR in the TPM */
         IMPLEMENTATION_PCR,
         PCR_SELECT_MAX,
 
-        /** The number of PCR required by the relevant platform specification  */
+        /** The number of PCR required by the relevant platform specification */
         PLATFORM_PCR,
         PCR_SELECT_MIN,
 
@@ -47,7 +47,7 @@ public final class Implementation extends TpmEnum<Implementation>
          */
         DRTM_PCR,
 
-        /** The PCR that will receive the H-CRTM value at TPM2_Startup. This value should not be changed.  */
+        /** The PCR that will receive the H-CRTM value at TPM2_Startup. This value should not be changed. */
         HCRTM_PCR,
 
         /** The number of localities supported by the TPM
@@ -60,13 +60,13 @@ public final class Implementation extends TpmEnum<Implementation>
          */
         MAX_HANDLE_NUM,
 
-        /** The number of simultaneously active sessions that are supported by the TPM implementation  */
+        /** The number of simultaneously active sessions that are supported by the TPM implementation */
         MAX_ACTIVE_SESSIONS,
 
-        /** The number of sessions that the TPM may have in memory  */
+        /** The number of sessions that the TPM may have in memory */
         MAX_LOADED_SESSIONS,
 
-        /** This is the current maximum value  */
+        /** This is the current maximum value */
         MAX_SESSION_NUM,
 
         /** The number of simultaneously loaded objects that are supported by the TPM; this number
@@ -74,27 +74,27 @@ public final class Implementation extends TpmEnum<Implementation>
          */
         MAX_LOADED_OBJECTS,
 
-        /** The minimum number of evict objects supported by the TPM  */
+        /** The minimum number of evict objects supported by the TPM */
         MIN_EVICT_OBJECTS,
 
-        /** Number of PCR groups that have individual policies  */
+        /** Number of PCR groups that have individual policies */
         NUM_POLICY_PCR_GROUP,
 
-        /** Number of PCR groups that have individual authorization values  */
+        /** Number of PCR groups that have individual authorization values */
         NUM_AUTHVALUE_PCR_GROUP,
         MAX_CONTEXT_SIZE,
         MAX_DIGEST_BUFFER,
 
-        /** Maximum data size allowed in an NV Index  */
+        /** Maximum data size allowed in an NV Index */
         MAX_NV_INDEX_SIZE,
 
-        /** Maximum data size in one NV read or write command  */
+        /** Maximum data size in one NV read or write command */
         MAX_NV_BUFFER_SIZE,
 
-        /** Maximum size of a capability buffer  */
+        /** Maximum size of a capability buffer */
         MAX_CAP_BUFFER,
 
-        /** Size of NV memory in octets  */
+        /** Size of NV memory in octets */
         NV_MEMORY_SIZE,
 
         /** The TPM will not allocate a non-counter index if it would prevent allocation of this
@@ -103,10 +103,10 @@ public final class Implementation extends TpmEnum<Implementation>
         MIN_COUNTER_INDICES,
         NUM_STATIC_PCR,
 
-        /** Number of algorithms that can be in a list  */
+        /** Number of algorithms that can be in a list */
         MAX_ALG_LIST_SIZE,
 
-        /** Size of the Primary Seed in octets  */
+        /** Size of the Primary Seed in octets */
         PRIMARY_SEED_SIZE,
 
         /** Context encryption algorithm
@@ -119,19 +119,19 @@ public final class Implementation extends TpmEnum<Implementation>
          */
         NV_CLOCK_UPDATE_INTERVAL,
 
-        /** Number of PCR groups that allow policy/auth  */
+        /** Number of PCR groups that allow policy/auth */
         NUM_POLICY_PCR,
 
-        /** Maximum size of a command  */
+        /** Maximum size of a command */
         MAX_COMMAND_SIZE,
 
-        /** Maximum size of a response  */
+        /** Maximum size of a response */
         MAX_RESPONSE_SIZE,
 
-        /** Number between 1 and 32 inclusive  */
+        /** Number between 1 and 32 inclusive */
         ORDERLY_BITS,
 
-        /** The maximum number of octets that may be in a sealed blob; 128 is the minimum allowed value  */
+        /** The maximum number of octets that may be in a sealed blob; 128 is the minimum allowed value */
         MAX_SYM_DATA,
         MAX_RNG_ENTROPY_SIZE,
 
@@ -140,15 +140,15 @@ public final class Implementation extends TpmEnum<Implementation>
          */
         RAM_INDEX_SPACE,
 
-        /** 216 + 1  */
+        /** 216 + 1 */
         RSA_DEFAULT_PUBLIC_EXPONENT,
 
-        /** Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented  */
+        /** Indicates if the TPM_PT_PCR_NO_INCREMENT group is implemented */
         ENABLE_PCR_NO_INCREMENT,
         CRT_FORMAT_RSA,
         VENDOR_COMMAND_COUNT,
 
-        /** Maximum size of the vendor-specific buffer  */
+        /** Maximum size of the vendor-specific buffer */
         MAX_VENDOR_BUFFER_SIZE,
 
         /** L value for a derivation. This is the
@@ -168,7 +168,7 @@ public final class Implementation extends TpmEnum<Implementation>
 
     private static ValueMap<Implementation> _ValueMap = new ValueMap<Implementation>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final Implementation
         FIELD_UPGRADE_IMPLEMENTED = new Implementation(Logic.NO.toInt(), _N.FIELD_UPGRADE_IMPLEMENTED),
         HASH_LIB = new Implementation(ImplementationConstants.Ossl.toInt(), _N.HASH_LIB),

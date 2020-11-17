@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This structure is used for sizing the TPM2B_ID_OBJECT.  */
+/** This structure is used for sizing the TPM2B_ID_OBJECT. */
 public class TPMS_ID_OBJECT extends TpmStructure
 {
-    /** HMAC using the nameAlg of the storage key on the target TPM  */
+    /** HMAC using the nameAlg of the storage key on the target TPM */
     public byte[] integrityHMAC;
 
     /** Credential protector information returned if name matches the referenced object
@@ -38,7 +38,7 @@ public class TPMS_ID_OBJECT extends TpmStructure
         encIdentity = _encIdentity;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -46,7 +46,7 @@ public class TPMS_ID_OBJECT extends TpmStructure
         buf.writeByteBuf(encIdentity);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -54,19 +54,30 @@ public class TPMS_ID_OBJECT extends TpmStructure
         encIdentity = buf.readByteBuf(buf.getCurStuctRemainingSize());
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ID_OBJECT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ID_OBJECT.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ID_OBJECT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ID_OBJECT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ID_OBJECT.class);

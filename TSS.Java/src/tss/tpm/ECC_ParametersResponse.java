@@ -7,35 +7,46 @@ import tss.*;
 
 //>>>
 
-/** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.  */
+/** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID. */
 public class ECC_ParametersResponse extends RespStructure
 {
-    /** ECC parameters for the selected curve  */
+    /** ECC parameters for the selected curve */
     public TPMS_ALGORITHM_DETAIL_ECC parameters;
 
     public ECC_ParametersResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { parameters.toTpm(buf); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { parameters = TPMS_ALGORITHM_DETAIL_ECC.fromTpm(buf); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ECC_ParametersResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ECC_ParametersResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ECC_ParametersResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ECC_ParametersResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ECC_ParametersResponse.class);

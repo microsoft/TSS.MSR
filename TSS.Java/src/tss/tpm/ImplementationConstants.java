@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 
-/** Architecturally defined constants  */
+/** Architecturally defined constants */
 public final class ImplementationConstants extends TpmEnum<ImplementationConstants>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
@@ -43,7 +43,7 @@ public final class ImplementationConstants extends TpmEnum<ImplementationConstan
 
     private static ValueMap<ImplementationConstants> _ValueMap = new ValueMap<ImplementationConstants>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final ImplementationConstants
         Ossl = new ImplementationConstants(1, _N.Ossl),
         Ltc = new ImplementationConstants(2, _N.Ltc),

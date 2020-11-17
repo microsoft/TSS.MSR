@@ -7,37 +7,48 @@ import tss.*;
 
 //>>>
 
-/** This structure is used in a TPMS_CONTEXT.  */
+/** This structure is used in a TPMS_CONTEXT. */
 public class TPM2B_CONTEXT_DATA extends TpmStructure
 {
     public TPMS_CONTEXT_DATA buffer;
 
     public TPM2B_CONTEXT_DATA() {}
 
-    /** @param _buffer TBD  */
+    /** @param _buffer TBD */
     public TPM2B_CONTEXT_DATA(TPMS_CONTEXT_DATA _buffer) { buffer = _buffer; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedObj(buffer); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.createSizedObj(TPMS_CONTEXT_DATA.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_CONTEXT_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_CONTEXT_DATA.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_CONTEXT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_CONTEXT_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_CONTEXT_DATA.class);

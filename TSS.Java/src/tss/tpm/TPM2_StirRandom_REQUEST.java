@@ -7,38 +7,49 @@ import tss.*;
 
 //>>>
 
-/** This command is used to add "additional information" to the RNG state.  */
+/** This command is used to add "additional information" to the RNG state. */
 public class TPM2_StirRandom_REQUEST extends ReqStructure
 {
-    /** Additional information  */
+    /** Additional information */
     public byte[] inData;
 
     public TPM2_StirRandom_REQUEST() {}
 
-    /** @param _inData Additional information  */
+    /** @param _inData Additional information */
     public TPM2_StirRandom_REQUEST(byte[] _inData) { inData = _inData; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(inData); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { inData = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_StirRandom_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_StirRandom_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_StirRandom_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_StirRandom_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_StirRandom_REQUEST.class);

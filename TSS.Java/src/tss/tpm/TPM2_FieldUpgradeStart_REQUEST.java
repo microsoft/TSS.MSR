@@ -24,10 +24,10 @@ public class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
      */
     public TPM_HANDLE keyHandle;
 
-    /** Digest of the first block in the field upgrade sequence  */
+    /** Digest of the first block in the field upgrade sequence */
     public byte[] fuDigest;
 
-    /** Selector of the algorithm used to construct the signature  */
+    /** Selector of the algorithm used to construct the signature */
     public TPM_ALG_ID manifestSignatureSigAlg() { return manifestSignature != null ? manifestSignature.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** Signature over fuDigest using the key associated with keyHandle (not optional)
@@ -64,7 +64,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
         manifestSignature = _manifestSignature;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -73,7 +73,7 @@ public class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
         manifestSignature.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -83,19 +83,30 @@ public class TPM2_FieldUpgradeStart_REQUEST extends ReqStructure
         manifestSignature.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_FieldUpgradeStart_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_FieldUpgradeStart_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_FieldUpgradeStart_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_FieldUpgradeStart_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_FieldUpgradeStart_REQUEST.class);

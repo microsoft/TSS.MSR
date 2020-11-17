@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** This structure holds the integrity value and the encrypted data for a context.  */
+/** This structure holds the integrity value and the encrypted data for a context. */
 public class TPMS_CONTEXT_DATA extends TpmStructure
 {
-    /** The integrity value  */
+    /** The integrity value */
     public byte[] integrity;
 
-    /** The sensitive area  */
+    /** The sensitive area */
     public byte[] encrypted;
 
     public TPMS_CONTEXT_DATA() {}
@@ -27,7 +27,7 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
         encrypted = _encrypted;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -35,7 +35,7 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
         buf.writeByteBuf(encrypted);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -43,19 +43,30 @@ public class TPMS_CONTEXT_DATA extends TpmStructure
         encrypted = buf.readByteBuf(buf.getCurStuctRemainingSize());
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CONTEXT_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_CONTEXT_DATA.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CONTEXT_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CONTEXT_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_CONTEXT_DATA.class);

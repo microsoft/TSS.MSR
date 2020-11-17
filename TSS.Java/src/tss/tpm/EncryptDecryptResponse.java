@@ -12,15 +12,15 @@ import tss.*;
  */
 public class EncryptDecryptResponse extends RespStructure
 {
-    /** Encrypted or decrypted output  */
+    /** Encrypted or decrypted output */
     public byte[] outData;
 
-    /** Chaining value to use for IV in next round  */
+    /** Chaining value to use for IV in next round */
     public byte[] ivOut;
 
     public EncryptDecryptResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -28,7 +28,7 @@ public class EncryptDecryptResponse extends RespStructure
         buf.writeSizedByteBuf(ivOut);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -36,19 +36,30 @@ public class EncryptDecryptResponse extends RespStructure
         ivOut = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static EncryptDecryptResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(EncryptDecryptResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static EncryptDecryptResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static EncryptDecryptResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(EncryptDecryptResponse.class);

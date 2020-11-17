@@ -12,38 +12,49 @@ import tss.*;
  */
 public class TPML_TAGGED_TPM_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
-    /** An array of tagged properties  */
+    /** An array of tagged properties */
     public TPMS_TAGGED_PROPERTY[] tpmProperty;
 
     public TPML_TAGGED_TPM_PROPERTY() {}
 
-    /** @param _tpmProperty An array of tagged properties  */
+    /** @param _tpmProperty An array of tagged properties */
     public TPML_TAGGED_TPM_PROPERTY(TPMS_TAGGED_PROPERTY[] _tpmProperty) { tpmProperty = _tpmProperty; }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.TPM_PROPERTIES; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(tpmProperty); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { tpmProperty = buf.readObjArr(TPMS_TAGGED_PROPERTY.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_TAGGED_TPM_PROPERTY fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_TAGGED_TPM_PROPERTY.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_TAGGED_TPM_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_TAGGED_TPM_PROPERTY fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_TAGGED_TPM_PROPERTY.class);

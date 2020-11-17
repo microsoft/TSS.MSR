@@ -7,19 +7,19 @@ import tss.*;
 
 //>>>
 
-/** This is the attested data for TPM2_GetCommandAuditDigest().  */
+/** This is the attested data for TPM2_GetCommandAuditDigest(). */
 public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 {
-    /** The monotonic audit counter  */
+    /** The monotonic audit counter */
     public long auditCounter;
 
-    /** Hash algorithm used for the command audit  */
+    /** Hash algorithm used for the command audit */
     public TPM_ALG_ID digestAlg;
 
-    /** The current value of the audit digest  */
+    /** The current value of the audit digest */
     public byte[] auditDigest;
 
-    /** Digest of the command codes being audited using digestAlg  */
+    /** Digest of the command codes being audited using digestAlg */
     public byte[] commandDigest;
 
     public TPMS_COMMAND_AUDIT_INFO() { digestAlg = TPM_ALG_ID.NULL; }
@@ -37,10 +37,10 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         commandDigest = _commandDigest;
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_COMMAND_AUDIT; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -50,7 +50,7 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeSizedByteBuf(commandDigest);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -60,19 +60,30 @@ public class TPMS_COMMAND_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         commandDigest = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_COMMAND_AUDIT_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_COMMAND_AUDIT_INFO.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_COMMAND_AUDIT_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_COMMAND_AUDIT_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_COMMAND_AUDIT_INFO.class);

@@ -7,35 +7,46 @@ import tss.*;
 
 //>>>
 
-/** This command causes the TPM to perform a test of the selected algorithms.  */
+/** This command causes the TPM to perform a test of the selected algorithms. */
 public class IncrementalSelfTestResponse extends RespStructure
 {
-    /** List of algorithms that need testing  */
+    /** List of algorithms that need testing */
     public TPM_ALG_ID[] toDoList;
 
     public IncrementalSelfTestResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(toDoList); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { toDoList = buf.readObjArr(TPM_ALG_ID.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static IncrementalSelfTestResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(IncrementalSelfTestResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static IncrementalSelfTestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static IncrementalSelfTestResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(IncrementalSelfTestResponse.class);

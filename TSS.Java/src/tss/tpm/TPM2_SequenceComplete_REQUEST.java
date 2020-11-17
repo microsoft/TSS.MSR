@@ -18,10 +18,10 @@ public class TPM2_SequenceComplete_REQUEST extends ReqStructure
      */
     public TPM_HANDLE sequenceHandle;
 
-    /** Data to be added to the hash/HMAC  */
+    /** Data to be added to the hash/HMAC */
     public byte[] buffer;
 
-    /** Hierarchy of the ticket for a hash  */
+    /** Hierarchy of the ticket for a hash */
     public TPM_HANDLE hierarchy;
 
     public TPM2_SequenceComplete_REQUEST()
@@ -43,7 +43,7 @@ public class TPM2_SequenceComplete_REQUEST extends ReqStructure
         hierarchy = _hierarchy;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -51,7 +51,7 @@ public class TPM2_SequenceComplete_REQUEST extends ReqStructure
         hierarchy.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -59,19 +59,30 @@ public class TPM2_SequenceComplete_REQUEST extends ReqStructure
         hierarchy = TPM_HANDLE.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_SequenceComplete_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_SequenceComplete_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_SequenceComplete_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_SequenceComplete_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_SequenceComplete_REQUEST.class);

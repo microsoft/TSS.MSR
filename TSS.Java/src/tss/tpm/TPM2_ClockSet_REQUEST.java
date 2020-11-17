@@ -20,7 +20,7 @@ public class TPM2_ClockSet_REQUEST extends ReqStructure
      */
     public TPM_HANDLE auth;
 
-    /** New Clock setting in milliseconds  */
+    /** New Clock setting in milliseconds */
     public long newTime;
 
     public TPM2_ClockSet_REQUEST() { auth = new TPM_HANDLE(); }
@@ -36,27 +36,38 @@ public class TPM2_ClockSet_REQUEST extends ReqStructure
         newTime = _newTime;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeInt64(newTime); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { newTime = buf.readInt64(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ClockSet_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ClockSet_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ClockSet_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ClockSet_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ClockSet_REQUEST.class);

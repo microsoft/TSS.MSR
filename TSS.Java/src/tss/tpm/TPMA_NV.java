@@ -43,7 +43,7 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
          */
         POLICYWRITE,
 
-        /** Ordinary contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write().  */
+        /** Ordinary contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write(). */
         ORDINARY,
 
         /** Counter contains an 8-octet value that is to be used as a counter and can only be
@@ -61,10 +61,10 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
          */
         EXTEND,
 
-        /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit  */
+        /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit */
         PIN_FAIL,
 
-        /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit  */
+        /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit */
         PIN_PASS,
 
         /** The type of the index.
@@ -182,7 +182,7 @@ public final class TPMA_NV extends TpmAttribute<TPMA_NV>
 
     private static ValueMap<TPMA_NV> _ValueMap = new ValueMap<TPMA_NV>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_NV
         PPWRITE = new TPMA_NV(0x1, _N.PPWRITE),
         OWNERWRITE = new TPMA_NV(0x2, _N.OWNERWRITE),

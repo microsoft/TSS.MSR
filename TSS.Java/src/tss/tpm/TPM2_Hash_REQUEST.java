@@ -7,16 +7,16 @@ import tss.*;
 
 //>>>
 
-/** This command performs a hash operation on a data buffer and returns the results.  */
+/** This command performs a hash operation on a data buffer and returns the results. */
 public class TPM2_Hash_REQUEST extends ReqStructure
 {
-    /** Data to be hashed  */
+    /** Data to be hashed */
     public byte[] data;
 
-    /** Algorithm for the hash being computed shall not be TPM_ALG_NULL  */
+    /** Algorithm for the hash being computed shall not be TPM_ALG_NULL */
     public TPM_ALG_ID hashAlg;
 
-    /** Hierarchy to use for the ticket (TPM_RH_NULL allowed)  */
+    /** Hierarchy to use for the ticket (TPM_RH_NULL allowed) */
     public TPM_HANDLE hierarchy;
 
     public TPM2_Hash_REQUEST()
@@ -36,7 +36,7 @@ public class TPM2_Hash_REQUEST extends ReqStructure
         hierarchy = _hierarchy;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -45,7 +45,7 @@ public class TPM2_Hash_REQUEST extends ReqStructure
         hierarchy.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -54,19 +54,30 @@ public class TPM2_Hash_REQUEST extends ReqStructure
         hierarchy = TPM_HANDLE.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Hash_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Hash_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Hash_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Hash_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Hash_REQUEST.class);

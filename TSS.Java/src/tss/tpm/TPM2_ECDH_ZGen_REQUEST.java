@@ -20,7 +20,7 @@ public class TPM2_ECDH_ZGen_REQUEST extends ReqStructure
      */
     public TPM_HANDLE keyHandle;
 
-    /** A public key  */
+    /** A public key */
     public TPMS_ECC_POINT inPoint;
 
     public TPM2_ECDH_ZGen_REQUEST() { keyHandle = new TPM_HANDLE(); }
@@ -36,27 +36,38 @@ public class TPM2_ECDH_ZGen_REQUEST extends ReqStructure
         inPoint = _inPoint;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedObj(inPoint); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { inPoint = buf.createSizedObj(TPMS_ECC_POINT.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ECDH_ZGen_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ECDH_ZGen_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ECDH_ZGen_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ECDH_ZGen_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ECDH_ZGen_REQUEST.class);

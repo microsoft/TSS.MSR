@@ -14,7 +14,7 @@ import tss.*;
  */
 public class PolicySecretResponse extends RespStructure
 {
-    /** Implementation-specific time value used to indicate to the TPM when the ticket expires  */
+    /** Implementation-specific time value used to indicate to the TPM when the ticket expires */
     public byte[] timeout;
 
     /** Produced if the command succeeds and expiration in the command was non-zero ( See
@@ -24,7 +24,7 @@ public class PolicySecretResponse extends RespStructure
 
     public PolicySecretResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -32,7 +32,7 @@ public class PolicySecretResponse extends RespStructure
         policyTicket.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -40,19 +40,30 @@ public class PolicySecretResponse extends RespStructure
         policyTicket = TPMT_TK_AUTH.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PolicySecretResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(PolicySecretResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PolicySecretResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static PolicySecretResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(PolicySecretResponse.class);

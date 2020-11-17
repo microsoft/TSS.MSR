@@ -13,7 +13,7 @@ import tss.*;
  */
 public class TPM2B_LABEL extends TpmStructure
 {
-    /** Symmetric data for a created object or the label and context for a derived object  */
+    /** Symmetric data for a created object or the label and context for a derived object */
     public byte[] buffer;
 
     public TPM2B_LABEL() {}
@@ -23,27 +23,38 @@ public class TPM2B_LABEL extends TpmStructure
      */
     public TPM2B_LABEL(byte[] _buffer) { buffer = _buffer; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_LABEL fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_LABEL.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_LABEL fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_LABEL fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_LABEL.class);

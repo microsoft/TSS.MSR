@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command allows access to the public area of a loaded object.  */
+/** This command allows access to the public area of a loaded object. */
 public class TPM2_ReadPublic_REQUEST extends ReqStructure
 {
     /** TPM handle of an object
@@ -22,19 +22,30 @@ public class TPM2_ReadPublic_REQUEST extends ReqStructure
      */
     public TPM2_ReadPublic_REQUEST(TPM_HANDLE _objectHandle) { objectHandle = _objectHandle; }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ReadPublic_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ReadPublic_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ReadPublic_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ReadPublic_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ReadPublic_REQUEST.class);

@@ -44,7 +44,7 @@ public class TPM2_PolicySigned_REQUEST extends ReqStructure
      */
     public int expiration;
 
-    /** Selector of the algorithm used to construct the signature  */
+    /** Selector of the algorithm used to construct the signature */
     public TPM_ALG_ID authSigAlg() { return auth != null ? auth.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** Signed authorization (not optional)
@@ -92,7 +92,7 @@ public class TPM2_PolicySigned_REQUEST extends ReqStructure
         auth = _auth;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -104,7 +104,7 @@ public class TPM2_PolicySigned_REQUEST extends ReqStructure
         auth.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -117,19 +117,30 @@ public class TPM2_PolicySigned_REQUEST extends ReqStructure
         auth.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicySigned_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicySigned_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicySigned_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicySigned_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicySigned_REQUEST.class);

@@ -25,10 +25,10 @@ public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
         NIST_P384,
         NIST_P521,
 
-        /** Curve to support ECDAA  */
+        /** Curve to support ECDAA */
         BN_P256,
 
-        /** Curve to support ECDAA  */
+        /** Curve to support ECDAA */
         BN_P638,
         SM2_P256,
         TEST_P192
@@ -36,7 +36,7 @@ public final class TPM_ECC_CURVE extends TpmEnum<TPM_ECC_CURVE>
 
     private static ValueMap<TPM_ECC_CURVE> _ValueMap = new ValueMap<TPM_ECC_CURVE>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_ECC_CURVE
         NONE = new TPM_ECC_CURVE(0x0000, _N.NONE),
         NIST_P192 = new TPM_ECC_CURVE(0x0001, _N.NIST_P192),

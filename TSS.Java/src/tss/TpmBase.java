@@ -215,9 +215,6 @@ public abstract class TpmBase implements Closeable
     /**
      * Send a command to the underlying TPM
      * @param cmdCode The command code
-     * @param inHandles Input handles
-     * @param numAuthHandles Number of handles that need authorization
-     * @param numRespHandles count
      * @param req The input parameter structure
      * @param resp The output parameter structure
      */

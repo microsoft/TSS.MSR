@@ -7,38 +7,49 @@ import tss.*;
 
 //>>>
 
-/** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID.  */
+/** This command returns the parameters of an ECC curve identified by its TCG-assigned curveID. */
 public class TPM2_ECC_Parameters_REQUEST extends ReqStructure
 {
-    /** Parameter set selector  */
+    /** Parameter set selector */
     public TPM_ECC_CURVE curveID;
 
     public TPM2_ECC_Parameters_REQUEST() {}
 
-    /** @param _curveID Parameter set selector  */
+    /** @param _curveID Parameter set selector */
     public TPM2_ECC_Parameters_REQUEST(TPM_ECC_CURVE _curveID) { curveID = _curveID; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { curveID.toTpm(buf); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { curveID = TPM_ECC_CURVE.fromTpm(buf); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ECC_Parameters_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ECC_Parameters_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ECC_Parameters_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ECC_Parameters_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ECC_Parameters_REQUEST.class);

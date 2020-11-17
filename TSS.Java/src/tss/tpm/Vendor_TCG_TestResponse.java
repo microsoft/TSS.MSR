@@ -7,35 +7,46 @@ import tss.*;
 
 //>>>
 
-/** This is a placeholder to allow testing of the dispatch code.  */
+/** This is a placeholder to allow testing of the dispatch code. */
 public class Vendor_TCG_TestResponse extends RespStructure
 {
-    /** Dummy data  */
+    /** Dummy data */
     public byte[] outputData;
 
     public Vendor_TCG_TestResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(outputData); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { outputData = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static Vendor_TCG_TestResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(Vendor_TCG_TestResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static Vendor_TCG_TestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static Vendor_TCG_TestResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(Vendor_TCG_TestResponse.class);

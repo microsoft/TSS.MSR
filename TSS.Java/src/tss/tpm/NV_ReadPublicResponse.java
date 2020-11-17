@@ -12,15 +12,15 @@ import tss.*;
  */
 public class NV_ReadPublicResponse extends RespStructure
 {
-    /** The public area of the NV Index  */
+    /** The public area of the NV Index */
     public TPMS_NV_PUBLIC nvPublic;
 
-    /** The Name of the nvIndex  */
+    /** The Name of the nvIndex */
     public byte[] nvName;
 
     public NV_ReadPublicResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -28,7 +28,7 @@ public class NV_ReadPublicResponse extends RespStructure
         buf.writeSizedByteBuf(nvName);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -36,19 +36,30 @@ public class NV_ReadPublicResponse extends RespStructure
         nvName = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static NV_ReadPublicResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(NV_ReadPublicResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static NV_ReadPublicResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static NV_ReadPublicResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(NV_ReadPublicResponse.class);

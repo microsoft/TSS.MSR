@@ -7,38 +7,49 @@ import tss.*;
 
 //>>>
 
-/** This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded().  */
+/** This sized buffer is used to embed a TPMT_TEMPLATE for TPM2_CreateLoaded(). */
 public class TPM2B_TEMPLATE extends TpmStructure
 {
-    /** The public area  */
+    /** The public area */
     public byte[] buffer;
 
     public TPM2B_TEMPLATE() {}
 
-    /** @param _buffer The public area  */
+    /** @param _buffer The public area */
     public TPM2B_TEMPLATE(byte[] _buffer) { buffer = _buffer; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_TEMPLATE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_TEMPLATE.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_TEMPLATE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_TEMPLATE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_TEMPLATE.class);

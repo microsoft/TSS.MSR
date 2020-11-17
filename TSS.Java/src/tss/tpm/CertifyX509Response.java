@@ -21,10 +21,10 @@ public class CertifyX509Response extends RespStructure
      */
     public byte[] addedToCertificate;
 
-    /** The digest that was signed  */
+    /** The digest that was signed */
     public byte[] tbsDigest;
 
-    /** Selector of the algorithm used to construct the signature  */
+    /** Selector of the algorithm used to construct the signature */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** The signature over tbsDigest
@@ -36,7 +36,7 @@ public class CertifyX509Response extends RespStructure
 
     public CertifyX509Response() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -46,7 +46,7 @@ public class CertifyX509Response extends RespStructure
         signature.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -57,19 +57,30 @@ public class CertifyX509Response extends RespStructure
         signature.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CertifyX509Response fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(CertifyX509Response.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CertifyX509Response fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CertifyX509Response fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(CertifyX509Response.class);

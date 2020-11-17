@@ -25,13 +25,13 @@ public final class TPMA_ACT extends TpmAttribute<TPMA_ACT>
          */
         signaled,
 
-        /** Preserves the state of signaled, depending on the power cycle  */
+        /** Preserves the state of signaled, depending on the power cycle */
         preserveSignaled
     }
 
     private static ValueMap<TPMA_ACT> _ValueMap = new ValueMap<TPMA_ACT>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_ACT
         signaled = new TPMA_ACT(0x1, _N.signaled),
         preserveSignaled = new TPMA_ACT(0x2, _N.preserveSignaled);

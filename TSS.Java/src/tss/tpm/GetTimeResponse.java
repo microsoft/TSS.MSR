@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** This command returns the current values of Time and Clock.  */
+/** This command returns the current values of Time and Clock. */
 public class GetTimeResponse extends RespStructure
 {
-    /** Standard TPM-generated attestation block  */
+    /** Standard TPM-generated attestation block */
     public TPMS_ATTEST timeInfo;
 
-    /** Selector of the algorithm used to construct the signature  */
+    /** Selector of the algorithm used to construct the signature */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** The signature over timeInfo
@@ -25,7 +25,7 @@ public class GetTimeResponse extends RespStructure
 
     public GetTimeResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -34,7 +34,7 @@ public class GetTimeResponse extends RespStructure
         signature.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -44,19 +44,30 @@ public class GetTimeResponse extends RespStructure
         signature.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static GetTimeResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(GetTimeResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static GetTimeResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static GetTimeResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(GetTimeResponse.class);

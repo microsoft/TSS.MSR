@@ -12,10 +12,10 @@ import tss.*;
  */
 public class TPMS_AC_OUTPUT extends TpmStructure
 {
-    /** Tag indicating the contents of data  */
+    /** Tag indicating the contents of data */
     public TPM_AT tag;
 
-    /** The data returned from the AC  */
+    /** The data returned from the AC */
     public int data;
 
     public TPMS_AC_OUTPUT() {}
@@ -29,7 +29,7 @@ public class TPMS_AC_OUTPUT extends TpmStructure
         data = _data;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -37,7 +37,7 @@ public class TPMS_AC_OUTPUT extends TpmStructure
         buf.writeInt(data);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -45,19 +45,30 @@ public class TPMS_AC_OUTPUT extends TpmStructure
         data = buf.readInt();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_AC_OUTPUT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_AC_OUTPUT.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_AC_OUTPUT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_AC_OUTPUT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_AC_OUTPUT.class);

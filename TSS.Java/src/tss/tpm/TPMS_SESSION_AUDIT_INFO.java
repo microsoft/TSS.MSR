@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This is the attested data for TPM2_GetSessionAuditDigest().  */
+/** This is the attested data for TPM2_GetSessionAuditDigest(). */
 public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
 {
     /** Current exclusive status of the session
@@ -16,7 +16,7 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
      */
     public byte exclusiveSession;
 
-    /** The current value of the session audit digest  */
+    /** The current value of the session audit digest */
     public byte[] sessionDigest;
 
     public TPMS_SESSION_AUDIT_INFO() {}
@@ -33,10 +33,10 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         sessionDigest = _sessionDigest;
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_SESSION_AUDIT; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -44,7 +44,7 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeSizedByteBuf(sessionDigest);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -52,19 +52,30 @@ public class TPMS_SESSION_AUDIT_INFO extends TpmStructure implements TPMU_ATTEST
         sessionDigest = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SESSION_AUDIT_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SESSION_AUDIT_INFO.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SESSION_AUDIT_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SESSION_AUDIT_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SESSION_AUDIT_INFO.class);

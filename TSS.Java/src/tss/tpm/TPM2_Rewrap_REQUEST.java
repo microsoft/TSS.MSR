@@ -27,10 +27,10 @@ public class TPM2_Rewrap_REQUEST extends ReqStructure
      */
     public TPM_HANDLE newParent;
 
-    /** An object encrypted using symmetric key derived from inSymSeed  */
+    /** An object encrypted using symmetric key derived from inSymSeed */
     public TPM2B_PRIVATE inDuplicate;
 
-    /** The Name of the object being rewrapped  */
+    /** The Name of the object being rewrapped */
     public byte[] name;
 
     /** The seed for the symmetric key and HMAC key
@@ -63,7 +63,7 @@ public class TPM2_Rewrap_REQUEST extends ReqStructure
         inSymSeed = _inSymSeed;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -72,7 +72,7 @@ public class TPM2_Rewrap_REQUEST extends ReqStructure
         buf.writeSizedByteBuf(inSymSeed);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -81,19 +81,30 @@ public class TPM2_Rewrap_REQUEST extends ReqStructure
         inSymSeed = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Rewrap_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Rewrap_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Rewrap_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Rewrap_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Rewrap_REQUEST.class);

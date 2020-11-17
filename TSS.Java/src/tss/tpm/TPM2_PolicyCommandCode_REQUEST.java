@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command indicates that the authorization will be limited to a specific command code.  */
+/** This command indicates that the authorization will be limited to a specific command code. */
 public class TPM2_PolicyCommandCode_REQUEST extends ReqStructure
 {
     /** Handle for the policy session being extended
@@ -15,7 +15,7 @@ public class TPM2_PolicyCommandCode_REQUEST extends ReqStructure
      */
     public TPM_HANDLE policySession;
 
-    /** The allowed commandCode  */
+    /** The allowed commandCode */
     public TPM_CC code;
 
     public TPM2_PolicyCommandCode_REQUEST() { policySession = new TPM_HANDLE(); }
@@ -30,27 +30,38 @@ public class TPM2_PolicyCommandCode_REQUEST extends ReqStructure
         code = _code;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { code.toTpm(buf); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { code = TPM_CC.fromTpm(buf); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyCommandCode_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyCommandCode_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyCommandCode_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyCommandCode_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyCommandCode_REQUEST.class);

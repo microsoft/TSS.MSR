@@ -29,13 +29,13 @@ public class TPM2_PolicyNV_REQUEST extends ReqStructure
      */
     public TPM_HANDLE policySession;
 
-    /** The second operand  */
+    /** The second operand */
     public byte[] operandB;
 
-    /** The octet offset in the NV Index for the start of operand A  */
+    /** The octet offset in the NV Index for the start of operand A */
     public int offset;
 
-    /** The comparison to make  */
+    /** The comparison to make */
     public TPM_EO operation;
 
     public TPM2_PolicyNV_REQUEST()
@@ -66,7 +66,7 @@ public class TPM2_PolicyNV_REQUEST extends ReqStructure
         operation = _operation;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -75,7 +75,7 @@ public class TPM2_PolicyNV_REQUEST extends ReqStructure
         operation.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -84,19 +84,30 @@ public class TPM2_PolicyNV_REQUEST extends ReqStructure
         operation = TPM_EO.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyNV_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyNV_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyNV_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyNV_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyNV_REQUEST.class);

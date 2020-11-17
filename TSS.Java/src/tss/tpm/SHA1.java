@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 
-/** Table 13 Defines for SHA1 Hash Values  */
+/** Table 13 Defines for SHA1 Hash Values */
 public final class SHA1 extends TpmEnum<SHA1>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
@@ -16,16 +16,16 @@ public final class SHA1 extends TpmEnum<SHA1>
      *  for any other usage just prepend them with the SHA1. qualifier.
      */
     public enum _N {
-        /** Size of digest in octets  */
+        /** Size of digest in octets */
         DIGEST_SIZE,
 
-        /** Size of hash block in octets  */
+        /** Size of hash block in octets */
         BLOCK_SIZE
     }
 
     private static ValueMap<SHA1> _ValueMap = new ValueMap<SHA1>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final SHA1
         DIGEST_SIZE = new SHA1(20, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA1(64, _N.BLOCK_SIZE);

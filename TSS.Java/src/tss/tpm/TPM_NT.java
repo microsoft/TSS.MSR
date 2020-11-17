@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 
-/** This table lists the values of the TPM_NT field of a TPMA_NV. See Table 215 for usage.  */
+/** This table lists the values of the TPM_NT field of a TPMA_NV. See Table 215 for usage. */
 public final class TPM_NT extends TpmEnum<TPM_NT>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
@@ -16,7 +16,7 @@ public final class TPM_NT extends TpmEnum<TPM_NT>
      *  for any other usage just prepend them with the TPM_NT. qualifier.
      */
     public enum _N {
-        /** Ordinary contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write().  */
+        /** Ordinary contains data that is opaque to the TPM that can only be modified using TPM2_NV_Write(). */
         ORDINARY,
 
         /** Counter contains an 8-octet value that is to be used as a counter and can only be
@@ -34,16 +34,16 @@ public final class TPM_NT extends TpmEnum<TPM_NT>
          */
         EXTEND,
 
-        /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit  */
+        /** PIN Fail - contains pinCount that increments on a PIN authorization failure and a pinLimit */
         PIN_FAIL,
 
-        /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit  */
+        /** PIN Pass - contains pinCount that increments on a PIN authorization success and a pinLimit */
         PIN_PASS
     }
 
     private static ValueMap<TPM_NT> _ValueMap = new ValueMap<TPM_NT>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_NT
         ORDINARY = new TPM_NT(0x0, _N.ORDINARY),
         COUNTER = new TPM_NT(0x1, _N.COUNTER),

@@ -7,38 +7,49 @@ import tss.*;
 
 //>>>
 
-/** This list is only used in TPM2_AC_GetCapability().  */
+/** This list is only used in TPM2_AC_GetCapability(). */
 public class TPML_AC_CAPABILITIES extends TpmStructure
 {
-    /** A list of AC values  */
+    /** A list of AC values */
     public TPMS_AC_OUTPUT[] acCapabilities;
 
     public TPML_AC_CAPABILITIES() {}
 
-    /** @param _acCapabilities A list of AC values  */
+    /** @param _acCapabilities A list of AC values */
     public TPML_AC_CAPABILITIES(TPMS_AC_OUTPUT[] _acCapabilities) { acCapabilities = _acCapabilities; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(acCapabilities); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { acCapabilities = buf.readObjArr(TPMS_AC_OUTPUT.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_AC_CAPABILITIES fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_AC_CAPABILITIES.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_AC_CAPABILITIES fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_AC_CAPABILITIES fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_AC_CAPABILITIES.class);

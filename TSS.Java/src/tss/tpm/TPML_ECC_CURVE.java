@@ -12,38 +12,49 @@ import tss.*;
  */
 public class TPML_ECC_CURVE extends TpmStructure implements TPMU_CAPABILITIES
 {
-    /** Array of ECC curve identifiers  */
+    /** Array of ECC curve identifiers */
     public TPM_ECC_CURVE[] eccCurves;
 
     public TPML_ECC_CURVE() {}
 
-    /** @param _eccCurves Array of ECC curve identifiers  */
+    /** @param _eccCurves Array of ECC curve identifiers */
     public TPML_ECC_CURVE(TPM_ECC_CURVE[] _eccCurves) { eccCurves = _eccCurves; }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.ECC_CURVES; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(eccCurves); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { eccCurves = buf.readObjArr(TPM_ECC_CURVE.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_ECC_CURVE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_ECC_CURVE.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_ECC_CURVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_ECC_CURVE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_ECC_CURVE.class);

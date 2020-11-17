@@ -14,21 +14,21 @@ import tss.*;
  */
 public class CommitResponse extends RespStructure
 {
-    /** ECC point K [ds](x2, y2)  */
+    /** ECC point K [ds](x2, y2) */
     public TPMS_ECC_POINT K;
 
-    /** ECC point L [r](x2, y2)  */
+    /** ECC point L [r](x2, y2) */
     public TPMS_ECC_POINT L;
 
-    /** ECC point E [r]P1  */
+    /** ECC point E [r]P1 */
     public TPMS_ECC_POINT E;
 
-    /** Least-significant 16 bits of commitCount  */
+    /** Least-significant 16 bits of commitCount */
     public int counter;
 
     public CommitResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -38,7 +38,7 @@ public class CommitResponse extends RespStructure
         buf.writeShort(counter);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -48,19 +48,30 @@ public class CommitResponse extends RespStructure
         counter = buf.readShort();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CommitResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(CommitResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CommitResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CommitResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(CommitResponse.class);

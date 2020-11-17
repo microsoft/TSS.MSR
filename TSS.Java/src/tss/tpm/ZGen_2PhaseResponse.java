@@ -14,15 +14,15 @@ import tss.*;
  */
 public class ZGen_2PhaseResponse extends RespStructure
 {
-    /** X and Y coordinates of the computed value (scheme dependent)  */
+    /** X and Y coordinates of the computed value (scheme dependent) */
     public TPMS_ECC_POINT outZ1;
 
-    /** X and Y coordinates of the second computed value (scheme dependent)  */
+    /** X and Y coordinates of the second computed value (scheme dependent) */
     public TPMS_ECC_POINT outZ2;
 
     public ZGen_2PhaseResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -30,7 +30,7 @@ public class ZGen_2PhaseResponse extends RespStructure
         buf.writeSizedObj(outZ2);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -38,19 +38,30 @@ public class ZGen_2PhaseResponse extends RespStructure
         outZ2 = buf.createSizedObj(TPMS_ECC_POINT.class);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ZGen_2PhaseResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(ZGen_2PhaseResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ZGen_2PhaseResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static ZGen_2PhaseResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(ZGen_2PhaseResponse.class);

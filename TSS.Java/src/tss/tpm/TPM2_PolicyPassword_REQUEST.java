@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command allows a policy to be bound to the authorization value of the authorized object.  */
+/** This command allows a policy to be bound to the authorization value of the authorized object. */
 public class TPM2_PolicyPassword_REQUEST extends ReqStructure
 {
     /** Handle for the policy session being extended
@@ -22,19 +22,30 @@ public class TPM2_PolicyPassword_REQUEST extends ReqStructure
      */
     public TPM2_PolicyPassword_REQUEST(TPM_HANDLE _policySession) { policySession = _policySession; }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyPassword_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyPassword_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyPassword_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyPassword_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyPassword_REQUEST.class);

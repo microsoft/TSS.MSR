@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** TPM2_ClearControl() disables and enables the execution of TPM2_Clear().  */
+/** TPM2_ClearControl() disables and enables the execution of TPM2_Clear(). */
 public class TPM2_ClearControl_REQUEST extends ReqStructure
 {
     /** TPM_RH_LOCKOUT or TPM_RH_PLATFORM+{PP}
@@ -16,7 +16,7 @@ public class TPM2_ClearControl_REQUEST extends ReqStructure
      */
     public TPM_HANDLE auth;
 
-    /** YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR.  */
+    /** YES if the disableOwnerClear flag is to be SET, NO if the flag is to be CLEAR. */
     public byte disable;
 
     public TPM2_ClearControl_REQUEST() { auth = new TPM_HANDLE(); }
@@ -33,27 +33,38 @@ public class TPM2_ClearControl_REQUEST extends ReqStructure
         disable = _disable;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeByte(disable); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { disable = buf.readByte(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ClearControl_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ClearControl_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ClearControl_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ClearControl_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ClearControl_REQUEST.class);

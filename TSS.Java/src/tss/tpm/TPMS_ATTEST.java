@@ -12,13 +12,13 @@ import tss.*;
  */
 public class TPMS_ATTEST extends TpmStructure
 {
-    /** The indication that this structure was created by a TPM (always TPM_GENERATED_VALUE)  */
+    /** The indication that this structure was created by a TPM (always TPM_GENERATED_VALUE) */
     public TPM_GENERATED magic;
 
-    /** Type of the attestation structure  */
+    /** Type of the attestation structure */
     public TPM_ST type() { return attested.GetUnionSelector(); }
 
-    /** Qualified Name of the signing key  */
+    /** Qualified Name of the signing key */
     public byte[] qualifiedSigner;
 
     /** External information supplied by caller
@@ -28,10 +28,10 @@ public class TPMS_ATTEST extends TpmStructure
      */
     public byte[] extraData;
 
-    /** Clock, resetCount, restartCount, and Safe  */
+    /** Clock, resetCount, restartCount, and Safe */
     public TPMS_CLOCK_INFO clockInfo;
 
-    /** TPM-vendor-specific value identifying the version number of the firmware  */
+    /** TPM-vendor-specific value identifying the version number of the firmware */
     public long firmwareVersion;
 
     /** The type-specific attestation information
@@ -68,7 +68,7 @@ public class TPMS_ATTEST extends TpmStructure
         attested = _attested;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -81,7 +81,7 @@ public class TPMS_ATTEST extends TpmStructure
         attested.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -95,19 +95,30 @@ public class TPMS_ATTEST extends TpmStructure
         attested.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ATTEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ATTEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ATTEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ATTEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ATTEST.class);

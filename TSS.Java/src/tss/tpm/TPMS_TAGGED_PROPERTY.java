@@ -12,10 +12,10 @@ import tss.*;
  */
 public class TPMS_TAGGED_PROPERTY extends TpmStructure
 {
-    /** A property identifier  */
+    /** A property identifier */
     public TPM_PT property;
 
-    /** The value of the property  */
+    /** The value of the property */
     public int value;
 
     public TPMS_TAGGED_PROPERTY() {}
@@ -29,7 +29,7 @@ public class TPMS_TAGGED_PROPERTY extends TpmStructure
         value = _value;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -37,7 +37,7 @@ public class TPMS_TAGGED_PROPERTY extends TpmStructure
         buf.writeInt(value);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -45,19 +45,30 @@ public class TPMS_TAGGED_PROPERTY extends TpmStructure
         value = buf.readInt();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_TAGGED_PROPERTY fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_TAGGED_PROPERTY.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_TAGGED_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_TAGGED_PROPERTY fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_TAGGED_PROPERTY.class);

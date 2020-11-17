@@ -12,38 +12,49 @@ import tss.*;
  */
 public class TPML_TAGGED_PCR_PROPERTY extends TpmStructure implements TPMU_CAPABILITIES
 {
-    /** A tagged PCR selection  */
+    /** A tagged PCR selection */
     public TPMS_TAGGED_PCR_SELECT[] pcrProperty;
 
     public TPML_TAGGED_PCR_PROPERTY() {}
 
-    /** @param _pcrProperty A tagged PCR selection  */
+    /** @param _pcrProperty A tagged PCR selection */
     public TPML_TAGGED_PCR_PROPERTY(TPMS_TAGGED_PCR_SELECT[] _pcrProperty) { pcrProperty = _pcrProperty; }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_CAP GetUnionSelector() { return TPM_CAP.PCR_PROPERTIES; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeObjArr(pcrProperty); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { pcrProperty = buf.readObjArr(TPMS_TAGGED_PCR_SELECT.class); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_TAGGED_PCR_PROPERTY fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPML_TAGGED_PCR_PROPERTY.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_TAGGED_PCR_PROPERTY fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPML_TAGGED_PCR_PROPERTY fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPML_TAGGED_PCR_PROPERTY.class);

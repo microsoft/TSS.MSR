@@ -7,24 +7,35 @@ import tss.*;
 
 //>>>
 
-/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter.  */
+/** These are the RSA encryption schemes that only need a hash algorithm as a controlling parameter. */
 public class TPMS_SCHEME_RSAES extends TPMS_ENC_SCHEME_RSAES
 {
     public TPMS_SCHEME_RSAES() {}
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SCHEME_RSAES fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_SCHEME_RSAES.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SCHEME_RSAES fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_SCHEME_RSAES fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_SCHEME_RSAES.class);

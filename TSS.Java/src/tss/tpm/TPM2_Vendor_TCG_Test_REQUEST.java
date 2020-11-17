@@ -7,38 +7,49 @@ import tss.*;
 
 //>>>
 
-/** This is a placeholder to allow testing of the dispatch code.  */
+/** This is a placeholder to allow testing of the dispatch code. */
 public class TPM2_Vendor_TCG_Test_REQUEST extends ReqStructure
 {
-    /** Dummy data  */
+    /** Dummy data */
     public byte[] inputData;
 
     public TPM2_Vendor_TCG_Test_REQUEST() {}
 
-    /** @param _inputData Dummy data  */
+    /** @param _inputData Dummy data */
     public TPM2_Vendor_TCG_Test_REQUEST(byte[] _inputData) { inputData = _inputData; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(inputData); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { inputData = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Vendor_TCG_Test_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Vendor_TCG_Test_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Vendor_TCG_Test_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Vendor_TCG_Test_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Vendor_TCG_Test_REQUEST.class);

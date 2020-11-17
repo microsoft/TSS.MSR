@@ -12,15 +12,15 @@ import tss.*;
  */
 public class AC_GetCapabilityResponse extends RespStructure
 {
-    /** Flag to indicate whether there are more values  */
+    /** Flag to indicate whether there are more values */
     public byte moreData;
 
-    /** List of capabilities  */
+    /** List of capabilities */
     public TPMS_AC_OUTPUT[] capabilitiesData;
 
     public AC_GetCapabilityResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -28,7 +28,7 @@ public class AC_GetCapabilityResponse extends RespStructure
         buf.writeObjArr(capabilitiesData);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -36,19 +36,30 @@ public class AC_GetCapabilityResponse extends RespStructure
         capabilitiesData = buf.readObjArr(TPMS_AC_OUTPUT.class);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static AC_GetCapabilityResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(AC_GetCapabilityResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static AC_GetCapabilityResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static AC_GetCapabilityResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(AC_GetCapabilityResponse.class);

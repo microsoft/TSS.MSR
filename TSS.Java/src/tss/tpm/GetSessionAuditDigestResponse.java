@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** This command returns a digital signature of the audit session digest.  */
+/** This command returns a digital signature of the audit session digest. */
 public class GetSessionAuditDigestResponse extends RespStructure
 {
-    /** The audit information that was signed  */
+    /** The audit information that was signed */
     public TPMS_ATTEST auditInfo;
 
-    /** Selector of the algorithm used to construct the signature  */
+    /** Selector of the algorithm used to construct the signature */
     public TPM_ALG_ID signatureSigAlg() { return signature != null ? signature.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** The signature over auditInfo
@@ -25,7 +25,7 @@ public class GetSessionAuditDigestResponse extends RespStructure
 
     public GetSessionAuditDigestResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -34,7 +34,7 @@ public class GetSessionAuditDigestResponse extends RespStructure
         signature.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -44,19 +44,30 @@ public class GetSessionAuditDigestResponse extends RespStructure
         signature.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static GetSessionAuditDigestResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(GetSessionAuditDigestResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static GetSessionAuditDigestResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static GetSessionAuditDigestResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(GetSessionAuditDigestResponse.class);

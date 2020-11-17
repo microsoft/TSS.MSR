@@ -19,12 +19,12 @@ public class FieldUpgradeDataResponse extends RespStructure
      */
     public TPMT_HA nextDigest;
 
-    /** Tagged digest of the first block of the sequence  */
+    /** Tagged digest of the first block of the sequence */
     public TPMT_HA firstDigest;
 
     public FieldUpgradeDataResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -32,7 +32,7 @@ public class FieldUpgradeDataResponse extends RespStructure
         firstDigest.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -40,19 +40,30 @@ public class FieldUpgradeDataResponse extends RespStructure
         firstDigest = TPMT_HA.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static FieldUpgradeDataResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(FieldUpgradeDataResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static FieldUpgradeDataResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static FieldUpgradeDataResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(FieldUpgradeDataResponse.class);

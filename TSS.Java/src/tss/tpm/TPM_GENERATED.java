@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 
-/** This constant value differentiates TPM-generated structures from non-TPM structures.  */
+/** This constant value differentiates TPM-generated structures from non-TPM structures. */
 public final class TPM_GENERATED extends TpmEnum<TPM_GENERATED>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
@@ -16,13 +16,13 @@ public final class TPM_GENERATED extends TpmEnum<TPM_GENERATED>
      *  for any other usage just prepend them with the TPM_GENERATED. qualifier.
      */
     public enum _N {
-        /** 0xFF TCG (FF 54 43 4716)  */
+        /** 0xFF TCG (FF 54 43 4716) */
         VALUE
     }
 
     private static ValueMap<TPM_GENERATED> _ValueMap = new ValueMap<TPM_GENERATED>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_GENERATED
         VALUE = new TPM_GENERATED(0xff544347, _N.VALUE);
 

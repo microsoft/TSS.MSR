@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 
-/** Table 19 Defines for SHA3_384 Hash Values  */
+/** Table 19 Defines for SHA3_384 Hash Values */
 public final class SHA3_384 extends TpmEnum<SHA3_384>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
@@ -16,16 +16,16 @@ public final class SHA3_384 extends TpmEnum<SHA3_384>
      *  for any other usage just prepend them with the SHA3_384. qualifier.
      */
     public enum _N {
-        /** Size of digest in octets  */
+        /** Size of digest in octets */
         DIGEST_SIZE,
 
-        /** Size of hash block in octets  */
+        /** Size of hash block in octets */
         BLOCK_SIZE
     }
 
     private static ValueMap<SHA3_384> _ValueMap = new ValueMap<SHA3_384>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final SHA3_384
         DIGEST_SIZE = new SHA3_384(48, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SHA3_384(104, _N.BLOCK_SIZE);

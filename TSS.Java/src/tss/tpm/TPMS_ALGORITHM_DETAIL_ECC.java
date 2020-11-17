@@ -12,13 +12,13 @@ import tss.*;
  */
 public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
 {
-    /** Identifier for the curve  */
+    /** Identifier for the curve */
     public TPM_ECC_CURVE curveID;
 
-    /** Size in bits of the key  */
+    /** Size in bits of the key */
     public int keySize;
 
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID kdfScheme() { return kdf != null ? kdf.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** If not TPM_ALG_NULL, the required KDF and hash algorithm used in secret sharing operations
@@ -27,7 +27,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
      */
     public TPMU_KDF_SCHEME kdf;
 
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID signScheme() { return sign != null ? sign.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** If not TPM_ALG_NULL, this is the mandatory signature scheme that is required to be
@@ -39,25 +39,25 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
      */
     public TPMU_ASYM_SCHEME sign;
 
-    /** Fp (the modulus)  */
+    /** Fp (the modulus) */
     public byte[] p;
 
-    /** Coefficient of the linear term in the curve equation  */
+    /** Coefficient of the linear term in the curve equation */
     public byte[] a;
 
-    /** Constant term for curve equation  */
+    /** Constant term for curve equation */
     public byte[] b;
 
-    /** X coordinate of base point G  */
+    /** X coordinate of base point G */
     public byte[] gX;
 
-    /** Y coordinate of base point G  */
+    /** Y coordinate of base point G */
     public byte[] gY;
 
-    /** Order of G  */
+    /** Order of G */
     public byte[] n;
 
-    /** Cofactor (a size of zero indicates a cofactor of 1)  */
+    /** Cofactor (a size of zero indicates a cofactor of 1) */
     public byte[] h;
 
     public TPMS_ALGORITHM_DETAIL_ECC() {}
@@ -97,7 +97,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         h = _h;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -116,7 +116,7 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         buf.writeSizedByteBuf(h);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -137,19 +137,30 @@ public class TPMS_ALGORITHM_DETAIL_ECC extends TpmStructure
         h = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ALGORITHM_DETAIL_ECC fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ALGORITHM_DETAIL_ECC.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ALGORITHM_DETAIL_ECC fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ALGORITHM_DETAIL_ECC fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ALGORITHM_DETAIL_ECC.class);

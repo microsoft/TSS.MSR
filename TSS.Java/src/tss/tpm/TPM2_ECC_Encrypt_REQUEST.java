@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command performs ECC encryption as described in Part 1, Annex D.  */
+/** This command performs ECC encryption as described in Part 1, Annex D. */
 public class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
 {
     /** Reference to public portion of ECC key to use for encryption
@@ -15,10 +15,10 @@ public class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
      */
     public TPM_HANDLE keyHandle;
 
-    /** Plaintext to be encrypted  */
+    /** Plaintext to be encrypted */
     public byte[] plainText;
 
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** The KDF to use if scheme associated with keyHandle is TPM_ALG_NULL
@@ -43,7 +43,7 @@ public class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
         inScheme = _inScheme;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -52,7 +52,7 @@ public class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
         inScheme.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -62,19 +62,30 @@ public class TPM2_ECC_Encrypt_REQUEST extends ReqStructure
         inScheme.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ECC_Encrypt_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_ECC_Encrypt_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ECC_Encrypt_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_ECC_Encrypt_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_ECC_Encrypt_REQUEST.class);

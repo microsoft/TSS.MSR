@@ -38,7 +38,7 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
         pinLimit = _pinLimit;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -46,7 +46,7 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
         buf.writeInt(pinLimit);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -54,19 +54,30 @@ public class TPMS_NV_PIN_COUNTER_PARAMETERS extends TpmStructure
         pinLimit = buf.readInt();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_NV_PIN_COUNTER_PARAMETERS fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_NV_PIN_COUNTER_PARAMETERS.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_NV_PIN_COUNTER_PARAMETERS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_NV_PIN_COUNTER_PARAMETERS fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_NV_PIN_COUNTER_PARAMETERS.class);

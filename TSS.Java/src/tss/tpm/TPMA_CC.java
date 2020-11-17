@@ -19,7 +19,7 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
      *  for any other usage just prepend them with the TPMA_CC. qualifier.
      */
     public enum _N {
-        /** Indicates the command being selected  */
+        /** Indicates the command being selected */
         commandIndex_BIT_MASK,
         commandIndex_BIT_OFFSET,
         commandIndex_BIT_LENGTH,
@@ -40,12 +40,12 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
          */
         flushed,
 
-        /** Indicates the number of the handles in the handle area for this command  */
+        /** Indicates the number of the handles in the handle area for this command */
         cHandles_BIT_MASK,
         cHandles_BIT_OFFSET,
         cHandles_BIT_LENGTH,
 
-        /** SET (1): indicates the presence of the handle area in the response  */
+        /** SET (1): indicates the presence of the handle area in the response */
         rHandle,
 
         /** SET (1): indicates that the command is vendor-specific
@@ -53,7 +53,7 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
          */
         V,
 
-        /** Allocated for software; shall be zero  */
+        /** Allocated for software; shall be zero */
         Res_BIT_MASK,
         Res_BIT_OFFSET,
         Res_BIT_LENGTH
@@ -61,7 +61,7 @@ public final class TPMA_CC extends TpmAttribute<TPMA_CC>
 
     private static ValueMap<TPMA_CC> _ValueMap = new ValueMap<TPMA_CC>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_CC
         commandIndex_BIT_MASK = new TPMA_CC(0xFFFF, _N.commandIndex_BIT_MASK),
         commandIndex_BIT_OFFSET = new TPMA_CC(0, _N.commandIndex_BIT_OFFSET),

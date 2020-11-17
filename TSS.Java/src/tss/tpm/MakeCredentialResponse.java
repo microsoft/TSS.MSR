@@ -12,15 +12,15 @@ import tss.*;
  */
 public class MakeCredentialResponse extends RespStructure
 {
-    /** The credential  */
+    /** The credential */
     public TPMS_ID_OBJECT credentialBlob;
 
-    /** Handle algorithm-dependent data that wraps the key that encrypts credentialBlob  */
+    /** Handle algorithm-dependent data that wraps the key that encrypts credentialBlob */
     public byte[] secret;
 
     public MakeCredentialResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -28,7 +28,7 @@ public class MakeCredentialResponse extends RespStructure
         buf.writeSizedByteBuf(secret);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -36,19 +36,30 @@ public class MakeCredentialResponse extends RespStructure
         secret = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static MakeCredentialResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(MakeCredentialResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static MakeCredentialResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static MakeCredentialResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(MakeCredentialResponse.class);

@@ -14,7 +14,7 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
      *  for any other usage just prepend them with the TPM_CC. qualifier.
      */
     public enum _N {
-        /** Compile variable. May decrease based on implementation.  */
+        /** Compile variable. May decrease based on implementation. */
         FIRST,
         NV_UndefineSpaceSpecial,
         EvictControl,
@@ -45,10 +45,10 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         DictionaryAttackParameters,
         NV_ChangeAuth,
 
-        /** PCR  */
+        /** PCR */
         PCR_Event,
 
-        /** PCR  */
+        /** PCR */
         PCR_Reset,
         SequenceComplete,
         SetAlgorithmSet,
@@ -62,7 +62,7 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         ActivateCredential,
         Certify,
 
-        /** Policy  */
+        /** Policy */
         PolicyNV,
         CertifyCreation,
         Duplicate,
@@ -72,75 +72,75 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         NV_ReadLock,
         ObjectChangeAuth,
 
-        /** Policy  */
+        /** Policy */
         PolicySecret,
         Rewrap,
         Create,
         ECDH_ZGen,
 
-        /** See NOTE 1  */
+        /** See NOTE 1 */
         HMAC,
 
-        /** See NOTE 1  */
+        /** See NOTE 1 */
         MAC,
         Import,
         Load,
         Quote,
         RSA_Decrypt,
 
-        /** See NOTE 1  */
+        /** See NOTE 1 */
         HMAC_Start,
 
-        /** See NOTE 1  */
+        /** See NOTE 1 */
         MAC_Start,
         SequenceUpdate,
         Sign,
         Unseal,
 
-        /** Policy  */
+        /** Policy */
         PolicySigned,
 
-        /** Context  */
+        /** Context */
         ContextLoad,
 
-        /** Context  */
+        /** Context */
         ContextSave,
         ECDH_KeyGen,
         EncryptDecrypt,
 
-        /** Context  */
+        /** Context */
         FlushContext,
         LoadExternal,
         MakeCredential,
 
-        /** NV  */
+        /** NV */
         NV_ReadPublic,
 
-        /** Policy  */
+        /** Policy */
         PolicyAuthorize,
 
-        /** Policy  */
+        /** Policy */
         PolicyAuthValue,
 
-        /** Policy  */
+        /** Policy */
         PolicyCommandCode,
 
-        /** Policy  */
+        /** Policy */
         PolicyCounterTimer,
 
-        /** Policy  */
+        /** Policy */
         PolicyCpHash,
 
-        /** Policy  */
+        /** Policy */
         PolicyLocality,
 
-        /** Policy  */
+        /** Policy */
         PolicyNameHash,
 
-        /** Policy  */
+        /** Policy */
         PolicyOR,
 
-        /** Policy  */
+        /** Policy */
         PolicyTicket,
         ReadPublic,
         RSA_Encrypt,
@@ -153,10 +153,10 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         GetTestResult,
         Hash,
 
-        /** PCR  */
+        /** PCR */
         PCR_Read,
 
-        /** Policy  */
+        /** Policy */
         PolicyPCR,
         PolicyRestart,
         ReadClock,
@@ -166,53 +166,53 @@ public final class TPM_CC extends TpmEnum<TPM_CC>
         EventSequenceComplete,
         HashSequenceStart,
 
-        /** Policy  */
+        /** Policy */
         PolicyPhysicalPresence,
 
-        /** Policy  */
+        /** Policy */
         PolicyDuplicationSelect,
 
-        /** Policy  */
+        /** Policy */
         PolicyGetDigest,
         TestParms,
         Commit,
 
-        /** Policy  */
+        /** Policy */
         PolicyPassword,
         ZGen_2Phase,
         EC_Ephemeral,
 
-        /** Policy  */
+        /** Policy */
         PolicyNvWritten,
 
-        /** Policy  */
+        /** Policy */
         PolicyTemplate,
         CreateLoaded,
 
-        /** Policy  */
+        /** Policy */
         PolicyAuthorizeNV,
         EncryptDecrypt2,
         AC_GetCapability,
         AC_Send,
 
-        /** Policy  */
+        /** Policy */
         Policy_AC_SendSelect,
         CertifyX509,
         ACT_SetTimeout,
         ECC_Encrypt,
         ECC_Decrypt,
 
-        /** Compile variable. May increase based on implementation.  */
+        /** Compile variable. May increase based on implementation. */
         LAST,
         CC_VEND,
 
-        /** Used for testing of command dispatch  */
+        /** Used for testing of command dispatch */
         Vendor_TCG_Test
     }
 
     private static ValueMap<TPM_CC> _ValueMap = new ValueMap<TPM_CC>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_CC
         FIRST = new TPM_CC(0x0000011F, _N.FIRST),
         NV_UndefineSpaceSpecial = new TPM_CC(0x0000011F, _N.NV_UndefineSpaceSpecial),

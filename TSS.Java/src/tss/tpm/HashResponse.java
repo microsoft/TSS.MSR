@@ -7,10 +7,10 @@ import tss.*;
 
 //>>>
 
-/** This command performs a hash operation on a data buffer and returns the results.  */
+/** This command performs a hash operation on a data buffer and returns the results. */
 public class HashResponse extends RespStructure
 {
-    /** Results  */
+    /** Results */
     public byte[] outHash;
 
     /** Ticket indicating that the sequence of octets used to compute outDigest did not start
@@ -21,7 +21,7 @@ public class HashResponse extends RespStructure
 
     public HashResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -29,7 +29,7 @@ public class HashResponse extends RespStructure
         validation.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -37,19 +37,30 @@ public class HashResponse extends RespStructure
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static HashResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(HashResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static HashResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static HashResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(HashResponse.class);

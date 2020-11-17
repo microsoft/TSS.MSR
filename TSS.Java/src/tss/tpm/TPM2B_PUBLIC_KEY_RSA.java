@@ -7,41 +7,52 @@ import tss.*;
 
 //>>>
 
-/** This sized buffer holds the largest RSA public key supported by the TPM.  */
+/** This sized buffer holds the largest RSA public key supported by the TPM. */
 public class TPM2B_PUBLIC_KEY_RSA extends TpmStructure implements TPMU_PUBLIC_ID
 {
-    /** Value  */
+    /** Value */
     public byte[] buffer;
 
     public TPM2B_PUBLIC_KEY_RSA() {}
 
-    /** @param _buffer Value  */
+    /** @param _buffer Value */
     public TPM2B_PUBLIC_KEY_RSA(byte[] _buffer) { buffer = _buffer; }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.RSA; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeSizedByteBuf(buffer); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { buffer = buf.readSizedByteBuf(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_PUBLIC_KEY_RSA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2B_PUBLIC_KEY_RSA.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_PUBLIC_KEY_RSA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2B_PUBLIC_KEY_RSA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2B_PUBLIC_KEY_RSA.class);

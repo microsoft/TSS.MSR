@@ -7,18 +7,18 @@ import tss.*;
 
 //>>>
 
-/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol.  */
+/** TPM2_EC_Ephemeral() creates an ephemeral key for use in a two-phase key exchange protocol. */
 public class EC_EphemeralResponse extends RespStructure
 {
-    /** Ephemeral public key Q [r]G  */
+    /** Ephemeral public key Q [r]G */
     public TPMS_ECC_POINT Q;
 
-    /** Least-significant 16 bits of commitCount  */
+    /** Least-significant 16 bits of commitCount */
     public int counter;
 
     public EC_EphemeralResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -26,7 +26,7 @@ public class EC_EphemeralResponse extends RespStructure
         buf.writeShort(counter);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -34,19 +34,30 @@ public class EC_EphemeralResponse extends RespStructure
         counter = buf.readShort();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static EC_EphemeralResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(EC_EphemeralResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static EC_EphemeralResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static EC_EphemeralResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(EC_EphemeralResponse.class);

@@ -13,24 +13,35 @@ import tss.*;
  */
 public class MAC_StartResponse extends RespStructure
 {
-    /** A handle to reference the sequence  */
+    /** A handle to reference the sequence */
     public TPM_HANDLE handle;
 
     public MAC_StartResponse() { handle = new TPM_HANDLE(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static MAC_StartResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(MAC_StartResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static MAC_StartResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static MAC_StartResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(MAC_StartResponse.class);

@@ -20,7 +20,7 @@ public class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
      */
     public TPMT_SYM_DEF_OBJECT symmetric;
 
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID schemeScheme() { return scheme != null ? scheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** For a key with the sign attribute SET, a valid signing scheme for the key type
@@ -54,10 +54,10 @@ public class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         scheme = _scheme;
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ALG_ID GetUnionSelector() { return TPM_ALG_ID.ANY; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -66,7 +66,7 @@ public class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         scheme.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -76,19 +76,30 @@ public class TPMS_ASYM_PARMS extends TpmStructure implements TPMU_PUBLIC_PARMS
         scheme.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ASYM_PARMS fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_ASYM_PARMS.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ASYM_PARMS fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_ASYM_PARMS fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_ASYM_PARMS.class);

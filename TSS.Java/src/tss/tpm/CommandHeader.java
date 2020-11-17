@@ -7,16 +7,16 @@ import tss.*;
 
 //>>>
 
-/** Command header [TSS]  */
+/** Command header [TSS] */
 public class CommandHeader extends TpmStructure
 {
-    /** Command tag (sessions, or no sessions)  */
+    /** Command tag (sessions, or no sessions) */
     public TPM_ST Tag;
 
-    /** Total command buffer length  */
+    /** Total command buffer length */
     public int CommandSize;
 
-    /** Command code  */
+    /** Command code */
     public TPM_CC CommandCode;
 
     public CommandHeader() {}
@@ -32,7 +32,7 @@ public class CommandHeader extends TpmStructure
         CommandCode = _CommandCode;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -41,7 +41,7 @@ public class CommandHeader extends TpmStructure
         CommandCode.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -50,19 +50,30 @@ public class CommandHeader extends TpmStructure
         CommandCode = TPM_CC.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CommandHeader fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(CommandHeader.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CommandHeader fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static CommandHeader fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(CommandHeader.class);

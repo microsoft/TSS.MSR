@@ -19,10 +19,10 @@ public class TPM2_HMAC_Start_REQUEST extends ReqStructure
      */
     public TPM_HANDLE handle;
 
-    /** Authorization value for subsequent use of the sequence  */
+    /** Authorization value for subsequent use of the sequence */
     public byte[] auth;
 
-    /** The hash algorithm to use for the HMAC  */
+    /** The hash algorithm to use for the HMAC */
     public TPM_ALG_ID hashAlg;
 
     public TPM2_HMAC_Start_REQUEST()
@@ -44,7 +44,7 @@ public class TPM2_HMAC_Start_REQUEST extends ReqStructure
         hashAlg = _hashAlg;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -52,7 +52,7 @@ public class TPM2_HMAC_Start_REQUEST extends ReqStructure
         hashAlg.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -60,19 +60,30 @@ public class TPM2_HMAC_Start_REQUEST extends ReqStructure
         hashAlg = TPM_ALG_ID.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_HMAC_Start_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_HMAC_Start_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_HMAC_Start_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_HMAC_Start_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_HMAC_Start_REQUEST.class);

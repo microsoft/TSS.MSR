@@ -12,7 +12,7 @@ import tss.*;
  */
 public class SequenceCompleteResponse extends RespStructure
 {
-    /** The returned HMAC or digest in a sized buffer  */
+    /** The returned HMAC or digest in a sized buffer */
     public byte[] result;
 
     /** Ticket indicating that the sequence of octets used to compute outDigest did not start
@@ -23,7 +23,7 @@ public class SequenceCompleteResponse extends RespStructure
 
     public SequenceCompleteResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -31,7 +31,7 @@ public class SequenceCompleteResponse extends RespStructure
         validation.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -39,19 +39,30 @@ public class SequenceCompleteResponse extends RespStructure
         validation = TPMT_TK_HASHCHECK.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static SequenceCompleteResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(SequenceCompleteResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static SequenceCompleteResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static SequenceCompleteResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(SequenceCompleteResponse.class);

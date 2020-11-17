@@ -19,7 +19,7 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
      */
     public TPM_ALG_ID algorithm;
 
-    /** The key size  */
+    /** The key size */
     public int keyBits;
 
     /** Default mode
@@ -47,7 +47,7 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
         mode = _mode;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -57,7 +57,7 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
         mode.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -67,19 +67,30 @@ public class TPMT_SYM_DEF_OBJECT extends TpmStructure
         mode = TPM_ALG_ID.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SYM_DEF_OBJECT fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_SYM_DEF_OBJECT.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SYM_DEF_OBJECT fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SYM_DEF_OBJECT fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_SYM_DEF_OBJECT.class);

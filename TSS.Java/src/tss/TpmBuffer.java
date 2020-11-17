@@ -34,13 +34,17 @@ public class TpmBuffer
 
     void init(int capacity) { init(new byte[capacity]); }
 
-    /** Constructs output marshling buffer with the default capacity */
+    /** Constructs output marshling buffer with the default capacity of 4096 bytes */
     public TpmBuffer() { init(4096); }
 
-    /** Constructs output marshling buffer with the given capacity */
+    /** Constructs an output marshling buffer with the given capacity
+     * @param capacity Capacity in bytes
+     */
     public TpmBuffer(int capacity) { init(capacity); }
 
-    /** Constructs input marshling buffer initialized with the given marshaled representation */
+    /** Constructs an initialized input marshling buffer
+     * @param buf A marshaled representation to initialize the new input buffer with
+     */
     public TpmBuffer(byte[] buf) { init(buf); }
 
     public void clear() { buf.clear(); }
@@ -59,7 +63,9 @@ public class TpmBuffer
     /** @return Current read/write position in the the backing byte buffer */
     public int curPos() { return buf.position(); }
 
-    /** Sets current read/write position in the the backing byte buffer */
+    /** Sets current read/write position in the the backing byte buffer
+     * @param newPos New read/write position
+     */
     public void curPos(int newPos)
     {
         buf.position(newPos);

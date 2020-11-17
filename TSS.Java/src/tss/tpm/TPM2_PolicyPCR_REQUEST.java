@@ -24,7 +24,7 @@ public class TPM2_PolicyPCR_REQUEST extends ReqStructure
      */
     public byte[] pcrDigest;
 
-    /** The PCR to include in the check digest  */
+    /** The PCR to include in the check digest */
     public TPMS_PCR_SELECTION[] pcrs;
 
     public TPM2_PolicyPCR_REQUEST() { policySession = new TPM_HANDLE(); }
@@ -42,7 +42,7 @@ public class TPM2_PolicyPCR_REQUEST extends ReqStructure
         pcrs = _pcrs;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -50,7 +50,7 @@ public class TPM2_PolicyPCR_REQUEST extends ReqStructure
         buf.writeObjArr(pcrs);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -58,19 +58,30 @@ public class TPM2_PolicyPCR_REQUEST extends ReqStructure
         pcrs = buf.readObjArr(TPMS_PCR_SELECTION.class);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyPCR_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PolicyPCR_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyPCR_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PolicyPCR_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PolicyPCR_REQUEST.class);

@@ -70,7 +70,7 @@ public final class TPMA_STARTUP_CLEAR extends TpmAttribute<TPMA_STARTUP_CLEAR>
 
     private static ValueMap<TPMA_STARTUP_CLEAR> _ValueMap = new ValueMap<TPMA_STARTUP_CLEAR>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_STARTUP_CLEAR
         phEnable = new TPMA_STARTUP_CLEAR(0x1, _N.phEnable),
         shEnable = new TPMA_STARTUP_CLEAR(0x2, _N.shEnable),

@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 
-/** These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values.  */
+/** These values are readable with TPM2_GetCapability(). They are the TPM_PT_PS_xxx values. */
 public final class PLATFORM extends TpmEnum<PLATFORM>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
@@ -25,7 +25,7 @@ public final class PLATFORM extends TpmEnum<PLATFORM>
 
     private static ValueMap<PLATFORM> _ValueMap = new ValueMap<PLATFORM>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final PLATFORM
         FAMILY = new PLATFORM(TPM_SPEC.FAMILY.toInt(), _N.FAMILY),
         LEVEL = new PLATFORM(TPM_SPEC.LEVEL.toInt(), _N.LEVEL),

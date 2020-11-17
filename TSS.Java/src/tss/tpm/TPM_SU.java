@@ -34,7 +34,7 @@ public final class TPM_SU extends TpmEnum<TPM_SU>
 
     private static ValueMap<TPM_SU> _ValueMap = new ValueMap<TPM_SU>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPM_SU
         CLEAR = new TPM_SU(0x0000, _N.CLEAR),
         STATE = new TPM_SU(0x0001, _N.STATE);

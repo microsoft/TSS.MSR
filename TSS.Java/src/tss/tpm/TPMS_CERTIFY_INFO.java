@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** This is the attested data for TPM2_Certify().  */
+/** This is the attested data for TPM2_Certify(). */
 public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
 {
-    /** Name of the certified object  */
+    /** Name of the certified object */
     public byte[] name;
 
-    /** Qualified Name of the certified object  */
+    /** Qualified Name of the certified object */
     public byte[] qualifiedName;
 
     public TPMS_CERTIFY_INFO() {}
@@ -27,10 +27,10 @@ public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
         qualifiedName = _qualifiedName;
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_CERTIFY; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -38,7 +38,7 @@ public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeSizedByteBuf(qualifiedName);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -46,19 +46,30 @@ public class TPMS_CERTIFY_INFO extends TpmStructure implements TPMU_ATTEST
         qualifiedName = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CERTIFY_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_CERTIFY_INFO.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CERTIFY_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CERTIFY_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_CERTIFY_INFO.class);

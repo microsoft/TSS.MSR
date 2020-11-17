@@ -23,10 +23,10 @@ public class TPM2_Create_REQUEST extends ReqStructure
      */
     public TPM_HANDLE parentHandle;
 
-    /** The sensitive data  */
+    /** The sensitive data */
     public TPMS_SENSITIVE_CREATE inSensitive;
 
-    /** The public template  */
+    /** The public template */
     public TPMT_PUBLIC inPublic;
 
     /** Data that will be included in the creation data for this object to provide permanent,
@@ -34,7 +34,7 @@ public class TPM2_Create_REQUEST extends ReqStructure
      */
     public byte[] outsideInfo;
 
-    /** PCR that will be used in creation data  */
+    /** PCR that will be used in creation data */
     public TPMS_PCR_SELECTION[] creationPCR;
 
     public TPM2_Create_REQUEST() { parentHandle = new TPM_HANDLE(); }
@@ -58,7 +58,7 @@ public class TPM2_Create_REQUEST extends ReqStructure
         creationPCR = _creationPCR;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -68,7 +68,7 @@ public class TPM2_Create_REQUEST extends ReqStructure
         buf.writeObjArr(creationPCR);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -78,19 +78,30 @@ public class TPM2_Create_REQUEST extends ReqStructure
         creationPCR = buf.readObjArr(TPMS_PCR_SELECTION.class);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Create_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Create_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Create_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Create_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Create_REQUEST.class);

@@ -13,13 +13,13 @@ import tss.*;
  */
 public class TPMS_AUTH_RESPONSE extends TpmStructure
 {
-    /** The session nonce, may be the Empty Buffer  */
+    /** The session nonce, may be the Empty Buffer */
     public byte[] nonce;
 
-    /** The session attributes  */
+    /** The session attributes */
     public TPMA_SESSION sessionAttributes;
 
-    /** Either an HMAC or an EmptyAuth  */
+    /** Either an HMAC or an EmptyAuth */
     public byte[] hmac;
 
     public TPMS_AUTH_RESPONSE() {}
@@ -35,7 +35,7 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         hmac = _hmac;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -44,7 +44,7 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         buf.writeSizedByteBuf(hmac);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -53,19 +53,30 @@ public class TPMS_AUTH_RESPONSE extends TpmStructure
         hmac = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_AUTH_RESPONSE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_AUTH_RESPONSE.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_AUTH_RESPONSE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_AUTH_RESPONSE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_AUTH_RESPONSE.class);

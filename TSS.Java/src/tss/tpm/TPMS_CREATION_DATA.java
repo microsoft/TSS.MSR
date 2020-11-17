@@ -15,7 +15,7 @@ import tss.*;
  */
 public class TPMS_CREATION_DATA extends TpmStructure
 {
-    /** List indicating the PCR included in pcrDigest  */
+    /** List indicating the PCR included in pcrDigest */
     public TPMS_PCR_SELECTION[] pcrSelect;
 
     /** Digest of the selected PCR using nameAlg of the object for which this structure is
@@ -24,10 +24,10 @@ public class TPMS_CREATION_DATA extends TpmStructure
      */
     public byte[] pcrDigest;
 
-    /** The locality at which the object was created  */
+    /** The locality at which the object was created */
     public TPMA_LOCALITY locality;
 
-    /** NameAlg of the parent  */
+    /** NameAlg of the parent */
     public TPM_ALG_ID parentNameAlg;
 
     /** Name of the parent at time of creation
@@ -75,7 +75,7 @@ public class TPMS_CREATION_DATA extends TpmStructure
         outsideInfo = _outsideInfo;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -88,7 +88,7 @@ public class TPMS_CREATION_DATA extends TpmStructure
         buf.writeSizedByteBuf(outsideInfo);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -101,19 +101,30 @@ public class TPMS_CREATION_DATA extends TpmStructure
         outsideInfo = buf.readSizedByteBuf();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CREATION_DATA fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_CREATION_DATA.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CREATION_DATA fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_CREATION_DATA fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_CREATION_DATA.class);

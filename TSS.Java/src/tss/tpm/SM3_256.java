@@ -7,7 +7,7 @@ import java.util.*;
 
 //>>>
 
-/** Table 17 Defines for SM3_256 Hash Values  */
+/** Table 17 Defines for SM3_256 Hash Values */
 public final class SM3_256 extends TpmEnum<SM3_256>
 {
     /** Values from enum _N are only intended to be used in case labels of a switch statement
@@ -16,16 +16,16 @@ public final class SM3_256 extends TpmEnum<SM3_256>
      *  for any other usage just prepend them with the SM3_256. qualifier.
      */
     public enum _N {
-        /** Size of digest in octets  */
+        /** Size of digest in octets */
         DIGEST_SIZE,
 
-        /** Size of hash block in octets  */
+        /** Size of hash block in octets */
         BLOCK_SIZE
     }
 
     private static ValueMap<SM3_256> _ValueMap = new ValueMap<SM3_256>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final SM3_256
         DIGEST_SIZE = new SM3_256(32, _N.DIGEST_SIZE),
         BLOCK_SIZE = new SM3_256(64, _N.BLOCK_SIZE);

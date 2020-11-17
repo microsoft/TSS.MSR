@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command is used to read a copy of the current firmware installed in the TPM.  */
+/** This command is used to read a copy of the current firmware installed in the TPM. */
 public class TPM2_FirmwareRead_REQUEST extends ReqStructure
 {
     /** The number of previous calls to this command in this sequence
@@ -22,27 +22,38 @@ public class TPM2_FirmwareRead_REQUEST extends ReqStructure
      */
     public TPM2_FirmwareRead_REQUEST(int _sequenceNumber) { sequenceNumber = _sequenceNumber; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { buf.writeInt(sequenceNumber); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { sequenceNumber = buf.readInt(); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_FirmwareRead_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_FirmwareRead_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_FirmwareRead_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_FirmwareRead_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_FirmwareRead_REQUEST.class);

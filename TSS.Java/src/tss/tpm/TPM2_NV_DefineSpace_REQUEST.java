@@ -19,10 +19,10 @@ public class TPM2_NV_DefineSpace_REQUEST extends ReqStructure
      */
     public TPM_HANDLE authHandle;
 
-    /** The authorization value  */
+    /** The authorization value */
     public byte[] auth;
 
-    /** The public parameters of the NV area  */
+    /** The public parameters of the NV area */
     public TPMS_NV_PUBLIC publicInfo;
 
     public TPM2_NV_DefineSpace_REQUEST() { authHandle = new TPM_HANDLE(); }
@@ -40,7 +40,7 @@ public class TPM2_NV_DefineSpace_REQUEST extends ReqStructure
         publicInfo = _publicInfo;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -48,7 +48,7 @@ public class TPM2_NV_DefineSpace_REQUEST extends ReqStructure
         buf.writeSizedObj(publicInfo);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -56,19 +56,30 @@ public class TPM2_NV_DefineSpace_REQUEST extends ReqStructure
         publicInfo = buf.createSizedObj(TPMS_NV_PUBLIC.class);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_NV_DefineSpace_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_NV_DefineSpace_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_NV_DefineSpace_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_NV_DefineSpace_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_NV_DefineSpace_REQUEST.class);

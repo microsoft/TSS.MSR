@@ -88,7 +88,7 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
          */
         sign,
 
-        /** Alias to the sign value.  */
+        /** Alias to the sign value. */
         encrypt,
 
         /** SET (1): An asymmetric key that may not be used to sign with TPM2_Sign()
@@ -100,7 +100,7 @@ public final class TPMA_OBJECT extends TpmAttribute<TPMA_OBJECT>
 
     private static ValueMap<TPMA_OBJECT> _ValueMap = new ValueMap<TPMA_OBJECT>();
 
-    /** These definitions provide mapping of the Java enum constants to their TPM integer values  */
+    /** These definitions provide mapping of the Java enum constants to their TPM integer values */
     public static final TPMA_OBJECT
         fixedTPM = new TPMA_OBJECT(0x2, _N.fixedTPM),
         stClear = new TPMA_OBJECT(0x4, _N.stClear),

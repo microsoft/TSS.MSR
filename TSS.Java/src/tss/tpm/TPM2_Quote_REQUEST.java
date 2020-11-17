@@ -7,7 +7,7 @@ import tss.*;
 
 //>>>
 
-/** This command is used to quote PCR values.  */
+/** This command is used to quote PCR values. */
 public class TPM2_Quote_REQUEST extends ReqStructure
 {
     /** Handle of key that will perform signature
@@ -16,10 +16,10 @@ public class TPM2_Quote_REQUEST extends ReqStructure
      */
     public TPM_HANDLE signHandle;
 
-    /** Data supplied by the caller  */
+    /** Data supplied by the caller */
     public byte[] qualifyingData;
 
-    /** Scheme selector  */
+    /** Scheme selector */
     public TPM_ALG_ID inSchemeScheme() { return inScheme != null ? inScheme.GetUnionSelector() : TPM_ALG_ID.NULL; }
 
     /** Signing scheme to use if the scheme for signHandle is TPM_ALG_NULL
@@ -29,7 +29,7 @@ public class TPM2_Quote_REQUEST extends ReqStructure
      */
     public TPMU_SIG_SCHEME inScheme;
 
-    /** PCR set to quote  */
+    /** PCR set to quote */
     public TPMS_PCR_SELECTION[] PCRselect;
 
     public TPM2_Quote_REQUEST() { signHandle = new TPM_HANDLE(); }
@@ -52,7 +52,7 @@ public class TPM2_Quote_REQUEST extends ReqStructure
         PCRselect = _PCRselect;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -62,7 +62,7 @@ public class TPM2_Quote_REQUEST extends ReqStructure
         buf.writeObjArr(PCRselect);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -73,19 +73,30 @@ public class TPM2_Quote_REQUEST extends ReqStructure
         PCRselect = buf.readObjArr(TPMS_PCR_SELECTION.class);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Quote_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Quote_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Quote_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Quote_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Quote_REQUEST.class);

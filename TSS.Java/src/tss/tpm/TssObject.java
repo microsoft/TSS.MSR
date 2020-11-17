@@ -12,13 +12,13 @@ import tss.*;
  */
 public class TssObject extends TpmStructure
 {
-    /** Public part of key  */
+    /** Public part of key */
     public TPMT_PUBLIC Public;
 
-    /** Sensitive part of key  */
+    /** Sensitive part of key */
     public TPMT_SENSITIVE Sensitive;
 
-    /** Private part is the encrypted sensitive part of key  */
+    /** Private part is the encrypted sensitive part of key */
     public TPM2B_PRIVATE Private;
 
     public TssObject() {}
@@ -34,7 +34,7 @@ public class TssObject extends TpmStructure
         Private = _Private;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -43,7 +43,7 @@ public class TssObject extends TpmStructure
         Private.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -52,19 +52,30 @@ public class TssObject extends TpmStructure
         Private = TPM2B_PRIVATE.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TssObject fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TssObject.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TssObject fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TssObject fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TssObject.class);

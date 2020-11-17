@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** This structure is used when the TPM performs TPM2_GetTime.  */
+/** This structure is used when the TPM performs TPM2_GetTime. */
 public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
 {
-    /** The Time, Clock, resetCount, restartCount, and Safe indicator  */
+    /** The Time, Clock, resetCount, restartCount, and Safe indicator */
     public TPMS_TIME_INFO time;
 
-    /** A TPM vendor-specific value indicating the version number of the firmware  */
+    /** A TPM vendor-specific value indicating the version number of the firmware */
     public long firmwareVersion;
 
     public TPMS_TIME_ATTEST_INFO() {}
@@ -28,10 +28,10 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
         firmwareVersion = _firmwareVersion;
     }
 
-    /** TpmUnion method  */
+    /** TpmUnion method */
     public TPM_ST GetUnionSelector() { return TPM_ST.ATTEST_TIME; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -39,7 +39,7 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
         buf.writeInt64(firmwareVersion);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -47,19 +47,30 @@ public class TPMS_TIME_ATTEST_INFO extends TpmStructure implements TPMU_ATTEST
         firmwareVersion = buf.readInt64();
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_TIME_ATTEST_INFO fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMS_TIME_ATTEST_INFO.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_TIME_ATTEST_INFO fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMS_TIME_ATTEST_INFO fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMS_TIME_ATTEST_INFO.class);

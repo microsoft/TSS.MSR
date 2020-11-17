@@ -7,13 +7,13 @@ import tss.*;
 
 //>>>
 
-/** This command returns various information regarding the TPM and its current state.  */
+/** This command returns various information regarding the TPM and its current state. */
 public class GetCapabilityResponse extends RespStructure
 {
-    /** Flag to indicate if there are more values of this type  */
+    /** Flag to indicate if there are more values of this type */
     public byte moreData;
 
-    /** The capability  */
+    /** The capability */
     public TPM_CAP capabilityDataCapability() { return capabilityData.GetUnionSelector(); }
 
     /** The capability data
@@ -25,7 +25,7 @@ public class GetCapabilityResponse extends RespStructure
 
     public GetCapabilityResponse() {}
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -34,7 +34,7 @@ public class GetCapabilityResponse extends RespStructure
         capabilityData.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -44,19 +44,30 @@ public class GetCapabilityResponse extends RespStructure
         capabilityData.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static GetCapabilityResponse fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(GetCapabilityResponse.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static GetCapabilityResponse fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static GetCapabilityResponse fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(GetCapabilityResponse.class);

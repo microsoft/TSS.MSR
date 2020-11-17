@@ -18,13 +18,13 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends ReqStructure
      */
     public TPM_HANDLE authHandle;
 
-    /** The desired authPolicy  */
+    /** The desired authPolicy */
     public byte[] authPolicy;
 
-    /** The hash algorithm of the policy  */
+    /** The hash algorithm of the policy */
     public TPM_ALG_ID hashAlg;
 
-    /** The PCR for which the policy is to be set  */
+    /** The PCR for which the policy is to be set */
     public TPM_HANDLE pcrNum;
 
     public TPM2_PCR_SetAuthPolicy_REQUEST()
@@ -49,7 +49,7 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends ReqStructure
         pcrNum = _pcrNum;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -58,7 +58,7 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends ReqStructure
         pcrNum.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -67,19 +67,30 @@ public class TPM2_PCR_SetAuthPolicy_REQUEST extends ReqStructure
         pcrNum = TPM_HANDLE.fromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PCR_SetAuthPolicy_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_PCR_SetAuthPolicy_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PCR_SetAuthPolicy_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_PCR_SetAuthPolicy_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_PCR_SetAuthPolicy_REQUEST.class);

@@ -22,7 +22,7 @@ public class TPMT_SENSITIVE extends TpmStructure
      */
     public byte[] authValue;
 
-    /** For a parent object, the optional protection seed; for other objects, the obfuscation value  */
+    /** For a parent object, the optional protection seed; for other objects, the obfuscation value */
     public byte[] seedValue;
 
     /** The type-specific private data
@@ -48,7 +48,7 @@ public class TPMT_SENSITIVE extends TpmStructure
         sensitive = _sensitive;
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf)
     {
@@ -59,7 +59,7 @@ public class TPMT_SENSITIVE extends TpmStructure
         sensitive.toTpm(buf);
     }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf)
     {
@@ -70,19 +70,30 @@ public class TPMT_SENSITIVE extends TpmStructure
         sensitive.initFromTpm(buf);
     }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SENSITIVE fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPMT_SENSITIVE.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SENSITIVE fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPMT_SENSITIVE fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPMT_SENSITIVE.class);

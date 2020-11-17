@@ -12,35 +12,46 @@ import tss.*;
  */
 public class TPM2_Shutdown_REQUEST extends ReqStructure
 {
-    /** TPM_SU_CLEAR or TPM_SU_STATE  */
+    /** TPM_SU_CLEAR or TPM_SU_STATE */
     public TPM_SU shutdownType;
 
     public TPM2_Shutdown_REQUEST() {}
 
-    /** @param _shutdownType TPM_SU_CLEAR or TPM_SU_STATE  */
+    /** @param _shutdownType TPM_SU_CLEAR or TPM_SU_STATE */
     public TPM2_Shutdown_REQUEST(TPM_SU _shutdownType) { shutdownType = _shutdownType; }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void toTpm(TpmBuffer buf) { shutdownType.toTpm(buf); }
 
-    /** TpmMarshaller method  */
+    /** TpmMarshaller method */
     @Override
     public void initFromTpm(TpmBuffer buf) { shutdownType = TPM_SU.fromTpm(buf); }
 
-    /** @deprecated Use {@link #toBytes()} instead  */
+    /** @deprecated Use {@link #toBytes()} instead
+     *  @return Wire (marshaled) representation of this object
+     */
     public byte[] toTpm () { return toBytes(); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Shutdown_REQUEST fromBytes (byte[] byteBuf) 
     {
         return new TpmBuffer(byteBuf).createObj(TPM2_Shutdown_REQUEST.class);
     }
 
-    /** @deprecated Use {@link #fromBytes()} instead  */
+    /** @deprecated Use {@link #fromBytes(byte[])} instead
+     *  @param byteBuf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Shutdown_REQUEST fromTpm (byte[] byteBuf)  { return fromBytes(byteBuf); }
 
-    /** Static marshaling helper  */
+    /** Static marshaling helper
+     *  @param buf Wire representation of the object
+     *  @return New object constructed from its wire representation
+     */
     public static TPM2_Shutdown_REQUEST fromTpm (TpmBuffer buf) 
     {
         return buf.createObj(TPM2_Shutdown_REQUEST.class);

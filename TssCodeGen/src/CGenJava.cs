@@ -370,19 +370,26 @@ namespace CodeGen
             GenMarshalingMethod(true, s);
             GenMarshalingMethod(false, s);
 
-            WriteComment("@deprecated Use {@link #toBytes()} instead");
+            WriteComment("@deprecated Use {@link #toBytes()} instead\n" +
+                         "@return Wire (marshaled) representation of this object");
             Write("public byte[] toTpm () { return toBytes(); }");
 
-            WriteComment("Static marshaling helper");
+            WriteComment("Static marshaling helper\n" +
+                         "@param byteBuf Wire representation of the object\n" +
+                         "@return New object constructed from its wire representation");
             Write($"public static {className} fromBytes (byte[] byteBuf) ");
             TabIn("{");
             Write($"return new TpmBuffer(byteBuf).createObj({className}.class);");
             TabOut("}");
 
-            WriteComment("@deprecated Use {@link #fromBytes()} instead");
+            WriteComment("@deprecated Use {@link #fromBytes(byte[])} instead\n" +
+                         "@param byteBuf Wire representation of the object\n" +
+                         "@return New object constructed from its wire representation");
             Write($"public static {className} fromTpm (byte[] byteBuf)  {{ return fromBytes(byteBuf); }}");
 
-            WriteComment("Static marshaling helper");
+            WriteComment("Static marshaling helper\n" +
+                         "@param buf Wire representation of the object\n" +
+                         "@return New object constructed from its wire representation");
             Write($"public static {className} fromTpm (TpmBuffer buf) ");
             TabIn("{");
             Write($"return buf.createObj({className}.class);");
