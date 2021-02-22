@@ -135,10 +135,6 @@ namespace Tpm2Lib
                 }
                 result = TpmRc.TbsUnknownError;
             }
-            else if (tbsRes == TbsWrapper.TBS_RESULT.BAD_PARAMETER)
-            {
-                result = TpmRc.TbsBadParameter;
-            }
             else
             { 
                 result = (TpmRc)tbsRes;
