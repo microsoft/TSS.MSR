@@ -125,7 +125,6 @@ namespace Tpm2Lib
                                      (uint)inBuf.Length,
                                      resultBuf,
                                      ref resultByteCount);
-            string errMsg;
             if (tbsRes == TbsWrapper.TBS_RESULT.SUCCESS)
             {
                 if (resultByteCount != 0)
@@ -135,11 +134,10 @@ namespace Tpm2Lib
                     return;
                 }
                 result = TpmRc.TbsUnknownError;
-                errMsg = Globs.GetResourceString("SubmitError2");
             }
             else
-            {
-                errMsg = new Win32Exception((int)result).Message;
+            { 
+                result = (TpmRc)tbsRes;
             }
 
             outBuf = TpmErrorHelpers.BuildErrorResponseBuffer(result);
