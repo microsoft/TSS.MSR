@@ -615,9 +615,26 @@ namespace Tpm2Tester
         {
             if (TestCfg.StressMode)
                 tpm._ExpectResponses(TpmRc.Handle, TpmRc.Value);
+            else if (Globs.IsOneOf(h.GetType(), Ht.Persistent, Ht.NvIndex) ||
+            // TBS intercepts out of range transient handles and returns RC_HANDLE,
+            // even though the correct reply is RC_VALUE.
+                     (TestCfg.HasTRM && h.GetType() == Ht.Transient))
+                tpm._ExpectError(TpmRc.Handle);
             else
-                tpm._ExpectError(Globs.IsOneOf(h.GetType(), Ht.Persistent, Ht.NvIndex)
-                                    ? TpmRc.Handle : TpmRc.Value);
+                tpm._ExpectError(TpmRc.Value);
+        }
+
+        public void ExpectBadNvHandleError(Tpm2 tpm, TpmHandle h)
+        {
+            if (TestCfg.StressMode)
+                tpm._ExpectResponses(TpmRc.Handle, TpmRc.Value);
+            else if (h.GetType() == Ht.NvIndex ||
+            // TBS intercepts transient handles and returns RC_HANDLE,
+            // even though the correct reply is RC_VALUE.
+                     (TestCfg.HasTRM && h.GetType() == Ht.Transient))
+                tpm._ExpectError(TpmRc.Handle);
+            else
+                tpm._ExpectError(TpmRc.Value);
         }
 
         public TpmHandle RandomInvalidHandle(Tpm2 tpm, Ht handleType)
