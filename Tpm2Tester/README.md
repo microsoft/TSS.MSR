@@ -378,7 +378,7 @@ Fuzzing options:
   breakCmd - Command, to which -fuzzcount applies
   breakCount - Number of fuzzed commands to skip before -fuzzcount applies
 
-Miscelaneous options:
+Miscellaneous options:
   parseIn       Interpret byte-string as TPM command
   parseOut      Interpret byte-string as a TPM response
   tpmInfo       Dump TPM information and exit

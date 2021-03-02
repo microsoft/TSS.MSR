@@ -235,5 +235,10 @@ namespace Tpm2Tester
             return DisabledTests.Category.HasFlag(cat);
         }
 
+        public bool IsDisabled(Special special)
+        {
+            return DisabledTests.SpecialNeeds.HasFlag(special);
+        }
+
     } // class TestConfig
 }

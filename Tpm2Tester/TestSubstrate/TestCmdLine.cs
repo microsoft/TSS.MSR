@@ -388,7 +388,7 @@ namespace Tpm2Tester
                     return cl.NextIntParam(ref cl.Target.BreakCount);
                 }),
 
-            new Option("tpmInfo", "Miscelaneous", "Dumps TPM information",
+            new Option("tpmInfo", "Miscellaneous", "Dumps TPM information",
                 (TesterCmdLine cl) =>
                 {
                     cl.TestCfg.DumpTpmInfo = true;
@@ -396,7 +396,7 @@ namespace Tpm2Tester
                     cl.TestCfg.Verbose = false;
                     return true;
                 }),
-            new Option("parseIn", "Miscelaneous", "Interpret byte-string as TPM command",
+            new Option("parseIn", "Miscellaneous", "Interpret byte-string as TPM command",
                 (TesterCmdLine cl) =>
                 {
                     // Accepts multi-line snapshots of the VS memory window with
@@ -410,7 +410,7 @@ namespace Tpm2Tester
                     cl.TestCfg.TestsToRun = null;
                     return true;
                 }),
-            new Option("parseOut", "Miscelaneous", "Interpret byte-string as a TPM response",
+            new Option("parseOut", "Miscellaneous", "Interpret byte-string as a TPM response",
                 (TesterCmdLine cl) =>
                 {
                     string commandName = "";
@@ -849,8 +849,8 @@ namespace Tpm2Tester
                 {
                     FilterOutTests(TestsToInclude, Special.NoTRM,
                                    "as the TBS is not in raw mode (device is not 'tbsraw')");
-                    FilterOutTests(TestsToInclude, Category.Context,
-                                   "as the context operations are not available");
+                    FilterOutTests(TestsToInclude, Special.TbsBlocked,
+                                   "as the commands are blocked by TBS (device is not 'tbsraw')");
                 }
             }
 
