@@ -41,7 +41,7 @@ namespace Tpm2Tester
 
     // Special Attributes affect how tests are run, and whether a test will run on a particular device
     // NotThreadSafe, TpmCfg.PowerControl
-    // Which auth values are needed (OnwerAuth, PrivacyAuth, PlatformAuth, LocoutAuth)
+    // Which auth values are needed (OwnerAuth, PrivacyAuth, PlatformAuth, LockoutAuth)
     // The major subsystem tested (NV, Crypto, etc.)
     [Flags]
     public enum Special
@@ -84,7 +84,10 @@ namespace Tpm2Tester
         Lockout = 0x400,
 
         // Test needs to be able to turn TPM NV on/off
-        NvControl = 0x800
+        NvControl = 0x800,
+
+        // Uses commands that are blocked by TBS (ContextLoad/Save)
+        TbsBlocked = 0x1000,
     } // enum Special
 
     // A category reflects a TPM subsystem or functionality subset targeted by the test
