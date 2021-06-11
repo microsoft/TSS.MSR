@@ -138,8 +138,9 @@ export class TpmTbsDevice implements TpmDevice
         {
             TpmTbsDevice.ffi = require('ffi-napi');
             TpmTbsDevice.ref = require('ref-napi');
-            TpmTbsDevice.Struct = require('ref-struct-di');
-            TpmTbsDevice.ArrayType = require('ref-array-di')
+            TpmTbsDevice.Struct = require('ref-struct-di')(TpmTbsDevice.ref);;
+            TpmTbsDevice.ArrayType = require('ref-array-di')(TpmTbsDevice.ref);
+
             TpmTbsDevice.byte = TpmTbsDevice.ref.types.byte;
             TpmTbsDevice.ByteArray = TpmTbsDevice.ArrayType(TpmTbsDevice.byte);
             TpmTbsDevice.int = TpmTbsDevice.ref.types.int;
