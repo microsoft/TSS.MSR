@@ -504,11 +504,9 @@ namespace Tpm2Tester
                         break;
                     case TpmDeviceType.tbs:
                     case TpmDeviceType.tbsraw:
-#if __NETCOREAPP2__
                         if (!System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows))
                             underlyingTpmDevice = new LinuxTpmDevice();
                         else
-#endif
                         underlyingTpmDevice = new TbsDevice(TestCfg.DeviceType != TpmDeviceType.tbsraw);
                         break;
 #if !TSS_NO_TCP

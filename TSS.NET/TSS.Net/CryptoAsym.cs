@@ -8,10 +8,7 @@ using System.Linq;
 using System.Numerics;
 using System.Diagnostics;
 using System.Text;
-
-#if !TSS_USE_BCRYPT
 using System.Security.Cryptography;
-#endif
 
 namespace Tpm2Lib
 {
@@ -25,29 +22,9 @@ namespace Tpm2Lib
     public sealed class AsymCryptoSystem : IDisposable
     {
         private TpmPublic PublicParms;
-
-#if TSS_USE_BCRYPT
-        private BCryptKey Key;
-#else
-        // The identifier __MonoCS__ is defined by the Mono compiler.
-        // Exclude functionality unsupported under Mono.
-#if !__MonoCS__
         private ECDiffieHellmanCng EcDhProvider;
         private ECDsaCng EcdsaProvider;
-#endif
-
         private RSACryptoServiceProvider RsaProvider;
-#endif
-
-#if TSS_USE_BCRYPT
-        internal static BCryptKey Generate(string algName, uint numBits)
-        {
-            var alg = new BCryptAlgorithm(algName);
-            var key = alg.GenerateKeyPair(numBits);
-            alg.Close();
-            return key;
-        }
-#endif
 
         public AsymCryptoSystem()
         {
@@ -68,28 +45,12 @@ namespace Tpm2Lib
                 case TpmAlgId.Rsa:
                 {
                     var rsaParams = keyParams.parameters as RsaParms;
-#if TSS_USE_BCRYPT
-                    Key = Generate(Native.BCRYPT_RSA_ALGORITHM, rsaParams.keyBits);
-                    if (Key == UIntPtr.Zero)
-                    {
-                        Globs.Throw("Failed to generate RSA key");
-                        return;
-                    }
-                    byte[] blob = Export(Native.BCRYPT_RSAPUBLIC_BLOB);
-                    var m = new Marshaller(blob, DataRepresentation.LittleEndian);
-                    var header = m.Get<BCryptRsaKeyBlob>();
-                    /*var exponent = */m.GetArray<byte>((int)header.cbPublicExp);
-                    var modulus = m.GetArray<byte>((int)header.cbModulus);
-
-#else
                     RsaProvider = new RSACryptoServiceProvider(rsaParams.keyBits);
                     var modulus = RsaProvider.ExportParameters(true).Modulus;
-#endif
                     var pubId = new Tpm2bPublicKeyRsa(modulus);
                     PublicParms.unique = pubId;
                     break;
                 }
-#if !__MonoCS__
                 case TpmAlgId.Ecc:
                 {
                     var eccParms = keyParams.parameters as EccParms;
@@ -101,12 +62,6 @@ namespace Tpm2Lib
                     }
 
                     byte[] keyIs;
-#if TSS_USE_BCRYPT
-                    Key = Generate(alg, (uint)RawEccKey.GetKeyLength(eccParms.curveID));
-                    //BCRYPT_ECCPRIVATE_BLOB;
-                    keyIs = Key.Export(Native.BCRYPT_ECCPUBLIC_BLOB);
-
-#else
                     var keyParmsX = new CngKeyCreationParameters { ExportPolicy = CngExportPolicies.AllowPlaintextExport };
                     using (CngKey key = CngKey.Create(alg, null, keyParmsX))
                     {
@@ -120,7 +75,6 @@ namespace Tpm2Lib
                         else
                             EcDhProvider = new ECDiffieHellmanCng(key);
                     }
-#endif // !TSS_USE_BCRYPT
                     // Store the public key
                     const int offset = 8;
                     int keySize = 0;
@@ -146,7 +100,6 @@ namespace Tpm2Lib
                     PublicParms.unique = pubId;
                     break;
                 }
-#endif // !__MonoCS__
                 default:
                     Globs.Throw<ArgumentException>("Algorithm not supported");
                     break;
@@ -155,11 +108,7 @@ namespace Tpm2Lib
 
         public static bool IsCurveSupported(EccCurve curve)
         {
-#if __MonoCS__
-            return false;
-#else
             return RawEccKey.IsCurveSupported(curve);
-#endif
         }
 
         /// <summary>
@@ -195,11 +144,6 @@ namespace Tpm2Lib
                                             ? Globs.HostToNet(rsaParams.exponent)
                                             : RsaParms.DefaultExponent;
                     var modulus = (pubKey.unique as Tpm2bPublicKeyRsa).buffer;
-#if TSS_USE_BCRYPT
-                    var alg = new BCryptAlgorithm(Native.BCRYPT_RSA_ALGORITHM);
-                    cs.Key = alg.LoadRSAKey(exponent, modulus, prime1, prime2);
-                    alg.Close();
-#else
                     var dotNetPubParms = new RSAParameters() {Exponent = exponent, Modulus = modulus};
                     if (privKey != null)
                     {
@@ -212,10 +156,8 @@ namespace Tpm2Lib
                     }
                     cs.RsaProvider = new RSACryptoServiceProvider();
                     cs.RsaProvider.ImportParameters(dotNetPubParms);
-#endif
                     break;
                 }
-#if !__MonoCS__
                 case TpmAlgId.Ecc:
                 {
                     var eccParms = (EccParms)pubKey.parameters;
@@ -228,16 +170,6 @@ namespace Tpm2Lib
                     bool isEcdsa = eccParms.scheme.GetUnionSelector() == TpmAlgId.Ecdsa;
                     byte[] keyBlob = RawEccKey.GetKeyBlob(eccPub.x, eccPub.y, keyAlgId,
                                                             !isEcdsa, eccParms.curveID);
-#if TSS_USE_BCRYPT
-                    var alg = new BCryptAlgorithm(algId);
-                    cs.Key = alg.ImportKeyPair(Native.BCRYPT_ECCPUBLIC_BLOB, keyBlob);
-                    alg.Close();
-                    if (cs.Key == UIntPtr.Zero)
-                    {
-                        Globs.Throw("Failed to create new RSA key");
-                        return null;
-                    }
-#else
                     CngKey eccKey = CngKey.Import(keyBlob, CngKeyBlobFormat.EccPublicBlob);
 
                     if (pubKey.objectAttributes.HasFlag(ObjectAttr.Sign))
@@ -248,10 +180,8 @@ namespace Tpm2Lib
                     {
                         cs.EcDhProvider = new ECDiffieHellmanCng(eccKey);
                     }
-#endif // !TSS_USE_BCRYPT
                     break;
                 }
-#endif // !__MonoCS__
                 default:
                     Globs.Throw<ArgumentException>("Algorithm not supported");
                     cs = null;
@@ -262,20 +192,7 @@ namespace Tpm2Lib
 
         public byte[] Export(string bcryptBlobType)
         {
-#if !TSS_USE_BCRYPT
             return null;
-#else
-            //RSAParameters parms = RsaProvider.ExportParameters(bcryptBlobType == Native.BCRYPT_RSAPRIVATE_BLOB);
-            //var alg = new BCryptAlgorithm(Native.BCRYPT_RSA_ALGORITHM);
-            //var Key = alg.LoadRSAKey(parms.Exponent, parms.Modulus, parms.P, parms.Q);
-
-            byte[] keyBlob = Key.Export(bcryptBlobType);
-
-            //Key.Destroy();
-            //alg.Close();
-
-            return keyBlob;
-#endif
         }
 
         public byte[] ExportLegacyBlob()
@@ -285,11 +202,7 @@ namespace Tpm2Lib
 
         public byte[] ExportCspBlob()
         {
-#if TSS_USE_BCRYPT
-            return ExportLegacyBlob();
-#else
             return RsaProvider.ExportCspBlob(true);
-#endif
         }
 
         /// <summary>
@@ -332,15 +245,10 @@ namespace Tpm2Lib
         /// <returns></returns>
         public ISignatureUnion SignData(byte[] data, TpmAlgId sigHash)
         {
-#if TSS_USE_BCRYPT
-            Debug.Assert(Key != UIntPtr.Zero);
-#endif
             var rsaParams = PublicParms.parameters as RsaParms;
             if (rsaParams != null)
             {
-#if !TSS_USE_BCRYPT
                 Debug.Assert(RsaProvider != null);
-#endif
                 TpmAlgId sigScheme = rsaParams.scheme.GetUnionSelector();
 
                 switch (sigScheme)
@@ -352,31 +260,13 @@ namespace Tpm2Lib
                             sigHash = (rsaParams.scheme as SigSchemeRsassa).hashAlg;
                         }
                         byte[] digest = CryptoLib.HashData(sigHash, data);
-#if TSS_USE_BCRYPT
-                        byte[] sig = Key.SignHash(digest, BcryptScheme.Rsassa, sigHash);
-#else
                         byte[] sig = RsaProvider.SignData(data, CryptoLib.GetHashName(sigHash));
-#endif
                         return new SignatureRsassa(sigHash, sig);
                     }
                     case TpmAlgId.Rsapss:
                     {
-#if true
                         Globs.Throw<ArgumentException>("SignData(): PSS scheme is not supported");
                         return null;
-#else
-                        if (sigHash == TpmAlgId.Null)
-                        {
-                            sigHash = (rsaParams.scheme as SigSchemeRsapss).hashAlg;
-                        }
-#if TSS_USE_BCRYPT
-                        byte[] sig = BCryptInterface.SignHash(KeyHandle, digest, sigHash, false);
-#else
-                        var rr = new RawRsa(RsaProvider.ExportParameters(false), RsaProvider.KeySize);
-                        byte[] sig = rr.PssSign(digest, sigHash);
-#endif
-                        return new SignatureRsapss(sigHash, sig);
-#endif // false
                     }
                 }
                 Globs.Throw<ArgumentException>("Unsupported signature scheme");
@@ -396,12 +286,6 @@ namespace Tpm2Lib
                     sigHash = (eccParms.scheme as SigSchemeEcdsa).hashAlg;
                 }
                 byte[] digest = CryptoLib.HashData(sigHash, data);
-#if TSS_USE_BCRYPT
-                //throw new NotImplementedException("ECC signing with BCrypt is not implemented");
-                byte[] sig = Key.SignHash(digest, BcryptScheme.Ecdsa, sigHash);
-                int len = sig.Length / 2;
-                return new SignatureEcdsa(sigHash, Globs.CopyData(sig, 0, len), Globs.CopyData(sig, len, len));
-#elif !__MonoCS__
                 Debug.Assert(EcdsaProvider != null);
                 EcdsaProvider.HashAlgorithm = GetCngAlgorithm(sigHash);
                 byte[] sig = EcdsaProvider.SignData(data);
@@ -410,7 +294,6 @@ namespace Tpm2Lib
                 var r = Globs.CopyData(sig, 0, fragLen);
                 var s = Globs.CopyData(sig, fragLen, fragLen);
                 return new SignatureEcdsa(sigHash, r, s);
-#endif // !TSS_USE_BCRYPT && !__MonoCS__
             }
 
             // Should never be here
@@ -459,18 +342,13 @@ namespace Tpm2Lib
         /// <returns>True if the verification succeeds.</returns>
         private bool VerifySignature(byte[] data, bool dataIsDigest, ISignatureUnion sig)
         {
-#if TSS_USE_BCRYPT
-            Debug.Assert(Key != UIntPtr.Zero);
-#endif
             TpmAlgId sigScheme = sig.GetUnionSelector();
             TpmAlgId sigHash = CryptoLib.SchemeHash(sig);
 
             var rsaParams = PublicParms.parameters as RsaParms;
             if (rsaParams != null)
             {
-#if !TSS_USE_BCRYPT
                 Debug.Assert(RsaProvider != null);
-#endif
                 var s = sig as SignatureRsa;
                 TpmAlgId keyScheme = rsaParams.scheme.GetUnionSelector();
 
@@ -484,25 +362,12 @@ namespace Tpm2Lib
 
                 if (sigScheme == TpmAlgId.Rsassa)
                 {
-#if TSS_USE_BCRYPT
                     return Key.VerifySignature(digest, s.sig, sigHash, true);
-#else
-                    return RsaProvider.VerifyHash(digest, CryptoLib.GetHashName(sigHash), s.sig);
-#endif
                 }
                 if (sigScheme == TpmAlgId.Rsapss)
                 {
-#if true
                     Globs.Throw<ArgumentException>("VerifySignature(): PSS scheme is not supported");
                     return false;
-#else
-#if TSS_USE_BCRYPT
-                    return Key.VerifySignature(digest, s.sig, sigHash, false);
-#else
-                    var rr = new RawRsa(RsaProvider.ExportParameters(false), RsaProvider.KeySize);
-                    return rr.PssVerify(digest, sig.sig, sigHash);
-#endif
-#endif // false
                 }
                 Globs.Throw<ArgumentException>("VerifySignature(): Unrecognized scheme");
                 return false;
@@ -527,13 +392,9 @@ namespace Tpm2Lib
                 var s = sig as SignatureEcdsa;
                 byte[] digest = dataIsDigest ? data : CryptoLib.HashData(sigHash, data);
                 byte[] sigBlob = Globs.Concatenate(s.signatureR, s.signatureS);
-#if TSS_USE_BCRYPT
-                return Key.VerifySignature(digest, sigBlob);
-#elif !__MonoCS__
                 Debug.Assert(EcdsaProvider != null);
                 EcdsaProvider.HashAlgorithm = GetCngAlgorithm(sigHash);
                 return EcdsaProvider.VerifyHash(digest, sigBlob);
-#endif // !TSS_USE_BCRYPT && !__MonoCS__
             }
 
             // Should never be here
@@ -554,16 +415,10 @@ namespace Tpm2Lib
             byte[] keyExchangeKey = null;
             ephemPub = null;
 
-#if !__MonoCS__
             var eccParms = (EccParms)PublicParms.parameters;
             int keyBits = RawEccKey.GetKeyLength(eccParms.curveID);
 
             // Make a new ephemeral key
-#if TSS_USE_BCRYPT
-            var ephKey = Generate(RawEccKey.GetEccAlg(PublicParms), (uint)keyBits);
-            byte[] ephPub = ephKey.Export(Native.BCRYPT_ECCPUBLIC_BLOB);
-            byte[] otherPub = Key.Export(Native.BCRYPT_ECCPUBLIC_BLOB);
-#else
             using (var eph = new ECDiffieHellmanCng(keyBits))
             {
                 byte[] otherPub = EcDhProvider.PublicKey.ToByteArray();
@@ -571,7 +426,6 @@ namespace Tpm2Lib
 
                 eph.KeyDerivationFunction = ECDiffieHellmanKeyDerivationFunction.Hash;
                 eph.HashAlgorithm = GetCngAlgorithm(decryptKeyNameAlg);
-#endif // !TSS_USE_BCRYPT
 
                 byte[] herPubX, herPubY;
                 RawEccKey.KeyInfoFromPublicBlob(otherPub, out herPubX, out herPubY);
@@ -590,21 +444,14 @@ namespace Tpm2Lib
                      ++count, pos += bytesToCopy)
                 {
                     byte[] secretPrepend = Marshaller.GetTpmRepresentation((UInt32)count);
-#if TSS_USE_BCRYPT
-                    byte[] fragment = ephKey.DeriveKey(Key, decryptKeyNameAlg, secretPrepend, otherInfo);
-#else
                     eph.SecretAppend = otherInfo;
                     eph.SecretPrepend = secretPrepend;
                     byte[] fragment = eph.DeriveKeyMaterial(EcDhProvider.Key);
-#endif // !TSS_USE_BCRYPT
                     bytesToCopy = Math.Min(bytesNeeded - pos, fragment.Length);
                     Array.Copy(fragment, 0, keyExchangeKey, pos, bytesToCopy);
                 }
                 ephemPub = new EccPoint(myPubX, myPubY);
-#if !TSS_USE_BCRYPT
             }
-#endif
-#endif // !__MonoCS__
             return keyExchangeKey;
         }
 
@@ -634,46 +481,18 @@ namespace Tpm2Lib
                 plainText = new byte[0];
             if (label == null)
                 label = new byte[0];
-#if TSS_USE_BCRYPT
-            var paddingInfo = new BCryptOaepPaddingInfo(OaepHash, label);
-            byte[] cipherText = Key.Encrypt(plainText, paddingInfo);
-#elif true
             var rr = new RawRsa(RsaProvider.ExportParameters(false), RsaProvider.KeySize);
             byte[] cipherText = rr.OaepEncrypt(plainText, OaepHash, label);
-#else
-            RSAParameters parms = RsaProvider.ExportParameters(false);
-            var alg = new BCryptAlgorithm(Native.BCRYPT_RSA_ALGORITHM);
-            var key = alg.LoadRSAKey(parms.Exponent, parms.Modulus);
-            var paddingInfo = new BCryptOaepPaddingInfo(OaepHash, label);
-            byte[] cipherText = key.Encrypt(plainText, paddingInfo);
-            key.Destroy();
-            alg.Close();
-#endif
             return cipherText;
         }
 
         public byte[] DecryptOaep(byte[] cipherText, byte[] label)
         {
-#if TSS_USE_BCRYPT
-            var paddingInfo = new BCryptOaepPaddingInfo(OaepHash, label);
-            byte[] plainText = Key.Decrypt(cipherText, paddingInfo);
-#elif true
             var rr = new RawRsa(RsaProvider.ExportParameters(true), RsaProvider.KeySize);
             byte[] plainText = rr.OaepDecrypt(cipherText, OaepHash, label);
-#else
-            RSAParameters parms = RsaProvider.ExportParameters(true);
-            var alg = new BCryptAlgorithm(Native.BCRYPT_RSA_ALGORITHM);
-            var key = alg.LoadRSAKey(parms.Exponent, parms.Modulus, parms.P, parms.Q);
-            var paddingInfo = new BCryptOaepPaddingInfo(OaepHash, label);
-            byte[] plainText = key.Decrypt(cipherText, paddingInfo);
-            key.Destroy();
-            alg.Close();
-#endif
             return plainText;
         }
 
-#if !TSS_USE_BCRYPT
-#if !__MonoCS__
         public static CngAlgorithm GetCngAlgorithm(TpmAlgId algId)
         {
             switch (algId)
@@ -691,19 +510,13 @@ namespace Tpm2Lib
                     return null;
             }
         }
-#endif // !__MonoCS__
-#endif // !TSS_USE_BCRYPT
 
         public void Dispose()
         {
-#if TSS_USE_BCRYPT
-            Key.Dispose();
-#else
             if (RsaProvider != null)
             {
                 RsaProvider.Dispose();
             }
-#if !__MonoCS__
             if (EcdsaProvider != null)
             {
                 EcdsaProvider.Dispose();
@@ -712,8 +525,6 @@ namespace Tpm2Lib
             {
                 EcDhProvider.Dispose();
             }
-#endif //!__MonoCS__
-#endif // !TSS_USE_BCRYPT
         }
     } // class AsymCryptoSystem
 
@@ -771,25 +582,10 @@ namespace Tpm2Lib
         /// <param name="publicExponent"></param>
         public RawRsa (int numBits, int publicExponent = 65537)
         {
-#if TSS_USE_BCRYPT
-            var key = AsymCryptoSystem.Generate(Native.BCRYPT_RSA_ALGORITHM, (uint)numBits);
-            byte[] blob = key.Export(Native.BCRYPT_RSAFULLPRIVATE_BLOB);
-            var m = new Marshaller(blob, DataRepresentation.LittleEndian);
-            var header = m.Get<BCryptRsaKeyBlob>();
-            E = FromBigEndian(m.GetArray<byte>((int)header.cbPublicExp));
-            N = FromBigEndian(m.GetArray<byte>((int)header.cbModulus));
-            P = FromBigEndian(m.GetArray<byte>((int)header.cbPrime1));
-            Q = FromBigEndian(m.GetArray<byte>((int)header.cbPrime2));
-            DP = FromBigEndian(m.GetArray<byte>((int)header.cbPrime1));
-            DQ = FromBigEndian(m.GetArray<byte>((int)header.cbPrime2));
-            InverseQ = FromBigEndian(m.GetArray<byte>((int)header.cbPrime1));
-            D = FromBigEndian(m.GetArray<byte>((int)header.cbModulus));
-#else
             using (var prov = new RSACryptoServiceProvider(numBits))
             {
                 Init(prov.ExportParameters(true), numBits);
             }
-#endif
         }
 
         /// <summary>
@@ -807,7 +603,6 @@ namespace Tpm2Lib
             Init(pub, sens.sensitive as Tpm2bPrivateKeyRsa);
         }
 
-#if !TSS_USE_BCRYPT
         public RawRsa(RSAParameters rsaParams, int numBits)
         {
             Init(rsaParams, numBits);
@@ -829,7 +624,6 @@ namespace Tpm2Lib
                 DQ = FromBigEndian(rsaParams.DQ);
             }
         }
-#endif
 
         void Init(TpmPublic pub, Tpm2bPrivateKeyRsa priv)
         {
@@ -1208,8 +1002,6 @@ namespace Tpm2Lib
             y = m.GetNBytes((int)cbKey);
         }
 
-#if !__MonoCS__
-
         internal static bool IsCurveSupported(EccCurve curve)
         {
             int curveIndex = (int)curve;
@@ -1222,20 +1014,6 @@ namespace Tpm2Lib
             return false;
         }
 
-#if TSS_USE_BCRYPT
-        static string[] EcdsaCurveIDs = { null, null, null,
-                            Native.BCRYPT_ECDSA_P256_ALGORITHM,
-                            Native.BCRYPT_ECDSA_P384_ALGORITHM,
-                            Native.BCRYPT_ECDSA_P521_ALGORITHM
-                        };
-        static string[] EcdhCurveIDs = { null, null, null,
-                            Native.BCRYPT_ECDH_P256_ALGORITHM,
-                            Native.BCRYPT_ECDH_P384_ALGORITHM,
-                            Native.BCRYPT_ECDH_P521_ALGORITHM
-                        };
-
-        internal static string
-#else
         static CngAlgorithm[] EcdsaCurveIDs = { null, null, null,
                             CngAlgorithm.ECDsaP256,
                             CngAlgorithm.ECDsaP384,
@@ -1247,7 +1025,6 @@ namespace Tpm2Lib
                             CngAlgorithm.ECDiffieHellmanP521
                         };
         internal static CngAlgorithm
-#endif
         GetEccAlg(TpmPublic pub)
         {
             if (pub.unique.GetUnionSelector() != TpmAlgId.Ecc)
@@ -1279,6 +1056,5 @@ namespace Tpm2Lib
             int curveIndex = (int)eccParms.curveID;
             return signing ? EcdsaCurveIDs[curveIndex] : EcdhCurveIDs[curveIndex];
         }
-#endif // __MonoCS__
     } // class CngEccKey
 }

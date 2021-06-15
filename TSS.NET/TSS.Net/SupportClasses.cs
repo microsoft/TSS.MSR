@@ -6,11 +6,7 @@
 using System;
 using System.Linq;
 using System.Text;
-
-#if !TSS_USE_BCRYPT
 using System.Security.Cryptography;
-#endif
-
 
 namespace Tpm2Lib
 {
@@ -178,12 +174,10 @@ namespace Tpm2Lib
         /// </summary>
         private int Round;
 
-#if !TSS_USE_BCRYPT
         /// <summary>
         /// Default RNG used by the library
         /// </summary>
         private static readonly RNGCryptoServiceProvider CryptoRand = new RNGCryptoServiceProvider();
-#endif
 
         /// <summary>
         /// Creates a copy of the current object
@@ -228,12 +222,7 @@ namespace Tpm2Lib
                 if (Seed != null)
                     return;
                 Seed = new byte[32];
-#if TSS_USE_BCRYPT
-                var rnd = new Random();
-                rnd.NextBytes(Seed);
-#else
                 CryptoRand.GetBytes(Seed);
-#endif
                 Round = 0;
                 FillRandBuf();
             }

@@ -7,10 +7,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-
-#if !TSS_USE_BCRYPT
 using System.Security.Cryptography;
-#endif
 
 
 namespace Tpm2Lib
@@ -22,19 +19,6 @@ namespace Tpm2Lib
             if (dataToHash == null)
                 dataToHash = new byte[0];
 
-#if TSS_USE_BCRYPT
-            string algName = Native.BCryptHashAlgName(algId);
-            if (string.IsNullOrEmpty(algName))
-            {
-                Globs.Throw<ArgumentException>("HashData(): Unsupported hash algorithm " + algId);
-                return null;
-            }
-
-            var alg = new BCryptAlgorithm(algName);
-            var digest = alg.HashData(dataToHash);
-            alg.Close();
-            return digest;
-#else
             HashAlgorithm hashAlg = null;
             switch (algId)
             {
@@ -55,7 +39,6 @@ namespace Tpm2Lib
                     return null;
             }
             return hashAlg.ComputeHash(dataToHash);
-#endif
         }
 
         static readonly TpmAlgId[] DefinedHashAlgorithms = {
@@ -90,9 +73,7 @@ namespace Tpm2Lib
                 case TpmAlgId.Sha256:
                 case TpmAlgId.Sha384:
                 case TpmAlgId.Sha512:
-#if TSS_USE_BCRYPT
                 case TpmAlgId.Cmac:
-#endif
                     return true;
             }
             return false;
@@ -133,10 +114,8 @@ namespace Tpm2Lib
                     return 128;
                 case TpmAlgId.Sm3256:
                     return 64;
-#if TSS_USE_BCRYPT
                 case TpmAlgId.Cmac:
                     return 16;
-#endif
                 case TpmAlgId.Null:
                     return 0;
             }
@@ -155,7 +134,6 @@ namespace Tpm2Lib
             return TpmAlgId.Null;
         }
 
-#if !TSS_USE_BCRYPT
         /// <summary>
         /// Get the CAPI name for a hash algorithm.
         /// </summary>
@@ -180,23 +158,9 @@ namespace Tpm2Lib
                     return "sha1";
             }
         }
-#endif // !TSS_USE_BCRYPT
 
         public static byte[] Hmac(TpmAlgId hashAlgId, byte[] key, byte[] data)
         {
-#if TSS_USE_BCRYPT
-            string algName = Native.BCryptHashAlgName(hashAlgId);
-            if (string.IsNullOrEmpty(algName))
-            {
-                Globs.Throw<ArgumentException>("CryptoLib.Hmac(): Unsupported hash algorithm " + hashAlgId);
-                return null;
-            }
-
-            var alg = new BCryptAlgorithm(algName, Native.BCRYPT_ALG_HANDLE_HMAC);
-            var digest = alg.HmacData(key, data);
-            alg.Close();
-            return digest;
-#else
             switch (hashAlgId)
             {
                 case TpmAlgId.Sha1:
@@ -223,7 +187,6 @@ namespace Tpm2Lib
                     Globs.Throw<ArgumentException>("Hmac(): Unsupported hash algorithm " + hashAlgId);
                     return null;
             }
-#endif // !TSS_USE_BCRYPT
         }
 
         public static byte[] Mac(TpmAlgId symAlg, TpmAlgId macScheme, byte[] key, byte[] data)
@@ -239,16 +202,9 @@ namespace Tpm2Lib
                 return null;
             }
 
-#if TSS_USE_BCRYPT
-            var alg = new BCryptAlgorithm(Native.BCRYPT_AES_CMAC_ALGORITHM);
-            var digest = alg.HmacData(key, data);
-            alg.Close();
-            return digest;
-#else
             Globs.Throw<ArgumentException>("Mac(): .Net Crypto API does not support symmetric cipher based MAC." +
                                            "Complile TSS.Net with BCrypt enabled.");
             return null;
-#endif // !TSS_USE_BCRYPT
         }
 
         public static bool VerifyHmac(TpmAlgId hashAlg, byte[] key, byte[] data, byte[] sig)
