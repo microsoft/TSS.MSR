@@ -18,11 +18,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="$(NixTarget)">
     <TargetFramework>netcoreapp2.1</TargetFramework>
-	<DefineConstants>__NETCOREAPP2__;TSS_NO_STACK</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="!($(NixTarget))">
     <TargetFramework>net472</TargetFramework>
-	<DefineConstants>TSS_USE_BCRYPT</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
