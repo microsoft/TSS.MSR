@@ -8,7 +8,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
-
+using BouncyCastleAES = Org.BouncyCastle.Crypto.Engines.AesEngine;
+using BouncyCastleAESKey = Org.BouncyCastle.Crypto.Parameters.KeyParameter;
+using BouncyCastleCMAC = Org.BouncyCastle.Crypto.Macs.CMac;
 
 namespace Tpm2Lib
 {
@@ -180,7 +182,7 @@ namespace Tpm2Lib
                     return HashAlgorithmName.SHA512;
             }
             Globs.Throw<ArgumentException>("Unsupported hash algorithm");
-	    return HashAlgorithmName.SHA1;
+            return HashAlgorithmName.SHA1;
         }
 
         public static byte[] Hmac(TpmAlgId hashAlgId, byte[] key, byte[] data)
@@ -226,9 +228,12 @@ namespace Tpm2Lib
                 return null;
             }
 
-            Globs.Throw<ArgumentException>("Mac(): .Net Crypto API does not support symmetric cipher based MAC." +
-                                           "Complile TSS.Net with BCrypt enabled.");
-            return null;
+            var mac = new BouncyCastleCMAC(new BouncyCastleAES());
+            var result = new byte[mac.GetMacSize()];
+            mac.Init(new BouncyCastleAESKey(key));
+            mac.BlockUpdate(data, 0, data.Length);
+            mac.DoFinal(result, 0);
+            return result;
         }
 
         public static bool VerifyHmac(TpmAlgId hashAlg, byte[] key, byte[] data, byte[] sig)

@@ -164,6 +164,9 @@ namespace Tpm2Lib
                     return CipherMode.CBC;
                 case TpmAlgId.Ecb:
                     return CipherMode.ECB;
+                case TpmAlgId.Ctr:
+                    // CTR in .NET requires you to manage your own counter.
+                    return CipherMode_None;
                 default:
                     Globs.Throw<ArgumentException>("GetCipherMode: Unsupported cipher mode");
                     return CipherMode_None;

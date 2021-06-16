@@ -189,7 +189,7 @@ namespace Tpm2Lib
                                    ref resultByteCount);
             if (result != TbsWrapper.TBS_RESULT.SUCCESS)
             {
-#if !__NETCOREAPP2__ && false
+#if false
                 Console.WriteLine($"Trying to read LockoutAuth from the registry...");
                 try
                 {

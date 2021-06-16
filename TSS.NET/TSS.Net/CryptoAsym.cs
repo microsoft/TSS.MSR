@@ -6,6 +6,7 @@
 using System;
 using System.Linq;
 using System.Numerics;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Security.Cryptography;
@@ -24,7 +25,7 @@ namespace Tpm2Lib
         private TpmPublic PublicParms;
         private ECDiffieHellman EcDhProvider;
         private ECDsa EcdsaProvider;
-        private RSACryptoServiceProvider RsaProvider;
+        private RSA RsaProvider;
 
         public AsymCryptoSystem()
         {
@@ -45,7 +46,7 @@ namespace Tpm2Lib
                 case TpmAlgId.Rsa:
                 {
                     var rsaParams = keyParams.parameters as RsaParms;
-                    RsaProvider = new RSACryptoServiceProvider(rsaParams.keyBits);
+                    RsaProvider = RSA.Create(rsaParams.keyBits);
                     var modulus = RsaProvider.ExportParameters(true).Modulus;
                     var pubId = new Tpm2bPublicKeyRsa(modulus);
                     PublicParms.unique = pubId;
@@ -54,16 +55,16 @@ namespace Tpm2Lib
                 case TpmAlgId.Ecc:
                 {
                     ECCurve curve = RawEccKey.GetEccCurve(keyParams);
-		    ECPoint pub;
+                    ECPoint pub;
                     if (keyParams.objectAttributes.HasFlag(ObjectAttr.Sign))
                     {
                         EcdsaProvider = ECDsa.Create(curve);
-			pub = EcdsaProvider.ExportParameters(false).Q;
+                        pub = EcdsaProvider.ExportParameters(false).Q;
                     }
                     else
-		    {
+                    {
                         EcDhProvider = ECDiffieHellman.Create(curve);
-			pub = EcDhProvider.ExportParameters(false).Q;
+                        pub = EcDhProvider.ExportParameters(false).Q;
                     }
 
                     PublicParms.unique = new EccPoint(pub.X, pub.Y);
@@ -123,7 +124,7 @@ namespace Tpm2Lib
                         dotNetPubParms.DP = RawRsa.ToBigEndian(rr.DP);
                         dotNetPubParms.DQ = RawRsa.ToBigEndian(rr.DQ);
                     }
-                    cs.RsaProvider = new RSACryptoServiceProvider();
+                    cs.RsaProvider = RSA.Create();
                     cs.RsaProvider.ImportParameters(dotNetPubParms);
                     break;
                 }
@@ -152,21 +153,6 @@ namespace Tpm2Lib
             return cs;
         }
 
-        public byte[] Export(string bcryptBlobType)
-        {
-            return null;
-        }
-
-        public byte[] ExportLegacyBlob()
-        {
-            return Export(Native.LEGACY_RSAPRIVATE_BLOB);
-        }
-
-        public byte[] ExportCspBlob()
-        {
-            return RsaProvider.ExportCspBlob(true);
-        }
-
         /// <summary>
         /// Retrieves key template (containing public key bits).
         /// </summary>
@@ -176,13 +162,56 @@ namespace Tpm2Lib
             return PublicParms;
         }
 
+        public TpmPrivate GetPrivate(out TpmPublic tpmPub,
+                                            TpmAlgId nameAlg = TpmAlgId.Sha1,
+                                            ObjectAttr keyAttrs = ObjectAttr.Decrypt | ObjectAttr.UserWithAuth,
+                                            IAsymSchemeUnion scheme = null,
+                                            SymDefObject symDef = null)
+        {
+            if (scheme == null)
+            {
+                scheme = new NullAsymScheme();
+            }
+            if (symDef == null)
+            {
+                symDef = new SymDefObject();
+            }
+
+            var sens = new Sensitive();
+            if (RsaProvider != null)
+            {
+                RSAParameters parms = RsaProvider.ExportParameters(true);
+                var rsaPriv = new Tpm2bPrivateKeyRsa(parms.P);
+                sens = new Sensitive(new byte[0], new byte[0], rsaPriv);
+
+                tpmPub = new TpmPublic(nameAlg, keyAttrs, new byte[0],
+                                       new RsaParms(symDef,
+                                                    scheme,
+                                                    (ushort)(8 * parms.Modulus.Length),
+                                                    (uint)(new BigInteger(parms.Exponent))),
+                                       new Tpm2bPublicKeyRsa(parms.Modulus));
+            }
+            else if (EcdsaProvider != null || EcDhProvider != null)
+            {
+                Globs.Throw<NotSupportedException>("Blobs for ECC keys are not supported.");
+                tpmPub = new TpmPublic();
+            }
+            else
+            {
+                Globs.Throw<NotSupportedException>("Blobs for non-RSA, non-ECC keys are not supported.");
+                tpmPub = new TpmPublic();
+            }
+
+            return new TpmPrivate(sens.GetTpm2BRepresentation());
+        }
+
         public Sensitive GetSensitive()
         {
-            TpmPublic fromCspPublic;
-            TpmPrivate fromCspPrivate = Csp.CspToTpm(ExportCspBlob(), out fromCspPublic);
-            var m = new Marshaller(fromCspPrivate.buffer);
+            TpmPublic pub;
+            TpmPrivate priv = GetPrivate(out pub);
+            var m = new Marshaller(priv.buffer);
             ushort privSize = m.Get<UInt16>();
-            if (fromCspPrivate.buffer.Length != privSize + 2)
+            if (priv.buffer.Length != privSize + 2)
             {
                 Globs.Throw("Invalid key blob");
             }
@@ -221,14 +250,17 @@ namespace Tpm2Lib
                         {
                             sigHash = (rsaParams.scheme as SigSchemeRsassa).hashAlg;
                         }
-                        byte[] digest = CryptoLib.HashData(sigHash, data);
-                        byte[] sig = RsaProvider.SignData(data, CryptoLib.GetHashAlgorithmName(sigHash));
+                        byte[] sig = RsaProvider.SignData(data, CryptoLib.GetHashAlgorithmName(sigHash), RSASignaturePadding.Pkcs1);
                         return new SignatureRsassa(sigHash, sig);
                     }
                     case TpmAlgId.Rsapss:
                     {
-                        Globs.Throw<ArgumentException>("SignData(): PSS scheme is not supported");
-                        return null;
+                        if (sigHash == TpmAlgId.Null)
+                        {
+                            sigHash = (rsaParams.scheme as SigSchemeRsassa).hashAlg;
+                        }
+                        byte[] sig = RsaProvider.SignData(data, CryptoLib.GetHashAlgorithmName(sigHash), RSASignaturePadding.Pss);
+                        return new SignatureRsapss(sigHash, sig);
                     }
                 }
                 Globs.Throw<ArgumentException>("Unsupported signature scheme");
@@ -318,17 +350,32 @@ namespace Tpm2Lib
                     Globs.Throw<ArgumentException>("Key scheme and signature scheme do not match");
                 }
 
-                byte[] digest = dataIsDigest ? data : CryptoLib.HashData(sigHash, data);
+                var paddingScheme = RSASignaturePadding.Pkcs1;
+                switch (sigScheme)
+                {
+                    case TpmAlgId.Rsassa:
+                    {
+                        paddingScheme = RSASignaturePadding.Pkcs1;
+                        break;
+                    }
+                    case TpmAlgId.Rsapss:
+                    {
+                        paddingScheme = RSASignaturePadding.Pss;
+                        break;
+                    }
+                    default:
+                    {
+                        Globs.Throw<ArgumentException>("VerifySignature(): Unrecognized scheme");
+                        break;
+                    }
+                }
 
-                if (sigScheme == TpmAlgId.Rsassa)
+                var sRsa = sig as SignatureRsa;
+                if (dataIsDigest)
                 {
-                    Globs.Throw<ArgumentException>("VerifySignature(): PKCS15 scheme is not supported");
+                    return RsaProvider.VerifyHash(data, sRsa.sig, CryptoLib.GetHashAlgorithmName(sigHash), paddingScheme);
                 }
-                if (sigScheme == TpmAlgId.Rsapss)
-                {
-                    Globs.Throw<ArgumentException>("VerifySignature(): PSS scheme is not supported");
-                }
-                Globs.Throw<ArgumentException>("VerifySignature(): Unrecognized scheme");
+                return RsaProvider.VerifyData(data, sRsa.sig, CryptoLib.GetHashAlgorithmName(sigHash), paddingScheme);
             }
 
             var eccParams = PublicParms.parameters as EccParms;
@@ -370,14 +417,33 @@ namespace Tpm2Lib
         /// <returns>key exchange key blob</returns>
         public byte[] EcdhGetKeyExchangeKey(byte[] encodingParms, TpmAlgId decryptKeyNameAlg, out EccPoint ephemPub)
         {
-            EccParms eccParms = (EccParms)PublicParms.parameters;
-            ECDiffieHellman eph = ECDiffieHellman.Create(RawEccKey.GetEccCurve(eccParms.curveID));
-            HashAlgorithmName hash = CryptoLib.GetHashAlgorithmName(decryptKeyNameAlg);
-            ephemPub = new EccPoint();
-            ephemPub.x = eph.PublicKey.ExportParameters().Q.X;
-            ephemPub.y = eph.PublicKey.ExportParameters().Q.Y;
+            byte[] keyExchangeKey = null;
+            ephemPub = null;
+            var eccParms = (EccParms)PublicParms.parameters;
 
-            return eph.DeriveKeyFromHash(EcDhProvider.PublicKey, hash);
+            // Make a new ephemeral key
+            using (ECDiffieHellman eph = ECDiffieHellman.Create(RawEccKey.GetEccCurve(eccParms.curveID)))
+            {
+                HashAlgorithmName hash = CryptoLib.GetHashAlgorithmName(decryptKeyNameAlg);
+                ECPoint ephPub = eph.PublicKey.ExportParameters().Q;
+                ephemPub = new EccPoint(ephPub.X, ephPub.Y);
+                byte[] otherInfo = Globs.Concatenate(new[] {encodingParms, ephPub.X, EcDhProvider.PublicKey.ExportParameters().Q.X});
+
+                // The TPM uses the following number of bytes from the KDF
+                int bytesNeeded = CryptoLib.DigestSize(decryptKeyNameAlg);
+                keyExchangeKey = new byte[bytesNeeded];
+
+                for (int pos = 0, count = 1, bytesToCopy = 0;
+                     pos < bytesNeeded;
+                     ++count, pos += bytesToCopy)
+                {
+                    byte[] secretPrepend = Marshaller.GetTpmRepresentation((UInt32)count);
+                    byte[] fragment = eph.DeriveKeyFromHash(EcDhProvider.PublicKey, hash, secretPrepend, otherInfo);
+                    bytesToCopy = Math.Min(bytesNeeded - pos, fragment.Length);
+                    Array.Copy(fragment, 0, keyExchangeKey, pos, bytesToCopy);
+                }
+            }
+            return keyExchangeKey;
         }
 
         internal TpmAlgId OaepHash
@@ -489,7 +555,7 @@ namespace Tpm2Lib
         /// <param name="publicExponent"></param>
         public RawRsa (int numBits, int publicExponent = 65537)
         {
-            using (var prov = new RSACryptoServiceProvider(numBits))
+            using (var prov = RSA.Create(numBits))
             {
                 Init(prov.ExportParameters(true), numBits);
             }
@@ -816,31 +882,26 @@ namespace Tpm2Lib
 
         internal static bool IsCurveSupported(EccCurve curve)
         {
-            int curveIndex = (int)curve;
-
-            if (curveIndex < EccCurveIDs.Length &&
-                EccCurveIDs[curveIndex] != null)
-            {
-                return true;
-            }
-            return false;
+                return EccCurves.ContainsKey(curve);
         }
 
-        static string[] EccCurveIDs = { null, null, null,
-                            "1.2.840.10045.3.1.7", /* NISTP256 */
-                            "1.3.132.0.34", /* NISTP384 */
-                            "1.3.132.0.35", /* NISTP521 */
+        static Dictionary<EccCurve, ECCurve> EccCurves = new Dictionary<EccCurve, ECCurve>() {
+                            {EccCurve.NistP256, ECCurve.CreateFromOid(new Oid("1.2.840.10045.3.1.7" /* NISTP256 */))},
+                            {EccCurve.NistP384, ECCurve.CreateFromOid(new Oid("1.3.132.0.34" /* NISTP384 */))},
+                            {EccCurve.NistP521, ECCurve.CreateFromOid(new Oid("1.3.132.0.35" /* NISTP521 */))},
                         };
 
         internal static ECCurve GetEccCurve(EccCurve curveID)
-	{
+        {
             if (!IsCurveSupported(curveID))
             {
                 Globs.Throw<ArgumentException>("Unsupported ECC curve");
+                return ECCurve.CreateFromOid(new Oid("1.2.840.10045.3.1.7" /* NISTP256 */));
             }
-            int curveIndex = (int)curveID;
-            return ECCurve.CreateFromOid(new Oid(EccCurveIDs[curveIndex]));
-	}
+            ECCurve curve;
+            EccCurves.TryGetValue(curveID, out curve);
+            return curve;
+        }
 
         internal static ECCurve GetEccCurve(TpmPublic pub)
         {
@@ -863,7 +924,7 @@ namespace Tpm2Lib
                 Globs.Throw<ArgumentException>("Unsupported ECC signing scheme");
             }
 
-	    return GetEccCurve(eccParms.curveID);
+            return GetEccCurve(eccParms.curveID);
         }
     }
 }

@@ -20,6 +20,11 @@
     <DelaySign>true</DelaySign>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
+
+  <!-- .NET standard library lacks a CMAC implementation, use BouncyCastle just for this. -->
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.8" />
+  </ItemGroup>
 <!--
   <ItemGroup>
     <PackageReference Include="System.Security.Cryptography.Cng" Version="4.5.0" />
