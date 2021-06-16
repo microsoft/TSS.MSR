@@ -69,7 +69,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BCryptInterface.cs" />
     <Compile Include="CryptoAsym.cs" />
     <Compile Include="CryptoLib.cs" />
     <Compile Include="CryptoSymm.cs" />

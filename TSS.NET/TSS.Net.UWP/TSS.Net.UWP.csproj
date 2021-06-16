@@ -106,7 +106,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\TSS.Net\BCryptInterface.cs" />
     <Compile Include="..\TSS.Net\CryptoAsym.cs" />
     <Compile Include="..\TSS.Net\CryptoLib.cs" />
     <Compile Include="..\TSS.Net\CryptoSymm.cs" />

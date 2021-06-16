@@ -137,39 +137,12 @@ namespace Tpm2Lib
         }
 
         /// <summary>
-        /// Get the CAPI name for a hash algorithm.
-        /// </summary>
-        /// <param name="algId"></param>
-        /// <returns></returns>
-        internal static string GetHashName(TpmAlgId algId)
-        {
-            // This function uses OIDs instead of human readable algorithm names
-            // for the sake of compatibility with Mono implementations.
-            switch (algId)
-            {
-                case TpmAlgId.Sha1:
-                    return "1.3.14.3.2.26";             // "sha1"
-                case TpmAlgId.Sha256:
-                    return "2.16.840.1.101.3.4.2.1";    // "sha256"
-                case TpmAlgId.Sha384:
-                    return "2.16.840.1.101.3.4.2.2";    // "sha384"
-                case TpmAlgId.Sha512:
-                    return "2.16.840.1.101.3.4.2.3";    // "sha512"
-                default:
-                    Globs.Throw<ArgumentException>("Unsupported hash algorithm");
-                    return "sha1";
-            }
-        }
-
-        /// <summary>
         /// Get the HashAlgorithmName for a hash algorithm.
         /// </summary>
         /// <param name="algId"></param>
         /// <returns></returns>
         internal static HashAlgorithmName GetHashAlgorithmName(TpmAlgId algId)
         {
-            // This function uses OIDs instead of human readable algorithm names
-            // for the sake of compatibility with Mono implementations.
             switch (algId)
             {
                 case TpmAlgId.Sha1:
