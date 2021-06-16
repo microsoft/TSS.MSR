@@ -22,8 +22,8 @@ namespace Tpm2Lib
     public sealed class AsymCryptoSystem : IDisposable
     {
         private TpmPublic PublicParms;
-        private ECDiffieHellmanCng EcDhProvider;
-        private ECDsaCng EcdsaProvider;
+        private ECDiffieHellman EcDhProvider;
+        private ECDsa EcdsaProvider;
         private RSACryptoServiceProvider RsaProvider;
 
         public AsymCryptoSystem()
@@ -53,51 +53,20 @@ namespace Tpm2Lib
                 }
                 case TpmAlgId.Ecc:
                 {
-                    var eccParms = keyParams.parameters as EccParms;
-                    var alg = RawEccKey.GetEccAlg(keyParams);
-                    if (alg == null)
+                    ECCurve curve = RawEccKey.GetEccCurve(keyParams);
+		    ECPoint pub;
+                    if (keyParams.objectAttributes.HasFlag(ObjectAttr.Sign))
                     {
-                        Globs.Throw<ArgumentException>("Unknown ECC curve");
-                        return;
+                        EcdsaProvider = ECDsa.Create(curve);
+			pub = EcdsaProvider.ExportParameters(false).Q;
+                    }
+                    else
+		    {
+                        EcDhProvider = ECDiffieHellman.Create(curve);
+			pub = EcDhProvider.ExportParameters(false).Q;
                     }
 
-                    byte[] keyIs;
-                    var keyParmsX = new CngKeyCreationParameters { ExportPolicy = CngExportPolicies.AllowPlaintextExport };
-                    using (CngKey key = CngKey.Create(alg, null, keyParmsX))
-                    {
-                        keyIs = key.Export(CngKeyBlobFormat.EccPublicBlob);
-                        CngKey.Import(keyIs, CngKeyBlobFormat.EccPublicBlob);
-
-                        if (keyParams.objectAttributes.HasFlag(ObjectAttr.Sign))
-                        {
-                            EcdsaProvider = new ECDsaCng(key);
-                        }
-                        else
-                            EcDhProvider = new ECDiffieHellmanCng(key);
-                    }
-                    // Store the public key
-                    const int offset = 8;
-                    int keySize = 0;
-                    switch (eccParms.curveID)
-                    {
-                        case EccCurve.NistP256:
-                        case EccCurve.BnP256:
-                        case EccCurve.Sm2P256:
-                            keySize = 32;
-                            break;
-                        case EccCurve.NistP384:
-                            keySize = 48;
-                            break;
-                        case EccCurve.NistP521:
-                            keySize = 66;
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
-                    var pubId = new EccPoint(
-                        Globs.CopyData(keyIs, offset, keySize),
-                        Globs.CopyData(keyIs, offset + keySize, keySize));
-                    PublicParms.unique = pubId;
+                    PublicParms.unique = new EccPoint(pub.X, pub.Y);
                     break;
                 }
                 default:
@@ -162,23 +131,16 @@ namespace Tpm2Lib
                 {
                     var eccParms = (EccParms)pubKey.parameters;
                     var eccPub = (EccPoint)pubKey.unique;
-                    var algId = RawEccKey.GetEccAlg(pubKey);
-                    if (algId == null)
-                    {
-                        return null;
-                    }
                     bool isEcdsa = eccParms.scheme.GetUnionSelector() == TpmAlgId.Ecdsa;
-                    byte[] keyBlob = RawEccKey.GetKeyBlob(eccPub.x, eccPub.y, keyAlgId,
-                                                            !isEcdsa, eccParms.curveID);
-                    CngKey eccKey = CngKey.Import(keyBlob, CngKeyBlobFormat.EccPublicBlob);
+                    ECParameters parms = RawEccKey.GetEccParameters(eccPub, eccParms.curveID);
 
-                    if (pubKey.objectAttributes.HasFlag(ObjectAttr.Sign))
+                    if (isEcdsa)
                     {
-                        cs.EcdsaProvider = new ECDsaCng(eccKey);
+                        cs.EcdsaProvider = ECDsa.Create(parms);
                     }
                     else
                     {
-                        cs.EcDhProvider = new ECDiffieHellmanCng(eccKey);
+                        cs.EcDhProvider = ECDiffieHellman.Create(parms);
                     }
                     break;
                 }
@@ -260,7 +222,7 @@ namespace Tpm2Lib
                             sigHash = (rsaParams.scheme as SigSchemeRsassa).hashAlg;
                         }
                         byte[] digest = CryptoLib.HashData(sigHash, data);
-                        byte[] sig = RsaProvider.SignData(data, CryptoLib.GetHashName(sigHash));
+                        byte[] sig = RsaProvider.SignData(data, CryptoLib.GetHashAlgorithmName(sigHash));
                         return new SignatureRsassa(sigHash, sig);
                     }
                     case TpmAlgId.Rsapss:
@@ -287,8 +249,7 @@ namespace Tpm2Lib
                 }
                 byte[] digest = CryptoLib.HashData(sigHash, data);
                 Debug.Assert(EcdsaProvider != null);
-                EcdsaProvider.HashAlgorithm = GetCngAlgorithm(sigHash);
-                byte[] sig = EcdsaProvider.SignData(data);
+                byte[] sig = EcdsaProvider.SignData(data, CryptoLib.GetHashAlgorithmName(sigHash));
 
                 int fragLen = sig.Length / 2;
                 var r = Globs.CopyData(sig, 0, fragLen);
@@ -355,22 +316,19 @@ namespace Tpm2Lib
                 if (keyScheme != TpmAlgId.Null && keyScheme != sigScheme)
                 {
                     Globs.Throw<ArgumentException>("Key scheme and signature scheme do not match");
-                    return false;
                 }
 
                 byte[] digest = dataIsDigest ? data : CryptoLib.HashData(sigHash, data);
 
                 if (sigScheme == TpmAlgId.Rsassa)
                 {
-                    return Key.VerifySignature(digest, s.sig, sigHash, true);
+                    Globs.Throw<ArgumentException>("VerifySignature(): PKCS15 scheme is not supported");
                 }
                 if (sigScheme == TpmAlgId.Rsapss)
                 {
                     Globs.Throw<ArgumentException>("VerifySignature(): PSS scheme is not supported");
-                    return false;
                 }
                 Globs.Throw<ArgumentException>("VerifySignature(): Unrecognized scheme");
-                return false;
             }
 
             var eccParams = PublicParms.parameters as EccParms;
@@ -379,22 +337,22 @@ namespace Tpm2Lib
                 if (eccParams.scheme.GetUnionSelector() != TpmAlgId.Ecdsa)
                 {
                     Globs.Throw<ArgumentException>("Unsupported ECC sig scheme");
-                    return false;
                 }
                 TpmAlgId keyScheme = eccParams.scheme.GetUnionSelector();
 
                 if (keyScheme != TpmAlgId.Null && keyScheme != sigScheme)
                 {
                     Globs.Throw<ArgumentException>("Key scheme and signature scheme do not match");
-                    return false;
                 }
 
                 var s = sig as SignatureEcdsa;
-                byte[] digest = dataIsDigest ? data : CryptoLib.HashData(sigHash, data);
                 byte[] sigBlob = Globs.Concatenate(s.signatureR, s.signatureS);
                 Debug.Assert(EcdsaProvider != null);
-                EcdsaProvider.HashAlgorithm = GetCngAlgorithm(sigHash);
-                return EcdsaProvider.VerifyHash(digest, sigBlob);
+                if (dataIsDigest)
+                {
+                    return EcdsaProvider.VerifyHash(data, sigBlob);
+                }
+                return EcdsaProvider.VerifyData(data, sigBlob, CryptoLib.GetHashAlgorithmName(sigHash));
             }
 
             // Should never be here
@@ -412,47 +370,14 @@ namespace Tpm2Lib
         /// <returns>key exchange key blob</returns>
         public byte[] EcdhGetKeyExchangeKey(byte[] encodingParms, TpmAlgId decryptKeyNameAlg, out EccPoint ephemPub)
         {
-            byte[] keyExchangeKey = null;
-            ephemPub = null;
+            EccParms eccParms = (EccParms)PublicParms.parameters;
+            ECDiffieHellman eph = ECDiffieHellman.Create(RawEccKey.GetEccCurve(eccParms.curveID));
+            HashAlgorithmName hash = CryptoLib.GetHashAlgorithmName(decryptKeyNameAlg);
+            ephemPub = new EccPoint();
+            ephemPub.x = eph.PublicKey.ExportParameters().Q.X;
+            ephemPub.y = eph.PublicKey.ExportParameters().Q.Y;
 
-            var eccParms = (EccParms)PublicParms.parameters;
-            int keyBits = RawEccKey.GetKeyLength(eccParms.curveID);
-
-            // Make a new ephemeral key
-            using (var eph = new ECDiffieHellmanCng(keyBits))
-            {
-                byte[] otherPub = EcDhProvider.PublicKey.ToByteArray();
-                byte[] ephPub = eph.PublicKey.ToByteArray();
-
-                eph.KeyDerivationFunction = ECDiffieHellmanKeyDerivationFunction.Hash;
-                eph.HashAlgorithm = GetCngAlgorithm(decryptKeyNameAlg);
-
-                byte[] herPubX, herPubY;
-                RawEccKey.KeyInfoFromPublicBlob(otherPub, out herPubX, out herPubY);
-
-                byte[] myPubX, myPubY;
-                RawEccKey.KeyInfoFromPublicBlob(ephPub, out myPubX, out myPubY);
-
-                byte[] otherInfo = Globs.Concatenate(new[] { encodingParms, myPubX, herPubX });
-
-                // The TPM uses the following number of bytes from the KDF
-                int bytesNeeded = CryptoLib.DigestSize(decryptKeyNameAlg);
-                keyExchangeKey = new byte[bytesNeeded];
-
-                for (int pos = 0, count = 1, bytesToCopy = 0;
-                     pos < bytesNeeded;
-                     ++count, pos += bytesToCopy)
-                {
-                    byte[] secretPrepend = Marshaller.GetTpmRepresentation((UInt32)count);
-                    eph.SecretAppend = otherInfo;
-                    eph.SecretPrepend = secretPrepend;
-                    byte[] fragment = eph.DeriveKeyMaterial(EcDhProvider.Key);
-                    bytesToCopy = Math.Min(bytesNeeded - pos, fragment.Length);
-                    Array.Copy(fragment, 0, keyExchangeKey, pos, bytesToCopy);
-                }
-                ephemPub = new EccPoint(myPubX, myPubY);
-            }
-            return keyExchangeKey;
+            return eph.DeriveKeyFromHash(EcDhProvider.PublicKey, hash);
         }
 
         internal TpmAlgId OaepHash
@@ -491,24 +416,6 @@ namespace Tpm2Lib
             var rr = new RawRsa(RsaProvider.ExportParameters(true), RsaProvider.KeySize);
             byte[] plainText = rr.OaepDecrypt(cipherText, OaepHash, label);
             return plainText;
-        }
-
-        public static CngAlgorithm GetCngAlgorithm(TpmAlgId algId)
-        {
-            switch (algId)
-            {
-                case TpmAlgId.Sha1:
-                    return CngAlgorithm.Sha1;
-                case TpmAlgId.Sha256:
-                    return CngAlgorithm.Sha256;
-                case TpmAlgId.Sha384:
-                    return CngAlgorithm.Sha384;
-                case TpmAlgId.Sha512:
-                    return CngAlgorithm.Sha512;
-                default:
-                    Globs.Throw<ArgumentException>("GetCngAlgorithm(): Unsupported algorithm " + algId);
-                    return null;
-            }
         }
 
         public void Dispose()
@@ -897,139 +804,49 @@ namespace Tpm2Lib
 
     internal class RawEccKey
     {
-        internal struct EccInfo
+        internal static ECParameters GetEccParameters(EccPoint pubId, EccCurve curveId)
         {
-            internal uint Magic;
-            internal bool Public;   // Not private
-            internal int KeyLength; // Bits
-            internal bool Ecdh;     // Not ECDSA
-        }
-
-        internal static EccInfo[] AlgInfo = {
-
-            //#define BCRYPT_ECDH_PUBLIC_P256_MAGIC   0x314B4345  // ECK1
-            new EccInfo {Magic = 0x314B4345, KeyLength = 256, Ecdh = true, Public = true},
-            //#define BCRYPT_ECDH_PRIVATE_P256_MAGIC  0x324B4345  // ECK2
-            new EccInfo {Magic = 0x324B4345, KeyLength = 256, Ecdh = true, Public = false},
-            //#define BCRYPT_ECDH_PUBLIC_P384_MAGIC   0x334B4345  // ECK3
-            new EccInfo {Magic = 0x334B4345, KeyLength = 384, Ecdh = true, Public = true},
-            //#define BCRYPT_ECDH_PRIVATE_P384_MAGIC  0x344B4345  // ECK4
-            new EccInfo {Magic = 0x344B4345, KeyLength = 384, Ecdh = true, Public = false},
-            //#define BCRYPT_ECDH_PUBLIC_P521_MAGIC   0x354B4345  // ECK5
-            new EccInfo {Magic = 0x354B4345, KeyLength = 521, Ecdh = true, Public = true},
-            //#define BCRYPT_ECDH_PRIVATE_P521_MAGIC  0x364B4345  // ECK6
-            new EccInfo {Magic = 0x364B4345, KeyLength = 521, Ecdh = true, Public = false},
-
-            //#define BCRYPT_ECDSA_PUBLIC_P256_MAGIC  0x31534345  // ECS1
-            new EccInfo {Magic = 0x31534345, KeyLength = 256, Ecdh = false, Public = true},
-            //#define BCRYPT_ECDSA_PRIVATE_P256_MAGIC 0x32534345  // ECS2
-            new EccInfo {Magic = 0x32534345, KeyLength = 256, Ecdh = false, Public = false},
-            //#define BCRYPT_ECDSA_PUBLIC_P384_MAGIC  0x33534345  // ECS3
-            new EccInfo {Magic = 0x33534345, KeyLength = 384, Ecdh = false, Public = true},
-            //#define BCRYPT_ECDSA_PRIVATE_P384_MAGIC 0x34534345  // ECS4
-            new EccInfo {Magic = 0x34534345, KeyLength = 384, Ecdh = false, Public = false},
-            //#define BCRYPT_ECDSA_PUBLIC_P521_MAGIC  0x35534345  // ECS5
-            new EccInfo {Magic = 0x35534345, KeyLength = 521, Ecdh = false, Public = true},
-            //#define BCRYPT_ECDSA_PRIVATE_P521_MAGIC 0x36534345  // ECS6
-            new EccInfo {Magic = 0x36534345, KeyLength = 521, Ecdh = false, Public = false}
-        };
-
-        internal static int GetKeyLength(EccCurve curve)
-        {
-            switch (curve)
-            {
-                case EccCurve.NistP256:
-                    return 256;
-                case EccCurve.NistP384:
-                    return 384;
-                case EccCurve.NistP521:
-                    return 521;
-            }
-            Globs.Throw<ArgumentException>("GetKeyLength(): Invalid ECC curve");
-            return -1;
-        }
-
-        internal static uint MagicFromTpmAlgId(TpmAlgId algId, bool isEcdh, EccCurve curve, bool publicKey)
-        {
-            uint res = AlgInfo.FirstOrDefault(x => (x.Public == publicKey && 
-                                                    x.KeyLength == GetKeyLength(curve) &&
-                                                    x.Ecdh == isEcdh)).Magic;
-            if (res == 0)
-            {
-                Globs.Throw("Unrecognized ECC parameter set");
-            }
+            var res = new ECParameters();
+            res.Curve = GetEccCurve(curveId);
+            res.Q = new ECPoint();
+            res.Q.X = pubId.x;
+            res.Q.Y = pubId.y;
             return res;
-        }
-
-        internal static byte[] GetKeyBlob(byte[] x, byte[] y, TpmAlgId alg, bool isEcdh, EccCurve curve)
-        {
-            var m = new Marshaller();
-            byte[] magic = BitConverter.GetBytes(MagicFromTpmAlgId(alg, isEcdh, curve, true));
-            m.Put(magic, "");
-            int keyBits = GetKeyLength(curve);
-            int keySizeBytes = (keyBits + 7) / 8;
-
-            if (x.Length != keySizeBytes || y.Length != keySizeBytes)
-            {
-                Globs.Throw<ArgumentException>("GetKeyBlob: Malformed ECC key");
-                return new byte[0];
-            }
-
-            var size = Globs.ReverseByteOrder(Globs.HostToNet(keySizeBytes));
-            m.Put(size, "len");
-            m.Put(x, "x");
-            m.Put(y, "y");
-            var res = m.GetBytes();
-            return res;
-        }
-
-        internal static void KeyInfoFromPublicBlob(byte[] blob, out byte[] x, out byte[] y)
-        {
-            x = null;
-            y = null;
-            var m = new Marshaller(blob);
-            uint magic = BitConverter.ToUInt32(m.GetNBytes(4), 0);
-            bool magicOk = AlgInfo.Any(xx => xx.Magic == magic);
-
-            if (!magicOk)
-            {
-                Globs.Throw<ArgumentException>("KeyInfoFromPublicBlob: Public key blob magic not recognized");
-            }
-
-            uint cbKey = BitConverter.ToUInt32(m.GetNBytes(4), 0);
-
-            x = m.GetNBytes((int)cbKey);
-            y = m.GetNBytes((int)cbKey);
         }
 
         internal static bool IsCurveSupported(EccCurve curve)
         {
             int curveIndex = (int)curve;
 
-            if (curveIndex < EcdsaCurveIDs.Length &&
-                EcdsaCurveIDs[curveIndex] != null)
+            if (curveIndex < EccCurveIDs.Length &&
+                EccCurveIDs[curveIndex] != null)
             {
                 return true;
             }
             return false;
         }
 
-        static CngAlgorithm[] EcdsaCurveIDs = { null, null, null,
-                            CngAlgorithm.ECDsaP256,
-                            CngAlgorithm.ECDsaP384,
-                            CngAlgorithm.ECDsaP521
+        static string[] EccCurveIDs = { null, null, null,
+                            "1.2.840.10045.3.1.7", /* NISTP256 */
+                            "1.3.132.0.34", /* NISTP384 */
+                            "1.3.132.0.35", /* NISTP521 */
                         };
-        static CngAlgorithm[] EcdhCurveIDs = { null, null, null,
-                            CngAlgorithm.ECDiffieHellmanP256,
-                            CngAlgorithm.ECDiffieHellmanP384,
-                            CngAlgorithm.ECDiffieHellmanP521
-                        };
-        internal static CngAlgorithm
-        GetEccAlg(TpmPublic pub)
+
+        internal static ECCurve GetEccCurve(EccCurve curveID)
+	{
+            if (!IsCurveSupported(curveID))
+            {
+                Globs.Throw<ArgumentException>("Unsupported ECC curve");
+            }
+            int curveIndex = (int)curveID;
+            return ECCurve.CreateFromOid(new Oid(EccCurveIDs[curveIndex]));
+	}
+
+        internal static ECCurve GetEccCurve(TpmPublic pub)
         {
             if (pub.unique.GetUnionSelector() != TpmAlgId.Ecc)
             {
-                return null;
+                Globs.Throw<ArgumentException>("Not an ECC key");
             }
 
             var eccParms = (EccParms)pub.parameters;
@@ -1039,22 +856,14 @@ namespace Tpm2Lib
             if (!(signing ^ encrypting))
             {
                 Globs.Throw<ArgumentException>("ECC Key must either sign or decrypt");
-                return null;
             }
             var scheme = eccParms.scheme.GetUnionSelector();
             if (signing && scheme != TpmAlgId.Ecdsa && scheme != TpmAlgId.Null)
             {
                 Globs.Throw<ArgumentException>("Unsupported ECC signing scheme");
-                return null;
             }
 
-            if (!IsCurveSupported(eccParms.curveID))
-            {
-                Globs.Throw<ArgumentException>("Unsupported ECC curve");
-                return null;
-            }
-            int curveIndex = (int)eccParms.curveID;
-            return signing ? EcdsaCurveIDs[curveIndex] : EcdhCurveIDs[curveIndex];
+	    return GetEccCurve(eccParms.curveID);
         }
-    } // class CngEccKey
+    }
 }

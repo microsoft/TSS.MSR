@@ -159,6 +159,30 @@ namespace Tpm2Lib
             }
         }
 
+        /// <summary>
+        /// Get the HashAlgorithmName for a hash algorithm.
+        /// </summary>
+        /// <param name="algId"></param>
+        /// <returns></returns>
+        internal static HashAlgorithmName GetHashAlgorithmName(TpmAlgId algId)
+        {
+            // This function uses OIDs instead of human readable algorithm names
+            // for the sake of compatibility with Mono implementations.
+            switch (algId)
+            {
+                case TpmAlgId.Sha1:
+                    return HashAlgorithmName.SHA1;
+                case TpmAlgId.Sha256:
+                    return HashAlgorithmName.SHA256;
+                case TpmAlgId.Sha384:
+                    return HashAlgorithmName.SHA384;
+                case TpmAlgId.Sha512:
+                    return HashAlgorithmName.SHA512;
+            }
+            Globs.Throw<ArgumentException>("Unsupported hash algorithm");
+	    return HashAlgorithmName.SHA1;
+        }
+
         public static byte[] Hmac(TpmAlgId hashAlgId, byte[] key, byte[] data)
         {
             switch (hashAlgId)

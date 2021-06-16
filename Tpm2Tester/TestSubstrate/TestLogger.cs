@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Tpm2Lib;
-using System.Web.UI;
 #if WLK
 using WEX.TestExecution;
 using WEX.Logging.Interop;
