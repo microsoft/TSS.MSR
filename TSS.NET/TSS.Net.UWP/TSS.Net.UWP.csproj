@@ -106,6 +106,10 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CryptoAsym.cs" />
+    <Compile Include="CryptoLib.cs" />
+    <Compile Include="CryptoSymm.cs" />
+    <Compile Include="SupportClasses.cs" />
     <Compile Include="..\TSS.Net\CustomExceptions.cs" />
     <Compile Include="..\TSS.Net\GlobalSuppressions.cs" />
     <Compile Include="..\TSS.Net\Globs.cs" />
