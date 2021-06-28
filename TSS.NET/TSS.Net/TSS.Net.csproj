@@ -6,7 +6,7 @@
     <PackageId>TSS.Net</PackageId>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>2.2</Version>
+    <Version>20210628</Version>
     <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
   <PropertyGroup>

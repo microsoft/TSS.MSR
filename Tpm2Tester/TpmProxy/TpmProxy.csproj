@@ -8,7 +8,8 @@
     <OutputType>Exe</OutputType>
     <AssemblyName>TpmProxy</AssemblyName>
     <WarningLevel>4</WarningLevel>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Version>20210628</Version>
   </PropertyGroup>
   <PropertyGroup>
     <NixTarget>false</NixTarget>

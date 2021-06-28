@@ -8,6 +8,7 @@
     <TargetFrameworks>net472;netcoreapp2.1</TargetFrameworks>
     <WarningLevel>4</WarningLevel>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Version>20210628</Version>
   </PropertyGroup>
   <PropertyGroup>
     <NixTarget>false</NixTarget>
