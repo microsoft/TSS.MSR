@@ -886,9 +886,9 @@ namespace Tpm2Lib
         }
 
         static Dictionary<EccCurve, ECCurve> EccCurves = new Dictionary<EccCurve, ECCurve>() {
-                            {EccCurve.NistP256, ECCurve.CreateFromOid(new Oid("1.2.840.10045.3.1.7" /* NISTP256 */))},
-                            {EccCurve.NistP384, ECCurve.CreateFromOid(new Oid("1.3.132.0.34" /* NISTP384 */))},
-                            {EccCurve.NistP521, ECCurve.CreateFromOid(new Oid("1.3.132.0.35" /* NISTP521 */))},
+                            {EccCurve.NistP256, ECCurve.CreateFromFriendlyName("nistP256")},
+                            {EccCurve.NistP384, ECCurve.CreateFromFriendlyName("nistP384")},
+                            {EccCurve.NistP521, ECCurve.CreateFromFriendlyName("nistP521")},
                         };
 
         internal static ECCurve GetEccCurve(EccCurve curveID)
@@ -896,7 +896,7 @@ namespace Tpm2Lib
             if (!IsCurveSupported(curveID))
             {
                 Globs.Throw<ArgumentException>("Unsupported ECC curve");
-                return ECCurve.CreateFromOid(new Oid("1.2.840.10045.3.1.7" /* NISTP256 */));
+                return ECCurve.CreateFromFriendlyName("nistP256");
             }
             ECCurve curve;
             EccCurves.TryGetValue(curveID, out curve);
