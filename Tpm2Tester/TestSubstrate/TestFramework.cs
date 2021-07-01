@@ -515,7 +515,7 @@ namespace Tpm2Tester
                         {
                             var tcpDev = new TcpTpmDevice(TestCfg.TcpHostName, GetTcpServerPort(), TestCfg.StopTpm);
 #if !DEBUG
-                            tcpDev.SetSocketTimeout(60);
+                            tcpDev.SetSocketTimeout(2000);
 #endif
                             underlyingTpmDevice = tcpDev;
                             if (TestCfg.DeviceType == TpmDeviceType.rmsim)
