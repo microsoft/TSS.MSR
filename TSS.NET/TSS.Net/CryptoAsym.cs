@@ -257,7 +257,7 @@ namespace Tpm2Lib
                     {
                         if (sigHash == TpmAlgId.Null)
                         {
-                            sigHash = (rsaParams.scheme as SigSchemeRsassa).hashAlg;
+                            sigHash = (rsaParams.scheme as SigSchemeRsapss).hashAlg;
                         }
                         byte[] sig = RsaProvider.SignData(data, CryptoLib.GetHashAlgorithmName(sigHash), RSASignaturePadding.Pss);
                         return new SignatureRsapss(sigHash, sig);
