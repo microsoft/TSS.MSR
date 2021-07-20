@@ -187,15 +187,7 @@ namespace Tpm2Lib
 
         public byte[] Export(string bcryptBlobType)
         {
-            //RSAParameters parms = RsaProvider.ExportParameters(bcryptBlobType == Native.BCRYPT_RSAPRIVATE_BLOB);
-            //var alg = new BCryptAlgorithm(Native.BCRYPT_RSA_ALGORITHM);
-            //var Key = alg.LoadRSAKey(parms.Exponent, parms.Modulus, parms.P, parms.Q);
-
             byte[] keyBlob = Key.Export(bcryptBlobType);
-
-            //Key.Destroy();
-            //alg.Close();
-
             return keyBlob;
         }
 
