@@ -11,6 +11,10 @@
     "TPM 2.0",
     "TSS"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/TSS.MSR.git"
+  },
   "optionalDependencies": {
     "ffi-napi": "^2.4.3",
     "net": "^1.0.2",
