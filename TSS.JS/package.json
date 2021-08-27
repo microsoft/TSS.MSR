@@ -1,6 +1,6 @@
 {
   "name": "tss.js",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "description": "TPM 2.0 access library for TS/Node.js",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -11,7 +11,7 @@
     "TPM 2.0",
     "TSS"
   ],
-  "optionalDependencies": {
+  "dependencies": {
     "ffi-napi": "^4.0.1",
     "ref-napi": "^3.0.2",
     "ref-array-di": "^1.2.2",
