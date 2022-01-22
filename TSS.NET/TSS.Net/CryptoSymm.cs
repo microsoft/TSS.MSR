@@ -230,9 +230,11 @@ namespace Tpm2Lib
         /// <returns></returns>
         public byte[] Encrypt(byte[] data, byte[] iv = null)
         {
-            byte[] paddedData;
             int unpadded = data.Length % BlockSize;
-            paddedData = unpadded == 0 ? data : Globs.AddZeroToEnd(data, BlockSize - unpadded);
+            int paddingNeeded = unpadded == 0 ? 0 : BlockSize - unpadded;
+            // AddZeroToEnd makes a copy of the data buffer. This is important
+            // because the crypto helpers in this file operate in place.
+            byte[] paddedData = Globs.AddZeroToEnd(data, paddingNeeded);
             bool externalIV = iv != null && iv.Length > 0;
             if (externalIV)
                 Alg.IV = iv;
@@ -301,9 +303,11 @@ namespace Tpm2Lib
 
         public byte[] Decrypt(byte[] data, byte[] iv = null)
         {
-            byte[] paddedData;
             int unpadded = data.Length % BlockSize;
-            paddedData = unpadded == 0 ? data : Globs.AddZeroToEnd(data, BlockSize - unpadded);
+            int paddingNeeded = unpadded == 0 ? 0 : BlockSize - unpadded;
+            // AddZeroToEnd makes a copy of the data buffer. This is important
+            // because the crypto helpers in this file operate in place.
+            byte[] paddedData = Globs.AddZeroToEnd(data, paddingNeeded);
             bool externalIV = iv != null && iv.Length > 0;
             if (externalIV)
                 Alg.IV = iv;
