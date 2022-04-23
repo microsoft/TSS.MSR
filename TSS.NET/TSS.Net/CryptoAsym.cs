@@ -102,14 +102,14 @@ namespace Tpm2Lib
                 {
                     RawRsa rr = null;
                     byte[] prime1 = null,
-                            prime2 = null;
+                           prime2 = null;
+                    var rsaParams = (RsaParms)pubKey.parameters;
                     if (privKey != null)
                     {
                         rr = new RawRsa(pubKey, privKey);
-                        prime1 = RawRsa.ToBigEndian(rr.P);
-                        prime2 = RawRsa.ToBigEndian(rr.Q);
+                        prime1 = RawRsa.ToBigEndian(rr.P, rsaParams.keyBits / 16);
+                        prime2 = RawRsa.ToBigEndian(rr.Q, rsaParams.keyBits / 16);
                     }
-                    var rsaParams = (RsaParms)pubKey.parameters;
                     var exponent = rsaParams.exponent != 0
                                             ? Globs.HostToNet(rsaParams.exponent)
                                             : RsaParms.DefaultExponent;
@@ -119,11 +119,12 @@ namespace Tpm2Lib
                     {
                         dotNetPubParms.P = prime1;
                         dotNetPubParms.Q = prime2;
-                        dotNetPubParms.D = RawRsa.ToBigEndian(rr.D);
-                        dotNetPubParms.InverseQ = RawRsa.ToBigEndian(rr.InverseQ);
-                        dotNetPubParms.DP = RawRsa.ToBigEndian(rr.DP);
-                        dotNetPubParms.DQ = RawRsa.ToBigEndian(rr.DQ);
+                        dotNetPubParms.D = RawRsa.ToBigEndian(rr.D, rsaParams.keyBits / 8);
+                        dotNetPubParms.InverseQ = RawRsa.ToBigEndian(rr.InverseQ, rsaParams.keyBits / 16);
+                        dotNetPubParms.DP = RawRsa.ToBigEndian(rr.DP, rsaParams.keyBits / 16);
+                        dotNetPubParms.DQ = RawRsa.ToBigEndian(rr.DQ, rsaParams.keyBits / 16);
                     }
+
                     cs.RsaProvider = RSA.Create();
                     cs.RsaProvider.ImportParameters(dotNetPubParms);
                     break;
@@ -699,7 +700,7 @@ namespace Tpm2Lib
         /// <returns></returns>
         public static byte[] ToBigEndian(BigInteger b, int sizeWanted = -1)
         {
-            return ToBigEndian(b.ToByteArray());
+            return ToBigEndian(b.ToByteArray(), sizeWanted);
         }
 
         /// <summary>
