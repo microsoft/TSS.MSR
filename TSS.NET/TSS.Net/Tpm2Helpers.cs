@@ -100,7 +100,7 @@ namespace Tpm2Lib
             if (   !Enum.TryParse<E>(newName, out val)
                 && !Enum.TryParse<E>(oldName, out val))
             {
-                Globs.Throw("Invalid enumerator names " + oldName + ", "
+                throw new Exception("Invalid enumerator names " + oldName + ", "
                             + newName + " for enum " + typeof(E));
             }
             return val;

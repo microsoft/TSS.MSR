@@ -637,7 +637,7 @@ namespace Tpm2Lib
             GetAck(PlatformStream, "ActGetSignaled");
 
             if ((uint)status > 1)
-                Globs.Throw($"ActGetSignaled: invalid response '{status}' receieved (0 or 1 expected)");
+                throw new Exception($"ActGetSignaled: invalid response '{status}' receieved (0 or 1 expected)");
             return status == 1;
         }
 

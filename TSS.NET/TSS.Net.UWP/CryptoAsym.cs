@@ -53,8 +53,7 @@ namespace Tpm2Lib
                     Key = Generate(Native.BCRYPT_RSA_ALGORITHM, rsaParams.keyBits);
                     if (Key == UIntPtr.Zero)
                     {
-                        Globs.Throw("Failed to generate RSA key");
-                        return;
+                        throw new Exception("Failed to generate RSA key");
                     }
                     byte[] blob = Export(Native.BCRYPT_RSAPUBLIC_BLOB);
                     var m = new Marshaller(blob, DataRepresentation.LittleEndian);
@@ -72,8 +71,7 @@ namespace Tpm2Lib
                     var alg = RawEccKey.GetEccAlg(keyParams);
                     if (alg == null)
                     {
-                        Globs.Throw<ArgumentException>("Unknown ECC curve");
-                        return;
+                       throw new ArgumentException("Unknown ECC curve");
                     }
 
                     byte[] keyIs;
@@ -107,8 +105,7 @@ namespace Tpm2Lib
                     break;
                 }
                 default:
-                    Globs.Throw<ArgumentException>("Algorithm not supported");
-                    break;
+                    throw new ArgumentException("Algorithm not supported");
             }
         }
 
@@ -172,15 +169,12 @@ namespace Tpm2Lib
                     alg.Close();
                     if (cs.Key == UIntPtr.Zero)
                     {
-                        Globs.Throw("Failed to create new RSA key");
-                        return null;
+                        throw new Exception("Failed to create new RSA key");
                     }
                     break;
                 }
                 default:
-                    Globs.Throw<ArgumentException>("Algorithm not supported");
-                    cs = null;
-                    break;
+                    throw new ArgumentException("Algorithm not supported");
             }
             return cs;
         }
@@ -218,7 +212,7 @@ namespace Tpm2Lib
             ushort privSize = m.Get<UInt16>();
             if (fromCspPrivate.buffer.Length != privSize + 2)
             {
-                Globs.Throw("Invalid key blob");
+                throw new Exception("Invalid key blob");
             }
             return m.Get<Sensitive>();
         }
@@ -261,12 +255,10 @@ namespace Tpm2Lib
                     }
                     case TpmAlgId.Rsapss:
                     {
-                        Globs.Throw<ArgumentException>("SignData(): PSS scheme is not supported");
-                        return null;
+                        throw new ArgumentException("SignData(): PSS scheme is not supported");
                     }
                 }
-                Globs.Throw<ArgumentException>("Unsupported signature scheme");
-                return null;
+                throw new ArgumentException("Unsupported signature scheme");
             }
 
             var eccParms = PublicParms.parameters as EccParms;
@@ -274,8 +266,7 @@ namespace Tpm2Lib
             {
                 if (eccParms.scheme.GetUnionSelector() != TpmAlgId.Ecdsa)
                 {
-                    Globs.Throw<ArgumentException>("Unsupported ECC sig scheme");
-                    return null;
+                    throw new ArgumentException("Unsupported ECC sig scheme");
                 }
                 if (sigHash == TpmAlgId.Null)
                 {
@@ -289,8 +280,7 @@ namespace Tpm2Lib
             }
 
             // Should never be here
-            Globs.Throw("VerifySignature: Unrecognized asymmetric algorithm");
-            return null;
+            throw new Exception("VerifySignature: Unrecognized asymmetric algorithm");
         } // SignData()
 
         /// <summary>
@@ -346,8 +336,7 @@ namespace Tpm2Lib
 
                 if (keyScheme != TpmAlgId.Null && keyScheme != sigScheme)
                 {
-                    Globs.Throw<ArgumentException>("Key scheme and signature scheme do not match");
-                    return false;
+                    throw new ArgumentException("Key scheme and signature scheme do not match");
                 }
 
                 byte[] digest = dataIsDigest ? data : CryptoLib.HashData(sigHash, data);
@@ -358,11 +347,9 @@ namespace Tpm2Lib
                 }
                 if (sigScheme == TpmAlgId.Rsapss)
                 {
-                    Globs.Throw<ArgumentException>("VerifySignature(): PSS scheme is not supported");
-                    return false;
+                    throw new ArgumentException("VerifySignature(): PSS scheme is not supported");
                 }
-                Globs.Throw<ArgumentException>("VerifySignature(): Unrecognized scheme");
-                return false;
+                throw new ArgumentException("VerifySignature(): Unrecognized scheme");
             }
 
             var eccParams = PublicParms.parameters as EccParms;
@@ -370,15 +357,13 @@ namespace Tpm2Lib
             {
                 if (eccParams.scheme.GetUnionSelector() != TpmAlgId.Ecdsa)
                 {
-                    Globs.Throw<ArgumentException>("Unsupported ECC sig scheme");
-                    return false;
+                    throw new ArgumentException("Unsupported ECC sig scheme");
                 }
                 TpmAlgId keyScheme = eccParams.scheme.GetUnionSelector();
 
                 if (keyScheme != TpmAlgId.Null && keyScheme != sigScheme)
                 {
-                    Globs.Throw<ArgumentException>("Key scheme and signature scheme do not match");
-                    return false;
+                    throw new ArgumentException("Key scheme and signature scheme do not match");
                 }
 
                 var s = sig as SignatureEcdsa;
@@ -388,8 +373,7 @@ namespace Tpm2Lib
             }
 
             // Should never be here
-            Globs.Throw("VerifySignature: Unrecognized asymmetric algorithm");
-            return false;
+            throw new Exception("VerifySignature: Unrecognized asymmetric algorithm");
         } // VerifySignature()
 
         /// <summary>
@@ -713,8 +697,7 @@ namespace Tpm2Lib
             int pad = sizeWanted - len;
             if (pad < 0)
             {
-                Globs.Throw<ArgumentException>("ToBigEndian(): Too short size requested");
-                return new byte[0];
+                throw new ArgumentException("ToBigEndian(): Too short size requested");
             }
 
             var b2 = new byte[sizeWanted];
@@ -818,8 +801,7 @@ namespace Tpm2Lib
         {
             if (s.Length != KeySize)
             {
-                Globs.Throw<ArgumentException>("PkcsVerify: Invalid signature");
-                return false;
+                throw new ArgumentException("PkcsVerify: Invalid signature");
             }
             int k = KeySize;
             BigInteger sig = FromBigEndian(s);
@@ -886,8 +868,7 @@ namespace Tpm2Lib
                 case EccCurve.NistP521:
                     return 521;
             }
-            Globs.Throw<ArgumentException>("GetKeyLength(): Invalid ECC curve");
-            return -1;
+            throw new ArgumentException("GetKeyLength(): Invalid ECC curve");
         }
 
         internal static uint MagicFromTpmAlgId(TpmAlgId algId, bool isEcdh, EccCurve curve, bool publicKey)
@@ -897,7 +878,7 @@ namespace Tpm2Lib
                                                     x.Ecdh == isEcdh)).Magic;
             if (res == 0)
             {
-                Globs.Throw("Unrecognized ECC parameter set");
+                throw new Exception("Unrecognized ECC parameter set");
             }
             return res;
         }
@@ -912,8 +893,7 @@ namespace Tpm2Lib
 
             if (x.Length != keySizeBytes || y.Length != keySizeBytes)
             {
-                Globs.Throw<ArgumentException>("GetKeyBlob: Malformed ECC key");
-                return new byte[0];
+                throw new ArgumentException("GetKeyBlob: Malformed ECC key");
             }
 
             var size = Globs.ReverseByteOrder(Globs.HostToNet(keySizeBytes));
@@ -934,7 +914,7 @@ namespace Tpm2Lib
 
             if (!magicOk)
             {
-                Globs.Throw<ArgumentException>("KeyInfoFromPublicBlob: Public key blob magic not recognized");
+                throw new ArgumentException("KeyInfoFromPublicBlob: Public key blob magic not recognized");
             }
 
             uint cbKey = BitConverter.ToUInt32(m.GetNBytes(4), 0);
@@ -980,20 +960,17 @@ namespace Tpm2Lib
             bool encrypting = pub.objectAttributes.HasFlag(ObjectAttr.Decrypt);
             if (!(signing ^ encrypting))
             {
-                Globs.Throw<ArgumentException>("ECC Key must either sign or decrypt");
-                return null;
+                throw new ArgumentException("ECC Key must either sign or decrypt");
             }
             var scheme = eccParms.scheme.GetUnionSelector();
             if (signing && scheme != TpmAlgId.Ecdsa && scheme != TpmAlgId.Null)
             {
-                Globs.Throw<ArgumentException>("Unsupported ECC signing scheme");
-                return null;
+                throw new ArgumentException("Unsupported ECC signing scheme");
             }
 
             if (!IsCurveSupported(eccParms.curveID))
             {
-                Globs.Throw<ArgumentException>("Unsupported ECC curve");
-                return null;
+                throw new ArgumentException("Unsupported ECC curve");
             }
             int curveIndex = (int)eccParms.curveID;
             return signing ? EcdsaCurveIDs[curveIndex] : EcdhCurveIDs[curveIndex];

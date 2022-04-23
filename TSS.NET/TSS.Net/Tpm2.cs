@@ -1152,8 +1152,7 @@ namespace Tpm2Lib
 
                 if (CommandAuditHash == null)
                 {
-                    Globs.Throw("No audit hash set for this command stream");
-                    CommandAuditHash = TpmAlgId.None;
+                    throw new Exception("No audit hash set for this command stream");
                 }
                 byte[] parmHash = GetCommandHash(CommandAuditHash.HashAlg, parms, inHandles);
                 byte[] expectedResponseHash = GetExpectedResponseHash(CommandAuditHash.HashAlg,
@@ -1568,7 +1567,7 @@ namespace Tpm2Lib
             // If the load-command fails then the name returned is NULL.
             if (!NamesEqual(publicPart.GetName(), tpmAssignedName))
             {
-                Globs.Throw("TPM assigned name differs from what is expected");
+                throw new Exception("TPM assigned name differs from what is expected");
             }
             h.Name = tpmAssignedName;
         }
@@ -1822,7 +1821,7 @@ namespace Tpm2Lib
                 {
                     // There are no session parameters associated with the session
                     // handle (e.g., when the session was created by other Tpm2 object).
-                    Globs.Throw("Wrong session handle");
+                    throw new Exception("Wrong session handle");
                 }
                 s.AuthHandle = authHandle;
             }
@@ -1929,7 +1928,7 @@ namespace Tpm2Lib
                 }
                 else
                 {
-                    Globs.Throw("CreateRequestSessions: Unknown session type");
+                    throw new Exception("CreateRequestSessions: Unknown session type");
                 }
                 firstSession = false;
             }
@@ -2006,7 +2005,7 @@ namespace Tpm2Lib
                     {
                         if (!Globs.ArraysAreEqual(outSess.auth, expectedHmac))
                         {
-                            //Globs.Throw<TpmFailure>("Bad response HMAC");
+                            //throw new TpmFailure("Bad response HMAC");
                             throw new TpmFailure("Bad response HMAC");
                         }
                     }
@@ -2060,12 +2059,12 @@ namespace Tpm2Lib
 
             if (!candidate.CanEncrypt())
             {
-                Globs.Throw(string.Format("{0} session is missing symmetric algorithm",
+                throw new Exception(string.Format("{0} session is missing symmetric algorithm",
                                           decrypt ? "Decryption" : "Encryption"));
             }
             if ((decrypt ? DecSession : EncSession) != null)
             {
-                Globs.Throw(string.Format("Multiple {0} sessions",
+                throw new Exception(string.Format("Multiple {0} sessions",
                                           decrypt ? "decryption" : "encryption"));
             }
             if (decrypt)
@@ -2115,10 +2114,9 @@ namespace Tpm2Lib
             }
             if ((commandInfo.TheParmCryptInfo & (encFlag2 | encFlag4)) == 0)
             {
-                Globs.Throw(string.Format("Command {0} cannot use {1} session",
+                throw new Exception(string.Format("Command {0} cannot use {1} session",
                                           commandInfo.CommandCode,
                                           inOrOut == Direction.Command ? "decryption" : "encryption"));
-                return parms;
             }
 
             // ... and get the length of the size counter prepending the XCrypted parameter.
@@ -2660,8 +2658,7 @@ namespace Tpm2Lib
             commandParms = m.GetArray<byte>((int)(m.GetPutPos() - m.GetGetPos()));
             if (m.GetPutPos() != header.CommandSize)
             {
-                Globs.Throw("Command length in header does not match input byte-stream");
-                return false;
+                throw new Exception("Command length in header does not match input byte-stream");
             }
             return true;
         }
@@ -2951,8 +2948,7 @@ namespace Tpm2Lib
                         encOutParms = m2.Get(typeof (Tpm2bMaxBuffer), "");
                         break;
                     default:
-                        Globs.Throw<NotImplementedException>("NOT IMPLEMENTED");
-                        break;
+                        throw new NotImplementedException("NOT IMPLEMENTED");
                 }
                 response += "Encrypted: " + encOutParms + "\n";
             }

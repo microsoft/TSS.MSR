@@ -197,7 +197,7 @@ namespace Tpm2Lib
         {
             if (!h.IsSession())
             {
-                Globs.Throw<ArgumentException>("AuthSession: Attempt to construct from non-session handle");
+                throw new ArgumentException("AuthSession: Attempt to construct from non-session handle");
             }
             Handle = h;
         }
@@ -211,7 +211,7 @@ namespace Tpm2Lib
         {
             if (ph.Handle != TpmRh.None && !ph.Handle.IsSession())
             {
-                Globs.Throw<ArgumentException>("AuthSession: Attempt to construct from parametrized non-session handle");
+                throw new ArgumentException("AuthSession: Attempt to construct from parametrized non-session handle");
             }
             Handle = ph.Handle;
             foreach(object param in ph.Params)
@@ -226,7 +226,7 @@ namespace Tpm2Lib
                 }
                 else if (param != null)
                 {
-                    Globs.Throw<ArgumentException>("AuthSession: Attempt to construct from malformed parametrized handle");
+                    throw new ArgumentException("AuthSession: Attempt to construct from malformed parametrized handle");
                 }
             }
         }
@@ -302,8 +302,7 @@ namespace Tpm2Lib
         {
             if (Symmetric == null)
             {
-                Globs.Throw("parameter encryption cipher not defined");
-                return parm;
+                throw new Exception("parameter encryption cipher not defined");
             }
             if (Symmetric.Algorithm == TpmAlgId.Null)
             {
@@ -357,7 +356,7 @@ namespace Tpm2Lib
         {
             if (Salt == SaltNeeded)
             {
-                Globs.Throw("Unencrypted salt value must be provided for the session" +
+                throw new Exception("Unencrypted salt value must be provided for the session" +
                             Handle.handle.ToString("X8"));
             }
 
@@ -450,7 +449,7 @@ namespace Tpm2Lib
             policyTree.CheckPolicy(branchToEvaluate, ref leafAce);
             if (leafAce == null)
             {
-                Globs.Throw("RunPolicy: Branch identifier " + branchToEvaluate + " does not exist");
+                throw new Exception("RunPolicy: Branch identifier " + branchToEvaluate + " does not exist");
             }
 
             var responseCode = TpmRc.Success;

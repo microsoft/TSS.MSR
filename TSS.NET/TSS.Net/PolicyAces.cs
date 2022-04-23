@@ -66,12 +66,12 @@ namespace Tpm2Lib
         {
             if (this is TpmPolicyOr)
             {
-                Globs.Throw<ArgumentException>("AddNextAce: Do not call AddNextAce for " +
+                throw new ArgumentException("AddNextAce: Do not call AddNextAce for " +
                                                "an OR node. Use AddPolicyBranch instead.");
             }
             if (NextAce != null)
             {
-                Globs.Throw<ArgumentException>("AddNextAce: Policy ACE already has a child");
+                throw new ArgumentException("AddNextAce: Policy ACE already has a child");
             }
             if (!String.IsNullOrEmpty(BranchID))
             {
@@ -81,7 +81,7 @@ namespace Tpm2Lib
                 }
                 else if (nextAce.BranchID != BranchID)
                 {
-                    Globs.Throw<ArgumentException>(
+                    throw new ArgumentException(
                                 "AddNextAce: Policy ACE with non-empty BranchName " +
                                 "can only have a child with the same or no branch name");
                 }
@@ -103,7 +103,7 @@ namespace Tpm2Lib
             {
                 if (String.IsNullOrEmpty(BranchID))
                 {
-                    Globs.Throw("GetNextAcePolicyDigest: Policy tree leaf must have a " +
+                    throw new Exception("GetNextAcePolicyDigest: Policy tree leaf must have a " +
                                 "BranchIdentifier set to allow the policy to be evaluated");
                 }
                 return TpmHash.ZeroHash(hashAlg);
@@ -267,7 +267,7 @@ namespace Tpm2Lib
             int numBranches = PolicyBranches.Count;
             if (numBranches < 2 || numBranches > 8)
             {
-                Globs.Throw("GetPolicyHashArray: Must have between 2 and 8 branches in a PolicyOr");
+                throw new Exception("GetPolicyHashArray: Must have between 2 and 8 branches in a PolicyOr");
             }
 
             int i = 0;
@@ -285,7 +285,7 @@ namespace Tpm2Lib
             int numBranches = PolicyBranches.Count;
             if (numBranches < 2 || numBranches > 8)
             {
-                Globs.Throw("GetPolicyDigest: Must have between 2 and 8 branches in a PolicyOr");
+                throw new Exception("GetPolicyDigest: Must have between 2 and 8 branches in a PolicyOr");
             }
 
             var m = new Marshaller();
@@ -717,14 +717,12 @@ namespace Tpm2Lib
 
         internal override TpmHash GetPolicyDigest(TpmAlgId hashAlg)
         {
-            Globs.Throw("Do not include PolicyRestart in policy trees.");
-            return new TpmHash(hashAlg);
+            throw new Exception("Do not include PolicyRestart in policy trees.");
         }
 
         internal override TpmRc Execute(Tpm2 tpm, AuthSession sess, PolicyTree policy)
         {
-            Globs.Throw("Do not include PolicyRestart in running policies");
-            return TpmRc.Policy;
+            throw new Exception("Do not include PolicyRestart in running policies");
         }
     } // class TpmPolicyRestart
 
@@ -990,8 +988,7 @@ namespace Tpm2Lib
                 commandCode = TpmCc.PolicySigned;
             else
             {
-                Globs.Throw<ArgumentException>("Ticket type is not recognized");
-                return new TpmHash(hashAlg);
+                throw new ArgumentException("Ticket type is not recognized");
             }
 
             if (ObjectName == null)
@@ -1213,8 +1210,7 @@ namespace Tpm2Lib
         {
             if (NextAce != null)
             {
-                Globs.Throw("PolicyChainId should be a leaf");
-                return new TpmHash(hashAlg);
+                throw new Exception("PolicyChainId should be a leaf");
             }
             return GetNextAcePolicyDigest(hashAlg);
         }

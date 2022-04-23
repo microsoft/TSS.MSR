@@ -20,8 +20,7 @@ namespace Tpm2Lib
             string algName = Native.BCryptHashAlgName(algId);
             if (string.IsNullOrEmpty(algName))
             {
-                Globs.Throw<ArgumentException>("HashData(): Unsupported hash algorithm " + algId);
-                return null;
+                throw new ArgumentException("HashData(): Unsupported hash algorithm " + algId);
             }
 
             var alg = new BCryptAlgorithm(algName);
@@ -85,8 +84,7 @@ namespace Tpm2Lib
                 case TpmAlgId.Null:
                     return 0;
             }
-            Globs.Throw<ArgumentException>("DigestSize(): Unsupported hash algorithm");
-            return 0;
+            throw new ArgumentException("DigestSize(): Unsupported hash algorithm");
         }
 
         public static int BlockSize(TpmAlgId algId)
@@ -108,8 +106,7 @@ namespace Tpm2Lib
                 case TpmAlgId.Null:
                     return 0;
             }
-            Globs.Throw<ArgumentException>("BlockSize{}: Unsupported hash or MAC  algorithm");
-            return 0;
+            throw new ArgumentException("BlockSize{}: Unsupported hash or MAC  algorithm");
         }
 
         public static TpmAlgId SchemeHash (ISignatureUnion sig)
@@ -128,8 +125,7 @@ namespace Tpm2Lib
             string algName = Native.BCryptHashAlgName(hashAlgId);
             if (string.IsNullOrEmpty(algName))
             {
-                Globs.Throw<ArgumentException>("CryptoLib.Hmac(): Unsupported hash algorithm " + hashAlgId);
-                return null;
+                throw new ArgumentException("CryptoLib.Hmac(): Unsupported hash algorithm " + hashAlgId);
             }
 
             var alg = new BCryptAlgorithm(algName, Native.BCRYPT_ALG_HANDLE_HMAC);
@@ -142,13 +138,11 @@ namespace Tpm2Lib
         {
             if (symAlg != TpmAlgId.Aes)
             {
-                Globs.Throw<ArgumentException>("CryptoLib.Mac(): Unsupported symmetric algorithm" + symAlg);
-                return null;
+                throw new ArgumentException("CryptoLib.Mac(): Unsupported symmetric algorithm" + symAlg);
             }
             if (macScheme != TpmAlgId.Cmac)
             {
-                Globs.Throw<ArgumentException>("CryptoLib.Mac(): Unsupported MAC scheme " + macScheme);
-                return null;
+                throw new ArgumentException("CryptoLib.Mac(): Unsupported MAC scheme " + macScheme);
             }
 
             var alg = new BCryptAlgorithm(Native.BCRYPT_AES_CMAC_ALGORITHM);
@@ -224,8 +218,7 @@ namespace Tpm2Lib
             // 2
             if (messageLength > encodedMessageLength - 2 * hashLength - 1)
             {
-                Globs.Throw<ArgumentException>("OaepEncode: Input message too long");
-                return new byte[0];
+                throw new ArgumentException("OaepEncode: Input message too long");
             }
             int psLen = encodedMessageLength - messageLength - 2 * hashLength - 1;
             var ps = new byte[psLen];
@@ -356,8 +349,7 @@ namespace Tpm2Lib
             // 3
             if (emLen < hLen + sLen + 2)
             {
-                Globs.Throw("PssEncode: Encoding error");
-                return new byte[0];
+                throw new Exception("PssEncode: Encoding error");
             }
 
             // 4
@@ -528,8 +520,7 @@ namespace Tpm2Lib
                     };
                     break;
                 default:
-                    Globs.Throw<ArgumentException>("Pkcs15Encode: Unsupported hashAlg");
-                    return new byte[0];
+                    throw new ArgumentException("Pkcs15Encode: Unsupported hashAlg");
             }
             byte[] messageHash = TpmHash.FromData(hashAlg, m);
             byte[] T = Globs.Concatenate(prefix, messageHash);
@@ -537,8 +528,7 @@ namespace Tpm2Lib
 
             if (emLen < tLen + 11)
             {
-                Globs.Throw<ArgumentException>("Pkcs15Encode: Encoded message is too short");
-                return new byte[0];
+                throw new ArgumentException("Pkcs15Encode: Encoded message is too short");
             }
 
             byte[] ps = Globs.ByteArray(emLen - tLen - 3, 0xff);
@@ -554,8 +544,7 @@ namespace Tpm2Lib
         {
             if (p1.Length != p2.Length)
             {
-                Globs.Throw<ArgumentException>("XorEngine: Mismatched arguments length");
-                return new byte[0];
+                throw new ArgumentException("XorEngine: Mismatched arguments length");
             }
             var res = new byte[p1.Length];
             for (int j = 0; j < p1.Length; j++)
@@ -627,9 +616,7 @@ namespace Tpm2Lib
         {
             if (numBits1 % 8 != 0 || numBits2 % 8 != 0)
             {
-                Globs.Throw<NotImplementedException>("Split: Only byte-sized chunks are supported");
-                a1 = a2 = new byte[0];
-                return;
+                throw new NotImplementedException("Split: Only byte-sized chunks are supported");
             }
             a1 = new byte[(numBits1 + 7) / 8];
             Array.Copy(inData, 0, a1, 0, (numBits1 + 7) / 8);

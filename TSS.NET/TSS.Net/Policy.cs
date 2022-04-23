@@ -104,14 +104,14 @@ namespace Tpm2Lib
                     // Repeats are illegal
                     if (aces.Contains(ace))
                     {
-                        Globs.Throw<ArgumentException>("CreateNormalizedPolicy: " + 
+                        throw new ArgumentException("CreateNormalizedPolicy: " + 
                                                        "Repeated ACE in policy");
                     }
 
                     // Already associated with a session is illegal
                     if (ace.AssociatedPolicy != null)
                     {
-                        Globs.Throw<ArgumentException>("CreateNormalizedPolicy: " +
+                        throw new ArgumentException("CreateNormalizedPolicy: " +
                                             "ACE is already associated with a policy");
                     }
 
@@ -122,7 +122,7 @@ namespace Tpm2Lib
                     // at the root to union the arrays that are input to this function).
                     if (ace is TpmPolicyOr)
                     {
-                        Globs.Throw<ArgumentException>("CreateNormalizedPolicy: " + 
+                        throw new ArgumentException("CreateNormalizedPolicy: " + 
                                             "Normalized form cannot contain TpmPolicyOr");
                     }
 
@@ -140,7 +140,7 @@ namespace Tpm2Lib
                     {
                         if (branchIdDict.ContainsKey(branchId))
                         {
-                            Globs.Throw<ArgumentException>("CreateNormalizedPolicy: " + 
+                            throw new ArgumentException("CreateNormalizedPolicy: " + 
                                             "Repeated branch-identifier " + branchId);
                         }
                         branchIdDict.Add(branchId, "");
@@ -323,12 +323,12 @@ namespace Tpm2Lib
 
                 if (String.IsNullOrEmpty(ace.BranchID))
                 {
-                    Globs.Throw("CheckPolicyIdInternal: Branch leaf does not have a BranchID");
+                    throw new Exception("CheckPolicyIdInternal: Branch leaf does not have a BranchID");
                 }
 
                 if (BranchIdCollection.Contains(ace.BranchID))
                 {
-                    Globs.Throw("CheckPolicyIdInternal: Replicated BranchID " + ace.BranchID);
+                    throw new Exception("CheckPolicyIdInternal: Replicated BranchID " + ace.BranchID);
                 }
 
                 BranchIdCollection.Add(ace.BranchID);
@@ -390,8 +390,7 @@ namespace Tpm2Lib
                     break;
                 }
                 default:
-                    Globs.Throw<ArgumentException>("PolicyTree.Serialize: Unknown format " + format);
-                    break;
+                    throw new ArgumentException("PolicyTree.Serialize: Unknown format " + format);
             }
             targetStream.Flush();
         }
@@ -419,8 +418,7 @@ namespace Tpm2Lib
                     break;
                 }
                 default:
-                    Globs.Throw<ArgumentException>("PolicyTree.Deserialize: Unknown format " + format);
-                    return;
+                    throw new ArgumentException("PolicyTree.Deserialize: Unknown format " + format);
             }
             pol.AssociatedPolicy = this;
             PolicyRoot = pol.PolicyRoot;
@@ -494,9 +492,7 @@ namespace Tpm2Lib
         {
             if (SignerCallback == null)
             {
-                Globs.Throw("No policy signer callback installed.");
-                verificationKey = new TpmPublic();
-                return null;
+                throw new Exception("No policy signer callback installed.");
             }
 
             return SignerCallback(this, ace, nonceTpm, out verificationKey);
@@ -541,11 +537,7 @@ namespace Tpm2Lib
         {
             if (PolicyNVCallback == null)
             {
-                Globs.Throw("No policyNV callback installed.");
-                authHandle = new TpmHandle();
-                nvHandle = new TpmHandle();
-                authSession = new AuthSession(new TpmHandle());
-                return;
+                throw new Exception("No policyNV callback installed.");
             }
             PolicyNVCallback(this, ace, out authSession, out authHandle, out nvHandle);
         }
@@ -567,8 +559,7 @@ namespace Tpm2Lib
         {
             if (PolicyActionCallback == null)
             {
-                Globs.Throw("No policyAction callback installed.");
-                return;
+                throw new Exception("No policyAction callback installed.");
             }
             PolicyActionCallback(this, ace);
         }
@@ -675,7 +666,7 @@ namespace Tpm2Lib
             {
                 if (PolicyHash == null)
                 {
-                    Globs.Throw("TpmPolicy.PolicyDigest: No hash algorithm");
+                    throw new Exception("TpmPolicy.PolicyDigest: No hash algorithm");
                 }
                 PolicyHash.HashData = Globs.CopyData(value);
             }

@@ -81,10 +81,7 @@ namespace Tpm2Lib
         {
             if (pos + bytesToSet.Length > GetSize())
             {
-                Globs.Throw<ArgumentOutOfRangeException>("Position is not in allocated buffer");
-                if (GetSize() > pos)
-                    Array.Copy(bytesToSet, 0, Buf, pos, GetSize() - pos);
-                return;
+                throw new ArgumentOutOfRangeException("Position is not in allocated buffer");
             }
             Array.Copy(bytesToSet, 0, Buf, pos, bytesToSet.Length);
         }
@@ -128,9 +125,7 @@ namespace Tpm2Lib
         {
             if (newGetPos < 0 || newGetPos > GetSize())
             {
-                Globs.Throw("SetGetPos: Invalid position");
-                GetPos = newGetPos < 0 ? 0 : GetSize();
-                return;
+                throw new Exception("SetGetPos: Invalid position");
             }
             GetPos = newGetPos;
         }
@@ -139,9 +134,8 @@ namespace Tpm2Lib
         {
             if (GetPos + num > PutPos)
             {
-                Globs.Throw<ArgumentOutOfRangeException>("ByteBuf exception removing "
+                throw new ArgumentOutOfRangeException("ByteBuf exception removing "
                     + num + " bytes at position " + GetPos + " from an array of " + PutPos);
-                return null;
             }
             var ret = new byte[num];
             Array.Copy(Buf, GetPos, ret, 0, num);
@@ -236,8 +230,7 @@ namespace Tpm2Lib
         {
             if (numBytes > RandMaxBytes)
             {
-                Globs.Throw<ArgumentException>("GetRandomBytes: Too many bytes requested " + numBytes);
-                numBytes = RandMaxBytes;
+                throw new ArgumentException("GetRandomBytes: Too many bytes requested " + numBytes);
             }
             // Make sure that the RNG is properly seeded
             if (Seed == null)
@@ -485,7 +478,7 @@ namespace Tpm2Lib
                     return;
                 }
             }
-            Globs.Throw<NotImplementedException>("Print: Unknown type " + o.GetType());
+            throw new NotImplementedException("Print: Unknown type " + o.GetType());
         }
 
         private string Spaces()

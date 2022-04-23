@@ -153,8 +153,7 @@ namespace Tpm2Lib
                     return Globs.CopyData(keyBlob, 12);
                 }
             }
-            Globs.Throw("ExportSymKey(): " + (keyBlob != null ? "Invalid" : "No") + " symmetric key blob returned");
-            return null;
+            throw new Exception("ExportSymKey(): " + (keyBlob != null ? "Invalid" : "No") + " symmetric key blob returned");
         }
 
         public byte[] Encrypt(byte[] input, BCryptOaepPaddingInfo paddingInfo = null,
@@ -183,8 +182,7 @@ namespace Tpm2Lib
                     Debug.Assert(blockLen > 0);
                     if (blockLen != iv.Length)
                     {
-                        Globs.Throw<ArgumentException>("Encrypt(): Invalid IV size " + iv.Length);
-                        return null;
+                        throw new ArgumentException("Encrypt(): Invalid IV size " + iv.Length);
                     }
                     // BCRYPT_BLOCK_PADDING causes gratuitous padding for block-aligned data buffers
                     //flags |= BCRYPT_BLOCK_PADDING;
@@ -232,9 +230,8 @@ namespace Tpm2Lib
                     Debug.Assert(blockLen > 0);
                     if (blockLen != iv.Length)
                     {
-                        Globs.Throw<ArgumentException>("Encrypt(): Invalid IV size ("
+                        throw new ArgumentException("Encrypt(): Invalid IV size ("
                                         + iv.Length + " instead of " + blockLen + ")");
-                        return null;
                     }
                     // BCRYPT_BLOCK_PADDING causes gratuitous padding for block-aligned data buffers
                     //flags |= Native.BCRYPT_BLOCK_PADDING;
@@ -402,8 +399,7 @@ namespace Tpm2Lib
         {
             if (Handle != UIntPtr.Zero)
             {
-                Globs.Throw("BCryptInterface.Open(): Already opened.");
-                return;
+                throw new Exception("BCryptInterface.Open(): Already opened.");
             }
             LastError = Native.BCryptOpenAlgorithmProvider(out Handle, algName,
                                                            Native.MS_PRIMITIVE_PROVIDER, flags);
@@ -513,8 +509,7 @@ namespace Tpm2Lib
             {
                 if (prime2 == null || prime2.Length == 0)
                 {
-                    Globs.Throw<ArgumentException>("LoadRSAKey(): The second prime is missing");
-                    return UIntPtr.Zero;
+                    throw new ArgumentException("LoadRSAKey(): The second prime is missing");
                 }
                 primeLen1 = (uint)prime1.Length;
                 primeLen2 = (uint)prime2.Length;
@@ -522,8 +517,7 @@ namespace Tpm2Lib
             }
             else if (prime2 != null && prime2.Length > 0)
             {
-                Globs.Throw<ArgumentException>("LoadRSAKey(): The first prime is missing");
-                return UIntPtr.Zero;
+                throw new ArgumentException("LoadRSAKey(): The first prime is missing");
             }
 
             var rsaKey = new byte[rsaKeySize];
@@ -561,8 +555,7 @@ namespace Tpm2Lib
             string modeName = Native.BCryptChainingMode(symDef.Mode);
             if (string.IsNullOrEmpty(modeName))
             {
-                Globs.Throw<ArgumentException>("LoadSymKey(): Unsupported chaining mode " + symDef.Mode);
-                return UIntPtr.Zero;
+                throw new ArgumentException("LoadSymKey(): Unsupported chaining mode " + symDef.Mode);
             }
 
             // Create key blob for import
@@ -600,8 +593,7 @@ namespace Tpm2Lib
             string modeName = Native.BCryptChainingMode(symDef.Mode);
             if (string.IsNullOrEmpty(modeName))
             {
-                Globs.Throw<ArgumentException>("GenerateSymKey(): Unsupported chaining mode " + symDef.Mode);
-                return null;
+                throw new ArgumentException("GenerateSymKey(): Unsupported chaining mode " + symDef.Mode);
             }
             UIntPtr keyHandle = UIntPtr.Zero;
             int keySize = symDef.KeyBits / 8;
@@ -615,8 +607,7 @@ namespace Tpm2Lib
             }
             if (keyData != null && keyData.Length != keySize)
             {
-                Globs.Throw<ArgumentException>("GenerateSymKey(): Invalid key length");
-                return UIntPtr.Zero;
+                throw new ArgumentException("GenerateSymKey(): Invalid key length");
             }
             LastError = Native.BCryptGenerateSymmetricKey(Handle, out keyHandle, UIntPtr.Zero, 0,
                                                           keyData ?? Globs.GetRandomBytes(keySize),
@@ -1006,14 +997,14 @@ namespace Tpm2Lib
                         case EccCurve.NistP521:
                             return signing ? BCRYPT_ECDSA_P521_ALGORITHM : BCRYPT_ECDH_P521_ALGORITHM;
                     }
-                    Globs.Throw<ArgumentException>("Unsupported ECC curve");
+                    throw new ArgumentException("Unsupported ECC curve");
                     return null;
                 case TpmAlgId.Aes:
                     return BCRYPT_AES_ALGORITHM;
                 case TpmAlgId.Sha512:
                     return BCRYPT_SHA512_ALGORITHM;
             }
-            Globs.Throw<ArgumentException>("Unsupported algorithm");
+            throw new ArgumentException("Unsupported algorithm");
             return null;
         }
 #endif
@@ -1370,9 +1361,7 @@ namespace Tpm2Lib
             var keyAlg = cspPrivate.publicKeyStruc.aiKeyAlg;
             if (keyAlg != Csp.AlgId.CAlgRsaKeyX && keyAlg != Csp.AlgId.CAlgRsaSign)
             {
-                Globs.Throw<NotSupportedException>("CSP blobs for keys of type " + keyAlg.ToString("X") + " are not supported");
-                tpmPub = new TpmPublic();
-                return new TpmPrivate();
+                throw new NotSupportedException("CSP blobs for keys of type " + keyAlg.ToString("X") + " are not supported");
             }
 
             var rsaPriv = new Tpm2bPrivateKeyRsa(Globs.ReverseByteOrder(cspPrivate.prime1));
