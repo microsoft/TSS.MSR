@@ -134,6 +134,11 @@ namespace Tpm2Lib
                     var eccPub = (EccPoint)pubKey.unique;
                     bool isEcdsa = eccParms.scheme.GetUnionSelector() == TpmAlgId.Ecdsa;
                     ECParameters parms = RawEccKey.GetEccParameters(eccPub, eccParms.curveID);
+                    if (privKey != null)
+                    {
+                        RawEccKey raw = new RawEccKey(pubKey, privKey);
+                        parms.D = raw.D;
+                    }
 
                     if (isEcdsa)
                     {
@@ -859,6 +864,23 @@ namespace Tpm2Lib
 
     internal class RawEccKey
     {
+        internal byte[] D;
+
+        /// <summary>
+        /// Instantiates the object using a TPM generated key pair
+        /// </summary>
+        /// <param name="pub"></param>
+        /// <param name="priv"></param>
+        public RawEccKey(TpmPublic pub, TpmPrivate priv)
+        {
+            var m = new Marshaller(priv.buffer);
+            var privSize = m.Get<UInt16>();
+            // Assert that the private key blob is in plain text
+            Debug.Assert(priv.buffer.Length == privSize + 2);
+            var d = m.Get<Sensitive>().sensitive as Tpm2bEccParameter;
+            D = d.buffer;
+        }
+
         internal static ECParameters GetEccParameters(EccPoint pubId, EccCurve curveId)
         {
             var res = new ECParameters();
