@@ -473,6 +473,16 @@ namespace Tpm2Lib
             return cipherText;
         }
 
+        /// <summary>
+        /// Performs OAEP decryption using the private key.
+        /// </summary>
+        /// <param name="cipherText">The encrypted ciphertext.</param>
+        /// <param name="label">The label associated with the data.</param>
+        /// <returns>The decrypted message.</returns>
+        /// <remarks>WARNING: This is implemented for testing purposes because
+        /// .NET's crypto library does not support OAEP with arbitrary hash
+        /// algorithms. This is NOT a constant-time implementation, and
+        /// should NOT be used for non-test applications.</remarks>
         public byte[] DecryptOaep(byte[] cipherText, byte[] label)
         {
             var rr = new RawRsa(RsaProvider.ExportParameters(true), RsaProvider.KeySize);
@@ -787,19 +797,15 @@ namespace Tpm2Lib
             byte[] zeroTermEncoding = GetLabel(encodingParms);
             BigInteger cipher = FromBigEndian(cipherText);
             BigInteger plain = BigInteger.ModPow(cipher, D, N);
-            byte[] encMessage = ToBigEndian(plain, KeySize - 1);
+            byte[] encMessage = ToBigEndian(plain, KeySize);
             byte[] message;
 
-            // Hack - be robust to leading zeros
-            while (true)
+            bool decodeOk = CryptoEncoders.OaepDecode(encMessage, zeroTermEncoding, hashAlg, out message);
+            if (!decodeOk)
             {
-                bool decodeOk = CryptoEncoders.OaepDecode(encMessage, zeroTermEncoding, hashAlg, out message);
-                if (decodeOk)
-                {
-                    break;
-                }
-                encMessage = Globs.AddZeroToBeginning(encMessage);
+                throw new CryptographicException("Invalid OAEP padding");
             }
+
             return message;
         }
 
