@@ -84,10 +84,7 @@ namespace Tpm2Lib
             var len = m.Get<ushort>();
             if (len != x.Length - 2)
             {
-                Globs.Throw<ArgumentException>("Tpm2BToBuffer: Ill formed TPM2B");
-                if (x.Length < 2)
-                    return new byte[0];
-                len = (ushort)(x.Length - 2);
+                throw new ArgumentException("Tpm2BToBuffer: Ill formed TPM2B");
             }
             var ret = new byte[len];
             Array.Copy(x, 2, ret, 0, len);
@@ -233,8 +230,7 @@ namespace Tpm2Lib
                 }
                 else
                 {
-                    Globs.Throw<ArgumentException>("PutInternal: Unsupported enum type");
-                    ToNetValueType(0, name);
+                    throw new ArgumentException("PutInternal: Unsupported enum type");
                 }
             }
             else if (o is ValueType)
@@ -254,7 +250,7 @@ namespace Tpm2Lib
             }
             else
             {
-                Globs.Throw<NotImplementedException>("PutInternal: Unsupported object type");
+                throw new NotImplementedException("PutInternal: Unsupported object type");
             }
 
             if (measuringElement)
@@ -290,8 +286,7 @@ namespace Tpm2Lib
                 Object o = FromNetValueType(tp);
                 return o;
             }
-            Globs.Throw<NotImplementedException>("Get: Not supported type " + tp);
-            return Activator.CreateInstance(tp);
+            throw new NotImplementedException("Get: Not supported type " + tp);
         }
 
         public T Get<T>()
@@ -353,7 +348,7 @@ namespace Tpm2Lib
             {
                 Buffer.Append(Globs.GetBytes(o));
             }
-            Globs.Throw("ToNetValueType: Unsupported marshaling type " + Repr);
+            throw new Exception("ToNetValueType: Unsupported marshaling type " + Repr);
         }
 
         public void PushLength(int numBytes)
@@ -376,9 +371,7 @@ namespace Tpm2Lib
                     ToNet((ulong)0xFFFFFFFFFFFFFFFF);
                     return;
                 default:
-                    Globs.Throw<ArgumentException>("PushLength: Invalid length " + numBytes);
-                    ToNet((ulong)0xFFFFFFFFFFFFFFFF);
-                    return;
+                    throw new ArgumentException("PushLength: Invalid length " + numBytes);
             }
         }
 
@@ -399,9 +392,7 @@ namespace Tpm2Lib
                     Buffer.SetBytesInMiddle(Globs.HostToNet((ulong)len), sp.StartPos);
                     return;
                 default:
-                    Globs.Throw<ArgumentException>("PopAndSetLengthImpl: Invalid length " + sp.Length);
-                    Buffer.SetBytesInMiddle(Globs.HostToNet((ulong)len), sp.StartPos);
-                    return;
+                    throw new ArgumentException("PopAndSetLengthImpl: Invalid length " + sp.Length);
             }
         }
         public void PopAndSetLength()

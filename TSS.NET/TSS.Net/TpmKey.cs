@@ -339,10 +339,8 @@ namespace Tpm2Lib
                     encSecret = Marshaller.GetTpmRepresentation(ephemPubPt);
                     break;
                 default:
-                    Globs.Throw<NotImplementedException>(
+                    throw new NotImplementedException(
                                 "CreateActivationCredentials: Unsupported algorithm");
-                    encryptedSecret = new byte[0];
-                    return null;
             }
 
             Transform(seed);
@@ -444,9 +442,8 @@ namespace Tpm2Lib
 
             if (Public.type != TpmAlgId.Symcipher)
             {
-                Globs.Throw<ArgumentException>("Only symmetric encryption/decryption is "
+                throw new ArgumentException("Only symmetric encryption/decryption is "
                                              + "supported by this overloaded version");
-                return null;
             }
 
             var symDef = GetSymDef();
@@ -455,8 +452,7 @@ namespace Tpm2Lib
             {
                 if (sym == null)
                 {
-                    Globs.Throw<ArgumentException>("Unsupported symmetric key configuration");
-                    return null;
+                    throw new ArgumentException("Unsupported symmetric key configuration");
                 }
 
                 if (Globs.IsEmpty(ivIn))
@@ -679,10 +675,8 @@ namespace Tpm2Lib
                     encSecret = Marshaller.GetTpmRepresentation(pubEphem);
                     break;
                 default:
-                    Globs.Throw<NotImplementedException>(
+                    throw new NotImplementedException(
                                         "GetDuplicationBlob: Unsupported algorithm");
-                    encSecret = new byte[0];
-                    return new TpmPrivate();
                 }
             }
             Transform(seed);
@@ -762,8 +756,7 @@ namespace Tpm2Lib
                 var symDef = (SymDefObject)pub.parameters;
                 if (symDef.Algorithm != TpmAlgId.Aes)
                 {
-                    Globs.Throw<ArgumentException>("Unsupported symmetric algorithm");
-                    return null;
+                    throw new ArgumentException("Unsupported symmetric algorithm");
                 }
 
                 int keySize = (symDef.KeyBits + 7) / 8;
@@ -777,8 +770,7 @@ namespace Tpm2Lib
                 }
                 else
                 {
-                    Globs.Throw<ArgumentException>("Wrong symmetric key length");
-                    return null;
+                    throw new ArgumentException("Wrong symmetric key length");
                 }
                 newSens = new Tpm2bSymKey(keyData);
             }
@@ -800,14 +792,13 @@ namespace Tpm2Lib
                 }
                 else
                 {
-                    Globs.Throw<ArgumentException>("HMAC key is too big");
-                    return null;
+                    throw new ArgumentException("HMAC key is too big");
                 }
                 newSens = new Tpm2bSensitiveData(keyData);
             }
             else
             {
-                Globs.Throw<ArgumentException>("Unsupported key type");
+                throw new ArgumentException("Unsupported key type");
             }
 
             return newSens;
@@ -854,8 +845,7 @@ namespace Tpm2Lib
                                         ? (keyParms.parameters as SymcipherParms).sym
                                         : keyParms.parameters as SymDefObject;
                 default:
-                    Globs.Throw("Unsupported key type");
-                    return new SymDefObject();
+                    throw new Exception("Unsupported key type");
             }
         }
 

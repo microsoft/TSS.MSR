@@ -51,8 +51,7 @@ namespace Tpm2Lib
             }
             if (symDef.Algorithm != TpmAlgId.Aes)
             {
-                Globs.Throw<ArgumentException>("Unsupported algorithm " + symDef.Algorithm);
-                return 0;
+                throw new ArgumentException("Unsupported algorithm " + symDef.Algorithm);
             }
             return 16;
         }
@@ -83,9 +82,8 @@ namespace Tpm2Lib
                     alg = new BCryptAlgorithm(Native.BCRYPT_3DES_ALGORITHM);
                     break;
                 default:
-                    Globs.Throw<ArgumentException>("Unsupported symmetric algorithm "
+                    throw new ArgumentException("Unsupported symmetric algorithm "
                                                    + symDef.Algorithm);
-                    return null;
             }
 
             if (keyData == null)
@@ -108,8 +106,7 @@ namespace Tpm2Lib
                 case TpmAlgId.Ecc:
                     return Create((parms as EccParms).symmetric);
                 default:
-                    Globs.Throw<ArgumentException>("CreateFromPublicParms: Unsupported algorithm");
-                    return null;
+                    throw new ArgumentException("CreateFromPublicParms: Unsupported algorithm");
             }
         }
 
@@ -196,7 +193,7 @@ namespace Tpm2Lib
 
                 if (!Globs.ArraysAreEqual(expectedInnerIntegrity, innerIntegrity))
                 {
-                    Globs.Throw("SensitiveFromDupBlob: Bad inner integrity");
+                    throw new Exception("SensitiveFromDupBlob: Bad inner integrity");
                 }
 
                 sensNoLen = Marshaller.Tpm2BToBuffer(sensitive);

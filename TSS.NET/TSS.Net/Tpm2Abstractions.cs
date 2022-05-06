@@ -137,9 +137,7 @@ namespace Tpm2Lib
             TaggedProperty[] arr = props.tpmProperty;
             if (arr.Length != 1)
             {
-                Globs.Throw("Unexpected return from GetCapability");
-                if (arr.Length == 0)
-                    return 0;
+                throw new Exception("Unexpected return from GetCapability");
             }
 
             uint val = arr[0].value;
@@ -157,7 +155,7 @@ namespace Tpm2Lib
             }
             if (props.Length != 1)
             {
-                Globs.Throw("Unexpected return from GetCapability");
+                throw new Exception("Unexpected return from GetCapability");
             }
             return props[0].pcrSelect;
         }

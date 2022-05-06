@@ -11,7 +11,7 @@
     <!-- Don't attempt to target .NET 5 from older Visual Studio / MSBuild versions -->
     <When Condition="$(VisualStudioVersion) &lt; '16.0'">
       <PropertyGroup>
-        <TargetFrameworks>net472</TargetFrameworks>
+        <TargetFrameworks>net472;netcoreapp2.1</TargetFrameworks>
       </PropertyGroup>
     </When>
     <Otherwise>

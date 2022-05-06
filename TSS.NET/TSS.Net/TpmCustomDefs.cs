@@ -30,7 +30,7 @@ namespace Tpm2Lib
             {
                 if (!CryptoLib.IsHashAlgorithm(value) && Tpm2._TssBehavior.Strict)
                 {
-                    Globs.Throw<ArgumentException>("TpmHash.HashAlg: Invalid hash alg ID");
+                    throw new ArgumentException("TpmHash.HashAlg: Invalid hash alg ID");
                 }
                 hashAlg = value;
                 digest = new byte[CryptoLib.DigestSize(hashAlg)];
@@ -47,7 +47,7 @@ namespace Tpm2Lib
             {
                 if (digest.Length != CryptoLib.DigestSize(hashAlg))
                 {
-                    Globs.Throw("TpmHash.HashData: Inconsistent data length");
+                    throw new Exception("TpmHash.HashData: Inconsistent data length");
                 }
                 return digest;
             }
@@ -55,7 +55,7 @@ namespace Tpm2Lib
             {
                 if (value.Length != Length)
                 {
-                    Globs.Throw<ArgumentException>("TpmHash.HashData: Incorrect data length");
+                    throw new ArgumentException("TpmHash.HashData: Incorrect data length");
                 }
                 digest = Globs.CopyData(value);
             }
@@ -92,7 +92,7 @@ namespace Tpm2Lib
             HashAlg = hashAlg;
             if (Length != digest.Length)
             {
-                Globs.Throw<ArgumentException>("TpmHash: Incorrect digest length");
+                throw new ArgumentException("TpmHash: Incorrect digest length");
             }
             digest.CopyTo(digest, 0);
         }
@@ -220,7 +220,7 @@ namespace Tpm2Lib
         {
             if (!CryptoLib.IsHashAlgorithm(hashAlg))
             {
-                Globs.Throw<ArgumentException>("TpmHash.FromData: Not a hash algorithm");
+                throw new ArgumentException("TpmHash.FromData: Not a hash algorithm");
             }
             return new TpmHash(hashAlg, CryptoLib.HashData(hashAlg, dataToHash));
         }
@@ -234,7 +234,7 @@ namespace Tpm2Lib
         {
             if (!CryptoLib.IsHashAlgorithm(hashAlg))
             {
-                Globs.Throw<ArgumentException>("TpmHash.FromRandom: Not a hash algorithm");
+                throw new ArgumentException("TpmHash.FromRandom: Not a hash algorithm");
             }
             return new TpmHash(hashAlg, CryptoLib.HashData(hashAlg, Globs.GetRandomBytes(
                                                                     (int)DigestSize(hashAlg))));
@@ -250,7 +250,7 @@ namespace Tpm2Lib
         {
             if (!CryptoLib.IsHashAlgorithm(hashAlg))
             {
-                Globs.Throw<ArgumentException>("TpmHash.FromString: Not a hash algorithm");
+                throw new ArgumentException("TpmHash.FromString: Not a hash algorithm");
             }
             return new TpmHash(hashAlg, CryptoLib.HashData(hashAlg, Encoding.Unicode.GetBytes(message)));
         }
@@ -1260,7 +1260,7 @@ namespace Tpm2Lib
                     // Do we already have a PcrValue with the same {alg, pcrNum?}
                     if (selection[bankNum].IsPcrSelected(val.index))
                     {
-                        Globs.Throw("PcrValueCollection.GetPcrSelectionArray: PCR is referenced more than once");
+                        throw new Exception("PcrValueCollection.GetPcrSelectionArray: PCR is referenced more than once");
                     }
                     // Else select it
                     selection[bankNum].SelectPcr(val.index);
@@ -1312,8 +1312,7 @@ namespace Tpm2Lib
                     return v;
                 }
             }
-            Globs.Throw("PcrValueCollection.GetSpecificValue: PCR not found");
-            return new PcrValue();
+            throw new Exception("PcrValueCollection.GetSpecificValue: PCR not found");
         }
     }
 
@@ -1352,10 +1351,7 @@ namespace Tpm2Lib
                     m.Put(Mode, "mode");
                     break;
                 default:
-                    Globs.Throw<NotImplementedException>("SymDef.ToNet: Unknown algorithm");
-                    m.Put(KeyBits, "keyBits");
-                    m.Put(Mode, "mode");
-                    break;
+                    throw new NotImplementedException("SymDef.ToNet: Unknown algorithm");
             }
         }
 
@@ -1377,10 +1373,7 @@ namespace Tpm2Lib
                     Mode = m.Get<TpmAlgId>();
                     break;
                 default:
-                    Globs.Throw<NotImplementedException>("SymDef.ToHost: Unknown algorithm");
-                    KeyBits = m.Get<ushort>();
-                    Mode = m.Get<TpmAlgId>();
-                    break;
+                    throw new NotImplementedException("SymDef.ToHost: Unknown algorithm");
             }
         }
     } // class SymDef
@@ -1430,7 +1423,7 @@ namespace Tpm2Lib
         {
             if (Algorithm == TpmAlgId.Xor)
             {
-                Globs.Throw<NotImplementedException>("SymDefObject.ToNet: XOR is not supported");
+                throw new NotImplementedException("SymDefObject.ToNet: XOR is not supported");
             }
             m.Put(Algorithm, "algorithm");
             if (Algorithm == TpmAlgId.None || Algorithm == TpmAlgId.Null)
