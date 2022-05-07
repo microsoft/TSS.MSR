@@ -315,13 +315,10 @@ namespace Tpm2Lib
             return encodedMessage;
         }
 
-        public static bool OaepDecode(byte[] eMx, byte[] encodingParms,
+        public static bool OaepDecode(byte[] em, byte[] encodingParms,
                                       TpmAlgId hashAlg, out byte[] decoded)
         {
             decoded = new byte[0];
-
-            var em = new byte[eMx.Length + 1];
-            Array.Copy(eMx, 0, em, 1, eMx.Length);
 
             int hLen = CryptoLib.DigestSize(hashAlg);
             int k = em.Length;

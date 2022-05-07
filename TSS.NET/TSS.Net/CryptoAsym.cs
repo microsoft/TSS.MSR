@@ -134,6 +134,11 @@ namespace Tpm2Lib
                     var eccPub = (EccPoint)pubKey.unique;
                     bool isEcdsa = eccParms.scheme.GetUnionSelector() == TpmAlgId.Ecdsa;
                     ECParameters parms = RawEccKey.GetEccParameters(eccPub, eccParms.curveID);
+                    if (privKey != null)
+                    {
+                        RawEccKey raw = new RawEccKey(pubKey, privKey);
+                        parms.D = raw.D;
+                    }
 
                     if (isEcdsa)
                     {
@@ -468,6 +473,16 @@ namespace Tpm2Lib
             return cipherText;
         }
 
+        /// <summary>
+        /// Performs OAEP decryption using the private key.
+        /// </summary>
+        /// <param name="cipherText">The encrypted ciphertext.</param>
+        /// <param name="label">The label associated with the data.</param>
+        /// <returns>The decrypted message.</returns>
+        /// <remarks>WARNING: This is implemented for testing purposes because
+        /// .NET's crypto library does not support OAEP with arbitrary hash
+        /// algorithms. This is NOT a constant-time implementation, and
+        /// should NOT be used for non-test applications.</remarks>
         public byte[] DecryptOaep(byte[] cipherText, byte[] label)
         {
             var rr = new RawRsa(RsaProvider.ExportParameters(true), RsaProvider.KeySize);
@@ -782,19 +797,15 @@ namespace Tpm2Lib
             byte[] zeroTermEncoding = GetLabel(encodingParms);
             BigInteger cipher = FromBigEndian(cipherText);
             BigInteger plain = BigInteger.ModPow(cipher, D, N);
-            byte[] encMessage = ToBigEndian(plain, KeySize - 1);
+            byte[] encMessage = ToBigEndian(plain, KeySize);
             byte[] message;
 
-            // Hack - be robust to leading zeros
-            while (true)
+            bool decodeOk = CryptoEncoders.OaepDecode(encMessage, zeroTermEncoding, hashAlg, out message);
+            if (!decodeOk)
             {
-                bool decodeOk = CryptoEncoders.OaepDecode(encMessage, zeroTermEncoding, hashAlg, out message);
-                if (decodeOk)
-                {
-                    break;
-                }
-                encMessage = Globs.AddZeroToBeginning(encMessage);
+                throw new CryptographicException("Invalid OAEP padding");
             }
+
             return message;
         }
 
@@ -859,6 +870,23 @@ namespace Tpm2Lib
 
     internal class RawEccKey
     {
+        internal byte[] D;
+
+        /// <summary>
+        /// Instantiates the object using a TPM generated key pair
+        /// </summary>
+        /// <param name="pub"></param>
+        /// <param name="priv"></param>
+        public RawEccKey(TpmPublic pub, TpmPrivate priv)
+        {
+            var m = new Marshaller(priv.buffer);
+            var privSize = m.Get<UInt16>();
+            // Assert that the private key blob is in plain text
+            Debug.Assert(priv.buffer.Length == privSize + 2);
+            var d = m.Get<Sensitive>().sensitive as Tpm2bEccParameter;
+            D = d.buffer;
+        }
+
         internal static ECParameters GetEccParameters(EccPoint pubId, EccCurve curveId)
         {
             var res = new ECParameters();
