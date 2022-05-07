@@ -13,7 +13,7 @@ namespace CodeGen
     public static class TpmTypeTranslations
     {
         // Just so that the resulting API looks nicer.
-        static string[] DontFlatten = new string[] { "TPM2B_PRIVATE" };
+        internal static string[] DontFlatten = new string[] { "TPM2B_PRIVATE" };
 
         // The spec uses these two sorts of tagged structure commonly
         //     { len, array[len] }   and

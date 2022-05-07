@@ -609,7 +609,7 @@ namespace CodeGen
         [Flags]
         enum ParmCryptInfo
         {
-            Enc2In2 = 1, 
+            EncIn2 = 1, 
             EncIn4 = 2, 
             DecOut2 = 4, 
             DecOut4 = 8
@@ -644,7 +644,13 @@ namespace CodeGen
                         if (typeName == "uint")
                             cryptInfo |= ParmCryptInfo.EncIn4;
                         else if (typeName == "ushort")
-                            cryptInfo |= ParmCryptInfo.Enc2In2;
+                            cryptInfo |= ParmCryptInfo.EncIn2;
+                    }
+                    // The logic above takes a dependency on the flattening of tagged structures.
+                    // Check if this field is a TPM2B with flattening skipped.
+                    if (parm0.Type.SpecName.IsOneOf(TpmTypeTranslations.DontFlatten) && parm0.Type.SpecName.StartsWith("TPM2B"))
+                    {
+                        cryptInfo |= ParmCryptInfo.EncIn2;
                     }
                 }
                 if (resp.Fields.Count > resp.NumHandles)
@@ -658,6 +664,12 @@ namespace CodeGen
                             cryptInfo |= ParmCryptInfo.DecOut4;
                         else if (typeName == "ushort")
                             cryptInfo |= ParmCryptInfo.DecOut2;
+                    }
+                    // The logic above takes a dependency on the flattening of tagged structures.
+                    // Check if this field is a TPM2B with flattening skipped.
+                    if (parm0.Type.SpecName.IsOneOf(TpmTypeTranslations.DontFlatten) && parm0.Type.SpecName.StartsWith("TPM2B"))
+                    {
+                        cryptInfo |= ParmCryptInfo.DecOut2;
                     }
                 }
 
