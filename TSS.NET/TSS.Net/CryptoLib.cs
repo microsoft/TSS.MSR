@@ -346,7 +346,7 @@ namespace Tpm2Lib
             // g.
             byte[] lHashPrime = Globs.CopyData(db, 0, hLen);
 
-            // Look for the zero..
+            // Look for the 0x01 byte.
             int j;
 
             for (j = hLen; j < db.Length; j++)
@@ -364,12 +364,11 @@ namespace Tpm2Lib
                 return false;
             }
 
-            if (j == db.Length - 1)
+            byte[] m = new byte[0];
+            if (j < db.Length - 1)
             {
-                return false;
+                m = Globs.CopyData(db, j + 1);
             }
-
-            byte[] m = Globs.CopyData(db, j + 1);
 
             if (y != 0)
             {
