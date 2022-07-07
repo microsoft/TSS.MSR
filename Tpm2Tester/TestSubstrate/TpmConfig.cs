@@ -288,8 +288,7 @@ namespace Tpm2Tester
                 if (pb.hash == hashAlg)
                     return pb;
             }
-            Globs.Throw("No PCR bank for hash algorithm " + hashAlg);
-            return null;
+            throw new Exception("No PCR bank for hash algorithm " + hashAlg);
         }
 
     } // class TpmConfig

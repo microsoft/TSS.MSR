@@ -839,8 +839,7 @@ namespace Tpm2Tester
                                         PersRsaPrimPlatform);
                 }
             }
-            Globs.Throw("Handle " + hierarchy + "is not a hierarchy");
-            return null;
+            throw new Exception("Handle " + hierarchy + "is not a hierarchy");
         }
 
         private bool ClearPersistent(Tpm2 tpm, TpmRh hierarchy,
@@ -1202,7 +1201,7 @@ namespace Tpm2Tester
                 }
 
                 if (!nvCleared)
-                    Globs.Throw("Not enough NV to make a primary key persistent");
+                    throw new Exception("Not enough NV to make a primary key persistent");
 
                 // Try to persist the new primary one more time
                 tpm.EvictControl(hierarchy, hPrim, hPers);

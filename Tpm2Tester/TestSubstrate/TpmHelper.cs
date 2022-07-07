@@ -41,9 +41,8 @@ namespace Tpm2Tester
                     buf = (pub.unique as Tpm2bDigest).buffer;
                     return pub.unique.GetType().GetField("buffer");
             }
-            Globs.Throw<NotImplementedException>(
+            throw new NotImplementedException(
                                 "GetUniqueBuffer: Unknown TpmPublic type " + keyType);
-            return null;
         }
 
         public static byte[] GetUniqueBuffer(TpmPublic pub)
@@ -352,7 +351,7 @@ namespace Tpm2Tester
             } while (++iter < MaxIter);
 
             if (iter == MaxIter)
-                Globs.Throw("The system is likely overloaded. Cannot do reliable time measurements.");
+                throw new Exception("The system is likely overloaded. Cannot do reliable time measurements.");
 
             //Console.WriteLine("ITER {0}, MEAN {1:F0}->{2:F0}, SD {3:F1}; Good {4}; RATE {5:F2}",
             //                  iter+1, meanSys, sysTime / n, stdDevSys, n, tpmTime / sysTime);
