@@ -7,6 +7,7 @@
 
 #include "Helpers.h"
 #include <cassert>
+#include <stdexcept>
 
 _TPMCPP_BEGIN
 

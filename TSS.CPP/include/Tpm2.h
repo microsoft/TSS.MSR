@@ -15,6 +15,7 @@
 #pragma once
 #define NEW_MARSHAL 1
 
+#include <string>
 #include "fdefs.h"
 #include "TpmMarshal.h"
 #include "TpmDevice.h"

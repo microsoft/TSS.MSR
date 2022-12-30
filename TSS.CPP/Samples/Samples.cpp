@@ -1339,7 +1339,7 @@ void Samples::PolicyPCRSample()
         cerr << "Should NOT get here, because the policy evaluation should fail";
         _ASSERT(FALSE);
     }
-    catch (exception) {
+    catch (const exception&) {
         // Expected
     }
 
@@ -1524,7 +1524,7 @@ void Samples::PolicyORSample()
         // We should not hit this _ASSERT because the PCR-value is wrong
         _ASSERT(FALSE);
     }
-    catch (exception) {
+    catch (const exception&) {
         cerr << "PolicyPcr failed, as expected" << endl;
     }
 
@@ -1962,7 +1962,7 @@ void Samples::PolicyCounterTimerSample()
             // PolicyCounterTimer will start to fail after 10 seconds
             p.Execute(tpm, s);
         }
-        catch (exception) {
+        catch (const exception&) {
             // Expected
         }
 
@@ -2122,7 +2122,7 @@ void Samples::Unseal()
         // An _ASSERT we shouldn't hit, see catch().
         _ASSERT(FALSE);
     }
-    catch (exception) {
+    catch (const exception&) {
         // Error is expected because the PCR values are wrong
     }
 
@@ -3215,7 +3215,7 @@ void Samples::PolicyNVSample()
     try {
         p.Execute(tpm, s);
     }
-    catch (exception) {
+    catch (const exception&) {
         policyFailed = true;
     }
 

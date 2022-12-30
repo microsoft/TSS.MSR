@@ -4,7 +4,7 @@
  */
 
 #pragma once
-//#include <stdexcept>
+#include <stdexcept>
 
 _TPMCPP_BEGIN
 

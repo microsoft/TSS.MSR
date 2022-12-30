@@ -3653,7 +3653,7 @@ public:
     /// <summary> Is the PCR with index _pcr selected in this TPMS_PCR_SELECTION. </summary>
     bool PcrIsSelected(UINT32 pcr)
     {
-        return pcrSelect[pcr / 8] = (1 << (pcr % 8)) != 0;
+        return (pcrSelect[pcr / 8] = (1 << (pcr % 8)) != 0);
     }
 
     /// <summary> Return the current PCR-selection as a UINT32 array. </summary>

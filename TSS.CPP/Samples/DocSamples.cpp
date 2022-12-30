@@ -59,7 +59,7 @@ void Samples::Errors()
     try {
         tpm.ReadPublic(invalidHandle);
     }
-    catch (system_error e) {
+    catch (const system_error &e) {
         // Note that the following e.what() may produce a platform specific
         // result. For example, this error typically corresponds to the ERFKILL
         // errno on a linux platform.
@@ -360,7 +360,7 @@ void Samples::ThreeElementPolicy()
     try {
         policyTree.Execute(tpm, s);
     }
-    catch (exception) {
+    catch (const exception&) {
         worked = false;
     }
 
