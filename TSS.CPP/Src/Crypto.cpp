@@ -262,19 +262,16 @@ static EVP_PKEY *CreatePKeyFromPublic(const RSA_KEY *key) {
     if (!rsa_ctx || EVP_PKEY_fromdata_init(rsa_ctx) <= 0)
         return nullptr;
 
-    BYTE exponent[] {1, 0, 1};
     BIGNUM *bn_mod = BN_bin2bn(key->publicKey->buffer, key->publicKey->size, NULL);
-    BIGNUM *bn_exp = BN_bin2bn(exponent, sizeof(exponent), NULL);
 
     OSSL_PARAM_BLD *bld = OSSL_PARAM_BLD_new();
     if (!bld || !OSSL_PARAM_BLD_push_BN(bld, "n", bn_mod)
-             || !OSSL_PARAM_BLD_push_BN(bld, "e", bn_exp))
+             || !OSSL_PARAM_BLD_push_uint32(bld, "e", key->exponent))
         return nullptr;
     OSSL_PARAM *params = OSSL_PARAM_BLD_to_param(bld);
 
     OSSL_PARAM_BLD_free(bld);
     BN_free(bn_mod);
-    BN_free(bn_exp);
 
     EVP_PKEY *pkey = nullptr;
     if (!params || EVP_PKEY_fromdata(rsa_ctx, &pkey, EVP_PKEY_PUBLIC_KEY, params) <= 0)
@@ -358,13 +355,8 @@ size_t RsaEncrypt(const RSA_KEY *key,         // IN: key to use
 void Crypto::CreateRsaKey(int bits, int exponent, ByteVec& outPublic, ByteVec& outPrivate)
 {
     EVP_PKEY_CTX *rsa_ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, NULL);
-    if (!rsa_ctx)
-        throw logic_error("RSA keygen failed");
-
-    if (EVP_PKEY_keygen_init(rsa_ctx) <= 0)
-        throw logic_error("RSA keygen failed");
-
-    if (EVP_PKEY_CTX_set_rsa_keygen_bits(rsa_ctx, bits) <= 0)
+    if (!rsa_ctx || EVP_PKEY_keygen_init(rsa_ctx) <= 0
+                 || EVP_PKEY_CTX_set_rsa_keygen_bits(rsa_ctx, bits) <= 0)
         throw logic_error("RSA keygen failed");
 
     BIGNUM *e = BN_new();
@@ -378,6 +370,7 @@ void Crypto::CreateRsaKey(int bits, int exponent, ByteVec& outPublic, ByteVec& o
     EVP_PKEY *pkey = NULL;
     if (EVP_PKEY_keygen(rsa_ctx, &pkey) <= 0)
         throw logic_error("RSA keygen failed");
+    EVP_PKEY_CTX_free(rsa_ctx);
 
     BIGNUM *bn_pub = NULL;
     if (!EVP_PKEY_get_bn_param(pkey, "n", &bn_pub))
@@ -394,7 +387,6 @@ void Crypto::CreateRsaKey(int bits, int exponent, ByteVec& outPublic, ByteVec& o
     BN_free(bn_priv);
 
     EVP_PKEY_free(pkey);
-    EVP_PKEY_CTX_free(rsa_ctx);
 }
 
 ByteVec Crypto::Encrypt(const TPMT_PUBLIC& pubKey,
@@ -464,11 +456,9 @@ SignResponse Crypto::Sign(const TSS_KEY& key, const ByteVec& toSign,
 
     BN_CTX *ctxt = BN_CTX_new();
 
-    // TODO: Non-default exponent.
-    BYTE exponent[] {1, 0, 1};
-
     BIGNUM *bn_mod = BN_bin2bn(&rsaPubKey->buffer[0], (int)rsaPubKey->buffer.size(), NULL);
-    BIGNUM *bn_exp = BN_bin2bn(exponent, 3, NULL);
+    BIGNUM *bn_exp = BN_new();
+    BN_set_word(bn_exp, rsaParms->exponent);
     BIGNUM *bn_p = BN_bin2bn(&priv[0], (int)priv.size(), NULL);
 
     BIGNUM *bn_q = BN_new();
