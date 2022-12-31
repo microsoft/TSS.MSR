@@ -15,7 +15,6 @@ extern "C" {
 #include <openssl/rand.h>
 #include <openssl/evp.h>
 #include <openssl/rsa.h>
-#include <openssl/param_build.h>
 
 
 
@@ -24,8 +23,52 @@ extern "C" {
 #   include <openssl/sm3.h>
 #endif
 
-#if OPENSSL_VERSION_NUMBER < 0x30000000L
-#   error Unsupported OpenSSL version
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+#   include <openssl/param_build.h>
+#elif OPENSSL_VERSION_NUMBER >= 0x10200000L
+    // Check the rsa_st and RSA_PRIME_INFO definitions in crypto/rsa/rsa_lcl.h and
+    // either update the version check or provide the new definition for this version.
+#   error Untested OpenSSL version
+#elif OPENSSL_VERSION_NUMBER >= 0x10100000L
+    // from crypto/rsa/rsa_lcl.h
+    typedef struct rsa_prime_info_st {
+        BIGNUM *r;
+        BIGNUM *d;
+        BIGNUM *t;
+        BIGNUM *pp;
+        BN_MONT_CTX *m;
+    } RSA_PRIME_INFO;
+
+    DEFINE_STACK_OF(RSA_PRIME_INFO)
+
+    struct rsa_st {
+        int pad;
+        int32_t version;
+        const RSA_METHOD *meth;
+        ENGINE *engine;
+        BIGNUM *n;
+        BIGNUM *e;
+        BIGNUM *d;
+        BIGNUM *p;
+        BIGNUM *q;
+        BIGNUM *dmp1;
+        BIGNUM *dmq1;
+        BIGNUM *iqmp;
+        STACK_OF(RSA_PRIME_INFO) *prime_infos;
+        RSA_PSS_PARAMS *pss;
+        CRYPTO_EX_DATA ex_data;
+        int references;
+        int flags;
+        /* Used to cache montgomery values */
+        BN_MONT_CTX *_method_mod_n;
+        BN_MONT_CTX *_method_mod_p;
+        BN_MONT_CTX *_method_mod_q;
+        char *bignum_data;
+        BN_BLINDING *blinding;
+        BN_BLINDING *mt_blinding;
+        CRYPTO_RWLOCK *lock;
+    };
+
 #endif // OPENSSL_VERSION_NUMBER
 
 }
@@ -255,6 +298,7 @@ bool Crypto::ValidateSignature(const TPMT_PUBLIC& pubKey, const ByteVec& signedD
     return res == CRYPT_SUCCESS;
 }
 
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
 static EVP_PKEY *CreatePKeyFromPublic(const RSA_KEY *key) {
     _ASSERT(key != nullptr);
 
@@ -281,6 +325,7 @@ static EVP_PKEY *CreatePKeyFromPublic(const RSA_KEY *key) {
 
     return pkey;
 }
+#endif
 
 CRYPT_RESULT
 _cpri__ValidateSignatureRSA(const RSA_KEY   *key,       // IN: key to use
@@ -298,6 +343,7 @@ _cpri__ValidateSignatureRSA(const RSA_KEY   *key,       // IN: key to use
     if (sigInSize != key->publicKey->size)
         return CRYPT_FAIL;
 
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
     EVP_PKEY *pkey = CreatePKeyFromPublic(key);
 
     if (!pkey)
@@ -312,6 +358,24 @@ _cpri__ValidateSignatureRSA(const RSA_KEY   *key,       // IN: key to use
     int res = EVP_PKEY_verify(rsa_ctx, sigIn, sigInSize, hIn, hInSize);
     EVP_PKEY_free(pkey);
     EVP_PKEY_CTX_free(rsa_ctx);
+#else
+    RSA *keyX;
+    BIGNUM *bn_mod = NULL;
+    BIGNUM *bn_exp = NULL;
+    BYTE exponent[] {1, 0, 1};
+    bn_mod = BN_bin2bn(key->publicKey->buffer, key->publicKey->size, NULL);
+    bn_exp = BN_bin2bn(exponent, 3, NULL);
+
+    keyX = RSA_new();
+    keyX->n = bn_mod;
+    keyX->e = bn_exp;
+    keyX->d = NULL;
+    keyX->p = NULL;
+    keyX->q = NULL;
+
+    int res = RSA_verify(TpmAlgIdToNid(hashAlg), hIn, hInSize, const_cast<BYTE*>(sigIn), sigInSize, keyX);
+    RSA_free(keyX);
+#endif
     return res == 1 ? CRYPT_SUCCESS : CRYPT_FAIL;
 }
 
@@ -326,6 +390,8 @@ size_t RsaEncrypt(const RSA_KEY *key,         // IN: key to use
                   BYTE        *outBuffer
 )
 {
+
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
     EVP_PKEY *pkey = CreatePKeyFromPublic(key);
 
     if (!pkey)
@@ -342,30 +408,64 @@ size_t RsaEncrypt(const RSA_KEY *key,         // IN: key to use
             throw logic_error("RSA encryption error");
     }
 
-    std::size_t outSize = *outBufferSize;
-    if (EVP_PKEY_encrypt(rsa_ctx, outBuffer, &outSize, secret, secretSize) <= 0)
+    std::size_t numBytes = *outBufferSize;
+    if (EVP_PKEY_encrypt(rsa_ctx, outBuffer, &numBytes, secret, secretSize) <= 0)
         throw logic_error("RSA encryption error");
-    *outBufferSize = outSize;
+    *outBufferSize = numBytes;
 
     EVP_PKEY_CTX_free(rsa_ctx);
     EVP_PKEY_free(pkey);
-    return outSize;
+#else
+    BYTE encBuffer[4096];
+    RSA *keyX;
+
+    BIGNUM *bn_mod = NULL;
+    BIGNUM *bn_exp = NULL;
+    BYTE exponent[] {1, 0, 1};
+
+    bn_mod = BN_bin2bn(key->publicKey->buffer, key->publicKey->size, NULL);
+    bn_exp = BN_bin2bn(exponent, 3, NULL);
+
+    keyX = RSA_new();
+    keyX->n = bn_mod;
+    keyX->e = bn_exp;
+    keyX->d = NULL;
+    keyX->p = NULL;
+    keyX->q = NULL;
+
+    int wasNumBytes = (int) * outBufferSize;
+    int numBytes = 0;
+
+    if (paddingSize == 0)
+        numBytes = RSA_public_encrypt(secretSize, secret, outBuffer, keyX, RSA_PKCS1_OAEP_PADDING);
+    else {
+        int encLen = key->publicKey->size;
+        RSA_padding_add_PKCS1_OAEP(encBuffer, encLen, secret, secretSize, padding, paddingSize);
+        numBytes = RSA_public_encrypt(encLen, encBuffer, outBuffer, keyX, RSA_NO_PADDING);
+    }
+
+    // Note, we will already've written the buffer if this assert fails, but perhaps it will help.
+    _ASSERT(wasNumBytes >= numBytes);
+
+    *outBufferSize = numBytes;
+    RSA_free(keyX);
+#endif
+    return numBytes;
 }
 
 void Crypto::CreateRsaKey(int bits, int exponent, ByteVec& outPublic, ByteVec& outPrivate)
 {
-    EVP_PKEY_CTX *rsa_ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, NULL);
-    if (!rsa_ctx || EVP_PKEY_keygen_init(rsa_ctx) <= 0
-                 || EVP_PKEY_CTX_set_rsa_keygen_bits(rsa_ctx, bits) <= 0)
-        throw logic_error("RSA keygen failed");
-
     BIGNUM *e = BN_new();
     if (!e)
         throw logic_error("RSA keygen failed");
     BN_set_word(e, exponent ? exponent : 65537);
-    if (EVP_PKEY_CTX_set1_rsa_keygen_pubexp(rsa_ctx, e) <= 0)
+
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+    EVP_PKEY_CTX *rsa_ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, NULL);
+    if (!rsa_ctx || EVP_PKEY_keygen_init(rsa_ctx) <= 0
+                 || EVP_PKEY_CTX_set_rsa_keygen_bits(rsa_ctx, bits) <= 0
+                 || EVP_PKEY_CTX_set1_rsa_keygen_pubexp(rsa_ctx, e) <= 0)
         throw logic_error("RSA keygen failed");
-    BN_free(e);
 
     EVP_PKEY *pkey = NULL;
     if (EVP_PKEY_keygen(rsa_ctx, &pkey) <= 0)
@@ -387,6 +487,27 @@ void Crypto::CreateRsaKey(int bits, int exponent, ByteVec& outPublic, ByteVec& o
     BN_free(bn_priv);
 
     EVP_PKEY_free(pkey);
+#else
+    RSA *newKey = NULL;
+
+    newKey = RSA_new();
+
+    if (!newKey)
+        return;
+
+    if (!RSA_generate_key_ex(newKey, bits, e, NULL))
+        return;
+
+    outPublic.resize(BN_num_bytes(newKey->n));
+    outPrivate.resize(BN_num_bytes(newKey->p));
+
+    BN_bn2bin(newKey->n, &outPublic[0]);
+    BN_bn2bin(newKey->p, &outPrivate[0]);
+
+    RSA_free(newKey);
+#endif
+
+    BN_free(e);
 }
 
 ByteVec Crypto::Encrypt(const TPMT_PUBLIC& pubKey,
@@ -473,14 +594,16 @@ SignResponse Crypto::Sign(const TSS_KEY& key, const ByteVec& toSign,
     {
         _ASSERT(FALSE);
     }
-    BN_clear_free(bn_p);
-    BN_clear_free(bn_q);
 
     BIGNUM *bn_d = BN_new();
     if (!BN_mod_inverse(bn_d, bn_exp, bnPhi, ctxt))
         _ASSERT(FALSE);
     BN_clear_free(bnPhi);
     BN_CTX_free(ctxt);
+
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+    BN_clear_free(bn_p);
+    BN_clear_free(bn_q);
 
     EVP_PKEY_CTX *rsa_ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, NULL);
     if (!rsa_ctx)
@@ -499,27 +622,44 @@ SignResponse Crypto::Sign(const TSS_KEY& key, const ByteVec& toSign,
     OSSL_PARAM_BLD_free(bld);
     BN_free(bn_mod);
     BN_free(bn_exp);
-    BN_free(bn_d);
+    BN_clear_free(bn_d);
     if (!params || EVP_PKEY_fromdata(rsa_ctx, &pkey, EVP_PKEY_KEYPAIR, params) <= 0)
         throw logic_error("Signature error");
     OSSL_PARAM_free(params);
     EVP_PKEY_CTX_free(rsa_ctx);
+#else
+    RSA *keyX = RSA_new();
+    keyX->n = bn_mod;
+    keyX->e = bn_exp;
+    keyX->d = bn_d;
+    keyX->q = bn_q;
+    keyX->p = bn_p;
+#endif
 
+    const int maxBuf = 4096;
+    BYTE signature[maxBuf];
+
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
     rsa_ctx = EVP_PKEY_CTX_new(pkey, NULL);
     if (!rsa_ctx || EVP_PKEY_sign_init(rsa_ctx) <= 0
                  || EVP_PKEY_CTX_set_rsa_padding(rsa_ctx, RSA_PKCS1_PADDING) <= 0
                  || EVP_PKEY_CTX_set_signature_md(rsa_ctx, EVP_get_digestbynid(TpmAlgIdToNid(scheme->hashAlg))) <= 0)
         throw logic_error("Signature error");
-
-    const int maxBuf = 4096;
-    BYTE signature[maxBuf];
     size_t sigLen = 4096;
     int res = EVP_PKEY_sign(rsa_ctx, &signature[0], &sigLen, &toSign[0], (unsigned)toSign.size());
-    _ASSERT(res > 0);
-    _ASSERT(sigLen <= maxBuf);
 
     EVP_PKEY_free(pkey);
     EVP_PKEY_CTX_free(rsa_ctx);
+#else
+    UINT32 sigLen = 4096;
+    int res = RSA_sign(TpmAlgIdToNid(scheme->hashAlg), &toSign[0], (unsigned)toSign.size(),
+                       &signature[0], &sigLen, keyX);
+    RSA_free(keyX);
+#endif
+
+    _ASSERT(res != 0);
+    _ASSERT(sigLen <= maxBuf);
+
     SignResponse resp;
     resp.signature = make_shared<TPMS_SIGNATURE_RSASSA>(scheme->hashAlg,
                                                         ByteVec{signature, signature + sigLen});
@@ -540,25 +680,33 @@ ByteVec Crypto::CFBXcrypt(bool encrypt, TPM_ALG_ID algId,
 
     ByteVec res(data.size());
 
+    BYTE nullVec[512] = {0};
+    BYTE *pIv = iv.empty() ? nullVec : &iv[0];
+
+    int num = 0;
+
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
     EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
     if (!ctx)
         throw logic_error("Symmetric encryption failed");
-
-    BYTE nullVec[512] = {0};
-    BYTE *pIv = iv.empty() ? nullVec : &iv[0];
 
     if (EVP_CipherInit_ex(ctx, EVP_aes_128_cfb128(), NULL, &keyBytes[0], pIv, encrypt) <= 0)
         throw logic_error("Symmetric encryption failed");
     if (EVP_CIPHER_CTX_set_padding(ctx, false) <= 0)
         throw logic_error("Symmetric encryption failed");
 
-    int resLength = 0;
-    if (EVP_CipherUpdate(ctx, &res[0], &resLength, &data[0], data.size()) <= 0)
+    if (EVP_CipherUpdate(ctx, &res[0], &num, &data[0], data.size()) <= 0)
         throw logic_error("Symmetric encryption failed");
-    if (EVP_CipherFinal_ex(ctx, NULL, &resLength) <= 0)
+    if (EVP_CipherFinal_ex(ctx, &res[num], &num) <= 0)
         throw logic_error("Symmetric encryption failed");
 
     EVP_CIPHER_CTX_free(ctx);
+#else
+    AES_KEY key;
+
+    AES_set_encrypt_key(&keyBytes[0], (int)keyBytes.size() * 8, &key);
+    AES_cfb128_encrypt(&data[0], &res[0], data.size(), &key, pIv, &num, encrypt ? AES_ENCRYPT : AES_DECRYPT);
+#endif
     return res;
 }
 
