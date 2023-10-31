@@ -3354,8 +3354,9 @@ or in the machine context.
     NCRYPT_PROV_HANDLE hProv = NULL;
     NCryptKeyName* pKeyName = NULL;
     PVOID pEnumState = NULL;
-    DWORD dwFlags[2] = {NCRYPT_SILENT_FLAG,
-                        NCRYPT_SILENT_FLAG | NCRYPT_MACHINE_KEY_FLAG};
+    DWORD dwFlags[2] = {
+                        NCRYPT_SILENT_FLAG | NCRYPT_MACHINE_KEY_FLAG,
+                        NCRYPT_SILENT_FLAG };
     NCRYPT_KEY_HANDLE hKey = NULL;
     DWORD dwKeyUsage = NCRYPT_PCP_IDENTITY_KEY;
     DWORD cbRequired = 0;
@@ -3414,8 +3415,16 @@ or in the machine context.
                                             &hKey,
                                             pKeyName->pszName,
                                             0,
-                                            0))))
+                    dwFlags[n] & NCRYPT_MACHINE_KEY_FLAG))))
                 {
+                    wprintf(L"Could not open key: %s (0x%08lx)\n", pKeyName->pszName, hr);
+                    if (pKeyName != NULL)
+                    {
+                        NCryptFreeBuffer(pKeyName);
+                        pKeyName = NULL;
+                    }
+                    hr = S_OK;
+                    continue;
                     goto Cleanup;
                 }
 
@@ -3581,7 +3590,7 @@ Cleanup:
         NCryptFreeObject(hProv);
         hProv = NULL;
     }
-    PcpToolCallResult(L"PcpToolEnumerateKey()", hr);
+    PcpToolCallResult(L"PcpToolEnumerateKeys()", hr);
     return hr;
 }
 
@@ -4219,7 +4228,15 @@ Delete a user key from the PCP storage.
                                 0,
                                 0))))
     {
+        if (FAILED(hr = (NCryptOpenKey(
+            hProv,
+            &hKey,
+            keyName,
+            0,
+            NCRYPT_MACHINE_KEY_FLAG))))
+        {
         goto Cleanup;
+    }
     }
 
     // Delete the key
