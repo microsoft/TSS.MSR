@@ -3424,8 +3424,8 @@ or in the machine context.
                         pKeyName = NULL;
                     }
                     hr = S_OK;
+                    // Try next key
                     continue;
-                    goto Cleanup;
                 }
 
                 if(FAILED(hr = HRESULT_FROM_WIN32(NCryptGetProperty(
@@ -4364,7 +4364,8 @@ or in the machine context.
                     {
                         wprintf(L" Failed (0x%08lx)\n", hr);
                     }
-                    else {
+                    else 
+                    {
                         wprintf(L" Deleted\n");
                     }
 
@@ -4377,7 +4378,8 @@ or in the machine context.
         }
     }
 
-    if (matchingKeys == 0) {
+    if (matchingKeys == 0) 
+    {
         wprintf(L"No matching keys found\n");
     }
 
