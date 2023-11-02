@@ -31,13 +31,13 @@
   <dependencies>
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <version>1.67</version>
+      <artifactId>bcprov-jdk18on</artifactId>
+      <version>1.77</version>
     </dependency>
     <dependency>
       <groupId>net.java.dev.jna</groupId>
       <artifactId>jna</artifactId>
-      <version>4.4.0</version>
+      <version>5.14.0</version>
     </dependency>
   </dependencies>
   <build>
@@ -53,7 +53,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.1</version>
+        <version>3.12.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -95,11 +95,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.0-M1</version>
+        <version>3.6.3</version>
         <configuration>
           <!-- needed to build with JDK 11/12/13 -->
           <source>8</source>
-          <additionalparam>-Xdoclint:none</additionalparam>
+          <doclint>all,-missing</doclint>
         </configuration> 
         <executions>
           <execution>
